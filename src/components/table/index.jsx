@@ -79,7 +79,7 @@ export function Row(props) {
                 {
                     "area": area,
                     "value": value,
-                    "responsible": userData.role !== 'direcao' ? userData.name : ""
+                    "responsible": userData.role !== 'direcao' || userData.role !== 'comercial' ? userData.name : ""
                 }, { headers }),
             {
                 pending: 'Conferindo os dados',
@@ -191,7 +191,7 @@ export function Row(props) {
                                             }
                                         </TableCell>
 
-                                        <TableCell align="right">
+                                        <TableCell align="left">
                                             {
                                                 userData.role === 'comercial' ?
                                                     <p>{row?.ppStatus}</p>
@@ -254,7 +254,7 @@ export function Row(props) {
                                     <TableRow>
                                         <TableCell style={{ fontWeight: "bold" }}>Data de Comissionamento </TableCell>
                                         <TableCell style={{ fontWeight: "bold" }}>Emissão da Venda</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }} > Adm Responsável</TableCell>
+                                        <TableCell align="left" style={{ fontWeight: "bold" }} > Adm Responsável</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>Status Direção</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>Obs. Matrícula</TableCell>
                                         <TableCell align="right" style={{ fontWeight: "bold" }}>Aprovação Adm</TableCell>
@@ -265,9 +265,8 @@ export function Row(props) {
                                     <TableRow key={row?.contrato}>
 
                                         <TableCell component="th" scope="row"  >
-                                            {userData.role === 'comercial' ?
-                                                <p>Atualmente {row?.dataComissionamento}</p>
-                                                :
+                                            {userData.role === 'comercial' ? "" :
+
                                                 <div style={{ display: "flex", margin: ".5rem 0 " }}>
                                                     <Input type="date" onChange={(e) => Changer("dataComissionamento", e.target.value, row?.contrato)} />
                                                     <Button onClick={() => userData.role !== 'direcao' ? Sender() : SenderDirector()}> ✔️</Button>
