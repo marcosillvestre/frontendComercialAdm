@@ -160,20 +160,25 @@ export function Row(props) {
 
                                         <TableCell >
                                             {
-                                                <div style={{ display: "flex" }}>
-                                                    <Select onChange={(e) => Changer("acStatus", e.target.value, row?.contrato)}>
-                                                        <option value="">{row?.acStatus} </option>
-                                                        <option value="pendente">Pendente</option>
-                                                        <option value="ok">Ok</option>
-                                                        <option value="nao">Não</option>
-                                                    </Select>
-                                                    <Button onClick={() => userData.role !== 'direcao' ? Sender() : SenderDirector()}> ✔️</Button>
-                                                </div>
+                                                userData.role === 'comercial' ?
+                                                    <p>{row?.acStatus}</p>
+                                                    :
+                                                    <div style={{ display: "flex" }}>
+                                                        <Select onChange={(e) => Changer("acStatus", e.target.value, row?.contrato)}>
+                                                            <option value="">{row?.acStatus} </option>
+                                                            <option value="pendente">Pendente</option>
+                                                            <option value="ok">Ok</option>
+                                                            <option value="nao">Não</option>
+                                                        </Select>
+                                                        <Button onClick={() => userData.role !== 'direcao' ? Sender() : SenderDirector()}> ✔️</Button>
+                                                    </div>
                                             }
                                         </TableCell>
 
                                         <TableCell >
-                                            {
+                                            {userData.role === 'comercial' ?
+                                                <p>{row?.tmStatus}</p>
+                                                :
                                                 <div style={{ display: "flex" }}>
                                                     <Select onChange={(e) => Changer("tmStatus", e.target.value, row?.contrato)}>
                                                         <option value="">{row?.tmStatus} </option>
@@ -188,42 +193,51 @@ export function Row(props) {
 
                                         <TableCell align="right">
                                             {
-                                                <div style={{ display: "flex" }}>
-                                                    <Select onChange={(e) => Changer("ppStatus", e.target.value, row?.contrato)}>
-                                                        <option value="">{row?.ppStatus} </option>
-                                                        <option value="pendente">Pendente</option>
-                                                        <option value="ok">Ok</option>
-                                                        <option value="nao">Não</option>
-                                                    </Select>
-                                                    <Button onClick={() => userData.role !== 'direcao' ? Sender() : SenderDirector()}> ✔️</Button>
-                                                </div>
+                                                userData.role === 'comercial' ?
+                                                    <p>{row?.ppStatus}</p>
+                                                    :
+                                                    <div style={{ display: "flex" }}>
+                                                        <Select onChange={(e) => Changer("ppStatus", e.target.value, row?.contrato)}>
+                                                            <option value="">{row?.ppStatus} </option>
+                                                            <option value="pendente">Pendente</option>
+                                                            <option value="ok">Ok</option>
+                                                            <option value="nao">Não</option>
+                                                        </Select>
+                                                        <Button onClick={() => userData.role !== 'direcao' ? Sender() : SenderDirector()}> ✔️</Button>
+                                                    </div>
                                             }
                                         </TableCell>
 
                                         <TableCell align="right">
                                             {
-                                                <div style={{ display: "flex" }}>
-                                                    <Select onChange={(e) => Changer("mdStatus", e.target.value, row?.contrato)}>
-                                                        <option value="">{row?.mdStatus} </option>
-                                                        <option value="pendente">Pendente</option>
-                                                        <option value="ok">Ok</option>
-                                                        <option value="nao">Não</option>
-                                                    </Select>
-                                                    <Button onClick={() => userData.role !== 'direcao' ? Sender() : SenderDirector()}> ✔️</Button>
-                                                </div>
+                                                userData.role === 'comercial' ?
+                                                    <p>{row?.mdStatus}</p>
+                                                    :
+                                                    <div style={{ display: "flex" }}>
+                                                        <Select onChange={(e) => Changer("mdStatus", e.target.value, row?.contrato)}>
+                                                            <option value="">{row?.mdStatus} </option>
+                                                            <option value="pendente">Pendente</option>
+                                                            <option value="ok">Ok</option>
+                                                            <option value="nao">Não</option>
+                                                        </Select>
+                                                        <Button onClick={() => userData.role !== 'direcao' ? Sender() : SenderDirector()}> ✔️</Button>
+                                                    </div>
                                             }
                                         </TableCell>
                                         <TableCell  >
                                             {
-                                                <div style={{ display: "flex" }}>
-                                                    <Select onChange={(e) => Changer("paStatus", e.target.value, row?.contrato)}>
-                                                        <option value="">{row?.paStatus} </option>
-                                                        <option value="pendente">Pendente</option>
-                                                        <option value="ok">Ok</option>
-                                                        <option value="nao">Não</option>
-                                                    </Select>
-                                                    <Button onClick={() => userData.role !== 'direcao' ? Sender() : SenderDirector()}> ✔️</Button>
-                                                </div>
+                                                userData.role === 'comercial' ?
+                                                    <p>{row?.paStatus}</p>
+                                                    :
+                                                    <div style={{ display: "flex" }}>
+                                                        <Select onChange={(e) => Changer("paStatus", e.target.value, row?.contrato)}>
+                                                            <option value="">{row?.paStatus} </option>
+                                                            <option value="pendente">Pendente</option>
+                                                            <option value="ok">Ok</option>
+                                                            <option value="nao">Não</option>
+                                                        </Select>
+                                                        <Button onClick={() => userData.role !== 'direcao' ? Sender() : SenderDirector()}> ✔️</Button>
+                                                    </div>
                                             }
                                         </TableCell>
                                         <TableCell align="right">
@@ -251,10 +265,14 @@ export function Row(props) {
                                     <TableRow key={row?.contrato}>
 
                                         <TableCell component="th" scope="row"  >
-                                            <div style={{ display: "flex", margin: ".5rem 0 " }}>
-                                                <Input type="date" onChange={(e) => Changer("dataComissionamento", e.target.value, row?.contrato)} />
-                                                <Button onClick={() => userData.role !== 'direcao' ? Sender() : SenderDirector()}> ✔️</Button>
-                                            </div>
+                                            {userData.role === 'comercial' ?
+                                                <p>Atualmente {row?.dataComissionamento}</p>
+                                                :
+                                                <div style={{ display: "flex", margin: ".5rem 0 " }}>
+                                                    <Input type="date" onChange={(e) => Changer("dataComissionamento", e.target.value, row?.contrato)} />
+                                                    <Button onClick={() => userData.role !== 'direcao' ? Sender() : SenderDirector()}> ✔️</Button>
+                                                </div>}
+
                                             <p>Atualmente {row?.dataComissionamento}</p>
 
                                         </TableCell>
@@ -282,15 +300,19 @@ export function Row(props) {
                                             <Text placeholder={row?.observacao} onChange={(e) => Changer("observacao", e.target.value, row?.contrato)}></Text>
                                         </TableCell>
                                         <TableCell align="center">
-                                            <div style={{ display: "flex" }}>
-                                                <Select onChange={(e) => Changer("aprovacaoADM", e.target.value, row?.contrato)}>
-                                                    <option value="">{row?.aprovacaoADM} </option>
-                                                    <option value="pendente">Pendente</option>
-                                                    <option value="ok">Ok</option>
-                                                    <option value="nao">Não</option>
-                                                </Select>
-                                                <Button onClick={() => userData.role !== 'direcao' ? Sender() : SenderDirector()}> ✔️</Button>
-                                            </div>
+                                            {
+                                                userData.role === 'comercial' ?
+                                                    <p>{row?.aprovacaoADM}</p>
+                                                    :
+                                                    <div style={{ display: "flex" }}>
+                                                        <Select onChange={(e) => Changer("aprovacaoADM", e.target.value, row?.contrato)}>
+                                                            <option value="">{row?.aprovacaoADM} </option>
+                                                            <option value="pendente">Pendente</option>
+                                                            <option value="ok">Ok</option>
+                                                            <option value="nao">Não</option>
+                                                        </Select>
+                                                        <Button onClick={() => userData.role !== 'direcao' ? Sender() : SenderDirector()}> ✔️</Button>
+                                                    </div>}
                                         </TableCell>
 
                                     </TableRow>
@@ -500,28 +522,34 @@ export function Row(props) {
                                         </TableCell>
                                         <TableCell align="right">
                                             {
-                                                <div style={{ display: "flex" }}>
-                                                    <Select onChange={(e) => Changer("tmStatus", e.target.value, row?.contrato)}>
-                                                        <option value="">{row?.tmStatus} </option>
-                                                        <option value="pendente">Pendente</option>
-                                                        <option value="ok">Ok</option>
-                                                        <option value="nao">Não</option>
-                                                    </Select>
-                                                    <Button onClick={() => userData.role !== 'direcao' ? Sender() : SenderDirector()}> ✔️</Button>
-                                                </div>
+                                                userData.role === 'comercial' ?
+                                                    <p>{row?.tmStatus}</p>
+                                                    :
+                                                    <div style={{ display: "flex" }}>
+                                                        <Select onChange={(e) => Changer("tmStatus", e.target.value, row?.contrato)}>
+                                                            <option value="">{row?.tmStatus} </option>
+                                                            <option value="pendente">Pendente</option>
+                                                            <option value="ok">Ok</option>
+                                                            <option value="nao">Não</option>
+                                                        </Select>
+                                                        <Button onClick={() => userData.role !== 'direcao' ? Sender() : SenderDirector()}> ✔️</Button>
+                                                    </div>
                                             }
 
                                         </TableCell>
                                         <TableCell align="center">
                                             {
-                                                <>
-                                                    <div style={{ display: "flex", margin: ".5rem 0 " }}>
-                                                        <Input type="date" onChange={(e) => Changer("tmData", e.target.value, row?.contrato)} />
-                                                        <Button onClick={() => userData.role !== 'direcao' ? Sender() : SenderDirector()}> ✔️</Button>
-                                                    </div>
-                                                    {row?.tmData ?
-                                                        <p>Atualmente {row?.tmData}</p> : ""}
-                                                </>
+                                                userData.role === 'comercial' ?
+                                                    <p>Atualmente {row?.tmData}</p>
+                                                    :
+                                                    <>
+                                                        <div style={{ display: "flex", margin: ".5rem 0 " }}>
+                                                            <Input type="date" onChange={(e) => Changer("tmData", e.target.value, row?.contrato)} />
+                                                            <Button onClick={() => userData.role !== 'direcao' ? Sender() : SenderDirector()}> ✔️</Button>
+                                                        </div>
+                                                        {row?.tmData ?
+                                                            <p>Atualmente {row?.tmData}</p> : ""}
+                                                    </>
                                             }
                                         </TableCell>
                                     </TableRow>
@@ -558,27 +586,33 @@ export function Row(props) {
                                         </TableCell>
                                         <TableCell align="right">
                                             {
-                                                <div style={{ display: "flex" }}>
-                                                    <Select onChange={(e) => Changer("ppStatus", e.target.value, row?.contrato)}>
-                                                        <option value="">{row?.ppStatus} </option>
-                                                        <option value="pendente">Pendente</option>
-                                                        <option value="ok">Ok</option>
-                                                        <option value="nao">Não</option>
-                                                    </Select>
-                                                    <Button onClick={() => userData.role !== 'direcao' ? Sender() : SenderDirector()}> ✔️</Button>
-                                                </div>
+                                                userData.role === 'comercial' ?
+                                                    <p>{row?.ppStatus}</p>
+                                                    :
+                                                    <div style={{ display: "flex" }}>
+                                                        <Select onChange={(e) => Changer("ppStatus", e.target.value, row?.contrato)}>
+                                                            <option value="">{row?.ppStatus} </option>
+                                                            <option value="pendente">Pendente</option>
+                                                            <option value="ok">Ok</option>
+                                                            <option value="nao">Não</option>
+                                                        </Select>
+                                                        <Button onClick={() => userData.role !== 'direcao' ? Sender() : SenderDirector()}> ✔️</Button>
+                                                    </div>
                                             }
                                         </TableCell>
                                         <TableCell align="right">
                                             {
-                                                <>
-                                                    <div style={{ display: "flex", margin: ".5rem 0 " }}>
-                                                        <Input type="date" onChange={(e) => Changer("ppData", e.target.value, row?.contrato)} />
-                                                        <Button onClick={() => userData.role !== 'direcao' ? Sender() : SenderDirector()}> ✔️</Button>
-                                                    </div>
-                                                    {row?.ppData ?
-                                                        <p>Atualmente {row?.ppData}</p> : ""}
-                                                </>
+                                                userData.role === 'comercial' ?
+                                                    <p>Atualmente {row?.ppData}</p>
+                                                    :
+                                                    <>
+                                                        <div style={{ display: "flex", margin: ".5rem 0 " }}>
+                                                            <Input type="date" onChange={(e) => Changer("ppData", e.target.value, row?.contrato)} />
+                                                            <Button onClick={() => userData.role !== 'direcao' ? Sender() : SenderDirector()}> ✔️</Button>
+                                                        </div>
+                                                        {row?.ppData ?
+                                                            <p>Atualmente {row?.ppData}</p> : ""}
+                                                    </>
                                             }
                                         </TableCell>
 
@@ -618,27 +652,33 @@ export function Row(props) {
                                         </TableCell>
                                         <TableCell align="right">
                                             {
-                                                <div style={{ display: "flex" }}>
-                                                    <Select onChange={(e) => Changer("mdStatus", e.target.value, row?.contrato)}>
-                                                        <option value="">{row?.mdStatus} </option>
-                                                        <option value="pendente">Pendente</option>
-                                                        <option value="ok">Ok</option>
-                                                        <option value="nao">Não</option>
-                                                    </Select>
-                                                    <Button onClick={() => userData.role !== 'direcao' ? Sender() : SenderDirector()}> ✔️</Button>
-                                                </div>
+                                                userData.role === 'comercial' ?
+                                                    <p>{row?.mdStatus}</p>
+                                                    :
+                                                    <div style={{ display: "flex" }}>
+                                                        <Select onChange={(e) => Changer("mdStatus", e.target.value, row?.contrato)}>
+                                                            <option value="">{row?.mdStatus} </option>
+                                                            <option value="pendente">Pendente</option>
+                                                            <option value="ok">Ok</option>
+                                                            <option value="nao">Não</option>
+                                                        </Select>
+                                                        <Button onClick={() => userData.role !== 'direcao' ? Sender() : SenderDirector()}> ✔️</Button>
+                                                    </div>
                                             }
                                         </TableCell>
                                         <TableCell align="center">
                                             {
-                                                <>
-                                                    <div style={{ display: "flex", margin: ".5rem 0 " }}>
-                                                        <Input type="date" onChange={(e) => Changer("mdData", e.target.value, row?.contrato)} />
-                                                        <Button onClick={() => userData.role !== 'direcao' ? Sender() : SenderDirector()}> ✔️</Button>
-                                                    </div>
-                                                    {row?.mdData ?
-                                                        <p>Atualmente {row?.mdData}</p> : ""}
-                                                </>
+                                                userData.role === 'comercial' ?
+                                                    <p>Atualmente {row?.mdData}</p>
+                                                    :
+                                                    <>
+                                                        <div style={{ display: "flex", margin: ".5rem 0 " }}>
+                                                            <Input type="date" onChange={(e) => Changer("mdData", e.target.value, row?.contrato)} />
+                                                            <Button onClick={() => userData.role !== 'direcao' ? Sender() : SenderDirector()}> ✔️</Button>
+                                                        </div>
+                                                        {row?.mdData ?
+                                                            <p>Atualmente {row?.mdData}</p> : ""}
+                                                    </>
                                             }
                                         </TableCell>
 
