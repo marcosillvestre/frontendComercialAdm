@@ -23,6 +23,7 @@ const Contracts = () => {
     async function data(e) {
         await URI.get(`/contrato/${e}`, { headers })
             .then(async info => {
+                console.log(info)
                 if (userData.role === 'comercial') {
                     const data = info.data.filter(res => res.vendedor.toLowerCase().includes(userData.name))
                     setContracts(data)
@@ -90,7 +91,7 @@ const Contracts = () => {
             <table>
                 <tbody>
                     {filteredContracts && filteredContracts.map(res => (
-                        <>
+                        <div key={res.name}>
                             <tr>
                                 <th>Nome</th>
                                 <th>Email</th>
@@ -181,12 +182,12 @@ const Contracts = () => {
                                 <td>{res.dataPrimeiraParcelaMensalidade}</td>
                                 <td>{res.dataUltimaParcelaMensalidade}</td>
                                 <td>{res.descontoTotal}</td>
-                                <td>{res.primeiraParcelaComDesconto}</td>
+                                <td>{parseInt(res.valorParcela) - parseInt(res.descontoPorParcela)}</td>
                                 <td>{res.testemunha1}</td>
                                 <td>{res.testemunha2}</td>
                                 <td></td>
                             </tr>
-                        </>
+                        </div>
                     ))}
 
                 </tbody>
