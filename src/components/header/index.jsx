@@ -2,10 +2,9 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import aw from '../../assets/aw.png';
 import { useUser } from '../../hooks/userContext';
-import { Adduser, Box, ComissionScreen, Container, GetContracts, Image, LogOut, Name } from "./styles";
+import { Adduser, Box, ComissionScreen, Container, GetContracts, Image, Links, LogOut, Name } from "./styles";
 
 
 const Header = (parsed) => {
@@ -37,17 +36,17 @@ const Header = (parsed) => {
                         <>
                             <nav>
                                 {userData?.role !== 'administrativo' &&
-                                    <Link to="/contratos-por-assinar"><GetContracts /></Link>}
+                                    <Links to="/contratos-por-assinar"><GetContracts /></Links>}
                             </nav>
                             <nav>
                                 {userData?.role === 'direcao' &&
-                                    <Link to="/cadastro"><Adduser /></Link>}
+                                    <Links to="/cadastro"><Adduser /></Links>}
                             </nav>
 
 
                             <nav>
                                 {userData?.role === 'direcao' &&
-                                    <Link to="/controle-comissional"><ComissionScreen /></Link>}
+                                    <Links to="/controle-comissional"><ComissionScreen /></Links>}
                             </nav>
 
 

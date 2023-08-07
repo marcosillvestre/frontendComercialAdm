@@ -32,6 +32,14 @@ align-items: center;
 }
 `
 
+export const Links = styled(Link)`
+color: #1976d2;
+
+&:visited{
+    color: #1976d2;
+}
+`
+
 export const Box = styled.span`
     display: flex;
     scale: ${props => props.isOpen ? 1.4 : 0.5} ;
