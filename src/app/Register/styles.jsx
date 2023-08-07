@@ -23,10 +23,13 @@ span{
 }
 form{
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap:.5rem;
 }
 .register{
     background-color: #0069ff;
-    border-radius: 7%;
+    border-radius: 1rem;
     width: 24vw;
     padding: 2rem ;
     align-items: center;
@@ -86,7 +89,7 @@ height: 20vh;
 `
 
 export const Box = styled.label`
-margin-bottom: 1rem;
+font-size: .9rem;
 div{
     gap:1.2rem;
 }
@@ -97,7 +100,6 @@ width: 100% ;
 height: 1.7rem;
 border-radius: 0.4rem;
 border: none;
-box-shadow: 0px 0px 1px 1px rgba(0,0,0,0.66);
 
 padding: .5rem;
 margin-bottom: .5rem
@@ -112,8 +114,7 @@ color: #fff;
 width: 100%;
 
 &:hover{
-    background-color: #983335a1;
-
+    background-color: #d30004dd;
 }
 &:active{
     opacity: 0.7;
@@ -132,13 +133,11 @@ width: 100% ;
 height: 1.7rem;
 border-radius: 0.4rem;
 border: none;
-box-shadow: 0px 0px 1px 1px rgba(0,0,0,0.66);
 padding-left: .5rem;
 `
 
 export const Selects = styled.select`
 width: 100%;
-box-shadow: 0px 0px 1px 1px rgba(0,0,0,0.66);
 font-size: small;
 height: 1.7rem;
 border-radius: 0.4rem;

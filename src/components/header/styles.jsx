@@ -11,13 +11,33 @@ align-items: center;
 justify-content: space-around;
 padding: 3rem  1.5rem;
 height: 2rem;
+.arrow{
+    border-radius: 55%;
+    padding: 0.2rem;
+    &:hover{
+        background-color: #f5f5f5;
+    }
+}
 
+.navbar{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 .nav-name{
 font-size: 1.2rem;
 display: flex;
 gap: .4rem;
 align-items: center;
 }
+`
+
+export const Box = styled.span`
+    display: flex;
+    scale: ${props => props.isOpen ? 1.4 : 0.5} ;
+    transition: ease-in-out 0.5s;
+    transform-origin: bottom;
+
 `
 export const LogOut = styled(Link)`
 border: none;
@@ -46,6 +66,7 @@ cursor: pointer;
 
 export const ComissionScreen = styled(PaidIcon)`
 cursor: pointer;
+
 `
 
 export const GetContracts = styled(AssignmentIndIcon)`

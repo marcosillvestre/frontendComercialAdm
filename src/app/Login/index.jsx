@@ -34,7 +34,6 @@ function Login() {
                 error: 'Alguma coisa deu errado, confira seus dados'
             }
         ).then(async res => {
-            console.log(res.status)
             if (res.status === 200) {
                 putInfo(res.data)
                 navigate("/controle-comercial")

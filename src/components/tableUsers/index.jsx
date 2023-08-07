@@ -15,7 +15,7 @@ export function Row(props) {
 
 
     async function deleteUser(id) {
-
+        console.log(id)
         await toast.promise(
             URI.delete(`/users/${id}`, { headers })
                 .then(() => {
@@ -62,7 +62,7 @@ Row.propTypes = {
         id: PropTypes.number.isRequired,
         email: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
-        unity: PropTypes.string.isRequired,
+        unity: PropTypes.array.isRequired,
         role: PropTypes.string.isRequired,
         password: PropTypes.string.isRequired,
         admin: PropTypes.bool.isRequired,

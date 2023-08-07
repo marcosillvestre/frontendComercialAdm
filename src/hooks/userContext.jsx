@@ -78,9 +78,6 @@ export const UserProvider = ({ children }) => {
     }, [])
 
 
-    console.log(contracts.length)
-
-
     return (
         <UserContext.Provider value={{
             contracts, setContracts,

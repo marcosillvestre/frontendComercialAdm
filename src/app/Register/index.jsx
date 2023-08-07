@@ -81,6 +81,7 @@ function Register() {
   }
 
   const allUnities = [
+    { id: 0, value: "" },
     { id: 1, value: "Todas" },
     { id: 2, value: "PTB" },
     { id: 3, value: "Centro" }
@@ -106,13 +107,13 @@ function Register() {
 
               <Box htmlFor="password">
                 <p>Senha</p>
-                <Input type="password" {...register('password', { required: true })} />
+                <Input type="text" {...register('password', { required: true })} />
                 {errors.password && <ErrorMessage>Password is required.</ErrorMessage>}
               </Box>
 
               <Box htmlFor="passwordConfirm">
                 <p>Confirme a Senha</p>
-                <Input type="password" {...register('passwordConfirm', { required: true })} />
+                <Input type="text" {...register('passwordConfirm', { required: true })} />
                 {errors.passwordConfirm && <ErrorMessage>The password must be same.</ErrorMessage>}
               </Box>
 
@@ -127,8 +128,8 @@ function Register() {
                 </Selected>
               </Box>
 
-              <Box style={{ marginBottom: "1rem" }}>
-                <p>multi</p>
+              <Box >
+                <p>Unidade</p>
                 <Selects onChange={(e) => choosingUnity(e.target.value)}>
                   {allUnities.map(res => (
                     <option

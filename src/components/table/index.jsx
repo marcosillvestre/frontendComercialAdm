@@ -255,7 +255,7 @@ export function Row(props) {
                                         <TableCell style={{ fontWeight: "bold" }}>Data de Comissionamento </TableCell>
                                         <TableCell style={{ fontWeight: "bold" }}>Emissão da Venda</TableCell>
                                         <TableCell align="left" style={{ fontWeight: "bold" }} > Adm Responsável</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Status Direção</TableCell>
+                                        <TableCell align="left" style={{ fontWeight: "bold" }}>Status Direção</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>Obs. Matrícula</TableCell>
                                         <TableCell align="right" style={{ fontWeight: "bold" }}>Aprovação Adm</TableCell>
 
