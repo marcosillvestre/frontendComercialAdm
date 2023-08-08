@@ -98,108 +98,106 @@ const Contracts = () => {
             </div>
 
             <table>
-                <tbody>
-                    {filteredContracts && filteredContracts.map(res => (
-                        <div key={res.name}>
-                            <tr>
-                                <th>Nome</th>
-                                <th>Email</th>
-                                <th>Contrato</th>
-                                <th>Data matrícula</th>
-                                <th>Classe</th>
-                                <th>Unidade</th>
-                                <th>Tipo/Modalidade</th>
+                {filteredContracts && filteredContracts.map(res => (
+                    <tbody key={res.contrato}>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>Contrato</th>
+                            <th>Data matrícula</th>
+                            <th>Classe</th>
+                            <th>Unidade</th>
+                            <th>Tipo/Modalidade</th>
 
-                            </tr>
-                            <tr key={res.contrato}>
-                                <td>{res.name}</td>
-                                <td>{res.email}</td>
-                                <td>{res.contrato}</td>
-                                <td>{res.dataMatricula}</td>
-                                <td>{res.classe}</td>
-                                <td>{res.unidade}</td>
-                                <td>{res.tipoModalidade}</td>
-                            </tr>
+                        </tr>
+                        <tr key={res.contrato}>
+                            <td>{res.name}</td>
+                            <td>{res.email}</td>
+                            <td>{res.contrato}</td>
+                            <td>{res.dataMatricula}</td>
+                            <td>{res.classe}</td>
+                            <td>{res.unidade}</td>
+                            <td>{res.tipoModalidade}</td>
+                        </tr>
 
 
-                            <tr>
-                                <th>CPF</th>
-                                <th>nascimento resp</th>
-                                <th>Celular</th>
-                                <th>Endereco</th>
-                                <th>Numero</th>
-                                <th>complemento</th>
-                                <th>bairro</th>
+                        <tr>
+                            <th>CPF</th>
+                            <th>nascimento resp</th>
+                            <th>Celular</th>
+                            <th>Endereco</th>
+                            <th>Numero</th>
+                            <th>complemento</th>
+                            <th>bairro</th>
 
-                            </tr>
+                        </tr>
 
-                            <tr >
-                                <td>{res.cpf}</td>
-                                <td>{res.DatadeNascdoResp}</td>
-                                <td>{res.CelularResponsavel}</td>
-                                <td>{res.EnderecoResponsavel}</td>
-                                <td>{res.NumeroEnderecoResponsavel}</td>
-                                <td>{res.complemento}</td>
-                                <td>{res.bairro}</td>
-                            </tr>
-                            <tr>
-                                <th>cidade</th>
-                                <th>estado civil</th>
-                                <th>cep</th>
-                                <th>estadoCivil</th>
-                                <th>profissao</th>
-                                <th>nomeAluno</th>
-                                <th>nascimento Aluno</th>
-                            </tr>
-                            <tr>
-                                <td>{res.cidade}</td>
-                                <td>{res.estado}</td>
-                                <td>{res.cep}</td>
-                                <td>{res.estadoCivil}</td>
-                                <td>{res.profissao}</td>
-                                <td>{res.nomeAluno}</td>
-                                <td>{res.nascimentoAluno}</td>
-                            </tr>
-                            <tr>
-                                <th>formato</th>
-                                <th>subclasse</th>
-                                <th>cargaHoraria</th>
-                                <th>paDATA</th>
-                                <th>Mensalidade</th>
-                                <th>numeroParcelas</th>
-                                <th>diaVenvimento</th>
-                            </tr>
-                            <tr>
-                                <td>{res.formato}</td>
-                                <td>{res.subclasse}</td>
-                                <td>{res.cargaHoraria}</td>
-                                <td>{res.paDATA}</td>
-                                <td>{res.valorMensalidade}</td>
-                                <td>{res.numeroParcelas}</td>
-                                <td>{res.diaVenvimento}</td>
-                            </tr>
-                            <tr>
-                                <th>Primeira Parcela</th>
-                                <th>Ultima Parcela</th>
-                                <th>descontoTotal</th>
-                                <th>pp Com Desconto</th>
-                                <th>testemunha 1</th>
-                                <th>testemunha 2</th>
-                                <th></th>
-                            </tr>
-                            <tr>
-                                <td>{res.dataPrimeiraParcelaMensalidade}</td>
-                                <td>{res.dataUltimaParcelaMensalidade}</td>
-                                <td>{res.descontoTotal}</td>
-                                <td>{parseInt(res.valorParcela) - parseInt(res.descontoPorParcela)}</td>
-                                <td>{res.testemunha1}</td>
-                                <td>{res.testemunha2}</td>
-                                <td></td>
-                            </tr>
-                        </div>
-                    ))}
+                        <tr >
+                            <td>{res.cpf}</td>
+                            <td>{res.DatadeNascdoResp}</td>
+                            <td>{res.CelularResponsavel}</td>
+                            <td>{res.EnderecoResponsavel}</td>
+                            <td>{res.NumeroEnderecoResponsavel}</td>
+                            <td>{res.complemento}</td>
+                            <td>{res.bairro}</td>
+                        </tr>
+                        <tr>
+                            <th>cidade</th>
+                            <th>estado civil</th>
+                            <th>cep</th>
+                            <th>estadoCivil</th>
+                            <th>profissao</th>
+                            <th>nomeAluno</th>
+                            <th>nascimento Aluno</th>
+                        </tr>
+                        <tr>
+                            <td>{res.cidade}</td>
+                            <td>{res.estado}</td>
+                            <td>{res.cep}</td>
+                            <td>{res.estadoCivil}</td>
+                            <td>{res.profissao}</td>
+                            <td>{res.nomeAluno}</td>
+                            <td>{res.nascimentoAluno}</td>
+                        </tr>
+                        <tr>
+                            <th>formato</th>
+                            <th>subclasse</th>
+                            <th>cargaHoraria</th>
+                            <th>paDATA</th>
+                            <th>Mensalidade</th>
+                            <th>numeroParcelas</th>
+                            <th>diaVenvimento</th>
+                        </tr>
+                        <tr>
+                            <td>{res.formato}</td>
+                            <td>{res.subclasse}</td>
+                            <td>{res.cargaHoraria}</td>
+                            <td>{res.paDATA}</td>
+                            <td>{res.valorMensalidade}</td>
+                            <td>{res.numeroParcelas}</td>
+                            <td>{res.diaVenvimento}</td>
+                        </tr>
+                        <tr>
+                            <th>Primeira Parcela</th>
+                            <th>Ultima Parcela</th>
+                            <th>descontoTotal</th>
+                            <th>pp Com Desconto</th>
+                            <th>testemunha 1</th>
+                            <th>testemunha 2</th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <td>{res.dataPrimeiraParcelaMensalidade}</td>
+                            <td>{res.dataUltimaParcelaMensalidade}</td>
+                            <td>{res.descontoTotal}</td>
+                            <td>{parseInt(res.valorParcela) - parseInt(res.descontoPorParcela)}</td>
+                            <td>{res.testemunha1}</td>
+                            <td>{res.testemunha2}</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                ))}
 
-                </tbody>
             </table>
 
 
