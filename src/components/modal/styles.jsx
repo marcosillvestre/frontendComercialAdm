@@ -21,6 +21,9 @@ form{
     flex-direction: column;
     justify-content: space-between;
     height: 17rem;
+    div{
+        display: grid;
+    }
 }
 `
 export const Label = styled.label`
@@ -31,9 +34,13 @@ margin:.2rem 0;
 width: 100%;
 `
 export const LabelDate = styled.label`
-display: flex;
-align-items: center;
-
+font-size:.8rem;
+margin-bottom:.7rem;
+span{
+    display: flex;
+    align-items: center;
+    gap:.3rem;
+}
 `
 export const Input = styled.input`
 border: none;

@@ -40,9 +40,6 @@ export function Row(props) {
         ).then(() => {
             const filtered = fetchData?.filter(res => res.id !== id)
             setFetchData(filtered)
-        }).catch(err => {
-            console.log(err)
-            alert("Erro no servidor, tente novamente mais tarde ou entre em contato com o suporte!")
         })
     }
 
@@ -258,6 +255,7 @@ export function Row(props) {
                                         <TableCell align="left" style={{ fontWeight: "bold" }}>Status Direção</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>Obs. Matrícula</TableCell>
                                         <TableCell align="right" style={{ fontWeight: "bold" }}>Aprovação Adm</TableCell>
+                                        <TableCell align="right" style={{ fontWeight: "bold" }}>Vendedor</TableCell>
 
                                     </TableRow>
                                 </TableHead>
@@ -313,6 +311,8 @@ export function Row(props) {
                                                         <Button onClick={() => userData.role !== 'direcao' ? Sender() : SenderDirector()}> ✔️</Button>
                                                     </div>}
                                         </TableCell>
+                                        <TableCell align="right"> {row?.owner}</TableCell>
+
 
                                     </TableRow>
                                 </TableBody>
@@ -914,6 +914,8 @@ Row.propTypes = {
         tmData: PropTypes.string.isRequired,
         ppData: PropTypes.string.isRequired,
         mdData: PropTypes.string.isRequired,
+        owner: PropTypes.string.isRequired,
+
     }).isRequired,
 
 

@@ -22,29 +22,87 @@ const style = {
     boxShadow: 24,
     p: 4,
 };
-// {
-// aluno: 'teste',
-// responsavel: 'teste',
-// background: 'Novo Aluno',
-// tipoMatricula: 'tipo',
-// comissaoStatus: 'pendente',
-// curso: 'ingles',
-// startDate: '2023-04-24',
-// endDate: '2023-07-24'
-// }
+
+
 export default function TransitionsModal() {
     const { fetchData, setFiltered } = useUser()
 
 
-    async function Sender(body) {
-        const date = body.startDate.split("-")
-        const realDate = new Date(`${date[0]},${date[1]},${date[2]}`)
-        const eendDate = body.endDate.split("-")
-        const realEndDate = new Date(`${eendDate[0]},${eendDate[1]},${eendDate[2]}`)
 
-        const filteredUp = fetchData?.filter(res => new Date(res.inicioContrato) >= realDate)
-        const filteredDown = fetchData?.filter(res => new Date(res.fimContrato) <= realEndDate)
-        const filteredUpDown = fetchData?.filter(res => new Date(res.inicioContrato) >= realDate && new Date(res.fimContrato) <= realEndDate)
+    async function Sender(body) {
+        const StartComission = () => new Date(body.startComission)
+        const filByStartComiss = fetchData.filter(res => new Date(res.dataComissionamento) >= StartComission())
+
+        const EndComission = () => new Date(body.endComission)
+        const filByEndComiss = fetchData.filter(res => new Date(res.dataComissionamento) <= EndComission())
+
+        const filByRangeDate = fetchData.filter(res => new Date(res.dataComissionamento) >= StartComission() && new Date(res.dataComissionamento) <= EndComission())
+
+        if (body.startComission !== '' && body.endComission === '') {
+            setFiltered(filByStartComiss)
+        }
+
+        if (body.startComission === '' && body.endComission !== '') {
+            setFiltered(filByEndComiss)
+        }
+
+        if (body.startComission !== '' && body.endComission !== '') {
+            setFiltered(filByRangeDate)
+        }
+
+
+
+
+        const StartValidation = () => new Date(body.startValidation)
+        const filByStartValid = fetchData.filter(res => new Date(res.dataValidacao) >= StartValidation())
+
+        const EndValidation = () => new Date(body.endValidation)
+        const filByEndValid = fetchData.filter(res => new Date(res.dataValidacao) <= EndValidation())
+
+        const filByBoth = fetchData.filter(res => new Date(res.dataValidacao) >= StartValidation() && new Date(res.dataValidacao) <= EndValidation())
+
+
+        if (body.startValidation !== '' && body.endValidation === '') {
+            setFiltered(filByStartValid)
+        }
+        if (body.startValidation === '' && body.endValidation !== '') {
+            setFiltered(filByEndValid)
+        }
+        if (body.startValidation !== '' && body.endValidation !== '') {
+            setFiltered(filByBoth)
+        }
+
+
+
+        const RegisterDate = () => new Date(body.startContract)
+        const filteredUp = fetchData?.filter(res => {
+            const date = res.dataMatricula.split("/")
+            return new Date(`${date[2]}-${date[1]}-${date[0]}`) >= RegisterDate()
+        })
+
+        const EndRegister = () => new Date(body.endContract)
+        const filteredDown = fetchData?.filter(res => {
+            const date = res.dataMatricula.split("/")
+            return new Date(`${date[2]}-${date[1]}-${date[0]}`) <= EndRegister()
+        })
+
+        const filteredUpDown = fetchData?.filter(res => {
+            const date = res.dataMatricula.split("/")
+            return new Date(`${date[2]}-${date[1]}-${date[0]}`) >= RegisterDate() && new Date(`${date[2]}-${date[1]}-${date[0]}`) <= EndRegister()
+        })
+
+        if (body.startContract !== '' && body.endContract === '') {
+            setFiltered(filteredUp)
+        }
+        if (body.startContract !== '' && body.endContract !== '') {
+            setFiltered(filteredUpDown)
+        }
+
+        if (body.endContract !== '' && body.startContract === '') {
+            setFiltered(filteredDown)
+        }
+
+
 
         const filteredByName = fetchData?.filter(res => res.aluno.toLowerCase().includes(body.aluno.toLowerCase()))
         const filteredByresponsible = fetchData?.filter(res => res.name.toLowerCase().includes(body.responsavel.toLowerCase()))
@@ -84,16 +142,8 @@ export default function TransitionsModal() {
         if (body.comissaoStatus !== 'selec' && body.curso !== 'selec') {
             setFiltered(filteredByComissionAndCourse)
         }
-        if (body.startDate !== '' && body.endDate === '') {
-            setFiltered(filteredUp)
-        }
-        if (body.startDate !== '' && body.endDate !== '') {
-            setFiltered(filteredUpDown)
-        }
 
-        if (body.endDate !== '' && body.startDate === '') {
-            setFiltered(filteredDown)
-        }
+
     }
 
     const [open, setOpen] = React.useState(false);
@@ -205,11 +255,31 @@ export default function TransitionsModal() {
                             </form>
                             <form onSubmit={handleSubmit((data) => Sender(data))}>
                                 <div>
+                                    <LabelDate >
+                                        <h4>Período da venda</h4>
+                                        <span>
+                                            <Input {...register('startContract')} type="date" />
+                                            <h5>até</h5>
+                                            <Input {...register('endContract')} type="date" />
+                                        </span>
+                                    </LabelDate>
 
                                     <LabelDate >
-                                        <Input {...register('startDate')} type="date" />
-                                        <h5>até</h5>
-                                        <Input {...register('endDate')} type="date" />
+                                        <h4>Período de validação</h4>
+                                        <span>
+                                            <Input {...register('startValidation')} type="date" />
+                                            <h5>até</h5>
+                                            <Input {...register('endValidation')} type="date" />
+                                        </span>
+                                    </LabelDate>
+
+                                    <LabelDate >
+                                        <h4>Período de comissionamento</h4>
+                                        <span>
+                                            <Input {...register('startComission')} type="date" />
+                                            <h5>até</h5>
+                                            <Input {...register('endComission')} type="date" />
+                                        </span>
                                     </LabelDate>
                                 </div>
                                 <Submit type="submit" />
@@ -221,4 +291,4 @@ export default function TransitionsModal() {
             </Modal>
         </div>
     );
-}
+}   

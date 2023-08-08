@@ -23,7 +23,6 @@ const Contracts = () => {
     async function data(e) {
         await URI.get(`/contrato/${e}`, { headers })
             .then(async info => {
-                console.log(info)
                 if (userData.role === 'comercial') {
                     const data = info.data.filter(res => res.vendedor.toLowerCase().includes(userData.name))
                     setContracts(data)

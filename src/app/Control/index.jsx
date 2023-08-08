@@ -30,7 +30,7 @@ const ListFiltered = () => {
 
 
     const filteredForDate = fetchData?.filter(res => res.inicioContrato.split("/")[1] === month)
-    const filteredForName = fetchData?.filter(res => res.owner.toLowerCase().includes(name))
+    const filteredForName = fetchData?.filter(res => res.owner.toLowerCase().includes(name.toLowerCase()))
     const filteredForBoth = fetchData?.filter(res => res.inicioContrato.split("/")[1] === month && res.owner.toLowerCase().includes(name))
 
     const filteredDateForComercial = fetchData?.filter(res => res.owner.toLowerCase().includes(userData.name) && res.inicioContrato.split("/")[1] === month)
@@ -96,49 +96,7 @@ const ListFiltered = () => {
 
     }
 
-    // function calc() {
-    //     const aproved = filtered?.filter(res => res.aprovacaoDirecao === 'Ok')
-
-    //     const soma = filtered.reduce(function (total, objeto) {
-    //         return parseInt(total) + parseInt(objeto.tmValor)
-    //     }, 0)
-    //     setTm(soma)
-
-    //     switch (true) {
-    //         case aproved?.length >= 40:
-    //             setComission(115 * aproved?.length + 2500);
-    //             break;
-    //         case aproved?.length < 40 && aproved?.length >= 35:
-    //             setComission(105 * aproved?.length + 1650);
-    //             break;
-    //         case aproved?.length < 35 && aproved?.length >= 30:
-    //             setComission(90 * aproved?.length + 1250);
-    //             break;
-    //         case aproved?.length < 30 && aproved?.length >= 25:
-    //             setComission(75 * aproved?.length + 850);
-    //             break;
-    //         case aproved?.length < 25 && aproved?.length >= 20:
-    //             setComission(60 * aproved?.length + 650);
-    //             break;
-    //         case aproved?.length < 20 && aproved?.length >= 15:
-    //             setComission(50 * aproved?.length + 400);
-    //             break;
-    //         case aproved?.length < 15 && aproved?.length >= 10:
-    //             setComission(40 * aproved?.length + 200);
-    //             break;
-    //         case aproved?.length < 10 && aproved?.length >= 5:
-    //             setComission(30 * aproved?.length + 50);
-    //             break;
-    //         case aproved?.length <= 4:
-    //             setComission(0);
-    //             break;
-    //         default:
-    //             setComission("erro");
-    //             break;
-    //     }
-    // }
-
-
+    console.log(sellers)
     useEffect(() => {
         const getSellers = async () => {
             await URI.get('/users', { headers })

@@ -7,7 +7,6 @@ import { Container } from './styles'
 function ComissionControll() {
     // const [seller, setSeller] = useState([])
     const { userData, } = useUser()
-    // console.log(users)
 
     // useEffect(() => {
     //     if (seller.length === 0) {

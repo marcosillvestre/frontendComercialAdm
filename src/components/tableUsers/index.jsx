@@ -15,7 +15,6 @@ export function Row(props) {
 
 
     async function deleteUser(id) {
-        console.log(id)
         await toast.promise(
             URI.delete(`/users/${id}`, { headers })
                 .then(() => {
