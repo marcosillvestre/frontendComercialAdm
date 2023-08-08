@@ -13,6 +13,8 @@ const Contracts = () => {
     // const webhookVendedora2 = "https://hook.us1.make.com/4ddy8s1atvi7qvzrvqgln1tlwy98jjsw"
     // const webhookVendedora3 = "https://hook.us1.make.com/2aa3stdmay5vcat5pla5nuy4ubcdv91e"
     // const webhookVendedora4 = "https://hook.us1.make.com/89stu7vdp6dxocgl837ekvw1z9mgafdb"
+    const webhookPrincipal = "https://hook.us1.make.com/ghzwtbkkjlkzfhdg3qiysocrfmhr2ucx"
+    const webhookAdministrativo = "https://hook.us1.make.com/hpqek8mfkdd4nqexrrwp8k6ytojdlodn"
 
 
     const [filteredContracts, setFilteredContracts] = React.useState()
@@ -57,6 +59,15 @@ const Contracts = () => {
                 link = webhookVendedora1
             }
         }
+        if (userData.role === 'direcao') {
+            link = webhookPrincipal
+        }
+        if (userData.role === 'administrativo') {
+            link = webhookAdministrativo
+        }
+
+
+
         await axios.post(link, obj)
             .then(res => {
                 alert(res.data)
@@ -77,7 +88,6 @@ const Contracts = () => {
                 </select>
                 <input onChange={(e) => filterData(e.target.value)} list='person' />
                 <datalist id='person'>
-
                     {
                         contracts.map(res => (
                             <option key={res.contrato} value={res.name}>{res.name}</option>
