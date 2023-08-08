@@ -96,7 +96,6 @@ const ListFiltered = () => {
 
     }
 
-    console.log(sellers)
     useEffect(() => {
         const getSellers = async () => {
             await URI.get('/users', { headers })
