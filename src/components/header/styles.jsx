@@ -40,7 +40,7 @@ color: #1976d2;
 }
 `
 
-export const Box = styled.span`
+export const Box = styled.div`
     display: flex;
     scale: ${props => props.isOpen ? 1.4 : 0.5} ;
     transition: ease-in-out 0.5s;

@@ -26,10 +26,9 @@ width: 25rem;
 export const Select = styled.select`
 border: none;
 padding: .4rem;
-width: 80%;
+width: 5rem;
 border-radius: .6rem ;
 box-shadow: -2px 3px 9px 0px rgba(0,0,0,0.66);
-
 `
 export const Button = styled.button`
 background: none;
@@ -47,7 +46,8 @@ border-radius: 20%;
 
 `
 export const Text = styled.textarea`
-max-width: 20rem;
+min-width: 4rem;
+max-width: 15rem;
 max-height: 10rem;
 padding: .3rem;
 box-shadow: -2px 3px 9px 0px rgba(0,0,0,0.66);
@@ -63,7 +63,7 @@ display: flex;
 export const Input = styled.input`
 border: none;
 padding: .4rem;
-width: 80%;
+width: 5rem;
 border-radius: .6rem ;
 box-shadow: -2px 3px 9px 0px rgba(0,0,0,0.66);
 

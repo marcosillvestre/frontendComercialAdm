@@ -4,17 +4,27 @@ import axios from 'axios'
 import Header from '../../components/header'
 import { useUser } from '../../hooks/userContext'
 import URI from '../utils/utils'
-import { Container, SendButton } from './styles'
+import { Box, Button, Container, SendContract } from './styles'
 
 const Contracts = () => {
+    const [emmit, setEmmit] = React.useState(false)
 
-    const webhookGerenteComercial = "https://hook.us1.make.com/36kd4bq6u7n66flns4gbzshehem5fw7l"
+    const webhookGerente = "https://hook.us1.make.com/36kd4bq6u7n66flns4gbzshehem5fw7l"
+    const webhookGerenteImpresso = "https://hook.us1.make.com/e3hnjh27wp6in88nxulgqwmda4dr4tol"
+
     const webhookVendedora1 = "https://hook.us1.make.com/oawrexoyph599vfsb6319q290dnag45d"
+    const webhookVendedora1Impresso = "https://hook.us1.make.com/b2yule57cpdg0t8hxuf7ofhj1lrcm6rj"
+
     // const webhookVendedora2 = "https://hook.us1.make.com/4ddy8s1atvi7qvzrvqgln1tlwy98jjsw"
     // const webhookVendedora3 = "https://hook.us1.make.com/2aa3stdmay5vcat5pla5nuy4ubcdv91e"
     // const webhookVendedora4 = "https://hook.us1.make.com/89stu7vdp6dxocgl837ekvw1z9mgafdb"
+
     const webhookPrincipal = "https://hook.us1.make.com/ghzwtbkkjlkzfhdg3qiysocrfmhr2ucx"
+    const webhookPrincipalImpresso = "https://hook.us1.make.com/u5dh3xbxpzbexvnd9bvu1mzfym3nx87r"
+
     const webhookAdministrativo = "https://hook.us1.make.com/hpqek8mfkdd4nqexrrwp8k6ytojdlodn"
+    const webhookAdministrativoImpresso = "https://hook.us1.make.com/7vkxorul0jiegksx2xgoo8bm86l0mqyj"
+
 
 
     const [filteredContracts, setFilteredContracts] = React.useState()
@@ -51,7 +61,7 @@ const Contracts = () => {
         let link
 
         if (userData.role === 'gerencia') {
-            link = webhookGerenteComercial
+            link = webhookGerente
         }
 
         if (userData.role === 'comercial') {
@@ -66,7 +76,35 @@ const Contracts = () => {
             link = webhookAdministrativo
         }
 
+        await axios.post(link, obj)
+            .then(res => {
+                alert(res.data)
+            })
+    }
 
+    async function senderImpressContract() {
+        const obj = filteredContracts[0]
+        obj["dataEmissao"] = date.toLocaleDateString()
+        obj["parcelaComDesconto"] = parseInt(obj["valorParcela"]) - parseInt(obj["descontoPorParcela"])
+        obj["diaVencimento"] = obj["diaVenvimento"].split("/")[0]
+
+        let link
+
+        if (userData.role === 'gerencia') {
+            link = webhookGerenteImpresso
+        }
+
+        if (userData.role === 'comercial') {
+            if (userData.name.includes("aracelly")) {
+                link = webhookVendedora1Impresso
+            }
+        }
+        if (userData.role === 'direcao') {
+            link = webhookPrincipalImpresso
+        }
+        if (userData.role === 'administrativo') {
+            link = webhookAdministrativoImpresso
+        }
 
         await axios.post(link, obj)
             .then(res => {
@@ -83,8 +121,10 @@ const Contracts = () => {
 
                 <select onChange={(e) => data(e.target.value)}>
                     <option value=""></option>
-                    <option value="ptb">PTB</option>
-                    <option value="centro">centro</option>
+                    <option value="Funil de Vendas PTB">Ptb</option>
+                    <option value="Funil de Rematrícula PTB">Rematrícula PTB</option>
+                    <option value="Funil de Vendas Centro"> Centro</option>
+                    <option value="Funil de Rematriculas Centro">Rematrícula Centro</option>
                 </select>
                 <input onChange={(e) => filterData(e.target.value)} list='person' />
                 <datalist id='person'>
@@ -200,8 +240,13 @@ const Contracts = () => {
 
             </table>
 
-
-            <SendButton onClick={() => senderContract()}>Emitir Contrato</SendButton>
+            <span>
+                <Button open={emmit} onClick={() => setEmmit(!emmit)}>Emitir Contrato </Button>
+                <Box emmit={emmit} >
+                    <SendContract onClick={() => senderContract()}> Online</SendContract>
+                    <SendContract onClick={() => senderImpressContract()}> Impresso</SendContract>
+                </Box>
+            </span>
         </Container>
     )
 }

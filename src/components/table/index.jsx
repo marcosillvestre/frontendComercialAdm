@@ -142,12 +142,12 @@ export function Row(props) {
                             <Collapse style={{ width: "100%", background: open1 ? "#eaeaea" : "" }} in={open1} timeout="auto" unmountOnExit  >
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell align="left" style={{ fontWeight: "bold" }}>Ac Status</TableCell>
+                                        <TableCell align="left" style={{ fontWeight: "bold" }}>AC Status</TableCell>
                                         <TableCell style={{ fontWeight: "bold" }}>TM Status</TableCell>
                                         <TableCell align="left" style={{ fontWeight: "bold" }} >PP Status</TableCell>
                                         <TableCell align="left" style={{ fontWeight: "bold" }}>MD Status</TableCell>
-                                        <TableCell align="left" style={{ fontWeight: "bold" }}>Pa Status</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }}>Data da Matrícula</TableCell>
+                                        <TableCell align="left" style={{ fontWeight: "bold" }}>PA Status</TableCell>
+                                        <TableCell align="left" style={{ fontWeight: "bold" }}>Data da Matrícula</TableCell>
                                         <TableCell align="right" style={{ fontWeight: "bold" }}>Data da Validação</TableCell>
 
                                     </TableRow>
@@ -237,7 +237,7 @@ export function Row(props) {
                                                     </div>
                                             }
                                         </TableCell>
-                                        <TableCell align="right">
+                                        <TableCell align="center">
                                             {row?.dataMatricula}
                                         </TableCell>
                                         <TableCell align="right">
@@ -253,9 +253,9 @@ export function Row(props) {
                                         <TableCell style={{ fontWeight: "bold" }}>Emissão da Venda</TableCell>
                                         <TableCell align="left" style={{ fontWeight: "bold" }} > Adm Responsável</TableCell>
                                         <TableCell align="left" style={{ fontWeight: "bold" }}>Status Direção</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Obs. Matrícula</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }}>Aprovação Adm</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }}>Vendedor</TableCell>
+                                        <TableCell align="left" style={{ fontWeight: "bold" }}>Obs. Matrícula</TableCell>
+                                        <TableCell align="left" style={{ fontWeight: "bold" }}>Aprovação Adm</TableCell>
+                                        <TableCell align="left" style={{ fontWeight: "bold" }}>Vendedor</TableCell>
 
                                     </TableRow>
                                 </TableHead>
@@ -294,7 +294,7 @@ export function Row(props) {
                                         </TableCell>
                                         <TableCell align="right" style={{ display: "flex" }}>
                                             <Button onClick={() => userData.role !== 'direcao' ? Sender() : SenderDirector()}> ✔️</Button>
-                                            <Text placeholder={row?.observacao} onChange={(e) => Changer("observacao", e.target.value, row?.contrato)}></Text>
+                                            <Text cols='3' placeholder={row?.observacao} onChange={(e) => Changer("observacao", e.target.value, row?.contrato)}></Text>
                                         </TableCell>
                                         <TableCell align="center">
                                             {
@@ -311,7 +311,7 @@ export function Row(props) {
                                                         <Button onClick={() => userData.role !== 'direcao' ? Sender() : SenderDirector()}> ✔️</Button>
                                                     </div>}
                                         </TableCell>
-                                        <TableCell align="right"> {row?.owner}</TableCell>
+                                        <TableCell align="left"> {row?.owner}</TableCell>
 
 
                                     </TableRow>
@@ -355,7 +355,7 @@ export function Row(props) {
                                         <TableCell style={{ fontWeight: "bold" }}>Início do Contrato</TableCell>
                                         <TableCell align="right" style={{ fontWeight: "bold" }} >Fim do Contrato</TableCell>
                                         <TableCell align="right" style={{ fontWeight: "bold" }}>Tipo de Assinatura</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Data Ac</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Data AC</TableCell>
 
                                     </TableRow>
                                 </TableHead>
@@ -492,13 +492,13 @@ export function Row(props) {
                             <Collapse style={{ background: open3 ? "#eaeaea" : "" }} in={open3} timeout="auto" unmountOnExit>
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell style={{ fontWeight: "bold" }}>Tm Valor</TableCell>
-                                        <TableCell style={{ fontWeight: "bold" }}>Tm Desconto</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }} >Tm Vencimento</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }}>Tm Forma de Pg.</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }}>Tm Parcelas</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }}>Situação Tm</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }}>Data Realizada</TableCell>
+                                        <TableCell style={{ fontWeight: "bold" }}>TM Valor</TableCell>
+                                        <TableCell style={{ fontWeight: "bold" }}>TM Desconto</TableCell>
+                                        <TableCell align="right" style={{ fontWeight: "bold" }} >TM Vencimento</TableCell>
+                                        <TableCell align="right" style={{ fontWeight: "bold" }}>TM Forma de Pg.</TableCell>
+                                        <TableCell align="right" style={{ fontWeight: "bold" }}>TM Parcelas</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Situação TM</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Data Realizada</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -510,16 +510,16 @@ export function Row(props) {
                                         <TableCell >
                                             {row?.tmDesconto}
                                         </TableCell>
-                                        <TableCell align="right">
+                                        <TableCell align="center">
                                             {row?.tmVencimento}
                                         </TableCell>
-                                        <TableCell align="right">
+                                        <TableCell align="center">
                                             {row?.tmFormaPg}
                                         </TableCell>
-                                        <TableCell align="right">
+                                        <TableCell align="center">
                                             {row?.tmParcelas}
                                         </TableCell>
-                                        <TableCell align="right">
+                                        <TableCell align="center">
                                             {
                                                 userData.role === 'comercial' ?
                                                     <p>{row?.tmStatus}</p>
@@ -556,13 +556,13 @@ export function Row(props) {
 
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell style={{ fontWeight: "bold" }}>PP Valor</TableCell>
-                                        <TableCell style={{ fontWeight: "bold" }}>PP Desconto</TableCell>
+                                        <TableCell style={{ fontWeight: "bold" }}>Parcela Valor</TableCell>
+                                        <TableCell style={{ fontWeight: "bold" }}>Parcela Desconto</TableCell>
                                         <TableCell align="right" style={{ fontWeight: "bold" }} >PP Vencimento</TableCell>
                                         <TableCell align="right" style={{ fontWeight: "bold" }}>PP Forma de Pg.</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }}>Parcelas Totais</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }}>Situação PP</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }}>Data Realizada</TableCell>
+                                        <TableCell align="right" style={{ fontWeight: "bold" }}>Número de parcelas</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Situação PP</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Data Realizada</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -574,16 +574,16 @@ export function Row(props) {
                                         <TableCell >
                                             {row?.ppDesconto}
                                         </TableCell>
-                                        <TableCell align="right">
+                                        <TableCell align="center">
                                             {row?.ppVencimento}
                                         </TableCell>
-                                        <TableCell align="right">
+                                        <TableCell align="center">
                                             {row?.ppFormaPg}
                                         </TableCell>
-                                        <TableCell align="right">
+                                        <TableCell align="center">
                                             {row?.ppParcelas}
                                         </TableCell>
-                                        <TableCell align="right">
+                                        <TableCell align="center">
                                             {
                                                 userData.role === 'comercial' ?
                                                     <p>{row?.ppStatus}</p>
@@ -625,8 +625,8 @@ export function Row(props) {
                                         <TableCell align="right" style={{ fontWeight: "bold" }} >MD Vencimento</TableCell>
                                         <TableCell align="right" style={{ fontWeight: "bold" }}>MD Forma de Pg.</TableCell>
                                         <TableCell align="right" style={{ fontWeight: "bold" }}>MD Parcelas</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }}>Situação MD</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }}>Data Realizada</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Situação MD</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Data Realizada</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -640,16 +640,16 @@ export function Row(props) {
                                         <TableCell >
                                             {row?.mdDesconto}
                                         </TableCell>
-                                        <TableCell align="right">
+                                        <TableCell align="center">
                                             {row?.mdVencimento}
                                         </TableCell>
-                                        <TableCell align="right">
+                                        <TableCell align="center">
                                             {row?.mdFormaPg}
                                         </TableCell>
-                                        <TableCell align="right">
+                                        <TableCell align="center">
                                             {row?.mdParcelas}
                                         </TableCell>
-                                        <TableCell align="right">
+                                        <TableCell align="center">
                                             {
                                                 userData.role === 'comercial' ?
                                                     <p>{row?.mdStatus}</p>
