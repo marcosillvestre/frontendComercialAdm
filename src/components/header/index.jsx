@@ -1,7 +1,5 @@
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import aw from '../../assets/aw.png';
 import { useUser } from '../../hooks/userContext';
 import { Adduser, Box, ComissionScreen, Container, GetContracts, Image, Links, LogOut, Name } from "./styles";
@@ -9,7 +7,6 @@ import { Adduser, Box, ComissionScreen, Container, GetContracts, Image, Links, L
 
 const Header = (parsed) => {
     const { logOut, userData } = useUser(false)
-    const [open, setOpen] = useState(false)
     const [user, setUser] = React.useState()
 
     function unLog() {
@@ -31,12 +28,11 @@ const Header = (parsed) => {
             </nav>
 
             <nav className='navbar'>
-                <Box isOpen={open} >
+                <Box >
                     {user ?
                         <>
                             <nav>
-                                {userData?.role !== 'administrativo' &&
-                                    <Links to="/contratos-por-assinar"><GetContracts /></Links>}
+                                <Links to="/contratos-por-assinar"><GetContracts /></Links>
                             </nav>
                             <nav>
                                 {userData?.role === 'direcao' &&
@@ -45,8 +41,8 @@ const Header = (parsed) => {
 
 
                             <nav>
-                                {userData?.role === 'direcao' &&
-                                    <Links to="/controle-comissional"><ComissionScreen /></Links>}
+                                {userData?.role === 'direcao' || userData?.role === 'administrativo' ?
+                                    <Links to="/controle-comissional"><ComissionScreen /></Links> : ""}
                             </nav>
 
 
@@ -54,11 +50,7 @@ const Header = (parsed) => {
                         : ""
                     }
                 </Box>
-                {open ?
-                    <div className='arrow' onClick={() => setOpen(!open)}> <KeyboardArrowDownIcon /></div>
-                    :
-                    <div className='arrow' onClick={() => setOpen(!open)}><KeyboardArrowUpIcon /></div>
-                }
+
 
             </nav>
             <nav className='nav-name'>

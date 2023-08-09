@@ -7,6 +7,8 @@ width: 100vw;
 height: 100vh;
 align-items: center;
 padding: 0 4rem;
+
+
 .nav-filter{
     display: flex;
 }
@@ -58,6 +60,12 @@ border: none;
 border-bottom: 1px solid;
 padding: .4rem;
 width: 10rem;
+option{
+    text-transform: uppercase;
+    font-weight: lighter;
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
+
+}
 `
 
 export const SearchButton = styled.button`
