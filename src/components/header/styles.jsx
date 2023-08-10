@@ -42,8 +42,9 @@ color: #1976d2;
 
 export const Box = styled.div`
     display: flex;
-    scale:  1.4  ;
-
+    scale: ${props => props.isOpen ? 1.4 : 0.5} ;
+    transition: ease-in-out 0.5s;
+    transform-origin: bottom;
 
 `
 export const LogOut = styled(Link)`
@@ -64,9 +65,6 @@ width: 20rem;
 
 export const Name = styled.p`
 color: #1976d2;
-&::first-letter{
-    text-transform: uppercase;
-}
 
 `
 export const Adduser = styled(SupervisedUserCircleIcon)`
