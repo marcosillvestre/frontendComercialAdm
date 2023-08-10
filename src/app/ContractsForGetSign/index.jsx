@@ -147,8 +147,7 @@ const Contracts = () => {
                             <th>Data matrícula</th>
                             <th>Classe</th>
                             <th>Unidade</th>
-                            <th>Tipo/Modalidade</th>
-
+                            <th>Valor Curso</th>
                         </tr>
                         <tr key={res.contrato}>
                             <td>{res.name}</td>
@@ -157,7 +156,8 @@ const Contracts = () => {
                             <td>{res.dataMatricula}</td>
                             <td>{res.classe}</td>
                             <td>{res.unidade}</td>
-                            <td>{res.tipoModalidade}</td>
+                            <td>{res?.valorCurso}</td>
+
                         </tr>
 
 
@@ -165,8 +165,8 @@ const Contracts = () => {
                             <th>CPF</th>
                             <th>nascimento resp</th>
                             <th>Celular</th>
-                            <th>Endereco</th>
-                            <th>Numero</th>
+                            <th>Endereço</th>
+                            <th>Número</th>
                             <th>complemento</th>
                             <th>bairro</th>
 
@@ -183,11 +183,11 @@ const Contracts = () => {
                         </tr>
                         <tr>
                             <th>cidade</th>
-                            <th>estado civil</th>
+                            <th>estado </th>
                             <th>cep</th>
-                            <th>estadoCivil</th>
-                            <th>profissao</th>
-                            <th>nomeAluno</th>
+                            <th>estado Civil</th>
+                            <th>profissão</th>
+                            <th>nome Aluno</th>
                             <th>nascimento Aluno</th>
                         </tr>
                         <tr>
@@ -201,12 +201,12 @@ const Contracts = () => {
                         </tr>
                         <tr>
                             <th>formato</th>
-                            <th>subclasse</th>
-                            <th>cargaHoraria</th>
-                            <th>paDATA</th>
+                            <th>Subclasse</th>
+                            <th>Carga Horaria</th>
+                            <th>PA Data</th>
                             <th>Mensalidade</th>
-                            <th>numeroParcelas</th>
-                            <th>diaVenvimento</th>
+                            <th>Número de Parcelas</th>
+                            <th>Dia Vencimento</th>
                         </tr>
                         <tr>
                             <td>{res.formato}</td>
@@ -219,21 +219,22 @@ const Contracts = () => {
                         </tr>
                         <tr>
                             <th>Primeira Parcela</th>
-                            <th>Ultima Parcela</th>
-                            <th>descontoTotal</th>
-                            <th>pp Com Desconto</th>
+                            <th>última Parcela</th>
+                            <th>desconto Total</th>
+                            <th>pP Com Desconto</th>
                             <th>testemunha 1</th>
                             <th>testemunha 2</th>
-                            <th></th>
+                            <th>Tipo/Modalidade</th>
                         </tr>
                         <tr>
+
                             <td>{res.dataPrimeiraParcelaMensalidade}</td>
                             <td>{res.dataUltimaParcelaMensalidade}</td>
                             <td>{res.descontoTotal}</td>
                             <td>{parseInt(res.valorParcela) - parseInt(res.descontoPorParcela)}</td>
                             <td>{res.testemunha1}</td>
                             <td>{res.testemunha2}</td>
-                            <td></td>
+                            <td>{res.tipoModalidade}</td>
                         </tr>
                     </tbody>
                 ))}
