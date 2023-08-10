@@ -25,7 +25,7 @@ const Routes = createBrowserRouter([
     },
     {
         path: "/cadastro",
-        element: directory ? <Register /> : <Control />,
+        element: directory ? <Register /> : <Login />,
     },
     {
         path: "/controle-comercial",
