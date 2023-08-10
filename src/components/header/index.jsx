@@ -30,40 +30,45 @@ const Header = (parsed) => {
                 <a href="/controle-comercial"> <Image src={aw} alt="American way" /></a>
             </nav>
 
-            <nav className='navbar'>
-                <Box isOpen={open} >
-                    {user ?
-                        <>
-                            <nav>
+            {user ?
+                <>
+                    <nav className='navbar'>
+                        <Box isOpen={open} >
+                            <>
+                                <nav>
 
-                                <Links to="/contratos-por-assinar"><GetContracts /></Links>
-                            </nav>
-                            <nav>
-                                {userData?.role === 'direcao' &&
-                                    <Links to="/cadastro"><Adduser /></Links>}
-                            </nav>
+                                    <Links to="/contratos-por-assinar"><GetContracts /></Links>
+                                </nav>
+                                <nav>
+                                    {userData?.role === 'direcao' &&
+                                        <Links to="/cadastro"><Adduser /></Links>}
+                                </nav>
 
 
-                            <nav>
-                                {userData?.role === 'direcao' || userData.role === 'administrativo' ?
-                                    <Links to="/controle-comissional"><ComissionScreen /></Links> : ""
-                                }
-                            </nav>
-                        </>
-                        : ""
-                    }
-                </Box>
-                {open ?
-                    <div className='arrow' onClick={() => setOpen(!open)}> <KeyboardArrowDownIcon /></div>
-                    :
-                    <div className='arrow' onClick={() => setOpen(!open)}><KeyboardArrowUpIcon /></div>
-                }
+                                <nav>
+                                    {userData?.role === 'direcao' || userData.role === 'administrativo' ?
+                                        <Links to="/controle-comissional"><ComissionScreen /></Links> : ""
+                                    }
+                                </nav>
+                            </>
+                        </Box>
+                        {open ?
+                            <div className='arrow' onClick={() => setOpen(!open)}> <KeyboardArrowDownIcon /></div>
+                            :
+                            <div className='arrow' onClick={() => setOpen(!open)}><KeyboardArrowUpIcon /></div>
+                        }
 
-            </nav>
-            <nav className='nav-name'>
-                <p>Olá,</p><Name>{parsed?.data?.name}</Name>
-                <LogOut to="/" onClick={() => unLog()}> Sair </LogOut>
-            </nav>
+                    </nav>
+
+                    <nav className='nav-name'>
+                        <p>Olá,</p><Name>{parsed?.data?.name}</Name>
+                        <LogOut to="/" onClick={() => unLog()}> Sair </LogOut>
+                    </nav>
+                </>
+
+
+                : ""
+            }
 
 
 

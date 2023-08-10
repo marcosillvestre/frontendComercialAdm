@@ -28,6 +28,11 @@ span{
             right: 0;
             width: 59.7%;
             height: 45%;
+            @media(min-width: 1600px){
+                
+            width: 63.7%;
+            height: 46%;
+            }
         }
         &::after{
             content:'';

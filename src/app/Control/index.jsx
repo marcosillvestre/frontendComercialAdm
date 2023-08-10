@@ -31,7 +31,7 @@ const ListFiltered = () => {
 
     const filteredForDate = fetchData?.filter(res => res.inicioContrato.split("/")[1] === month)
     const filteredForName = fetchData?.filter(res => res.owner.toLowerCase().includes(name.toLowerCase()))
-    const filteredForBoth = fetchData?.filter(res => res.inicioContrato.split("/")[1] === month && res.owner.toLowerCase().includes(name))
+    const filteredForBoth = fetchData?.filter(res => res.inicioContrato.split("/")[1] === month && res.owner.toLowerCase().includes(name.toLowerCase()))
 
     const filteredDateForComercial = fetchData?.filter(res => res.owner.toLowerCase().includes(userData.name) && res.inicioContrato.split("/")[1] === month)
     const fetchDataForComercial = fetchData?.filter(res => res.owner.toLowerCase().includes(userData.name))
