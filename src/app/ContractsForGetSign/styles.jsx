@@ -32,6 +32,12 @@ border: none;
 border-bottom: 1px solid;
 padding: .4rem;
 width: 10rem;
+option{
+    text-transform: uppercase;
+    font-weight: lighter;
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
+
+}
 }
 input{
 border: none;

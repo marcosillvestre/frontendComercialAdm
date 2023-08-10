@@ -26,7 +26,6 @@ const Contracts = () => {
     const webhookAdministrativoImpresso = "https://hook.us1.make.com/7vkxorul0jiegksx2xgoo8bm86l0mqyj"
 
 
-
     const [filteredContracts, setFilteredContracts] = React.useState()
     const { contracts, headers, setContracts, userData } = useUser()
 
@@ -147,7 +146,7 @@ const Contracts = () => {
                             <th>Data matrícula</th>
                             <th>Classe</th>
                             <th>Unidade</th>
-                            <th>Valor Curso</th>
+                            <th>Valor do Curso</th>
                         </tr>
                         <tr key={res.contrato}>
                             <td>{res.name}</td>
@@ -185,7 +184,7 @@ const Contracts = () => {
                             <th>cidade</th>
                             <th>estado </th>
                             <th>cep</th>
-                            <th>estado Civil</th>
+                            <th>estado Cívil</th>
                             <th>profissão</th>
                             <th>nome Aluno</th>
                             <th>nascimento Aluno</th>
@@ -202,7 +201,7 @@ const Contracts = () => {
                         <tr>
                             <th>formato</th>
                             <th>Subclasse</th>
-                            <th>Carga Horaria</th>
+                            <th>Carga Horária</th>
                             <th>PA Data</th>
                             <th>Mensalidade</th>
                             <th>Número de Parcelas</th>
