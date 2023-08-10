@@ -139,7 +139,7 @@ const ListFiltered = () => {
                         <Filter onChange={(e) => setName(e.target.value)}>
                             <option value="todos">Todos</option>
                             {sellers && sellers.map(res => (
-                                <option key={res.id} value={res.name}>{res.name}</option>
+                                <option key={res.id} value={res.name}><p>{res.name}</p></option>
                             ))}
 
                         </Filter>
