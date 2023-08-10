@@ -35,8 +35,8 @@ const Header = (parsed) => {
                     {user ?
                         <>
                             <nav>
-                                {userData?.role !== 'administrativo' &&
-                                    <Links to="/contratos-por-assinar"><GetContracts /></Links>}
+
+                                <Links to="/contratos-por-assinar"><GetContracts /></Links>
                             </nav>
                             <nav>
                                 {userData?.role === 'direcao' &&
@@ -45,8 +45,9 @@ const Header = (parsed) => {
 
 
                             <nav>
-                                {userData?.role === 'direcao' &&
-                                    <Links to="/controle-comissional"><ComissionScreen /></Links>}
+                                {userData?.role === 'direcao' || userData.role === 'administrativo' &&
+                                    <Links to="/controle-comissional"><ComissionScreen /></Links>
+                                }
                             </nav>
 
 
