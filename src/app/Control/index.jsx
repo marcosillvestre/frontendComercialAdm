@@ -186,9 +186,6 @@ const ListFiltered = () => {
                     <span>
                         <Tax>{filtered?.length}</Tax>
                     </span>
-                    {/* <Tax>{tm?.toLocaleString('pt-br',
-                        { style: 'currency', currency: 'BRL' })}</Tax> */}
-
                 </div>
             </Container>
         </>
