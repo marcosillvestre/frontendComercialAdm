@@ -49,8 +49,6 @@ const Header = (parsed) => {
                                     <Links to="/controle-comissional"><ComissionScreen /></Links> : ""
                                 }
                             </nav>
-
-
                         </>
                         : ""
                     }

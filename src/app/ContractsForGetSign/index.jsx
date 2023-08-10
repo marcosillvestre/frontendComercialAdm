@@ -32,23 +32,33 @@ const Contracts = () => {
     const date = new Date()
 
     async function data(e) {
-        await URI.get(`/contrato/${e}`, { headers })
-            .then(async info => {
-                if (userData.role === 'comercial') {
-                    const data = info.data.filter(res => res.vendedor.toLowerCase().includes(userData.name))
-                    setContracts(data)
-                } else {
-                    setContracts(info.data)
+        if (e.length !== 0) {
+            await URI.get(`/contrato/${e}`, { headers })
+                .then(info => {
+                    info.data && kkk(info.data)
+                }).catch(err => alert(err.data))
+        }
+    }
 
-                }
+    function kkk(info) {
+        if (info.length > 0) {
+            if (userData.role === 'comercial') {
+                const data = info.filter(res => res.vendedor.toLowerCase().includes(userData.name))
+                setContracts(data)
+            } else {
+                setContracts(info)
 
-            })
-
+            }
+        } else {
+            setContracts([{ "name": "Não há ninguém na etapa de matrícula nesse funil!", "contrato": "123" }])
+        }
     }
 
     function filterData(e) {
-        const data = contracts.filter(res => res.name === e)
-        setFilteredContracts(data)
+        if (e !== "Não há ninguém na etapa de matrícula nesse funil!") {
+            const data = contracts.filter(res => res.name === e)
+            setFilteredContracts(data)
+        }
     }
 
     async function senderContract() {
@@ -116,19 +126,21 @@ const Contracts = () => {
         <Container>
             <Header data={userData} />
 
-            <div>
-
+            <div className='search'>
+                <p>Funil:</p>
                 <select onChange={(e) => data(e.target.value)}>
                     <option value=""></option>
-                    <option value="Funil de Vendas PTB">Ptb</option>
-                    <option value="Funil de Rematrícula PTB">Rematrícula PTB</option>
-                    <option value="Funil de Vendas Centro"> Centro</option>
-                    <option value="Funil de Rematriculas Centro">Rematrícula Centro</option>
+                    <option value="Funil-de-Vendas-PTB">Ptb</option>
+                    <option value="Funil-de-Rematrícula-PTB">Rematrícula PTB</option>
+                    <option value="Funil-de-Vendas-Centro"> Centro</option>
+                    <option value="Funil-de-Rematriculas-Centro">Rematrícula Centro</option>
                 </select>
+
+                <p>Cliente: </p>
                 <input onChange={(e) => filterData(e.target.value)} list='person' />
                 <datalist id='person'>
                     {
-                        contracts.map(res => (
+                        contracts && contracts.map(res => (
                             <option key={res.contrato} value={res.name}>{res.name}</option>
 
                         ))

@@ -25,9 +25,18 @@ th{
         text-transform: uppercase;
     }
 }
-
-
+.search{
+    display: grid;
+    grid-template-areas:
+    "p p"
+    "select input"
+    ;
+    p{
+        font-size: small;
+     }
+}
 select{
+grid-area: select;
 border: none;
 border-bottom: 1px solid;
 padding: .4rem;
