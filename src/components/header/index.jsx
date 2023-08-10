@@ -45,8 +45,8 @@ const Header = (parsed) => {
 
 
                             <nav>
-                                {userData?.role === 'direcao' || userData.role === 'administrativo' &&
-                                    <Links to="/controle-comissional"><ComissionScreen /></Links>
+                                {userData?.role === 'direcao' || userData.role === 'administrativo' ?
+                                    <Links to="/controle-comissional"><ComissionScreen /></Links> : ""
                                 }
                             </nav>
 
