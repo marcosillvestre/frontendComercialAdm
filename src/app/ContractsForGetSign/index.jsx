@@ -35,12 +35,12 @@ const Contracts = () => {
         if (e.length !== 0) {
             await URI.get(`/contrato/${e}`, { headers })
                 .then(info => {
-                    info.data && kkk(info.data)
+                    info.data && filteringBySeller(info.data)
                 }).catch(err => alert(err.data))
         }
     }
 
-    function kkk(info) {
+    function filteringBySeller(info) {
         if (info.length > 0) {
             if (userData.role === 'comercial') {
                 const data = info.filter(res => res.vendedor.toLowerCase().includes(userData.name))
@@ -89,9 +89,12 @@ const Contracts = () => {
             .then(res => {
                 alert(res.data)
             })
+
+        contaAzulSender()
     }
 
     async function senderImpressContract() {
+
         const obj = filteredContracts[0]
         obj["dataEmissao"] = date.toLocaleDateString()
         obj["parcelaComDesconto"] = parseInt(obj["valorParcela"]) - parseInt(obj["descontoPorParcela"])
@@ -119,8 +122,19 @@ const Contracts = () => {
             .then(res => {
                 alert(res.data)
             })
+        contaAzulSender()
     }
 
+    async function contaAzulSender() {
+        const data = {
+            "name": `${filteredContracts[0].name}`
+        }
+        await axios.post("https://connection-with-conta-azul-rbv6l.ondigitalocean.app/cadastros", data)
+            .then(res => {
+                alert(res.data)
+            })
+
+    }
     return (
 
         <Container>
