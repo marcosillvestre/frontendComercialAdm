@@ -11,7 +11,6 @@ justify-content: space-between;
 align-items:center;
 max-width: 100vw;
 background-color: #0069ff;
-/* background-image: linear-gradient(160deg, #ff573c 0%, #0069ff 100%); */
 
 span{
     text-align: center;
@@ -113,7 +112,7 @@ color: #fff;
 width: 100%;
 
 &:hover{
-   background-color: #30386d;
+    background-color: #147ebb;
 
 }
 &:active{
