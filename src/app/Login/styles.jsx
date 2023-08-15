@@ -89,6 +89,7 @@ form{
     box-shadow: rgba(11, 43, 158, 0.15) 0px 6px 20px -6px;
     border-radius: 24px;
     font-size: .9rem;
+    justify-items: center;
 }
 `
 export const Image = styled.img`

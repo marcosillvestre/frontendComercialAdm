@@ -1,6 +1,8 @@
-
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 import { yupResolver } from '@hookform/resolvers/yup';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -12,6 +14,8 @@ import URI from '../utils/utils';
 import { Box, Container, ErrorMessage, Input, Submit } from './styles';
 
 function Login() {
+    const [open, setOpen] = React.useState(true)
+
     const { putInfo } = useUser()
     const navigate = useNavigate()
     const schema = Yup.object({
@@ -59,9 +63,10 @@ function Login() {
 
                         <Box htmlFor="password">
                             <h5>Password</h5>
-                            <Input type="text" {...register('password', { required: true })} />
+                            <Input type={open ? "password" : "text"} {...register('password', { required: true })} />
                             {errors.password && <ErrorMessage>Password is required.</ErrorMessage>}
                         </Box>
+                        <div onClick={() => setOpen(!open)} >{open ? <VisibilityIcon /> : <VisibilityOffIcon />}</div>
 
                         <Submit type="submit" />
 

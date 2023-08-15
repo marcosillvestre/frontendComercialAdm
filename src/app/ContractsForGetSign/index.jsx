@@ -181,7 +181,7 @@ const Contracts = () => {
                             <td>{res.dataMatricula}</td>
                             <td>{res.classe}</td>
                             <td>{res.unidade}</td>
-                            <td>{res?.valorCurso}</td>
+                            <td>R$ {res?.valorCurso}</td>
 
                         </tr>
 
@@ -238,7 +238,7 @@ const Contracts = () => {
                             <td>{res.subclasse}</td>
                             <td>{res.cargaHoraria}</td>
                             <td>{res.paDATA}</td>
-                            <td>{res.valorMensalidade}</td>
+                            <td>R$ {res.valorMensalidade}</td>
                             <td>{res.numeroParcelas}</td>
                             <td>{res.diaVenvimento}</td>
                         </tr>
@@ -246,7 +246,7 @@ const Contracts = () => {
                             <th>Primeira Parcela</th>
                             <th>última Parcela</th>
                             <th>desconto Total</th>
-                            <th>pP Com Desconto</th>
+                            <th>Desconto por Parcela</th>
                             <th>testemunha 1</th>
                             <th>testemunha 2</th>
                             <th>Tipo/Modalidade</th>
@@ -255,8 +255,8 @@ const Contracts = () => {
 
                             <td>{res.dataPrimeiraParcelaMensalidade}</td>
                             <td>{res.dataUltimaParcelaMensalidade}</td>
-                            <td>{res.descontoTotal}</td>
-                            <td>{parseInt(res.valorParcela) - parseInt(res.descontoPorParcela)}</td>
+                            <td>R$ {res.descontoTotal}</td>
+                            <td>R$ {res.descontoPorParcela}</td>
                             <td>{res.testemunha1}</td>
                             <td>{res.testemunha2}</td>
                             <td>{res.tipoModalidade}</td>
