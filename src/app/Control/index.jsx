@@ -160,7 +160,7 @@ const ListFiltered = () => {
                             </Filter>
                         </label> : ""}
                     <SearchButton onClick={() => searchButton()}> Pesquisar</SearchButton>
-                    <TransitionsModal />
+                    {userData.role !== 'comercial' && <TransitionsModal />}
 
                 </span>
                 <span className='table'>

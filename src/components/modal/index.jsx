@@ -143,7 +143,6 @@ export default function TransitionsModal() {
             setFiltered(filteredByComissionAndCourse)
         }
 
-
     }
 
     const [open, setOpen] = React.useState(false);
