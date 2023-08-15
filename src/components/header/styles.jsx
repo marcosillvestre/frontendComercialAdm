@@ -65,6 +65,9 @@ width: 20rem;
 
 export const Name = styled.p`
 color: #1976d2;
+&::first-letter{
+    text-transform: capitalize;
+}
 
 `
 export const Adduser = styled(SupervisedUserCircleIcon)`
