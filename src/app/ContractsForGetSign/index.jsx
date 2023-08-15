@@ -131,7 +131,7 @@ const Contracts = () => {
         }
         await axios.post("https://connection-with-conta-azul-rbv6l.ondigitalocean.app/cadastros", data)
             .then(res => {
-                alert(res.data)
+                console.log(res.data)
             })
 
     }

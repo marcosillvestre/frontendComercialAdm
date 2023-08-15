@@ -277,7 +277,7 @@ export function Row(props) {
                                             {row?.dataMatricula}
                                         </TableCell>
                                         <TableCell align="center"> {row?.responsavelADM}</TableCell>
-                                        <TableCell align="right">
+                                        <TableCell align="center">
                                             {
                                                 userData.role === 'direcao' ?
                                                     <div style={{ display: "flex" }}>

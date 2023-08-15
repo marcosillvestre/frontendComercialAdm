@@ -29,21 +29,25 @@ const ListFiltered = () => {
     const [unity, setUnity] = useState('todos')
 
 
-    const filteredForDate = fetchData?.filter(res => res.inicioContrato.split("/")[1] === month)
+    const filteredForDate = fetchData?.filter(res => res.dataMatricula.split("/")[1] === month)
     const filteredForName = fetchData?.filter(res => res.owner.toLowerCase().includes(name.toLowerCase()))
-    const filteredForBoth = fetchData?.filter(res => res.inicioContrato.split("/")[1] === month && res.owner.toLowerCase().includes(name.toLowerCase()))
+    const filteredForBoth = fetchData?.filter(res => res.dataMatricula.split("/")[1] === month && res.owner.toLowerCase().includes(name.toLowerCase()))
 
-    const filteredDateForComercial = fetchData?.filter(res => res.owner.toLowerCase().includes(userData.name) && res.inicioContrato.split("/")[1] === month)
+
+    const filteredDateForComercial = fetchData?.filter(res => res.owner.toLowerCase().includes(userData.name) && res.dataMatricula.split("/")[1] === month)
     const fetchDataForComercial = fetchData?.filter(res => res.owner.toLowerCase().includes(userData.name))
 
     const filteredForUnity = fetchData?.filter(res => res.unidade.toLowerCase().includes(unity))
-    const unityByMonth = fetchData?.filter(res => res.unidade.toLowerCase().includes(unity) && res.inicioContrato.split("/")[1] === month)
-    const filteredByAll = fetchData?.filter(res => res.unidade.toLowerCase().includes(unity) && res.inicioContrato.split("/")[1] === month && res.owner.toLowerCase().includes(name))
+    const unityByMonth = fetchData?.filter(res => res.unidade.toLowerCase().includes(unity) && res.dataMatricula.split("/")[1] === month)
+    const filteredByAll = fetchData?.filter(res => res.unidade.toLowerCase().includes(unity) && res.dataMatricula.split("/")[1] === month && res.owner.toLowerCase().includes(name))
+
 
     const fetchForAdm = fetchData?.filter(res => res.unidade.includes(userData.unity))
-    const fetchForAdmByMonth = fetchData?.filter(res => res.unidade.includes(userData.unity) && res.inicioContrato.split("/")[1] === month)
-    const fetchForAdmByMonthAndName = fetchData?.filter(res => res.unidade.includes(userData.unity) && res.inicioContrato.split("/")[1] === month && res.owner.toLowerCase().includes(name))
+    const fetchForAdmByMonth = fetchData?.filter(res => res.unidade.includes(userData.unity) && res.dataMatricula.split("/")[1] === month)
+    const fetchForAdmByMonthAndName = fetchData?.filter(res => res.unidade.includes(userData.unity) && res.dataMatricula.split("/")[1] === month && res.owner.toLowerCase().includes(name))
     const fetchForAdmAllMonthButSomeName = fetchData?.filter(res => res.unidade.includes(userData.unity) && res.owner.toLowerCase().includes(name))
+
+
 
     function searchButton() {
         if (userData.role !== 'comercial') {
@@ -77,8 +81,7 @@ const ListFiltered = () => {
                 setFiltered(filteredDateForComercial)
             }
         }
-
-        if (userData.role === 'administrativo') {
+        if (userData.role === 'administrativo' && userData.unity.length === 1) {
             if (month === 'todos' && name === 'todos') {
                 setFiltered(fetchForAdm)
             }
@@ -91,10 +94,13 @@ const ListFiltered = () => {
             if (month === 'todos' && name !== 'todos') {
                 setFiltered(fetchForAdmAllMonthButSomeName)
             }
-
         }
 
     }
+
+
+
+
 
     useEffect(() => {
         const getSellers = async () => {
