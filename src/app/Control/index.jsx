@@ -33,7 +33,6 @@ const ListFiltered = () => {
     const filteredForName = fetchData?.filter(res => res.owner.toLowerCase().includes(name.toLowerCase()))
     const filteredForBoth = fetchData?.filter(res => res.dataMatricula.split("/")[1] === month && res.owner.toLowerCase().includes(name.toLowerCase()))
 
-
     const filteredDateForComercial = fetchData?.filter(res => res.owner.toLowerCase().includes(userData.name) && res.dataMatricula.split("/")[1] === month)
     const fetchDataForComercial = fetchData?.filter(res => res.owner.toLowerCase().includes(userData.name))
 
@@ -122,7 +121,7 @@ const ListFiltered = () => {
                 <Header data={userData} />
                 <span className='nav-filter' >
                     <label>
-                        <p style={{ fontSize: "small" }}>Mês</p>
+                        <p style={{ fontSize: "small" }}>Mês:</p>
                         <Filter onChange={(e) => setMonth(e.target.value)} >
                             <option value="todos">Todos</option>
                             <option value="01">Janeiro</option>
@@ -137,11 +136,10 @@ const ListFiltered = () => {
                             <option value="10">Outubro</option>
                             <option value="11">Novembro</option>
                             <option value="12">Dezembro</option>
-
                         </Filter>
                     </label>
                     {userData.role === 'comercial' ? "" : <label>
-                        <p style={{ fontSize: "small" }}>Nome</p>
+                        <p style={{ fontSize: "small" }}>Nome:</p>
                         <Filter onChange={(e) => setName(e.target.value)}>
                             <option value="todos">Todos</option>
                             {sellers && sellers.map(res => (
@@ -152,7 +150,7 @@ const ListFiltered = () => {
                     </label>}
                     {userData.role === 'direcao' || userData.role === 'gerencia' ?
                         <label>
-                            <p style={{ fontSize: "small" }}>Unidade</p>
+                            <p style={{ fontSize: "small" }}>Unidade:</p>
                             <Filter onChange={(e) => setUnity(e.target.value)}>
                                 <option value="todos">Todos</option>
                                 <option value="ptb">PTB</option>

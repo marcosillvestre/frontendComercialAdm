@@ -8,14 +8,15 @@ import * as React from 'react';
 
 import { Collapse, TableBody, TableHead } from '@mui/material';
 import { toast } from 'react-toastify';
-import { Button, Input, Select, Signs, Text, Trash } from './styles';
+import { Button, Input, Select, Signs, Text } from './styles';
 
 
 import URI from '../../app/utils/utils';
 import { useUser } from '../../hooks/userContext';
+import SureModal from '../sureModal';
 
 export function Row(props) {
-    const { fetchData, setFetchData, headers, userData } = useUser()
+    const { headers, userData } = useUser()
     const { row } = props;
     const [open, setOpen] = React.useState(false);
     const [open1, setOpen1] = React.useState(false);
@@ -28,20 +29,11 @@ export function Row(props) {
     const [value, setValue] = React.useState('')
     const [id, setId] = React.useState('')
 
-    async function DeleteData(id) {
 
-        await toast.promise(
-            URI.delete(`/controle/${id}`, { headers }),
-            {
-                pending: 'Conferindo os dados',
-                success: 'Deletado com sucesso',
-                error: 'Alguma coisa deu errado'
-            }
-        ).then(() => {
-            const filtered = fetchData?.filter(res => res.id !== id)
-            setFetchData(filtered)
-        })
-    }
+
+    console.log(row?.dataAC)
+
+
 
     async function Changer(area, e, id) {
         setArea(area)
@@ -108,7 +100,9 @@ export function Row(props) {
                 <TableCell align="right">{row?.tipoMatricula}</TableCell>
                 {userData?.admin === true ?
                     <TableCell align="right">
-                        <Trash onClick={() => DeleteData(row?.contrato)} />
+
+                        <SureModal data={row?.contrato} name={row?.aluno} url="/controle" />
+
                     </TableCell> : ""}
 
             </TableRow>
@@ -142,11 +136,11 @@ export function Row(props) {
                             <Collapse style={{ width: "100%", background: open1 ? "#eaeaea" : "" }} in={open1} timeout="auto" unmountOnExit  >
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell align="left" style={{ fontWeight: "bold" }}>AC Status</TableCell>
-                                        <TableCell style={{ fontWeight: "bold" }}>TM Status</TableCell>
-                                        <TableCell align="left" style={{ fontWeight: "bold" }} >PP Status</TableCell>
-                                        <TableCell align="left" style={{ fontWeight: "bold" }}>MD Status</TableCell>
-                                        <TableCell align="left" style={{ fontWeight: "bold" }}>PA Status</TableCell>
+                                        <TableCell align="left" style={{ fontWeight: "bold" }}>AC. Status</TableCell>
+                                        <TableCell style={{ fontWeight: "bold" }}>TM. Status</TableCell>
+                                        <TableCell align="left" style={{ fontWeight: "bold" }} >PP. Status</TableCell>
+                                        <TableCell align="left" style={{ fontWeight: "bold" }}>MD. Status</TableCell>
+                                        <TableCell align="left" style={{ fontWeight: "bold" }}>PA. Status</TableCell>
                                         <TableCell align="left" style={{ fontWeight: "bold" }}>Data da Matrícula</TableCell>
                                         <TableCell align="right" style={{ fontWeight: "bold" }}>Data da Validação</TableCell>
 
@@ -251,10 +245,10 @@ export function Row(props) {
                                     <TableRow>
                                         <TableCell style={{ fontWeight: "bold" }}>Data de Comissionamento </TableCell>
                                         <TableCell style={{ fontWeight: "bold" }}>Emissão da Venda</TableCell>
-                                        <TableCell align="left" style={{ fontWeight: "bold" }} > Adm Responsável</TableCell>
+                                        <TableCell align="left" style={{ fontWeight: "bold" }} >ADM. Responsável</TableCell>
                                         <TableCell align="left" style={{ fontWeight: "bold" }}>Status Direção</TableCell>
-                                        <TableCell align="left" style={{ fontWeight: "bold" }}>Obs. Matrícula</TableCell>
-                                        <TableCell align="left" style={{ fontWeight: "bold" }}>Aprovação Adm</TableCell>
+                                        <TableCell align="left" style={{ fontWeight: "bold" }}>OBS. Matrícula</TableCell>
+                                        <TableCell align="left" style={{ fontWeight: "bold" }}>Aprovação ADM.</TableCell>
                                         <TableCell align="left" style={{ fontWeight: "bold" }}>Vendedor</TableCell>
 
                                     </TableRow>
@@ -351,11 +345,11 @@ export function Row(props) {
                             <Collapse style={{ background: open2 ? "#eaeaea" : "" }} in={open2} timeout="auto" unmountOnExit>
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell style={{ fontWeight: "bold" }}>N° do Contrato</TableCell>
+                                        <TableCell style={{ fontWeight: "bold" }}>N°. do Contrato</TableCell>
                                         <TableCell style={{ fontWeight: "bold" }}>Início do Contrato</TableCell>
                                         <TableCell align="right" style={{ fontWeight: "bold" }} >Fim do Contrato</TableCell>
                                         <TableCell align="right" style={{ fontWeight: "bold" }}>Tipo de Assinatura</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Data AC</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Data AC.</TableCell>
 
                                     </TableRow>
                                 </TableHead>
@@ -434,15 +428,10 @@ export function Row(props) {
                                         <TableCell component="th" scope="row" style={{ display: "grid" }}>
 
                                             {
-
                                                 row?.dataAC.map(res => (
-                                                    res.body1?.signed1 ||
-                                                        res.body2?.signed2 ||
-                                                        res.body3?.signed3 ||
-                                                        res.body4?.signed4 ?
-                                                        <p key={res}>{res.body1?.name1}, {res.body2?.name2},
-                                                            {res.body3?.name3}, {res.body4?.name4} assinaram</p>
-                                                        : <p key={res}>Ningúem assinou ainda</p>
+                                                    res.body1?.signed1 ?
+                                                        <p key={res}>O Cliente já assinou</p>
+                                                        : <p key={res}>O cliente não assinou ainda</p>
                                                 ))
                                             }
 
@@ -492,12 +481,12 @@ export function Row(props) {
                             <Collapse style={{ background: open3 ? "#eaeaea" : "" }} in={open3} timeout="auto" unmountOnExit>
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell style={{ fontWeight: "bold" }}>TM Valor</TableCell>
-                                        <TableCell style={{ fontWeight: "bold" }}>TM Desconto</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }} >TM Vencimento</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }}>TM Forma de Pg.</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }}>TM Parcelas</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Situação TM</TableCell>
+                                        <TableCell style={{ fontWeight: "bold" }}>TM. Valor</TableCell>
+                                        <TableCell style={{ fontWeight: "bold" }}>TM. Desconto</TableCell>
+                                        <TableCell align="right" style={{ fontWeight: "bold" }} >TM. Vencimento</TableCell>
+                                        <TableCell align="right" style={{ fontWeight: "bold" }}>TM. Forma de Pg.</TableCell>
+                                        <TableCell align="right" style={{ fontWeight: "bold" }}>TM. Parcelas</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Situação TM.</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>Data Realizada</TableCell>
                                     </TableRow>
                                 </TableHead>
@@ -558,10 +547,10 @@ export function Row(props) {
                                     <TableRow>
                                         <TableCell style={{ fontWeight: "bold" }}>Parcela Valor</TableCell>
                                         <TableCell style={{ fontWeight: "bold" }}>Parcela Desconto</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }} >PP Vencimento</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }}>PP Forma de Pg.</TableCell>
+                                        <TableCell align="right" style={{ fontWeight: "bold" }} >PP. Vencimento</TableCell>
+                                        <TableCell align="right" style={{ fontWeight: "bold" }}>PP. Forma de PG.</TableCell>
                                         <TableCell align="right" style={{ fontWeight: "bold" }}>Número de parcelas</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Situação PP</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Situação PP.</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>Data Realizada</TableCell>
                                     </TableRow>
                                 </TableHead>
@@ -620,12 +609,12 @@ export function Row(props) {
 
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell style={{ fontWeight: "bold" }}>MD Valor</TableCell>
-                                        <TableCell style={{ fontWeight: "bold" }}>MD Desconto</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }} >MD Vencimento</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }}>MD Forma de Pg.</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }}>MD Parcelas</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Situação MD</TableCell>
+                                        <TableCell style={{ fontWeight: "bold" }}>MD. Valor</TableCell>
+                                        <TableCell style={{ fontWeight: "bold" }}>MD. Desconto</TableCell>
+                                        <TableCell align="right" style={{ fontWeight: "bold" }} >MD. Vencimento</TableCell>
+                                        <TableCell align="right" style={{ fontWeight: "bold" }}>MD. Forma de Pg.</TableCell>
+                                        <TableCell align="right" style={{ fontWeight: "bold" }}>MD. Parcelas</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Situação MD.</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>Data Realizada</TableCell>
                                     </TableRow>
                                 </TableHead>
@@ -776,13 +765,13 @@ export function Row(props) {
                             <Collapse style={{ background: open5 ? "#eaeaea" : "" }} in={open5} timeout="auto" unmountOnExit>
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell style={{ fontWeight: "bold" }}>Pa Data</TableCell>
+                                        <TableCell style={{ fontWeight: "bold" }}>PA. Data</TableCell>
                                         <TableCell style={{ fontWeight: "bold" }}>Classe</TableCell>
                                         <TableCell align="right" style={{ fontWeight: "bold" }} >SubClasse</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>Material Didático</TableCell>
                                         <TableCell align="right" style={{ fontWeight: "bold" }}>Nivelamento </TableCell>
                                         <TableCell align="right" style={{ fontWeight: "bold" }}>Dia de Aula</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }}>Horário Início</TableCell>
+                                        <TableCell align="right" style={{ fontWeight: "bold" }}>Horário de Início</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -814,7 +803,7 @@ export function Row(props) {
 
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell style={{ fontWeight: "bold" }}>Horário Fim</TableCell>
+                                        <TableCell style={{ fontWeight: "bold" }}>Horário de Fim</TableCell>
                                         <TableCell style={{ fontWeight: "bold" }}>Professor</TableCell>
                                         <TableCell align="right" style={{ fontWeight: "bold" }} >Tipo/Modalidade</TableCell>
                                         <TableCell align="right" style={{ fontWeight: "bold" }}>Formato de Aula</TableCell>

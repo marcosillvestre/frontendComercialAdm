@@ -62,67 +62,77 @@ const Contracts = () => {
     }
 
     async function senderContract() {
-        const obj = filteredContracts[0]
-        obj["dataEmissao"] = date.toLocaleDateString()
-        obj["parcelaComDesconto"] = parseInt(obj["valorParcela"]) - parseInt(obj["descontoPorParcela"])
-        obj["diaVencimento"] = obj["diaVenvimento"].split("/")[0]
+        if (filteredContracts?.length > 0) {
 
-        let link
+            const obj = filteredContracts[0]
+            obj["dataEmissao"] = date.toLocaleDateString()
+            obj["parcelaComDesconto"] = parseInt(obj["valorParcela"]) - parseInt(obj["descontoPorParcela"])
+            obj["diaVencimento"] = obj["diaVenvimento"].split("/")[0]
 
-        if (userData.role === 'gerencia') {
-            link = webhookGerente
-        }
+            let link
 
-        if (userData.role === 'comercial') {
-            if (userData.name.includes("aracelly")) {
-                link = webhookVendedora1
+            if (userData.role === 'gerencia') {
+                link = webhookGerente
             }
-        }
-        if (userData.role === 'direcao') {
-            link = webhookPrincipal
-        }
-        if (userData.role === 'administrativo') {
-            link = webhookAdministrativo
-        }
 
-        await axios.post(link, obj)
-            .then(res => {
-                alert(res.data)
-            })
+            if (userData.role === 'comercial') {
+                if (userData.name.includes("aracelly")) {
+                    link = webhookVendedora1
+                }
+            }
+            if (userData.role === 'direcao') {
+                link = webhookPrincipal
+            }
+            if (userData.role === 'administrativo') {
+                link = webhookAdministrativo
+            }
 
-        contaAzulSender()
+            await axios.post(link, obj)
+                .then(res => {
+                    alert(res.data)
+                })
+
+            contaAzulSender()
+        } else {
+            alert("Não tem ninguém escolhido para emitir o contrato, você precisa escolher alguém!")
+        }
     }
 
     async function senderImpressContract() {
+        if (filteredContracts?.length > 0) {
 
-        const obj = filteredContracts[0]
-        obj["dataEmissao"] = date.toLocaleDateString()
-        obj["parcelaComDesconto"] = parseInt(obj["valorParcela"]) - parseInt(obj["descontoPorParcela"])
-        obj["diaVencimento"] = obj["diaVenvimento"].split("/")[0]
+            const obj = filteredContracts[0]
+            obj["dataEmissao"] = date.toLocaleDateString()
+            obj["parcelaComDesconto"] = parseInt(obj["valorParcela"]) - parseInt(obj["descontoPorParcela"])
+            obj["diaVencimento"] = obj["diaVenvimento"].split("/")[0]
 
-        let link
+            let link
 
-        if (userData.role === 'gerencia') {
-            link = webhookGerenteImpresso
-        }
-
-        if (userData.role === 'comercial') {
-            if (userData.name.includes("aracelly")) {
-                link = webhookVendedora1Impresso
+            if (userData.role === 'gerencia') {
+                link = webhookGerenteImpresso
             }
-        }
-        if (userData.role === 'direcao') {
-            link = webhookPrincipalImpresso
-        }
-        if (userData.role === 'administrativo') {
-            link = webhookAdministrativoImpresso
-        }
 
-        await axios.post(link, obj)
-            .then(res => {
-                alert(res.data)
-            })
-        contaAzulSender()
+            if (userData.role === 'comercial') {
+                if (userData.name.includes("aracelly")) {
+                    link = webhookVendedora1Impresso
+                }
+            }
+            if (userData.role === 'direcao') {
+                link = webhookPrincipalImpresso
+            }
+            if (userData.role === 'administrativo') {
+                link = webhookAdministrativoImpresso
+            }
+
+            await axios.post(link, obj)
+                .then(res => {
+                    alert(res.data)
+                })
+
+            contaAzulSender()
+        } else {
+            alert("Não tem ninguém escolhido para emitir o contrato, você precisa escolher alguém!")
+        }
     }
 
     async function contaAzulSender() {
@@ -163,7 +173,7 @@ const Contracts = () => {
             </div>
 
             <table>
-                {filteredContracts && filteredContracts.map(res => (
+                {filteredContracts?.length > 0 ? filteredContracts.map(res => (
                     <tbody key={res.contrato}>
                         <tr>
                             <th>Nome</th>
@@ -262,7 +272,13 @@ const Contracts = () => {
                             <td>{res.tipoModalidade}</td>
                         </tr>
                     </tbody>
-                ))}
+                )
+                ) : <p>Deseja emitir um contrato ? Selecione
+                    o Funil de vendas desejado na opção Funil e logo em seguida na <br />
+                    opção Cliente selecione a sua matrícula no RD Station
+                    que já está na etapa de Matrícula!
+                </p>
+                }
 
             </table>
 
