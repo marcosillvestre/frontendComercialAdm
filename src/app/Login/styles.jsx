@@ -3,14 +3,19 @@ import styled from "styled-components";
 export const Box = styled.label`
 display: flex;
 flex-direction: column;
-gap: .4rem;
+gap: .3rem;
+width: 98%;
+div{
+    display: flex;
+    gap: .3rem;
+}
 `
 export const Container = styled.span`
 display: flex;
 justify-content: space-between;
 align-items:center;
 max-width: 100vw;
-background-color: #0069ff;
+background-color: #005F73;
 
 span{
     text-align: center;
@@ -20,25 +25,25 @@ span{
     &::before{
             content:'';
             border: 4rem solid #fff;
-            background-color: #222;
-            border-radius: 80% 5% 0 0;
+            background-color: #001219;
+            border-radius: 85% 1% 6% 0;
             position: absolute;
             bottom:0;
             right: 0;
-            width: 59.7%;
+            width: 61.7%;
             height: 45%;
             @media(min-width: 1600px){
-                
+
             width: 63.7%;
             height: 46%;
             }
         }
         &::after{
             content:'';
-            background-color: #ff0c10;
-            border-radius: 90% 5% 60% 30%;
+            background-color: #9B2226;
+            border-radius: 50% 27% 70% 20%;
             position: absolute;
-            top: 30%;
+            top: 26%;
             right:auto;
             width: 30.7%;
             height: 50%;
@@ -47,8 +52,11 @@ span{
     p{
         color: #fff;
         width: 15rem;
-        font-family: 'Anton', sans-serif;
         z-index: 10;
+        h1{
+            font-family: 'Lobster Two', cursive;
+            transform: translate( 0 ,-60% );
+        }
     }
     div{
         position: absolute;
@@ -59,7 +67,7 @@ span{
     }
 }
 .mainbox{
-    background-color: #8cd5ae;
+    background-color: #7bbca6;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -81,7 +89,7 @@ span{
 form{
     background-color: #fff;
     height: 20rem;
-    padding:  2rem;
+    padding:  2rem 2rem 1rem 2rem ;
     display: grid;
     gap: 0.1rem;
     color: #031b4e;
@@ -89,6 +97,7 @@ form{
     border-radius: 24px;
     font-size: .9rem;
     justify-items: center;
+
 }
 `
 export const Image = styled.img`
@@ -106,18 +115,17 @@ box-shadow: 0px 0px 1px 1px rgba(0,0,0,0.66);
 export const Submit = styled.input`
 height: 2rem;
 border: none;
-background-color: #0093E9;
+background-color: #005F73;
 border-radius: 1rem;
 color: #fff;
 width: 100%;
-
+margin-top: 3rem ;
 &:hover{
-    background-color: #147ebb;
+    background-color: #094d5b;
 
 }
 &:active{
     opacity: 0.7;
-
 }
 
 `
@@ -125,4 +133,17 @@ export const ErrorMessage = styled.p`
 font-size: small;
 color:#ff8c00;
 margin-top: .4rem;
+`
+
+export const Header = styled.header`
+width: 100vw;
+height: 12vh;
+background-color: #fff;
+display: flex;
+justify-content: center;
+align-items: center;
+img{
+    width: 16rem;
+    height: 10rem;
+}
 `

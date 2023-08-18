@@ -8,11 +8,10 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import * as Yup from 'yup';
-import Header from '../../components/header';
+import aw from '../../assets/aw.png';
 import { useUser } from '../../hooks/userContext';
 import URI from '../utils/utils';
-import { Box, Container, ErrorMessage, Input, Submit } from './styles';
-
+import { Box, Container, ErrorMessage, Header, Input, Submit } from './styles';
 function Login() {
     const [open, setOpen] = React.useState(true)
 
@@ -49,24 +48,29 @@ function Login() {
 
     return (
         <>
-            <Header />
+            <Header >
+                <img src={aw} alt="American way image" />
+            </Header>
             <Container>
+
                 <div className='mainbox'>
                     <h2>Controle Comercial</h2>
                     <form onSubmit={handleSubmit((data) => Sender(data))}>
 
                         <Box htmlFor="email">
-                            <h5>Email</h5>
+                            <h5>Email:</h5>
                             <Input {...register('email', { required: true })} />
                             {errors.email && <ErrorMessage>Email is required.</ErrorMessage>}
                         </Box>
 
                         <Box htmlFor="password">
-                            <h5>Password</h5>
-                            <Input type={open ? "password" : "text"} {...register('password', { required: true })} />
-                            {errors.password && <ErrorMessage>Password is required.</ErrorMessage>}
+                            <h5>Password:</h5>
+                            <div>
+                                <Input type={open ? "password" : "text"} {...register('password', { required: true })} />
+                                {errors.password && <ErrorMessage>Password is required.</ErrorMessage>}
+                                <div onClick={() => setOpen(!open)} >{open ? <VisibilityIcon /> : <VisibilityOffIcon />}</div>
+                            </div>
                         </Box>
-                        <div onClick={() => setOpen(!open)} >{open ? <VisibilityIcon /> : <VisibilityOffIcon />}</div>
 
                         <Submit type="submit" />
 

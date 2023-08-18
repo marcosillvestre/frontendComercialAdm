@@ -14,6 +14,7 @@ export default createGlobalStyle`
 body{
     min-height: 100vh;
     min-width: 100vw;
+    
 }
 
 a{
