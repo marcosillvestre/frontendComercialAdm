@@ -66,7 +66,10 @@ const Contracts = () => {
 
             const obj = filteredContracts[0]
             obj["dataEmissao"] = date.toLocaleDateString()
-            obj["parcelaComDesconto"] = parseInt(obj["valorParcela"]) - parseInt(obj["descontoPorParcela"])
+            let desc = obj["descontoPorParcela"].split(',')
+
+            obj["valorParcelaDataCerta"] = parseFloat(obj["valorParcela"]) - parseFloat(`${desc[0]}.${desc[1]}`)
+            obj["descontoParcelaDataCorreta"] = obj["valorParcelaDataCerta"].toFixed(2)
             obj["diaVencimento"] = obj["diaVenvimento"].split("/")[0]
 
             let link
