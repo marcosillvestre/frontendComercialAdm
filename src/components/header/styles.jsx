@@ -4,12 +4,13 @@ import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import { Link } from 'react-router-dom';
 import styled from "styled-components";
 
+
 export const Container = styled.div`
 width: 100vw;
 display: flex;
 align-items: center;
-justify-content: space-around;
-padding: 3rem  1.5rem;
+justify-content: space-between;
+padding: 2.5rem 21rem 2.5rem 2rem ;
 height: 2rem;
 .arrow{
     border-radius: 55%;
@@ -19,11 +20,6 @@ height: 2rem;
     }
 }
 
-.navbar{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
 .nav-name{
 font-size: 1.2rem;
 display: flex;
@@ -31,12 +27,19 @@ gap: .4rem;
 align-items: center;
 }
 `
+export const Nav = styled.nav`
+display: flex;
+flex-direction: column;
+align-items: center;
+display:  none;
+
+`
 
 export const Links = styled(Link)`
-color: #1976d2;
+color: #222;
 
 &:visited{
-    color: #1976d2;
+    color: #222;
 }
 `
 
@@ -50,21 +53,23 @@ export const Box = styled.div`
 export const LogOut = styled(Link)`
 border: none;
 color: inherit;
-border-left: .1rem solid #222;
+border-left: .1rem solid #fff;
 padding-left: 1.5rem;
 background: none;
 font-size: 1.4rem;
-color: #be2828;
+color: #f13434;
 cursor: pointer;
 text-decoration:none;
+font-weight: bold;
 `
 
 export const Image = styled.img`
-width: 20rem;
+width: 6rem;
 `
 
 export const Name = styled.p`
-color: #1976d2;
+color: none;
+
 &::first-letter{
     text-transform: capitalize;
 }

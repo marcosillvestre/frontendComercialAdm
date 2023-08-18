@@ -5,7 +5,6 @@ display: flex;
 flex-direction: column;
 width: 100vw;
 height: 100vh;
-align-items: center;
 padding: 0 4rem;
 
 
@@ -14,12 +13,13 @@ padding: 0 4rem;
 }
 .div-tax{
     display: flex;
-    width: 100vw;
+    width: 5vw;
     position: fixed;
-    bottom: 1rem;
+    top: 7rem;
+    right: 3rem;
+    justify-content: end;
     padding: 0 1rem;
     gap:.2rem;
-    justify-content: space-between;
     span{
         display: grid;
         gap: .3rem;
@@ -27,8 +27,8 @@ padding: 0 4rem;
 }
 
 .table{
-    width: 85vw;
-    height: 72vh;
+    width: 93vw;
+    height: 66vh;
     z-index: 1;
     margin-bottom: 2rem;
     overflow-y: scroll;

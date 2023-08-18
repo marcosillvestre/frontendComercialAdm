@@ -9,7 +9,7 @@ gap: 1rem;
 align-items: center;
 max-width: 100vw;
 
-table, th, td, tr, thead, button{
+table, th, td, tr, thead{
     border: 1px solid #222;
     padding: .5rem .2rem;
 }
@@ -55,7 +55,7 @@ padding: .4rem;
 width: 10rem;
 }
 
-span{
+.emmit{
 position: fixed;
 bottom: 5%;
 right: 2%;
@@ -108,7 +108,6 @@ export const Button = styled.div`
 export const Box = styled.div`
 gap: .6rem;
 display: ${props => props.emmit ? "inline" : "none"};
-
 
 `
 

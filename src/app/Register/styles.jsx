@@ -4,22 +4,17 @@ import styled from 'styled-components';
 export const Container = styled.main`
 display: grid;
 align-items: flex-start;
-height: 100vh;
+max-height: 100vh;
 width: 100vw;
 p{
     margin-bottom: .2rem;
 }
-header{
-display: grid;
-grid-template-columns: repeat(3, 1fr);
-margin-bottom: 1rem;
-width: 100%;
-grid-column-gap: 2.2rem;
-}
-span{
+
+.main{
     display: flex;
-    align-items: center;
+    align-items: start;
     justify-content: space-around;
+    max-height: 52vh;
 }
 form{
     width: 100%;
@@ -28,38 +23,45 @@ form{
     gap:.5rem;
 }
 .register{
-    background-color: #0069ff;
+    background-color: #2E2F8E;
     border-radius: 1rem;
     width: 24vw;
-    padding: 2rem ;
+    padding: 1rem 2rem ;
     align-items: center;
     color: #fff;
     box-shadow: -3px 3px 9px 0px rgba(0,0,0,0.66);
+    height: 70%;
 }
 
 .box{
-
     display: flex;
     flex-direction: column;
     gap: 1rem;
     align-items: center;
 }
 .users{
+    height: 100%;
     border-radius: 1rem;
-    background-color: #0069ff;
+    background-color: #2E2F8E;
     width: 62vw;
     padding: 2rem ;
     color: #fff;
     box-shadow: -3px 3px 9px 0px rgba(0,0,0,0.66);
-    overflow-y: scroll;
     ::-webkit-scrollbar {
         display: none;
         }
-    min-height: 60vh;
-    max-height: 60vh;
-ul{
-    width: 100%;
-}
+
+    div{
+    max-height: 100%;
+    overflow: scroll;
+    border-radius: 1rem;
+    ::-webkit-scrollbar {
+            display: none;
+            }
+    }
+    ul{
+        width: 100%;
+    }
     li{
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -108,7 +110,7 @@ margin-bottom: .5rem
 export const Submit = styled.input`
 height: 2rem;
 border: none;
-background-color: #ff0c10;
+background-color: #f13434;
 border-radius: 1rem;
 color: #fff;
 width: 100%;

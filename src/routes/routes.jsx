@@ -7,8 +7,11 @@ import Login from "../app/Login";
 import Register from "../app/Register";
 
 const user = localStorage.getItem('userData')
-const directory = JSON.parse(user)?.role === 'direcao' ? true : false
 const comissionalAcess = JSON.parse(user)?.role === 'direcao' || JSON.parse(user)?.role === 'administrativo' ? true : false
+
+const directory = JSON.parse(user)?.role === 'direcao' ? true : false
+
+
 const Routes = createBrowserRouter([
     {
         path: "/",

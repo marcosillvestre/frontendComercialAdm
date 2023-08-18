@@ -13,7 +13,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
-import Header from '../../components/header';
+import MiniDrawer from '../../components/sideBar';
 import { Row } from '../../components/tableUsers';
 import { useUser } from '../../hooks/userContext';
 import URI from '../utils/utils';
@@ -21,7 +21,7 @@ import { Box, Container, ErrorMessage, Input, MultiOption, Selected, Selects, Su
 
 function Register() {
   const [unity, setUnity] = useState([])
-  const { userData, headers, users } = useUser()
+  const { headers, users } = useUser()
 
   const schema = Yup.object({
     name: Yup.string().required(),
@@ -89,9 +89,9 @@ function Register() {
   return (
     <>
       <Container>
-        <Header data={userData} />
+        <MiniDrawer />
 
-        <span>
+        <span className='main'>
           <div className='box register'>
             <form onSubmit={handleSubmit((data) => Sender(data))}>
               <Box htmlFor="name">

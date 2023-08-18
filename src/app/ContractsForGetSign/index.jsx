@@ -1,7 +1,7 @@
 import React from 'react'
 
 import axios from 'axios'
-import Header from '../../components/header'
+import MiniDrawer from '../../components/sideBar'
 import { useUser } from '../../hooks/userContext'
 import URI from '../utils/utils'
 import { Box, Button, Container, SendContract } from './styles'
@@ -148,7 +148,8 @@ const Contracts = () => {
     return (
 
         <Container>
-            <Header data={userData} />
+            {/* <Header data={userData} /> */}
+            <MiniDrawer />
 
             <div className='search'>
                 <p>Funil:</p>
@@ -273,16 +274,19 @@ const Contracts = () => {
                         </tr>
                     </tbody>
                 )
-                ) : <p>Deseja emitir um contrato ? Selecione
-                    o Funil de vendas desejado na opção Funil e logo em seguida na <br />
-                    opção Cliente selecione a sua matrícula no RD Station
-                    que já está na etapa de Matrícula!
-                </p>
+                ) :
+                    <details>
+                        <p className='parag'>Deseja emitir um contrato ? Selecione
+                            o Funil de vendas desejado na opção <q>Funil</q> e logo em seguida na <br />
+                            opção <q>Cliente</q> selecione a sua matrícula no RD Station
+                            que já está na etapa de Matrícula!
+                        </p>
+                    </details>
                 }
 
             </table>
 
-            <span>
+            <span className='emmit'>
                 <Button open={emmit} onClick={() => setEmmit(!emmit)}>Emitir Contrato </Button>
                 <Box emmit={emmit} >
                     <SendContract onClick={() => senderContract()}> Online</SendContract>

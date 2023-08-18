@@ -12,12 +12,14 @@ import TableRow from '@mui/material/TableRow';
 
 import { Row } from '../../components/table';
 
-import Header from '../../components/header';
 
 import { useUser } from '../../hooks/userContext';
 
 import TransitionsModal from '../../components/modal';
+import MiniDrawer from '../../components/sideBar';
 import URI from '../utils/utils.jsx';
+
+
 const ListFiltered = () => {
     const { fetchData, userData, headers, filtered, setFiltered } = useUser()
 
@@ -99,8 +101,6 @@ const ListFiltered = () => {
 
 
 
-
-
     useEffect(() => {
         const getSellers = async () => {
             await URI.get('/users', { headers })
@@ -118,7 +118,7 @@ const ListFiltered = () => {
     return (
         <>
             <Container>
-                <Header data={userData} />
+                <MiniDrawer />
                 <span className='nav-filter' >
                     <label>
                         <p style={{ fontSize: "small" }}>Mês:</p>

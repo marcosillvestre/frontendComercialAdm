@@ -1,12 +1,10 @@
 // import { useState } from 'react'
-import Header from '../../components/header'
-import { useUser } from '../../hooks/userContext'
+import MiniDrawer from '../../components/sideBar'
 import { Container } from './styles'
 
 
 function ComissionControll() {
     // const [seller, setSeller] = useState([])
-    const { userData } = useUser()
 
     // useEffect(() => {
     //     if (seller.length === 0) {
@@ -27,7 +25,8 @@ function ComissionControll() {
 
     return (
         <>
-            <Header data={userData} />
+
+            <MiniDrawer />
             <Container>
 
                 <table>
