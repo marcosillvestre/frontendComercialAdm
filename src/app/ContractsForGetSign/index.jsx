@@ -35,6 +35,7 @@ const Contracts = () => {
         if (e.length !== 0) {
             await URI.get(`/contrato/${e}`, { headers })
                 .then(info => {
+
                     info.data && filteringBySeller(info.data)
                 }).catch(err => alert(err.data))
         }
@@ -60,6 +61,7 @@ const Contracts = () => {
             setFilteredContracts(data)
         }
     }
+
 
     async function senderContract() {
         if (filteredContracts?.length > 0) {
@@ -150,8 +152,9 @@ const Contracts = () => {
             .then(res => {
                 console.log(res.data)
             })
-
     }
+
+
     return (
 
         <Container>
