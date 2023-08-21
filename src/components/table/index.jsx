@@ -31,9 +31,6 @@ export function Row(props) {
 
 
 
-    console.log(row?.dataAC)
-
-
 
     async function Changer(area, e, id) {
         setArea(area)
