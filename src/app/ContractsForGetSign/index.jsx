@@ -44,7 +44,7 @@ const Contracts = () => {
     function filteringBySeller(info) {
         if (info.length > 0) {
             if (userData.role === 'comercial') {
-                const data = info.filter(res => res.vendedor.toLowerCase().includes(userData.name))
+                const data = info.filter(res => res.vendedor.toLowerCase().includes(userData.name.toLowerCase()))
                 setContracts(data)
             } else {
                 setContracts(info)
@@ -81,7 +81,7 @@ const Contracts = () => {
             }
 
             if (userData.role === 'comercial') {
-                if (userData.name.includes("aracelly")) {
+                if (userData.name.toLowerCase().includes("aracelly")) {
                     link = webhookVendedora1
                 }
             }
@@ -122,7 +122,7 @@ const Contracts = () => {
             }
 
             if (userData.role === 'comercial') {
-                if (userData.name.includes("aracelly")) {
+                if (userData.name.toLowerCase().includes("aracelly")) {
                     link = webhookVendedora1Impresso
                 }
             }
@@ -150,7 +150,7 @@ const Contracts = () => {
         }
         await axios.post("https://connection-with-conta-azul-rbv6l.ondigitalocean.app/cadastros", data)
             .then(() => {
-                alert("Matrícula enviada ao Conta azul")
+                alert("Matrícula enviada com sucesso ao Conta azul")
             })
     }
 
@@ -182,8 +182,8 @@ const Contracts = () => {
                 </datalist>
             </div>
 
-            <table>
-                {filteredContracts?.length > 0 ? filteredContracts.map(res => (
+            {filteredContracts?.length > 0 ? filteredContracts.map(res => (
+                <table key={res.contrato}>
                     <tbody key={res.contrato}>
                         <tr>
                             <th>Nome</th>
@@ -282,18 +282,18 @@ const Contracts = () => {
                             <td>{res.tipoModalidade}</td>
                         </tr>
                     </tbody>
-                )
-                ) :
-                    <details>
-                        <p className='parag'>Deseja emitir um contrato ? Selecione
-                            o Funil de vendas desejado na opção <q>Funil</q> e logo em seguida na <br />
-                            opção <q>Cliente</q> selecione a sua matrícula no RD Station
-                            que já está na etapa de Matrícula!
-                        </p>
-                    </details>
-                }
+                </table>
+            )
+            ) :
+                <details>
+                    <p className='parag'>Deseja emitir um contrato ? Selecione
+                        o Funil de vendas desejado na opção <q>Funil</q> e logo em seguida na <br />
+                        opção <q>Cliente</q> selecione a sua matrícula no RD Station
+                        que já está na etapa de Matrícula!
+                    </p>
+                </details>
+            }
 
-            </table>
 
             <span className='emmit'>
                 <Button open={emmit} onClick={() => setEmmit(!emmit)}>Emitir Contrato </Button>

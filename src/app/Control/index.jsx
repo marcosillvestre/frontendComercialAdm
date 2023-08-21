@@ -35,8 +35,8 @@ const ListFiltered = () => {
     const filteredForName = fetchData?.filter(res => res.owner.toLowerCase().includes(name.toLowerCase()))
     const filteredForBoth = fetchData?.filter(res => res.dataMatricula.split("/")[1] === month && res.owner.toLowerCase().includes(name.toLowerCase()))
 
-    const filteredDateForComercial = fetchData?.filter(res => res.owner.toLowerCase().includes(userData.name) && res.dataMatricula.split("/")[1] === month)
-    const fetchDataForComercial = fetchData?.filter(res => res.owner.toLowerCase().includes(userData.name))
+    const filteredDateForComercial = fetchData?.filter(res => res.owner.toLowerCase().includes(userData.name.toLowerCase()) && res.dataMatricula.split("/")[1] === month)
+    const fetchDataForComercial = fetchData?.filter(res => res.owner.toLowerCase().includes(userData.name.toLowerCase()))
 
     const filteredForUnity = fetchData?.filter(res => res.unidade.toLowerCase().includes(unity))
     const unityByMonth = fetchData?.filter(res => res.unidade.toLowerCase().includes(unity) && res.dataMatricula.split("/")[1] === month)
@@ -98,7 +98,6 @@ const ListFiltered = () => {
         }
 
     }
-
 
 
     useEffect(() => {

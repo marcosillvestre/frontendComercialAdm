@@ -29,16 +29,16 @@ const Header = (parsed) => {
 
 
     return (
-        <Container location={location.pathname === '/controle-comercial'}>
+        <Container location={location.pathname === '/controle-comercial' && true}>
             <nav>
                 <a href="/controle-comercial">
-                    <Image src={aw} alt="American way" location={location.pathname === '/controle-comercial'} /> :
+                    <Image src={aw} alt="American way" location={location.pathname === '/controle-comercial' && true} /> :
                 </a>
             </nav>
 
             {user &&
                 <>
-                    <Nav location={location.pathname === '/controle-comercial'} >
+                    <Nav location={location.pathname === '/controle-comercial' && true} >
                         <Box isOpen={open} >
                             <>
                                 <nav>
@@ -67,7 +67,7 @@ const Header = (parsed) => {
 
                     <nav className='nav-name'>
                         <p>Olá,</p><Name>{parsed?.data?.name}</Name>
-                        <LogOut location={location.pathname === '/controle-comercial'} to="/" onClick={() => unLog()}> Sair  </LogOut>
+                        <LogOut location={location.pathname === '/controle-comercial' && true} to="/" onClick={() => unLog()}> Sair  </LogOut>
                         <LogoutIcon style={{ color: "#f13434" }} />
                     </nav>
                 </>
