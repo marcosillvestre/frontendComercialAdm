@@ -543,7 +543,7 @@ export function Row(props) {
                                 <TableHead>
                                     <TableRow>
                                         <TableCell style={{ fontWeight: "bold" }}>Parcela Valor</TableCell>
-                                        <TableCell style={{ fontWeight: "bold" }}>Parcela Desconto</TableCell>
+                                        <TableCell style={{ fontWeight: "bold" }}>Parcela com Desconto</TableCell>
                                         <TableCell align="right" style={{ fontWeight: "bold" }} >PP. Vencimento</TableCell>
                                         <TableCell align="right" style={{ fontWeight: "bold" }}>PP. Forma de PG.</TableCell>
                                         <TableCell align="right" style={{ fontWeight: "bold" }}>Número de parcelas</TableCell>
