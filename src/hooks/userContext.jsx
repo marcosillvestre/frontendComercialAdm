@@ -15,6 +15,8 @@ export const UserProvider = ({ children }) => {
     const [users, setUsers] = useState([])
     const [filtered, setFiltered] = useState([])
     const [contracts, setContracts] = useState([])
+    const [filteredContracts, setFilteredContracts] = useState()
+
 
     const putInfo = async (userInfos) => {
         setUserData(userInfos)
@@ -83,7 +85,7 @@ export const UserProvider = ({ children }) => {
             contracts, setContracts,
             users, headers, putInfo, userData,
             logOut, fetchData, setFetchData, setUsers,
-            filtered, setFiltered
+            filtered, setFiltered, filteredContracts, setFilteredContracts
         }}>
 
             {children}

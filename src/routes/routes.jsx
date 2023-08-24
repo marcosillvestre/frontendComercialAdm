@@ -3,6 +3,7 @@ import { createBrowserRouter } from "react-router-dom";
 import ComissionControll from '../app/ComissionControl';
 import Contracts from "../app/ContractsForGetSign";
 import { Control } from "../app/Control";
+import Home from "../app/Home";
 import Login from "../app/Login";
 import Register from "../app/Register";
 
@@ -15,7 +16,7 @@ const directory = JSON.parse(user)?.role === 'direcao' ? true : false
 const Routes = createBrowserRouter([
     {
         path: "/",
-        element: <Login />,
+        element: <Home />,
         exact: true,
     },
     {

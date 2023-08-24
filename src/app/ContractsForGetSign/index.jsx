@@ -1,6 +1,7 @@
 import React from 'react'
 
 import axios from 'axios'
+import ContractData from '../../components/contractData'
 import MiniDrawer from '../../components/sideBar'
 import { useUser } from '../../hooks/userContext'
 import URI from '../utils/utils'
@@ -28,8 +29,7 @@ const Contracts = () => {
     const webhookAdministrativoImpresso = "https://hook.us1.make.com/7vkxorul0jiegksx2xgoo8bm86l0mqyj"
 
 
-    const [filteredContracts, setFilteredContracts] = React.useState()
-    const { contracts, headers, setContracts, userData } = useUser()
+    const { contracts, headers, setContracts, userData, filteredContracts, setFilteredContracts } = useUser()
 
     const date = new Date()
 
@@ -121,6 +121,7 @@ const Contracts = () => {
             obj["descontoParcelaDataCorreta"] = obj["valorParcelaDataCerta"].toFixed(2)
             obj["diaVencimento"] = obj["diaVenvimento"].split("/")[0]
 
+            console.log(desc)
 
             let link
 
@@ -192,118 +193,7 @@ const Contracts = () => {
                 </datalist>
             </div>
 
-            {filteredContracts?.length > 0 ? filteredContracts.map(res => (
-                <table key={res.contrato}>
-                    <tbody key={res.contrato}>
-                        <tr>
-                            <th>Nome</th>
-                            <th>Email</th>
-                            <th>Contrato</th>
-                            <th>Data matrícula</th>
-                            <th>Classe</th>
-                            <th>Unidade</th>
-                            <th>Valor do Curso</th>
-                        </tr>
-                        <tr key={res.contrato}>
-                            <td>{res.name}</td>
-                            <td>{res.email}</td>
-                            <td>{res.contrato}</td>
-                            <td>{res.dataMatricula}</td>
-                            <td>{res.classe}</td>
-                            <td>{res.unidade}</td>
-                            <td>R$ {res?.valorCurso}</td>
-
-                        </tr>
-
-
-                        <tr>
-                            <th>CPF</th>
-                            <th>nascimento resp</th>
-                            <th>Celular</th>
-                            <th>Endereço</th>
-                            <th>Número</th>
-                            <th>complemento</th>
-                            <th>bairro</th>
-
-                        </tr>
-
-                        <tr >
-                            <td>{res.cpf}</td>
-                            <td>{res.DatadeNascdoResp}</td>
-                            <td>{res.CelularResponsavel}</td>
-                            <td>{res.EnderecoResponsavel}</td>
-                            <td>{res.NumeroEnderecoResponsavel}</td>
-                            <td>{res.complemento}</td>
-                            <td>{res.bairro}</td>
-                        </tr>
-                        <tr>
-                            <th>cidade</th>
-                            <th>estado </th>
-                            <th>cep</th>
-                            <th>estado Cívil</th>
-                            <th>profissão</th>
-                            <th>nome Aluno</th>
-                            <th>nascimento Aluno</th>
-                        </tr>
-                        <tr>
-                            <td>{res.cidade}</td>
-                            <td>{res.estado}</td>
-                            <td>{res.cep}</td>
-                            <td>{res.estadoCivil}</td>
-                            <td>{res.profissao}</td>
-                            <td>{res.nomeAluno}</td>
-                            <td>{res.nascimentoAluno}</td>
-                        </tr>
-                        <tr>
-                            <th>formato</th>
-                            <th>Subclasse</th>
-                            <th>Carga Horária</th>
-                            <th>PA Data</th>
-                            <th>Mensalidade</th>
-                            <th>Número de Parcelas</th>
-                            <th>Dia Vencimento</th>
-                        </tr>
-                        <tr>
-                            <td>{res.formato}</td>
-                            <td>{res.subclasse}</td>
-                            <td>{res.cargaHoraria}</td>
-                            <td>{res.paDATA}</td>
-                            <td>R$ {res.valorMensalidade}</td>
-                            <td>{res.numeroParcelas}</td>
-                            <td>{res.diaVenvimento}</td>
-                        </tr>
-                        <tr>
-                            <th>Primeira Parcela</th>
-                            <th>última Parcela</th>
-                            <th>desconto Total</th>
-                            <th>Desconto por Parcela</th>
-                            <th>testemunha 1</th>
-                            <th>testemunha 2</th>
-                            <th>Tipo/Modalidade</th>
-                        </tr>
-                        <tr>
-
-                            <td>{res.dataPrimeiraParcelaMensalidade}</td>
-                            <td>{res.dataUltimaParcelaMensalidade}</td>
-                            <td>R$ {res.descontoTotal}</td>
-                            <td>R$ {res.descontoPorParcela}</td>
-                            <td>{res.testemunha1}</td>
-                            <td>{res.testemunha2}</td>
-                            <td>{res.tipoModalidade}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            )
-            ) :
-                <details>
-                    <p className='parag'>Deseja emitir um contrato ? Selecione
-                        o Funil de vendas desejado na opção <q>Funil</q> e logo em seguida na <br />
-                        opção <q>Cliente</q> selecione a sua matrícula no RD Station
-                        que já está na etapa de Matrícula!
-                    </p>
-                </details>
-            }
-
+            <ContractData />
 
             <span className='emmit'>
                 <Button open={emmit} onClick={() => setEmmit(!emmit)}>Emitir Contrato </Button>

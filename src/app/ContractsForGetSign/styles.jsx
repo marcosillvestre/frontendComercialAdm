@@ -9,7 +9,7 @@ gap: 1rem;
 align-items: center;
 max-width: 100vw;
 
-table, th, td, tr, thead{
+table, th, tr, thead{
     border: 1px solid #222;
     padding: .5rem .2rem;
 }
