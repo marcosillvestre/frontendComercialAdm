@@ -15,7 +15,9 @@ const Contracts = () => {
     const webhookVendedora1 = "https://hook.us1.make.com/oawrexoyph599vfsb6319q290dnag45d"
     const webhookVendedora1Impresso = "https://hook.us1.make.com/b2yule57cpdg0t8hxuf7ofhj1lrcm6rj"
 
-    // const webhookVendedora2 = "https://hook.us1.make.com/4ddy8s1atvi7qvzrvqgln1tlwy98jjsw"
+    const webhookVendedora2 = "https://hook.us1.make.com/zk795dt1no3oaypygq048x84bao0smdr"
+    const webhookVendedora2Impresso = "https://hook.us1.make.com/tve9e0v23qlguiqhqfyd894jplvamrq1"
+
     // const webhookVendedora3 = "https://hook.us1.make.com/2aa3stdmay5vcat5pla5nuy4ubcdv91e"
     // const webhookVendedora4 = "https://hook.us1.make.com/89stu7vdp6dxocgl837ekvw1z9mgafdb"
 
@@ -84,6 +86,11 @@ const Contracts = () => {
                 if (userData.name.toLowerCase().includes("aracelly")) {
                     link = webhookVendedora1
                 }
+
+                if (userData.name.toLowerCase().includes("sophia")) {
+                    link = webhookVendedora2
+                }
+
             }
             if (userData.role === 'direcao') {
                 link = webhookPrincipal
@@ -124,6 +131,9 @@ const Contracts = () => {
             if (userData.role === 'comercial') {
                 if (userData.name.toLowerCase().includes("aracelly")) {
                     link = webhookVendedora1Impresso
+                }
+                if (userData.name.toLowerCase().includes("sophia")) {
+                    link = webhookVendedora2Impresso
                 }
             }
             if (userData.role === 'direcao') {

@@ -8,10 +8,13 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import * as Yup from 'yup';
+import { Control } from "../../app/Control";
 import aw from '../../assets/aw.png';
 import { useUser } from '../../hooks/userContext';
 import URI from '../utils/utils';
 import { Box, Container, ErrorMessage, Header, Input, Submit } from './styles';
+
+
 function Login() {
     const [open, setOpen] = React.useState(true)
 
@@ -40,6 +43,7 @@ function Login() {
             if (res.status === 200) {
                 putInfo(res.data)
                 navigate("/controle-comercial")
+                return <Control />
             }
         })
     }
@@ -77,7 +81,6 @@ function Login() {
                     </form>
                 </div >
                 <span>
-
                     <p>
                         <h1>American Way</h1>
 
