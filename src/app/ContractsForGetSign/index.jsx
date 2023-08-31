@@ -29,7 +29,7 @@ const Contracts = () => {
     const webhookAdministrativoImpresso = "https://hook.us1.make.com/7vkxorul0jiegksx2xgoo8bm86l0mqyj"
 
 
-    const { contracts, headers, setContracts, userData, filteredContracts, setFilteredContracts } = useUser()
+    const { contracts, headers, setContracts, userData, filteredContracts, setFilteredContracts, logOut } = useUser()
 
     const date = new Date()
 
@@ -39,7 +39,14 @@ const Contracts = () => {
                 .then(info => {
 
                     info.data && filteringBySeller(info.data)
-                }).catch(err => alert(err.data))
+                    console.log(info)
+                }).catch(err => {
+                    if (err.response.data.error === 'token invalid') {
+                        alert("Faça login novamente, seu acesso expirou")
+                        window.location.href = "/"
+                        logOut()
+                    }
+                })
         }
     }
 

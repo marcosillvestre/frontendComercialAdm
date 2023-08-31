@@ -94,6 +94,7 @@ export default function MiniDrawer() {
     const [open, setOpen] = React.useState(false);
     const { userData } = useUser()
 
+
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -121,7 +122,7 @@ export default function MiniDrawer() {
                     </IconButton>
                     <Typography variant="h6" noWrap component="div">
 
-                        <Header data={userData} />
+                        <Header data={userData} open={open} />
 
                     </Typography>
                 </Toolbar>

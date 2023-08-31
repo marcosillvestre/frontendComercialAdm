@@ -129,9 +129,9 @@ const ContracTableBodyata = () => {
                     </table>
                 )
                 ) :
-                    <details>
+                    <details >
                         <p className='parag'>Deseja emitir um contrato ? Selecione
-                            o Funil de vendas desejado na opção <q>Funil</q> e logo em seguida na <br />
+                            o Funil de vendas desejado na opção <q>Funil</q> e logo em seguida na
                             opção <q>Cliente</q> selecione a sua matrícula no RD Station
                             que já está na etapa de Matrícula!
                         </p>

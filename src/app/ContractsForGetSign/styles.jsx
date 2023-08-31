@@ -6,7 +6,7 @@ flex-direction: column;
 justify-content: start;
 height: 100vh;
 gap: 1rem;
-align-items: center;
+padding-left: 2rem;
 max-width: 100vw;
 
 table, th, tr, thead{
@@ -26,6 +26,8 @@ th{
     }
 }
 .search{
+    translate: 0 -1rem;
+    width: 20rem;
     display: grid;
     grid-template-areas:
     "p p"

@@ -10,7 +10,7 @@ width: 100vw;
 display: flex;
 align-items: center;
 justify-content: space-between;
-padding: 2.5rem 21rem 2.5rem 2rem ;
+padding: 2.5rem 9.3rem 2.5rem 0rem ;
 height: 2rem;
 .arrow{
     border-radius: 55%;
@@ -23,6 +23,7 @@ height: 2rem;
 .nav-name{
 font-size: 1.2rem;
 display: flex;
+visibility: ${props => props.open ? "hidden" : "visible"};
 gap: .4rem;
 align-items: center;
 }
@@ -61,6 +62,7 @@ color: #f13434;
 cursor: pointer;
 text-decoration:none;
 font-weight: bold;
+text-shadow: -1px 1px 1px #fff;
 `
 
 export const Image = styled.img`

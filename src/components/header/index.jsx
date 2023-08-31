@@ -14,6 +14,10 @@ const Header = (parsed) => {
     const [open, setOpen] = useState(false)
     const [user, setUser] = React.useState()
 
+
+    console.log(parsed.open)
+
+
     const location = useLocation()
 
     function unLog() {
@@ -29,7 +33,7 @@ const Header = (parsed) => {
 
 
     return (
-        <Container location={location.pathname === '/controle-comercial' && true}>
+        <Container open={parsed.open} >
             <nav>
                 <a href="/controle-comercial">
                     <Image src={aw} alt="American way" location={location.pathname === '/controle-comercial' && true} /> :

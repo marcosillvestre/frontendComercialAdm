@@ -18,8 +18,7 @@ padding: 0 4rem;
     top: 7rem;
     right: 3rem;
     justify-content: end;
-    padding: 0 1rem;
-    gap:.2rem;
+    padding: 0 1.4rem;
     span{
         display: grid;
         gap: .3rem;
@@ -40,13 +39,14 @@ padding: 0 4rem;
 `
 export const Tax = styled.div`
 display: flex;
-padding: 0 2rem;
+padding: calc((4em - (1em * 1.5) - (0.125em * 2) - 0.375em) / 2) calc(1em * 1.5);
+border: 0.125em solid #1976d2; ;
+box-shadow: 0 0.375em 0 #1976d2;
 align-items: center;
 justify-content: center;
-width: 2rem;
+width: 3rem;
 height: 2rem;
 border-radius: .5rem;
-box-shadow: -3px 3px 9px 0px rgba(0,0,0,0.66);
 background-color: #fff;
 font-size:.8rem;
 
