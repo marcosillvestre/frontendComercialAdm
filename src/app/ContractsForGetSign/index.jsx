@@ -37,9 +37,7 @@ const Contracts = () => {
         if (e.length !== 0) {
             await URI.get(`/contrato/${e}`, { headers })
                 .then(info => {
-
                     info.data && filteringBySeller(info.data)
-                    console.log(info)
                 }).catch(err => {
                     if (err.response.data.error === 'token invalid') {
                         alert("Faça login novamente, seu acesso expirou")
@@ -66,7 +64,7 @@ const Contracts = () => {
 
     function filterData(e) {
         if (e !== "Não há ninguém na etapa de matrícula nesse funil!") {
-            const data = contracts.filter(res => res.name === e)
+            const data = contracts.filter(res => res.contrato === e)
             setFilteredContracts(data)
         }
     }
@@ -128,7 +126,6 @@ const Contracts = () => {
             obj["descontoParcelaDataCorreta"] = obj["valorParcelaDataCerta"].toFixed(2)
             obj["diaVencimento"] = obj["diaVenvimento"].split("/")[0]
 
-            console.log(desc)
 
             let link
 
@@ -193,7 +190,7 @@ const Contracts = () => {
                 <datalist id='person'>
                     {
                         contracts && contracts.map(res => (
-                            <option key={res.contrato} value={res.name}>{res.name}</option>
+                            <option key={res.contrato} value={res.contrato}>{res.name}</option>
 
                         ))
                     }
