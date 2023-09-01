@@ -1,7 +1,8 @@
 import styled from "styled-components";
 
 export const Container = styled.main`
-margin: 2rem auto;
+margin: 1rem auto;
+max-width: 80vw ;
 
 
 details{

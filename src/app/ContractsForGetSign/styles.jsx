@@ -13,6 +13,10 @@ table, th, tr, thead{
     border: 1px solid #222;
     padding: .5rem .2rem;
 }
+table{
+    border-radius: .5rem;
+
+}
 td {
     font-weight: lighter;
     font-size: small;

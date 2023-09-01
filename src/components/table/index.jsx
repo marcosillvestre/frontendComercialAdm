@@ -8,7 +8,7 @@ import * as React from 'react';
 
 import { Collapse, TableBody, TableHead } from '@mui/material';
 import { toast } from 'react-toastify';
-import { Button, Input, Select, Signs, Text } from './styles';
+import { Button, Input, RowTable, Select, Signs, Text } from './styles';
 
 
 import URI from '../../app/utils/utils';
@@ -78,13 +78,13 @@ export function Row(props) {
 
     return (
         <React.Fragment>
-            <TableRow sx={{ '& > *': { borderBottom: 'unset' } }} style={{ background: open ? "#eaeaea" : "" }}>
+            <RowTable sx={{ '& > *': { borderBottom: 'unset' } }} validated={row.dataValidacao === ''} openned={open}>
 
                 <TableCell>
                     <IconButton
                         aria-label="expand row"
                         size="small"
-                        onClick={() => setOpen(!open)}
+                        onClick={() => setOpen(!open)} v g
                     >
                         {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                     </IconButton>
@@ -102,7 +102,7 @@ export function Row(props) {
 
                     </TableCell> : ""}
 
-            </TableRow>
+            </RowTable>
 
 
 
@@ -130,7 +130,7 @@ export function Row(props) {
                             paddingTop: 0,
                             width: "66rem",
                         }} colSpan={6}>
-                            <Collapse style={{ width: "100%", background: open1 ? "#eaeaea" : "" }} in={open1} timeout="auto" unmountOnExit  >
+                            <Collapse style={{ width: "100%", background: open1 ? "#f5f5f5" : "" }} in={open1} timeout="auto" unmountOnExit  >
                                 <TableHead>
                                     <TableRow>
                                         <TableCell align="left" style={{ fontWeight: "bold" }}>AC. Status</TableCell>
@@ -246,7 +246,7 @@ export function Row(props) {
                                         <TableCell align="left" style={{ fontWeight: "bold" }}>Status Direção</TableCell>
                                         <TableCell align="left" style={{ fontWeight: "bold" }}>OBS. Matrícula</TableCell>
                                         <TableCell align="left" style={{ fontWeight: "bold" }}>Aprovação ADM.</TableCell>
-                                        <TableCell align="left" style={{ fontWeight: "bold" }}>Vendedor</TableCell>
+                                        <TableCell align="left" style={{ fontWeight: "bold" }}>Vendedor(a)</TableCell>
 
                                     </TableRow>
                                 </TableHead>
@@ -339,7 +339,7 @@ export function Row(props) {
                             paddingTop: 0,
                             width: "66rem",
                         }} colSpan={6}>
-                            <Collapse style={{ background: open2 ? "#eaeaea" : "" }} in={open2} timeout="auto" unmountOnExit>
+                            <Collapse style={{ background: open2 ? "#f5f5f5" : "" }} in={open2} timeout="auto" unmountOnExit>
                                 <TableHead>
                                     <TableRow>
                                         <TableCell style={{ fontWeight: "bold" }}>N°. do Contrato</TableCell>
@@ -475,7 +475,7 @@ export function Row(props) {
                             paddingTop: 0,
                             width: "69rem",
                         }} colSpan={6}>
-                            <Collapse style={{ background: open3 ? "#eaeaea" : "" }} in={open3} timeout="auto" unmountOnExit>
+                            <Collapse style={{ background: open3 ? "#f5f5f5" : "" }} in={open3} timeout="auto" unmountOnExit>
                                 <TableHead>
                                     <TableRow>
                                         <TableCell style={{ fontWeight: "bold" }}>TM. Valor</TableCell>
@@ -698,7 +698,7 @@ export function Row(props) {
                             paddingTop: 0,
                             width: "66rem",
                         }} colSpan={6}>
-                            <Collapse style={{ background: open4 ? "#eaeaea" : "" }} in={open4} timeout="auto" unmountOnExit>
+                            <Collapse style={{ background: open4 ? "#f5f5f5" : "" }} in={open4} timeout="auto" unmountOnExit>
                                 <TableHead>
                                     <TableRow>
                                         <TableCell style={{ fontWeight: "bold" }}>Aluno</TableCell>
@@ -759,7 +759,7 @@ export function Row(props) {
                             paddingTop: 0,
                             width: "66rem",
                         }} colSpan={6}>
-                            <Collapse style={{ background: open5 ? "#eaeaea" : "" }} in={open5} timeout="auto" unmountOnExit>
+                            <Collapse style={{ background: open5 ? "#f5f5f5" : "" }} in={open5} timeout="auto" unmountOnExit>
                                 <TableHead>
                                     <TableRow>
                                         <TableCell style={{ fontWeight: "bold" }}>PA. Data</TableCell>

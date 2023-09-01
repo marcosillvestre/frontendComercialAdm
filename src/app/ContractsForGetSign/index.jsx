@@ -164,8 +164,10 @@ const Contracts = () => {
             "name": `${filteredContracts[0].name}`
         }
         await axios.post("https://connection-with-conta-azul-rbv6l.ondigitalocean.app/cadastros", data)
-            .then(() => {
-                alert("Matrícula enviada com sucesso ao Conta azul")
+            .then((res) => {
+                if (res.status === 200) {
+                    alert("Matrícula enviada com sucesso ao Conta azul")
+                }
             })
     }
 

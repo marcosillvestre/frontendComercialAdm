@@ -1,6 +1,14 @@
 import DeleteIcon from '@mui/icons-material/Delete';
+import TableRow from '@mui/material/TableRow';
 import styled from "styled-components";
 
+
+export const RowTable = styled(TableRow)`
+
+background-color: ${props => props.validated ? "" : "#90d5995a"};
+background-color: ${props => props.openned && "#f5f5f5"};
+
+`
 
 export const ButtonChanger = styled.button`
 width: 75%;
