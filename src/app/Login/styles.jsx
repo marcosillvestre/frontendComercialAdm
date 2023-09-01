@@ -51,11 +51,17 @@ span{
         
     p{
         color: #fff;
-        width: 15rem;
+        /* width: 20rem; */
         z-index: 10;
         h1{
+            font-size: 3rem;
             font-family: 'Lobster Two', cursive;
             transform: translate( 0 ,-60% );
+            @media(min-width: 1600px){
+                font-size: 4em;
+                
+                
+            }
         }
     }
     div{
