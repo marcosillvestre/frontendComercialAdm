@@ -58,7 +58,7 @@ const Contracts = () => {
 
             }
         } else {
-            setContracts([{ "name": "Não há ninguém na etapa de matrícula nesse funil!", "contrato": "123" }])
+            setContracts([{ "name": "Não há ninguém na etapa de matrícula nesse funil!", "contrato": "❌" }])
         }
     }
 
@@ -160,13 +160,15 @@ const Contracts = () => {
     }
 
     async function contaAzulSender() {
+        console.log('first')
         const data = {
             "name": `${filteredContracts[0].name}`
         }
         await axios.post("https://connection-with-conta-azul-rbv6l.ondigitalocean.app/cadastros", data)
             .then((res) => {
+                console.log(res)
                 if (res.status === 200) {
-                    alert("Matrícula enviada com sucesso ao Conta azul")
+                    alert(res.data.message)
                 }
             })
     }

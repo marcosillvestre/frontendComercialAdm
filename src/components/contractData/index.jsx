@@ -23,13 +23,13 @@ const ContracTableBodyata = () => {
                                 <th>Celular</th>
                             </tr>
                             <tr key={res.contrato}>
-                                <TableBody empty={res.name === ""}>{res.name}</TableBody>
-                                <TableBody empty={res.email === ""}>{res.email}</TableBody>
-                                <TableBody empty={res.contrato === ""}>{res.contrato}</TableBody>
-                                <TableBody empty={res.dataMatricula === ""}>{res.dataMatricula}</TableBody>
-                                <TableBody empty={res.cpf === ""}>{res.cpf}</TableBody>
-                                <TableBody empty={res.DatadeNascdoResp === ""}>{res.DatadeNascdoResp}</TableBody>
-                                <TableBody empty={res.CelularResponsavel === ""}>{res.CelularResponsavel}</TableBody>
+                                <TableBody empty={res.name === "" || res.name === undefined}>{res.name}</TableBody>
+                                <TableBody empty={res.email === "" || res.email === undefined}>{res.email}</TableBody>
+                                <TableBody empty={res.contrato === "" || res.contrato === undefined}>{res.contrato}</TableBody>
+                                <TableBody empty={res.dataMatricula === "" || res.dataMatricula === undefined}>{res.dataMatricula}</TableBody>
+                                <TableBody empty={res.cpf === "" || res.cpf === undefined}>{res.cpf}</TableBody>
+                                <TableBody empty={res.DatadeNascdoResp === "" || res.DatadeNascdoResp === undefined}>{res.DatadeNascdoResp}</TableBody>
+                                <TableBody empty={res.CelularResponsavel === "" || res.CelularResponsavel === undefined}>{res.CelularResponsavel}</TableBody>
                             </tr>
 
 
@@ -45,13 +45,13 @@ const ContracTableBodyata = () => {
                             </tr>
 
                             <tr >
-                                <TableBody empty={res.EnderecoResponsavel === ""}>{res.EnderecoResponsavel}</TableBody>
-                                <TableBody empty={res.NumeroEnderecoResponsavel === ""}>{res.NumeroEnderecoResponsavel}</TableBody>
-                                <TableBody empty={res.complemento === ""}>{res.complemento}</TableBody>
-                                <TableBody empty={res.bairro === ""}>{res.bairro}</TableBody>
-                                <TableBody empty={res.cidade === ""}>{res.cidade}</TableBody>
-                                <TableBody empty={res.estado === ""}>{res.estado}</TableBody>
-                                <TableBody empty={res.cep === ""}>{res.cep}</TableBody>
+                                <TableBody empty={res.EnderecoResponsavel === "" || res.EnderecoResponsavel === undefined}>{res.EnderecoResponsavel}</TableBody>
+                                <TableBody empty={res.NumeroEnderecoResponsavel === "" || res.NumeroEnderecoResponsavel === undefined}>{res.NumeroEnderecoResponsavel}</TableBody>
+                                <TableBody empty={res.complemento === "" || res.complemento === undefined}>{res.complemento}</TableBody>
+                                <TableBody empty={res.bairro === "" || res.bairro === undefined}>{res.bairro}</TableBody>
+                                <TableBody empty={res.cidade === "" || res.cidade === undefined}>{res.cidade}</TableBody>
+                                <TableBody empty={res.estado === "" || res.estado === undefined}>{res.estado}</TableBody>
+                                <TableBody empty={res.cep === "" || res.cep === undefined}>{res.cep}</TableBody>
                             </tr>
                             <tr>
                                 <th>estado Cívil</th>
@@ -60,10 +60,10 @@ const ContracTableBodyata = () => {
                                 <th>nascimento Aluno</th>
                             </tr>
                             <tr>
-                                <TableBody empty={res.estadoCivil === ""}>{res.estadoCivil}</TableBody>
-                                <TableBody empty={res.profissao === ""}>{res.profissao}</TableBody>
-                                <TableBody empty={res.nomeAluno === ""}>{res.nomeAluno}</TableBody>
-                                <TableBody empty={res.nascimentoAluno === ""}>{res.nascimentoAluno}</TableBody>
+                                <TableBody empty={res.estadoCivil === "" || res.estadoCivil === undefined}>{res.estadoCivil}</TableBody>
+                                <TableBody empty={res.profissao === "" || res.profissao === undefined}>{res.profissao}</TableBody>
+                                <TableBody empty={res.nomeAluno === "" || res.nomeAluno === undefined}>{res.nomeAluno}</TableBody>
+                                <TableBody empty={res.nascimentoAluno === "" || res.nascimentoAluno === undefined}>{res.nascimentoAluno}</TableBody>
                             </tr>
 
 
@@ -79,13 +79,13 @@ const ContracTableBodyata = () => {
 
                             </tr>
                             <tr>
-                                <TableBody empty={res.unidade === ""}>{res.unidade}</TableBody>
-                                <TableBody empty={res.formato === ""}>{res.formato}</TableBody>
-                                <TableBody empty={res.subclasse === ""}>{res.subclasse}</TableBody>
-                                <TableBody empty={res.cargaHoraria === ""}>{res.cargaHoraria}</TableBody>
-                                <TableBody empty={res.paDATA === ""}>{res.paDATA}</TableBody>
-                                <TableBody empty={res.tipoModalidade === ""}>{res.tipoModalidade}</TableBody>
-                                <TableBody empty={res.classe === ""}>{res.classe}</TableBody>
+                                <TableBody empty={res.unidade === "" || res.unidade === undefined}>{res.unidade}</TableBody>
+                                <TableBody empty={res.formato === "" || res.formato === undefined}>{res.formato}</TableBody>
+                                <TableBody empty={res.subclasse === "" || res.subclasse === undefined}>{res.subclasse}</TableBody>
+                                <TableBody empty={res.cargaHoraria === "" || res.cargaHoraria === undefined}>{res.cargaHoraria}</TableBody>
+                                <TableBody empty={res.paDATA === "" || res.paDATA === undefined}>{res.paDATA}</TableBody>
+                                <TableBody empty={res.tipoModalidade === "" || res.tipoModalidade === undefined}>{res.tipoModalidade}</TableBody>
+                                <TableBody empty={res.classe === "" || res.classe === undefined}>{res.classe}</TableBody>
                             </tr>
 
 
@@ -102,13 +102,13 @@ const ContracTableBodyata = () => {
                             </tr>
                             <tr>
 
-                                <TableBody empty={res.dataPrimeiraParcelaMensalidade === ""}>{res.dataPrimeiraParcelaMensalidade}</TableBody>
-                                <TableBody empty={res.dataUltimaParcelaMensalidade === ""}>{res.dataUltimaParcelaMensalidade}</TableBody>
-                                <TableBody empty={res.descontoTotal === ""}>R$ {res.descontoTotal}</TableBody>
-                                <TableBody empty={res.descontoPorParcela === ""}>R$ {res.descontoPorParcela}</TableBody>
-                                <TableBody empty={res.valorMensalidade === ""}>R$ {res.valorMensalidade}</TableBody>
+                                <TableBody empty={res.dataPrimeiraParcelaMensalidade === "" || res.dataPrimeiraParcelaMensalidade === undefined}>{res.dataPrimeiraParcelaMensalidade}</TableBody>
+                                <TableBody empty={res.dataUltimaParcelaMensalidade === "" || res.dataUltimaParcelaMensalidade === undefined}>{res.dataUltimaParcelaMensalidade}</TableBody>
+                                <TableBody empty={res.descontoTotal === "" || res.descontoTotal === undefined}>R$ {res.descontoTotal}</TableBody>
+                                <TableBody empty={res.descontoPorParcela === "" || res.descontoPorParcela === undefined}>R$ {res.descontoPorParcela}</TableBody>
+                                <TableBody empty={res.valorMensalidade === "" || res.valorMensalidade === undefined}>R$ {res.valorMensalidade}</TableBody>
                                 <TableBody >R$ {parseFloat(parseInt(res.valorMensalidade) - parseInt(res.descontoPorParcela))}</TableBody>
-                                <TableBody empty={res?.valorCurso === ""} >R$ {res?.valorCurso}</TableBody>
+                                <TableBody empty={res?.valorCurso === "" || res.valorCurso === undefined} >R$ {res?.valorCurso}</TableBody>
                             </tr>
                             <tr>
                                 <th>Número de Parcelas</th>
@@ -117,10 +117,10 @@ const ContracTableBodyata = () => {
                                 <th>testemunha 2</th>
                             </tr>
                             <tr>
-                                <TableBody empty={res.numeroParcelas === ""}>{res.numeroParcelas}</TableBody>
-                                <TableBody empty={res.diaVenvimento === ""}>{res.diaVenvimento}</TableBody>
-                                <TableBody empty={res.testemunha1 === ""}>{res.testemunha1}</TableBody>
-                                <TableBody empty={res.testemunha2 === ""}>{res.testemunha2}</TableBody>
+                                <TableBody empty={res.numeroParcelas === "" || res.numeroParcelas === undefined}>{res.numeroParcelas}</TableBody>
+                                <TableBody empty={res.diaVenvimento === "" || res.diaVenvimento === undefined}>{res.diaVenvimento}</TableBody>
+                                <TableBody empty={res.testemunha1 === "" || res.testemunha1 === undefined}>{res.testemunha1}</TableBody>
+                                <TableBody empty={res.testemunha2 === "" || res.testemunha2 === undefined}>{res.testemunha2}</TableBody>
 
 
                             </tr>

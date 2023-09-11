@@ -14,10 +14,6 @@ const Header = (parsed) => {
     const [open, setOpen] = useState(false)
     const [user, setUser] = React.useState()
 
-
-    console.log(parsed.open)
-
-
     const location = useLocation()
 
     function unLog() {
