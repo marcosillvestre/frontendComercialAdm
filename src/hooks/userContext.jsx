@@ -58,6 +58,7 @@ export const UserProvider = ({ children }) => {
                     setFetchData(info.data)
                 }).catch(err => {
                     if (err.status === 401) {
+                        window.location.href = "/"
                         throw new alert("Sessão expirada")
                     }
                 })

@@ -12,7 +12,6 @@ import TableRow from '@mui/material/TableRow';
 
 import { Row } from '../../components/table';
 
-
 import { useUser } from '../../hooks/userContext';
 
 import TransitionsModal from '../../components/modal';
@@ -25,11 +24,8 @@ const ListFiltered = () => {
 
     const [month, setMonth] = useState('todos')
     const [name, setName] = useState('todos')
-    // const [tm, setTm] = useState('')
     const [sellers, setSeller] = useState()
-    // const [comission, setComission] = useState()
     const [unity, setUnity] = useState('todos')
-
 
     const filteredForDate = fetchData?.filter(res => res.dataMatricula.split("/")[1] === month)
     const filteredForName = fetchData?.filter(res => res.owner.toLowerCase().includes(name.toLowerCase()))
@@ -47,8 +43,6 @@ const ListFiltered = () => {
     const fetchForAdmByMonth = fetchData?.filter(res => res.unidade.includes(userData.unity) && res.dataMatricula.split("/")[1] === month)
     const fetchForAdmByMonthAndName = fetchData?.filter(res => res.unidade.includes(userData.unity) && res.dataMatricula.split("/")[1] === month && res.owner.toLowerCase().includes(name))
     const fetchForAdmAllMonthButSomeName = fetchData?.filter(res => res.unidade.includes(userData.unity) && res.owner.toLowerCase().includes(name))
-
-
 
     function searchButton() {
         if (userData.role !== 'comercial') {
@@ -111,6 +105,8 @@ const ListFiltered = () => {
         }
 
         getSellers()
+
+
     }, [headers, userData.token])
 
 

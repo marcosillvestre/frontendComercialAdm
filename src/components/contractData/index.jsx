@@ -12,7 +12,7 @@ const ContracTableBodyata = () => {
                 filteredContracts?.length > 0 ? filteredContracts.map(res => (
                     <table key={res.contrato}>
                         <tbody key={res.contrato}>
-                            <tr><b>Pessoal:</b></tr>
+                            <tr style={{ fontWeight: 'bold' }}>Pessoal:</tr>
                             <tr>
                                 <th>Nome</th>
                                 <th>Email</th>
@@ -67,13 +67,13 @@ const ContracTableBodyata = () => {
                             </tr>
 
 
-                            <tr><b>Pedagógico:</b></tr>
+                            <tr style={{ fontWeight: 'bold' }}>Pedagógico:</tr>
                             <tr>
                                 <th>Unidade</th>
                                 <th>formato</th>
                                 <th>Subclasse</th>
                                 <th>Carga Horária</th>
-                                <th>PA Data</th>
+                                <th>PA. Data</th>
                                 <th>Tipo/Modalidade</th>
                                 <th>Classe</th>
 
@@ -89,7 +89,7 @@ const ContracTableBodyata = () => {
                             </tr>
 
 
-                            <tr><b>Financeiro:</b></tr>
+                            <tr style={{ fontWeight: 'bold' }}>Financeiro:</tr>
 
                             <tr>
                                 <th>Primeira Parcela</th>
@@ -113,15 +113,11 @@ const ContracTableBodyata = () => {
                             <tr>
                                 <th>Número de Parcelas</th>
                                 <th>Dia Vencimento</th>
-                                <th>testemunha 1</th>
-                                <th>testemunha 2</th>
+
                             </tr>
                             <tr>
                                 <TableBody empty={res.numeroParcelas === "" || res.numeroParcelas === undefined}>{res.numeroParcelas}</TableBody>
                                 <TableBody empty={res.diaVenvimento === "" || res.diaVenvimento === undefined}>{res.diaVenvimento}</TableBody>
-                                <TableBody empty={res.testemunha1 === "" || res.testemunha1 === undefined}>{res.testemunha1}</TableBody>
-                                <TableBody empty={res.testemunha2 === "" || res.testemunha2 === undefined}>{res.testemunha2}</TableBody>
-
 
                             </tr>
 

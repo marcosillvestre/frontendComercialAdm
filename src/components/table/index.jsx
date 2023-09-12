@@ -78,7 +78,7 @@ export function Row(props) {
 
     return (
         <React.Fragment>
-            <RowTable sx={{ '& > *': { borderBottom: 'unset' } }} validated={row.dataValidacao === ''} openned={open}>
+            <RowTable sx={{ '& > *': { borderBottom: 'unset' } }} validated={row.dataValidacao === '' && true} openned={open && true}>
 
                 <TableCell>
                     <IconButton

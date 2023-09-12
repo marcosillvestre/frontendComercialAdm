@@ -116,46 +116,50 @@ const Contracts = () => {
     }
 
     async function senderImpressContract() {
-        if (filteredContracts?.length > 0) {
-
-            const obj = filteredContracts[0]
-            obj["dataEmissao"] = date.toLocaleDateString()
-            let desc = obj["descontoPorParcela"].split(',')
-
-            obj["valorParcelaDataCerta"] = parseFloat(obj["valorParcela"]) - parseFloat(`${desc[0]}.${desc[1]}`)
-            obj["descontoParcelaDataCorreta"] = obj["valorParcelaDataCerta"].toFixed(2)
-            obj["diaVencimento"] = obj["diaVenvimento"].split("/")[0]
-
-
-            let link
-
-            if (userData.role === 'gerencia') {
-                link = webhookGerenteImpresso
-            }
-
-            if (userData.role === 'comercial') {
-                if (userData.name.toLowerCase().includes("aracelly")) {
-                    link = webhookVendedora1Impresso
-                }
-                if (userData.name.toLowerCase().includes("sophia")) {
-                    link = webhookVendedora2Impresso
-                }
-            }
-            if (userData.role === 'direcao') {
-                link = webhookPrincipalImpresso
-            }
-            if (userData.role === 'administrativo') {
-                link = webhookAdministrativoImpresso
-            }
-
-            await axios.post(link, obj)
-                .then(res => {
-                    alert(res.data)
-                })
-
-            contaAzulSender()
+        if (filteredContracts[0].email === null || filteredContracts[0].email === undefined) {
+            alert("O campo de Email do cliente está em branco!")
         } else {
-            alert("Não tem ninguém escolhido para emitir o contrato, você precisa escolher alguém!")
+            if (filteredContracts?.length > 0) {
+
+                const obj = filteredContracts[0]
+                obj["dataEmissao"] = date.toLocaleDateString()
+                let desc = obj["descontoPorParcela"].split(',')
+
+                obj["valorParcelaDataCerta"] = parseFloat(obj["valorParcela"]) - parseFloat(`${desc[0]}.${desc[1]}`)
+                obj["descontoParcelaDataCorreta"] = obj["valorParcelaDataCerta"].toFixed(2)
+                obj["diaVencimento"] = obj["diaVenvimento"].split("/")[0]
+
+
+                let link
+
+                if (userData.role === 'gerencia') {
+                    link = webhookGerenteImpresso
+                }
+
+                if (userData.role === 'comercial') {
+                    if (userData.name.toLowerCase().includes("aracelly")) {
+                        link = webhookVendedora1Impresso
+                    }
+                    if (userData.name.toLowerCase().includes("sophia")) {
+                        link = webhookVendedora2Impresso
+                    }
+                }
+                if (userData.role === 'direcao') {
+                    link = webhookPrincipalImpresso
+                }
+                if (userData.role === 'administrativo') {
+                    link = webhookAdministrativoImpresso
+                }
+
+                await axios.post(link, obj)
+                    .then(res => {
+                        alert(res.data)
+                    })
+
+                contaAzulSender()
+            } else {
+                alert("Não tem ninguém para emitir o contrato, você precisa escolher alguém!")
+            }
         }
     }
 
