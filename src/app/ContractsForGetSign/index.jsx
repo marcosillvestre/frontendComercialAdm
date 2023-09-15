@@ -1,8 +1,8 @@
 import React from 'react'
 
-import axios from 'axios'
 import ContractData from '../../components/contractData'
 import MiniDrawer from '../../components/sideBar'
+import SureSendModal from '../../components/sureSendModal'
 import { useUser } from '../../hooks/userContext'
 import URI from '../utils/utils'
 import { Box, Button, Container, SendContract } from './styles'
@@ -10,28 +10,13 @@ import { Box, Button, Container, SendContract } from './styles'
 const Contracts = () => {
     const [emmit, setEmmit] = React.useState(false)
 
-    const webhookGerente = "https://hook.us1.make.com/36kd4bq6u7n66flns4gbzshehem5fw7l"
-    const webhookGerenteImpresso = "https://hook.us1.make.com/e3hnjh27wp6in88nxulgqwmda4dr4tol"
+    const { contracts, headers, setContracts, userData, setFilteredContracts, logOut } = useUser()
 
-    const webhookVendedora1 = "https://hook.us1.make.com/oawrexoyph599vfsb6319q290dnag45d"
-    const webhookVendedora1Impresso = "https://hook.us1.make.com/b2yule57cpdg0t8hxuf7ofhj1lrcm6rj"
-
-    const webhookVendedora2 = "https://hook.us1.make.com/zk795dt1no3oaypygq048x84bao0smdr"
-    const webhookVendedora2Impresso = "https://hook.us1.make.com/tve9e0v23qlguiqhqfyd894jplvamrq1"
-
-    // const webhookVendedora3 = "https://hook.us1.make.com/2aa3stdmay5vcat5pla5nuy4ubcdv91e"
-    // const webhookVendedora4 = "https://hook.us1.make.com/89stu7vdp6dxocgl837ekvw1z9mgafdb"
-
-    const webhookPrincipal = "https://hook.us1.make.com/ghzwtbkkjlkzfhdg3qiysocrfmhr2ucx"
-    const webhookPrincipalImpresso = "https://hook.us1.make.com/u5dh3xbxpzbexvnd9bvu1mzfym3nx87r"
-
-    const webhookAdministrativo = "https://hook.us1.make.com/hpqek8mfkdd4nqexrrwp8k6ytojdlodn"
-    const webhookAdministrativoImpresso = "https://hook.us1.make.com/7vkxorul0jiegksx2xgoo8bm86l0mqyj"
-
-
-    const { contracts, headers, setContracts, userData, filteredContracts, setFilteredContracts, logOut } = useUser()
-
-    const date = new Date()
+    const personalText = {
+        googleDrive: "Ao emitir pelo Google drive você poderá encontra-lo apenas em sua pasta do drive para impressão, ele também será enviado ao Conta Azul!",
+        autentique: "Ao enviar um contrato via Autentique você pode encontra-lo no Google Drive, ele também será enviado ao Conta Azul!",
+        contaAzul: "Ao enviar um contrato ao Conta Azul ele somente estará disponível no Conta Azul!"
+    }
 
     async function data(e) {
         if (e.length !== 0) {
@@ -70,114 +55,6 @@ const Contracts = () => {
     }
 
 
-    async function senderContract() {
-        if (filteredContracts?.length > 0) {
-
-            const obj = filteredContracts[0]
-            obj["dataEmissao"] = date.toLocaleDateString()
-            let desc = obj["descontoPorParcela"].split(',')
-
-            obj["valorParcelaDataCerta"] = parseFloat(obj["valorParcela"]) - parseFloat(`${desc[0]}.${desc[1]}`)
-            obj["descontoParcelaDataCorreta"] = obj["valorParcelaDataCerta"].toFixed(2)
-            obj["diaVencimento"] = obj["diaVenvimento"].split("/")[0]
-
-            let link
-
-            if (userData.role === 'gerencia') {
-                link = webhookGerente
-            }
-
-            if (userData.role === 'comercial') {
-                if (userData.name.toLowerCase().includes("aracelly")) {
-                    link = webhookVendedora1
-                }
-
-                if (userData.name.toLowerCase().includes("sophia")) {
-                    link = webhookVendedora2
-                }
-
-            }
-            if (userData.role === 'direcao') {
-                link = webhookPrincipal
-            }
-            if (userData.role === 'administrativo') {
-                link = webhookAdministrativo
-            }
-
-            await axios.post(link, obj)
-                .then(res => {
-                    alert(res.data)
-                })
-
-            contaAzulSender()
-        } else {
-            alert("Não tem ninguém escolhido para emitir o contrato, você precisa escolher alguém!")
-        }
-    }
-
-    async function senderImpressContract() {
-        if (filteredContracts[0].email === null || filteredContracts[0].email === undefined) {
-            alert("O campo de Email do cliente está em branco!")
-        } else {
-            if (filteredContracts?.length > 0) {
-
-                const obj = filteredContracts[0]
-                obj["dataEmissao"] = date.toLocaleDateString()
-                let desc = obj["descontoPorParcela"].split(',')
-
-                obj["valorParcelaDataCerta"] = parseFloat(obj["valorParcela"]) - parseFloat(`${desc[0]}.${desc[1]}`)
-                obj["descontoParcelaDataCorreta"] = obj["valorParcelaDataCerta"].toFixed(2)
-                obj["diaVencimento"] = obj["diaVenvimento"].split("/")[0]
-
-
-                let link
-
-                if (userData.role === 'gerencia') {
-                    link = webhookGerenteImpresso
-                }
-
-                if (userData.role === 'comercial') {
-                    if (userData.name.toLowerCase().includes("aracelly")) {
-                        link = webhookVendedora1Impresso
-                    }
-                    if (userData.name.toLowerCase().includes("sophia")) {
-                        link = webhookVendedora2Impresso
-                    }
-                }
-                if (userData.role === 'direcao') {
-                    link = webhookPrincipalImpresso
-                }
-                if (userData.role === 'administrativo') {
-                    link = webhookAdministrativoImpresso
-                }
-
-                await axios.post(link, obj)
-                    .then(res => {
-                        alert(res.data)
-                    })
-
-                contaAzulSender()
-            } else {
-                alert("Não tem ninguém para emitir o contrato, você precisa escolher alguém!")
-            }
-        }
-    }
-
-    async function contaAzulSender() {
-        console.log('first')
-        const data = {
-            "name": `${filteredContracts[0].name}`
-        }
-        await axios.post("https://connection-with-conta-azul-rbv6l.ondigitalocean.app/cadastros", data)
-            .then((res) => {
-                console.log(res)
-                if (res.status === 200) {
-                    alert(res.data.message)
-                }
-            })
-    }
-
-
     return (
 
         <Container>
@@ -210,12 +87,14 @@ const Contracts = () => {
             <span className='emmit'>
                 <Button open={emmit} onClick={() => setEmmit(!emmit)}>Emitir Contrato </Button>
                 <Box emmit={emmit} >
-                    <SendContract onClick={() => senderContract()}> Online</SendContract>
-                    <SendContract onClick={() => senderImpressContract()}> Impresso</SendContract>
+                    <SendContract> <SureSendModal data={"Autentique"} text={personalText.autentique} /></SendContract>
+                    <SendContract> <SureSendModal data={"Google Drive"} text={personalText.googleDrive} /></SendContract>
+                    <SendContract> <SureSendModal data={"Conta Azul"} text={personalText.contaAzul} /></SendContract>
                 </Box>
             </span>
         </Container>
     )
+
 }
 
 export default Contracts

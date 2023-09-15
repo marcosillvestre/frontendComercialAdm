@@ -87,7 +87,7 @@ export const Button = styled.div`
         position: absolute;
         transform: ${props => props.open ? "rotate(135deg)" : "rotate(45deg)"};
         right:${props => props.open ? "8%" : "11%"};
-        bottom: ${props => props.open ? "80%" : "50%"};
+        bottom: ${props => props.open ? "86%" : "50%"};
     }
     &::before{
         content: "";
@@ -98,7 +98,7 @@ export const Button = styled.div`
         position: absolute;
         transform: ${props => props.open ? "rotate(45deg)" : "rotate(135deg)"};
         right: 8%;
-        bottom: ${props => props.open ? "80%" : "50%"};
+        bottom: ${props => props.open ? "86%" : "50%"};
 
     }
     &:hover{
