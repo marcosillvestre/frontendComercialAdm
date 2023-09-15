@@ -206,7 +206,7 @@ export default function SureSendModal(data) {
 
                         {data.data !== 'Conta Azul' &&
                             <Boxes>
-                                <input type="checkbox" onClick={() => setSend(!send)} />
+                                <input type="checkbox" onClick={() => setSend(!send)} className='check' />
                                 <small>Não enviar este contrato ao Conta Azul</small>
                             </Boxes>
                         }

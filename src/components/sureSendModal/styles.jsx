@@ -24,7 +24,12 @@ justify-content: center;
 background-color: #fff;
 align-items: center;
 justify-content: ${props => props.radio ? "center" : "left"};
-gap: 1rem;
+gap: .1rem;
+
+.check{
+    width: 3rem;
+    height: 1rem;
+}
 `
 
 export const ButtonDelete = styled.button`
