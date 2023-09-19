@@ -9,7 +9,7 @@ const Home = () => {
     return (
         <>
             {location.pathname === '/' && <Login />}
-            {location.pathname === 'controle-comercial' && <Control />}
+            {location.pathname === '/controle-comercial' && <Control />}
         </>
     )
 }
