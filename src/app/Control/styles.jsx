@@ -89,6 +89,16 @@ background: none;
 }
 
 `
+export const NothingHere = styled.div`
+position: absolute;
+right: 40%;
+top: 40%;
+display: grid;
+font-size: 1.6rem;
 
-
-
+&::after{
+    content: "😢" ;
+    width: 20rem;
+    font-size: 2.6rem;
+}
+`

@@ -1,6 +1,6 @@
 
 import { memo, useEffect, useState } from 'react';
-import { Container, Filter, SearchButton, Tax } from './styles';
+import { Container, Filter, NothingHere, SearchButton, Tax } from './styles';
 
 import { TableBody } from '@mui/material';
 import Paper from '@mui/material/Paper';
@@ -109,7 +109,7 @@ const ListFiltered = () => {
 
     }, [headers, userData.token])
 
-
+    console.log(filtered)
     return (
         <>
             <Container>
@@ -172,7 +172,7 @@ const ListFiltered = () => {
                             </TableHead>
                             <TableBody >
                                 {
-                                    filtered && filtered.map((row) => (
+                                    filtered?.length < 1 || filtered === undefined ? <NothingHere style={{ textAlign: "center" }}>Nada aqui ainda</NothingHere> : filtered.map((row) => (
                                         <Row key={row.contrato} row={row} />
                                     ))
                                 }

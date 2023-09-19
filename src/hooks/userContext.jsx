@@ -57,7 +57,7 @@ export const UserProvider = ({ children }) => {
                 .then(async info => {
                     setFetchData(info.data)
                 }).catch(err => {
-                    if (err.status === 401) {
+                    if (err.data.error === 'token invalid') {
                         window.location.href = "/"
                         throw new alert("Sessão expirada")
                     }
