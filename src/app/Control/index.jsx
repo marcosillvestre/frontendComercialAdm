@@ -109,7 +109,6 @@ const ListFiltered = () => {
 
     }, [headers, userData.token])
 
-    console.log(filtered)
     return (
         <>
             <Container>
@@ -138,7 +137,7 @@ const ListFiltered = () => {
                         <Filter onChange={(e) => setName(e.target.value)}>
                             <option value="todos">Todos</option>
                             {sellers && sellers.map(res => (
-                                <option key={res.id} value={res.name}><p>{res.name}</p></option>
+                                <option key={res.id} value={res.name}>{res.name}</option>
                             ))}
 
                         </Filter>

@@ -25,8 +25,8 @@ export function Row(props) {
                     {
                         row?.unity.length >= 1 ?
                             row?.unity.map(r => (
-                                <p key={r}>{r}</p>
-                            )) : <p>Todas</p>
+                                <td key={r}>{r}</td>
+                            )) : <td>Todas</td>
                     }
                 </TableCell>
                 <TableCell align="right">{row?.role}</TableCell>

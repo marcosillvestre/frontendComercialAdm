@@ -76,10 +76,10 @@ box-shadow: -2px 3px 9px 0px rgba(0,0,0,0.66);
 
 `
 
-export const Signs = styled.span`
-div{
-width: 15rem;
+export const Signs = styled.td`
+td{
 display: flex;
+flex-wrap: wrap;
 }
 `
 export const Input = styled.input`

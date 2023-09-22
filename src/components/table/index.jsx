@@ -20,6 +20,18 @@ export function Row(props) {
     const { headers, userData } = useUser()
     const { row } = props;
 
+    // console.log(new Date(new Date(row.fimContrato) - new Date(row.inicioContrato)))
+    const start = row.inicioContrato.split("/")
+    const end = row.fimContrato.split("/")
+
+
+    var data2 = new Date(`${end[2]}-${end[1]}-${end[0]}`); // Use o formato "AAAA-MM-DD"
+    var data1 = new Date(`${start[2]}-${start[1]}-${start[0]}`);
+
+    // Calcule a diferença em meses
+    var diferencaEmMeses = (data2.getFullYear() - data1.getFullYear()) * 12 + (data2.getMonth() - data1.getMonth());
+
+
     const [open, setOpen] = React.useState(false);
     const [open1, setOpen1] = React.useState(false);
     const [open2, setOpen2] = React.useState(false);
@@ -156,78 +168,78 @@ export function Row(props) {
                                         <TableCell >
                                             {
                                                 userData.role === 'comercial' ?
-                                                    <p>{row?.acStatus}</p>
+                                                    <td>{row?.acStatus}</td>
                                                     :
-                                                    <div style={{ display: "flex" }}>
+                                                    <td style={{ display: "flex" }}>
                                                         <Select defaultValue={row?.acStatus} onChange={(e) => Changer("acStatus", e.target.value, row?.contrato)}>
                                                             <option value="pendente">Pendente</option>
                                                             <option value="ok">Ok</option>
                                                             <option value="nao">Não</option>
                                                         </Select>
 
-                                                    </div>
+                                                    </td>
                                             }
                                         </TableCell>
 
                                         <TableCell >
                                             {userData.role === 'comercial' ?
-                                                <p>{row?.tmStatus}</p>
+                                                <td>{row?.tmStatus}</td>
                                                 :
-                                                <div style={{ display: "flex" }}>
+                                                <td style={{ display: "flex" }}>
                                                     <Select defaultValue={row?.tmStatus} onChange={(e) => Changer("tmStatus", e.target.value, row?.contrato)}>
                                                         <option value="pendente">Pendente</option>
                                                         <option value="ok">Ok</option>
                                                         <option value="nao">Não</option>
                                                     </Select>
 
-                                                </div>
+                                                </td>
                                             }
                                         </TableCell>
 
                                         <TableCell align="left">
                                             {
                                                 userData.role === 'comercial' ?
-                                                    <p>{row?.ppStatus}</p>
+                                                    <td>{row?.ppStatus}</td>
                                                     :
-                                                    <div style={{ display: "flex" }}>
+                                                    <td style={{ display: "flex" }}>
                                                         <Select defaultValue={row?.ppStatus} onChange={(e) => Changer("ppStatus", e.target.value, row?.contrato)}>
                                                             <option value="pendente">Pendente</option>
                                                             <option value="ok">Ok</option>
                                                             <option value="nao">Não</option>
                                                         </Select>
 
-                                                    </div>
+                                                    </td>
                                             }
                                         </TableCell>
 
                                         <TableCell align="right">
                                             {
                                                 userData.role === 'comercial' ?
-                                                    <p>{row?.mdStatus}</p>
+                                                    <td>{row?.mdStatus}</td>
                                                     :
-                                                    <div style={{ display: "flex" }}>
+                                                    <td style={{ display: "flex" }}>
                                                         <Select defaultValue={row?.mdStatus} onChange={(e) => Changer("mdStatus", e.target.value, row?.contrato)}>
                                                             <option value="pendente">Pendente</option>
                                                             <option value="ok">Ok</option>
                                                             <option value="nao">Não</option>
                                                         </Select>
 
-                                                    </div>
+                                                    </td>
                                             }
                                         </TableCell>
                                         <TableCell  >
                                             {
                                                 userData.role === 'comercial' ?
-                                                    <p>{row?.paStatus}</p>
+                                                    <td>{row?.paStatus}</td>
                                                     :
-                                                    <div style={{ display: "flex" }}>
+                                                    <td style={{ display: "flex" }}>
                                                         <Select defaultValue={row?.paStatus} onChange={(e) => Changer("paStatus", e.target.value, row?.contrato)}>
                                                             <option value="pendente">Pendente</option>
                                                             <option value="ok">Ok</option>
                                                             <option value="nao">Não</option>
                                                         </Select>
 
-                                                    </div>
+                                                    </td>
                                             }
                                         </TableCell>
                                         <TableCell align="center">
@@ -257,12 +269,12 @@ export function Row(props) {
                                         <TableCell component="th" scope="row"  >
                                             {userData.role === 'comercial' ? "" :
 
-                                                <div style={{ display: "flex", margin: ".5rem 0 " }}>
+                                                <td style={{ display: "flex", margin: ".5rem 0 " }}>
                                                     <Input type="date" onChange={(e) => Changer("dataComissionamento", e.target.value, row?.contrato)} />
 
-                                                </div>}
+                                                </td>}
 
-                                            <p>Atualmente {row?.dataComissionamento}</p>
+                                            <td>Atualmente {row?.dataComissionamento}</td>
 
                                         </TableCell>
                                         <TableCell align="center">
@@ -272,31 +284,31 @@ export function Row(props) {
                                         <TableCell align="center">
                                             {
                                                 userData.role === 'direcao' ?
-                                                    <div style={{ display: "flex" }}>
+                                                    <td style={{ display: "flex" }}>
                                                         <Select defaultValue={row?.aprovacaoDirecao} onChange={(e) => Changer("aprovacaoDirecao", e.target.value, row?.contrato)}>
                                                             <option value="pendente">Pendente</option>
                                                             <option value="ok">Ok</option>
                                                             <option value="nao">Não</option>
                                                         </Select>
 
-                                                    </div>
-                                                    : <p>{row?.aprovacaoDirecao}</p>
+                                                    </td>
+                                                    : <td>{row?.aprovacaoDirecao}</td>
                                             }
                                         </TableCell>
 
                                         <TableCell align="center">
                                             {
                                                 userData.role === 'comercial' ?
-                                                    <p>{row?.aprovacaoADM}</p>
+                                                    <td>{row?.aprovacaoADM}</td>
                                                     :
-                                                    <div style={{ display: "flex" }}>
+                                                    <td style={{ display: "flex" }}>
                                                         <Select defaultValue={row?.aprovacaoADM} onChange={(e) => Changer("aprovacaoADM", e.target.value, row?.contrato)}>
                                                             <option value="pendente">Pendente</option>
                                                             <option value="ok">Ok</option>
                                                             <option value="nao">Não</option>
                                                         </Select>
 
-                                                    </div>}
+                                                    </td>}
                                         </TableCell>
                                         <TableCell align="left"> {row?.owner}</TableCell>
 
@@ -416,35 +428,35 @@ export function Row(props) {
                                                                 res.body3?.signed3 ||
                                                                 res.body4?.signed4 ?
                                                                 <>
-                                                                    <div key={res.body1?.email1}>
+                                                                    <td key={res.body1?.email1}>
                                                                         {
                                                                             res.body1?.signed1 ?
-                                                                                <p>{res.body1?.name1} assinou {res.body1?.signed1} </p>
+                                                                                <td>{res.body1?.name1} assinou {res.body1?.signed1} </td>
                                                                                 : ""
                                                                         }
-                                                                    </div>
-                                                                    <div key={res.body2?.email2}>
+                                                                    </td>
+                                                                    <td key={res.body2?.email2}>
                                                                         {
                                                                             res.body2?.signed2 ?
-                                                                                <p>{res.body2?.name2} assinou {res.body2?.signed2}</p>
+                                                                                <td>{res.body2?.name2} assinou {res.body2?.signed2}</td>
                                                                                 : ""
                                                                         }
-                                                                    </div>
-                                                                    <div key={res.body3?.email3}>
+                                                                    </td>
+                                                                    <td key={res.body3?.email3}>
                                                                         {
                                                                             res.body3?.signed3 ?
-                                                                                <p>{res.body3?.name3} assinou {res.body3?.signed3}</p>
-                                                                                : <p>{res.body3?.name3} ainda não assinou</p>
+                                                                                <td>{res.body3?.name3} assinou {res.body3?.signed3}</td>
+                                                                                : <td>{res.body3?.name3} ainda não assinou</td>
                                                                         }
-                                                                    </div>
-                                                                    <div key={res.body4?.email4}>
+                                                                    </td>
+                                                                    <td key={res.body4?.email4}>
                                                                         {
                                                                             res.body4?.signed4 ?
-                                                                                <p>{res.body4?.name4} assinou {res.body4?.signed4}</p>
-                                                                                : <p>{res.body4?.name4} ainda não assinou</p>
+                                                                                <td>{res.body4?.name4} assinou {res.body4?.signed4}</td>
+                                                                                : <td>{res.body4?.name4} ainda não assinou</td>
                                                                         }
-                                                                    </div>
-                                                                </> : <p>Ninguém assinou ainda</p>
+                                                                    </td>
+                                                                </> : <td>Ninguém assinou ainda</td>
                                                         }
                                                     </Signs>
                                                 ))
@@ -470,8 +482,8 @@ export function Row(props) {
                                             {
                                                 row?.dataAC.map(res => (
                                                     res.body1?.signed1 ?
-                                                        <p key={res}>O Cliente já assinou</p>
-                                                        : <p key={res}>O cliente não assinou ainda</p>
+                                                        <td key={res}>O Cliente já assinou</td>
+                                                        : <td key={res}>O cliente não assinou ainda</td>
                                                 ))
                                             }
 
@@ -480,7 +492,7 @@ export function Row(props) {
                                             {row?.cargaHoraria}
                                         </TableCell>
                                         <TableCell align="right">
-                                            {row?.dataMatricula}
+                                            {diferencaEmMeses} meses
                                         </TableCell>
                                         <TableCell align="right">
                                             {row?.dataValidacao.split("/")[1]}
@@ -559,14 +571,14 @@ export function Row(props) {
                                                         {row?.tmStatus}
                                                     </>
                                                     :
-                                                    <div style={{ display: "flex" }}>
+                                                    <td style={{ display: "flex" }}>
                                                         <Select defaultValue={row?.tmStatus} onChange={(e) => Changer("tmStatus", e.target.value, row?.contrato)}>
                                                             <option value="pendente">Pendente</option>
                                                             <option value="ok">Ok</option>
                                                             <option value="nao">Não</option>
                                                         </Select>
 
-                                                    </div>
+                                                    </td>
                                             }
 
                                         </TableCell>
@@ -576,12 +588,12 @@ export function Row(props) {
                                                     <>Atualmente {row?.tmData}</>
                                                     :
                                                     <>
-                                                        <div style={{ display: "flex", margin: ".5rem 0 " }}>
+                                                        <td style={{ display: "flex", margin: ".5rem 0 " }}>
                                                             <Input type="date" onChange={(e) => Changer("tmData", e.target.value, row?.contrato)} />
 
-                                                        </div>
+                                                        </td>
                                                         {row?.tmData ?
-                                                            <p>Atualmente {row?.tmData}</p> : ""}
+                                                            <td>Atualmente {row?.tmData}</td> : ""}
                                                     </>
                                             }
                                         </TableCell>
@@ -624,9 +636,9 @@ export function Row(props) {
                                         <TableCell align="center">
                                             {
                                                 userData.role === 'comercial' ?
-                                                    <p>{row?.ppStatus}</p>
+                                                    <td>{row?.ppStatus}</td>
                                                     :
-                                                    <div style={{ display: "flex" }}>
+                                                    <td style={{ display: "flex" }}>
                                                         <Select onChange={(e) => Changer("ppStatus", e.target.value, row?.contrato)}>
                                                             <option value="">{row?.ppStatus} </option>
                                                             <option value="pendente">Pendente</option>
@@ -634,21 +646,21 @@ export function Row(props) {
                                                             <option value="nao">Não</option>
                                                         </Select>
 
-                                                    </div>
+                                                    </td>
                                             }
                                         </TableCell>
                                         <TableCell align="right">
                                             {
                                                 userData.role === 'comercial' ?
-                                                    <p>Atualmente {row?.ppData}</p>
+                                                    <td>Atualmente {row?.ppData}</td>
                                                     :
                                                     <>
-                                                        <div style={{ display: "flex", margin: ".5rem 0 " }}>
+                                                        <td style={{ display: "flex", margin: ".5rem 0 " }}>
                                                             <Input type="date" onChange={(e) => Changer("ppData", e.target.value, row?.contrato)} />
 
-                                                        </div>
+                                                        </td>
                                                         {row?.ppData ?
-                                                            <p>Atualmente {row?.ppData}</p> : ""}
+                                                            <td>Atualmente {row?.ppData}</td> : ""}
                                                     </>
                                             }
                                         </TableCell>
@@ -693,14 +705,14 @@ export function Row(props) {
                                                 userData.role === 'comercial' ?
                                                     <>{row?.mdStatus}</>
                                                     :
-                                                    <div style={{ display: "flex" }}>
+                                                    <td style={{ display: "flex" }}>
                                                         <Select defaultValue={row?.mdStatus} onChange={(e) => Changer("mdStatus", e.target.value, row?.contrato)}>
                                                             <option value="pendente">Pendente</option>
                                                             <option value="ok">Ok</option>
                                                             <option value="nao">Não</option>
                                                         </Select>
 
-                                                    </div>
+                                                    </td>
                                             }
                                         </TableCell>
                                         <TableCell align="center">
@@ -709,12 +721,12 @@ export function Row(props) {
                                                     <>Atualmente {row?.mdData}</>
                                                     :
                                                     <>
-                                                        <div style={{ display: "flex", margin: ".5rem 0 " }}>
+                                                        <td style={{ display: "flex", margin: ".5rem 0 " }}>
                                                             <Input type="date" onChange={(e) => Changer("mdData", e.target.value, row?.contrato)} />
 
-                                                        </div>
+                                                        </td>
                                                         {row?.mdData ?
-                                                            <p>Atualmente {row?.mdData}</p> : ""}
+                                                            <td>Atualmente {row?.mdData}</td> : ""}
                                                     </>
                                             }
                                         </TableCell>
@@ -835,13 +847,13 @@ export function Row(props) {
                                             {row?.subclasse}
                                         </TableCell>
                                         <TableCell align="right">
-                                            {row?.materialDidatico.map(res => (<p key={res}>{res}</p>))}
+                                            {row?.materialDidatico.map(res => (<td key={res}>{res}</td>))}
                                         </TableCell>
                                         <TableCell align="center">
                                             {row?.nivelamento}
                                         </TableCell>
                                         <TableCell align="right">
-                                            {row?.diaAula.map(res => (<p key={res}>{res}</p>))}
+                                            {row?.diaAula.map(res => (<td key={res}>{res}</td>))}
                                         </TableCell>
 
                                     </TableRow>

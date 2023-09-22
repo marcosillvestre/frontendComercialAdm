@@ -4,6 +4,22 @@ export const Container = styled.main`
 margin: 1rem auto;
 max-width: 80vw ;
 
+table, th, tr, thead{
+    border: 1px solid #222;
+    padding: .5rem .2rem;
+}
+table{
+    border-radius: .5rem;
+
+}
+
+th{
+    font-size: .8rem;
+    font-weight: bolder;
+    &::first-letter{
+        text-transform: uppercase;
+    }
+}
 
 details{
  border: 0.125em solid #1976d2; ;
@@ -22,4 +38,7 @@ export const TableBody = styled.td`
 background-color: ${props => props.empty && "#f13434"};
 border: 1px solid #222;
 padding: .5rem .2rem;
+font-weight: lighter;
+font-size: small;
+text-align: center;
 `

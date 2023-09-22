@@ -169,15 +169,12 @@ export default function SureSendModal(data) {
 
         if (data.data === 'Conta Azul') {
             contaAzulSender()
-            console.log("third")
         }
         if (data.data === 'Google Drive') {
             senderImpressContract()
-            console.log("first")
         }
         if (data.data === 'Autentique') {
             senderContract()
-            console.log("seccond")
         }
 
     }
