@@ -1,4 +1,5 @@
 import DeleteIcon from '@mui/icons-material/Delete';
+import { TableBody, TableHead } from '@mui/material';
 import TableRow from '@mui/material/TableRow';
 import styled from "styled-components";
 
@@ -7,6 +8,18 @@ export const RowTable = styled(TableRow)`
 
 background-color: ${props => props.validated ? "" : "#90d5995a"};
 background-color: ${props => props.openned && "#f5f5f5"};
+
+border-left: .2rem solid #4648da;
+border-right: .2rem solid #4648da;
+`
+export const BodyTable = styled(TableBody)`
+border-left: .1rem solid #16207421;
+/* border-right: .1rem solid #16207421; */
+
+`
+export const HeadTable = styled(TableHead)`
+font-weight: bold;
+height: 3rem;
 
 `
 
@@ -34,7 +47,7 @@ width: 25rem;
 export const Select = styled.select`
 border: none;
 padding: .4rem;
-width: 5rem;
+/* width: 5rem; */
 border-radius: .6rem ;
 box-shadow: -2px 2px 9px 0px rgba(0,0,0,0.66);
 text-overflow: ellipsis;
@@ -72,7 +85,7 @@ display: flex;
 export const Input = styled.input`
 border: none;
 padding: .4rem;
-width: 5rem;
+width: 8rem;
 border-radius: .6rem ;
 box-shadow: -2px 3px 9px 0px rgba(0,0,0,0.66);
 text-overflow: ellipsis;

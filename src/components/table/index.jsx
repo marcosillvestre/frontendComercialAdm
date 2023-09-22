@@ -6,9 +6,9 @@ import TableRow from '@mui/material/TableRow';
 import PropTypes from 'prop-types';
 import * as React from 'react';
 
-import { Collapse, TableBody, TableHead } from '@mui/material';
+import { Collapse } from '@mui/material';
 import { toast } from 'react-toastify';
-import { Button, Input, RowTable, Select, Signs, Text } from './styles';
+import { BodyTable, Button, HeadTable, Input, RowTable, Select, Signs, Text } from './styles';
 
 
 import URI from '../../app/utils/utils';
@@ -16,39 +16,42 @@ import { useUser } from '../../hooks/userContext';
 import SureModal from '../sureModal';
 
 export function Row(props) {
+
     const { headers, userData } = useUser()
     const { row } = props;
+
     const [open, setOpen] = React.useState(false);
     const [open1, setOpen1] = React.useState(false);
     const [open2, setOpen2] = React.useState(false);
     const [open3, setOpen3] = React.useState(false);
     const [open4, setOpen4] = React.useState(false);
     const [open5, setOpen5] = React.useState(false);
+    const [open6, setOpen6] = React.useState(false);
 
-    const [area, setArea] = React.useState('')
     const [value, setValue] = React.useState('')
-    const [id, setId] = React.useState('')
 
 
-
-
-    async function Changer(area, e, id) {
-        setArea(area)
+    const Changer = async (area, e, id) => {
         setValue(e)
-        setId(id)
+
+        if (userData.role !== 'direcao') {
+            area !== 'observacao' && Sender(area, e, id)
+        }
+        if (userData.role === 'direcao') {
+            area !== 'observacao' && SenderDirector(area, e, id)
+        }
     }
 
     const day = new Date()
     const currentDay = day.toLocaleString()
 
-    async function SenderDirector() {
-
+    async function SenderDirector(area, e, id) {
 
         await toast.promise(
             URI.put(`/controle/${id}`,
                 {
                     "area": area,
-                    "value": value,
+                    "value": area !== 'observacao' ? e : value,
                     "day": currentDay,
                 }, { headers }),
             {
@@ -57,30 +60,33 @@ export function Row(props) {
                 error: 'Alguma coisa deu errado'
             }
         )
+
     }
 
-    async function Sender() {
-        await toast.promise(
-            URI.put(`/controle/${id}`,
+    async function Sender(area, e, id) {
+        area !== 'observacao' &&
+
+            await toast.promise(
+                URI.put(`/controle/${id}`,
+                    {
+                        "area": area,
+                        "value": area !== 'observacao' ? e : value,
+                        "responsible": userData.role !== 'direcao' || userData.role !== 'comercial' ? userData.name : ""
+                    }, { headers }),
                 {
-                    "area": area,
-                    "value": value,
-                    "responsible": userData.role !== 'direcao' || userData.role !== 'comercial' ? userData.name : ""
-                }, { headers }),
-            {
-                pending: 'Conferindo os dados',
-                success: 'Atualizado com sucesso',
-                error: 'Alguma coisa deu errado'
-            }
-        )
+                    pending: 'Conferindo os dados',
+                    success: 'Atualizado com sucesso',
+                    error: 'Alguma coisa deu errado'
+                }
+            )
     }
 
 
     return (
         <React.Fragment>
-            <RowTable sx={{ '& > *': { borderBottom: 'unset' } }} validated={row.dataValidacao === '' && true} openned={open && true}>
+            <RowTable validated={row.dataValidacao === '' && true} openned={open && true}>
 
-                <TableCell>
+                <TableCell align='center'>
                     <IconButton
                         aria-label="expand row"
                         size="small"
@@ -91,7 +97,8 @@ export function Row(props) {
                 </TableCell>
 
                 <TableCell component="th" scope="row">{row?.aluno}</TableCell>
-                <TableCell align="right">{row?.name}</TableCell>
+                <TableCell align='right'>curso</TableCell>
+                <TableCell align="center">{row?.name}</TableCell>
                 <TableCell align="right">{row?.unidade}</TableCell>
                 <TableCell align="right">{row?.background}</TableCell>
                 <TableCell align="right">{row?.tipoMatricula}</TableCell>
@@ -131,7 +138,7 @@ export function Row(props) {
                             width: "66rem",
                         }} colSpan={6}>
                             <Collapse style={{ width: "100%", background: open1 ? "#f5f5f5" : "" }} in={open1} timeout="auto" unmountOnExit  >
-                                <TableHead>
+                                <HeadTable>
                                     <TableRow>
                                         <TableCell align="left" style={{ fontWeight: "bold" }}>AC. Status</TableCell>
                                         <TableCell style={{ fontWeight: "bold" }}>TM. Status</TableCell>
@@ -142,8 +149,8 @@ export function Row(props) {
                                         <TableCell align="right" style={{ fontWeight: "bold" }}>Data da Validação</TableCell>
 
                                     </TableRow>
-                                </TableHead>
-                                <TableBody>
+                                </HeadTable>
+                                <BodyTable>
                                     <TableRow key={row?.contrato}>
 
                                         <TableCell >
@@ -152,13 +159,12 @@ export function Row(props) {
                                                     <p>{row?.acStatus}</p>
                                                     :
                                                     <div style={{ display: "flex" }}>
-                                                        <Select onChange={(e) => Changer("acStatus", e.target.value, row?.contrato)}>
-                                                            <option value="">{row?.acStatus} </option>
+                                                        <Select defaultValue={row?.acStatus} onChange={(e) => Changer("acStatus", e.target.value, row?.contrato)}>
                                                             <option value="pendente">Pendente</option>
                                                             <option value="ok">Ok</option>
                                                             <option value="nao">Não</option>
                                                         </Select>
-                                                        <Button onClick={() => userData.role !== 'direcao' ? Sender() : SenderDirector()}> ✔️</Button>
+
                                                     </div>
                                             }
                                         </TableCell>
@@ -168,13 +174,12 @@ export function Row(props) {
                                                 <p>{row?.tmStatus}</p>
                                                 :
                                                 <div style={{ display: "flex" }}>
-                                                    <Select onChange={(e) => Changer("tmStatus", e.target.value, row?.contrato)}>
-                                                        <option value="">{row?.tmStatus} </option>
+                                                    <Select defaultValue={row?.tmStatus} onChange={(e) => Changer("tmStatus", e.target.value, row?.contrato)}>
                                                         <option value="pendente">Pendente</option>
                                                         <option value="ok">Ok</option>
                                                         <option value="nao">Não</option>
                                                     </Select>
-                                                    <Button onClick={() => userData.role !== 'direcao' ? Sender() : SenderDirector()}> ✔️</Button>
+
                                                 </div>
                                             }
                                         </TableCell>
@@ -185,13 +190,12 @@ export function Row(props) {
                                                     <p>{row?.ppStatus}</p>
                                                     :
                                                     <div style={{ display: "flex" }}>
-                                                        <Select onChange={(e) => Changer("ppStatus", e.target.value, row?.contrato)}>
-                                                            <option value="">{row?.ppStatus} </option>
+                                                        <Select defaultValue={row?.ppStatus} onChange={(e) => Changer("ppStatus", e.target.value, row?.contrato)}>
                                                             <option value="pendente">Pendente</option>
                                                             <option value="ok">Ok</option>
                                                             <option value="nao">Não</option>
                                                         </Select>
-                                                        <Button onClick={() => userData.role !== 'direcao' ? Sender() : SenderDirector()}> ✔️</Button>
+
                                                     </div>
                                             }
                                         </TableCell>
@@ -202,13 +206,12 @@ export function Row(props) {
                                                     <p>{row?.mdStatus}</p>
                                                     :
                                                     <div style={{ display: "flex" }}>
-                                                        <Select onChange={(e) => Changer("mdStatus", e.target.value, row?.contrato)}>
-                                                            <option value="">{row?.mdStatus} </option>
+                                                        <Select defaultValue={row?.mdStatus} onChange={(e) => Changer("mdStatus", e.target.value, row?.contrato)}>
                                                             <option value="pendente">Pendente</option>
                                                             <option value="ok">Ok</option>
                                                             <option value="nao">Não</option>
                                                         </Select>
-                                                        <Button onClick={() => userData.role !== 'direcao' ? Sender() : SenderDirector()}> ✔️</Button>
+
                                                     </div>
                                             }
                                         </TableCell>
@@ -218,13 +221,12 @@ export function Row(props) {
                                                     <p>{row?.paStatus}</p>
                                                     :
                                                     <div style={{ display: "flex" }}>
-                                                        <Select onChange={(e) => Changer("paStatus", e.target.value, row?.contrato)}>
-                                                            <option value="">{row?.paStatus} </option>
+                                                        <Select defaultValue={row?.paStatus} onChange={(e) => Changer("paStatus", e.target.value, row?.contrato)}>
                                                             <option value="pendente">Pendente</option>
                                                             <option value="ok">Ok</option>
                                                             <option value="nao">Não</option>
                                                         </Select>
-                                                        <Button onClick={() => userData.role !== 'direcao' ? Sender() : SenderDirector()}> ✔️</Button>
+
                                                     </div>
                                             }
                                         </TableCell>
@@ -236,21 +238,20 @@ export function Row(props) {
                                         </TableCell>
 
                                     </TableRow>
-                                </TableBody>
+                                </BodyTable>
 
-                                <TableHead>
+                                <HeadTable>
                                     <TableRow>
                                         <TableCell style={{ fontWeight: "bold" }}>Data de Comissionamento </TableCell>
                                         <TableCell style={{ fontWeight: "bold" }}>Emissão da Venda</TableCell>
                                         <TableCell align="left" style={{ fontWeight: "bold" }} >ADM. Responsável</TableCell>
                                         <TableCell align="left" style={{ fontWeight: "bold" }}>Status Direção</TableCell>
-                                        <TableCell align="left" style={{ fontWeight: "bold" }}>OBS. Matrícula</TableCell>
                                         <TableCell align="left" style={{ fontWeight: "bold" }}>Aprovação ADM.</TableCell>
                                         <TableCell align="left" style={{ fontWeight: "bold" }}>Vendedor(a)</TableCell>
 
                                     </TableRow>
-                                </TableHead>
-                                <TableBody>
+                                </HeadTable>
+                                <BodyTable>
                                     <TableRow key={row?.contrato}>
 
                                         <TableCell component="th" scope="row"  >
@@ -258,7 +259,7 @@ export function Row(props) {
 
                                                 <div style={{ display: "flex", margin: ".5rem 0 " }}>
                                                     <Input type="date" onChange={(e) => Changer("dataComissionamento", e.target.value, row?.contrato)} />
-                                                    <Button onClick={() => userData.role !== 'direcao' ? Sender() : SenderDirector()}> ✔️</Button>
+
                                                 </div>}
 
                                             <p>Atualmente {row?.dataComissionamento}</p>
@@ -272,45 +273,87 @@ export function Row(props) {
                                             {
                                                 userData.role === 'direcao' ?
                                                     <div style={{ display: "flex" }}>
-                                                        <Select onChange={(e) => Changer("aprovacaoDirecao", e.target.value, row?.contrato)}>
-                                                            <option value="">{row?.aprovacaoDirecao} </option>
+                                                        <Select defaultValue={row?.aprovacaoDirecao} onChange={(e) => Changer("aprovacaoDirecao", e.target.value, row?.contrato)}>
                                                             <option value="pendente">Pendente</option>
                                                             <option value="ok">Ok</option>
                                                             <option value="nao">Não</option>
                                                         </Select>
-                                                        <Button onClick={() => userData.role !== 'direcao' ? Sender() : SenderDirector()}> ✔️</Button>
+
                                                     </div>
                                                     : <p>{row?.aprovacaoDirecao}</p>
                                             }
                                         </TableCell>
-                                        <TableCell align="right" style={{ display: "flex" }}>
-                                            <Button onClick={() => userData.role !== 'direcao' ? Sender() : SenderDirector()}> ✔️</Button>
-                                            <Text cols='3' placeholder={row?.observacao} onChange={(e) => Changer("observacao", e.target.value, row?.contrato)}></Text>
-                                        </TableCell>
+
                                         <TableCell align="center">
                                             {
                                                 userData.role === 'comercial' ?
                                                     <p>{row?.aprovacaoADM}</p>
                                                     :
                                                     <div style={{ display: "flex" }}>
-                                                        <Select onChange={(e) => Changer("aprovacaoADM", e.target.value, row?.contrato)}>
-                                                            <option value="">{row?.aprovacaoADM} </option>
+                                                        <Select defaultValue={row?.aprovacaoADM} onChange={(e) => Changer("aprovacaoADM", e.target.value, row?.contrato)}>
                                                             <option value="pendente">Pendente</option>
                                                             <option value="ok">Ok</option>
                                                             <option value="nao">Não</option>
                                                         </Select>
-                                                        <Button onClick={() => userData.role !== 'direcao' ? Sender() : SenderDirector()}> ✔️</Button>
+
                                                     </div>}
                                         </TableCell>
                                         <TableCell align="left"> {row?.owner}</TableCell>
 
 
                                     </TableRow>
-                                </TableBody>
+                                </BodyTable>
                             </Collapse>
                         </TableCell>
 
 
+
+
+
+
+                        <TableRow style={{ width: "100%", }}>
+                            <TableCell>
+                                <IconButton
+                                    aria-label="expand row"
+                                    size="small"
+                                    onClick={() => setOpen6(!open6)}
+                                >
+                                    {open6 ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                                </IconButton>
+                            </TableCell>
+                            <TableCell style={{ width: "100%" }}>Observaçôes</TableCell>
+                        </TableRow>
+
+                        <TableCell style={{
+                            paddingBottom: 0,
+                            paddingTop: 0,
+                            width: "66rem",
+                        }} colSpan={6}>
+                            <Collapse style={{ width: "100%", background: open6 ? "#f5f5f5" : "" }} in={open6} timeout="auto" unmountOnExit  >
+
+                                <HeadTable>
+                                    <TableRow>
+
+                                        {/* /////////////////////////////////////////////////// */}
+                                        <TableCell align="left" style={{ fontWeight: "bold" }}>OBS. Matrícula</TableCell>
+                                        {/* ////////////////////////////////////////////////// */}
+
+                                    </TableRow>
+                                </HeadTable>
+                                <BodyTable>
+                                    <TableRow key={row?.contrato}>
+                                        {/* ////////////////////////////////////////// */}
+                                        <TableCell align="right" style={{ display: "flex" }}>
+                                            <Button onClick={() => userData.role !== 'direcao' ? Sender("observacao", value, row?.contrato) : SenderDirector("observacao", value, row?.contrato)}> ✔️</Button>
+
+                                            <Text cols='3' placeholder={row?.observacao} onChange={(e) => Changer("observacao", e.target.value, row?.contrato)}></Text>
+                                        </TableCell>
+                                        {/* ///////////////////////////////////////// */}
+
+                                    </TableRow>
+                                </BodyTable>
+                            </Collapse>
+                        </TableCell>
 
 
 
@@ -340,7 +383,7 @@ export function Row(props) {
                             width: "66rem",
                         }} colSpan={6}>
                             <Collapse style={{ background: open2 ? "#f5f5f5" : "" }} in={open2} timeout="auto" unmountOnExit>
-                                <TableHead>
+                                <HeadTable>
                                     <TableRow>
                                         <TableCell style={{ fontWeight: "bold" }}>N°. do Contrato</TableCell>
                                         <TableCell style={{ fontWeight: "bold" }}>Início do Contrato</TableCell>
@@ -349,8 +392,8 @@ export function Row(props) {
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>Data AC.</TableCell>
 
                                     </TableRow>
-                                </TableHead>
-                                <TableBody>
+                                </HeadTable>
+                                <BodyTable>
                                     <TableRow key={row?.contrato}>
 
                                         <TableCell component="th" scope="row" >
@@ -409,17 +452,17 @@ export function Row(props) {
                                         </TableCell>
 
                                     </TableRow>
-                                </TableBody>
+                                </BodyTable>
 
-                                <TableHead>
+                                <HeadTable>
                                     <TableRow>
                                         <TableCell style={{ fontWeight: "bold" }}>Status do Contrato</TableCell>
                                         <TableCell style={{ fontWeight: "bold" }}>Carga Horária</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>Tempo de Contrato</TableCell>
                                         <TableCell align="right" style={{ fontWeight: "bold" }}>Mês/Ano</TableCell>
                                     </TableRow>
-                                </TableHead>
-                                <TableBody>
+                                </HeadTable>
+                                <BodyTable>
                                     <TableRow key={row?.contrato}>
 
                                         <TableCell component="th" scope="row" style={{ display: "grid" }}>
@@ -444,7 +487,7 @@ export function Row(props) {
                                         </TableCell>
 
                                     </TableRow>
-                                </TableBody>
+                                </BodyTable>
                             </Collapse>
                         </TableCell>
 
@@ -476,21 +519,25 @@ export function Row(props) {
                             width: "69rem",
                         }} colSpan={6}>
                             <Collapse style={{ background: open3 ? "#f5f5f5" : "" }} in={open3} timeout="auto" unmountOnExit>
-                                <TableHead>
+                                <HeadTable style={{ display: "flex", alignItems: "center", paddingLeft: "3rem" }}>
+                                    Taxa de Matrícula
+                                </HeadTable>
+
+                                <HeadTable>
                                     <TableRow>
-                                        <TableCell style={{ fontWeight: "bold" }}>TM. Valor</TableCell>
-                                        <TableCell style={{ fontWeight: "bold" }}>TM. Desconto</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }} >TM. Vencimento</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }}>TM. Forma de Pg.</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }}>TM. Parcelas</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Situação TM.</TableCell>
+                                        <TableCell style={{ fontWeight: "bold" }}>Valor</TableCell>
+                                        <TableCell style={{ fontWeight: "bold" }}>Desconto</TableCell>
+                                        <TableCell align="right" style={{ fontWeight: "bold" }} >Vencimento</TableCell>
+                                        <TableCell align="right" style={{ fontWeight: "bold" }}>Forma de PG.</TableCell>
+                                        <TableCell align="right" style={{ fontWeight: "bold" }}>Parcelas</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Situação</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>Data Realizada</TableCell>
                                     </TableRow>
-                                </TableHead>
-                                <TableBody>
+                                </HeadTable>
+                                <BodyTable>
                                     <TableRow key={row?.contrato}>
 
-                                        <TableCell component="th" scope="row" style={{ display: "grid" }}>
+                                        <TableCell >
                                             {row?.tmValor}
                                         </TableCell>
                                         <TableCell >
@@ -508,16 +555,17 @@ export function Row(props) {
                                         <TableCell align="center">
                                             {
                                                 userData.role === 'comercial' ?
-                                                    <p>{row?.tmStatus}</p>
+                                                    <>
+                                                        {row?.tmStatus}
+                                                    </>
                                                     :
                                                     <div style={{ display: "flex" }}>
-                                                        <Select onChange={(e) => Changer("tmStatus", e.target.value, row?.contrato)}>
-                                                            <option value="">{row?.tmStatus} </option>
+                                                        <Select defaultValue={row?.tmStatus} onChange={(e) => Changer("tmStatus", e.target.value, row?.contrato)}>
                                                             <option value="pendente">Pendente</option>
                                                             <option value="ok">Ok</option>
                                                             <option value="nao">Não</option>
                                                         </Select>
-                                                        <Button onClick={() => userData.role !== 'direcao' ? Sender() : SenderDirector()}> ✔️</Button>
+
                                                     </div>
                                             }
 
@@ -525,12 +573,12 @@ export function Row(props) {
                                         <TableCell align="center">
                                             {
                                                 userData.role === 'comercial' ?
-                                                    <p>Atualmente {row?.tmData}</p>
+                                                    <>Atualmente {row?.tmData}</>
                                                     :
                                                     <>
                                                         <div style={{ display: "flex", margin: ".5rem 0 " }}>
                                                             <Input type="date" onChange={(e) => Changer("tmData", e.target.value, row?.contrato)} />
-                                                            <Button onClick={() => userData.role !== 'direcao' ? Sender() : SenderDirector()}> ✔️</Button>
+
                                                         </div>
                                                         {row?.tmData ?
                                                             <p>Atualmente {row?.tmData}</p> : ""}
@@ -538,20 +586,24 @@ export function Row(props) {
                                             }
                                         </TableCell>
                                     </TableRow>
-                                </TableBody>
+                                </BodyTable>
 
-                                <TableHead>
+                                <HeadTable style={{ display: "flex", alignItems: "center", paddingLeft: "3rem" }}>
+                                    Parcela
+                                </HeadTable>
+
+                                <HeadTable>
                                     <TableRow>
-                                        <TableCell style={{ fontWeight: "bold" }}>Parcela Valor</TableCell>
-                                        <TableCell style={{ fontWeight: "bold" }}>Parcela com Desconto</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }} >PP. Vencimento</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }}>PP. Forma de PG.</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }}>Número de parcelas</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Situação PP.</TableCell>
+                                        <TableCell style={{ fontWeight: "bold" }}>Valor</TableCell>
+                                        <TableCell style={{ fontWeight: "bold" }}>Desconto</TableCell>
+                                        <TableCell align="right" style={{ fontWeight: "bold" }} >Vencimento</TableCell>
+                                        <TableCell align="right" style={{ fontWeight: "bold" }}>Forma de PG.</TableCell>
+                                        <TableCell align="right" style={{ fontWeight: "bold" }}>Parcelas</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Situação</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>Data Realizada</TableCell>
                                     </TableRow>
-                                </TableHead>
-                                <TableBody>
+                                </HeadTable>
+                                <BodyTable>
                                     <TableRow key={row?.contrato}>
 
                                         <TableCell component="th" scope="row" >
@@ -581,7 +633,7 @@ export function Row(props) {
                                                             <option value="ok">Ok</option>
                                                             <option value="nao">Não</option>
                                                         </Select>
-                                                        <Button onClick={() => userData.role !== 'direcao' ? Sender() : SenderDirector()}> ✔️</Button>
+
                                                     </div>
                                             }
                                         </TableCell>
@@ -593,7 +645,7 @@ export function Row(props) {
                                                     <>
                                                         <div style={{ display: "flex", margin: ".5rem 0 " }}>
                                                             <Input type="date" onChange={(e) => Changer("ppData", e.target.value, row?.contrato)} />
-                                                            <Button onClick={() => userData.role !== 'direcao' ? Sender() : SenderDirector()}> ✔️</Button>
+
                                                         </div>
                                                         {row?.ppData ?
                                                             <p>Atualmente {row?.ppData}</p> : ""}
@@ -602,26 +654,27 @@ export function Row(props) {
                                         </TableCell>
 
                                     </TableRow>
-                                </TableBody>
+                                </BodyTable>
 
-                                <TableHead>
+                                <HeadTable style={{ display: "flex", alignItems: "center", paddingLeft: "3rem" }}>
+                                    Material Didático
+                                </HeadTable>
+                                <HeadTable>
                                     <TableRow>
-                                        <TableCell style={{ fontWeight: "bold" }}>MD. Valor</TableCell>
-                                        <TableCell style={{ fontWeight: "bold" }}>MD. Desconto</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }} >MD. Vencimento</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }}>MD. Forma de Pg.</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }}>MD. Parcelas</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Situação MD.</TableCell>
+                                        <TableCell style={{ fontWeight: "bold" }}>Valor</TableCell>
+                                        <TableCell style={{ fontWeight: "bold" }}>Desconto</TableCell>
+                                        <TableCell align="right" style={{ fontWeight: "bold" }} >Vencimento</TableCell>
+                                        <TableCell align="right" style={{ fontWeight: "bold" }}>Forma de PG.</TableCell>
+                                        <TableCell align="right" style={{ fontWeight: "bold" }}>Parcelas</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Situação</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>Data Realizada</TableCell>
                                     </TableRow>
-                                </TableHead>
-                                <TableBody>
+                                </HeadTable>
+                                <BodyTable>
                                     <TableRow key={row?.contrato}>
 
                                         <TableCell component="th" scope="row" >
-                                            <div>
-                                                {row?.mdValor}
-                                            </div>
+                                            {row?.mdValor}
                                         </TableCell>
                                         <TableCell >
                                             {row?.mdDesconto}
@@ -638,28 +691,27 @@ export function Row(props) {
                                         <TableCell align="center">
                                             {
                                                 userData.role === 'comercial' ?
-                                                    <p>{row?.mdStatus}</p>
+                                                    <>{row?.mdStatus}</>
                                                     :
                                                     <div style={{ display: "flex" }}>
-                                                        <Select onChange={(e) => Changer("mdStatus", e.target.value, row?.contrato)}>
-                                                            <option value="">{row?.mdStatus} </option>
+                                                        <Select defaultValue={row?.mdStatus} onChange={(e) => Changer("mdStatus", e.target.value, row?.contrato)}>
                                                             <option value="pendente">Pendente</option>
                                                             <option value="ok">Ok</option>
                                                             <option value="nao">Não</option>
                                                         </Select>
-                                                        <Button onClick={() => userData.role !== 'direcao' ? Sender() : SenderDirector()}> ✔️</Button>
+
                                                     </div>
                                             }
                                         </TableCell>
                                         <TableCell align="center">
                                             {
                                                 userData.role === 'comercial' ?
-                                                    <p>Atualmente {row?.mdData}</p>
+                                                    <>Atualmente {row?.mdData}</>
                                                     :
                                                     <>
                                                         <div style={{ display: "flex", margin: ".5rem 0 " }}>
                                                             <Input type="date" onChange={(e) => Changer("mdData", e.target.value, row?.contrato)} />
-                                                            <Button onClick={() => userData.role !== 'direcao' ? Sender() : SenderDirector()}> ✔️</Button>
+
                                                         </div>
                                                         {row?.mdData ?
                                                             <p>Atualmente {row?.mdData}</p> : ""}
@@ -668,7 +720,7 @@ export function Row(props) {
                                         </TableCell>
 
                                     </TableRow>
-                                </TableBody>
+                                </BodyTable>
                             </Collapse>
                         </TableCell>
 
@@ -699,7 +751,7 @@ export function Row(props) {
                             width: "66rem",
                         }} colSpan={6}>
                             <Collapse style={{ background: open4 ? "#f5f5f5" : "" }} in={open4} timeout="auto" unmountOnExit>
-                                <TableHead>
+                                <HeadTable>
                                     <TableRow>
                                         <TableCell style={{ fontWeight: "bold" }}>Aluno</TableCell>
                                         <TableCell style={{ fontWeight: "bold" }}>Data de Nascimento</TableCell>
@@ -707,8 +759,8 @@ export function Row(props) {
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>Telefone</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>Email</TableCell>
                                     </TableRow>
-                                </TableHead>
-                                <TableBody>
+                                </HeadTable>
+                                <BodyTable>
                                     <TableRow key={row?.contrato}>
 
                                         <TableCell component="th" scope="row" style={{ display: "grid" }}>
@@ -728,7 +780,7 @@ export function Row(props) {
                                         </TableCell>
 
                                     </TableRow>
-                                </TableBody>
+                                </BodyTable>
 
                             </Collapse>
                         </TableCell>
@@ -760,21 +812,20 @@ export function Row(props) {
                             width: "66rem",
                         }} colSpan={6}>
                             <Collapse style={{ background: open5 ? "#f5f5f5" : "" }} in={open5} timeout="auto" unmountOnExit>
-                                <TableHead>
+                                <HeadTable>
                                     <TableRow>
                                         <TableCell style={{ fontWeight: "bold" }}>PA. Data</TableCell>
-                                        <TableCell style={{ fontWeight: "bold" }}>Classe</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }} >SubClasse</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Classe</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }} >SubClasse</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>Material Didático</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }}>Nivelamento </TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Nivelamento </TableCell>
                                         <TableCell align="right" style={{ fontWeight: "bold" }}>Dia de Aula</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }}>Horário de Início</TableCell>
                                     </TableRow>
-                                </TableHead>
-                                <TableBody>
+                                </HeadTable>
+                                <BodyTable>
                                     <TableRow key={row?.contrato}>
 
-                                        <TableCell component="th" scope="row" style={{ display: "grid" }}>
+                                        <TableCell >
                                             {row?.paDATA}
                                         </TableCell>
                                         <TableCell >
@@ -786,43 +837,47 @@ export function Row(props) {
                                         <TableCell align="right">
                                             {row?.materialDidatico.map(res => (<p key={res}>{res}</p>))}
                                         </TableCell>
-                                        <TableCell align="right">
+                                        <TableCell align="center">
                                             {row?.nivelamento}
                                         </TableCell>
                                         <TableCell align="right">
                                             {row?.diaAula.map(res => (<p key={res}>{res}</p>))}
                                         </TableCell>
-                                        <TableCell align="right">
-                                            {row?.horarioInicio}
-                                        </TableCell>
-                                    </TableRow>
-                                </TableBody>
 
-                                <TableHead>
+                                    </TableRow>
+                                </BodyTable>
+
+                                <HeadTable>
                                     <TableRow>
-                                        <TableCell style={{ fontWeight: "bold" }}>Horário de Fim</TableCell>
+                                        <TableCell align="right" style={{ fontWeight: "bold" }}>Horário de Início</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Horário de Fim</TableCell>
                                         <TableCell style={{ fontWeight: "bold" }}>Professor</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }} >Tipo/Modalidade</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }} >Tipo/Modalidade</TableCell>
                                         <TableCell align="right" style={{ fontWeight: "bold" }}>Formato de Aula</TableCell>
                                     </TableRow>
-                                </TableHead>
-                                <TableBody>
+                                </HeadTable>
+                                <BodyTable>
                                     <TableRow key={row?.contrato}>
 
-                                        <TableCell component="th" scope="row">
+                                        <TableCell align="center">
+                                            {row?.horarioInicio}
+                                        </TableCell>
+                                        <TableCell align="center">
                                             {row?.horarioFim}
                                         </TableCell>
                                         <TableCell >
-                                            {row?.professor.map(res => (<p key={res}>{res}</p>))}
+                                            {row?.professor[0]}
+                                            {row?.professor[1]}
+                                            {row?.professor[2]}
                                         </TableCell>
-                                        <TableCell align="right">
+                                        <TableCell align="center">
                                             {row?.tipoModalidade}
                                         </TableCell>
-                                        <TableCell align="right">
+                                        <TableCell align="center">
                                             {row?.formatoAula}
                                         </TableCell>
                                     </TableRow>
-                                </TableBody>
+                                </BodyTable>
                             </Collapse>
                         </TableCell>
 

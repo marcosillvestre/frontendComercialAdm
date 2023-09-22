@@ -163,7 +163,8 @@ const ListFiltered = () => {
                                 <TableRow>
                                     <TableCell />
                                     <TableCell style={{ fontWeight: 'bold' }}>Aluno</TableCell>
-                                    <TableCell style={{ fontWeight: 'bold' }} align="right">Responsável</TableCell>
+                                    <TableCell style={{ fontWeight: 'bold' }} align="right">Curso</TableCell>
+                                    <TableCell style={{ fontWeight: 'bold' }} align="center">Responsável</TableCell>
                                     <TableCell style={{ fontWeight: 'bold' }} align="right">Unidade</TableCell>
                                     <TableCell style={{ fontWeight: 'bold' }} align="right">Background</TableCell>
                                     <TableCell style={{ fontWeight: 'bold' }} align="right">Tipo Matrícula</TableCell>
