@@ -14,10 +14,10 @@ import { Row } from '../../components/table';
 
 import { useUser } from '../../hooks/userContext';
 
+import LoadingSpin from "react-loading-spin";
 import TransitionsModal from '../../components/modal';
 import MiniDrawer from '../../components/sideBar';
 import URI from '../utils/utils.jsx';
-
 
 const ListFiltered = () => {
     const { fetchData, userData, headers, filtered, setFiltered } = useUser()
@@ -172,7 +172,19 @@ const ListFiltered = () => {
                             </TableHead>
                             <TableBody >
                                 {
-                                    filtered?.length < 1 || filtered === undefined ? <NothingHere style={{ textAlign: "center" }}>Nada aqui ainda</NothingHere> : filtered.map((row) => (
+                                    filtered?.length < 1 || filtered === undefined ? <NothingHere style={{ textAlign: "center" }}>
+                                        Nada aqui ainda
+                                        <LoadingSpin
+                                            duration="4s"
+                                            width="15px"
+                                            timingFunction="ease-in-out"
+                                            direction="alternate"
+                                            size="60px"
+                                            primaryColor="#1976d2"
+                                            secondaryColor="#333"
+                                            numberOfRotationsInAnimation={2}
+                                        />
+                                    </NothingHere> : filtered.map((row) => (
                                         <Row key={row.contrato} row={row} />
                                     ))
                                 }

@@ -34,8 +34,11 @@ export const UserProvider = ({ children }) => {
         }
     }, [userData?.token])
 
+
     useEffect(() => {
-        if (users.length === 0) {
+        const bool = headers.Authorization.includes('undefined')
+
+        if (users.length === 0 && bool === false) {
             getData()
         }
         async function getData() {
@@ -43,25 +46,32 @@ export const UserProvider = ({ children }) => {
             await URI.get('/users', { headers })
                 .then(res => {
                     setUsers(res.data)
-                }).catch(err => err)
+                }).catch(err => console.log(err))
         }
     }, [headers, userData.token, users])
 
 
     useEffect(() => {
-        if (fetchData === undefined) {
+        const bool = headers.Authorization.includes('undefined')
+        if (fetchData === undefined && bool === false) {
             data()
         }
         async function data() {
-            await URI.get('/controle', { headers })
-                .then(async info => {
-                    setFetchData(info.data)
-                }).catch(err => {
-                    if (err.data.error === 'token invalid') {
-                        window.location.href = "/"
-                        throw new alert("Sessão expirada")
-                    }
-                })
+            try {
+                await URI.get('/controle', { headers })
+                    .then(async info => {
+                        setFetchData(info.data)
+                    })
+
+            }
+            catch (err) {
+                console.log(err)
+                if (err?.response?.data?.error.includes('token')) {
+                    window.location.href = "/"
+                    logOut()
+                    alert("Sessão expirada")
+                }
+            }
         }
     }, [fetchData, headers])
 

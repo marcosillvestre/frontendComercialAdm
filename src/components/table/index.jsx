@@ -540,7 +540,7 @@ export function Row(props) {
                                         <TableCell style={{ fontWeight: "bold" }}>Valor</TableCell>
                                         <TableCell style={{ fontWeight: "bold" }}>Desconto</TableCell>
                                         <TableCell align="right" style={{ fontWeight: "bold" }} >Vencimento</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }}>Forma de PG.</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Forma de PG.</TableCell>
                                         <TableCell align="right" style={{ fontWeight: "bold" }}>Parcelas</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>Situação</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>Data Realizada</TableCell>
@@ -676,7 +676,7 @@ export function Row(props) {
                                         <TableCell style={{ fontWeight: "bold" }}>Valor</TableCell>
                                         <TableCell style={{ fontWeight: "bold" }}>Desconto</TableCell>
                                         <TableCell align="right" style={{ fontWeight: "bold" }} >Vencimento</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }}>Forma de PG.</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Forma de PG.</TableCell>
                                         <TableCell align="right" style={{ fontWeight: "bold" }}>Parcelas</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>Situação</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>Data Realizada</TableCell>

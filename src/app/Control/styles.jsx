@@ -1,5 +1,4 @@
 import styled from "styled-components";
-
 export const Container = styled.main`
 display: flex;
 flex-direction: column;
@@ -91,14 +90,10 @@ background: none;
 `
 export const NothingHere = styled.div`
 position: absolute;
-right: 40%;
-top: 40%;
-display: grid;
-font-size: 1.6rem;
-
-&::after{
-    content: "😢" ;
-    width: 20rem;
-    font-size: 2.6rem;
-}
+display: flex;
+font-size: 1.4rem;
+margin: 2rem 40%;
+justify-content: center;
+align-items: center;
+flex-direction: column;
 `
