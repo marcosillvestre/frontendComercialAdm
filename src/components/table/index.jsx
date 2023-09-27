@@ -270,11 +270,10 @@ export function Row(props) {
                                             {userData.role === 'comercial' ? "" :
 
                                                 <td style={{ display: "flex", margin: ".5rem 0 " }}>
-                                                    <Input type="date" onChange={(e) => Changer("dataComissionamento", e.target.value, row?.contrato)} />
+                                                    <Input defaultValue={row?.dataComissionamento} type="date" onChange={(e) => Changer("dataComissionamento", e.target.value, row?.contrato)} />
 
                                                 </td>}
 
-                                            <td>Atualmente {row?.dataComissionamento}</td>
 
                                         </TableCell>
                                         <TableCell align="center">
@@ -589,11 +588,10 @@ export function Row(props) {
                                                     :
                                                     <>
                                                         <td style={{ display: "flex", margin: ".5rem 0 " }}>
-                                                            <Input type="date" onChange={(e) => Changer("tmData", e.target.value, row?.contrato)} />
+                                                            <Input defaultValue={row?.tmData} type="date" onChange={(e) => Changer("tmData", e.target.value, row?.contrato)} />
 
                                                         </td>
-                                                        {row?.tmData ?
-                                                            <td>Atualmente {row?.tmData}</td> : ""}
+
                                                     </>
                                             }
                                         </TableCell>
@@ -656,11 +654,10 @@ export function Row(props) {
                                                     :
                                                     <>
                                                         <td style={{ display: "flex", margin: ".5rem 0 " }}>
-                                                            <Input type="date" onChange={(e) => Changer("ppData", e.target.value, row?.contrato)} />
+                                                            <Input defaultValue={row?.ppData} type="date" onChange={(e) => Changer("ppData", e.target.value, row?.contrato)} />
 
                                                         </td>
-                                                        {row?.ppData ?
-                                                            <td>Atualmente {row?.ppData}</td> : ""}
+
                                                     </>
                                             }
                                         </TableCell>
@@ -722,7 +719,7 @@ export function Row(props) {
                                                     :
                                                     <>
                                                         <td style={{ display: "flex", margin: ".5rem 0 " }}>
-                                                            <Input type="date" onChange={(e) => Changer("mdData", e.target.value, row?.contrato)} />
+                                                            <Input defaultValue={row?.mdData} type="date" onChange={(e) => Changer("mdData", e.target.value, row?.contrato)} />
 
                                                         </td>
                                                         {row?.mdData ?
