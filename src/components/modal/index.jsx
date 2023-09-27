@@ -152,7 +152,7 @@ export default function TransitionsModal() {
     function handleFuncs() {
         handleOpen()
     }
-
+    console.log(open)
 
     const schema = Yup.object({
         aluno: Yup.string(),
@@ -214,7 +214,7 @@ export default function TransitionsModal() {
                                     </Label>
                                 </div>
 
-                                <Submit type="submit" />
+                                <Submit type="submit" onClick={() => setOpen(!open)} />
                             </form>
                             <form onSubmit={handleSubmit((data) => Sender(data))}>
                                 <div>
@@ -250,7 +250,7 @@ export default function TransitionsModal() {
                                         </Select>
                                     </Label>
                                 </div>
-                                <Submit type="submit" />
+                                <Submit type="submit" onClick={() => setOpen(!open)} />
                             </form>
                             <form onSubmit={handleSubmit((data) => Sender(data))}>
                                 <div>
@@ -281,7 +281,7 @@ export default function TransitionsModal() {
                                         </span>
                                     </LabelDate>
                                 </div>
-                                <Submit type="submit" />
+                                <Submit type="submit" onClick={() => setOpen(!open)} />
                             </form>
                         </Boxes>
                     </Box>
