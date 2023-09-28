@@ -20,20 +20,20 @@ export function Row(props) {
                 <TableCell component="th" scope="row">
                     {row?.name}
                 </TableCell>
-                <TableCell align="right">{row?.email}</TableCell>
-                <TableCell align="right">
+                <TableCell align="center">{row?.email}</TableCell>
+                <TableCell align="center">
                     {
                         row?.unity.length >= 1 ?
                             <>
-                                <td >{row?.unity[0]},</td>
-                                <td >{row?.unity[1]}</td>
+                                <td >{row?.unity[0]} </td>
+                                <td > {row?.unity[1]}</td>
                             </>
                             : <td>Todas</td>
                     }
                 </TableCell>
-                <TableCell align="right">{row?.role}</TableCell>
-                <TableCell align="right">{row?.admin === true ? "Adm" : "Comum"}</TableCell>
-                <TableCell align="right">
+                <TableCell align="center">{row?.role}</TableCell>
+                <TableCell align="center">{row?.admin === true ? "Adm" : "Comum"}</TableCell>
+                <TableCell align="center">
 
                     <SureModal data={row?.id} name={row?.name} url="/users" />
 

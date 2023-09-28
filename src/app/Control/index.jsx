@@ -1,5 +1,5 @@
 
-import { memo, useEffect, useState } from 'react';
+import { memo, useState } from 'react';
 import { Container, Filter, NothingHere, SearchButton, Tax } from './styles';
 
 import { TableBody } from '@mui/material';
@@ -17,14 +17,12 @@ import { useUser } from '../../hooks/userContext';
 import LoadingSpin from "react-loading-spin";
 import TransitionsModal from '../../components/modal';
 import MiniDrawer from '../../components/sideBar';
-import URI from '../utils/utils.jsx';
 
 const ListFiltered = () => {
-    const { fetchData, userData, headers, filtered, setFiltered } = useUser()
+    const { fetchData, userData, filtered, setFiltered, sellers } = useUser()
 
     const [month, setMonth] = useState('todos')
     const [name, setName] = useState('todos')
-    const [sellers, setSeller] = useState()
     const [unity, setUnity] = useState('todos')
 
     const filteredForDate = fetchData?.filter(res => res.dataMatricula.split("/")[1] === month)
@@ -94,21 +92,6 @@ const ListFiltered = () => {
     }
 
 
-    useEffect(() => {
-        const getSellers = async () => {
-            await URI.get('/users', { headers })
-                .then(res => {
-                    setSeller(res.data?.filter(role =>
-                        role.role === 'comercial' || role.role === 'gerencia'))
-                }
-                )
-        }
-
-        getSellers()
-
-
-    }, [headers, userData.token])
-
     return (
         <>
             <Container>
@@ -161,12 +144,12 @@ const ListFiltered = () => {
                             <TableHead>
                                 <TableRow>
                                     <TableCell />
-                                    <TableCell style={{ fontWeight: 'bold' }}>Aluno</TableCell>
-                                    <TableCell style={{ fontWeight: 'bold' }} align="right">Curso</TableCell>
+                                    <TableCell style={{ fontWeight: 'bold' }} align="center">Aluno</TableCell>
                                     <TableCell style={{ fontWeight: 'bold' }} align="center">Responsável</TableCell>
-                                    <TableCell style={{ fontWeight: 'bold' }} align="right">Unidade</TableCell>
-                                    <TableCell style={{ fontWeight: 'bold' }} align="right">Background</TableCell>
-                                    <TableCell style={{ fontWeight: 'bold' }} align="right">Tipo Matrícula</TableCell>
+                                    <TableCell style={{ fontWeight: 'bold' }} align="left">Curso</TableCell>
+                                    <TableCell style={{ fontWeight: 'bold' }} align="center">Unidade</TableCell>
+                                    <TableCell style={{ fontWeight: 'bold' }} align="center">Background</TableCell>
+                                    <TableCell style={{ fontWeight: 'bold' }} align="center">Tipo Matrícula</TableCell>
                                     <TableCell align="right"></TableCell>
                                 </TableRow>
                             </TableHead>

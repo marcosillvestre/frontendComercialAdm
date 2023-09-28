@@ -152,7 +152,6 @@ export default function TransitionsModal() {
     function handleFuncs() {
         handleOpen()
     }
-    console.log(open)
 
     const schema = Yup.object({
         aluno: Yup.string(),

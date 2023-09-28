@@ -175,9 +175,9 @@ function Register() {
                     <TableCell />
                     <TableCell style={{ fontWeight: 'bold' }}>Name</TableCell>
                     <TableCell style={{ fontWeight: 'bold' }} align="center">Email</TableCell>
-                    <TableCell style={{ fontWeight: 'bold' }} align="right">Unidade</TableCell>
-                    <TableCell style={{ fontWeight: 'bold' }} align="right">Cargo</TableCell>
-                    <TableCell style={{ fontWeight: 'bold' }} align="right">Acesso</TableCell>
+                    <TableCell style={{ fontWeight: 'bold' }} align="left">Unidade</TableCell>
+                    <TableCell style={{ fontWeight: 'bold' }} align="center">Cargo</TableCell>
+                    <TableCell style={{ fontWeight: 'bold' }} align="center">Acesso</TableCell>
                     <TableCell align="right"></TableCell>
                   </TableRow>
                 </TableHead>

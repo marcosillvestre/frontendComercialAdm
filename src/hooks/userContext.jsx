@@ -16,6 +16,7 @@ export const UserProvider = ({ children }) => {
     const [filtered, setFiltered] = useState([])
     const [contracts, setContracts] = useState([])
     const [filteredContracts, setFilteredContracts] = useState()
+    const [sellers, setSeller] = useState()
 
 
     const putInfo = async (userInfos) => {
@@ -35,20 +36,21 @@ export const UserProvider = ({ children }) => {
     }, [userData?.token])
 
 
-    useEffect(() => {
-        const bool = headers.Authorization.includes('undefined')
 
-        if (users.length === 0 && bool === false) {
-            getData()
-        }
-        async function getData() {
+    const bool = headers.Authorization
+    let splited = bool.split(" ")
 
-            await URI.get('/users', { headers })
-                .then(res => {
-                    setUsers(res.data)
-                }).catch(err => console.log(err))
-        }
-    }, [headers, userData.token, users])
+    const getData = async () => {
+        await URI.get('/users', { headers })
+            .then(res => {
+                setUsers(res.data)
+                setSeller(res.data?.filter(role =>
+                    role.role === 'comercial' || role.role === 'gerencia'))
+
+            }).catch((err) => (err))
+    }
+
+    splited[1] !== undefined && users.length === 0 && getData()
 
 
     useEffect(() => {
@@ -65,7 +67,6 @@ export const UserProvider = ({ children }) => {
 
             }
             catch (err) {
-                console.log(err)
                 if (err?.response?.data?.error.includes('token')) {
                     window.location.href = "/"
                     logOut()
@@ -93,10 +94,11 @@ export const UserProvider = ({ children }) => {
 
     return (
         <UserContext.Provider value={{
-            contracts, setContracts,
+            contracts, setContracts, sellers,
             users, headers, putInfo, userData,
             logOut, fetchData, setFetchData, setUsers,
-            filtered, setFiltered, filteredContracts, setFilteredContracts
+            filtered, setFiltered, filteredContracts, setFilteredContracts,
+
         }}>
 
             {children}

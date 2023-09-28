@@ -22,6 +22,10 @@ font-weight: bold;
 height: 3rem;
 
 `
+export const DataTable = styled(TableRow)`
+border-left: .1rem solid #16207421;
+border-right: .1rem solid #16207421;
+`
 
 export const ButtonChanger = styled.button`
 width: 75%;

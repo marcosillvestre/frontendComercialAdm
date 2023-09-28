@@ -8,7 +8,7 @@ import * as React from 'react';
 
 import { Collapse } from '@mui/material';
 import { toast } from 'react-toastify';
-import { BodyTable, Button, HeadTable, Input, RowTable, Select, Signs, Text } from './styles';
+import { BodyTable, Button, DataTable, HeadTable, Input, RowTable, Select, Signs, Text } from './styles';
 
 
 import URI from '../../app/utils/utils';
@@ -20,7 +20,6 @@ export function Row(props) {
     const { headers, userData } = useUser()
     const { row } = props;
 
-    // console.log(new Date(new Date(row.fimContrato) - new Date(row.inicioContrato)))
     const start = row.inicioContrato.split("/")
     const end = row.fimContrato.split("/")
 
@@ -28,7 +27,6 @@ export function Row(props) {
     var data2 = new Date(`${end[2]}-${end[1]}-${end[0]}`); // Use o formato "AAAA-MM-DD"
     var data1 = new Date(`${start[2]}-${start[1]}-${start[0]}`);
 
-    // Calcule a diferença em meses
     var diferencaEmMeses = (data2.getFullYear() - data1.getFullYear()) * 12 + (data2.getMonth() - data1.getMonth());
 
 
@@ -75,6 +73,7 @@ export function Row(props) {
 
     }
 
+
     async function Sender(area, e, id) {
         area !== 'observacao' &&
 
@@ -83,7 +82,7 @@ export function Row(props) {
                     {
                         "area": area,
                         "value": area !== 'observacao' ? e : value,
-                        "responsible": userData.role !== 'direcao' || userData.role !== 'comercial' ? userData.name : ""
+                        "responsible": userData.name
                     }, { headers }),
                 {
                     pending: 'Conferindo os dados',
@@ -108,14 +107,29 @@ export function Row(props) {
                     </IconButton>
                 </TableCell>
 
-                <TableCell component="th" scope="row">{row?.aluno}</TableCell>
-                <TableCell align='right'>curso</TableCell>
+                <TableCell align="center">{row?.aluno}</TableCell>
                 <TableCell align="center">{row?.name}</TableCell>
-                <TableCell align="right">{row?.unidade}</TableCell>
-                <TableCell align="right">{row?.background}</TableCell>
-                <TableCell align="right">{row?.tipoMatricula}</TableCell>
+                <TableCell align='center'>
+
+                    {
+                        userData.role === 'comercial' ?
+                            <td>{row?.curso}</td>
+                            :
+                            <td >
+                                <Select defaultValue={row?.curso} onChange={(e) => Changer("curso", e.target.value, row?.contrato)}>
+                                    <option value="Inglês">Inglês</option>
+                                    <option value="Tecnologia">Tecnologia</option>
+                                    <option value="Espanhol">Espanhol</option>
+                                </Select>
+                            </td>
+                    }
+
+                </TableCell>
+                <TableCell align="center">{row?.unidade}</TableCell>
+                <TableCell align="center">{row?.background}</TableCell>
+                <TableCell align="center">{row?.tipoMatricula}</TableCell>
                 {userData?.admin === true ?
-                    <TableCell align="right">
+                    <TableCell align="center">
 
                         <SureModal data={row?.contrato} name={row?.aluno} url="/controle" />
 
@@ -152,13 +166,13 @@ export function Row(props) {
                             <Collapse style={{ width: "100%", background: open1 ? "#f5f5f5" : "" }} in={open1} timeout="auto" unmountOnExit  >
                                 <HeadTable>
                                     <TableRow>
-                                        <TableCell align="left" style={{ fontWeight: "bold" }}>AC. Status</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }}>AC. Status</TableCell>
                                         <TableCell style={{ fontWeight: "bold" }}>TM. Status</TableCell>
-                                        <TableCell align="left" style={{ fontWeight: "bold" }} >PP. Status</TableCell>
-                                        <TableCell align="left" style={{ fontWeight: "bold" }}>MD. Status</TableCell>
-                                        <TableCell align="left" style={{ fontWeight: "bold" }}>PA. Status</TableCell>
-                                        <TableCell align="left" style={{ fontWeight: "bold" }}>Data da Matrícula</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }}>Data da Validação</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }} >PP. Status</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }}>MD. Status</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }}>PA. Status</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Data da Matrícula</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Data da Validação</TableCell>
 
                                     </TableRow>
                                 </HeadTable>
@@ -196,7 +210,7 @@ export function Row(props) {
                                             }
                                         </TableCell>
 
-                                        <TableCell align="left">
+                                        <TableCell align="center">
                                             {
                                                 userData.role === 'comercial' ?
                                                     <td>{row?.ppStatus}</td>
@@ -212,7 +226,7 @@ export function Row(props) {
                                             }
                                         </TableCell>
 
-                                        <TableCell align="right">
+                                        <TableCell align="center">
                                             {
                                                 userData.role === 'comercial' ?
                                                     <td>{row?.mdStatus}</td>
@@ -245,7 +259,7 @@ export function Row(props) {
                                         <TableCell align="center">
                                             {row?.dataMatricula}
                                         </TableCell>
-                                        <TableCell align="right">
+                                        <TableCell align="center">
                                             {row?.dataValidacao}
                                         </TableCell>
 
@@ -256,15 +270,15 @@ export function Row(props) {
                                     <TableRow>
                                         <TableCell style={{ fontWeight: "bold" }}>Data de Comissionamento </TableCell>
                                         <TableCell style={{ fontWeight: "bold" }}>Emissão da Venda</TableCell>
-                                        <TableCell align="left" style={{ fontWeight: "bold" }} >ADM. Responsável</TableCell>
-                                        <TableCell align="left" style={{ fontWeight: "bold" }}>Status Direção</TableCell>
-                                        <TableCell align="left" style={{ fontWeight: "bold" }}>Aprovação ADM.</TableCell>
-                                        <TableCell align="left" style={{ fontWeight: "bold" }}>Vendedor(a)</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }} >ADM. Responsável</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Status Direção</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Aprovação ADM.</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Vendedor(a)</TableCell>
 
                                     </TableRow>
                                 </HeadTable>
                                 <BodyTable>
-                                    <TableRow key={row?.contrato}>
+                                    <DataTable key={row?.contrato}>
 
                                         <TableCell component="th" scope="row"  >
                                             {userData.role === 'comercial' ? "" :
@@ -309,10 +323,10 @@ export function Row(props) {
 
                                                     </td>}
                                         </TableCell>
-                                        <TableCell align="left"> {row?.owner}</TableCell>
+                                        <TableCell align="center"> {row?.owner}</TableCell>
 
 
-                                    </TableRow>
+                                    </DataTable>
                                 </BodyTable>
                             </Collapse>
                         </TableCell>
@@ -346,7 +360,7 @@ export function Row(props) {
                                     <TableRow>
 
                                         {/* /////////////////////////////////////////////////// */}
-                                        <TableCell align="left" style={{ fontWeight: "bold" }}>OBS. Matrícula</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }}>OBS. Matrícula</TableCell>
                                         {/* ////////////////////////////////////////////////// */}
 
                                     </TableRow>
@@ -354,7 +368,7 @@ export function Row(props) {
                                 <BodyTable>
                                     <TableRow key={row?.contrato}>
                                         {/* ////////////////////////////////////////// */}
-                                        <TableCell align="right" style={{ display: "flex" }}>
+                                        <TableCell align="center" style={{ display: "flex" }}>
                                             <Button onClick={() => userData.role !== 'direcao' ? Sender("observacao", value, row?.contrato) : SenderDirector("observacao", value, row?.contrato)}> ✔️</Button>
 
                                             <Text cols='3' placeholder={row?.observacao} onChange={(e) => Changer("observacao", e.target.value, row?.contrato)}></Text>
@@ -398,8 +412,8 @@ export function Row(props) {
                                     <TableRow>
                                         <TableCell style={{ fontWeight: "bold" }}>N°. do Contrato</TableCell>
                                         <TableCell style={{ fontWeight: "bold" }}>Início do Contrato</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }} >Fim do Contrato</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }}>Tipo de Assinatura</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }} >Fim do Contrato</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Tipo de Assinatura</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>Data AC.</TableCell>
 
                                     </TableRow>
@@ -413,46 +427,30 @@ export function Row(props) {
                                         <TableCell >
                                             {row?.inicioContrato}
                                         </TableCell>
-                                        <TableCell align="right"> {row?.fimContrato}</TableCell>
-                                        <TableCell align="right">
+                                        <TableCell align="center"> {row?.fimContrato}</TableCell>
+                                        <TableCell align="center">
                                             {row?.acFormato}
                                         </TableCell>
-                                        <TableCell align="right" >
+                                        <TableCell align="center" >
                                             {
                                                 row?.dataAC?.map(res => (
                                                     <Signs key={res}>
                                                         {
                                                             res.body1?.signed1 ||
-                                                                res.body2?.signed2 ||
-                                                                res.body3?.signed3 ||
-                                                                res.body4?.signed4 ?
+                                                                res.body2?.signed2 ?
                                                                 <>
                                                                     <td key={res.body1?.email1}>
                                                                         {
                                                                             res.body1?.signed1 ?
-                                                                                <td>{res.body1?.name1} assinou {res.body1?.signed1} </td>
+                                                                                <td>{res.body1?.name1} assinou em {res.body1?.signed1} </td>
                                                                                 : ""
                                                                         }
                                                                     </td>
                                                                     <td key={res.body2?.email2}>
                                                                         {
                                                                             res.body2?.signed2 ?
-                                                                                <td>{res.body2?.name2} assinou {res.body2?.signed2}</td>
+                                                                                <td>{res.body2?.name2} assinou em {res.body2?.signed2}</td>
                                                                                 : ""
-                                                                        }
-                                                                    </td>
-                                                                    <td key={res.body3?.email3}>
-                                                                        {
-                                                                            res.body3?.signed3 ?
-                                                                                <td>{res.body3?.name3} assinou {res.body3?.signed3}</td>
-                                                                                : <td>{res.body3?.name3} ainda não assinou</td>
-                                                                        }
-                                                                    </td>
-                                                                    <td key={res.body4?.email4}>
-                                                                        {
-                                                                            res.body4?.signed4 ?
-                                                                                <td>{res.body4?.name4} assinou {res.body4?.signed4}</td>
-                                                                                : <td>{res.body4?.name4} ainda não assinou</td>
                                                                         }
                                                                     </td>
                                                                 </> : <td>Ninguém assinou ainda</td>
@@ -470,11 +468,11 @@ export function Row(props) {
                                         <TableCell style={{ fontWeight: "bold" }}>Status do Contrato</TableCell>
                                         <TableCell style={{ fontWeight: "bold" }}>Carga Horária</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>Tempo de Contrato</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }}>Mês/Ano</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Mês/Ano</TableCell>
                                     </TableRow>
                                 </HeadTable>
                                 <BodyTable>
-                                    <TableRow key={row?.contrato}>
+                                    <TableRow key={row?.contrato} >
 
                                         <TableCell component="th" scope="row" style={{ display: "grid" }}>
 
@@ -490,10 +488,10 @@ export function Row(props) {
                                         <TableCell align="center">
                                             {row?.cargaHoraria}
                                         </TableCell>
-                                        <TableCell align="right">
+                                        <TableCell align="center">
                                             {diferencaEmMeses} meses
                                         </TableCell>
-                                        <TableCell align="right">
+                                        <TableCell align="center">
                                             {row?.dataValidacao.split("/")[1]}
                                         </TableCell>
 
@@ -530,17 +528,17 @@ export function Row(props) {
                             width: "69rem",
                         }} colSpan={6}>
                             <Collapse style={{ background: open3 ? "#f5f5f5" : "" }} in={open3} timeout="auto" unmountOnExit>
-                                <HeadTable style={{ display: "flex", alignItems: "center", paddingLeft: "3rem" }}>
-                                    Taxa de Matrícula
+                                <HeadTable style={{ display: "flex", alignItems: "center", paddingLeft: "1rem", fontSize: "1.2rem" }}>
+                                    Taxa de Matrícula :
                                 </HeadTable>
 
                                 <HeadTable>
                                     <TableRow>
                                         <TableCell style={{ fontWeight: "bold" }}>Valor</TableCell>
                                         <TableCell style={{ fontWeight: "bold" }}>Desconto</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }} >Vencimento</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }} >Vencimento</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>Forma de PG.</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }}>Parcelas</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Parcelas</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>Situação</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>Data Realizada</TableCell>
                                     </TableRow>
@@ -598,17 +596,17 @@ export function Row(props) {
                                     </TableRow>
                                 </BodyTable>
 
-                                <HeadTable style={{ display: "flex", alignItems: "center", paddingLeft: "3rem" }}>
-                                    Parcela
+                                <HeadTable style={{ display: "flex", alignItems: "center", paddingLeft: "1rem", fontSize: "1.2rem" }}>
+                                    Parcela :
                                 </HeadTable>
 
                                 <HeadTable>
                                     <TableRow>
                                         <TableCell style={{ fontWeight: "bold" }}>Valor</TableCell>
                                         <TableCell style={{ fontWeight: "bold" }}>Desconto</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }} >Vencimento</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }}>Forma de PG.</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }}>Parcelas</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }} >Vencimento</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Forma de PG.</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Parcelas</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>Situação</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>Data Realizada</TableCell>
                                     </TableRow>
@@ -647,7 +645,7 @@ export function Row(props) {
                                                     </td>
                                             }
                                         </TableCell>
-                                        <TableCell align="right">
+                                        <TableCell align="center">
                                             {
                                                 userData.role === 'comercial' ?
                                                     <td>Atualmente {row?.ppData}</td>
@@ -665,16 +663,16 @@ export function Row(props) {
                                     </TableRow>
                                 </BodyTable>
 
-                                <HeadTable style={{ display: "flex", alignItems: "center", paddingLeft: "3rem" }}>
-                                    Material Didático
+                                <HeadTable style={{ display: "flex", alignItems: "center", paddingLeft: "1rem", fontSize: "1.2rem" }}>
+                                    Material Didático :
                                 </HeadTable>
                                 <HeadTable>
                                     <TableRow>
                                         <TableCell style={{ fontWeight: "bold" }}>Valor</TableCell>
                                         <TableCell style={{ fontWeight: "bold" }}>Desconto</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }} >Vencimento</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }} >Vencimento</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>Forma de PG.</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }}>Parcelas</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Parcelas</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>Situação</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>Data Realizada</TableCell>
                                     </TableRow>
@@ -764,7 +762,7 @@ export function Row(props) {
                                     <TableRow>
                                         <TableCell style={{ fontWeight: "bold" }}>Aluno</TableCell>
                                         <TableCell style={{ fontWeight: "bold" }}>Data de Nascimento</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }} >Idade do Aluno</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }} >Idade do Aluno</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>Telefone</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>Email</TableCell>
                                     </TableRow>
@@ -773,7 +771,7 @@ export function Row(props) {
                                     <TableRow key={row?.contrato}>
 
                                         <TableCell component="th" scope="row" style={{ display: "grid" }}>
-                                            {row?.name}
+                                            {row?.aluno}
                                         </TableCell>
                                         <TableCell align="center">
                                             {row?.alunoNascimento}
@@ -781,10 +779,10 @@ export function Row(props) {
                                         <TableCell align="center">
                                             {row?.idadeAluno} anos
                                         </TableCell>
-                                        <TableCell align="right">
+                                        <TableCell align="center">
                                             {row?.tel}
                                         </TableCell>
-                                        <TableCell align="right">
+                                        <TableCell align="center">
                                             {row?.email}
                                         </TableCell>
 
@@ -828,7 +826,7 @@ export function Row(props) {
                                         <TableCell align="center" style={{ fontWeight: "bold" }} >SubClasse</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>Material Didático</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>Nivelamento </TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }}>Dia de Aula</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Dia de Aula</TableCell>
                                     </TableRow>
                                 </HeadTable>
                                 <BodyTable>
@@ -840,29 +838,30 @@ export function Row(props) {
                                         <TableCell >
                                             {row?.classe}
                                         </TableCell>
-                                        <TableCell align="right">
+                                        <TableCell align="center">
                                             {row?.subclasse}
                                         </TableCell>
-                                        <TableCell align="right">
+                                        <TableCell align="center">
                                             {row?.materialDidatico.map(res => (<td key={res}>{res}</td>))}
                                         </TableCell>
                                         <TableCell align="center">
                                             {row?.nivelamento}
                                         </TableCell>
-                                        <TableCell align="right">
+                                        <TableCell align="center">
                                             {row?.diaAula.map(res => (<td key={res}>{res}</td>))}
                                         </TableCell>
+
 
                                     </TableRow>
                                 </BodyTable>
 
                                 <HeadTable>
                                     <TableRow>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }}>Horário de Início</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Horário de Início</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>Horário de Fim</TableCell>
                                         <TableCell style={{ fontWeight: "bold" }}>Professor</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }} >Tipo/Modalidade</TableCell>
-                                        <TableCell align="right" style={{ fontWeight: "bold" }}>Formato de Aula</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Formato de Aula</TableCell>
                                     </TableRow>
                                 </HeadTable>
                                 <BodyTable>
@@ -885,6 +884,9 @@ export function Row(props) {
                                         <TableCell align="center">
                                             {row?.formatoAula}
                                         </TableCell>
+                                        <TableCell align="center">
+
+                                        </TableCell>
                                     </TableRow>
                                 </BodyTable>
                             </Collapse>
@@ -901,6 +903,7 @@ export function Row(props) {
 Row.propTypes = {
     row: PropTypes.shape({
         observacao: PropTypes.string.isRequired,
+        curso: PropTypes.string.isRequired,
         contrato: PropTypes.string.isRequired,
         aprovacaoDirecao: PropTypes.string.isRequired,
         paStatus: PropTypes.string.isRequired,
