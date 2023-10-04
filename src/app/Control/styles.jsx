@@ -9,19 +9,49 @@ padding: 0 4rem;
 
 .nav-filter{
     display: flex;
+    gap: 2rem;
+    align-items: end;
+    justify-content: center;
+    font-size: small ;
+    border: 2px solid #dfe6f1;
+    border-radius: .35rem;
+    padding: 1.2rem;
+    /* width: 50rem; */
+.filter{
+    border: none;
+    background-color:#dfe6f1;
+    border-radius: .35rem;
+    padding: .7rem .5rem;
+    width: 10rem;
+    margin-top: .5rem; 
+    
+}
+.name-filter{
+    display: flex;
+    gap: 3px;
+    margin-right: 2rem;
+    align-items: end;
+}
+.button{
+    border-radius: .35rem;
+    padding: 0 .5rem ; 
+    margin-top: 0; 
+    border: none;
+    background-color:#dfe6f1;
+    height: 2.38rem;
+    transition-duration: .4s;
+    &:hover{
+        padding: 0 1.5rem ; 
+    svg{
+    scale:1.2 ;
+    }
+    }
+}
 }
 .div-tax{
-    display: flex;
     width: 5vw;
-    position: fixed;
-    top: 7rem;
-    right: 3rem;
-    justify-content: end;
     padding: 0 1.4rem;
-    span{
-        display: grid;
-        gap: .3rem;
-    }
+    translate: -3.2rem -.3rem;
 }
 
 .table{
@@ -55,16 +85,7 @@ export const TableContainer = styled.div`
 
 `
 export const Filter = styled.select`
-border: none;
-border-bottom: 1px solid;
-padding: .4rem;
-width: 10rem;
-option{
-    text-transform: uppercase;
-    font-weight: lighter;
-    font-family: "Roboto","Helvetica","Arial",sans-serif;
 
-}
 `
 
 export const SearchButton = styled.button`

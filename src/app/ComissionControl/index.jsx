@@ -30,7 +30,7 @@ function ComissionControll() {
             <Container>
 
                 <table>
-                    <thead>
+                    {/* <thead>
 
                         <tr>
                             <th>Nome</th>
@@ -38,7 +38,7 @@ function ComissionControll() {
                             <th>Quantidade de vendas</th>
 
                         </tr>
-                    </thead>
+                    </thead> */}
                     {/* <tbody>
                         {seller && seller.map(res => (
                             <tr key={res.name}>

@@ -165,7 +165,8 @@ export default function SureSendModal(data) {
     }
 
     const handleSender = () => {
-        handleOpen()
+        setOpen(!open)
+
 
         if (data.data === 'Conta Azul') {
             contaAzulSender()

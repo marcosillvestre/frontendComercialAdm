@@ -1,6 +1,6 @@
 
-import { memo, useState } from 'react';
-import { Container, Filter, NothingHere, SearchButton, Tax } from './styles';
+import { memo, useEffect } from 'react';
+import { Container, NothingHere, Tax } from './styles';
 
 import { TableBody } from '@mui/material';
 import Paper from '@mui/material/Paper';
@@ -14,83 +14,45 @@ import { Row } from '../../components/table';
 
 import { useUser } from '../../hooks/userContext';
 
+import { yupResolver } from '@hookform/resolvers/yup';
+import SearchIcon from '@mui/icons-material/Search';
+import { useForm } from 'react-hook-form';
 import LoadingSpin from "react-loading-spin";
-import TransitionsModal from '../../components/modal';
+import * as Yup from 'yup';
+import ControlledAccordions from '../../components/filtering';
 import MiniDrawer from '../../components/sideBar';
 
 const ListFiltered = () => {
-    const { fetchData, userData, filtered, setFiltered, sellers } = useUser()
-
-    const [month, setMonth] = useState('todos')
-    const [name, setName] = useState('todos')
-    const [unity, setUnity] = useState('todos')
-
-    const filteredForDate = fetchData?.filter(res => res.dataMatricula.split("/")[1] === month)
-    const filteredForName = fetchData?.filter(res => res.owner.toLowerCase().includes(name.toLowerCase()))
-    const filteredForBoth = fetchData?.filter(res => res.dataMatricula.split("/")[1] === month && res.owner.toLowerCase().includes(name.toLowerCase()))
-
-    const filteredDateForComercial = fetchData?.filter(res => res.owner.toLowerCase().includes(userData.name.toLowerCase()) && res.dataMatricula.split("/")[1] === month)
-    const fetchDataForComercial = fetchData?.filter(res => res.owner.toLowerCase().includes(userData.name.toLowerCase()))
-
-    const filteredForUnity = fetchData?.filter(res => res.unidade.toLowerCase().includes(unity))
-    const unityByMonth = fetchData?.filter(res => res.unidade.toLowerCase().includes(unity) && res.dataMatricula.split("/")[1] === month)
-    const filteredByAll = fetchData?.filter(res => res.unidade.toLowerCase().includes(unity) && res.dataMatricula.split("/")[1] === month && res.owner.toLowerCase().includes(name))
+    const { filtered, periodRange, setPeriodRange, pushData, setFiltered } = useUser()
 
 
-    const fetchForAdm = fetchData?.filter(res => res.unidade.includes(userData.unity))
-    const fetchForAdmByMonth = fetchData?.filter(res => res.unidade.includes(userData.unity) && res.dataMatricula.split("/")[1] === month)
-    const fetchForAdmByMonthAndName = fetchData?.filter(res => res.unidade.includes(userData.unity) && res.dataMatricula.split("/")[1] === month && res.owner.toLowerCase().includes(name))
-    const fetchForAdmAllMonthButSomeName = fetchData?.filter(res => res.unidade.includes(userData.unity) && res.owner.toLowerCase().includes(name))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => {
+        pushData()
+    }, [periodRange])
 
-    function searchButton() {
-        if (userData.role !== 'comercial') {
-            if (month !== 'todos' && name === 'todos') {
-                setFiltered(filteredForDate)
-            }
-            if (month === 'todos' && name !== 'todos') {
-                setFiltered(filteredForName)
-            }
-            if (month === 'todos' && name === 'todos') {
-                setFiltered(fetchData)
-            }
-            if (month !== 'todos' && name !== 'todos') {
-                setFiltered(filteredForBoth)
-            }
-            if (month === 'todos' && name === 'todos' && unity !== 'todos') {
-                setFiltered(filteredForUnity)
-            }
-            if (month !== 'todos' && name === 'todos' && unity !== 'todos') {
-                setFiltered(unityByMonth)
-            }
-            if (month !== 'todos' && name !== 'todos' && unity !== 'todos') {
-                setFiltered(filteredByAll)
-            }
+    const period = [
+        { name: "Esta semana", },
+        { name: "Este mês", },
+        { name: "Mês passado", },
+        { name: "Últimos 3 meses", },
+        { name: "Este ano", },
+
+    ]
+
+
+    const schema = Yup.object({ name: Yup.string() })
+    const { register, handleSubmit, } = useForm({ resolver: yupResolver(schema) });
+
+
+    const sender = (data) => {
+        const filteredByName = filtered?.filter(res => res.name.toLowerCase().includes(data.name.toLowerCase()))
+        setFiltered(filteredByName)
+
+        if (data.name === '') {
+            pushData()
         }
-        else {
-            if (month === 'todos') {
-                setFiltered(fetchDataForComercial)
-            }
-            if (month !== 'todos' && name === 'todos') {
-                setFiltered(filteredDateForComercial)
-            }
-        }
-        if (userData.role === 'administrativo' && userData.unity.length === 1) {
-            if (month === 'todos' && name === 'todos') {
-                setFiltered(fetchForAdm)
-            }
-            if (month !== 'todos' && name === 'todos') {
-                setFiltered(fetchForAdmByMonth)
-            }
-            if (month !== 'todos' && name !== 'todos') {
-                setFiltered(fetchForAdmByMonthAndName)
-            }
-            if (month === 'todos' && name !== 'todos') {
-                setFiltered(fetchForAdmAllMonthButSomeName)
-            }
-        }
-
     }
-
 
     return (
         <>
@@ -98,44 +60,41 @@ const ListFiltered = () => {
                 <MiniDrawer />
                 <span className='nav-filter' >
                     <label>
-                        <p style={{ fontSize: "small" }}>Mês:</p>
-                        <Filter onChange={(e) => setMonth(e.target.value)} >
-                            <option value="todos">Todos</option>
-                            <option value="01">Janeiro</option>
-                            <option value="02">Fevereiro</option>
-                            <option value="03">Março</option>
-                            <option value="04">Abril</option>
-                            <option value="05">Maio</option>
-                            <option value="06">Junho</option>
-                            <option value="07">Julho</option>
-                            <option value="08">Agosto</option>
-                            <option value="09">Setembro</option>
-                            <option value="10">Outubro</option>
-                            <option value="11">Novembro</option>
-                            <option value="12">Dezembro</option>
-                        </Filter>
-                    </label>
-                    {userData.role === 'comercial' ? "" : <label>
-                        <p style={{ fontSize: "small" }}>Nome:</p>
-                        <Filter onChange={(e) => setName(e.target.value)}>
-                            <option value="todos">Todos</option>
-                            {sellers && sellers.map(res => (
-                                <option key={res.id} value={res.name}>{res.name}</option>
-                            ))}
+                        <p>Período:</p>
+                        <select value={periodRange} onChange={(e) => setPeriodRange(e.target.value)} className='filter filter-period'>
+                            {
+                                period.map((res) => (
+                                    <option key={res.name} value={res.name}>{res.name}</option>
 
-                        </Filter>
-                    </label>}
-                    {userData.role === 'direcao' || userData.role === 'gerencia' ?
-                        <label>
-                            <p style={{ fontSize: "small" }}>Unidade:</p>
-                            <Filter onChange={(e) => setUnity(e.target.value)}>
-                                <option value="todos">Todos</option>
-                                <option value="ptb">PTB</option>
-                                <option value="centro">Centro</option>
-                            </Filter>
-                        </label> : ""}
-                    <SearchButton onClick={() => searchButton()}> Pesquisar</SearchButton>
-                    {userData.role !== 'comercial' && <TransitionsModal />}
+                                ))
+
+                            }
+                        </select>
+
+                    </label>
+
+                    <form onSubmit={handleSubmit((data) => sender(data))}>
+                        <p>Pesquisar no período:</p>
+                        <div className='name-filter'>
+                            <input type="text" placeholder='Pesquisar..' className='filter' list='list' {...register('name')} />
+                            <datalist id='list'>
+                                {
+                                    filtered && filtered.map(res => (
+                                        <option key={res.contrato} value={res.name} />
+
+                                    ))
+
+                                }
+                            </datalist>
+                            <button type='submit' className='button'><SearchIcon /></button>
+                        </div>
+                    </form>
+
+                    <ControlledAccordions />
+                    <div className='div-tax'>
+                        <Tax>{filtered?.length}</Tax>
+                    </div>
+
 
                 </span>
                 <span className='table'>
@@ -146,10 +105,10 @@ const ListFiltered = () => {
                                     <TableCell />
                                     <TableCell style={{ fontWeight: 'bold' }} align="center">Aluno</TableCell>
                                     <TableCell style={{ fontWeight: 'bold' }} align="center">Responsável</TableCell>
-                                    <TableCell style={{ fontWeight: 'bold' }} align="left">Curso</TableCell>
+                                    <TableCell style={{ fontWeight: 'bold' }} align="center">Curso</TableCell>
                                     <TableCell style={{ fontWeight: 'bold' }} align="center">Unidade</TableCell>
                                     <TableCell style={{ fontWeight: 'bold' }} align="center">Background</TableCell>
-                                    <TableCell style={{ fontWeight: 'bold' }} align="center">Tipo Matrícula</TableCell>
+                                    <TableCell style={{ fontWeight: 'bold' }} align="center">Status do Comissionamento</TableCell>
                                     <TableCell align="right"></TableCell>
                                 </TableRow>
                             </TableHead>
@@ -176,11 +135,7 @@ const ListFiltered = () => {
                         </Table>
                     </TableContainer>
                 </span>
-                <div className='div-tax'>
-                    <span>
-                        <Tax>{filtered?.length}</Tax>
-                    </span>
-                </div>
+
             </Container>
         </>
     )

@@ -40,7 +40,6 @@ export function Row(props) {
 
     const [value, setValue] = React.useState('')
 
-
     const Changer = async (area, e, id) => {
         setValue(e)
 
@@ -57,12 +56,34 @@ export function Row(props) {
 
     async function SenderDirector(area, e, id) {
 
+        const directorValidationBody = {
+            "area": area,
+            "value": area !== 'observacao' ? e : value,
+            "day": e !== "ok" ? "" : currentDay,
+        }
+        const directorBody = {
+            "area": area,
+            "value": area !== 'observacao' ? e : value,
+        }
+        await toast.promise(
+            URI.put(`/controle/${id}`,
+                area !== 'aprovacaoDirecao' ? directorBody : directorValidationBody
+                , { headers }),
+            {
+                pending: 'Conferindo os dados',
+                success: 'Atualizado com sucesso',
+                error: 'Alguma coisa deu errado'
+            }
+        )
+    }
+
+    async function Sender(area, e, id) {
         await toast.promise(
             URI.put(`/controle/${id}`,
                 {
                     "area": area,
                     "value": area !== 'observacao' ? e : value,
-                    "day": currentDay,
+                    "responsible": userData.name
                 }, { headers }),
             {
                 pending: 'Conferindo os dados',
@@ -70,28 +91,16 @@ export function Row(props) {
                 error: 'Alguma coisa deu errado'
             }
         )
-
     }
 
 
-    async function Sender(area, e, id) {
-        area !== 'observacao' &&
-
-            await toast.promise(
-                URI.put(`/controle/${id}`,
-                    {
-                        "area": area,
-                        "value": area !== 'observacao' ? e : value,
-                        "responsible": userData.name
-                    }, { headers }),
-                {
-                    pending: 'Conferindo os dados',
-                    success: 'Atualizado com sucesso',
-                    error: 'Alguma coisa deu errado'
-                }
-            )
+    const setColor = {
+        "Pendente": "#e4e4e4",
+        "Não aprovado": "#e4b9b9",
+        "Pré-aprovado": "#abc7f1",
+        "Aprovado": "#c2f1c2",
+        "Comissionado": "#f2f7b1"
     }
-
 
     return (
         <React.Fragment>
@@ -101,7 +110,7 @@ export function Row(props) {
                     <IconButton
                         aria-label="expand row"
                         size="small"
-                        onClick={() => setOpen(!open)} v g
+                        onClick={() => setOpen(!open)}
                     >
                         {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                     </IconButton>
@@ -115,7 +124,7 @@ export function Row(props) {
                         userData.role === 'comercial' ?
                             <td>{row?.curso}</td>
                             :
-                            <td >
+                            <td style={{ display: "flex", justifyContent: "center" }}>
                                 <Select defaultValue={row?.curso} onChange={(e) => Changer("curso", e.target.value, row?.contrato)}>
                                     <option value="Inglês">Inglês</option>
                                     <option value="Tecnologia">Tecnologia</option>
@@ -127,13 +136,34 @@ export function Row(props) {
                 </TableCell>
                 <TableCell align="center">{row?.unidade}</TableCell>
                 <TableCell align="center">{row?.background}</TableCell>
-                <TableCell align="center">{row?.tipoMatricula}</TableCell>
-                {userData?.admin === true ?
+                <TableCell align="center">
+                    {
+                        userData.role === 'comercial' ?
+                            <td>{row?.tipoMatricula}</td>
+                            :
+                            <td style={{ display: "flex", justifyContent: "center" }}>
+                                <Select
+                                    style={{ backgroundColor: setColor[row?.tipoMatricula] }}
+                                    defaultValue={row?.tipoMatricula}
+                                    onChange={(e) => Changer("tipoMatricula", e.target.value, row?.contrato)}>
+                                    <option value="Pendente">Pendente</option>
+                                    <option value="Não aprovado">Não aprovado</option>
+                                    <option value="Pré-aprovado">Pré-aprovado</option>
+                                    <option value="Comissionado">Comissionado</option>
+                                    <option value="Aprovado">Aprovado</option>
+                                </Select>
+
+                            </td>}
+                </TableCell>
+                <TableCell align="center"></TableCell>
+
+
+                {userData?.admin === true &&
                     <TableCell align="center">
 
                         <SureModal data={row?.contrato} name={row?.aluno} url="/controle" />
 
-                    </TableCell> : ""}
+                    </TableCell>}
 
             </RowTable>
 
@@ -167,7 +197,7 @@ export function Row(props) {
                                 <HeadTable>
                                     <TableRow>
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>AC. Status</TableCell>
-                                        <TableCell style={{ fontWeight: "bold" }}>TM. Status</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }} >TM. Status</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }} >PP. Status</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>MD. Status</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>PA. Status</TableCell>
@@ -184,7 +214,8 @@ export function Row(props) {
                                                 userData.role === 'comercial' ?
                                                     <td>{row?.acStatus}</td>
                                                     :
-                                                    <td style={{ display: "flex" }}>
+
+                                                    <td style={{ display: "flex", justifyContent: "center" }}>
                                                         <Select defaultValue={row?.acStatus} onChange={(e) => Changer("acStatus", e.target.value, row?.contrato)}>
                                                             <option value="pendente">Pendente</option>
                                                             <option value="ok">Ok</option>
@@ -199,7 +230,8 @@ export function Row(props) {
                                             {userData.role === 'comercial' ?
                                                 <td>{row?.tmStatus}</td>
                                                 :
-                                                <td style={{ display: "flex" }}>
+
+                                                <td style={{ display: "flex", justifyContent: "center" }}>
                                                     <Select defaultValue={row?.tmStatus} onChange={(e) => Changer("tmStatus", e.target.value, row?.contrato)}>
                                                         <option value="pendente">Pendente</option>
                                                         <option value="ok">Ok</option>
@@ -215,7 +247,7 @@ export function Row(props) {
                                                 userData.role === 'comercial' ?
                                                     <td>{row?.ppStatus}</td>
                                                     :
-                                                    <td style={{ display: "flex" }}>
+                                                    <td style={{ display: "flex", justifyContent: "center" }}>
                                                         <Select defaultValue={row?.ppStatus} onChange={(e) => Changer("ppStatus", e.target.value, row?.contrato)}>
                                                             <option value="pendente">Pendente</option>
                                                             <option value="ok">Ok</option>
@@ -231,7 +263,7 @@ export function Row(props) {
                                                 userData.role === 'comercial' ?
                                                     <td>{row?.mdStatus}</td>
                                                     :
-                                                    <td style={{ display: "flex" }}>
+                                                    <td style={{ display: "flex", justifyContent: "center" }}>
                                                         <Select defaultValue={row?.mdStatus} onChange={(e) => Changer("mdStatus", e.target.value, row?.contrato)}>
                                                             <option value="pendente">Pendente</option>
                                                             <option value="ok">Ok</option>
@@ -246,7 +278,7 @@ export function Row(props) {
                                                 userData.role === 'comercial' ?
                                                     <td>{row?.paStatus}</td>
                                                     :
-                                                    <td style={{ display: "flex" }}>
+                                                    <td style={{ display: "flex", justifyContent: "center" }}>
                                                         <Select defaultValue={row?.paStatus} onChange={(e) => Changer("paStatus", e.target.value, row?.contrato)}>
                                                             <option value="pendente">Pendente</option>
                                                             <option value="ok">Ok</option>
@@ -269,12 +301,12 @@ export function Row(props) {
                                 <HeadTable>
                                     <TableRow>
                                         <TableCell style={{ fontWeight: "bold" }}>Data de Comissionamento </TableCell>
-                                        <TableCell style={{ fontWeight: "bold" }}>Emissão da Venda</TableCell>
+                                        <TableCell align="left" style={{ fontWeight: "bold" }}>Status do comissionamento </TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }} >ADM. Responsável</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>Status Direção</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>Aprovação ADM.</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>Vendedor(a)</TableCell>
-
+                                        <TableCell style={{ fontWeight: "bold" }}>Emissão da Venda</TableCell>
                                     </TableRow>
                                 </HeadTable>
                                 <BodyTable>
@@ -283,7 +315,7 @@ export function Row(props) {
                                         <TableCell component="th" scope="row"  >
                                             {userData.role === 'comercial' ? "" :
 
-                                                <td style={{ display: "flex", margin: ".5rem 0 " }}>
+                                                <td style={{ display: "flex", justifyContent: "center" }}>
                                                     <Input defaultValue={row?.dataComissionamento} type="date" onChange={(e) => Changer("dataComissionamento", e.target.value, row?.contrato)} />
 
                                                 </td>}
@@ -291,20 +323,37 @@ export function Row(props) {
 
                                         </TableCell>
                                         <TableCell align="center">
-                                            {row?.dataMatricula}
+                                            {
+                                                userData.role === 'comercial' ?
+                                                    <td>{row?.tipoMatricula}</td>
+                                                    :
+                                                    <td style={{ display: "flex", justifyContent: "center" }}>
+                                                        <Select
+                                                            style={{ backgroundColor: setColor[row?.tipoMatricula] }}
+                                                            defaultValue={row?.tipoMatricula}
+                                                            onChange={(e) => Changer("tipoMatricula", e.target.value, row?.contrato)}>
+                                                            <option value="Pendente">Pendente</option>
+                                                            <option value="Não aprovado">Não aprovado</option>
+                                                            <option value="Pré-aprovado">Pré-aprovado</option>
+                                                            <option value="Comissionado">Comissionado</option>
+                                                            <option value="Aprovado">Aprovado</option>
+                                                        </Select>
+
+                                                    </td>}
+
                                         </TableCell>
                                         <TableCell align="center"> {row?.responsavelADM}</TableCell>
                                         <TableCell align="center">
                                             {
                                                 userData.role === 'direcao' ?
-                                                    <td style={{ display: "flex" }}>
-                                                        <Select defaultValue={row?.aprovacaoDirecao} onChange={(e) => Changer("aprovacaoDirecao", e.target.value, row?.contrato)}>
-                                                            <option value="pendente">Pendente</option>
-                                                            <option value="ok">Ok</option>
-                                                            <option value="nao">Não</option>
-                                                        </Select>
+                                                    <Select
+                                                        defaultValue={row?.aprovacaoDirecao}
+                                                        onChange={(e) => Changer("aprovacaoDirecao", e.target.value, row?.contrato)}>
+                                                        <option value="pendente">Pendente</option>
+                                                        <option value="ok">Ok</option>
+                                                        <option value="nao">Não</option>
+                                                    </Select>
 
-                                                    </td>
                                                     : <td>{row?.aprovacaoDirecao}</td>
                                             }
                                         </TableCell>
@@ -314,7 +363,7 @@ export function Row(props) {
                                                 userData.role === 'comercial' ?
                                                     <td>{row?.aprovacaoADM}</td>
                                                     :
-                                                    <td style={{ display: "flex" }}>
+                                                    <td style={{ display: "flex", justifyContent: "center" }}>
                                                         <Select defaultValue={row?.aprovacaoADM} onChange={(e) => Changer("aprovacaoADM", e.target.value, row?.contrato)}>
                                                             <option value="pendente">Pendente</option>
                                                             <option value="ok">Ok</option>
@@ -324,6 +373,8 @@ export function Row(props) {
                                                     </td>}
                                         </TableCell>
                                         <TableCell align="center"> {row?.owner}</TableCell>
+                                        <TableCell align="center">{row?.dataMatricula}</TableCell>
+
 
 
                                     </DataTable>
@@ -368,7 +419,7 @@ export function Row(props) {
                                 <BodyTable>
                                     <TableRow key={row?.contrato}>
                                         {/* ////////////////////////////////////////// */}
-                                        <TableCell align="center" style={{ display: "flex" }}>
+                                        <TableCell align="center" style={{ display: "flex", justifyContent: "center" }}>
                                             <Button onClick={() => userData.role !== 'direcao' ? Sender("observacao", value, row?.contrato) : SenderDirector("observacao", value, row?.contrato)}> ✔️</Button>
 
                                             <Text cols='3' placeholder={row?.observacao} onChange={(e) => Changer("observacao", e.target.value, row?.contrato)}></Text>
@@ -529,7 +580,9 @@ export function Row(props) {
                         }} colSpan={6}>
                             <Collapse style={{ background: open3 ? "#f5f5f5" : "" }} in={open3} timeout="auto" unmountOnExit>
                                 <HeadTable style={{ display: "flex", alignItems: "center", paddingLeft: "1rem", fontSize: "1.2rem" }}>
-                                    Taxa de Matrícula :
+                                    <TableRow>
+                                        Taxa de Matrícula :
+                                    </TableRow>
                                 </HeadTable>
 
                                 <HeadTable>
@@ -568,7 +621,7 @@ export function Row(props) {
                                                         {row?.tmStatus}
                                                     </>
                                                     :
-                                                    <td style={{ display: "flex" }}>
+                                                    <td style={{ display: "flex", justifyContent: "center" }}>
                                                         <Select defaultValue={row?.tmStatus} onChange={(e) => Changer("tmStatus", e.target.value, row?.contrato)}>
                                                             <option value="pendente">Pendente</option>
                                                             <option value="ok">Ok</option>
@@ -597,7 +650,9 @@ export function Row(props) {
                                 </BodyTable>
 
                                 <HeadTable style={{ display: "flex", alignItems: "center", paddingLeft: "1rem", fontSize: "1.2rem" }}>
-                                    Parcela :
+                                    <TableRow>
+                                        Parcela :
+                                    </TableRow>
                                 </HeadTable>
 
                                 <HeadTable>
@@ -634,7 +689,7 @@ export function Row(props) {
                                                 userData.role === 'comercial' ?
                                                     <td>{row?.ppStatus}</td>
                                                     :
-                                                    <td style={{ display: "flex" }}>
+                                                    <td style={{ display: "flex", justifyContent: "center" }}>
                                                         <Select onChange={(e) => Changer("ppStatus", e.target.value, row?.contrato)}>
                                                             <option value="">{row?.ppStatus} </option>
                                                             <option value="pendente">Pendente</option>
@@ -664,7 +719,9 @@ export function Row(props) {
                                 </BodyTable>
 
                                 <HeadTable style={{ display: "flex", alignItems: "center", paddingLeft: "1rem", fontSize: "1.2rem" }}>
-                                    Material Didático :
+                                    <TableRow>
+                                        Material Didático :
+                                    </TableRow>
                                 </HeadTable>
                                 <HeadTable>
                                     <TableRow>
@@ -700,7 +757,7 @@ export function Row(props) {
                                                 userData.role === 'comercial' ?
                                                     <>{row?.mdStatus}</>
                                                     :
-                                                    <td style={{ display: "flex" }}>
+                                                    <td style={{ display: "flex", justifyContent: "center" }}>
                                                         <Select defaultValue={row?.mdStatus} onChange={(e) => Changer("mdStatus", e.target.value, row?.contrato)}>
                                                             <option value="pendente">Pendente</option>
                                                             <option value="ok">Ok</option>
@@ -841,7 +898,7 @@ export function Row(props) {
                                         <TableCell align="center">
                                             {row?.subclasse}
                                         </TableCell>
-                                        <TableCell align="center">
+                                        <TableCell align="center" style={{ display: "grid", justifyContent: "center" }}>
                                             {row?.materialDidatico.map(res => (<td key={res}>{res}</td>))}
                                         </TableCell>
                                         <TableCell align="center">

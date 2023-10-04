@@ -1,7 +1,6 @@
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Fade from '@mui/material/Fade';
-import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
 
@@ -9,7 +8,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import { useUser } from '../../hooks/userContext';
-import { Boxes, Filter, Input, Label, LabelDate, Select, Submit } from './styles';
+import { Boxes, Dialog, Filter, Input, Label, LabelDate, Select, Submit } from './styles';
 
 const style = {
     position: 'absolute',
@@ -108,10 +107,12 @@ export default function TransitionsModal() {
         const filteredByresponsible = fetchData?.filter(res => res.name.toLowerCase().includes(body.responsavel.toLowerCase()))
         const filteredByBackground = fetchData?.filter(res => res.background.toLowerCase() === body.tipoMatricula.toLowerCase())
         const filteredByBackgroundAndComission = fetchData?.filter(res => res.background.toLowerCase() === body.tipoMatricula.toLowerCase() && res.comissaoStatus === body.comissaoStatus)
-        const filteredByBackgroundAndComissionAndCourse = fetchData?.filter(res => res.background.toLowerCase() === body.tipoMatricula.toLowerCase() && res.comissaoStatus === body.comissaoStatus && res.classe === body.curso)
-        const filteredByComissionAndCourse = fetchData?.filter(res => res.comissaoStatus === body.comissaoStatus && res.classe === body.curso)
-        const filteredByBackgroundAndCourse = fetchData?.filter(res => res.background.toLowerCase() === body.tipoMatricula.toLowerCase() && res.classe === body.curso)
-        const filteredByCourse = fetchData?.filter(res => res.classe === body.curso)
+
+        const filteredByBackgroundAndComissionAndCourse = fetchData?.filter(res => res.background.toLowerCase() === body.tipoMatricula.toLowerCase() && res.comissaoStatus === body.comissaoStatus && res.curso === body.curso)
+        const filteredByComissionAndCourse = fetchData?.filter(res => res.comissaoStatus === body.comissaoStatus && res.curso === body.curso)
+        const filteredByBackgroundAndCourse = fetchData?.filter(res => res.background.toLowerCase() === body.tipoMatricula.toLowerCase() && res.curso === body.curso)
+        const filteredByCourse = fetchData?.filter(res => res.curso === body.curso)
+
         const filteredByComission = fetchData?.filter(res => res.comissaoStatus === body.comissaoStatus)
 
 
@@ -167,8 +168,8 @@ export default function TransitionsModal() {
 
     return (
         <div>
-            <Filter onClick={handleFuncs}> Filtros Avançados</Filter>
-            <Modal
+            <Filter onClick={handleFuncs}> Mais Filtros</Filter>
+            <Dialog
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
                 open={open}
@@ -181,7 +182,7 @@ export default function TransitionsModal() {
                     },
                 }}
             >
-                <Fade in={open} style={{ border: "none", borderRadius: ".9rem", width: "65vw" }}>
+                <Fade in={open} >
                     <Box sx={style}>
                         <Typography id="transition-modal-title" variant="h6" component="h2">
                             Filtros Avançados
@@ -242,10 +243,9 @@ export default function TransitionsModal() {
                                         <h4>Curso desejado:</h4>
                                         <Select type="text" {...register('curso')} >
                                             <option value="selec">Selecione</option>
-                                            <option value="Fluency Way – Class"> Fluency Way – Class</option>
-                                            <option value="Fluency Way – X">Fluency Way – X</option>
-                                            <option value="El Espanol"> El Espanol</option>
-                                            <option value="Tecnologia">Tecnologia</option>
+                                            <option value="Tecnologia"> Tecnologia</option>
+                                            <option value="Inglês">Inglês</option>
+                                            <option value="Espanhol"> Espanhol</option>
                                         </Select>
                                     </Label>
                                 </div>
@@ -254,7 +254,7 @@ export default function TransitionsModal() {
                             <form onSubmit={handleSubmit((data) => Sender(data))}>
                                 <div>
                                     <LabelDate >
-                                        <h4>Período da venda</h4>
+                                        <h4>Data da Matrícula</h4>
                                         <span>
                                             <Input {...register('startContract')} type="date" />
                                             <h5>até</h5>
@@ -263,7 +263,7 @@ export default function TransitionsModal() {
                                     </LabelDate>
 
                                     <LabelDate >
-                                        <h4>Período de validação</h4>
+                                        <h4>Data de validação</h4>
                                         <span>
                                             <Input {...register('startValidation')} type="date" />
                                             <h5>até</h5>
@@ -272,7 +272,7 @@ export default function TransitionsModal() {
                                     </LabelDate>
 
                                     <LabelDate >
-                                        <h4>Período de comissionamento</h4>
+                                        <h4>Data de comissionamento</h4>
                                         <span>
                                             <Input {...register('startComission')} type="date" />
                                             <h5>até</h5>
@@ -286,7 +286,7 @@ export default function TransitionsModal() {
                     </Box>
 
                 </Fade>
-            </Modal>
+            </Dialog>
         </div>
     );
 }   

@@ -17,41 +17,21 @@ export const UserProvider = ({ children }) => {
     const [contracts, setContracts] = useState([])
     const [filteredContracts, setFilteredContracts] = useState()
     const [sellers, setSeller] = useState()
+    const [periodRange, setPeriodRange] = useState('Esta semana')
+
+    const [anchorEl, setAnchorEl] = useState(null);
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
 
 
-    const putInfo = async (userInfos) => {
-        setUserData(userInfos)
-        await localStorage.setItem('userData', JSON.stringify(userInfos))
-    }
-
-    const logOut = async () => {
-        await localStorage.removeItem('userData')
-
-    }
     const headers = useMemo(() => {
         return {
             'Content-Type': "application/json",
             "Authorization": `Bearer ${userData?.token}`
         }
     }, [userData?.token])
-
-
-
-    const bool = headers.Authorization
-    let splited = bool.split(" ")
-
-    const getData = async () => {
-        await URI.get('/users', { headers })
-            .then(res => {
-                setUsers(res.data)
-                setSeller(res.data?.filter(role =>
-                    role.role === 'comercial' || role.role === 'gerencia'))
-
-            }).catch((err) => (err))
-    }
-
-    splited[1] !== undefined && users.length === 0 && getData()
-
 
     useEffect(() => {
         const bool = headers.Authorization.includes('undefined')
@@ -77,6 +57,70 @@ export const UserProvider = ({ children }) => {
     }, [fetchData, headers])
 
 
+    const period = {
+        "Esta semana": 7,
+        "Este mês": 30,
+        "Mês passado": 60,
+        "Últimos 3 meses": 90,
+        "Este ano": 365,
+        "Período personalizado": 0,
+    }
+
+
+    const currentDay = new Date()
+    currentDay.setDate(currentDay.getDate() - period[periodRange])
+
+    const time = currentDay.toLocaleDateString()
+    const range = time.split("/")
+
+
+    async function pushData() {
+        const firstWeekGeneral = fetchData?.filter(res => {
+            const date = res.dataMatricula.split("/")
+            return new Date(`${date[2]}-${date[1]}-${date[0]}`) >= new Date(`${range[2]}-${range[1]}-${range[0]}`)
+        })
+        const firstWeekSeller = fetchData?.filter(res => {
+            const date = res.dataMatricula.split("/")
+            return new Date(`${date[2]}-${date[1]}-${date[0]}`) >= new Date(`${range[2]}-${range[1]}-${range[0]}`) && res.owner.toLowerCase().includes(userData.name.toLowerCase())
+        })
+
+
+        userData.role === 'comercial' && setFiltered(firstWeekSeller)
+
+        userData.role === 'direcao' || userData.role === 'administrativo' ? setFiltered(firstWeekGeneral) : ""
+
+    }
+
+
+    const putInfo = async (userInfos) => {
+        setUserData(userInfos)
+        await localStorage.setItem('userData', JSON.stringify(userInfos))
+    }
+
+    const logOut = async () => {
+        await localStorage.removeItem('userData')
+
+    }
+
+
+
+    const bool = headers.Authorization
+    let splited = bool.split(" ")
+
+    const getData = async () => {
+        await URI.get('/users', { headers })
+            .then(res => {
+                setUsers(res.data)
+                setSeller(res.data?.filter(role =>
+                    role.role === 'comercial' || role.role === 'gerencia'))
+
+            }).catch((err) => (err))
+    }
+
+    splited[1] !== undefined && users.length === 0 && getData()
+
+
+
 
     useEffect(() => {
         const loadUserData = async () => {
@@ -92,10 +136,12 @@ export const UserProvider = ({ children }) => {
     }, [])
 
 
+
+
     return (
         <UserContext.Provider value={{
-            contracts, setContracts, sellers,
-            users, headers, putInfo, userData,
+            contracts, setContracts, sellers, periodRange, setPeriodRange, pushData,
+            users, headers, putInfo, userData, anchorEl, setAnchorEl, handleClose,
             logOut, fetchData, setFetchData, setUsers,
             filtered, setFiltered, filteredContracts, setFilteredContracts,
 

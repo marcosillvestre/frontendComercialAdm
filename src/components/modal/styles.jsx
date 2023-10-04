@@ -1,8 +1,21 @@
 import styled from "styled-components";
 
 import Button from '@mui/material/Button';
+import Modal from '@mui/material/Modal';
 
 
+
+
+
+export const Dialog = styled(Modal)`
+
+.css-1qte3rd {
+border: none;
+border-radius: .9rem;
+width: 65vw;
+padding-right: 3rem;
+}
+`
 
 export const Filter = styled(Button)`
 
@@ -33,6 +46,13 @@ gap:.2rem;
 margin:.2rem 0;
 width: 100%;
 `
+export const Select = styled.select`
+border: none;
+border-bottom: 1px solid;
+padding: .4rem;
+width: 90%;
+`
+
 export const LabelDate = styled.label`
 font-size:.8rem;
 margin-bottom:.7rem;
@@ -48,12 +68,7 @@ border-bottom: 1px solid;
 padding: .4rem;
 width: 90%;
 `
-export const Select = styled.select`
-border: none;
-border-bottom: 1px solid;
-padding: .4rem;
-width: 90%;
-`
+
 
 export const Submit = styled.input`
 background: none;

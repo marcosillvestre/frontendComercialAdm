@@ -51,10 +51,10 @@ width: 25rem;
 export const Select = styled.select`
 border: none;
 padding: .4rem;
-/* width: 5rem; */
 border-radius: .6rem ;
 box-shadow: -2px 2px 9px 0px rgba(0,0,0,0.66);
 text-overflow: ellipsis;
+
 `
 export const Button = styled.button`
 background: none;

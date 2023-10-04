@@ -35,6 +35,7 @@ export default function SureModal(data) {
     }
 
     async function DeleteData(id) {
+        setOpen(!open)
 
         await toast.promise(
             URI.delete(`${data.url}/${id}`, { headers }),
