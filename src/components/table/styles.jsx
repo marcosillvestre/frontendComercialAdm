@@ -11,7 +11,15 @@ background-color: ${props => props.openned && "#f5f5f5"};
 
 border-left: .2rem solid #4648da;
 border-right: .2rem solid #4648da;
+
 `
+
+export const Td = styled.td`
+display: flex;
+justify-content: center;
+
+`
+
 export const BodyTable = styled(TableBody)`
 border-left: .1rem solid #16207421;
 /* border-right: .1rem solid #16207421; */
@@ -38,14 +46,6 @@ export const Trash = styled(DeleteIcon)`
 &:active{
     opacity: 0.7;
 }
-`
-export const Container = styled.span`
-display: flex;
-gap: .7rem;
-flex-wrap: wrap;
-background-color: green;
-width: 25rem;
-
 `
 
 export const Select = styled.select`
