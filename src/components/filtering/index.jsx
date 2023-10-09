@@ -96,7 +96,7 @@ export default function CustomizedMenus() {
 
                 </MenuItem>
                 <Divider sx={{ my: 0.5 }} />
-                {/* <MenuItem disableRipple>
+                <MenuItem disableRipple>
                     <PositionedMenu name={"Data de matrícula"} />
 
                 </MenuItem>
@@ -107,7 +107,7 @@ export default function CustomizedMenus() {
                 <MenuItem disableRipple>
                     <PositionedMenu name={"Data de validação"} />
 
-                </MenuItem> */}
+                </MenuItem>
             </StyledMenu>
         </div>
     );

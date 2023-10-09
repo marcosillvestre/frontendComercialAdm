@@ -3,42 +3,17 @@ import Menu from '@mui/material/Menu';
 import * as React from 'react';
 import { useUser } from '../../hooks/userContext';
 // import { handleClose } from '../filtering';
-import { Input, Label, LabelDate, Select } from './styles';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import DatePickers from '../datePicker';
+import { Label, RangeDate, Select } from './styles';
 
 export default function PositionedMenu(data) {
-    const { handleClose } = useUser()
 
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const { filtered, setFiltered } = useUser()
+    const { filtered, setFiltered, handleClose, selectedEndDate,
+        selectedInitialDate, fetchData, setSelectedInitialDate,
+        setSelectedEndDate, userData } = useUser()
 
-
-    // const RegisterDate = () => new Date(body.startContract)
-    // const filteredUp = fetchData?.filter(res => {
-    //     const date = res.dataMatricula.split("/")
-    //     return new Date(`${date[2]}-${date[1]}-${date[0]}`) >= RegisterDate()
-    // })
-
-    // const EndRegister = () => new Date(body.endContract)
-    // const filteredDown = fetchData?.filter(res => {
-    //     const date = res.dataMatricula.split("/")
-    //     return new Date(`${date[2]}-${date[1]}-${date[0]}`) <= EndRegister()
-    // })
-
-    // const filteredUpDown = fetchData?.filter(res => {
-    //     const date = res.dataMatricula.split("/")
-    //     return new Date(`${date[2]}-${date[1]}-${date[0]}`) >= RegisterDate() && new Date(`${date[2]}-${date[1]}-${date[0]}`) <= EndRegister()
-    // })
-
-    // if (body.startContract !== '' && body.endContract === '') {
-    //     setFiltered(filteredUp)
-    // }
-    // if (body.startContract !== '' && body.endContract !== '') {
-    //     setFiltered(filteredUpDown)
-    // }
-
-    // if (body.endContract !== '' && body.startContract === '') {
-    //     setFiltered(filteredDown)
-    // }
 
 
 
@@ -47,13 +22,53 @@ export default function PositionedMenu(data) {
             setFiltered(filtered.filter(res => res[type] === value))
         }
         close()
+    }
 
+    const setRange = (type) => {
+        if (selectedInitialDate === null) {
+            setSelectedInitialDate(new Date('2022-01-01'))
+        }
+        if (selectedEndDate === null) {
+            setSelectedEndDate(new Date())
+        }
+
+        let comercialFetchedData;
+
+        const filteredByComercial = fetchData?.filter(res => res.owner.toLowerCase().includes(userData.name.toLowerCase()))
+        userData.role !== 'comercial' ? comercialFetchedData = fetchData : comercialFetchedData = filteredByComercial
+
+
+        const generalFilter = comercialFetchedData?.filter(res => {
+            const date = res[type].split("/")
+            if (type === 'dataValidacao') {
+                let year = date[2]?.split(",")
+                if (year) {
+                    return new Date(`${year[0]}-${date[1]}-${date[0]}`) >= selectedInitialDate && new Date(`${date[2]}-${date[1]}-${date[0]}`) <= selectedEndDate
+                }
+            } else {
+                return new Date(`${date[2]}-${date[1]}-${date[0]}`) >= selectedInitialDate && new Date(`${date[2]}-${date[1]}-${date[0]}`) <= selectedEndDate
+
+            }
+        })
+
+        setFiltered(generalFilter)
+
+    }
+
+
+    const handleFilterRangeDate = (name) => {
+        name === "Data de validação" && setRange('dataValidacao')
+        name === "Data de comissionamento" && setRange('dataComissionamento')
+        name === "Data de matrícula" && setRange('dataMatricula')
+
+        close()
     }
 
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
+
     const close = () => {
         setAnchorEl(null);
         handleClose()
@@ -122,33 +137,57 @@ export default function PositionedMenu(data) {
                 }
                 {
                     data.name === "Data de matrícula" &&
-                    <LabelDate >
-                        <span>
-                            <Input type="date" />
-                            <h5>até</h5>
-                            <Input type="date" />
+                    <RangeDate >
+                        <span className='label'>
+                            <button onClick={() => setAnchorEl(null)}><ArrowBackIcon /></button>
+                            <h3>{data.name}</h3>
+                            <div></div>
                         </span>
-                    </LabelDate>
+
+                        <span className='span-container'>
+                            <DatePickers text="Data inicial" />
+                            <p>até</p>
+                            <DatePickers text="Data final" />
+                        </span>
+                        <hr />
+                        <button className='button-filter' onClick={() => handleFilterRangeDate(data.name)}>Aplicar filtro</button>
+                    </RangeDate>
                 }
                 {
                     data.name === "Data de comissionamento" &&
-                    <LabelDate >
-                        <span>
-                            <Input type="date" />
-                            <h5>até</h5>
-                            <Input type="date" />
+                    <RangeDate >
+                        <span className='label'>
+                            <button onClick={() => setAnchorEl(null)}><ArrowBackIcon /></button>
+                            <h3>{data.name}</h3>
+                            <div></div>
                         </span>
-                    </LabelDate>
+                        <span className='span-container'>
+                            <DatePickers text="Data inicial" />
+                            <p>até</p>
+                            <DatePickers text="Data final" />
+                        </span>
+                        <hr />
+                        <button className='button-filter' onClick={() => handleFilterRangeDate(data.name)}>Aplicar filtro</button>
+                    </RangeDate>
                 }
                 {
                     data.name === "Data de validação" &&
-                    <LabelDate >
-                        <span>
-                            <Input type="date" />
-                            <h5>até</h5>
-                            <Input type="date" />
+                    <RangeDate>
+                        <span className='label'>
+
+                            <button onClick={() => setAnchorEl(null)}><ArrowBackIcon /></button>
+                            <h3>{data.name}</h3>
+                            <div></div>
+
                         </span>
-                    </LabelDate>
+                        <span className='span-container'>
+                            <DatePickers text="Data inicial" />
+                            <p>até</p>
+                            <DatePickers text="Data final" />
+                        </span>
+                        <hr />
+                        <button className='button-filter' onClick={() => handleFilterRangeDate(data.name)}>Aplicar filtro</button>
+                    </RangeDate>
                 }
 
             </Menu>

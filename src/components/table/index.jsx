@@ -95,7 +95,7 @@ export function Row(props) {
 
 
     const setColor = {
-        "Pendente": "#e4e4e4",
+        "Pendente": "#f4f4f4",
         "Não aprovado": "#e4b9b9",
         "Pré-aprovado": "#abc7f1",
         "Aprovado": "#c2f1c2",

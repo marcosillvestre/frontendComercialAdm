@@ -91,6 +91,6 @@ border: none;
 padding: .4rem;
 width: 8rem;
 border-radius: .6rem ;
-box-shadow: -2px 3px 9px 0px rgba(0,0,0,0.66);
+box-shadow: -2px 3px 4px 0px rgba(0,0,0,0.66);
 text-overflow: ellipsis;
 `

@@ -18,8 +18,12 @@ export const UserProvider = ({ children }) => {
     const [filteredContracts, setFilteredContracts] = useState()
     const [sellers, setSeller] = useState()
     const [periodRange, setPeriodRange] = useState('Esta semana')
-
     const [anchorEl, setAnchorEl] = useState(null);
+
+    const [selectedInitialDate, setSelectedInitialDate] = useState(null);
+    const [selectedEndDate, setSelectedEndDate] = useState(null);
+
+
 
     const handleClose = () => {
         setAnchorEl(null);
@@ -142,9 +146,9 @@ export const UserProvider = ({ children }) => {
         <UserContext.Provider value={{
             contracts, setContracts, sellers, periodRange, setPeriodRange, pushData,
             users, headers, putInfo, userData, anchorEl, setAnchorEl, handleClose,
-            logOut, fetchData, setFetchData, setUsers,
+            logOut, fetchData, setFetchData, setUsers, selectedInitialDate, setSelectedInitialDate,
             filtered, setFiltered, filteredContracts, setFilteredContracts,
-
+            selectedEndDate, setSelectedEndDate
         }}>
 
             {children}
