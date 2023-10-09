@@ -12,7 +12,7 @@ text-align: center;
 gap:2rem;
 width: 28rem ;
 height: 18rem;
-    background-color: #f2f2f2;
+background-color: #f2f2f2;
 
 input{
     height: 2rem;
@@ -26,6 +26,7 @@ input{
 .label{
     display: flex;
     justify-content: space-between;
+    align-items: center;
     h3{
         translate: -1.7rem 0;
     }
