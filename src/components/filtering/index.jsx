@@ -87,6 +87,11 @@ export default function CustomizedMenus() {
                 <MenuItem disableRipple>
                     <PositionedMenu name={"Background"} />
                 </MenuItem>
+
+                <MenuItem disableRipple>
+                    <PositionedMenu name={"Unidade"} />
+                </MenuItem>
+
                 <MenuItem disableRipple>
                     <PositionedMenu name={"Status do comissionamento"} />
 

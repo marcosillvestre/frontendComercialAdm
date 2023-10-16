@@ -112,6 +112,17 @@ export default function PositionedMenu(data) {
                     </Label>
                 }
                 {
+                    data.name === "Unidade" &&
+                    <Label >
+                        <Select onChange={(e) => handleFilter(e.target.value, "unidade")} >
+                            <option value="selec">Selecione</option>
+                            <option value="PTB">PTB</option>
+                            <option value="Centro">Centro</option>
+                            <option value="Aliança Eterna">Aliança Eterna</option>
+                        </Select>
+                    </Label>
+                }
+                {
                     data.name === "Status do comissionamento" &&
                     <Label >
                         <Select defaultValue="Selecione" onChange={(e) => handleFilter(e.target.value, "tipoMatricula")} >

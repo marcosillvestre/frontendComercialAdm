@@ -83,23 +83,3 @@ border-bottom: 1px solid;
 padding: .4rem;
 width: 90%;
 `
-export const LabelDate = styled.label`
-display: flex;
-justify-content: center;
-margin: 1rem 1rem 1rem 1rem;
-/* padding: 1rem 5rem .1rem 5rem; */ 
-
-span{
-    display: flex;
-    align-items: center;
-    gap:.7rem;
-    height: 100%;
-    width: 100%;
-}
-`
-export const Input = styled.input`
-border: none;
-border-bottom: 1px solid;
-padding-left: .5rem;
-width: 7rem;
-`

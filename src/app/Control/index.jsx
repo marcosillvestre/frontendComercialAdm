@@ -1,7 +1,4 @@
 
-import { memo, useEffect } from 'react';
-import { Container, NothingHere, Tax } from './styles';
-
 import { TableBody } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -9,6 +6,8 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import { memo, useEffect } from 'react';
+import { Container, NothingHere, Tax } from './styles';
 
 import { Row } from '../../components/table';
 
@@ -25,10 +24,9 @@ import MiniDrawer from '../../components/sideBar';
 const ListFiltered = () => {
     const { filtered, periodRange, setPeriodRange, pushData, setFiltered } = useUser()
 
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         pushData()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [periodRange])
 
     const period = [
@@ -54,6 +52,8 @@ const ListFiltered = () => {
         }
     }
 
+
+
     return (
         <>
             <Container>
@@ -70,6 +70,8 @@ const ListFiltered = () => {
 
                             }
                         </select>
+
+
 
                     </label>
 
@@ -91,6 +93,7 @@ const ListFiltered = () => {
                     </form>
 
                     <ControlledAccordions />
+
                     <div className='div-tax'>
                         <Tax>{filtered?.length}</Tax>
                     </div>

@@ -88,11 +88,8 @@ export const UserProvider = ({ children }) => {
             return new Date(`${date[2]}-${date[1]}-${date[0]}`) >= new Date(`${range[2]}-${range[1]}-${range[0]}`) && res.owner.toLowerCase().includes(userData.name.toLowerCase())
         })
 
-
         userData.role === 'comercial' && setFiltered(firstWeekSeller)
-
         userData.role === 'direcao' || userData.role === 'administrativo' ? setFiltered(firstWeekGeneral) : ""
-
     }
 
 

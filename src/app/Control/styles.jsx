@@ -16,7 +16,19 @@ padding: 0 4rem;
     border: 2px solid #dfe6f1;
     border-radius: .35rem;
     padding: 1.2rem;
-    /* width: 50rem; */
+
+
+        .select{}
+    #category-select label {
+    font-size: .75rem;
+    letter-spacing: .0225rem;
+    }
+    #selected-value{
+        color: #afabb6;
+        font-size: .875rem;
+    }
+
+
 .filter{
     border: none;
     background-color:#dfe6f1;
@@ -117,4 +129,80 @@ margin: 2rem 40%;
 justify-content: center;
 align-items: center;
 flex-direction: column;
+`
+
+
+
+export const ListOpt = styled.ul`
+    display:${props => props.open ? "block" : "none"} ;
+    margin-top: .25rem ;
+    border-radius: .375rem;
+    border: 1px solid #ffffff;
+    background-color:#dfe6f1;
+    color: #222;
+    position: absolute;
+    z-index: 10;
+
+`
+export const Options = styled.li`
+        transition: .4s;
+        transform-origin: top;
+        padding: .75rem;
+        width: 100%;
+        border-bottom: .5px solid #ffffff;
+        display: flex;
+        align-items: center;
+        gap: .75rem;
+        position: relative;
+        &:hover{
+        background: #b7caeb;
+    }
+    #radio{
+        all: unset;
+        position: absolute;
+        inset: 0;
+        /* outline: 1px solid red; */
+    }
+    
+`
+
+
+export const Checked = styled.i`
+color: red;
+margin-left: auto;
+display: none;
+`
+
+
+export const SelectButton = styled.div`
+    margin-top: .5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    border: none;
+    background-color:#dfe6f1;
+    border-radius: .35rem;
+    padding: .32rem .5rem;
+    width: 10rem;
+
+    &:hover{
+    outline: 1px solid #d2daeb;
+    color: #222;
+
+    }
+`
+export const Icon = styled.div`
+display: flex;
+align-items: center;
+ cursor: pointer;
+    .icon-up{
+        transform: rotate(180deg);
+        display:${props => props.open ? "block" : "none"} ;
+        
+    }
+    
+    .icon-down{
+        display:${props => props.open ? "none" : "block"} ;
+    }
 `
