@@ -11,18 +11,20 @@ import TableRow from '@mui/material/TableRow';
 
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 import MiniDrawer from '../../components/sideBar';
 import { Row } from '../../components/tableUsers';
 import { useUser } from '../../hooks/userContext';
 import URI from '../utils/utils';
-import { Box, Container, ErrorMessage, Input, MultiOption, Selected, Selects, Submit } from './styles';
+import { Anchor, Box, Container, ErrorMessage, Header, Input, MultiOption, RegisterContainer, Selected, Selects, Submit, Tax, UserContainer } from './styles';
+
 
 function Register() {
   const [unity, setUnity] = useState([])
   const { headers, users } = useUser()
-
+  const url = useLocation()
   const schema = Yup.object({
     name: Yup.string().required(),
     email: Yup.string().required(),
@@ -35,7 +37,6 @@ function Register() {
       .oneOf([Yup.ref('password')], 'As duas senhas devem ser iguais'),
   })
 
-
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(schema),
   });
@@ -47,9 +48,8 @@ function Register() {
       password: body.password,
       admin: body.admin,
       role: body.role,
-      unity: unity
+      unity: unity.length < 1 ? ["Todas"] : unity
     }
-
     await toast.promise(
       URI.post('/cadastro', person, { headers }),
       {
@@ -59,6 +59,7 @@ function Register() {
       }
     )
   }
+  console.log(unity)
 
   const choosingUnity = (e) => {
     if (unity.map(res => res === e).includes(true)) {
@@ -86,39 +87,61 @@ function Register() {
     { id: 2, value: "PTB" },
     { id: 3, value: "Centro" }
   ]
+
+
+  console.log(url)
+
   return (
     <>
+      <MiniDrawer />
       <Container>
-        <MiniDrawer />
 
-        <span className='main'>
-          <div className='box register'>
-            <form onSubmit={handleSubmit((data) => Sender(data))}>
+        <Header>
+          <nav>
+            <Anchor href="/cadastro" active={url.pathname === "/cadastro"}> Criar novo usuário</Anchor>
+            <Anchor href="/cadastro/lista" active={url.pathname === "/cadastro/lista"}> Listar usuários</Anchor>
+          </nav>
+
+          <nav>
+            Usuários ativos
+            <Tax>
+              {users.length}
+            </Tax>
+          </nav>
+
+        </Header>
+
+        {
+          url.pathname === '/cadastro' &&
+          <RegisterContainer onSubmit={handleSubmit((data) => Sender(data))}>
+            <div className='container1'>
+
               <Box htmlFor="name">
-                <p>Primeiro Nome</p>
+                <p>Primeiro Nome:</p>
                 <Input {...register('name')} />
               </Box>
 
               <Box htmlFor="email">
-                <p>Email</p>
+                <p>Email:</p>
                 <Input {...register('email', { required: true })} />
-                {errors.email && <ErrorMessage>Email is required .</ErrorMessage>}
+                {errors.email && <ErrorMessage>Email is required.</ErrorMessage>}
               </Box>
 
               <Box htmlFor="password">
-                <p>Senha</p>
+                <p>Senha:</p>
                 <Input type="text" {...register('password', { required: true })} />
                 {errors.password && <ErrorMessage>Password is required.</ErrorMessage>}
               </Box>
 
               <Box htmlFor="passwordConfirm">
-                <p>Confirme a Senha</p>
+                <p>Confirme a Senha:</p>
                 <Input type="text" {...register('passwordConfirm', { required: true })} />
                 {errors.passwordConfirm && <ErrorMessage>The password must be same.</ErrorMessage>}
               </Box>
-
+            </div>
+            <div className='container2'>
               <Box>
-                <p>Cargo</p>
+                <p>Cargo:</p>
                 <Selected {...register("role", { required: true })}>
                   <option value=""></option>
                   <option value="direcao">Direção</option>
@@ -129,8 +152,8 @@ function Register() {
               </Box>
 
               <Box >
-                <p>Unidade</p>
-                <Selects onChange={(e) => choosingUnity(e.target.value)}>
+                <p>Unidade:</p>
+                <Selects onChange={(e) => choosingUnity(e.target.value)} >
                   {allUnities.map(res => (
                     <option
                       key={res.id}
@@ -142,32 +165,33 @@ function Register() {
                   }
                 </Selects>
               </Box>
-              <div style={{ display: "flex", flexWrap: "wrap", }}>
 
-                {unity && unity.map(res => (
+              <div style={{ display: "flex", flexWrap: "wrap", }}>
+                {unity[0] !== 'Todas' && unity.map(res => (
                   <MultiOption
                     key={res}
                     onClick={(e) => deleteUnity(e.target.outerText)}>
                     {res}
                   </MultiOption>
                 ))}
-
               </div>
 
-
               <Box htmlFor="admin">
-                <p>Acesso Administrador ?</p>
-                <input type="radio" value={true}{...register("admin", { required: true })} style={{ marginRight: "2.2rem" }} />
-                <input type="radio" value={false} {...register("admin", { required: true })} />
-                <div style={{ display: "flex" }}> <p>sim</p> <p>não</p></div>
+                <p>Acesso Administrador ? (O padrão é não)</p>
+                <input type="radio" value={false} {...register("admin", { required: true })} style={{ marginRight: "2.5rem" }} />
+                <input type="radio" value={true}{...register("admin", { required: true })} />
+                <div>  <p>não</p> <p>sim</p></div>
               </Box>
+            </div>
 
-              <Submit type="submit" />
-            </form>
-          </div>
+            <Submit type="submit" />
+          </RegisterContainer>
+        }
 
-          <div className='box users'>
+        {
+          url.pathname === '/cadastro/lista' &&
 
+          <UserContainer>
             <TableContainer component={Paper}>
               <Table aria-label="collapsible table">
                 <TableHead>
@@ -191,8 +215,9 @@ function Register() {
                 </TableBody>
               </Table>
             </TableContainer>
-          </div>
-        </span >
+          </UserContainer>
+
+        }
 
 
       </Container>

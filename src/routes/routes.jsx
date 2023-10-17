@@ -32,6 +32,10 @@ const Routes = createBrowserRouter([
         element: directory ? <Register /> : <Login />,
     },
     {
+        path: "/cadastro/lista",
+        element: directory ? <Register /> : <Login />,
+    },
+    {
         path: "/controle-comercial",
         element: user === null || user === undefined ? <Login /> : <Control />,
     }

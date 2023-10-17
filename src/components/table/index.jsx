@@ -68,7 +68,7 @@ export function Row(props) {
         await toast.promise(
             URI.put(`/controle/${id}`,
                 area !== 'aprovacaoDirecao' ? directorBody : directorValidationBody
-                , { headers }),
+                , { headers }).then(res => console.log(res)),
             {
                 pending: 'Conferindo os dados',
                 success: 'Atualizado com sucesso',
@@ -84,7 +84,7 @@ export function Row(props) {
                     "area": area,
                     "value": area !== 'observacao' ? e : value,
                     "responsible": userData.name
-                }, { headers }),
+                }, { headers }).then(res => console.log(res)),
             {
                 pending: 'Conferindo os dados',
                 success: 'Atualizado com sucesso',

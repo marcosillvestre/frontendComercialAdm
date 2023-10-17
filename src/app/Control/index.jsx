@@ -24,6 +24,8 @@ import MiniDrawer from '../../components/sideBar';
 const ListFiltered = () => {
     const { filtered, periodRange, setPeriodRange, pushData, setFiltered } = useUser()
 
+
+
     useEffect(() => {
         pushData()
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -81,7 +83,7 @@ const ListFiltered = () => {
                             <input type="text" placeholder='Pesquisar..' className='filter' list='list' {...register('name')} />
                             <datalist id='list'>
                                 {
-                                    filtered && filtered.map(res => (
+                                    filtered && filtered?.map(res => (
                                         <option key={res.contrato} value={res.name} />
 
                                     ))

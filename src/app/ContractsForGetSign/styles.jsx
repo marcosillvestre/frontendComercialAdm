@@ -5,15 +5,17 @@ display: flex;
 flex-direction: column;
 justify-content: start;
 height: 100vh;
-gap: 1rem;
-padding-left: 2rem;
 max-width: 100vw;
 
 
 .search{
-    translate: 0 -1rem;
-    width: 20rem;
+    translate: 0 -3rem;
+    width: 100%;
+    padding: 3rem 0;
+    padding-left: 2rem;
     display: grid;
+    justify-content: flex-start;
+    border-bottom: 1px solid #dededf;
     grid-template-areas:
     "p p"
     "select input"
@@ -25,9 +27,13 @@ max-width: 100vw;
 select{
 grid-area: select;
 border: none;
-border-bottom: 1px solid;
-padding: .4rem;
+background-color:#dfe6f1;
+border-radius:.5rem 0 0 .5rem;
+border-right: .35px solid #bec0c4; 
+padding-left: .5rem ;
 width: 10rem;
+margin-top: .54rem; 
+    
 option{
     text-transform: uppercase;
     font-weight: lighter;
@@ -37,14 +43,16 @@ option{
 }
 input{
 border: none;
-border-bottom: 1px solid;
-padding: .4rem;
+background-color:#dfe6f1;
+border-radius:0 .5rem .5rem 0;
+padding: .7rem .5rem;
 width: 10rem;
+margin-top: .5rem; 
 }
 
 .emmit{
 position: fixed;
-bottom: 5%;
+bottom: 30%;
 right: 2%;
 text-align: center;
 font-weight: lighter;
@@ -94,7 +102,7 @@ export const Button = styled.div`
 
 export const Box = styled.div`
 gap: .6rem;
-display: ${props => props.emmit ? "inline" : "none"};
+display: ${props => props.emmit ? "inline-block" : "none"};
 
 `
 

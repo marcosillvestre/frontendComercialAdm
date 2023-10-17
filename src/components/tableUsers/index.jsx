@@ -23,12 +23,14 @@ export function Row(props) {
                 <TableCell align="center">{row?.email}</TableCell>
                 <TableCell align="center">
                     {
-                        row?.unity.length >= 1 ?
-                            <>
-                                <td >{row?.unity[0]} </td>
-                                <td > {row?.unity[1]}</td>
-                            </>
-                            : <td>Todas</td>
+                        <>
+                            <td >{row?.unity[0]}</td>
+                            <td >{row?.unity[1]}</td>
+                        </>
+                        // row?.unity.length >= 1 ?
+                        //     <>
+                        //     </>
+                        //     : <td>Todas</td>
                     }
                 </TableCell>
                 <TableCell align="center">{row?.role}</TableCell>

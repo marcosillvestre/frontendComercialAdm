@@ -3,7 +3,6 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 import LogoutIcon from '@mui/icons-material/Logout';
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import aw from '../../assets/awbr.png';
 import { useUser } from '../../hooks/userContext';
 import { Adduser, Box, ComissionScreen, Container, GetContracts, Image, Links, LogOut, Name, Nav } from "./styles";
@@ -13,8 +12,6 @@ const Header = (parsed) => {
     const { logOut, userData } = useUser(false)
     const [open, setOpen] = useState(false)
     const [user, setUser] = React.useState()
-
-    const location = useLocation()
 
     function unLog() {
         logOut()
@@ -32,13 +29,13 @@ const Header = (parsed) => {
         <Container open={parsed.open} >
             <nav>
                 <a href="/controle-comercial">
-                    <Image src={aw} alt="American way" location={location.pathname === '/controle-comercial' ? true : undefined} /> :
+                    <Image src={aw} alt="American way" /> :
                 </a>
             </nav>
 
             {user &&
                 <>
-                    <Nav location={location.pathname === '/controle-comercial' ? true : undefined} >
+                    <Nav  >
                         <Box isOpen={open} >
                             <>
                                 <nav>
@@ -67,7 +64,7 @@ const Header = (parsed) => {
 
                     <nav className='nav-name'>
                         <p>Olá,</p><Name>{parsed?.data?.name}</Name>
-                        <LogOut location={location.pathname === '/controle-comercial' ? true : undefined} to="/" onClick={() => unLog()}> Sair  </LogOut>
+                        <LogOut to="/" onClick={() => unLog()}> Sair  </LogOut>
                         <LogoutIcon style={{ color: "#f13434" }} />
                     </nav>
                 </>

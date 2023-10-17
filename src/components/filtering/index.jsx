@@ -100,6 +100,10 @@ export default function CustomizedMenus() {
                     <PositionedMenu name={"Curso"} />
 
                 </MenuItem>
+                <MenuItem disableRipple>
+                    <PositionedMenu name={"Consultor"} />
+
+                </MenuItem>
                 <Divider sx={{ my: 0.5 }} />
                 <MenuItem disableRipple>
                     <PositionedMenu name={"Data de matrícula"} />

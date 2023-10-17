@@ -7,7 +7,7 @@ import styled from "styled-components";
 export const RowTable = styled(TableRow)`
 
 background-color: ${props => props.validated ? "" : "#90d5995a"};
-background-color: ${props => props.openned && "#f5f5f5"};
+background-color: ${props => props.openned ? "#f5f5f5" : ""};
 
 border-left: .2rem solid #4648da;
 border-right: .2rem solid #4648da;

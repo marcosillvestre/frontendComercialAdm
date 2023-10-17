@@ -37,6 +37,11 @@ export const UserProvider = ({ children }) => {
         }
     }, [userData?.token])
 
+
+
+
+
+
     useEffect(() => {
         const bool = headers.Authorization.includes('undefined')
         if (fetchData === undefined && bool === false) {
@@ -60,37 +65,6 @@ export const UserProvider = ({ children }) => {
         }
     }, [fetchData, headers])
 
-
-    const period = {
-        "Esta semana": 7,
-        "Este mês": 30,
-        "Mês passado": 60,
-        "Últimos 3 meses": 90,
-        "Este ano": 365,
-        "Período personalizado": 0,
-    }
-
-
-    const currentDay = new Date()
-    currentDay.setDate(currentDay.getDate() - period[periodRange])
-
-    const time = currentDay.toLocaleDateString()
-    const range = time.split("/")
-
-
-    async function pushData() {
-        const firstWeekGeneral = fetchData?.filter(res => {
-            const date = res.dataMatricula.split("/")
-            return new Date(`${date[2]}-${date[1]}-${date[0]}`) >= new Date(`${range[2]}-${range[1]}-${range[0]}`)
-        })
-        const firstWeekSeller = fetchData?.filter(res => {
-            const date = res.dataMatricula.split("/")
-            return new Date(`${date[2]}-${date[1]}-${date[0]}`) >= new Date(`${range[2]}-${range[1]}-${range[0]}`) && res.owner.toLowerCase().includes(userData.name.toLowerCase())
-        })
-
-        userData.role === 'comercial' && setFiltered(firstWeekSeller)
-        userData.role === 'direcao' || userData.role === 'administrativo' ? setFiltered(firstWeekGeneral) : ""
-    }
 
 
     const putInfo = async (userInfos) => {
@@ -135,6 +109,23 @@ export const UserProvider = ({ children }) => {
         }
         loadUserData()
     }, [])
+
+
+
+    const body = {
+        "range": periodRange,
+        "role": userData.role,
+        "name": userData.name,
+        "unity": userData.unity
+    }
+
+    async function pushData() {
+
+        await URI.post('/periodo', body, { headers })
+
+            .then(res => setFiltered(res.data.data.deals))
+
+    }
 
 
 

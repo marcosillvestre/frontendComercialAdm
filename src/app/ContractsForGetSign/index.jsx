@@ -60,7 +60,7 @@ const Contracts = () => {
         <Container>
             <MiniDrawer />
 
-            <div className='search'>
+            <header className='search'>
                 <p>Funil:</p>
                 <select onChange={(e) => data(e.target.value)}>
                     <option value=""></option>
@@ -80,18 +80,20 @@ const Contracts = () => {
                         ))
                     }
                 </datalist>
-            </div>
+
+                <span className='emmit'>
+                    <Button open={emmit} onClick={() => setEmmit(!emmit)}>Emitir Contrato </Button>
+                    <Box emmit={emmit} >
+                        <SendContract> <SureSendModal data={"Autentique"} text={personalText.autentique} /></SendContract>
+                        <SendContract> <SureSendModal data={"Google Drive"} text={personalText.googleDrive} /></SendContract>
+                        <SendContract> <SureSendModal data={"Conta Azul"} text={personalText.contaAzul} /></SendContract>
+                    </Box>
+                </span>
+            </header>
 
             <ContractData />
 
-            <span className='emmit'>
-                <Button open={emmit} onClick={() => setEmmit(!emmit)}>Emitir Contrato </Button>
-                <Box emmit={emmit} >
-                    <SendContract> <SureSendModal data={"Autentique"} text={personalText.autentique} /></SendContract>
-                    <SendContract> <SureSendModal data={"Google Drive"} text={personalText.googleDrive} /></SendContract>
-                    <SendContract> <SureSendModal data={"Conta Azul"} text={personalText.contaAzul} /></SendContract>
-                </Box>
-            </span>
+
         </Container>
     )
 

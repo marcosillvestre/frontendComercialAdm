@@ -12,16 +12,22 @@ export default function PositionedMenu(data) {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const { filtered, setFiltered, handleClose, selectedEndDate,
         selectedInitialDate, fetchData, setSelectedInitialDate,
-        setSelectedEndDate, userData } = useUser()
+        setSelectedEndDate, userData, sellers } = useUser()
 
 
 
 
     const handleFilter = (value, type) => {
-        if (filtered) {
-            setFiltered(filtered.filter(res => res[type] === value))
+        if (type === 'owner') {
+            setFiltered(filtered.filter(res => res[type].toLowerCase().includes(value)))
+            close()
+        } else {
+            if (filtered) {
+                setFiltered(filtered.filter(res => res[type] === value))
+            }
+            close()
+
         }
-        close()
     }
 
     const setRange = (type) => {
@@ -143,6 +149,22 @@ export default function PositionedMenu(data) {
                             <option value="Tecnologia"> Tecnologia</option>
                             <option value="Inglês">Inglês</option>
                             <option value="Espanhol"> Espanhol</option>
+                        </Select>
+                    </Label>
+                }
+                {
+                    data.name === "Consultor" &&
+                    <Label >
+                        <Select onChange={(e) => handleFilter(e.target.value.toLowerCase(), "owner")} >
+                            <option value="selec">Selecione</option>
+                            {
+                                sellers.map(res => (
+                                    <>
+                                        <option value={res.name}>{res.name}</option>
+                                    </>
+                                ))
+
+                            }
                         </Select>
                     </Label>
                 }
