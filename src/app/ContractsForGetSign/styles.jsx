@@ -51,7 +51,7 @@ margin-top: .5rem;
 }
 
 .emmit{
-position: fixed;
+position: absolute;
 bottom: 30%;
 right: 2%;
 text-align: center;
@@ -68,6 +68,7 @@ export const Button = styled.div`
     font-weight: bolder;
     &::after{
         content: "";
+        transition: 1s ease;
         width: ${props => props.open ? "1rem" : ".5rem"};
         background-color: #fff;
         animation: ease 1s;
@@ -76,10 +77,11 @@ export const Button = styled.div`
         position: absolute;
         transform: ${props => props.open ? "rotate(135deg)" : "rotate(45deg)"};
         right:${props => props.open ? "8%" : "11%"};
-        bottom: ${props => props.open ? "86%" : "50%"};
+        bottom: ${props => props.open ? "50%" : "50%"};
     }
     &::before{
         content: "";
+        transition: 1s ease;
         width: ${props => props.open ? "1rem" : ".5rem"};
         background-color: #fff ;
         height: 2px;
@@ -87,7 +89,7 @@ export const Button = styled.div`
         position: absolute;
         transform: ${props => props.open ? "rotate(45deg)" : "rotate(135deg)"};
         right: 8%;
-        bottom: ${props => props.open ? "86%" : "50%"};
+        bottom: ${props => props.open ? "50%" : "50%"};
 
     }
     &:hover{
@@ -103,6 +105,8 @@ export const Button = styled.div`
 export const Box = styled.div`
 gap: .6rem;
 display: ${props => props.emmit ? "inline-block" : "none"};
+position: absolute;
+right: 7.5%;
 
 `
 
