@@ -2,16 +2,18 @@ import Proptypes from 'prop-types'
 import { createContext, useContext, useState } from 'react'
 
 
-
 const idContext = createContext({})
 
-export const IdProvider = ({ children }) => {
-    const [id, setId] = useState({})
-    const [alteration, setAlteration] = useState({})
-    const [field, setField] = useState({})
+
+export const DataProvider = ({ children }) => {
+    const [typeFilter, setTypeFilter] = useState([])
+    const [rangeNamePeriodFilter, setRangeNamePeriodFilter] = useState([])
 
     return (
-        <idContext.Provider value={{ field, setField, id, setId, setAlteration, alteration }}>
+        <idContext.Provider value={{
+            setTypeFilter, typeFilter,
+            rangeNamePeriodFilter, setRangeNamePeriodFilter
+        }}>
 
             {children}
 
@@ -19,7 +21,7 @@ export const IdProvider = ({ children }) => {
     )
 }
 
-export const useId = () => {
+export const useData = () => {
     const context = useContext(idContext)
 
     if (!context) {
@@ -28,6 +30,6 @@ export const useId = () => {
 
     return context
 }
-IdProvider.propTypes = {
+DataProvider.propTypes = {
     children: Proptypes.node
 }

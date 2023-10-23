@@ -1,76 +1,52 @@
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
-import * as React from 'react';
-import { useUser } from '../../hooks/userContext';
-// import { handleClose } from '../filtering';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Button, Menu } from '@mui/material';
+import * as React from 'react';
+import { useData } from '../../hooks/dataContext';
+import { useUser } from '../../hooks/userContext';
 import DatePickers from '../datePicker';
 import { Label, RangeDate, Select } from './styles';
 
 export default function PositionedMenu(data) {
 
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const { filtered, setFiltered, handleClose, selectedEndDate,
-        selectedInitialDate, fetchData, setSelectedInitialDate,
-        setSelectedEndDate, userData, sellers } = useUser()
 
+    const {
+        filtered, setFiltered, handleClose, pushData,
+        sellers, openPeriodRange, setOpenPeriodRange,
+    } = useUser()
+
+    const { typeFilter, setTypeFilter } = useData()
 
 
 
     const handleFilter = (value, type) => {
+        let data = typeFilter.filter(res => res === type)
+        data.length < 1 && typeFilter.length <= 1 ?
+            setTypeFilter([...typeFilter, { "key": type, "value": value }]) :
+            alert("O máximo de filtros dinâmicos aplicáveis é dois")
+
+        filtered.length < 1 && alert("Este período de tempo não há matrículas")
+
         if (type === 'owner') {
             setFiltered(filtered.filter(res => res[type].toLowerCase().includes(value)))
             close()
         } else {
-            if (filtered) {
-                setFiltered(filtered.filter(res => res[type] === value))
-            }
+            setFiltered(filtered.filter(res => res[type] === value))
             close()
-
         }
     }
 
-    const setRange = (type) => {
-        if (selectedInitialDate === null) {
-            setSelectedInitialDate(new Date('2022-01-01'))
-        }
-        if (selectedEndDate === null) {
-            setSelectedEndDate(new Date())
-        }
 
-        let comercialFetchedData;
-
-        const filteredByComercial = fetchData?.filter(res => res.owner.toLowerCase().includes(userData.name.toLowerCase()))
-        userData.role !== 'comercial' ? comercialFetchedData = fetchData : comercialFetchedData = filteredByComercial
-
-
-        const generalFilter = comercialFetchedData?.filter(res => {
-            const date = res[type].split("/")
-            if (type === 'dataValidacao') {
-                let year = date[2]?.split(",")
-                if (year) {
-                    return new Date(`${year[0]}-${date[1]}-${date[0]}`) >= selectedInitialDate && new Date(`${date[2]}-${date[1]}-${date[0]}`) <= selectedEndDate
-                }
-            } else {
-                return new Date(`${date[2]}-${date[1]}-${date[0]}`) >= selectedInitialDate && new Date(`${date[2]}-${date[1]}-${date[0]}`) <= selectedEndDate
-
-            }
-        })
-
-        setFiltered(generalFilter)
-
-    }
-
-
-    const handleFilterRangeDate = (name) => {
-        name === "Data de validação" && setRange('dataValidacao')
-        name === "Data de comissionamento" && setRange('dataComissionamento')
-        name === "Data de matrícula" && setRange('dataMatricula')
+    const handleFilterRangeDate = () => {
+        setTypeFilter([])
+        pushData(true)
 
         close()
+        setOpenPeriodRange(!openPeriodRange)
     }
 
     const open = Boolean(anchorEl);
+
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -158,10 +134,8 @@ export default function PositionedMenu(data) {
                         <Select onChange={(e) => handleFilter(e.target.value.toLowerCase(), "owner")} >
                             <option value="selec">Selecione</option>
                             {
-                                sellers.map(res => (
-                                    <>
-                                        <option value={res.name}>{res.name}</option>
-                                    </>
+                                sellers?.map(res => (
+                                    <option key={res.name} value={res.name}>{res.name}</option>
                                 ))
 
                             }
@@ -169,6 +143,25 @@ export default function PositionedMenu(data) {
                     </Label>
                 }
                 {
+                    data.name === "Período personalizado" &&
+                    <RangeDate>
+                        <span className='label'>
+
+                            <button onClick={() => setAnchorEl(null)}><ArrowBackIcon /></button>
+                            <h3>{data.name}</h3>
+                            <div></div>
+
+                        </span>
+                        <span className='span-container'>
+                            <DatePickers text="Data inicial" />
+                            <p>até</p>
+                            <DatePickers text="Data final" />
+                        </span>
+                        <hr />
+                        <button className='button-filter' onClick={() => handleFilterRangeDate()}>Aplicar filtro</button>
+                    </RangeDate>
+                }
+                {/* {
                     data.name === "Data de matrícula" &&
                     <RangeDate >
                         <span className='label'>
@@ -203,6 +196,7 @@ export default function PositionedMenu(data) {
                         <button className='button-filter' onClick={() => handleFilterRangeDate(data.name)}>Aplicar filtro</button>
                     </RangeDate>
                 }
+
                 {
                     data.name === "Data de validação" &&
                     <RangeDate>
@@ -221,7 +215,8 @@ export default function PositionedMenu(data) {
                         <hr />
                         <button className='button-filter' onClick={() => handleFilterRangeDate(data.name)}>Aplicar filtro</button>
                     </RangeDate>
-                }
+                } */}
+
 
             </Menu>
         </div>

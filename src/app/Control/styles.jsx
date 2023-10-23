@@ -24,8 +24,7 @@ padding: 0 4rem;
     letter-spacing: .0225rem;
     }
     #selected-value{
-        color: #afabb6;
-        font-size: .875rem;
+        font-size: .795rem;
     }
 
 
@@ -65,7 +64,26 @@ padding: 0 4rem;
     padding: 0 1.4rem;
     translate: -3.2rem -.3rem;
 }
-
+.filters{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    div{
+        display: flex;
+        gap: 5px;
+        justify-content: center;
+    }
+    span{
+    border: 1px dashed;
+    border-radius: 10px;
+    padding: 7px;
+    cursor: pointer;
+    &::after{
+        content:' ✖️';
+    }
+    }
+}
 .table{
     width: 93vw;
     height: 66vh;

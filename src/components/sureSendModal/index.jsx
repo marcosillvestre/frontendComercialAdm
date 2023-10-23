@@ -4,7 +4,6 @@ import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
 
-// import { toast } from 'react-toastify';
 
 import { useUser } from '../../hooks/userContext';
 

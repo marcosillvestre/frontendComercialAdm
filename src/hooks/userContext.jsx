@@ -4,11 +4,9 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react"
 import Proptypes from 'prop-types'
 import { redirect } from "react-router-dom"
 import URI from "../app/utils/utils.jsx"
-
+import { useData } from "./dataContext.jsx"
 
 const UserContext = createContext({})
-
-
 export const UserProvider = ({ children }) => {
     const [userData, setUserData] = useState({})
     const [fetchData, setFetchData] = useState()
@@ -19,16 +17,16 @@ export const UserProvider = ({ children }) => {
     const [sellers, setSeller] = useState()
     const [periodRange, setPeriodRange] = useState('Esta semana')
     const [anchorEl, setAnchorEl] = useState(null);
+    const [openPeriodRange, setOpenPeriodRange] = useState(false)
 
     const [selectedInitialDate, setSelectedInitialDate] = useState(null);
     const [selectedEndDate, setSelectedEndDate] = useState(null);
 
+    const [unHandleLabel, setUnHandleLabel] = useState("Data de matrícula")
 
+    const { typeFilter, setTypeFilter } = useData()
 
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-
+    const handleClose = () => setAnchorEl(null);
 
     const headers = useMemo(() => {
         return {
@@ -36,9 +34,6 @@ export const UserProvider = ({ children }) => {
             "Authorization": `Bearer ${userData?.token}`
         }
     }, [userData?.token])
-
-
-
 
 
 
@@ -53,7 +48,6 @@ export const UserProvider = ({ children }) => {
                     .then(async info => {
                         setFetchData(info.data)
                     })
-
             }
             catch (err) {
                 if (err?.response?.data?.error.includes('token')) {
@@ -72,9 +66,10 @@ export const UserProvider = ({ children }) => {
         await localStorage.setItem('userData', JSON.stringify(userInfos))
     }
 
+
+
     const logOut = async () => {
         await localStorage.removeItem('userData')
-
     }
 
 
@@ -96,7 +91,6 @@ export const UserProvider = ({ children }) => {
 
 
 
-
     useEffect(() => {
         const loadUserData = async () => {
             const clientInfo = await localStorage.getItem('userData')
@@ -111,32 +105,60 @@ export const UserProvider = ({ children }) => {
     }, [])
 
 
+    if (selectedInitialDate === null) {
+        setSelectedInitialDate(new Date('2022-01-01'))
+    }
+    if (selectedEndDate === null) {
+        setSelectedEndDate(new Date())
+    }
+
+    const typeSearch = {
+        "Data de matrícula": "dataMatricula",
+        "Data de validação": "dataValidacao"
+    }
 
     const body = {
         "range": periodRange,
         "role": userData.role,
         "name": userData.name,
-        "unity": userData.unity
+        "unity": userData.unity,
+        "types": typeSearch[unHandleLabel]
     }
 
-    async function pushData() {
+    async function pushData(searchType) {
+        setTypeFilter([])
 
-        await URI.post('/periodo', body, { headers })
-
-            .then(res => setFiltered(res.data.data.deals))
-
+        body["dates"] = searchType === true ? `${selectedInitialDate}~${selectedEndDate}` : ""
+        body.name !== undefined &&
+            await URI.post('/periodo', body, { headers })
+                .then(res => {
+                    setFiltered(res?.data.data.deals)
+                })
     }
 
 
+    const resetFilter = async (filter) => {
+        setTypeFilter(typeFilter.filter(res => res !== filter))
 
+        body.name !== undefined &&
+            await URI.post('/periodo', body, { headers })
+                .then(res => {
+                    typeFilter.length <= 1 ?
+                        setFiltered(res?.data.data.deals) :
+                        setFiltered(res?.data.data.deals.filter(res => res[typeFilter[0].key] === typeFilter[0].value))
+
+                })
+    }
 
     return (
         <UserContext.Provider value={{
-            contracts, setContracts, sellers, periodRange, setPeriodRange, pushData,
+            contracts, setContracts, sellers, periodRange, setPeriodRange,
             users, headers, putInfo, userData, anchorEl, setAnchorEl, handleClose,
             logOut, fetchData, setFetchData, setUsers, selectedInitialDate, setSelectedInitialDate,
             filtered, setFiltered, filteredContracts, setFilteredContracts,
-            selectedEndDate, setSelectedEndDate
+            selectedEndDate, setSelectedEndDate, resetFilter,
+            openPeriodRange, setOpenPeriodRange, unHandleLabel, setUnHandleLabel,
+            pushData
         }}>
 
             {children}

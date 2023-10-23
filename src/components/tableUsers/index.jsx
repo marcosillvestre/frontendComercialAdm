@@ -27,10 +27,7 @@ export function Row(props) {
                             <td >{row?.unity[0]}</td>
                             <td >{row?.unity[1]}</td>
                         </>
-                        // row?.unity.length >= 1 ?
-                        //     <>
-                        //     </>
-                        //     : <td>Todas</td>
+
                     }
                 </TableCell>
                 <TableCell align="center">{row?.role}</TableCell>

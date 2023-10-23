@@ -93,30 +93,20 @@ export default function CustomizedMenus() {
                 </MenuItem>
 
                 <MenuItem disableRipple>
-                    <PositionedMenu name={"Status do comissionamento"} />
-
-                </MenuItem>
-                <MenuItem disableRipple>
                     <PositionedMenu name={"Curso"} />
-
                 </MenuItem>
+
+                <Divider sx={{ my: 0.5 }} />
+
                 <MenuItem disableRipple>
                     <PositionedMenu name={"Consultor"} />
-
                 </MenuItem>
-                <Divider sx={{ my: 0.5 }} />
+
                 <MenuItem disableRipple>
-                    <PositionedMenu name={"Data de matrícula"} />
-
+                    <PositionedMenu name={"Status do comissionamento"} />
                 </MenuItem>
-                <MenuItem disableRipple>
-                    <PositionedMenu name={"Data de comissionamento"} />
 
-                </MenuItem>
-                <MenuItem disableRipple>
-                    <PositionedMenu name={"Data de validação"} />
 
-                </MenuItem>
             </StyledMenu>
         </div>
     );

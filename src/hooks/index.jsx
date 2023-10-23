@@ -1,15 +1,15 @@
 import PropTypes from 'prop-types'
 
-import { IdProvider } from './idContext'
+import { DataProvider } from './dataContext'
 import { UserProvider } from './userContext'
 
 
 const AppProvider = ({ children }) => (
-    <IdProvider>
+    <DataProvider>
         <UserProvider>
             {children}
         </UserProvider>
-    </IdProvider>
+    </DataProvider>
 )
 
 AppProvider.propTypes = {

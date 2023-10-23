@@ -24,10 +24,10 @@ export function Row(props) {
     const end = row.fimContrato.split("/")
 
 
-    var data2 = new Date(`${end[2]}-${end[1]}-${end[0]}`); // Use o formato "AAAA-MM-DD"
+    var data2 = new Date(`${end[2]}-${end[1]}-${end[0]}`); // Usando o formato "YYYY-MM-DD"
     var data1 = new Date(`${start[2]}-${start[1]}-${start[0]}`);
 
-    var diferencaEmMeses = (data2.getFullYear() - data1.getFullYear()) * 12 + (data2.getMonth() - data1.getMonth());
+    var diferenceInMonths = (data2.getFullYear() - data1.getFullYear()) * 12 + (data2.getMonth() - data1.getMonth());
 
 
     const [open, setOpen] = React.useState(false);
@@ -52,7 +52,7 @@ export function Row(props) {
     }
 
     const day = new Date()
-    const currentDay = day.toLocaleString()
+    const currentDay = day.toLocaleDateString()
 
     async function SenderDirector(area, e, id) {
 
@@ -68,7 +68,7 @@ export function Row(props) {
         await toast.promise(
             URI.put(`/controle/${id}`,
                 area !== 'aprovacaoDirecao' ? directorBody : directorValidationBody
-                , { headers }).then(res => console.log(res)),
+                , { headers }),
             {
                 pending: 'Conferindo os dados',
                 success: 'Atualizado com sucesso',
@@ -84,7 +84,7 @@ export function Row(props) {
                     "area": area,
                     "value": area !== 'observacao' ? e : value,
                     "responsible": userData.name
-                }, { headers }).then(res => console.log(res)),
+                }, { headers }),
             {
                 pending: 'Conferindo os dados',
                 success: 'Atualizado com sucesso',
@@ -406,21 +406,17 @@ export function Row(props) {
                                 <HeadTable>
                                     <TableRow>
 
-                                        {/* /////////////////////////////////////////////////// */}
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>OBS. Matrícula</TableCell>
-                                        {/* ////////////////////////////////////////////////// */}
 
                                     </TableRow>
                                 </HeadTable>
                                 <BodyTable>
                                     <TableRow key={row?.contrato}>
-                                        {/* ////////////////////////////////////////// */}
                                         <TableCell align="center" >
                                             <Button onClick={() => userData.role !== 'direcao' ? Sender("observacao", value, row?.contrato) : SenderDirector("observacao", value, row?.contrato)}> ✔️</Button>
 
                                             <Text cols='3' placeholder={row?.observacao} onChange={(e) => Changer("observacao", e.target.value, row?.contrato)}></Text>
                                         </TableCell>
-                                        {/* ///////////////////////////////////////// */}
 
                                     </TableRow>
                                 </BodyTable>
@@ -536,7 +532,7 @@ export function Row(props) {
                                             {row?.cargaHoraria}
                                         </TableCell>
                                         <TableCell align="center">
-                                            {diferencaEmMeses} meses
+                                            {diferenceInMonths} meses
                                         </TableCell>
                                         <TableCell align="center">
                                             {row?.dataValidacao.split("/")[1]}

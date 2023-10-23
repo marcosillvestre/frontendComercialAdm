@@ -4,7 +4,6 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { yupResolver } from '@hookform/resolvers/yup';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-// import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import * as Yup from 'yup';
@@ -18,7 +17,6 @@ function Login() {
     const [open, setOpen] = React.useState(true)
 
     const { putInfo } = useUser()
-    // const navigate = useNavigate()
     const schema = Yup.object({
         email: Yup.string().required(),
         password: Yup.string().required(),

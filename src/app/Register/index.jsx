@@ -59,7 +59,6 @@ function Register() {
       }
     )
   }
-  console.log(unity)
 
   const choosingUnity = (e) => {
     if (unity.map(res => res === e).includes(true)) {
@@ -87,9 +86,6 @@ function Register() {
     { id: 2, value: "PTB" },
     { id: 3, value: "Centro" }
   ]
-
-
-  console.log(url)
 
   return (
     <>

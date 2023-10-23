@@ -20,25 +20,19 @@ import LoadingSpin from "react-loading-spin";
 import * as Yup from 'yup';
 import ControlledAccordions from '../../components/filtering';
 import MiniDrawer from '../../components/sideBar';
+import UnhandleInput from '../../components/unhandleInputRange';
+import { useData } from '../../hooks/dataContext';
 
 const ListFiltered = () => {
-    const { filtered, periodRange, setPeriodRange, pushData, setFiltered } = useUser()
+    const { filtered, periodRange, pushData, setFiltered, resetFilter, setTypeFilter } = useUser()
+    const { typeFilter } = useData()
 
 
 
     useEffect(() => {
-        pushData()
+        periodRange !== "Período personalizado" && pushData(false)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [periodRange])
-
-    const period = [
-        { name: "Esta semana", },
-        { name: "Este mês", },
-        { name: "Mês passado", },
-        { name: "Últimos 3 meses", },
-        { name: "Este ano", },
-
-    ]
 
 
     const schema = Yup.object({ name: Yup.string() })
@@ -46,22 +40,38 @@ const ListFiltered = () => {
 
 
     const sender = (data) => {
-        const filteredByName = filtered?.filter(res => res.name.toLowerCase().includes(data.name.toLowerCase()))
-        setFiltered(filteredByName)
-
         if (data.name === '') {
             pushData()
         }
+        const filteredByName = filtered?.filter(res => res.name.toLowerCase().includes(data.name.toLowerCase()))
+        setFiltered(filteredByName)
+
     }
 
+    const customizablePeriods = [
+        { name: "Data de matrícula", undleLabel: true },
+        { name: "Data de validação", undleLabel: true }
+    ]
 
+    const predeterminedPeriods = [
+        { name: "Esta semana" },
+        { name: "Este mês" },
+        { name: "Mês passado" },
+        { name: "Mês retrasado" },
+        { name: "Este ano" },
+        { name: "Período personalizado", customizable: true },
+    ]
 
     return (
         <>
             <Container>
                 <MiniDrawer />
                 <span className='nav-filter' >
-                    <label>
+                    <UnhandleInput opt={customizablePeriods} />
+
+                    <UnhandleInput opt={predeterminedPeriods} />
+
+                    {/* <label>
                         <p>Período:</p>
                         <select value={periodRange} onChange={(e) => setPeriodRange(e.target.value)} className='filter filter-period'>
                             {
@@ -69,13 +79,9 @@ const ListFiltered = () => {
                                     <option key={res.name} value={res.name}>{res.name}</option>
 
                                 ))
-
                             }
                         </select>
-
-
-
-                    </label>
+                    </label> */}
 
                     <form onSubmit={handleSubmit((data) => sender(data))}>
                         <p>Pesquisar no período:</p>
@@ -83,14 +89,14 @@ const ListFiltered = () => {
                             <input type="text" placeholder='Pesquisar..' className='filter' list='list' {...register('name')} />
                             <datalist id='list'>
                                 {
-                                    filtered && filtered?.map(res => (
+                                    filtered?.length > 0 && filtered.map(res => (
                                         <option key={res.contrato} value={res.name} />
 
                                     ))
 
                                 }
                             </datalist>
-                            <button type='submit' className='button'><SearchIcon /></button>
+                            <button type='submit' className='button' onClick={() => setTypeFilter([])}><SearchIcon /></button>
                         </div>
                     </form>
 
@@ -98,6 +104,16 @@ const ListFiltered = () => {
 
                     <div className='div-tax'>
                         <Tax>{filtered?.length}</Tax>
+                    </div>
+
+
+                    <div className='filters'>
+                        <p>filtros aplicados: </p>
+                        <div>
+                            {typeFilter.map(res => (
+                                <span key={res.key} onClick={() => resetFilter(res)}>{res.value}</span>
+                            ))}
+                        </div>
                     </div>
 
 
