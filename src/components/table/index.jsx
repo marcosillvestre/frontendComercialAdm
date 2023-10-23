@@ -98,8 +98,8 @@ export function Row(props) {
         "Pendente": "#f4f4f4",
         "Não aprovado": "#e4b9b9",
         "Pré-aprovado": "#abc7f1",
-        "Aprovado": "#c2f1c2",
-        "Comissionado": "#f2f7b1"
+        "Comissionado": "#c2f1c2",
+        "Aprovado": "#f2f7b1"
     }
 
     return (
@@ -139,7 +139,7 @@ export function Row(props) {
                 <TableCell align="center">
                     {
                         userData.role === 'comercial' ?
-                            <Td >{row?.tipoMatricula}</Td>
+                            <Td style={{ backgroundColor: setColor[row?.tipoMatricula] }} >{row?.tipoMatricula}</Td>
                             :
                             <Td >
                                 <Select
@@ -321,7 +321,7 @@ export function Row(props) {
                                         <TableCell align="center">
                                             {
                                                 userData.role === 'comercial' ?
-                                                    <Td>{row?.tipoMatricula}</Td>
+                                                    <Td style={{ color: setColor[row?.tipoMatricula] }}>{row?.tipoMatricula}</Td>
                                                     :
                                                     <Td >
                                                         <Select

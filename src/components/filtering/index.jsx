@@ -50,7 +50,7 @@ const StyledMenu = styled((props) => (
 
 export default function CustomizedMenus() {
 
-    const { anchorEl, handleClose, setAnchorEl } = useUser()
+    const { anchorEl, handleClose, setAnchorEl, userData } = useUser()
 
     const open = Boolean(anchorEl);
 
@@ -99,7 +99,10 @@ export default function CustomizedMenus() {
                 <Divider sx={{ my: 0.5 }} />
 
                 <MenuItem disableRipple>
-                    <PositionedMenu name={"Consultor"} />
+                    {
+                        userData.role !== 'comercial' &&
+                        <PositionedMenu name={"Consultor"} />
+                    }
                 </MenuItem>
 
                 <MenuItem disableRipple>
