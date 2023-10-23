@@ -119,6 +119,7 @@ const ListFiltered = () => {
 
 
                 </span>
+
                 <span className='table'>
                     <TableContainer component={Paper}>
                         <Table aria-label="collapsible table">

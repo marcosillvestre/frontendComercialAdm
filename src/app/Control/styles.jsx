@@ -16,7 +16,7 @@ padding: 0 4rem;
     border: 2px solid #dfe6f1;
     border-radius: .35rem;
     padding: 1.2rem;
-
+    margin-bottom: 1.5rem;
 
         .select{}
     #category-select label {

@@ -39,9 +39,11 @@ export function Row(props) {
     const [open6, setOpen6] = React.useState(false);
 
     const [value, setValue] = React.useState('')
+    const [payStatus, setPayStatus] = React.useState(row.tipoMatricula)
 
     const Changer = async (area, e, id) => {
         setValue(e)
+        area === "tipoMatricula" && setPayStatus(e)
 
         if (userData.role !== 'direcao') {
             area !== 'observacao' && Sender(area, e, id)
@@ -143,7 +145,12 @@ export function Row(props) {
                             :
                             <Td >
                                 <Select
-                                    style={{ backgroundColor: setColor[row?.tipoMatricula] }}
+                                    style={{
+                                        backgroundColor: payStatus !== row?.tipoMatricula
+                                            ? setColor[payStatus] : setColor[row?.tipoMatricula]
+                                    }}
+
+
                                     defaultValue={row?.tipoMatricula}
                                     onChange={(e) => Changer("tipoMatricula", e.target.value, row?.contrato)}>
                                     <option value="Pendente">Pendente</option>
