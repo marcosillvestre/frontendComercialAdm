@@ -79,8 +79,13 @@ padding: 0 4rem;
     border-radius: 10px;
     padding: 7px;
     cursor: pointer;
-    &::after{
-        content:' ✖️';
+   .header{
+        font-size:.6rem;
+    }
+    .body{
+        &::after{
+            content:' ✖️';
+        }
     }
     }
 }

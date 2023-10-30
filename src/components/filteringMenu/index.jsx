@@ -13,6 +13,7 @@ export default function PositionedMenu(data) {
     const {
         filtered, setFiltered, handleClose, pushData,
         sellers, openPeriodRange, setOpenPeriodRange,
+        unity
     } = useUser()
 
     const { typeFilter, setTypeFilter } = useData()
@@ -20,10 +21,11 @@ export default function PositionedMenu(data) {
 
 
     const handleFilter = (value, type) => {
-        let data = typeFilter.filter(res => res === type)
-        data.length < 1 && typeFilter.length <= 1 ?
+        let data = typeFilter.filter(res => res.key === type)
+
+        data.length < 1 && typeFilter.length <= 2 ?
             setTypeFilter([...typeFilter, { "key": type, "value": value }]) :
-            alert("O máximo de filtros dinâmicos aplicáveis é dois")
+            alert("Erro ao aplicar o filtro dinâmico")
 
         filtered.length < 1 && alert("Este período de tempo não há matrículas")
 
@@ -98,9 +100,11 @@ export default function PositionedMenu(data) {
                     <Label >
                         <Select onChange={(e) => handleFilter(e.target.value, "unidade")} >
                             <option value="selec">Selecione</option>
-                            <option value="PTB">PTB</option>
-                            <option value="Centro">Centro</option>
-                            <option value="Aliança Eterna">Aliança Eterna</option>
+                            {
+                                unity && unity.map(res => (
+                                    <option key={res.id} value={res.name}>{res.name}</option>
+                                ))
+                            }
                         </Select>
                     </Label>
                 }

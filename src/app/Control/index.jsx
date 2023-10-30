@@ -6,7 +6,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { memo, useEffect } from 'react';
+import { memo } from 'react';
 import { Container, NothingHere, Tax } from './styles';
 
 import { Row } from '../../components/table';
@@ -24,15 +24,11 @@ import UnhandleInput from '../../components/unhandleInputRange';
 import { useData } from '../../hooks/dataContext';
 
 const ListFiltered = () => {
-    const { filtered, periodRange, pushData, setFiltered, resetFilter, setTypeFilter } = useUser()
+    const { filtered, pushData, setFiltered, resetFilter, setTypeFilter } = useUser()
     const { typeFilter } = useData()
 
 
 
-    useEffect(() => {
-        periodRange !== "Período personalizado" && pushData(false)
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [periodRange])
 
 
     const schema = Yup.object({ name: Yup.string() })
@@ -41,7 +37,7 @@ const ListFiltered = () => {
 
     const sender = (data) => {
         if (data.name === '') {
-            pushData()
+            pushData(false)
         }
         const filteredByName = filtered?.filter(res => res.name.toLowerCase().includes(data.name.toLowerCase()))
         setFiltered(filteredByName)
@@ -68,8 +64,8 @@ const ListFiltered = () => {
                 <MiniDrawer />
                 <span className='nav-filter' >
                     <UnhandleInput opt={customizablePeriods} />
-
                     <UnhandleInput opt={predeterminedPeriods} />
+
 
                     {/* <label>
                         <p>Período:</p>
@@ -111,7 +107,10 @@ const ListFiltered = () => {
                         <p>filtros aplicados: </p>
                         <div>
                             {typeFilter.map(res => (
-                                <span key={res.key} onClick={() => resetFilter(res)}>{res.value}</span>
+                                <span key={res.key} onClick={() => resetFilter(res)}>
+                                    <p className='header'>{res.key}:</p>
+                                    <p className='body'>{res.value}</p>
+                                </span>
                             ))}
                         </div>
                     </div>

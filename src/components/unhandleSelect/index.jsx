@@ -10,12 +10,11 @@ const UnhandleInput = (periods) => {
     const [label, setLabel] = React.useState(`${periods.opt[0]?.name}`)
 
 
-    const handleCheck = (label, input, destiny) => {
+    const handleCheck = (label, input) => {
         setLabel(label)
         input !== true && setPeriodRange(label)
         input === true && setUnHandleLabel(label)
 
-        console.log(destiny)
 
     }
 
@@ -23,11 +22,9 @@ const UnhandleInput = (periods) => {
         <Container>
 
             <div id="category-select">
-                {
-                    periods?.opt[0]?.undleLabel === true ?
-                        <label htmlFor=""> Filtrar por:</label> :
-                        <label htmlFor=""> Período personalizado:</label>
-                }
+
+                <label htmlFor=""> Período personalizado:</label>
+
                 <SelectButton id="select-button" onClick={() => setOpenPeriodRange(!openPeriodRange)}>
                     <p id="selected-value"> {label}</p>
 
@@ -42,7 +39,7 @@ const UnhandleInput = (periods) => {
 
                 {
                     periods.opt?.map(period => (
-                        <Options className="option" key={period?.name}  >
+                        <Options className="option" key={period?.name} >
                             <span className="label" onClick={() => handleCheck(period?.name, period?.undleLabel, period?.destiny)}>
                                 {
                                     period.customizable === undefined ? <p>{period?.name}</p> :

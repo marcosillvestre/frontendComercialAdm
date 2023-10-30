@@ -13,6 +13,7 @@ export const UserProvider = ({ children }) => {
     const [users, setUsers] = useState([])
     const [filtered, setFiltered] = useState([])
     const [contracts, setContracts] = useState([])
+    const [unity, setUnity] = useState([])
     const [filteredContracts, setFilteredContracts] = useState()
     const [sellers, setSeller] = useState()
     const [periodRange, setPeriodRange] = useState('Esta semana')
@@ -36,7 +37,20 @@ export const UserProvider = ({ children }) => {
     }, [userData?.token])
 
 
+    useEffect(() => {
+        const unities = async () => {
+            // await axios.get('http://localhost:7070/unidades', { headers })
+            await URI.get('/unidades', { headers })
+                .then(res => setUnity(res.data))
+        }
+        unities()
 
+    }, [headers])
+
+
+
+
+    ////////////////////////////////////
     useEffect(() => {
         const bool = headers.Authorization.includes('undefined')
         if (fetchData === undefined && bool === false) {
@@ -58,8 +72,7 @@ export const UserProvider = ({ children }) => {
             }
         }
     }, [fetchData, headers])
-
-
+    /////////////////////////////////////
 
     const putInfo = async (userInfos) => {
         setUserData(userInfos)
@@ -138,16 +151,14 @@ export const UserProvider = ({ children }) => {
 
 
     const resetFilter = async (filter) => {
-        setTypeFilter(typeFilter.filter(res => res !== filter))
-
         body.name !== undefined &&
             await URI.post('/periodo', body, { headers })
                 .then(res => {
-                    typeFilter.length <= 1 ?
-                        setFiltered(res?.data.data.deals) :
-                        setFiltered(res?.data.data.deals.filter(res => res[typeFilter[0].key] === typeFilter[0].value))
-
+                    typeFilter.length <= 1 && setFiltered(res?.data.data.deals)
+                    typeFilter.length === 2 && setFiltered(res?.data.data.deals.filter(res => res[typeFilter[0].key] === typeFilter[0].value))
+                    typeFilter.length === 3 && setFiltered(res?.data.data.deals.filter(res => res[typeFilter[0].key] === typeFilter[0].value && res[typeFilter[1].key] === typeFilter[1].value))
                 })
+        setTypeFilter(typeFilter.filter(res => res !== filter))
     }
 
     return (
@@ -156,7 +167,7 @@ export const UserProvider = ({ children }) => {
             users, headers, putInfo, userData, anchorEl, setAnchorEl, handleClose,
             logOut, fetchData, setFetchData, setUsers, selectedInitialDate, setSelectedInitialDate,
             filtered, setFiltered, filteredContracts, setFilteredContracts,
-            selectedEndDate, setSelectedEndDate, resetFilter,
+            selectedEndDate, setSelectedEndDate, resetFilter, unity, body,
             openPeriodRange, setOpenPeriodRange, unHandleLabel, setUnHandleLabel,
             pushData
         }}>

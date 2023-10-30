@@ -6,6 +6,7 @@ import { Control } from "../app/Control";
 import Home from "../app/Home";
 import Login from "../app/Login";
 import Register from "../app/Register";
+import RecoverPassword from "../app/recoverPassword";
 
 const user = localStorage.getItem('userData')
 const comissionalAcess = JSON.parse(user)?.role === 'direcao' || JSON.parse(user)?.role === 'administrativo' ? true : false
@@ -20,6 +21,10 @@ const Routes = createBrowserRouter([
         exact: true,
     },
     {
+        path: "/redefinir-senha",
+        element: <RecoverPassword />,
+    },
+    {
         path: "/contratos-por-assinar",
         element: user === null || user === undefined ? <Login /> : <Contracts />,
     },
@@ -31,6 +36,7 @@ const Routes = createBrowserRouter([
         path: "/cadastro",
         element: directory ? <Register /> : <Login />,
     },
+
     {
         path: "/cadastro/lista",
         element: directory ? <Register /> : <Login />,

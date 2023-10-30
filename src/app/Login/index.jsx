@@ -54,8 +54,8 @@ function Login() {
             <Container>
 
                 <div className='mainbox'>
-                    <h2>Controle Comercial</h2>
                     <form onSubmit={handleSubmit((data) => Sender(data))}>
+                        <h2>Controle Comercial</h2>
 
                         <Box htmlFor="email">
                             <h5>Email:</h5>
@@ -70,6 +70,7 @@ function Login() {
                                 {errors.password && <ErrorMessage>Password is required.</ErrorMessage>}
                                 <div onClick={() => setOpen(!open)} >{open ? <VisibilityIcon /> : <VisibilityOffIcon />}</div>
                             </div>
+                            <a href="/redefinir-senha">Esqueceu a senha ? Clique aqui</a>
                         </Box>
 
                         <Submit type="submit" />
@@ -77,13 +78,17 @@ function Login() {
                     </form>
                 </div >
                 <span>
-                    <p>
-                        <h1>American Way</h1>
+                    <div className='intituitional'>
+                        <h1>SCCM</h1>
+                        <p>
+                            Este é um sistema voltado para gestão de matrículas e finanças para empresas.
+                            Confie em nós para simplificar o processo e otimizar o sucesso de sua organização.
+                            Junte-se a nós para simplificar e aprimorar a gestão administrativa.</p>
 
-                    </p>
+                    </div >
 
 
-                    <div>
+                    <div className='pwb'>
                         powered by
                         <a href='https://github.com/marcosillvestre'>
                             marcosillvestre</a>
