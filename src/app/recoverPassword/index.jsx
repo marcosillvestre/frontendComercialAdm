@@ -6,9 +6,9 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import * as Yup from 'yup';
 import aw from '../../assets/aw.png';
+import projects from '../../assets/und2.svg';
 import URI from '../utils/utils';
 import { Box, Container, ErrorMessage, Header, Input, Submit } from './styles';
-
 
 function RecoverPassword() {
     const [recCode, setRecCode] = React.useState(false)
@@ -41,6 +41,8 @@ function RecoverPassword() {
             ).then(res => {
                 if (res.status === 200) {
                     setRecCode(true)
+                    recCode === true ? window.location.href = "/" : ""
+
                 }
             }),
             {
@@ -52,12 +54,27 @@ function RecoverPassword() {
     }
 
 
+
     return (
         <>
             <Header >
                 <img src={aw} alt="American way image" />
             </Header>
             <Container>
+                <span>
+                    <div>
+                        <h1>American Way</h1>
+                        <img src={projects} alt="many-projects-handle" />
+
+                    </div>
+
+
+                    <div className='pwb'>
+                        powered by
+                        <a href='https://github.com/marcosillvestre'>
+                            marcosillvestre</a>
+                    </div>
+                </span>
 
                 <div className='mainbox'>
                     <form onSubmit={handleSubmit((data) => Sender(data))}>
@@ -86,19 +103,6 @@ function RecoverPassword() {
                     </form>
                 </div >
 
-                <span>
-                    <div>
-                        <h1>American Way</h1>
-
-                    </div>
-
-
-                    <div className='pwb'>
-                        powered by
-                        <a href='https://github.com/marcosillvestre'>
-                            marcosillvestre</a>
-                    </div>
-                </span>
 
             </Container>
         </>

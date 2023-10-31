@@ -132,11 +132,16 @@ export const UserProvider = ({ children }) => {
 
     const body = {
         "range": periodRange,
+        "types": typeSearch[unHandleLabel],
         "role": userData.role,
         "name": userData.name,
         "unity": userData.unity,
-        "types": typeSearch[unHandleLabel]
     }
+
+    useEffect(() => {
+        pushData()
+    }, [periodRange])
+
 
     async function pushData(searchType) {
         setTypeFilter([])

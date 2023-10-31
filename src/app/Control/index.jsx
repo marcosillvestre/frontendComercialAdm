@@ -19,16 +19,14 @@ import { useForm } from 'react-hook-form';
 import LoadingSpin from "react-loading-spin";
 import * as Yup from 'yup';
 import ControlledAccordions from '../../components/filtering';
+import { default as SelectFilterBy } from '../../components/selectFilterby';
+import SelectPeriodCustom from '../../components/selectPeriodCustom';
 import MiniDrawer from '../../components/sideBar';
-import UnhandleInput from '../../components/unhandleInputRange';
 import { useData } from '../../hooks/dataContext';
 
 const ListFiltered = () => {
     const { filtered, pushData, setFiltered, resetFilter, setTypeFilter } = useUser()
     const { typeFilter } = useData()
-
-
-
 
 
     const schema = Yup.object({ name: Yup.string() })
@@ -63,8 +61,8 @@ const ListFiltered = () => {
             <Container>
                 <MiniDrawer />
                 <span className='nav-filter' >
-                    <UnhandleInput opt={customizablePeriods} />
-                    <UnhandleInput opt={predeterminedPeriods} />
+                    <SelectFilterBy opt={customizablePeriods} />
+                    <SelectPeriodCustom opt={predeterminedPeriods} />
 
 
                     {/* <label>

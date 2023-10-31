@@ -18,7 +18,8 @@ export const Container = styled.span`
 display: flex;
 justify-content: space-between;
 max-width: 100vw;
-background-color: #6284fe;
+background-color: #4e5f9b;
+height: calc(100vh - 17vh);
 
 span{
     text-align: center;
@@ -36,6 +37,9 @@ span{
         gap:2rem;
         margin-top: 2rem;
         text-align: justify;
+        img{
+            height: 42.5vh;
+        }
         h1{
             text-align: center;
             font-size: 3rem;
@@ -47,23 +51,22 @@ span{
         }
     }
     .pwb{
-        display: unset;
-        color: #222;
-        position: absolute;
-        display: flex;
-        gap: .2rem;
-        bottom: .5rem;
-        font-size: .6rem;
+    position: absolute;
+    display: flex;
+    gap: 0.2rem;
+    bottom: 1rem;
+    font-size: 0.6rem;
+    color: rgb(34, 34, 34);
+    z-index: 174;
     }
 }
 .mainbox{
-    background-color: #7594ab;
+    background-color: #535175;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 1rem;
-    height: calc(100vh - 16vh);
     width: 50vw;
     h2{
     font-weight: bolder;
@@ -104,13 +107,13 @@ box-shadow: 0px 0px 1px 1px rgba(0,0,0,0.66);
 export const Submit = styled.input`
 height: 2rem;
 border: none;
-background-color: #005F73;
+background-color: #6c63ff;
 border-radius: .5rem;
 color: #fff;
 width: 100%;
 margin-top: 3rem ;
 &:hover{
-    background-color: #094d5b;
+    background-color: #5a51ff;
 }
 &:active{
     opacity: 0.7;

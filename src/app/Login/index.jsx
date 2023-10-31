@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import * as Yup from 'yup';
 import aw from '../../assets/aw.png';
+import projects from '../../assets/und.svg';
 import { useUser } from '../../hooks/userContext';
 import URI from '../utils/utils';
 import { Box, Container, ErrorMessage, Header, Input, Submit } from './styles';
@@ -52,7 +53,24 @@ function Login() {
                 <img src={aw} alt="American way image" />
             </Header>
             <Container>
+                <span>
+                    <div className='intituitional'>
+                        <h1>SCCM</h1>
+                        <p>
+                            Este é um sistema voltado para gestão de matrículas e finanças para empresas.
+                            Confie em nós para simplificar o processo e otimizar o sucesso de sua organização.
+                            Junte-se a nós para simplificar e aprimorar a gestão administrativa.</p>
 
+                        <img src={projects} alt="many-projects-handle" />
+                    </div >
+
+
+                    <div className='pwb'>
+                        powered by
+                        <a href='https://github.com/marcosillvestre'>
+                            marcosillvestre</a>
+                    </div>
+                </span>
                 <div className='mainbox'>
                     <form onSubmit={handleSubmit((data) => Sender(data))}>
                         <h2>Controle Comercial</h2>
@@ -76,24 +94,9 @@ function Login() {
                         <Submit type="submit" />
 
                     </form>
+
                 </div >
-                <span>
-                    <div className='intituitional'>
-                        <h1>SCCM</h1>
-                        <p>
-                            Este é um sistema voltado para gestão de matrículas e finanças para empresas.
-                            Confie em nós para simplificar o processo e otimizar o sucesso de sua organização.
-                            Junte-se a nós para simplificar e aprimorar a gestão administrativa.</p>
 
-                    </div >
-
-
-                    <div className='pwb'>
-                        powered by
-                        <a href='https://github.com/marcosillvestre'>
-                            marcosillvestre</a>
-                    </div>
-                </span>
 
             </Container>
         </>

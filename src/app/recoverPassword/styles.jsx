@@ -16,7 +16,9 @@ display: flex;
 justify-content: space-between;
 align-items:center;
 max-width: 100vw;
-background-color: #6284fe;
+height: calc(100vh - 17vh);
+background-color: #4e5f9b;
+
 
 span{
     text-align: center;
@@ -24,37 +26,42 @@ span{
     display: flex;
     justify-content: center;
     align-items: center;
+    img{
+        height: 43.5vh
+    }
     div{
         color: #fff;
         z-index: 10;
+        img{
+            height: 50vh;
+        }
         h1{
             font-size: 3rem;
             font-family: 'Lobster Two', cursive;
             transform: translate( 0 ,-60% );
             @media(min-width: 1600px){
-                font-size: 4em;
-                
-                
+                font-size: 4em; 
             }
         }
     }
     .pwb{
-        position: absolute;
-        display: flex;
-        gap: .2rem;
-        bottom: .5rem;
-        font-size: .6rem;
-        color: #222;
+    position: absolute;
+    display: flex;
+    gap: 0.2rem;
+    bottom: 1rem;
+    font-size: 0.6rem;
+    color: rgb(34, 34, 34);
+    z-index: 174;
     }
 }
 .mainbox{
-    background-color: #7594ab;
-    display: flex;
+    background-color: #535175;
+     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 1rem;
-    height: calc(100vh - 16vh);
+    height: 100% ;
     width: 50vw;
     h2{
    font-weight: bolder;

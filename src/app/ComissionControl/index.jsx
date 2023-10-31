@@ -86,7 +86,7 @@ function ComissionControll() {
         <>
             <MiniDrawer />
             {
-                userData.name.includes("Marcos") &&
+                userData && userData.name.includes("Marcos") &&
                 <Container>
 
                     <header>
