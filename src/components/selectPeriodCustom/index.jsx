@@ -16,9 +16,6 @@ const SelectPeriodCustom = (periods) => {
         setLabel(label)
         input !== true && setPeriodRange(label)
         input === true && setUnHandleLabel(label)
-        console.log(input)
-
-
     }
 
     return (

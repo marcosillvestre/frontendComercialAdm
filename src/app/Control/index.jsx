@@ -64,19 +64,6 @@ const ListFiltered = () => {
                     <SelectFilterBy opt={customizablePeriods} />
                     <SelectPeriodCustom opt={predeterminedPeriods} />
 
-
-                    {/* <label>
-                        <p>Período:</p>
-                        <select value={periodRange} onChange={(e) => setPeriodRange(e.target.value)} className='filter filter-period'>
-                            {
-                                period.map((res) => (
-                                    <option key={res.name} value={res.name}>{res.name}</option>
-
-                                ))
-                            }
-                        </select>
-                    </label> */}
-
                     <form onSubmit={handleSubmit((data) => sender(data))}>
                         <p>Pesquisar no período:</p>
                         <div className='name-filter'>
@@ -102,15 +89,19 @@ const ListFiltered = () => {
 
 
                     <div className='filters'>
-                        <p>filtros aplicados: </p>
-                        <div>
-                            {typeFilter.map(res => (
-                                <span key={res.key} onClick={() => resetFilter(res)}>
-                                    <p className='header'>{res.key}:</p>
-                                    <p className='body'>{res.value}</p>
-                                </span>
-                            ))}
-                        </div>
+                        {typeFilter?.length > 0 &&
+                            <>
+                                <p>filtros aplicados: </p>
+                                <div>
+                                    {typeFilter.map(res => (
+                                        <span key={res.key} onClick={() => resetFilter(res)}>
+                                            <p className='header'>{res.key}:</p>
+                                            <p className='body'>{res.value}</p>
+                                        </span>
+                                    ))}
+                                </div>
+                            </>
+                        }
                     </div>
 
 

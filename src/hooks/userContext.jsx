@@ -16,7 +16,7 @@ export const UserProvider = ({ children }) => {
     const [unity, setUnity] = useState([])
     const [filteredContracts, setFilteredContracts] = useState()
     const [sellers, setSeller] = useState()
-    const [periodRange, setPeriodRange] = useState('Esta semana')
+    const [periodRange, setPeriodRange] = useState('Últimos 7 dias')
     const [anchorEl, setAnchorEl] = useState(null);
     const [openPeriodRange, setOpenPeriodRange] = useState(false)
 
@@ -146,7 +146,6 @@ export const UserProvider = ({ children }) => {
 
     async function pushData(searchType) {
         setTypeFilter([])
-
         body["dates"] = searchType === true ? `${selectedInitialDate}~${selectedEndDate}` : ""
         body.name !== undefined &&
             await URI.post('/periodo', body, { headers })
