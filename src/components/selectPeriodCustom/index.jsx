@@ -44,10 +44,10 @@ const SelectPeriodCustom = (periods) => {
                 {
                     periods.opt?.map(period => (
                         <Options className="option" key={period?.name}  >
-                            <span className="label" onClick={() => handleCheck(period?.name, period?.undleLabel)}>
+                            <span style={{ width: "100%" }} className="label" onClick={() => handleCheck(period?.name, period?.undleLabel)}>
                                 {
                                     period.customizable === undefined ? <p>{period?.name}</p> :
-                                        <PositionedMenu name={period?.name} />
+                                        <PositionedMenu style={{ width: "100%" }} name={period?.name} />
                                 }
 
                             </span>

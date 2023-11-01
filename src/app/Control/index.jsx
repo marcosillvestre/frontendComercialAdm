@@ -61,7 +61,8 @@ const ListFiltered = () => {
             <Container>
                 <MiniDrawer />
                 <span className='nav-filter' >
-                    <SelectFilterBy opt={customizablePeriods} />
+
+                    <SelectFilterBy opt={customizablePeriods} onChange={(e) => console.log(e)} />
                     <SelectPeriodCustom opt={predeterminedPeriods} />
 
                     <form onSubmit={handleSubmit((data) => sender(data))}>

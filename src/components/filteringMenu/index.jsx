@@ -12,8 +12,7 @@ export default function PositionedMenu(data) {
 
     const {
         filtered, setFiltered, handleClose, pushData,
-        sellers, openPeriodRange, setOpenPeriodRange,
-        unity
+        sellers, setOpenPeriodRange, unity
     } = useUser()
 
     const { typeFilter, setTypeFilter } = useData()
@@ -44,7 +43,7 @@ export default function PositionedMenu(data) {
         pushData(true)
 
         close()
-        setOpenPeriodRange(!openPeriodRange)
+        setOpenPeriodRange(false)
     }
 
     const open = Boolean(anchorEl);
@@ -59,13 +58,14 @@ export default function PositionedMenu(data) {
     };
 
     return (
-        <div>
+        <div style={{ width: "100%" }}>
             <Button
                 id="demo-positioned-button"
                 aria-controls={open ? 'demo-positioned-menu' : undefined}
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
                 onClick={handleClick}
+                style={{ width: "100%", height: "100%" }}
             >
                 {data.name}
             </Button>
@@ -165,62 +165,6 @@ export default function PositionedMenu(data) {
                         <button className='button-filter' onClick={() => handleFilterRangeDate()}>Aplicar filtro</button>
                     </RangeDate>
                 }
-                {/* {
-                    data.name === "Data de matrícula" &&
-                    <RangeDate >
-                        <span className='label'>
-                            <button onClick={() => setAnchorEl(null)}><ArrowBackIcon /></button>
-                            <h3>{data.name}</h3>
-                            <div></div>
-                        </span>
-
-                        <span className='span-container'>
-                            <DatePickers text="Data inicial" />
-                            <p>até</p>
-                            <DatePickers text="Data final" />
-                        </span>
-                        <hr />
-                        <button className='button-filter' onClick={() => handleFilterRangeDate(data.name)}>Aplicar filtro</button>
-                    </RangeDate>
-                }
-                {
-                    data.name === "Data de comissionamento" &&
-                    <RangeDate >
-                        <span className='label'>
-                            <button onClick={() => setAnchorEl(null)}><ArrowBackIcon /></button>
-                            <h3>{data.name}</h3>
-                            <div></div>
-                        </span>
-                        <span className='span-container'>
-                            <DatePickers text="Data inicial" />
-                            <p>até</p>
-                            <DatePickers text="Data final" />
-                        </span>
-                        <hr />
-                        <button className='button-filter' onClick={() => handleFilterRangeDate(data.name)}>Aplicar filtro</button>
-                    </RangeDate>
-                }
-
-                {
-                    data.name === "Data de validação" &&
-                    <RangeDate>
-                        <span className='label'>
-
-                            <button onClick={() => setAnchorEl(null)}><ArrowBackIcon /></button>
-                            <h3>{data.name}</h3>
-                            <div></div>
-
-                        </span>
-                        <span className='span-container'>
-                            <DatePickers text="Data inicial" />
-                            <p>até</p>
-                            <DatePickers text="Data final" />
-                        </span>
-                        <hr />
-                        <button className='button-filter' onClick={() => handleFilterRangeDate(data.name)}>Aplicar filtro</button>
-                    </RangeDate>
-                } */}
-
 
             </Menu>
         </div>

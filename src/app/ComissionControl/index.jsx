@@ -73,12 +73,12 @@ function ComissionControll() {
     }
 
     const predeterminedPeriods = [
-        { name: "Esta semana", destiny: "admin" },
-        { name: "Este mês", destiny: "admin" },
-        { name: "Mês passado", destiny: "admin" },
-        { name: "Mês retrasado", destiny: "admin" },
-        { name: "Este ano", destiny: "admin" },
-        { name: "Período personalizado", customizable: true, destiny: "admin" },
+        { name: "Esta semana", },
+        { name: "Este mês", },
+        { name: "Mês passado", },
+        { name: "Mês retrasado", },
+        { name: "Este ano", },
+        { name: "Período personalizado", customizable: true, },
     ]
     // if (isPending) return <div>Carregando...</div>;
 

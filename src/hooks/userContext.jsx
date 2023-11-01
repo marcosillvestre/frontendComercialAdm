@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react"
 
 
+import axios from "axios"
 import Proptypes from 'prop-types'
 import { redirect } from "react-router-dom"
 import URI from "../app/utils/utils.jsx"
@@ -142,7 +143,7 @@ export const UserProvider = ({ children }) => {
         pushData()
     }, [periodRange])
 
-    // await axios.post('http://localhost:7070/periodo', body, { headers })
+    axios.post('http://localhost:7070/periodo', body, { headers })
 
     async function pushData(searchType) {
         setTypeFilter([])
@@ -154,16 +155,18 @@ export const UserProvider = ({ children }) => {
                 })
     }
 
+    // await axios.post('http://localhost:7070/periodo', body, { headers })
 
     const resetFilter = async (filter) => {
-        body.name !== undefined &&
-            await URI.post('/periodo', body, { headers })
-                .then(res => {
-                    typeFilter.length <= 1 && setFiltered(res?.data.data.deals)
-                    typeFilter.length === 2 && setFiltered(res?.data.data.deals.filter(res => res[typeFilter[0].key] === typeFilter[0].value))
-                    typeFilter.length === 3 && setFiltered(res?.data.data.deals.filter(res => res[typeFilter[0].key] === typeFilter[0].value && res[typeFilter[1].key] === typeFilter[1].value))
-                })
+        body["dates"] = `${selectedInitialDate}~${selectedEndDate}`
+        await URI.post('/periodo', body, { headers })
+            .then(res => {
+                typeFilter.length <= 1 && setFiltered(res?.data.data.deals)
+                typeFilter.length === 2 && setFiltered(res?.data.data.deals.filter(res => res[typeFilter[0].key] === typeFilter[0].value))
+                typeFilter.length === 3 && setFiltered(res?.data.data.deals.filter(res => res[typeFilter[0].key] === typeFilter[0].value && res[typeFilter[1].key] === typeFilter[1].value))
+            })
         setTypeFilter(typeFilter.filter(res => res !== filter))
+
     }
 
     return (

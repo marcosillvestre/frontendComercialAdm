@@ -2,21 +2,17 @@ import DoneIcon from '@mui/icons-material/Done';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import React from 'react';
 import { useUser } from '../../hooks/userContext';
-import PositionedMenu from '../filteringMenu';
 import { Checked, Container, Icon, ListOpt, Options, SelectButton } from './styles';
 
 const SelectFilterBy = (periods) => {
-    const { openPeriodRange, setOpenPeriodRange, setPeriodRange, setUnHandleLabel } = useUser()
+    const { openPeriodRange, setOpenPeriodRange, setUnHandleLabel } = useUser()
 
     const [label, setLabel] = React.useState(`${periods.opt[0]?.name}`)
 
 
-    const handleCheck = (label, input) => {
+    const handleCheck = (label) => {
         setLabel(label)
-        input !== true && setPeriodRange(label)
-        input === true && setUnHandleLabel(label)
-
-
+        setUnHandleLabel(label)
     }
 
     return (
@@ -45,11 +41,9 @@ const SelectFilterBy = (periods) => {
                 {
                     periods.opt?.map(period => (
                         <Options className="option" key={period?.name}  >
-                            <span className="label" onClick={() => handleCheck(period?.name, period?.undleLabel)}>
-                                {
-                                    period.customizable === undefined ? <p>{period?.name}</p> :
-                                        <PositionedMenu name={period?.name} />
-                                }
+                            <span className="label" onClick={() => handleCheck(period?.name)}>
+
+                                <p>{period?.name}</p>
 
                             </span>
                             <Checked className='icon-right'><DoneIcon /></Checked>
