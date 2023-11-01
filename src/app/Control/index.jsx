@@ -48,7 +48,7 @@ const ListFiltered = () => {
     ]
 
     const predeterminedPeriods = [
-        { name: "Esta semana" },
+        { name: "Últimos 7 dias" },
         { name: "Este mês" },
         { name: "Mês passado" },
         { name: "Mês retrasado" },

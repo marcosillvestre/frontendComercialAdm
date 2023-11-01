@@ -100,14 +100,13 @@ box-shadow: 0px 0px 1px 1px rgba(0,0,0,0.66);
 export const Submit = styled.input`
 height: 2rem;
 border: none;
-background-color: #005F73;
-border-radius: 1rem;
+background-color: #6c63ff;
+border-radius: .5rem;
 color: #fff;
 width: 100%;
 margin-top: 3rem ;
 &:hover{
-    background-color: #094d5b;
-
+    background-color: #5a51ff;
 }
 &:active{
     opacity: 0.7;

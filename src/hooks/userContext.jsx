@@ -142,6 +142,7 @@ export const UserProvider = ({ children }) => {
         pushData()
     }, [periodRange])
 
+    // await axios.post('http://localhost:7070/periodo', body, { headers })
 
     async function pushData(searchType) {
         setTypeFilter([])
