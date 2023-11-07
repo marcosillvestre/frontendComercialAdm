@@ -1,4 +1,5 @@
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+import HomeIcon from '@mui/icons-material/Home';
 import PaidIcon from '@mui/icons-material/Paid';
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import { Link } from 'react-router-dom';
@@ -19,13 +20,14 @@ text-decoration: none;
     color: #2E2F8E;
 }
 `
+
 export const Adduser = styled(SupervisedUserCircleIcon)`
 cursor: pointer;
-
 `
 
 export const ComissionScreen = styled(PaidIcon)`
 cursor: pointer;
-
-
+`
+export const Home = styled(HomeIcon)`
+cursor: pointer;
 `

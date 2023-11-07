@@ -25,8 +25,8 @@ import MiniDrawer from '../../components/sideBar';
 import { useData } from '../../hooks/dataContext';
 
 const ListFiltered = () => {
-    const { filtered, pushData, setFiltered, resetFilter, setTypeFilter } = useUser()
-    const { typeFilter } = useData()
+    const { filtered, pushData, setFiltered, resetFilter, setPeriodFilter } = useUser()
+    const { typeFilter, setTypeFilter } = useData()
 
 
     const schema = Yup.object({ name: Yup.string() })
@@ -56,13 +56,17 @@ const ListFiltered = () => {
         { name: "Período personalizado", customizable: true },
     ]
 
+    const handleSearch = () => {
+        setPeriodFilter(false)
+        setTypeFilter([])
+    }
     return (
         <>
             <Container>
                 <MiniDrawer />
                 <span className='nav-filter' >
 
-                    <SelectFilterBy opt={customizablePeriods} onChange={(e) => console.log(e)} />
+                    <SelectFilterBy opt={customizablePeriods} />
                     <SelectPeriodCustom opt={predeterminedPeriods} />
 
                     <form onSubmit={handleSubmit((data) => sender(data))}>
@@ -78,7 +82,7 @@ const ListFiltered = () => {
 
                                 }
                             </datalist>
-                            <button type='submit' className='button' onClick={() => setTypeFilter([])}><SearchIcon /></button>
+                            <button type='submit' className='button' onClick={() => handleSearch()}><SearchIcon /></button>
                         </div>
                     </form>
 

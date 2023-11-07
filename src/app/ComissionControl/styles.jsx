@@ -6,6 +6,7 @@ flex-direction: column;
 gap: 2rem;
 nav{
     display: flex;
+    gap:.8rem;
 }
 header{
 width: 100vw;
@@ -50,15 +51,22 @@ label{
     flex-direction: column;
 }
 }
+table{
+    border-radius: 4px; 
+    padding: 20px;
+    box-shadow: 1.5px 2px 4px 1.5px rgba(35, 36, 37, 0.3);
+    
+}
 
-table, thead, tr, tbody, td {
-    border: 1px solid;
+thead, tr, tbody, td {
     text-align: center;
+    border: 1px solid;
     padding: 5px 20px;
 
 }
 
 `
+
 
 
 export const Tax = styled.div`
@@ -74,4 +82,143 @@ border-radius: .5rem;
 background-color: #fff;
 font-size:.8rem;
 
+`
+
+export const ListOpt = styled.ul`
+    display:${props => props.open ? "block" : "none"} ;
+    position: absolute;
+    z-index: 10;
+    margin-top: .3rem ;
+    border-radius: .375rem;
+    background-color:#dfe6f1;
+    width: 15rem;
+
+`
+export const Options = styled.li`
+        transition: .4s;
+        transform-origin: top;
+        color: #222;
+        width: 100%;
+        border-bottom: 1px solid #fafafa;
+        height: 2.78rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: .75rem;
+        cursor: pointer;
+        span{
+            display: flex;
+            width: 100%;
+            height: 100%;
+            align-items: center;
+            justify-content: center;
+        }
+        &:hover{
+        background: #c4d3e0;
+
+        }
+    
+`
+
+
+export const ContainerTable = styled.div`
+display: flex;
+align-items: flex-start;
+gap: .8rem;
+padding: .5rem 1rem;
+
+.seller-relatory{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: .5rem;
+    font-size: small;
+
+}
+.cell-relatory{
+    text-align: center;
+    font-size: small;
+
+}
+
+
+`
+export const NavBar = styled.nav`
+width: 100%;
+display: flex;
+justify-content: flex-end;
+padding-right:2rem ;
+align-items: center;
+`
+
+export const ButtonLink = styled.button`
+padding: .5rem 2rem;
+border: none;
+background-color:${props => props.open ? "#d4d9e4" : "#dfe6f1"} ;
+border-radius: .4rem;
+cursor: pointer;
+
+&:hover{
+background-color:#d4d9e4;
+
+}
+a{
+    text-decoration: none;
+    &:visited{
+        color: #222;
+    
+    }
+}
+
+`
+export const Checked = styled.i`
+margin-left: auto;
+display: none;
+`
+
+
+export const SelectButton = styled.div`
+
+color: #222;
+width: ${props => props.parameters ? "25rem" : "15rem"};
+height: 2.5rem;
+
+margin-top: .5rem;
+display: flex;
+padding: .75rem;
+align-items: center;
+justify-content: space-around;
+/* justify-content: center; */
+
+border-radius: .375rem;
+/* border: 1px solid #d6d8da; */
+/* background-color:#dfe6f1; */
+    background-color:${props => props.open ? "#9ea3ab" : "#dfe6f1"} ;
+
+    &:hover{
+
+    }
+    #selected-value{
+    color: #000;
+    font-size: .875rem;
+    margin-right: 2rem;
+}
+`
+
+export const Icon = styled.div`
+display: flex;
+align-items: center;
+cursor: pointer;
+translate:  -2px -2px ;
+
+ .icon-up{
+        transform: rotate(180deg);
+        transition: all 1s ease-in-out;
+        display:${props => props.open ? "block" : "none"} ;
+        translate:  0 -1px ;
+    }
+    
+    .icon-down{
+        display:${props => props.open ? "none" : "block"} ;
+    }
 `

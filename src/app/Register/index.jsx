@@ -24,7 +24,9 @@ import { Anchor, Box, Container, ErrorMessage, Header, Input, MultiOption, Regis
 function Register() {
   const [unity, setUnity] = useState([])
   const { headers, users } = useUser()
+
   const url = useLocation()
+
   const schema = Yup.object({
     name: Yup.string().required(),
     email: Yup.string().required(),

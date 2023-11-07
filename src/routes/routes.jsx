@@ -33,6 +33,10 @@ const Routes = createBrowserRouter([
         element: comissionalAcess ? <ComissionControll /> : <Control />,
     },
     {
+        path: "/controle-comissional/grafico",
+        element: comissionalAcess ? <ComissionControll /> : <Control />,
+    },
+    {
         path: "/cadastro",
         element: directory ? <Register /> : <Login />,
     },

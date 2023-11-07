@@ -24,7 +24,6 @@ export const Options = styled.li`
         transition: .4s;
         transform-origin: top;
         color: #222;
-        padding: .75rem;
         width: 100%;
         border-bottom: 1px solid #fafafa;
         height: 2.78rem;

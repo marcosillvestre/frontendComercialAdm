@@ -1,6 +1,7 @@
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import MenuIcon from '@mui/icons-material/Menu';
+import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import MuiAppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -18,7 +19,7 @@ import { styled, useTheme } from '@mui/material/styles';
 import * as React from 'react';
 import { useUser } from '../../hooks/userContext';
 import Header from '../header';
-import { Adduser, ComissionScreen, GetContracts, Links } from './styles';
+import { Adduser, ComissionScreen, GetContracts, Home, Links } from './styles';
 
 const drawerWidth = 250;
 
@@ -136,9 +137,13 @@ export default function MiniDrawer() {
                 <Divider style={{ marginTop: "1rem" }} />
 
                 <List>
-                    {[{ name: 'Emitir Contratos', url: '/contratos-por-assinar', icon: <GetContracts />, access: ['administrativo', 'direcao', 'comercial', 'gerencia'] },
-                    { name: 'Criar Novos Usuários', url: '/cadastro', icon: <Adduser />, access: ['direcao'] },
-                    { name: 'Controle Comissional', url: '/controle-comissional', icon: <ComissionScreen />, access: ['administrativo', 'direcao'] }]
+                    {[
+                        { name: 'Controle Comercial', url: '/controle-comercial', icon: <Home />, access: ['administrativo', 'direcao'] },
+                        { name: 'Emitir Contratos', url: '/contratos-por-assinar', icon: <GetContracts />, access: ['administrativo', 'direcao', 'comercial', 'gerencia'] },
+                        { name: 'Novo Cadastro', url: '/', icon: <PersonAddAlt1Icon />, access: ['administrativo', 'direcao', 'comercial', 'gerencia'] },
+                        { name: 'Criar Novos Usuários', url: '/cadastro', icon: <Adduser />, access: ['direcao'] },
+                        { name: 'Controle Comissional', url: '/controle-comissional', icon: <ComissionScreen />, access: ['administrativo', 'direcao'] },
+                    ]
                         .map((text) => (
                             <ListItem key={text.name} disablePadding sx={{ display: 'block' }}>
                                 <ListItemButton

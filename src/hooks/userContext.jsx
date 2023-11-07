@@ -1,15 +1,20 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react"
 
 
-import axios from "axios"
 import Proptypes from 'prop-types'
 import { redirect } from "react-router-dom"
 import URI from "../app/utils/utils.jsx"
 import { useData } from "./dataContext.jsx"
 
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import axios from 'axios'
+
+
 const UserContext = createContext({})
 export const UserProvider = ({ children }) => {
+
     const [userData, setUserData] = useState({})
+
     const [fetchData, setFetchData] = useState()
     const [users, setUsers] = useState([])
     const [filtered, setFiltered] = useState([])
@@ -29,6 +34,22 @@ export const UserProvider = ({ children }) => {
     const { typeFilter, setTypeFilter } = useData()
 
     const handleClose = () => setAnchorEl(null);
+
+    useEffect(() => {
+        const loadUserData = async () => {
+            const clientInfo = await localStorage.getItem('userData')
+            if (clientInfo) {
+                setUserData(JSON.parse(clientInfo))
+            }
+            if (!clientInfo) {
+                redirect("/")
+            }
+        }
+        loadUserData()
+
+    }, [])
+
+
 
     const headers = useMemo(() => {
         return {
@@ -81,11 +102,9 @@ export const UserProvider = ({ children }) => {
     }
 
 
-
     const logOut = async () => {
         await localStorage.removeItem('userData')
     }
-
 
 
     const bool = headers.Authorization
@@ -105,26 +124,9 @@ export const UserProvider = ({ children }) => {
 
 
 
-    useEffect(() => {
-        const loadUserData = async () => {
-            const clientInfo = await localStorage.getItem('userData')
-            if (clientInfo) {
-                setUserData(JSON.parse(clientInfo))
-            }
-            if (!clientInfo) {
-                redirect("/")
-            }
-        }
-        loadUserData()
-    }, [])
 
 
-    if (selectedInitialDate === null) {
-        setSelectedInitialDate(new Date('2022-01-01'))
-    }
-    if (selectedEndDate === null) {
-        setSelectedEndDate(new Date())
-    }
+
 
     const typeSearch = {
         "Data de matrícula": "dataMatricula",
@@ -143,39 +145,96 @@ export const UserProvider = ({ children }) => {
         pushData()
     }, [periodRange])
 
-    axios.post('http://localhost:7070/periodo', body, { headers })
+    // axios.post('http://localhost:7070/periodo', body, { headers })
 
     async function pushData(searchType) {
         setTypeFilter([])
+        selectedInitialDate === null && setSelectedInitialDate(new Date('2022-01-02'))
+        selectedEndDate === null && setSelectedEndDate(new Date())
+
         body["dates"] = searchType === true ? `${selectedInitialDate}~${selectedEndDate}` : ""
-        body.name !== undefined &&
-            await URI.post('/periodo', body, { headers })
-                .then(res => {
-                    setFiltered(res?.data.data.deals)
-                })
+
+        try {
+            body.name !== undefined &&
+                await URI.post('/periodo', body, { headers })
+                    .then(res => {
+                        setFiltered(res?.data.data.deals)
+                    })
+        }
+        catch (err) {
+            if (err?.response?.data?.error.includes('token')) {
+                window.location.href = "/"
+                logOut()
+                alert("Sessão expirada")
+            }
+        }
     }
 
     // await axios.post('http://localhost:7070/periodo', body, { headers })
 
     const resetFilter = async (filter) => {
-        body["dates"] = `${selectedInitialDate}~${selectedEndDate}`
-        await URI.post('/periodo', body, { headers })
-            .then(res => {
-                typeFilter.length <= 1 && setFiltered(res?.data.data.deals)
-                typeFilter.length === 2 && setFiltered(res?.data.data.deals.filter(res => res[typeFilter[0].key] === typeFilter[0].value))
-                typeFilter.length === 3 && setFiltered(res?.data.data.deals.filter(res => res[typeFilter[0].key] === typeFilter[0].value && res[typeFilter[1].key] === typeFilter[1].value))
-            })
-        setTypeFilter(typeFilter.filter(res => res !== filter))
+        // selectedInitialDate === null && setSelectedInitialDate(new Date('2022-05-12'))
+        // selectedEndDate === null && setSelectedEndDate(new Date())
 
+        body["dates"] = `${selectedInitialDate}~${selectedEndDate}`
+        try {
+            await URI.post('/periodo', body, { headers })
+                .then(res => {
+                    typeFilter.length <= 1 && setFiltered(res?.data.data.deals)
+                    typeFilter.length === 2 && setFiltered(res?.data.data.deals.filter(res => res[typeFilter[0].key] === typeFilter[0].value))
+                    typeFilter.length === 3 && setFiltered(res?.data.data.deals.filter(res => res[typeFilter[0].key] === typeFilter[0].value && res[typeFilter[1].key] === typeFilter[1].value))
+                })
+            setTypeFilter(typeFilter.filter(res => res !== filter))
+        }
+        catch (err) {
+            if (err?.response?.data?.error.includes('token')) {
+                window.location.href = "/"
+                logOut()
+                alert("Sessão expirada")
+            }
+        }
     }
+
+    const queryCache = useQueryClient();
+
+    const [label, setLabel] = useState("Selecione")
+
+
+    const bodyComission = {
+        range: label,
+        dates: label === "Período personalizado" ? `${selectedInitialDate}~${selectedEndDate}` : ""
+    }
+
+    const [cell, setCell] = useState([])
+
+
+    const mutation = useMutation({
+        mutationFn: () => {
+            return axios.post('http://localhost:7070/comissao', bodyComission, { headers }).then(res => res.data.data)
+        },
+        onSuccess: (data) => {
+            setCell(data.deals)
+            queryCache.invalidateQueries({ queryKey: ['todos'] })
+        },
+        onError: (err) => console.log(err)
+    })
+
+    useEffect(() => {
+        headers.Authorization.includes("undefined") === false && mutation.mutate()
+
+    }, [label])
+
+
+    const [periodFilter, setPeriodFilter] = useState(false)
+
 
     return (
         <UserContext.Provider value={{
-            contracts, setContracts, sellers, periodRange, setPeriodRange,
-            users, headers, putInfo, userData, anchorEl, setAnchorEl, handleClose,
+            contracts, setContracts, sellers, periodRange, setPeriodRange, periodFilter, setPeriodFilter,
+            users, headers, putInfo, userData, anchorEl, setAnchorEl, handleClose, cell, setCell,
             logOut, fetchData, setFetchData, setUsers, selectedInitialDate, setSelectedInitialDate,
-            filtered, setFiltered, filteredContracts, setFilteredContracts,
-            selectedEndDate, setSelectedEndDate, resetFilter, unity, body,
+            filtered, setFiltered, filteredContracts, setFilteredContracts, setLabel, label,
+            selectedEndDate, setSelectedEndDate, resetFilter, unity, body, mutation,
             openPeriodRange, setOpenPeriodRange, unHandleLabel, setUnHandleLabel,
             pushData
         }}>

@@ -12,11 +12,8 @@ const DatePickers = (parameters) => {
 
     const handleDate = (date) => {
         setSelectedDate(date)
-        console.log(date)
-        console.log(parameters)
         parameters.text === 'Data inicial' ? setSelectedInitialDate(date) : setSelectedEndDate(date)
 
-        console.log(typeFilter)
 
         if (parameters.text === 'Data inicial') {
             let data = typeFilter?.filter(res => res.key === parameters.text)

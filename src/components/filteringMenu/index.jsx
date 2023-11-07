@@ -1,6 +1,7 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Button, Menu } from '@mui/material';
 import * as React from 'react';
+import { useLocation } from 'react-router-dom';
 import { useData } from '../../hooks/dataContext';
 import { useUser } from '../../hooks/userContext';
 import DatePickers from '../datePicker';
@@ -12,7 +13,7 @@ export default function PositionedMenu(data) {
 
     const {
         filtered, setFiltered, handleClose, pushData,
-        sellers, setOpenPeriodRange, unity
+        sellers, setOpenPeriodRange, unity, mutation
     } = useUser()
 
     const { typeFilter, setTypeFilter } = useData()
@@ -37,10 +38,15 @@ export default function PositionedMenu(data) {
         }
     }
 
+    const url = useLocation()
 
     const handleFilterRangeDate = () => {
+        console.log(url)
+
         setTypeFilter([])
-        pushData(true)
+
+        url.pathname === '/controle-comercial' && pushData(true)
+        url.pathname === '/controle-comissional' && mutation.mutate()
 
         close()
         setOpenPeriodRange(false)

@@ -6,16 +6,13 @@ import PositionedMenu from '../filteringMenu';
 import { Checked, Container, Icon, ListOpt, Options, SelectButton } from './styles';
 
 const UnhandleInput = (periods) => {
-    const { openPeriodRange, setOpenPeriodRange, setPeriodRange, setUnHandleLabel } = useUser()
+    const { openPeriodRange, setOpenPeriodRange, setPeriodRange } = useUser()
     const [label, setLabel] = React.useState(`${periods.opt[0]?.name}`)
 
 
     const handleCheck = (label, input) => {
         setLabel(label)
         input !== true && setPeriodRange(label)
-        input === true && setUnHandleLabel(label)
-
-
     }
 
     return (
@@ -40,10 +37,10 @@ const UnhandleInput = (periods) => {
                 {
                     periods.opt?.map(period => (
                         <Options className="option" key={period?.name} >
-                            <span className="label" onClick={() => handleCheck(period?.name, period?.undleLabel, period?.destiny)}>
+                            <span style={{ width: "100%" }} className="label" onClick={() => handleCheck(period?.name, period?.undleLabel, period?.destiny)}>
                                 {
                                     period.customizable === undefined ? <p>{period?.name}</p> :
-                                        <PositionedMenu name={period?.name} />
+                                        <PositionedMenu style={{ width: "100%" }} name={period?.name} />
                                 }
 
                             </span>

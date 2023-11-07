@@ -11,6 +11,7 @@ const SelectFilterBy = (periods) => {
 
 
     const handleCheck = (label) => {
+        setOpenPeriodRange(false)
         setLabel(label)
         setUnHandleLabel(label)
     }
