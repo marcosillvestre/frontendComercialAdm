@@ -209,11 +209,6 @@ export const SelectButton = styled.div`
     padding: .32rem .5rem;
     width: 10rem;
 
-    &:hover{
-    outline: 1px solid #d2daeb;
-    color: #222;
-
-    }
 `
 export const Icon = styled.div`
 display: flex;

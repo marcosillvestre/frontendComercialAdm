@@ -60,15 +60,9 @@ display: flex;
 padding: .75rem;
 align-items: center;
 justify-content: space-between;
-/* justify-content: center; */
-
 border-radius: .375rem;
-/* border: 1px solid #d6d8da; */
 background-color:#dfe6f1;
 
-    &:hover{
-
-    }
     #selected-value{
     color: #000;
     font-size: .875rem;

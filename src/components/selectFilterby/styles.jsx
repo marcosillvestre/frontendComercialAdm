@@ -65,9 +65,6 @@ justify-content: space-between;
 border-radius: .375rem;
 background-color:#dfe6f1;
 
-    &:hover{
-
-    }
     #selected-value{
     color: #000;
     font-size: .875rem;

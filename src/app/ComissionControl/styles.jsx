@@ -91,7 +91,8 @@ export const ListOpt = styled.ul`
     margin-top: .3rem ;
     border-radius: .375rem;
     background-color:#dfe6f1;
-    width: 15rem;
+    width: ${props => props.parameters ? "25rem" : "15rem"};
+
 
 `
 export const Options = styled.li`
@@ -152,7 +153,7 @@ align-items: center;
 `
 
 export const ButtonLink = styled.button`
-padding: .5rem 2rem;
+padding: .5rem 1.7rem;
 border: none;
 background-color:${props => props.open ? "#d4d9e4" : "#dfe6f1"} ;
 border-radius: .4rem;
@@ -164,6 +165,7 @@ background-color:#d4d9e4;
 }
 a{
     text-decoration: none;
+    color: #222;
     &:visited{
         color: #222;
     
@@ -178,31 +180,34 @@ display: none;
 
 
 export const SelectButton = styled.div`
-
 color: #222;
 width: ${props => props.parameters ? "25rem" : "15rem"};
 height: 2.5rem;
 
 margin-top: .5rem;
 display: flex;
-padding: .75rem;
+padding: .75rem 2rem;
 align-items: center;
-justify-content: space-around;
-/* justify-content: center; */
-
+justify-content: space-between;
 border-radius: .375rem;
-/* border: 1px solid #d6d8da; */
-/* background-color:#dfe6f1; */
-    background-color:${props => props.open ? "#9ea3ab" : "#dfe6f1"} ;
+background-color:${props => props.open ? "#d4d9e4" : "#dfe6f1"} ;
 
-    &:hover{
-
-    }
     #selected-value{
     color: #000;
     font-size: .875rem;
     margin-right: 2rem;
 }
+ span{
+    border: 1px dashed;
+    border-radius: 7px;
+    padding: 3px 7px;
+    cursor: pointer;
+    p{
+        &::after{
+            content:' ✖️';
+        }
+    }
+    }
 `
 
 export const Icon = styled.div`

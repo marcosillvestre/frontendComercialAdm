@@ -3,8 +3,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import React from 'react';
 import LoadingSpin from "react-loading-spin";
 import { useLocation } from 'react-router-dom';
-import { Area, Bar, BarChart, CartesianGrid, ComposedChart, Legend, Line, LineChart, XAxis, YAxis } from 'recharts';
-import { Tooltip } from 'rsuite';
+import { Area, Bar, BarChart, CartesianGrid, ComposedChart, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts';
 import PositionedMenu from '../../components/filteringMenu';
 import MiniDrawer from '../../components/sideBar';
 import { useUser } from '../../hooks/userContext';
@@ -452,7 +451,11 @@ function ComissionControll() {
                                     <p id="selected-value"> {valueGraph[0]},{valueGraph[1]},{valueGraph[2]}</p>
                                     <p id="selected-value"> {valueGraph[0]},{valueGraph[1]},{valueGraph[2]}</p> */}
                                     {valueGraph.map(res => (
-                                        <p key={res}>{res}</p>
+                                        <span key={res} onClick={() => setValueGraph(valueGraph.filter(data => data !== res))} >
+                                            <p>
+                                                {res}
+                                            </p>
+                                        </span>
                                     ))}
                                     <Icon id="chevrons" open={param === true && open2}>
                                         <i className='icon-up' > <KeyboardArrowDownIcon /></i>
@@ -461,7 +464,7 @@ function ComissionControll() {
                                 </SelectButton>
 
 
-                                <ListOpt open={param === true && open2}>
+                                <ListOpt open={param === true && open2} parameters={true}>
 
                                     {
                                         label6 === 'Curso' &&
@@ -542,6 +545,7 @@ function ComissionControll() {
                             </BarChart>
 
                             <LineChart width={1320} height={300} data={yearGraph}>
+                                <Tooltip />
                                 <Line type="monotone" dataKey="fn.parameter1" stroke="#8884d8" />
                                 <Line type="monotone" dataKey="fn.parameter2" fill="#82ca9d" />
                                 <Line type="monotone" dataKey="fn.parameter3" fill="#3a56df" />
@@ -558,8 +562,8 @@ function ComissionControll() {
                                 <CartesianGrid stroke="#f5f5f5" />
                                 <Area type="monotone" dataKey="amt" fill="#8884d8" stroke="#8884d8" />
                                 <Bar dataKey="fn.parameter1" barSize={20} fill="#413ea0" />
-                                <Line type="monotone" dataKey="fn.parameter2" stroke="#82ca9d" />
-                                <Line type="monotone" dataKey="fn.parameter3" stroke="#3a56df" />
+                                <Line type="bump" dataKey="fn.parameter2" stroke="#82ca9d" />
+                                <Line type="basisOpen" dataKey="fn.parameter3" stroke="#3a56df" />
                             </ComposedChart>
                         </>
 
