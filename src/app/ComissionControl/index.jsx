@@ -8,7 +8,7 @@ import PositionedMenu from '../../components/filteringMenu';
 import MiniDrawer from '../../components/sideBar';
 import { useUser } from '../../hooks/userContext';
 import URI from '../utils/utils';
-import { ButtonLink, Checked, Container, ContainerTable, Icon, ListOpt, NavBar, Options, SelectButton, Tax } from './styles';
+import { ButtonLink, ChartsContainer, Checked, Container, ContainerTable, Icon, ListOpt, NavBar, Options, SelectButton, Tax } from './styles';
 
 function ComissionControll() {
     const { sellers, unity, headers, selectedInitialDate, selectedEndDate, mutation, setLabel, label, cell } = useUser()
@@ -70,7 +70,7 @@ function ComissionControll() {
 
     const graphType = [
         { name: "curso", label: "Curso" },
-        { name: "tipoMatricula", label: "Status da comissão" },
+        { name: "tipoMatricula", label: "Comissionamento" },
         { name: "unidade", label: "Unidade" },
         { name: "owner", label: "Consultor" }
     ]
@@ -491,7 +491,7 @@ function ComissionControll() {
                                         ))
                                     }
                                     {
-                                        label6 === 'Status da comissão' &&
+                                        label6 === 'Comissionamento' &&
                                         status?.map(period => (
                                             <Options className="option" key={period?.name} >
                                                 <span className="label" onClick={() => handleGraphic("value", period?.name)}>
@@ -527,13 +527,14 @@ function ComissionControll() {
                             <ButtonLink open={url.pathname === '/controle-comissional/grafico'}><a href='/controle-comissional/grafico'>Gráfico</a> </ButtonLink>
                         </NavBar>
 
-
                     </header>
+
+
 
                     {
 
-                        <>
-                            <BarChart width={1320} height={250} data={yearGraph}>
+                        <ChartsContainer>
+                            <BarChart width={800} height={330} data={yearGraph}>
                                 <CartesianGrid strokeDasharray="3 3" />
                                 <XAxis dataKey="name" />
                                 <YAxis />
@@ -544,7 +545,7 @@ function ComissionControll() {
                                 <Bar dataKey="fn.parameter3" fill="#3a56df" />
                             </BarChart>
 
-                            <LineChart width={1320} height={300} data={yearGraph}>
+                            <LineChart width={800} height={300} data={yearGraph}>
                                 <Tooltip />
                                 <Line type="monotone" dataKey="fn.parameter1" stroke="#8884d8" />
                                 <Line type="monotone" dataKey="fn.parameter2" fill="#82ca9d" />
@@ -565,7 +566,14 @@ function ComissionControll() {
                                 <Line type="bump" dataKey="fn.parameter2" stroke="#82ca9d" />
                                 <Line type="basisOpen" dataKey="fn.parameter3" stroke="#3a56df" />
                             </ComposedChart>
-                        </>
+
+                            <span className='subtitle'>
+                                <h2>Legenda</h2>
+                                {valueGraph[0] && <div><p>{valueGraph[0]}</p>  <hr style={{ backgroundColor: "#8884d8" }}></hr></div>}
+                                {valueGraph[1] && <div><p>{valueGraph[1]}</p>  <hr style={{ backgroundColor: "#82ca9d" }}></hr></div>}
+                                {valueGraph[2] && <div><p>{valueGraph[2]}</p>  <hr style={{ backgroundColor: "#3a56df" }}></hr></div>}
+                            </span>
+                        </ChartsContainer>
 
                     }
 

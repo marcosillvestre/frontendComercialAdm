@@ -65,6 +65,24 @@ thead, tr, tbody, td {
 
 }
 
+.subtitle{
+    margin: 0 1rem;
+    box-shadow: 1.5px 2px 4px 1.5px rgba(35, 36, 37, 0.3);
+    border-radius: 4px; 
+    padding: 20px;
+    height: min-content;
+    div{
+        width: 10rem;
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        hr{
+            height: 1rem;
+            width: 5rem;
+        }
+    }
+}
+
 `
 
 
@@ -84,6 +102,12 @@ font-size:.8rem;
 
 `
 
+export const ChartsContainer = styled.div`
+display: flex;
+justify-content: flex-start;
+flex-wrap: wrap;
+
+`
 export const ListOpt = styled.ul`
     display:${props => props.open ? "block" : "none"} ;
     position: absolute;
@@ -91,7 +115,7 @@ export const ListOpt = styled.ul`
     margin-top: .3rem ;
     border-radius: .375rem;
     background-color:#dfe6f1;
-    width: ${props => props.parameters ? "25rem" : "15rem"};
+    width: ${props => props.parameters ? "30rem" : "15rem"};
 
 
 `
@@ -181,7 +205,7 @@ display: none;
 
 export const SelectButton = styled.div`
 color: #222;
-width: ${props => props.parameters ? "25rem" : "15rem"};
+width: ${props => props.parameters ? "30rem" : "15rem"};
 height: 2.5rem;
 
 margin-top: .5rem;
@@ -203,8 +227,14 @@ background-color:${props => props.open ? "#d4d9e4" : "#dfe6f1"} ;
     padding: 3px 7px;
     cursor: pointer;
     p{
+        display: flex;
+        width: 100%;
         &::after{
-            content:' ✖️';
+            content:'✖️';
+        }
+        &:active{
+    padding: 2px 5px;
+
         }
     }
     }
