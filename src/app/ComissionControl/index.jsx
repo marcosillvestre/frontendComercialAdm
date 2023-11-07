@@ -443,7 +443,7 @@ function ComissionControll() {
                             </div>
 
                             <div id="category-select">
-                                <label htmlFor=""> Parametros:</label>
+                                <label htmlFor=""> Parâmetros:</label>
 
                                 <SelectButton open={label6 !== '' ? false : true} parameters={true} onClick={() => setOpen2(!open2)}>
                                     {/* <p id="selected-value"> {valueGraph.length === 0 && "Selecione"}</p>
