@@ -7,7 +7,6 @@ import URI from "../app/utils/utils.jsx"
 import { useData } from "./dataContext.jsx"
 
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import axios from 'axios'
 
 
 const UserContext = createContext({})
@@ -210,7 +209,7 @@ export const UserProvider = ({ children }) => {
 
     const mutation = useMutation({
         mutationFn: () => {
-            return axios.post('http://localhost:7070/comissao', bodyComission, { headers }).then(res => res.data.data)
+            return URI.post('/comissao', bodyComission, { headers }).then(res => res.data.data)
         },
         onSuccess: (data) => {
             setCell(data.deals)

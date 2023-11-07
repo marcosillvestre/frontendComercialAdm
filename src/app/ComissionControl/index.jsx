@@ -1,6 +1,5 @@
 import DoneIcon from '@mui/icons-material/Done';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import axios from 'axios';
 import React from 'react';
 import LoadingSpin from "react-loading-spin";
 import { useLocation } from 'react-router-dom';
@@ -9,6 +8,7 @@ import { Tooltip } from 'rsuite';
 import PositionedMenu from '../../components/filteringMenu';
 import MiniDrawer from '../../components/sideBar';
 import { useUser } from '../../hooks/userContext';
+import URI from '../utils/utils';
 import { ButtonLink, Checked, Container, ContainerTable, Icon, ListOpt, NavBar, Options, SelectButton, Tax } from './styles';
 
 function ComissionControll() {
@@ -88,13 +88,13 @@ function ComissionControll() {
                 "value": value
             }
         }
-        await axios.post('http://localhost:7070/grafico', body, { headers })
+        await URI.post('/grafico', body, { headers })
             .then(res => {
                 setYearGraph(res.data.data)
-            }).catch(err => console.log(err))
+            }).catch(err => (err))
     }
 
-    console.log(yearGraph)
+
     const handleGraphic = (type, value, label) => {
         if (type === 'type') {
             setParam(true)
@@ -118,8 +118,7 @@ function ComissionControll() {
 
     }, [type, valueGraph])
 
-    console.log(type)
-    console.log(valueGraph)
+
 
     if (url.pathname === '/controle-comissional') {
         return (
