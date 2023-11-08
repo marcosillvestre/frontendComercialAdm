@@ -220,21 +220,27 @@ background-color:${props => props.open ? "#d4d9e4" : "#dfe6f1"} ;
     color: #000;
     font-size: .875rem;
     margin-right: 2rem;
+    transform-origin: left;
+    transition-duration: 3s;
 }
- span{
-    border: 1px dashed;
-    border-radius: 7px;
-    padding: 3px 7px;
-    cursor: pointer;
-    p{
-        display: flex;
-        width: 100%;
-        &::after{
-            content:'✖️';
-        }
-        &:active{
-    padding: 2px 5px;
-
+.container-parameters{
+display: flex;
+    span{
+        
+        border: 1px dashed;
+        border-radius: 7px;
+        padding: 3px 7px;
+        cursor: pointer;
+        p{
+            display: flex;
+            width: 100%;
+            &::after{
+                content:'✖️';
+            }
+            &:active{
+                padding: 2px 5px;
+                
+            }
         }
     }
     }

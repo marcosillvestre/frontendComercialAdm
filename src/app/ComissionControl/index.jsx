@@ -100,6 +100,7 @@ function ComissionControll() {
             setLabel6(label)
             setType(value)
             setValueGraph([])
+            setOpen1(!open1)
         }
         if (type === 'value') {
             const exist = valueGraph.filter(res => res === value).length
@@ -412,7 +413,6 @@ function ComissionControll() {
                     <header>
                         <nav>
 
-
                             <div id="category-select">
                                 <label htmlFor=""> Gráfico:</label>
 
@@ -446,17 +446,15 @@ function ComissionControll() {
                                 <label htmlFor=""> Parâmetros:</label>
 
                                 <SelectButton open={label6 !== '' ? false : true} parameters={true} onClick={() => setOpen2(!open2)}>
-                                    {/* <p id="selected-value"> {valueGraph.length === 0 && "Selecione"}</p>
-                                    <p id="selected-value"> {valueGraph.length === 1 && valueGraph[0]},{valueGraph[1]},{valueGraph[2]}</p>
-                                    <p id="selected-value"> {valueGraph[0]},{valueGraph[1]},{valueGraph[2]}</p>
-                                    <p id="selected-value"> {valueGraph[0]},{valueGraph[1]},{valueGraph[2]}</p> */}
-                                    {valueGraph.map(res => (
-                                        <span key={res} onClick={() => setValueGraph(valueGraph.filter(data => data !== res))} >
-                                            <p>
-                                                {res}
-                                            </p>
-                                        </span>
-                                    ))}
+                                    <div className='container-parameters'>
+                                        {valueGraph.map(res => (
+                                            <span key={res} onClick={() => setValueGraph(valueGraph.filter(data => data !== res))} >
+                                                <p>
+                                                    {res}
+                                                </p>
+                                            </span>
+                                        ))}
+                                    </div>
                                     <Icon id="chevrons" open={param === true && open2}>
                                         <i className='icon-up' > <KeyboardArrowDownIcon /></i>
                                         <i className='icon-down'> <KeyboardArrowDownIcon /></i>
@@ -517,7 +515,6 @@ function ComissionControll() {
 
                                 </ListOpt>
                             </div>
-
 
                         </nav>
 

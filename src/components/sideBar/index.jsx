@@ -129,8 +129,8 @@ export default function MiniDrawer() {
                 </Toolbar>
             </AppBar>
             <Drawer variant="permanent" open={open}>
-                <DrawerHeader style={{ display: "flex", alignItems: 'center' }}>
-                    <IconButton onClick={handleDrawerClose}>
+                <DrawerHeader >
+                    <IconButton onClick={handleDrawerClose} style={{ marginTop: "1rem" }} >
                         {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
                     </IconButton>
                 </DrawerHeader>
@@ -140,9 +140,9 @@ export default function MiniDrawer() {
                     {[
                         { name: 'Controle Comercial', url: '/controle-comercial', icon: <Home />, access: ['administrativo', 'direcao'] },
                         { name: 'Emitir Contratos', url: '/contratos-por-assinar', icon: <GetContracts />, access: ['administrativo', 'direcao', 'comercial', 'gerencia'] },
-                        { name: 'Novo Cadastro', url: '/', icon: <PersonAddAlt1Icon />, access: ['administrativo', 'direcao', 'comercial', 'gerencia'] },
-                        { name: 'Criar Novos Usuários', url: '/cadastro', icon: <Adduser />, access: ['direcao'] },
-                        { name: 'Controle Comissional', url: '/controle-comissional', icon: <ComissionScreen />, access: ['administrativo', 'direcao'] },
+                        { name: 'Novos Cadastros', url: '/', icon: <PersonAddAlt1Icon />, access: ['administrativo', 'direcao', 'comercial', 'gerencia'] },
+                        { name: 'Painel do Usuários', url: '/cadastro', icon: <Adduser />, access: ['direcao'] },
+                        { name: 'Relatórios', url: '/controle-comissional', icon: <ComissionScreen />, access: ['administrativo', 'direcao', 'gerencia'] },
                     ]
                         .map((text) => (
                             <ListItem key={text.name} disablePadding sx={{ display: 'block' }}>
