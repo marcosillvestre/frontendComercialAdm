@@ -1,6 +1,6 @@
+import noContract from '../../assets/noContract.svg'
 import { useUser } from '../../hooks/userContext'
 import { Container, TableBody } from './styles'
-
 
 const ContracTableBodyata = () => {
 
@@ -125,13 +125,17 @@ const ContracTableBodyata = () => {
                     </table>
                 )
                 ) :
-                    <details >
-                        <p className='parag'>Deseja emitir um contrato ? Selecione
-                            o Funil de vendas desejado na opção <q>Funil</q> e logo em seguida na
-                            opção <q>Cliente</q> selecione a sua matrícula no RD Station
-                            que já está na etapa de Matrícula!
-                        </p>
-                    </details>
+                    <div>
+
+                        <details >
+                            <p className='parag'>Deseja emitir um contrato ? Selecione
+                                o Funil de vendas desejado na opção <q>Funil</q> e logo em seguida na
+                                opção <q>Cliente</q> selecione a sua matrícula no RD Station
+                                que já está na etapa de Matrícula!
+                            </p>
+                        </details>
+                        <img src={noContract} alt="Empty data representation" />
+                    </div>
             }
         </Container>
     )

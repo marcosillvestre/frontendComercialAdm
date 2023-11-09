@@ -60,15 +60,22 @@ font-weight: lighter;
 `
 
 export const Button = styled.div`
-    background-color: #0069ff;
-    color: #fff;
-    border: none;
-    border-radius: 1rem;
-    padding: 1.1rem 2.5rem 1.1rem 1.1rem;
-    font-weight: bolder;
+     border: none;
+            color: #fff;
+            background-color: #3485f5;
+            padding: 1.1rem 2.5rem 1.1rem 1.1rem;
+            border-radius: 5px;
+            margin: 5px;
+            box-shadow: 4px 4px 0 #0069ff;
+            transition: transform 0.1s, box-shadow 0.1s ;
+            font-weight: bolder; 
+        &:active{
+            transform: translate(4px,4px);
+            box-shadow: 0 0 0 #2d85ff;
+        }
     &::after{
         content: "";
-        transition: 1s ease;
+        transition: .5s ease;
         width: ${props => props.open ? "1rem" : ".5rem"};
         background-color: #fff;
         animation: ease 1s;
@@ -81,7 +88,7 @@ export const Button = styled.div`
     }
     &::before{
         content: "";
-        transition: 1s ease;
+        transition: .5s ease;
         width: ${props => props.open ? "1rem" : ".5rem"};
         background-color: #fff ;
         height: 2px;
@@ -91,13 +98,6 @@ export const Button = styled.div`
         right: 8%;
         bottom: ${props => props.open ? "50%" : "50%"};
 
-    }
-    &:hover{
-    background-color: #2d85ff;
-        
-    }
-    &:active{
-        opacity: .8;
     }
 
 `

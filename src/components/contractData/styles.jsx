@@ -20,12 +20,20 @@ th{
         text-transform: uppercase;
     }
 }
+div{
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+    details{
+     border: 0.125em solid #1976d2; ;
+     padding: calc((4em - (1em * 1.5) - (0.125em * 2) - 0.375em) / 2) calc(1em * 1.5);
+     box-shadow: 0 0.375em 0 #1976d2;
+     border-radius: .5rem;
+    }
+    img{
+        height: 20rem;
+    }
 
-details{
- border: 0.125em solid #1976d2; ;
- padding: calc((4em - (1em * 1.5) - (0.125em * 2) - 0.375em) / 2) calc(1em * 1.5);
- box-shadow: 0 0.375em 0 #1976d2;
- border-radius: .5rem;
 }
 
 .parag{
