@@ -18,6 +18,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useForm } from 'react-hook-form';
 import LoadingSpin from "react-loading-spin";
 import * as Yup from 'yup';
+import noData from '../../assets/noData.svg';
 import ControlledAccordions from '../../components/filtering';
 import { default as SelectFilterBy } from '../../components/selectFilterby';
 import SelectPeriodCustom from '../../components/selectPeriodCustom';
@@ -25,22 +26,34 @@ import MiniDrawer from '../../components/sideBar';
 import { useData } from '../../hooks/dataContext';
 
 const ListFiltered = () => {
-    const { filtered, pushData, setFiltered, resetFilter, setPeriodFilter } = useUser()
+    const { filtered, setFiltered, resetFilter, setPeriodFilter, mutationControlData } = useUser()
     const { typeFilter, setTypeFilter } = useData()
+
+    const handleResetFilter = (filter) => {
+        if (filter === undefined) {
+            setTypeFilter([])
+            resetFilter()
+        } else {
+            setTypeFilter(typeFilter.filter(res => res !== filter))
+            resetFilter(filter)
+        }
+    }
 
 
     const schema = Yup.object({ name: Yup.string() })
     const { register, handleSubmit, } = useForm({ resolver: yupResolver(schema) });
 
+    const { isPending } = mutationControlData
+
 
     const sender = (data) => {
-        if (data.name === '') {
-            pushData(false)
-        }
+        setTypeFilter([])
         const filteredByName = filtered?.filter(res => res.name.toLowerCase().includes(data.name.toLowerCase()))
-        setFiltered(filteredByName)
-
+        data.name !== '' && setFiltered(filteredByName)
     }
+
+
+
 
     const customizablePeriods = [
         { name: "Data de matrícula", undleLabel: true },
@@ -60,6 +73,7 @@ const ListFiltered = () => {
         setPeriodFilter(false)
         setTypeFilter([])
     }
+
     return (
         <>
             <Container>
@@ -79,7 +93,6 @@ const ListFiltered = () => {
                                         <option key={res.contrato} value={res.name} />
 
                                     ))
-
                                 }
                             </datalist>
                             <button type='submit' className='button' onClick={() => handleSearch()}><SearchIcon /></button>
@@ -99,58 +112,74 @@ const ListFiltered = () => {
                                 <p>filtros aplicados: </p>
                                 <div>
                                     {typeFilter.map(res => (
-                                        <span key={res.key} onClick={() => resetFilter(res)}>
+                                        <span key={res.key} onClick={() => handleResetFilter(res)}>
                                             <p className='header'>{res.key}:</p>
                                             <p className='body'>{res.value}</p>
                                         </span>
                                     ))}
                                 </div>
+                                <div>
+                                    <button onClick={() => handleResetFilter()}>Deletar todos os filtros </button>
+                                </div>
                             </>
                         }
                     </div>
 
-
-
                 </span>
 
-                <span className='table'>
-                    <TableContainer component={Paper}>
-                        <Table aria-label="collapsible table">
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell />
-                                    <TableCell style={{ fontWeight: 'bold' }} align="center">Aluno</TableCell>
-                                    <TableCell style={{ fontWeight: 'bold' }} align="center">Responsável</TableCell>
-                                    <TableCell style={{ fontWeight: 'bold' }} align="center">Curso</TableCell>
-                                    <TableCell style={{ fontWeight: 'bold' }} align="center">Unidade</TableCell>
-                                    <TableCell style={{ fontWeight: 'bold' }} align="center">Background</TableCell>
-                                    <TableCell style={{ fontWeight: 'bold' }} align="center">Status do Comissionamento</TableCell>
-                                    <TableCell align="right"></TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody >
+                {
+                    isPending ?
+                        <NothingHere >
+                            <LoadingSpin
+                                duration="4s"
+                                width="15px"
+                                timingFunction="ease-in-out"
+                                direction="alternate"
+                                size="60px"
+                                primaryColor="#1976d2"
+                                secondaryColor="#333"
+                                numberOfRotationsInAnimation={2}
+                            />
+                        </NothingHere>
+                        :
+                        <span className='table'>
+                            <TableContainer component={Paper}>
                                 {
-                                    filtered?.length < 1 || filtered === undefined ? <NothingHere style={{ textAlign: "center" }}>
-                                        Nada aqui ainda
-                                        <LoadingSpin
-                                            duration="4s"
-                                            width="15px"
-                                            timingFunction="ease-in-out"
-                                            direction="alternate"
-                                            size="60px"
-                                            primaryColor="#1976d2"
-                                            secondaryColor="#333"
-                                            numberOfRotationsInAnimation={2}
-                                        />
-                                    </NothingHere> : filtered.map((row) => (
-                                        <Row key={row.contrato} row={row} />
-                                    ))
+                                    filtered?.length < 1 || filtered === undefined ?
+                                        <NothingHere >
+                                            <img src={noData} alt="No data image" />
+                                        </NothingHere>
+                                        :
+                                        <Table aria-label="collapsible table">
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell />
+                                                    <TableCell style={{ fontWeight: 'bold' }} align="center">Aluno</TableCell>
+                                                    <TableCell style={{ fontWeight: 'bold' }} align="center">Responsável</TableCell>
+                                                    <TableCell style={{ fontWeight: 'bold' }} align="center">Curso</TableCell>
+                                                    <TableCell style={{ fontWeight: 'bold' }} align="center">Unidade</TableCell>
+                                                    <TableCell style={{ fontWeight: 'bold' }} align="center">Background</TableCell>
+                                                    <TableCell style={{ fontWeight: 'bold' }} align="center">Status do Comissionamento</TableCell>
+                                                    <TableCell align="right"></TableCell>
+                                                </TableRow>
+                                            </TableHead>
+
+
+                                            <TableBody >
+                                                {
+
+                                                    filtered.map((row) => (
+                                                        <Row key={row.contrato} row={row} />
+                                                    ))
+                                                }
+                                            </TableBody>
+
+                                        </Table>
                                 }
 
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                </span>
+                            </TableContainer>
+                        </span>
+                }
 
             </Container>
         </>

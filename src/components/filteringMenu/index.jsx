@@ -40,12 +40,17 @@ export default function PositionedMenu(data) {
 
     const url = useLocation()
 
+    const fetchData = async () => {
+        const info = await pushData(true)
+        setFiltered(info.data.deals)
+    }
+
+
     const handleFilterRangeDate = () => {
-        console.log(url)
 
         setTypeFilter([])
 
-        url.pathname === '/controle-comercial' && pushData(true)
+        url.pathname === '/controle-comercial' && fetchData()
         url.pathname === '/controle-comissional' && mutation.mutate()
 
         close()

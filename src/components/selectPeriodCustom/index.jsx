@@ -6,12 +6,14 @@ import PositionedMenu from '../filteringMenu';
 import { Checked, Container, Icon, ListOpt, Options, SelectButton } from './styles';
 
 const SelectPeriodCustom = (periods) => {
-    const { setPeriodRange, setUnHandleLabel, periodFilter, setPeriodFilter } = useUser()
+    const { setPeriodRange, setUnHandleLabel, periodFilter, setPeriodFilter, periodRange, mutationControlData } = useUser()
 
-    const [label, setLabel] = React.useState(`${periods.opt[0]?.name}`)
+    const [label, setLabel] = React.useState(periodRange)
 
 
-    const handleCheck = (label, input) => {
+    const handleCheck = async (label, input) => {
+        await mutationControlData.mutate()
+
         setPeriodFilter(false)
 
         setLabel(label)

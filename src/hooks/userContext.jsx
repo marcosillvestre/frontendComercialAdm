@@ -21,7 +21,7 @@ export const UserProvider = ({ children }) => {
     const [unity, setUnity] = useState([])
     const [filteredContracts, setFilteredContracts] = useState()
     const [sellers, setSeller] = useState()
-    const [periodRange, setPeriodRange] = useState('Últimos 7 dias')
+    const [periodRange, setPeriodRange] = useState('Selecione')
     const [anchorEl, setAnchorEl] = useState(null);
     const [openPeriodRange, setOpenPeriodRange] = useState(false)
 
@@ -30,7 +30,7 @@ export const UserProvider = ({ children }) => {
 
     const [unHandleLabel, setUnHandleLabel] = useState("Data de matrícula")
 
-    const { typeFilter, setTypeFilter } = useData()
+    const { typeFilter } = useData()
 
     const handleClose = () => setAnchorEl(null);
 
@@ -140,64 +140,59 @@ export const UserProvider = ({ children }) => {
         "unity": userData.unity,
     }
 
-    useEffect(() => {
-        pushData()
-    }, [periodRange])
 
-    // axios.post('http://localhost:7070/periodo', body, { headers })
-
-    async function pushData(searchType) {
-        setTypeFilter([])
-        selectedInitialDate === null && setSelectedInitialDate(new Date('2022-01-02'))
-        selectedEndDate === null && setSelectedEndDate(new Date())
-
-        body["dates"] = searchType === true ? `${selectedInitialDate}~${selectedEndDate}` : ""
-
-        try {
-            body.name !== undefined &&
-                await URI.post('/periodo', body, { headers })
-                    .then(res => {
-                        setFiltered(res?.data.data.deals)
-                    })
-        }
-        catch (err) {
-            if (err?.response?.data?.error.includes('token')) {
-                window.location.href = "/"
-                logOut()
-                alert("Sessão expirada")
-            }
-        }
-    }
-
-    // await axios.post('http://localhost:7070/periodo', body, { headers })
-
-    const resetFilter = async (filter) => {
-        // selectedInitialDate === null && setSelectedInitialDate(new Date('2022-05-12'))
-        // selectedEndDate === null && setSelectedEndDate(new Date())
-
-        body["dates"] = `${selectedInitialDate}~${selectedEndDate}`
-        try {
-            await URI.post('/periodo', body, { headers })
-                .then(res => {
-                    typeFilter.length <= 1 && setFiltered(res?.data.data.deals)
-                    typeFilter.length === 2 && setFiltered(res?.data.data.deals.filter(res => res[typeFilter[0].key] === typeFilter[0].value))
-                    typeFilter.length === 3 && setFiltered(res?.data.data.deals.filter(res => res[typeFilter[0].key] === typeFilter[0].value && res[typeFilter[1].key] === typeFilter[1].value))
-                })
-            setTypeFilter(typeFilter.filter(res => res !== filter))
-        }
-        catch (err) {
-            if (err?.response?.data?.error.includes('token')) {
-                window.location.href = "/"
-                logOut()
-                alert("Sessão expirada")
-            }
-        }
-    }
-
+    body["dates"] = `${selectedInitialDate}~${selectedEndDate}`
     const queryCache = useQueryClient();
 
-    const [label, setLabel] = useState("Selecione")
+    const mutationControlData = useMutation({
 
+        mutationFn: () => {
+            return URI.post('/periodo', body, { headers }).then(res => res.data)
+        },
+        onSuccess: (data) => {
+            setFiltered(data.data.deals)
+            queryCache.invalidateQueries({ queryKey: ['todos'] })
+        },
+        onError: (err) => console.log(err)
+    })
+
+    useEffect(() => {
+        headers.Authorization.includes("undefined") === false && mutationControlData.mutate()
+    }, [periodRange])
+
+
+    class resetFiltering {
+        filterWithJustOne(res, types) {
+            return res.filter(res => res[types[0].key] === types[0].value)
+
+        }
+        filterWithTwo(res, types) {
+            return res.filter(res => res[types[0].key] === types[0].value && res[types[1].key] === types[1].value)
+
+        }
+        filterWithTree(res, types) {
+            return res.filter(res => res[types[0].key] === types[0].value && res[types[1].key] === types[1].value && res[types[2].key] === types[2].value)
+
+        }
+    }
+
+    let filteringClass = new resetFiltering;
+
+
+    const possibilities = [filteringClass.filterWithJustOne, filteringClass.filterWithTwo, filteringClass.filterWithTree]
+
+    const { data } = mutationControlData
+
+    const resetFilter = async (filter) => {
+        let types = (typeFilter.filter(res => res !== filter))
+        const index = typeFilter.length - 2
+
+        typeFilter.length === 1 || filter === undefined ? setFiltered(data.data.deals)
+            : setFiltered(possibilities[index](data.data.deals, types))
+    }
+
+
+    const [label, setLabel] = useState("Selecione")
 
     const bodyComission = {
         range: label,
@@ -205,7 +200,6 @@ export const UserProvider = ({ children }) => {
     }
 
     const [cell, setCell] = useState([])
-
 
     const mutation = useMutation({
         mutationFn: () => {
@@ -220,7 +214,6 @@ export const UserProvider = ({ children }) => {
 
     useEffect(() => {
         headers.Authorization.includes("undefined") === false && mutation.mutate()
-
     }, [label])
 
 
@@ -235,7 +228,7 @@ export const UserProvider = ({ children }) => {
             filtered, setFiltered, filteredContracts, setFilteredContracts, setLabel, label,
             selectedEndDate, setSelectedEndDate, resetFilter, unity, body, mutation,
             openPeriodRange, setOpenPeriodRange, unHandleLabel, setUnHandleLabel,
-            pushData
+            mutationControlData,
         }}>
 
             {children}

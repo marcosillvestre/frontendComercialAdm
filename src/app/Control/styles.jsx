@@ -73,6 +73,21 @@ padding: 0 4rem;
         display: flex;
         gap: 5px;
         justify-content: center;
+        button{
+            border: none;
+            color: #fff;
+            background-color: #e63946;
+            padding: 9px 20px;
+            border-radius: 5px;
+            margin: 5px;
+            box-shadow: 4px 4px 0 #d90429;
+            transition: transform 0.1s, box-shadow 0.1s ;
+        &:active{
+            transform: translate(4px,4px);
+            box-shadow: 0 0 0 #d90429;
+        }
+        }
+
     }
     span{
     border: 1px dashed;
@@ -145,13 +160,17 @@ background: none;
 
 `
 export const NothingHere = styled.div`
-position: absolute;
+width: 100%;
 display: flex;
 font-size: 1.4rem;
-margin: 2rem 40%;
+margin: 5rem 0 13.3rem 0;
 justify-content: center;
 align-items: center;
 flex-direction: column;
+img{
+    height: 20rem;
+    translate: 5% 0;
+}
 `
 
 
