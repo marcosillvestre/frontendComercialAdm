@@ -71,6 +71,9 @@ thead, tr, tbody, td {
     border-radius: 4px; 
     padding: 20px;
     height: min-content;
+    position: sticky;
+    top: 18%;
+
     div{
         width: 10rem;
         display: flex;
@@ -163,7 +166,6 @@ padding: .5rem 1rem;
 .cell-relatory{
     text-align: center;
     font-size: small;
-
 }
 
 

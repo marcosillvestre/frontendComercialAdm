@@ -157,7 +157,7 @@ export const UserProvider = ({ children }) => {
     })
 
     useEffect(() => {
-        headers.Authorization.includes("undefined") === false && mutationControlData.mutate()
+        headers.Authorization.includes("undefined") === false && body.range !== 'Selecione' && mutationControlData.mutate()
     }, [periodRange])
 
 
@@ -213,7 +213,7 @@ export const UserProvider = ({ children }) => {
     })
 
     useEffect(() => {
-        headers.Authorization.includes("undefined") === false && mutation.mutate()
+        headers.Authorization.includes("undefined") === false && body.range !== 'Selecione' && mutation.mutate()
     }, [label])
 
 

@@ -60,15 +60,16 @@ font-weight: lighter;
 `
 
 export const Button = styled.div`
-     border: none;
-            color: #fff;
-            background-color: #3485f5;
-            padding: 1.1rem 2.5rem 1.1rem 1.1rem;
-            border-radius: 5px;
-            margin: 5px;
-            box-shadow: 4px 4px 0 #0069ff;
-            transition: transform 0.1s, box-shadow 0.1s ;
-            font-weight: bolder; 
+    border: none;
+    cursor: pointer;
+    color: #fff;
+    background-color: #3485f5;
+    padding: 1.1rem 2.5rem 1.1rem 1.1rem;
+    border-radius: 5px;
+    margin: 5px;
+    box-shadow: 4px 4px 0 #0069ff;
+    transition: transform 0.1s, box-shadow 0.1s ;
+    font-weight: bolder; 
         &:active{
             transform: translate(4px,4px);
             box-shadow: 0 0 0 #2d85ff;
@@ -106,21 +107,21 @@ export const Box = styled.div`
 gap: .6rem;
 display: ${props => props.emmit ? "inline-block" : "none"};
 position: absolute;
-right: 7.5%;
+right: 5.8%;
 
 `
 
 export const SendContract = styled.div`
+transform-origin: right;
 background-color: #0069ff;
 color: #fff;
-border-radius: 1rem;
-padding: 0.4rem;
+padding: .4rem 1.1rem ;
+border-radius: 5px;
 border: none;
 cursor: pointer;
-margin:.2rem  ;
+margin:.2rem 0  ;
 &:hover{
 background-color: #2d85ff;
-    
 }
 &:active{
     opacity: .8;
