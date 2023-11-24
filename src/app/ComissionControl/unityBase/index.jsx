@@ -6,23 +6,19 @@ const Unity = (data) => {
 
     const [dataFiltered, setDataFiltered] = React.useState([])
 
-
     React.useEffect(() => {
 
         const filteringData = (fil1) => {
 
-            if (data) {
+            if (data.data !== undefined) {
+
                 if (fil1.value === 'Todas') {
                     setDataFiltered(data.data)
                 } else {
                     setDataFiltered(data.data.filter(res =>
                         res[fil1.key].includes(fil1.value)))
                 }
-
             }
-
-
-
         }
 
         filteringData(data.filter1)

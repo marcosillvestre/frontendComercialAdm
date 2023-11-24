@@ -197,7 +197,7 @@ function ComissionControll() {
                         <div className='seller-relatory'>
 
                             <div style={{ display: "flex", gap: "20px" }}>
-                                <input disabled={data === undefined || list === "Sellers"} type="radio" name='radio' onClick={() => setCompleteList(data ? "Sellers" : "")} />
+                                <input disabled={data === undefined} type="radio" name='radio' onClick={() => setCompleteList(data ? "Sellers" : "")} />
                                 <h3 >Relatório base de consultores </h3>
                             </div>
                             <table >
@@ -288,7 +288,7 @@ function ComissionControll() {
 
 
                             <div style={{ display: "flex", gap: "20px" }}>
-                                <input disabled={data === undefined || list === "Unity"} type="radio" name='radio' onClick={() => setCompleteList(data ? "Unity" : "")} />
+                                <input disabled={data === undefined} type="radio" name='radio' onClick={() => setCompleteList(data ? "Unity" : "")} />
                                 <h3 >Relatório base de unidades </h3>
                             </div>
                             <table >
@@ -341,7 +341,7 @@ function ComissionControll() {
 
 
                             <div style={{ display: "flex", gap: "20px" }}>
-                                <input disabled={data === undefined || list === "Unity"} type="radio" name='radio' onClick={() => setCompleteList(data ? "Conversion" : "")} />
+                                <input disabled={data === undefined} type="radio" name='radio' onClick={() => setCompleteList(data ? "Conversion" : "")} />
                                 <h3 > Base de conversão de matrículas </h3>
                             </div>
                             <table >
@@ -431,25 +431,25 @@ function ComissionControll() {
                         <div className='cell-relatory'>
                             <div style={{ display: "flex", gap: "20px", justifyContent: "center" }}>
 
-                                <input disabled={data === undefined || list === "All"} checked={list === "All"} type="radio" name='radio' onClick={() => setCompleteList("All")} />
+                                <input disabled={data === undefined} checked={list === "All"} type="radio" name='radio' onClick={() => setCompleteList("All")} />
                                 <h3> Lista completa</h3>
                             </div>
                             {
                                 list === "All" &&
-                                <Totals pending={isPending} data={data} cell={cell} />
+                                <Totals pending={isPending} data={data?.deals} />
                             }
                             {
                                 list === "Sellers" &&
-                                <Sellers pending={isPending} data={data.deals} filter1={{ key: "tipoMatricula", value: statusRelatory }} filter2={{ key: "unidade", value: relatoryUnity }} />
+                                <Sellers pending={isPending} data={data?.deals} filter1={{ key: "tipoMatricula", value: statusRelatory }} filter2={{ key: "unidade", value: relatoryUnity }} />
                             }
                             {
                                 list === "Unity" &&
-                                <Unity pending={isPending} data={data.deals} filter1={{ key: 'tipoMatricula', value: secondRelatory }} />
+                                <Unity pending={isPending} data={data?.deals} filter1={{ key: 'tipoMatricula', value: secondRelatory }} />
                             }
 
                             {
                                 list === "Conversion" &&
-                                <Conversion pending={isPending} data={data.deals} cell={cell} filter1={{ key: "unidade", value: thirdRelatory }} />
+                                <Conversion pending={isPending} data={data?.deals} cell={cell} filter1={{ key: "unidade", value: thirdRelatory }} />
                             }
 
 

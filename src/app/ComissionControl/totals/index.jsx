@@ -2,6 +2,7 @@ import LoadingSpin from "react-loading-spin";
 import { Container } from "../styles";
 
 const Totals = (data) => {
+    console.log(data)
     return (
 
         <Container>
@@ -36,11 +37,12 @@ const Totals = (data) => {
                                     </tr> :
 
                                         data &&
-                                            data.data.deals.length < 1 ? <tr>
+                                            data.data?.length < 1 ? <tr>
                                             <td>Nada por aqui </td>
-                                        </tr> :
+                                        </tr>
+                                            :
 
-                                            data.cell?.map(res => (
+                                            data.data?.map(res => (
                                                 <tr key={res?.name}>
                                                     <td>
                                                         {res?.name}

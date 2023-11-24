@@ -10,8 +10,7 @@ const Conversion = (data) => {
     React.useEffect(() => {
 
         const filteringData = (fil1) => {
-
-            if (data) {
+            if (data.data !== undefined) {
                 if (fil1.value === 'Todas') {
                     setDataFiltered(data.data)
                 } else {

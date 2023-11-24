@@ -5,22 +5,25 @@ import { Container } from './styles';
 const Sellers = (data) => {
     const [dataFiltered, setDataFiltered] = React.useState([])
 
-
+    console.log(data)
     React.useEffect(() => {
 
         const filteringData = (fil1, fil2) => {
-            if (fil1.value === 'Todas' && fil2.value === 'Todas') {
-                setDataFiltered(data.data)
+            if (data.data !== undefined) {
+
+                if (fil1.value === 'Todas' && fil2.value === 'Todas') {
+                    setDataFiltered(data.data)
+                }
+
+                let arr = [fil1, fil2]
+                let notAll = arr.filter(res => res.value !== "Todas")
+
+                notAll.length === 1 && setDataFiltered(data.data.filter(res =>
+                    res[notAll[0].key].includes(notAll[0].value)))
+
+                notAll.length === 2 && setDataFiltered(data.data.filter(res =>
+                    res[notAll[0].key].includes(notAll[0].value) && res[notAll[1].key].includes(notAll[1].value)))
             }
-
-            let arr = [fil1, fil2]
-            let notAll = arr.filter(res => res.value !== "Todas")
-
-            notAll.length === 1 && setDataFiltered(data.data.filter(res =>
-                res[notAll[0].key].includes(notAll[0].value)))
-
-            notAll.length === 2 && setDataFiltered(data.data.filter(res =>
-                res[notAll[0].key].includes(notAll[0].value) && res[notAll[1].key].includes(notAll[1].value)))
 
         }
 
