@@ -33,7 +33,6 @@ function RecoverPassword() {
             code: body.code,
             newPassword: body.newPassword
         }
-        // axios.post(recCode ? 'http://localhost:7070/nova-senha' : 'http://localhost:7070/redefinir-senha',
 
         await toast.promise(
             URI.post(recCode ? '/nova-senha' : '/redefinir-senha',

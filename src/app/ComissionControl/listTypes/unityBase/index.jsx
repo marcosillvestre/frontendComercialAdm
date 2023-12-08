@@ -1,8 +1,8 @@
 import React from "react";
 import LoadingSpin from "react-loading-spin";
-import { Container } from "../styles";
+import { Container } from "./styles";
 
-const Unity = (data) => {
+export const Unity = (data) => {
 
     const [dataFiltered, setDataFiltered] = React.useState([])
 
@@ -98,5 +98,3 @@ const Unity = (data) => {
         </Container>
     )
 }
-
-export default Unity

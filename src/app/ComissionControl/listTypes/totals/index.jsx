@@ -1,8 +1,7 @@
 import LoadingSpin from "react-loading-spin";
-import { Container } from "../styles";
+import { Container } from "./styles";
 
-const Totals = (data) => {
-    console.log(data)
+export const Totals = (data) => {
     return (
 
         <Container>
@@ -76,4 +75,3 @@ const Totals = (data) => {
     )
 }
 
-export default Totals

@@ -1,9 +1,9 @@
 import styled from "styled-components";
+
 export const Container = styled.main`
 display: flex;
 flex-direction: column;
 width: 100vw;
-height: 100vh;
 padding: 0 4rem;
 
 
@@ -18,7 +18,6 @@ padding: 0 4rem;
     padding: 1.2rem;
     margin-bottom: 1.5rem;
 
-        .select{}
     #category-select label {
     font-size: .75rem;
     letter-spacing: .0225rem;
@@ -64,7 +63,49 @@ padding: 0 4rem;
     padding: 0 1.4rem;
     translate: -3.2rem -.3rem;
 }
-.filters{
+
+
+`
+export const NavControl = styled.span`
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem 2.3rem 1rem 1.6rem;
+    font-size: small;
+.container{
+    display: flex;
+    flex-direction: column;
+    gap: .1rem;
+    align-items: center;
+}
+`
+export const Tabled = styled.span`
+  z-index: 1;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background-color: #ededed;
+    padding: 0 .7rem;
+    border-radius: .5rem;
+    margin-bottom: 3rem ;
+
+    &::-webkit-scrollbar{
+        display: none;
+    }
+    .separation{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .7rem;
+    color: #fff;
+        hr{
+            border: 1px solid #fff;
+            width: 40%;
+            height: 0 ;
+        }
+    }
+`
+
+export const Filters = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -103,19 +144,10 @@ padding: 0 4rem;
         }
     }
     }
-}
-.table{
-    width: 93vw;
-    height: 66vh;
-    z-index: 1;
-    margin-bottom: 2rem;
-    overflow-y: scroll;
-    ::-webkit-scrollbar{
-        display: none;
-    }
-}
 
 `
+
+
 export const Tax = styled.div`
 display: flex;
 padding: calc((4em - (1em * 1.5) - (0.125em * 2) - 0.375em) / 2) calc(1em * 1.5);
@@ -191,7 +223,7 @@ export const Options = styled.li`
         transform-origin: top;
         padding: .75rem;
         width: 100%;
-        border-bottom: .5px solid #ffffff;
+        border-bottom: 2px solid #ffffff;
         display: flex;
         align-items: center;
         gap: .75rem;
@@ -203,12 +235,27 @@ export const Options = styled.li`
         all: unset;
         position: absolute;
         inset: 0;
-        /* outline: 1px solid red; */
     }
     
 `
 
 
+export const PageUpdate = styled.div`
+margin-top: 0.6rem ;
+background-color: #3485f5;
+border-radius: 10px ;
+padding: .6rem .8rem;
+height: 2.5rem;
+text-align: center;
+color: #fff;
+cursor: pointer;
+gap: .5rem;
+display: flex;
+&:hover{
+background-color: #1f5fba;
+}
+
+`
 export const Checked = styled.i`
 color: red;
 margin-left: auto;
@@ -232,14 +279,40 @@ export const SelectButton = styled.div`
 export const Icon = styled.div`
 display: flex;
 align-items: center;
- cursor: pointer;
+cursor: pointer;
     .icon-up{
         transform: rotate(180deg);
         display:${props => props.open ? "block" : "none"} ;
-        
     }
     
     .icon-down{
         display:${props => props.open ? "none" : "block"} ;
     }
+`
+
+export const NumberContainer = styled.div`
+display: flex;
+justify-content: space-between;
+font-size: small;
+margin: 1rem 1rem 1rem 1.6rem;
+
+align-items: center;
+div{
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+.mid{
+    translate: -30px 0;
+}
+`
+
+export const InputTake = styled.select`
+width: 5rem;
+border: 0.125em solid #222; ;
+box-shadow: 0 0.375em 0 #222;
+width: 3rem;
+height: 2rem;
+border-radius: .5rem;
+font-size:.8rem;
 `

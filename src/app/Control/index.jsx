@@ -7,27 +7,32 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { memo } from 'react';
-import { Container, NothingHere, Tax } from './styles';
+import { Container, Filters, InputTake, NavControl, NothingHere, NumberContainer, PageUpdate, Tabled, Tax } from './styles';
 
 import { Row } from '../../components/table';
 
 import { useUser } from '../../hooks/userContext';
 
 import { yupResolver } from '@hookform/resolvers/yup';
+import FilterListIcon from '@mui/icons-material/FilterList';
 import SearchIcon from '@mui/icons-material/Search';
 import { useForm } from 'react-hook-form';
 import LoadingSpin from "react-loading-spin";
 import * as Yup from 'yup';
 import noData from '../../assets/noData.svg';
+import CustomizableButton from '../../components/customizableSenderButton';
 import ControlledAccordions from '../../components/filtering';
 import { default as SelectFilterBy } from '../../components/selectFilterby';
 import SelectPeriodCustom from '../../components/selectPeriodCustom';
 import MiniDrawer from '../../components/sideBar';
 import { useData } from '../../hooks/dataContext';
 
+import { toast } from 'react-toastify';
+import URI from '../utils/utils';
+import Pagination from './pagination';
 const ListFiltered = () => {
-    const { filtered, setFiltered, resetFilter, setPeriodFilter, mutationControlData } = useUser()
-    const { typeFilter, setTypeFilter } = useData()
+    const { headers, userData, filtered, setFiltered, resetFilter, setPeriodFilter, mutationControlData, setTake, take, skip, setSkip } = useUser()
+    const { typeFilter, setTypeFilter, customizableArray, handleCustomizableData } = useData()
 
     const handleResetFilter = (filter) => {
         if (filter === undefined) {
@@ -43,7 +48,7 @@ const ListFiltered = () => {
     const schema = Yup.object({ name: Yup.string() })
     const { register, handleSubmit, } = useForm({ resolver: yupResolver(schema) });
 
-    const { isPending } = mutationControlData
+    const { isPending, data } = mutationControlData
 
 
     const sender = (data) => {
@@ -51,7 +56,6 @@ const ListFiltered = () => {
         const filteredByName = filtered?.filter(res => res.name.toLowerCase().includes(data.name.toLowerCase()))
         data.name !== '' && setFiltered(filteredByName)
     }
-
 
 
 
@@ -74,24 +78,55 @@ const ListFiltered = () => {
         setTypeFilter([])
     }
 
+    const handleData = (data) => {
+        setSkip(0)
+        handleResetFilter()
+        setTake(parseInt(data))
+    }
+
+
+    const from = take + skip
+    const diference = data !== undefined && from % data.data.total
+
+    const allContracts = filtered.map(res => res.contrato)
+
+    async function pageUpdate() {
+        let obj = { data: 0 }
+        await toast.promise(
+            URI.post('/page-update', obj, { headers }),
+            {
+                pending: 'Conferindo os dados',
+                success: 'Atualizado com sucesso',
+                error: 'Alguma coisa deu errado'
+            }
+        )
+            .catch(() => alert("Alguma coisa deu errado, tente novamente mais tarde"))
+            .then(() => window.location.reload())
+
+
+    }
     return (
         <>
             <Container>
                 <MiniDrawer />
                 <span className='nav-filter' >
-
+                    <PageUpdate onClick={() => pageUpdate()}> Atualizar página </PageUpdate>
                     <SelectFilterBy opt={customizablePeriods} />
                     <SelectPeriodCustom opt={predeterminedPeriods} />
 
                     <form onSubmit={handleSubmit((data) => sender(data))}>
                         <p>Pesquisar no período:</p>
                         <div className='name-filter'>
-                            <input type="text" placeholder='Pesquisar..' className='filter' list='list' {...register('name')} />
+                            <input
+                                type="text"
+                                placeholder='Pesquisar..'
+                                className='filter'
+                                list='list'
+                                {...register('name')} />
                             <datalist id='list'>
                                 {
                                     filtered?.length > 0 && filtered.map(res => (
                                         <option key={res.contrato} value={res.name} />
-
                                     ))
                                 }
                             </datalist>
@@ -102,15 +137,15 @@ const ListFiltered = () => {
                     <ControlledAccordions />
 
                     <div className='div-tax'>
-                        <Tax>{filtered?.length}</Tax>
+                        <Tax>{isPending === false && data !== undefined && data.data.total}</Tax>
                     </div>
 
 
-                    <div className='filters'>
+                    <Filters className='filters'>
                         {typeFilter?.length > 0 &&
                             <>
                                 <p>filtros aplicados: </p>
-                                <div>
+                                <div >
                                     {typeFilter.map(res => (
                                         <span key={res.key} onClick={() => handleResetFilter(res)}>
                                             <p className='header'>{res.key}:</p>
@@ -119,11 +154,11 @@ const ListFiltered = () => {
                                     ))}
                                 </div>
                                 <div>
-                                    <button onClick={() => handleResetFilter()}>Deletar todos os filtros </button>
+                                    <button onClick={() => handleResetFilter()}>Limpar filtros</button>
                                 </div>
                             </>
                         }
-                    </div>
+                    </Filters>
 
                 </span>
 
@@ -142,45 +177,110 @@ const ListFiltered = () => {
                             />
                         </NothingHere>
                         :
-                        <span className='table'>
-                            <TableContainer component={Paper}>
+
+                        filtered?.length < 1 || filtered === undefined ?
+                            <NothingHere >
+                                <img src={noData} alt="No data image" />
+                            </NothingHere>
+                            :
+                            <Tabled>
+                                <NavControl>
+                                    {
+                                        userData.role !== 'comercial' &&
+                                        <CustomizableButton
+                                            element={1}
+                                            able={customizableArray.some(res => res?.isChecked !== false)}
+                                            label={"Alterar em lote"}
+                                            flex={true}
+                                            toBeChanged={customizableArray}
+                                        />
+                                    }
+
+
+                                    <div className='container'>
+                                        <p>{filtered.length} registro(s) ao todo</p>
+                                        <p>{customizableArray.filter(res => res.isChecked === true).length} registro(s) selecionado(s)</p>
+                                    </div>
+
+                                </NavControl>
+                                <TableContainer component={Paper} >
+                                    <Table aria-label="collapsible table" >
+                                        <TableHead >
+                                            <TableRow >
+                                                <TableCell style={{ fontWeight: 'bold', fontSize: "small", }} align="center"></TableCell>
+
+                                                <TableCell >
+                                                    <input
+                                                        style={{ width: '1rem', height: '1rem' }}
+                                                        type="checkbox"
+                                                        name="allSelect"
+                                                        onClick={(e) => handleCustomizableData(e, allContracts)}
+                                                        checked={customizableArray.filter(res => res.isChecked === true).length === filtered.length ? true : false}
+                                                    />
+                                                </TableCell>
+
+                                                <TableCell style={{ fontWeight: 'bold', fontSize: "small", }} align="center">Data</TableCell>
+                                                <TableCell style={{ fontWeight: 'bold', fontSize: "small", }} align="center">Aluno</TableCell>
+                                                <TableCell style={{ fontWeight: 'bold', fontSize: "small", }} align="center">Responsável</TableCell>
+                                                <TableCell style={{ fontWeight: 'bold', fontSize: "small", }} align="center">Curso</TableCell>
+                                                <TableCell style={{ fontWeight: 'bold', fontSize: "small", }} align="center">Unidade</TableCell>
+                                                <TableCell style={{ fontWeight: 'bold', fontSize: "small", }} align="center">Background</TableCell>
+                                                <TableCell style={{ fontWeight: 'bold', fontSize: "small", }} align="center">Status do Comissionamento</TableCell>
+                                                <TableCell align="right"></TableCell>
+                                            </TableRow>
+                                        </TableHead>
+
+
+                                        <TableBody >
+                                            {
+
+                                                filtered.map((row, index) => (
+                                                    <Row key={row.contrato} row={row} index={index} />
+                                                ))
+                                            }
+                                        </TableBody>
+
+                                    </Table>
+
+                                </TableContainer>
+
+                                <NumberContainer>
+                                    <div>
+                                        <InputTake defaultValue={take} onChange={(e) => handleData(e.target.value)} >
+                                            <option value={10}>10</option>
+                                            <option value={25}>25</option>
+                                            <option value={50}>50</option>
+                                            <option value={100}>100</option>
+                                        </InputTake>
+                                        <p>Registros por página</p>
+                                    </div>
+                                    {
+                                        data !== undefined && take + skip > data.data.total ?
+                                            take > data.data.total ?
+
+                                                <p className='mid'>{`Mostrando ${skip + 1} - ${data.data.total} de
+                                            ${isPending === false && data !== undefined && data.data.total} registross`} </p> :
+
+                                                <p className='mid'>{`Mostrando ${skip + 1} - ${take + skip - diference} de
+                                            ${isPending === false && data !== undefined && data.data.total} registross`} </p> :
+
+                                            <p className='mid'>{`Mostrando ${skip + 1} - ${take + skip} de
+                                            ${isPending === false && data !== undefined && data.data.total} registros`} </p>
+                                    }
+
+                                </NumberContainer>
+                                <div className='separation'>
+                                    <hr />
+                                    <FilterListIcon />
+                                    <hr />
+                                </div>
                                 {
-                                    filtered?.length < 1 || filtered === undefined ?
-                                        <NothingHere >
-                                            <img src={noData} alt="No data image" />
-                                        </NothingHere>
-                                        :
-                                        <Table aria-label="collapsible table">
-                                            <TableHead>
-                                                <TableRow>
-                                                    <TableCell />
-                                                    <TableCell style={{ fontWeight: 'bold' }} align="center">Aluno</TableCell>
-                                                    <TableCell style={{ fontWeight: 'bold' }} align="center">Responsável</TableCell>
-                                                    <TableCell style={{ fontWeight: 'bold' }} align="center">Curso</TableCell>
-                                                    <TableCell style={{ fontWeight: 'bold' }} align="center">Unidade</TableCell>
-                                                    <TableCell style={{ fontWeight: 'bold' }} align="center">Background</TableCell>
-                                                    <TableCell style={{ fontWeight: 'bold' }} align="center">Status do Comissionamento</TableCell>
-                                                    <TableCell align="right"></TableCell>
-                                                </TableRow>
-                                            </TableHead>
-
-
-                                            <TableBody >
-                                                {
-
-                                                    filtered.map((row) => (
-                                                        <Row key={row.contrato} row={row} />
-                                                    ))
-                                                }
-                                            </TableBody>
-
-                                        </Table>
+                                    isPending === false && data !== undefined && data.data.total > 10 &&
+                                    <Pagination data={isPending === false && data !== undefined && data.data.total} />
                                 }
+                            </Tabled>
 
-                            </TableContainer>
-                        </span>
                 }
-
             </Container>
         </>
     )

@@ -208,7 +208,7 @@ export default function SureSendModal(data) {
                             </Boxes>
                         }
                         <Boxes radio>
-                            <ButtonDelete onClick={() => handleSender()}>emitir contrato</ButtonDelete>
+                            <ButtonDelete onClick={() => handleSender()}>Emitir contrato</ButtonDelete>
                         </Boxes>
                     </Box>
 

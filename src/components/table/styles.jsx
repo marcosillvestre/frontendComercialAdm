@@ -22,7 +22,6 @@ justify-content: center;
 
 export const BodyTable = styled(TableBody)`
 border-left: .1rem solid #16207421;
-/* border-right: .1rem solid #16207421; */
 
 `
 export const HeadTable = styled(TableHead)`
@@ -89,7 +88,7 @@ flex-wrap: wrap;
 export const Input = styled.input`
 border: none;
 padding: .4rem;
-width: 8rem;
+width: 7rem;
 border-radius: .6rem ;
 box-shadow: -2px 3px 4px 0px rgba(0,0,0,0.66);
 text-overflow: ellipsis;

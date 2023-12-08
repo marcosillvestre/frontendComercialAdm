@@ -1,24 +1,31 @@
 import DoneIcon from '@mui/icons-material/Done';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import React from 'react';
+import { useData } from '../../hooks/dataContext';
 import { useUser } from '../../hooks/userContext';
 import PositionedMenu from '../filteringMenu';
 import { Checked, Container, Icon, ListOpt, Options, SelectButton } from './styles';
 
 const SelectPeriodCustom = (periods) => {
-    const { setPeriodRange, setUnHandleLabel, periodFilter, setPeriodFilter, periodRange, mutationControlData } = useUser()
+    const { setPeriodRange, periodFilter, setPeriodFilter, periodRange, mutationControlData, setTake, setSkip } = useUser()
+    const { setTypeFilter, setCustomizableArray } = useData()
+
 
     const [label, setLabel] = React.useState(periodRange)
 
-
-    const handleCheck = async (label, input) => {
+    const handleCheck = async (label) => {
         await mutationControlData.mutate()
 
-        setPeriodFilter(false)
+        setTypeFilter([])
+        setCustomizableArray([])
 
+
+        setTake(10)
+        setSkip(0)
+
+        setPeriodFilter(false)
         setLabel(label)
-        input !== true && setPeriodRange(label)
-        input === true && setUnHandleLabel(label)
+        setPeriodRange(label)
     }
 
     return (
@@ -47,7 +54,7 @@ const SelectPeriodCustom = (periods) => {
                 {
                     periods.opt?.map(period => (
                         <Options className="option" key={period?.name}  >
-                            <span className="label" onClick={() => handleCheck(period?.name, period?.undleLabel)}>
+                            <span className="label" onClick={() => handleCheck(period?.name)}>
                                 {
                                     period.customizable === undefined ? <p>{period?.name}</p> :
                                         <PositionedMenu name={period?.name} />

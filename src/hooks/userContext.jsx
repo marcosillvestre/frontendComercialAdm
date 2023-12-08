@@ -60,7 +60,6 @@ export const UserProvider = ({ children }) => {
 
     useEffect(() => {
         const unities = async () => {
-            // await axios.get('http://localhost:7070/unidades', { headers })
             await URI.get('/unidades', { headers })
                 .then(res => setUnity(res.data))
         }
@@ -124,13 +123,13 @@ export const UserProvider = ({ children }) => {
 
 
 
-
-
-
     const typeSearch = {
         "Data de matrícula": "dataMatricula",
         "Data de validação": "dataValidacao"
     }
+
+    const [take, setTake] = useState(10)
+    const [skip, setSkip] = useState(0)
 
     const body = {
         "range": periodRange,
@@ -138,6 +137,8 @@ export const UserProvider = ({ children }) => {
         "role": userData.role,
         "name": userData.name,
         "unity": userData.unity,
+        "take": take,
+        "skip": skip
     }
 
 
@@ -158,7 +159,7 @@ export const UserProvider = ({ children }) => {
 
     useEffect(() => {
         headers.Authorization.includes("undefined") === false && body.range !== 'Selecione' && mutationControlData.mutate()
-    }, [periodRange])
+    }, [periodRange, skip, take])
 
 
     class resetFiltering {
@@ -209,7 +210,7 @@ export const UserProvider = ({ children }) => {
             setCell(data.deals)
             queryCache.invalidateQueries({ queryKey: ['todos'] })
         },
-        onError: (err) => console.log(err)
+        onError: (err) => err
     })
 
     useEffect(() => {
@@ -228,7 +229,8 @@ export const UserProvider = ({ children }) => {
             filtered, setFiltered, filteredContracts, setFilteredContracts, setLabel, label,
             selectedEndDate, setSelectedEndDate, resetFilter, unity, body, mutation,
             openPeriodRange, setOpenPeriodRange, unHandleLabel, setUnHandleLabel,
-            mutationControlData,
+            mutationControlData, take, skip, setTake,
+            setSkip
         }}>
 
             {children}

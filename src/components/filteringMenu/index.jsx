@@ -7,7 +7,11 @@ import { useUser } from '../../hooks/userContext';
 import DatePickers from '../datePicker';
 import { Label, RangeDate, Select } from './styles';
 
+import rules from '../../app/utils/Rules/options.jsx';
 export default function PositionedMenu(data) {
+
+    const { comissionStatusOpt, coursesOpt, backgroundOpt } = rules
+
 
     const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -100,9 +104,12 @@ export default function PositionedMenu(data) {
                     <Label >
                         <Select onChange={(e) => handleFilter(e.target.value, "background")} >
                             <option value="selec">Selecione</option>
-                            <option value="Novo aluno">Novo Aluno</option>
-                            <option value="Ex-aluno">Ex-Aluno</option>
-                            <option value="Aluno Vigente">Aluno Vigente</option>
+                            {
+                                backgroundOpt.map(res => (
+                                    <option value={res} key={res}>{res}</option>
+                                ))
+                            }
+
                         </Select>
                     </Label>
                 }
@@ -123,12 +130,14 @@ export default function PositionedMenu(data) {
                     data.name === "Status do comissionamento" &&
                     <Label >
                         <Select defaultValue="Selecione" onChange={(e) => handleFilter(e.target.value, "tipoMatricula")} >
+
                             <option value="selec">Selecione</option>
-                            <option value="Pendente">Pendente</option>
-                            <option value="Não aprovado">Não aprovado</option>
-                            <option value="Pré-aprovado">Pré-aprovado</option>
-                            <option value="Comissionado">Comissionado</option>
-                            <option value="Aprovado">Aprovado</option>
+                            {
+                                comissionStatusOpt.map(res => (
+                                    <option value={res} key={res}>{res}</option>
+                                ))
+
+                            }
                         </Select>
                     </Label>
                 }
@@ -137,9 +146,12 @@ export default function PositionedMenu(data) {
                     <Label >
                         <Select onChange={(e) => handleFilter(e.target.value, "curso")} >
                             <option value="selec">Selecione</option>
-                            <option value="Tecnologia"> Tecnologia</option>
-                            <option value="Inglês">Inglês</option>
-                            <option value="Espanhol"> Espanhol</option>
+                            {
+                                coursesOpt.map(res => (
+                                    <option value={res} key={res}>{res}</option>
+                                ))
+
+                            }
                         </Select>
                     </Label>
                 }

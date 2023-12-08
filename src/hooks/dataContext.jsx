@@ -6,13 +6,53 @@ const idContext = createContext({})
 
 
 export const DataProvider = ({ children }) => {
+
     const [typeFilter, setTypeFilter] = useState([])
     const [rangeNamePeriodFilter, setRangeNamePeriodFilter] = useState([])
+
+    const [customizableArray, setCustomizableArray] = useState([])
+
+
+
+    const handleCustomizableData = (e, data) => {
+
+        const { name, checked, value } = e.target;
+
+        if (name === "allSelect") {
+            let tempContract = data.map((contract, position) => { return { contract, isChecked: checked, position }; });
+            setCustomizableArray(tempContract);
+        }
+
+        if (name !== "allSelect") {
+
+            let thereIs = customizableArray.filter(response => response?.contract === name)
+
+            console.log(thereIs.length)
+            if (thereIs.length === 0) {
+                setCustomizableArray(res => [...res, { "contract": name, "isChecked": checked, "position": customizableArray.length }])
+            }
+
+            if (thereIs.length !== 0) {
+                const newArr = [...customizableArray]
+
+                newArr[parseInt(value)].isChecked = checked
+
+                setCustomizableArray(newArr)
+            }
+
+        }
+
+    }
+
+    const [qntAlet, setQntAlt] = useState([])
 
     return (
         <idContext.Provider value={{
             setTypeFilter, typeFilter,
-            rangeNamePeriodFilter, setRangeNamePeriodFilter
+            rangeNamePeriodFilter, setRangeNamePeriodFilter,
+            customizableArray, setCustomizableArray,
+            handleCustomizableData,
+            qntAlet, setQntAlt
         }}>
 
             {children}

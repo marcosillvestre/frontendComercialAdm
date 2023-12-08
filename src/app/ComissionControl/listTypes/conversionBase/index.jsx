@@ -2,38 +2,29 @@ import React from "react";
 import LoadingSpin from "react-loading-spin";
 import { Container } from './styles';
 
-const Sellers = (data) => {
+export const Conversion = (data) => {
+
     const [dataFiltered, setDataFiltered] = React.useState([])
 
-    console.log(data)
+
     React.useEffect(() => {
 
-        const filteringData = (fil1, fil2) => {
+        const filteringData = (fil1) => {
             if (data.data !== undefined) {
-
-                if (fil1.value === 'Todas' && fil2.value === 'Todas') {
+                if (fil1.value === 'Todas') {
                     setDataFiltered(data.data)
+                } else {
+                    setDataFiltered(data.data.filter(res =>
+                        res[fil1.key].includes(fil1.value)))
                 }
-
-                let arr = [fil1, fil2]
-                let notAll = arr.filter(res => res.value !== "Todas")
-
-                notAll.length === 1 && setDataFiltered(data.data.filter(res =>
-                    res[notAll[0].key].includes(notAll[0].value)))
-
-                notAll.length === 2 && setDataFiltered(data.data.filter(res =>
-                    res[notAll[0].key].includes(notAll[0].value) && res[notAll[1].key].includes(notAll[1].value)))
             }
 
         }
 
-        filteringData(data.filter1, data.filter2)
+        filteringData(data.filter1)
 
-    }, [data.filter1, data.filter2, data.data])
-
+    }, [data.filter1, data.data])
     return (
-
-
         <Container>
             <table>
                 {
@@ -66,10 +57,10 @@ const Sellers = (data) => {
                                     </tr> :
 
                                         data &&
-                                            data.data.length < 1 ? <tr>
+                                            data.data?.length < 1 ? <tr>
                                             <td>Nada por aqui </td>
                                         </tr> :
-                                            dataFiltered.length < 1 ?
+                                            dataFiltered?.length < 1 ?
                                                 <td>Nada por aqui </td>
                                                 :
                                                 dataFiltered?.map(res => (
@@ -105,5 +96,3 @@ const Sellers = (data) => {
         </Container>
     )
 }
-
-export default Sellers

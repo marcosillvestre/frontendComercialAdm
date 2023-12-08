@@ -8,26 +8,29 @@ import * as React from 'react';
 
 import { Collapse } from '@mui/material';
 import { toast } from 'react-toastify';
-import { BodyTable, Button, DataTable, HeadTable, Input, RowTable, Select, Signs, Td, Text } from './styles';
+import { RowTable, Select, Td } from './styles';
 
 
 import URI from '../../app/utils/utils';
+import { useData } from '../../hooks/dataContext';
 import { useUser } from '../../hooks/userContext';
 import SureModal from '../sureModal';
+import FifthDrop from './fifthDrop';
+import FirstDrop from './firstDrop';
+import FourthDrop from './fourthDrop';
+import SeccDrop from './seccDrop';
+import SixthDrop from './sixthDrop';
+import ThirdDrop from './thirdDrop';
 
+import colorsRules from '../../app/utils/Rules/colors.jsx';
+import businessRules from '../../app/utils/Rules/options.jsx';
 export function Row(props) {
+    const { comissionStatusOpt, coursesOpt, backgroundOpt } = businessRules
+    const { setColor } = colorsRules
 
-    const { headers, userData } = useUser()
-    const { row } = props;
-
-    const start = row.inicioContrato.split("/")
-    const end = row.fimContrato.split("/")
-
-
-    var data2 = new Date(`${end[2]}-${end[1]}-${end[0]}`); // Usando o formato "YYYY-MM-DD"
-    var data1 = new Date(`${start[2]}-${start[1]}-${start[0]}`);
-
-    var diferenceInMonths = (data2.getFullYear() - data1.getFullYear()) * 12 + (data2.getMonth() - data1.getMonth());
+    const { headers, userData, unity } = useUser()
+    const { handleCustomizableData, customizableArray } = useData()
+    const { row, index } = props;
 
 
     const [open, setOpen] = React.useState(false);
@@ -95,14 +98,6 @@ export function Row(props) {
         )
     }
 
-    const setColor = {
-        "Não aprovado": "#e4b9b9",
-        "Pré-aprovado": "#f2f7b1",
-        "Aprovado": "#c2f1c2",
-        "Pendente": "#f4f4f4",
-        "Comissionado": "#abc7f1",
-    }
-
 
     return (
         <React.Fragment>
@@ -118,6 +113,20 @@ export function Row(props) {
                     </IconButton>
                 </TableCell>
 
+                <TableCell align="center">
+                    <input
+                        style={{ width: '1rem', height: '1rem' }}
+                        type="checkbox"
+                        name={row?.contrato}
+                        onChange={handleCustomizableData}
+                        value={index}
+                        checked={customizableArray[index]?.isChecked === true || false}
+                    />
+
+                </TableCell>
+                <TableCell align="center">
+                    {row?.dataMatricula}
+                </TableCell>
                 <TableCell align="center">{row?.aluno}</TableCell>
                 <TableCell align="center">{row?.name}</TableCell>
                 <TableCell align='center'>
@@ -128,16 +137,55 @@ export function Row(props) {
                             :
                             <Td >
                                 <Select defaultValue={row?.curso} onChange={(e) => Changer("curso", e.target.value, row?.contrato)}>
-                                    <option value="Inglês">Inglês</option>
-                                    <option value="Tecnologia">Tecnologia</option>
-                                    <option value="Espanhol">Espanhol</option>
+                                    {
+                                        coursesOpt.map(res => (
+                                            <option value={res} key={res}>{res}</option>
+                                        ))
+                                    }
+
                                 </Select>
                             </Td>
                     }
 
                 </TableCell>
-                <TableCell align="center">{row?.unidade}</TableCell>
-                <TableCell align="center">{row?.background}</TableCell>
+                <TableCell align='center'>
+
+                    {
+                        userData.role === 'comercial' ?
+                            <Td >{row?.unidade}</Td>
+                            :
+                            <Td >
+                                <Select defaultValue={row?.unidade} onChange={(e) => Changer("unidade", e.target.value, row?.contrato)}>
+                                    {
+                                        unity && unity.map(res => (
+                                            <option key={res.id} value={res.name}>{res.name}</option>
+                                        ))
+                                    }
+
+                                </Select>
+                            </Td>
+                    }
+
+                </TableCell>
+                <TableCell align='center'>
+
+                    {
+                        userData.role === 'comercial' ?
+                            <Td >{row?.background}</Td>
+                            :
+                            <Td >
+                                <Select defaultValue={row?.background} onChange={(e) => Changer("background", e.target.value, row?.contrato)}>
+                                    {
+                                        backgroundOpt.map(res => (
+                                            <option value={res} key={res}>{res}</option>
+                                        ))
+                                    }
+                                </Select>
+                            </Td>
+                    }
+
+                </TableCell>
+
                 <TableCell align="center">
                     {
                         userData.role === 'comercial' ?
@@ -153,16 +201,15 @@ export function Row(props) {
 
                                     defaultValue={row?.tipoMatricula}
                                     onChange={(e) => Changer("tipoMatricula", e.target.value, row?.contrato)}>
-                                    <option value="Pendente">Pendente</option>
-                                    <option value="Não aprovado">Não aprovado</option>
-                                    <option value="Pré-aprovado">Pré-aprovado</option>
-                                    <option value="Comissionado">Comissionado</option>
-                                    <option value="Aprovado">Aprovado</option>
+                                    {
+                                        comissionStatusOpt.map(res => (
+                                            <option value={res} key={res}>{res}</option>
+                                        ))}
                                 </Select>
 
-                            </Td>}
+                            </Td>
+                    }
                 </TableCell>
-                <TableCell align="center"></TableCell>
 
 
                 {userData?.admin === true &&
@@ -175,7 +222,7 @@ export function Row(props) {
             </RowTable>
 
             <TableRow>
-                <TableCell style={{ paddingBottom: 3, paddingTop: 0, width: "66rem" }} colSpan={7}>
+                <TableCell style={{ paddingBottom: 3, paddingTop: 0 }} colSpan={7}>
                     <Collapse in={open} timeout="auto" unmountOnExit>
 
                         <TableRow style={{ width: "100%", }}>
@@ -188,203 +235,10 @@ export function Row(props) {
                                     {open1 ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                                 </IconButton>
                             </TableCell>
-                            <TableCell style={{ width: "100%" }}>Status da Matrícula</TableCell>
+                            <TableCell style={{ width: "100%" }}>1 - Status da Matrícula</TableCell>
                         </TableRow>
 
-                        <TableCell style={{
-                            paddingBottom: 0,
-                            paddingTop: 0,
-                            width: "66rem",
-                        }} colSpan={6}>
-                            <Collapse style={{ width: "100%", background: open1 ? "#f5f5f5" : "" }} in={open1} timeout="auto" unmountOnExit  >
-                                <HeadTable>
-                                    <TableRow>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }}>AC. Status</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }} >TM. Status</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }} >PP. Status</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }}>MD. Status</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }}>PA. Status</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Data da Matrícula</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Data da Validação</TableCell>
-
-                                    </TableRow>
-                                </HeadTable>
-                                <BodyTable>
-                                    <TableRow key={row?.contrato}>
-
-                                        <TableCell >
-                                            {
-                                                userData.role === 'comercial' ?
-                                                    <Td>{row?.acStatus}</Td>
-                                                    :
-
-                                                    <Td >
-                                                        <Select defaultValue={row?.acStatus} onChange={(e) => Changer("acStatus", e.target.value, row?.contrato)}>
-                                                            <option value="pendente">Pendente</option>
-                                                            <option value="ok">Ok</option>
-                                                            <option value="nao">Não</option>
-                                                        </Select>
-
-                                                    </Td>
-                                            }
-                                        </TableCell>
-
-                                        <TableCell >
-                                            {userData.role === 'comercial' ?
-                                                <Td>{row?.tmStatus}</Td>
-                                                :
-
-                                                <Td >
-                                                    <Select defaultValue={row?.tmStatus} onChange={(e) => Changer("tmStatus", e.target.value, row?.contrato)}>
-                                                        <option value="pendente">Pendente</option>
-                                                        <option value="ok">Ok</option>
-                                                        <option value="nao">Não</option>
-                                                    </Select>
-
-                                                </Td>
-                                            }
-                                        </TableCell>
-
-                                        <TableCell align="center">
-                                            {
-                                                userData.role === 'comercial' ?
-                                                    <Td>{row?.ppStatus}</Td>
-                                                    :
-                                                    <Td >
-                                                        <Select defaultValue={row?.ppStatus} onChange={(e) => Changer("ppStatus", e.target.value, row?.contrato)}>
-                                                            <option value="pendente">Pendente</option>
-                                                            <option value="ok">Ok</option>
-                                                            <option value="nao">Não</option>
-                                                        </Select>
-
-                                                    </Td>
-                                            }
-                                        </TableCell>
-
-                                        <TableCell align="center">
-                                            {
-                                                userData.role === 'comercial' ?
-                                                    <Td>{row?.mdStatus}</Td>
-                                                    :
-                                                    <Td >
-                                                        <Select defaultValue={row?.mdStatus} onChange={(e) => Changer("mdStatus", e.target.value, row?.contrato)}>
-                                                            <option value="pendente">Pendente</option>
-                                                            <option value="ok">Ok</option>
-                                                            <option value="nao">Não</option>
-                                                        </Select>
-
-                                                    </Td>
-                                            }
-                                        </TableCell>
-                                        <TableCell  >
-                                            {
-                                                userData.role === 'comercial' ?
-                                                    <Td>{row?.paStatus}</Td>
-                                                    :
-                                                    <Td >
-                                                        <Select defaultValue={row?.paStatus} onChange={(e) => Changer("paStatus", e.target.value, row?.contrato)}>
-                                                            <option value="pendente">Pendente</option>
-                                                            <option value="ok">Ok</option>
-                                                            <option value="nao">Não</option>
-                                                        </Select>
-
-                                                    </Td>
-                                            }
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            {row?.dataMatricula}
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            {row?.dataValidacao}
-                                        </TableCell>
-
-                                    </TableRow>
-                                </BodyTable>
-
-                                <HeadTable>
-                                    <TableRow>
-                                        <TableCell style={{ fontWeight: "bold" }}>Data de Comissionamento </TableCell>
-                                        <TableCell align="left" style={{ fontWeight: "bold" }}>Status do comissionamento </TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }} >ADM. Responsável</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Status Direção</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Aprovação ADM.</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Vendedor(a)</TableCell>
-                                        <TableCell style={{ fontWeight: "bold" }}>Emissão da Venda</TableCell>
-                                    </TableRow>
-                                </HeadTable>
-                                <BodyTable>
-                                    <DataTable key={row?.contrato}>
-
-                                        <TableCell component="th" scope="row"  >
-                                            {userData.role === 'comercial' ? "" :
-
-                                                <Td >
-                                                    <Input defaultValue={row?.dataComissionamento} type="date" onChange={(e) => Changer("dataComissionamento", e.target.value, row?.contrato)} />
-
-                                                </Td>}
-
-
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            {
-                                                userData.role === 'comercial' ?
-                                                    <Td style={{ color: setColor[row?.tipoMatricula] }}>{row?.tipoMatricula}</Td>
-                                                    :
-                                                    <Td >
-                                                        <Select
-                                                            style={{ backgroundColor: setColor[row?.tipoMatricula] }}
-                                                            defaultValue={row?.tipoMatricula}
-                                                            onChange={(e) => Changer("tipoMatricula", e.target.value, row?.contrato)}>
-                                                            <option value="Pendente">Pendente</option>
-                                                            <option value="Não aprovado">Não aprovado</option>
-                                                            <option value="Pré-aprovado">Pré-aprovado</option>
-                                                            <option value="Comissionado">Comissionado</option>
-                                                            <option value="Aprovado">Aprovado</option>
-                                                        </Select>
-
-                                                    </Td>}
-
-                                        </TableCell>
-                                        <TableCell align="center"> {row?.responsavelADM}</TableCell>
-                                        <TableCell align="center">
-                                            {
-                                                userData.role === 'direcao' ?
-                                                    <Select
-                                                        defaultValue={row?.aprovacaoDirecao}
-                                                        onChange={(e) => Changer("aprovacaoDirecao", e.target.value, row?.contrato)}>
-                                                        <option value="pendente">Pendente</option>
-                                                        <option value="ok">Ok</option>
-                                                        <option value="nao">Não</option>
-                                                    </Select>
-
-                                                    : <Td>{row?.aprovacaoDirecao}</Td>
-                                            }
-                                        </TableCell>
-
-                                        <TableCell align="center">
-                                            {
-                                                userData.role === 'comercial' ?
-                                                    <Td>{row?.aprovacaoADM}</Td>
-                                                    :
-                                                    <Td >
-                                                        <Select defaultValue={row?.aprovacaoADM} onChange={(e) => Changer("aprovacaoADM", e.target.value, row?.contrato)}>
-                                                            <option value="pendente">Pendente</option>
-                                                            <option value="ok">Ok</option>
-                                                            <option value="nao">Não</option>
-                                                        </Select>
-
-                                                    </Td>}
-                                        </TableCell>
-                                        <TableCell align="center"> {row?.owner}</TableCell>
-                                        <TableCell align="center">{row?.dataMatricula}</TableCell>
-
-
-
-                                    </DataTable>
-                                </BodyTable>
-                            </Collapse>
-                        </TableCell>
-
+                        <FirstDrop data={row} open={open1} />
 
 
 
@@ -400,37 +254,10 @@ export function Row(props) {
                                     {open6 ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                                 </IconButton>
                             </TableCell>
-                            <TableCell style={{ width: "100%" }}>Observaçôes</TableCell>
+                            <TableCell style={{ width: "100%" }}>2 - Observaçôes</TableCell>
                         </TableRow>
 
-                        <TableCell style={{
-                            paddingBottom: 0,
-                            paddingTop: 0,
-                            width: "66rem",
-                        }} colSpan={6}>
-                            <Collapse style={{ width: "100%", background: open6 ? "#f5f5f5" : "" }} in={open6} timeout="auto" unmountOnExit  >
-
-                                <HeadTable>
-                                    <TableRow>
-
-                                        <TableCell align="center" style={{ fontWeight: "bold" }}>OBS. Matrícula</TableCell>
-
-                                    </TableRow>
-                                </HeadTable>
-                                <BodyTable>
-                                    <TableRow key={row?.contrato}>
-                                        <TableCell align="center" >
-                                            <Button onClick={() => userData.role !== 'direcao' ? Sender("observacao", value, row?.contrato) : SenderDirector("observacao", value, row?.contrato)}> ✔️</Button>
-
-                                            <Text cols='3' placeholder={row?.observacao} onChange={(e) => Changer("observacao", e.target.value, row?.contrato)}></Text>
-                                        </TableCell>
-
-                                    </TableRow>
-                                </BodyTable>
-                            </Collapse>
-                        </TableCell>
-
-
+                        <SeccDrop data={row} open={open6} />
 
 
 
@@ -450,107 +277,10 @@ export function Row(props) {
                                     {open2 ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                                 </IconButton>
                             </TableCell>
-                            <TableCell >Informações do Contrato </TableCell>
+                            <TableCell >3 - Informações do Contrato </TableCell>
                         </TableRow>
-                        <TableCell style={{
-                            paddingBottom: 0,
-                            paddingTop: 0,
-                            width: "66rem",
-                        }} colSpan={6}>
-                            <Collapse style={{ background: open2 ? "#f5f5f5" : "" }} in={open2} timeout="auto" unmountOnExit>
-                                <HeadTable>
-                                    <TableRow>
-                                        <TableCell style={{ fontWeight: "bold" }}>N°. do Contrato</TableCell>
-                                        <TableCell style={{ fontWeight: "bold" }}>Início do Contrato</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }} >Fim do Contrato</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Tipo de Assinatura</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Data AC.</TableCell>
 
-                                    </TableRow>
-                                </HeadTable>
-                                <BodyTable>
-                                    <TableRow key={row?.contrato}>
-
-                                        <TableCell component="th" scope="row" >
-                                            {row?.contrato}
-                                        </TableCell>
-                                        <TableCell >
-                                            {row?.inicioContrato}
-                                        </TableCell>
-                                        <TableCell align="center"> {row?.fimContrato}</TableCell>
-                                        <TableCell align="center">
-                                            {row?.acFormato}
-                                        </TableCell>
-                                        <TableCell align="center" >
-                                            {
-                                                row?.dataAC?.map(res => (
-                                                    <Signs key={res}>
-                                                        {
-                                                            res.body1?.signed1 ||
-                                                                res.body2?.signed2 ?
-                                                                <>
-                                                                    <Td key={res.body1?.email1}>
-                                                                        {
-                                                                            res.body1?.signed1 ?
-                                                                                <Td>{res.body1?.name1} assinou em {res.body1?.signed1} </Td>
-                                                                                : ""
-                                                                        }
-                                                                    </Td>
-                                                                    <Td key={res.body2?.email2}>
-                                                                        {
-                                                                            res.body2?.signed2 ?
-                                                                                <Td>{res.body2?.name2} assinou em {res.body2?.signed2}</Td>
-                                                                                : ""
-                                                                        }
-                                                                    </Td>
-                                                                </> : <Td>Ninguém assinou ainda</Td>
-                                                        }
-                                                    </Signs>
-                                                ))
-                                            }
-                                        </TableCell>
-
-                                    </TableRow>
-                                </BodyTable>
-
-                                <HeadTable>
-                                    <TableRow>
-                                        <TableCell style={{ fontWeight: "bold" }}>Status do Contrato</TableCell>
-                                        <TableCell style={{ fontWeight: "bold" }}>Carga Horária</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Tempo de Contrato</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Mês/Ano</TableCell>
-                                    </TableRow>
-                                </HeadTable>
-                                <BodyTable>
-                                    <TableRow key={row?.contrato} >
-
-                                        <TableCell component="th" scope="row" style={{ display: "grid" }}>
-
-                                            {
-                                                row?.dataAC.map(res => (
-                                                    res.body1?.signed1 ?
-                                                        <Td key={res}>O Cliente já assinou</Td>
-                                                        : <Td key={res}>O cliente não assinou ainda</Td>
-                                                ))
-                                            }
-
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            {row?.cargaHoraria}
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            {diferenceInMonths} meses
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            {row?.dataValidacao.split("/")[1]}
-                                        </TableCell>
-
-                                    </TableRow>
-                                </BodyTable>
-                            </Collapse>
-                        </TableCell>
-
-
+                        <ThirdDrop data={row} open={open2} />
 
 
 
@@ -570,224 +300,10 @@ export function Row(props) {
                                     {open3 ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                                 </IconButton>
                             </TableCell>
-                            <TableCell>Informações financeiras </TableCell>
+                            <TableCell>4 - Informações financeiras </TableCell>
                         </TableRow>
-                        <TableCell style={{
-                            paddingBottom: 0,
-                            paddingTop: 0,
-                            width: "69rem",
-                        }} colSpan={6}>
-                            <Collapse style={{ background: open3 ? "#f5f5f5" : "" }} in={open3} timeout="auto" unmountOnExit>
-                                <HeadTable style={{ display: "flex", alignItems: "center", paddingLeft: "1rem", fontSize: "1.2rem" }}>
-                                    <TableRow>
-                                        Taxa de Matrícula :
-                                    </TableRow>
-                                </HeadTable>
 
-                                <HeadTable>
-                                    <TableRow>
-                                        <TableCell style={{ fontWeight: "bold" }}>Valor</TableCell>
-                                        <TableCell style={{ fontWeight: "bold" }}>Desconto</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }} >Vencimento</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Forma de PG.</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Parcelas</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Situação</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Data Realizada</TableCell>
-                                    </TableRow>
-                                </HeadTable>
-                                <BodyTable>
-                                    <TableRow key={row?.contrato}>
-
-                                        <TableCell >
-                                            {row?.tmValor}
-                                        </TableCell>
-                                        <TableCell >
-                                            {row?.tmDesconto}
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            {row?.tmVencimento}
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            {row?.tmFormaPg}
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            {row?.tmParcelas}
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            {
-                                                userData.role === 'comercial' ?
-                                                    <>
-                                                        {row?.tmStatus}
-                                                    </>
-                                                    :
-                                                    <Td >
-                                                        <Select defaultValue={row?.tmStatus} onChange={(e) => Changer("tmStatus", e.target.value, row?.contrato)}>
-                                                            <option value="pendente">Pendente</option>
-                                                            <option value="ok">Ok</option>
-                                                            <option value="nao">Não</option>
-                                                        </Select>
-
-                                                    </Td>
-                                            }
-
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            {
-                                                userData.role === 'comercial' ?
-                                                    <>Atualmente {row?.tmData}</>
-                                                    :
-                                                    <>
-                                                        <Td style={{ display: "flex", margin: ".5rem 0 " }}>
-                                                            <Input defaultValue={row?.tmData} type="date" onChange={(e) => Changer("tmData", e.target.value, row?.contrato)} />
-
-                                                        </Td>
-
-                                                    </>
-                                            }
-                                        </TableCell>
-                                    </TableRow>
-                                </BodyTable>
-
-                                <HeadTable style={{ display: "flex", alignItems: "center", paddingLeft: "1rem", fontSize: "1.2rem" }}>
-                                    <TableRow>
-                                        Parcela :
-                                    </TableRow>
-                                </HeadTable>
-
-                                <HeadTable>
-                                    <TableRow>
-                                        <TableCell style={{ fontWeight: "bold" }}>Valor</TableCell>
-                                        <TableCell style={{ fontWeight: "bold" }}>Desconto</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }} >Vencimento</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Forma de PG.</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Parcelas</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Situação</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Data Realizada</TableCell>
-                                    </TableRow>
-                                </HeadTable>
-                                <BodyTable>
-                                    <TableRow key={row?.contrato}>
-
-                                        <TableCell component="th" scope="row" >
-                                            {row?.ppValor}
-                                        </TableCell>
-                                        <TableCell >
-                                            {row?.ppDesconto}
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            {row?.ppVencimento}
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            {row?.ppFormaPg}
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            {row?.ppParcelas}
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            {
-                                                userData.role === 'comercial' ?
-                                                    <Td>{row?.ppStatus}</Td>
-                                                    :
-                                                    <Td >
-                                                        <Select onChange={(e) => Changer("ppStatus", e.target.value, row?.contrato)}>
-                                                            <option value="">{row?.ppStatus} </option>
-                                                            <option value="pendente">Pendente</option>
-                                                            <option value="ok">Ok</option>
-                                                            <option value="nao">Não</option>
-                                                        </Select>
-
-                                                    </Td>
-                                            }
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            {
-                                                userData.role === 'comercial' ?
-                                                    <Td>Atualmente {row?.ppData}</Td>
-                                                    :
-                                                    <>
-                                                        <Td style={{ display: "flex", margin: ".5rem 0 " }}>
-                                                            <Input defaultValue={row?.ppData} type="date" onChange={(e) => Changer("ppData", e.target.value, row?.contrato)} />
-
-                                                        </Td>
-
-                                                    </>
-                                            }
-                                        </TableCell>
-
-                                    </TableRow>
-                                </BodyTable>
-
-                                <HeadTable style={{ display: "flex", alignItems: "center", paddingLeft: "1rem", fontSize: "1.2rem" }}>
-                                    <TableRow>
-                                        Material Didático :
-                                    </TableRow>
-                                </HeadTable>
-                                <HeadTable>
-                                    <TableRow>
-                                        <TableCell style={{ fontWeight: "bold" }}>Valor</TableCell>
-                                        <TableCell style={{ fontWeight: "bold" }}>Desconto</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }} >Vencimento</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Forma de PG.</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Parcelas</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Situação</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Data Realizada</TableCell>
-                                    </TableRow>
-                                </HeadTable>
-                                <BodyTable>
-                                    <TableRow key={row?.contrato}>
-
-                                        <TableCell component="th" scope="row" >
-                                            {row?.mdValor}
-                                        </TableCell>
-                                        <TableCell >
-                                            {row?.mdDesconto}
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            {row?.mdVencimento}
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            {row?.mdFormaPg}
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            {row?.mdParcelas}
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            {
-                                                userData.role === 'comercial' ?
-                                                    <>{row?.mdStatus}</>
-                                                    :
-                                                    <Td >
-                                                        <Select defaultValue={row?.mdStatus} onChange={(e) => Changer("mdStatus", e.target.value, row?.contrato)}>
-                                                            <option value="pendente">Pendente</option>
-                                                            <option value="ok">Ok</option>
-                                                            <option value="nao">Não</option>
-                                                        </Select>
-
-                                                    </Td>
-                                            }
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            {
-                                                userData.role === 'comercial' ?
-                                                    <>Atualmente {row?.mdData}</>
-                                                    :
-                                                    <>
-                                                        <Td style={{ display: "flex", margin: ".5rem 0 " }}>
-                                                            <Input defaultValue={row?.mdData} type="date" onChange={(e) => Changer("mdData", e.target.value, row?.contrato)} />
-
-                                                        </Td>
-                                                        {row?.mdData ?
-                                                            <Td>Atualmente {row?.mdData}</Td> : ""}
-                                                    </>
-                                            }
-                                        </TableCell>
-
-                                    </TableRow>
-                                </BodyTable>
-                            </Collapse>
-                        </TableCell>
-
-
+                        <FourthDrop data={row} open={open3} />
 
 
 
@@ -806,49 +322,10 @@ export function Row(props) {
                                     {open4 ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                                 </IconButton>
                             </TableCell>
-                            <TableCell> Informações do Aluno e Responsável </TableCell>
+                            <TableCell> 5 - Informações do Aluno e Responsável </TableCell>
                         </TableRow>
-                        <TableCell style={{
-                            paddingBottom: 0,
-                            paddingTop: 0,
-                            width: "66rem",
-                        }} colSpan={6}>
-                            <Collapse style={{ background: open4 ? "#f5f5f5" : "" }} in={open4} timeout="auto" unmountOnExit>
-                                <HeadTable>
-                                    <TableRow>
-                                        <TableCell style={{ fontWeight: "bold" }}>Aluno</TableCell>
-                                        <TableCell style={{ fontWeight: "bold" }}>Data de Nascimento</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }} >Idade do Aluno</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Telefone</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Email</TableCell>
-                                    </TableRow>
-                                </HeadTable>
-                                <BodyTable>
-                                    <TableRow key={row?.contrato}>
 
-                                        <TableCell component="th" scope="row" style={{ display: "grid" }}>
-                                            {row?.aluno}
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            {row?.alunoNascimento}
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            {row?.idadeAluno} anos
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            {row?.tel}
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            {row?.email}
-                                        </TableCell>
-
-                                    </TableRow>
-                                </BodyTable>
-
-                            </Collapse>
-                        </TableCell>
-
-
+                        <FifthDrop data={row} open={open4} />
 
 
 
@@ -867,87 +344,10 @@ export function Row(props) {
                                     {open5 ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                                 </IconButton>
                             </TableCell>
-                            <TableCell >Informações Pedagógicas</TableCell>
+                            <TableCell >6 - Informações Pedagógicas</TableCell>
                         </TableRow>
-                        <TableCell style={{
-                            paddingBottom: 0,
-                            paddingTop: 0,
-                            width: "66rem",
-                        }} colSpan={6}>
-                            <Collapse style={{ background: open5 ? "#f5f5f5" : "" }} in={open5} timeout="auto" unmountOnExit>
-                                <HeadTable>
-                                    <TableRow>
-                                        <TableCell style={{ fontWeight: "bold" }}>PA. Data</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Classe</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }} >SubClasse</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Material Didático</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Nivelamento </TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Dia de Aula</TableCell>
-                                    </TableRow>
-                                </HeadTable>
-                                <BodyTable>
-                                    <TableRow key={row?.contrato}>
 
-                                        <TableCell >
-                                            {row?.paDATA}
-                                        </TableCell>
-                                        <TableCell >
-                                            {row?.classe}
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            {row?.subclasse}
-                                        </TableCell>
-                                        <TableCell align="center" style={{ display: "grid", justifyContent: "center" }}>
-                                            {row?.materialDidatico.map(res => (<Td key={res}>{res}</Td>))}
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            {row?.nivelamento}
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            {row?.diaAula.map(res => (<Td key={res}>{res}</Td>))}
-                                        </TableCell>
-
-
-                                    </TableRow>
-                                </BodyTable>
-
-                                <HeadTable>
-                                    <TableRow>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Horário de Início</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Horário de Fim</TableCell>
-                                        <TableCell style={{ fontWeight: "bold" }}>Professor</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }} >Tipo/Modalidade</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Formato de Aula</TableCell>
-                                    </TableRow>
-                                </HeadTable>
-                                <BodyTable>
-                                    <TableRow key={row?.contrato}>
-
-                                        <TableCell align="center">
-                                            {row?.horarioInicio}
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            {row?.horarioFim}
-                                        </TableCell>
-                                        <TableCell >
-                                            {row?.professor[0]}
-                                            {row?.professor[1]}
-                                            {row?.professor[2]}
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            {row?.tipoModalidade}
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            {row?.formatoAula}
-                                        </TableCell>
-                                        <TableCell align="center">
-
-                                        </TableCell>
-                                    </TableRow>
-                                </BodyTable>
-                            </Collapse>
-                        </TableCell>
-
+                        <SixthDrop data={row} open={open5} />
 
                     </Collapse>
                 </TableCell>
@@ -957,6 +357,9 @@ export function Row(props) {
 }
 
 Row.propTypes = {
+    index: PropTypes.shape({
+        index: PropTypes.bool
+    }),
     row: PropTypes.shape({
         observacao: PropTypes.string.isRequired,
         curso: PropTypes.string.isRequired,

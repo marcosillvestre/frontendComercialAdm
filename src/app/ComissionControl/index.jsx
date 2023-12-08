@@ -7,29 +7,21 @@ import PositionedMenu from '../../components/filteringMenu';
 import MiniDrawer from '../../components/sideBar';
 import { useUser } from '../../hooks/userContext';
 import URI from '../utils/utils';
-import Conversion from './conversionBase';
-import Sellers from './sellersBase';
 import { ButtonLink, ChartsContainer, Checked, Container, ContainerTable, Icon, ListOpt, NavBar, Options, SelectButton, Tax } from './styles';
-import Totals from './totals';
-import Unity from './unityBase';
+
+
+import rules from '../utils/Rules/options.jsx';
+import { Conversion, Sellers, Totals, Unity } from './listTypes';
 
 function ComissionControll() {
+
+    const { comissionStatusOpt, coursesOpt } = rules
+
     const { sellers, unity, headers, selectedInitialDate, selectedEndDate, mutation, setLabel, label, cell } = useUser()
 
     const [yearGraph, setYearGraph] = React.useState([])
 
-    const status = [
-        { name: "Pendente" },
-        { name: "Não aprovado" },
-        { name: "Pré-aprovado" },
-        { name: "Aprovado" },
-        { name: "Comissionado" },
-    ]
-    const courses = [
-        { name: "Inglês" },
-        { name: "Tecnologia" },
-        { name: "Espanhol" }
-    ]
+
 
     const { data, isPending, } = mutation
 
@@ -64,12 +56,6 @@ function ComissionControll() {
         { name: "Este ano", },
         { name: "Período personalizado", customizable: true, },
     ]
-
-    //metricas para o grafico
-    // curso: true,
-    // tipoMatricula: true,
-    // unidade: true,
-    // owner: true
 
     const graphType = [
         { name: "curso", label: "Curso" },
@@ -200,6 +186,7 @@ function ComissionControll() {
                                 <input disabled={data === undefined} type="radio" name='radio' onClick={() => setCompleteList(data ? "Sellers" : "")} />
                                 <h3 >Relatório base de consultores </h3>
                             </div>
+
                             <table >
                                 <thead>
                                     <tr>
@@ -224,9 +211,9 @@ function ComissionControll() {
 
                                                 {
 
-                                                    status.map(res => (
-                                                        <option value={res.name} key={res.name}>
-                                                            {res.name}
+                                                    comissionStatusOpt.map(res => (
+                                                        <option value={res} key={res}>
+                                                            {res}
                                                         </option>
                                                     ))
                                                 }
@@ -291,6 +278,7 @@ function ComissionControll() {
                                 <input disabled={data === undefined} type="radio" name='radio' onClick={() => setCompleteList(data ? "Unity" : "")} />
                                 <h3 >Relatório base de unidades </h3>
                             </div>
+
                             <table >
                                 <thead>
                                     <tr>
@@ -302,9 +290,9 @@ function ComissionControll() {
                                                 <option value="Todas">Todas</option>
                                                 {
 
-                                                    status.map(res => (
-                                                        <option value={res.name} key={res.name}>
-                                                            {res.name}
+                                                    comissionStatusOpt.map(res => (
+                                                        <option value={res} key={res}>
+                                                            {res}
                                                         </option>
                                                     ))
                                                 }
@@ -344,6 +332,7 @@ function ComissionControll() {
                                 <input disabled={data === undefined} type="radio" name='radio' onClick={() => setCompleteList(data ? "Conversion" : "")} />
                                 <h3 > Base de conversão de matrículas </h3>
                             </div>
+
                             <table >
                                 <thead>
                                     <tr>
@@ -362,8 +351,8 @@ function ComissionControll() {
                                     </tr>
                                     <tr>
                                         {
-                                            status.map(res => (
-                                                <th key={res.name}>{res.name}</th>
+                                            comissionStatusOpt.map(res => (
+                                                <th key={res}>{res}</th>
                                             ))
                                         }
 
@@ -527,7 +516,7 @@ function ComissionControll() {
 
                                     {
                                         label6 === 'Curso' &&
-                                        courses?.map(period => (
+                                        coursesOpt?.map(period => (
                                             <Options className="option" key={period?.name} >
                                                 <span className="label" onClick={() => handleGraphic("value", period?.name)}>
 

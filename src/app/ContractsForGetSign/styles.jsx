@@ -68,12 +68,12 @@ export const Button = styled.div`
     border-radius: 5px;
     margin: 5px;
     box-shadow: 4px 4px 0 #0069ff;
-    transition: transform 0.1s, box-shadow 0.1s ;
     font-weight: bolder; 
-        &:active{
-            transform: translate(4px,4px);
-            box-shadow: 0 0 0 #2d85ff;
-        }
+    &:active{
+        transform: translate(4px,4px);
+        box-shadow: 0 0 0 #2d85ff;
+    }
+    transition: transform 0.1s, box-shadow 0.1s ;
     &::after{
         content: "";
         transition: .5s ease;
