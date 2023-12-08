@@ -34,13 +34,13 @@ const arrayQuantityChanges = [
         label: "Curso",
         type: "curso",
         options: coursesOpt,
-        permission: ['direcao', 'administrativo', 'gerencia'],
+        permission: ['direcao', 'administrativo', 'gerencia', 'comercial'],
     },
     {
         label: "Background",
         type: "background",
         options: backgroundOpt,
-        permission: ['direcao', 'administrativo', 'gerencia'],
+        permission: ['direcao', 'administrativo', 'gerencia', 'comercial'],
     },
     {
         label: "Status da direção",
