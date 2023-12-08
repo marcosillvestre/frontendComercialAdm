@@ -147,7 +147,7 @@ export const UserProvider = ({ children }) => {
 
     const mutationControlData = useMutation({
         mutationFn: () => {
-            return URI.post('http://localhost:7070/periodo', body, { headers }).then(res => res.data)
+            return URI.post('/periodo', body, { headers }).then(res => res.data)
         },
         onSuccess: (data) => {
             setFiltered(data.data.deals)
