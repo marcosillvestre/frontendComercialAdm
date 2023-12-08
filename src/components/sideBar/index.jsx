@@ -140,11 +140,13 @@ export default function MiniDrawer() {
                     {[
                         { name: 'Controle Comercial', url: '/controle-comercial', icon: <Home />, access: ['administrativo', 'direcao'] },
                         { name: 'Emitir Contratos', url: '/contratos-por-assinar', icon: <GetContracts />, access: ['administrativo', 'direcao', 'comercial', 'gerencia'] },
-                        { name: 'Novos Cadastros', url: '/', icon: <PersonAddAlt1Icon />, access: ['administrativo', 'direcao', 'comercial', 'gerencia'] },
+                        { name: 'Novos Cadastros', url: '/', icon: <PersonAddAlt1Icon />, access: ['administrativo', 'direcao', 'gerencia'] },
                         { name: 'Painel dos Usuários', url: '/cadastro', icon: <Adduser />, access: ['direcao'] },
                         { name: 'Relatórios', url: '/controle-comissional', icon: <ComissionScreen />, access: ['administrativo', 'direcao', 'gerencia'] },
                     ]
                         .map((text) => (
+                            text.access.some(res => res === userData.role) &&
+
                             <ListItem key={text.name} disablePadding sx={{ display: 'block' }}>
                                 <ListItemButton
                                     sx={{
@@ -161,20 +163,21 @@ export default function MiniDrawer() {
                                         }}
                                     >
                                     </ListItemIcon>
-                                    {
-                                        text.access.map(res => (
-                                            res?.includes(userData.role) &&
-                                            <Links key={res} to={text.url}>
-                                                {text.icon}
-                                                <ListItemText primary={text.name} sx={{ opacity: open ? 1 : 0 }} />
-                                            </Links>
 
-                                        ))
-                                    }
+
+
+                                    <Links key={text.name} to={text.url}>
+                                        {text.icon}
+                                        <ListItemText primary={text.name} sx={{ opacity: open ? 1 : 0 }} />
+                                    </Links>
+
+
+
 
                                 </ListItemButton>
                             </ListItem>
-                        ))}
+                        ))
+                    }
                 </List>
 
             </Drawer>

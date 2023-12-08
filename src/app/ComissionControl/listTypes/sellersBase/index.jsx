@@ -5,7 +5,6 @@ import { Container } from './styles';
 export const Sellers = (data) => {
     const [dataFiltered, setDataFiltered] = React.useState([])
 
-    console.log(data)
     React.useEffect(() => {
 
         const filteringData = (fil1, fil2) => {

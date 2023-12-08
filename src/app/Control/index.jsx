@@ -199,7 +199,10 @@ const ListFiltered = () => {
 
                                     <div className='container'>
                                         <p>{filtered.length} registro(s) ao todo</p>
-                                        <p>{customizableArray.filter(res => res.isChecked === true).length} registro(s) selecionado(s)</p>
+                                        {
+                                            userData.role !== 'comercial' &&
+                                            <p>{customizableArray.filter(res => res.isChecked === true).length} registro(s) selecionado(s)</p>
+                                        }
                                     </div>
 
                                 </NavControl>
@@ -209,15 +212,18 @@ const ListFiltered = () => {
                                             <TableRow >
                                                 <TableCell style={{ fontWeight: 'bold', fontSize: "small", }} align="center"></TableCell>
 
-                                                <TableCell >
-                                                    <input
-                                                        style={{ width: '1rem', height: '1rem' }}
-                                                        type="checkbox"
-                                                        name="allSelect"
-                                                        onClick={(e) => handleCustomizableData(e, allContracts)}
-                                                        checked={customizableArray.filter(res => res.isChecked === true).length === filtered.length ? true : false}
-                                                    />
-                                                </TableCell>
+                                                {
+                                                    userData.role !== 'comercial' &&
+                                                    <TableCell >
+                                                        <input
+                                                            style={{ width: '1rem', height: '1rem' }}
+                                                            type="checkbox"
+                                                            name="allSelect"
+                                                            onClick={(e) => handleCustomizableData(e, allContracts)}
+                                                            checked={customizableArray.filter(res => res.isChecked === true).length === filtered.length ? true : false}
+                                                        />
+                                                    </TableCell>
+                                                }
 
                                                 <TableCell style={{ fontWeight: 'bold', fontSize: "small", }} align="center">Data</TableCell>
                                                 <TableCell style={{ fontWeight: 'bold', fontSize: "small", }} align="center">Aluno</TableCell>
@@ -234,7 +240,7 @@ const ListFiltered = () => {
                                         <TableBody >
                                             {
 
-                                                filtered.map((row, index) => (
+                                                filtered && filtered.map((row, index) => (
                                                     <Row key={row.contrato} row={row} index={index} />
                                                 ))
                                             }

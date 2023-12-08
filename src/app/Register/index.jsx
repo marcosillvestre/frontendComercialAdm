@@ -63,9 +63,7 @@ function Register() {
   }
 
   const choosingUnity = (e) => {
-    if (unity.map(res => res === e).includes(true)) {
-      console.log()
-    } else {
+    if (!(unity.map(res => res === e).includes(true))) {
       if (e !== 'Todas') {
         setUnity(res => [...res, e])
       } else {

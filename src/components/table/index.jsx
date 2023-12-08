@@ -113,17 +113,21 @@ export function Row(props) {
                     </IconButton>
                 </TableCell>
 
-                <TableCell align="center">
-                    <input
-                        style={{ width: '1rem', height: '1rem' }}
-                        type="checkbox"
-                        name={row?.contrato}
-                        onChange={handleCustomizableData}
-                        value={index}
-                        checked={customizableArray[index]?.isChecked === true || false}
-                    />
+                {
+                    userData.role !== 'comercial' &&
+                    <TableCell align="center">
 
-                </TableCell>
+                        <input
+                            style={{ width: '1rem', height: '1rem' }}
+                            type="checkbox"
+                            name={row?.contrato}
+                            onChange={handleCustomizableData}
+                            value={index}
+                            checked={customizableArray[index]?.isChecked === true || false}
+                        />
+
+                    </TableCell>
+                }
                 <TableCell align="center">
                     {row?.dataMatricula}
                 </TableCell>
@@ -212,12 +216,13 @@ export function Row(props) {
                 </TableCell>
 
 
-                {userData?.admin === true &&
-                    <TableCell align="center">
+                <TableCell align="center">
+                    {userData?.admin === true &&
 
                         <SureModal data={row?.contrato} name={row?.aluno} url="/controle" />
 
-                    </TableCell>}
+                    }
+                </TableCell>
 
             </RowTable>
 

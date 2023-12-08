@@ -27,7 +27,6 @@ export const DataProvider = ({ children }) => {
 
             let thereIs = customizableArray.filter(response => response?.contract === name)
 
-            console.log(thereIs.length)
             if (thereIs.length === 0) {
                 setCustomizableArray(res => [...res, { "contract": name, "isChecked": checked, "position": customizableArray.length }])
             }

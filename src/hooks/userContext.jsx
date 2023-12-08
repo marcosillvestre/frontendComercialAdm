@@ -146,15 +146,13 @@ export const UserProvider = ({ children }) => {
     const queryCache = useQueryClient();
 
     const mutationControlData = useMutation({
-
         mutationFn: () => {
-            return URI.post('/periodo', body, { headers }).then(res => res.data)
+            return URI.post('http://localhost:7070/periodo', body, { headers }).then(res => res.data)
         },
         onSuccess: (data) => {
             setFiltered(data.data.deals)
-            queryCache.invalidateQueries({ queryKey: ['todos'] })
         },
-        onError: (err) => console.log(err)
+        onError: () => alert("Erro ao buscar os dados, tente novamente mais tarde")
     })
 
     useEffect(() => {
