@@ -7,16 +7,11 @@ import { Box, ButtonContainer, ButtonSender, Container, Edit, Options, OptionsCo
 export default function CustomizableButton(data) {
     const { userData, headers } = useUser()
     const { arrayQuantityChanges } = businessRules
-    // const { qntAlet, setQntAlt } = useData()
+
     const [manyAlteration, setManyAlteration] = useState(false)
     const [optionGroup, setOptionGroup] = useState([])
 
     const [valueToBeChanged, setValueToBeChanged] = useState('')
-    // const [drop2, setDrop2] = useState(false)
-    // const [drop3, setDrop3] = useState(false)
-    // const [drop4, setDrop4] = useState(false)
-    // const [drop5, setDrop5] = useState(false)
-
 
     useEffect(() => {
         if (data.element === 1 && data.able === false) {

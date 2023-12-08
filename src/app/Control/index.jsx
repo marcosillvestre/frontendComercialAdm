@@ -185,16 +185,15 @@ const ListFiltered = () => {
                             :
                             <Tabled>
                                 <NavControl>
-                                    {
-                                        userData.role !== 'comercial' &&
-                                        <CustomizableButton
-                                            element={1}
-                                            able={customizableArray.some(res => res?.isChecked !== false)}
-                                            label={"Alterar em lote"}
-                                            flex={true}
-                                            toBeChanged={customizableArray}
-                                        />
-                                    }
+
+                                    <CustomizableButton
+                                        element={1}
+                                        able={customizableArray.some(res => res?.isChecked !== false)}
+                                        label={"Alterar em lote"}
+                                        flex={true}
+                                        toBeChanged={customizableArray}
+                                    />
+
 
 
                                     <div className='container'>
@@ -212,18 +211,17 @@ const ListFiltered = () => {
                                             <TableRow >
                                                 <TableCell style={{ fontWeight: 'bold', fontSize: "small", }} align="center"></TableCell>
 
-                                                {
-                                                    userData.role !== 'comercial' &&
-                                                    <TableCell >
-                                                        <input
-                                                            style={{ width: '1rem', height: '1rem' }}
-                                                            type="checkbox"
-                                                            name="allSelect"
-                                                            onClick={(e) => handleCustomizableData(e, allContracts)}
-                                                            checked={customizableArray.filter(res => res.isChecked === true).length === filtered.length ? true : false}
-                                                        />
-                                                    </TableCell>
-                                                }
+
+                                                <TableCell >
+                                                    <input
+                                                        style={{ width: '1rem', height: '1rem' }}
+                                                        type="checkbox"
+                                                        name="allSelect"
+                                                        onClick={(e) => handleCustomizableData(e, allContracts)}
+                                                        checked={customizableArray.filter(res => res.isChecked === true).length === filtered.length ? true : false}
+                                                    />
+                                                </TableCell>
+
 
                                                 <TableCell style={{ fontWeight: 'bold', fontSize: "small", }} align="center">Data</TableCell>
                                                 <TableCell style={{ fontWeight: 'bold', fontSize: "small", }} align="center">Aluno</TableCell>

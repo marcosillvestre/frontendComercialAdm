@@ -113,21 +113,20 @@ export function Row(props) {
                     </IconButton>
                 </TableCell>
 
-                {
-                    userData.role !== 'comercial' &&
-                    <TableCell align="center">
 
-                        <input
-                            style={{ width: '1rem', height: '1rem' }}
-                            type="checkbox"
-                            name={row?.contrato}
-                            onChange={handleCustomizableData}
-                            value={index}
-                            checked={customizableArray[index]?.isChecked === true || false}
-                        />
+                <TableCell align="center">
 
-                    </TableCell>
-                }
+                    <input
+                        style={{ width: '1rem', height: '1rem' }}
+                        type="checkbox"
+                        name={row?.contrato}
+                        onChange={handleCustomizableData}
+                        value={index}
+                        checked={customizableArray[index]?.isChecked === true || false}
+                    />
+
+                </TableCell>
+
                 <TableCell align="center">
                     {row?.dataMatricula}
                 </TableCell>

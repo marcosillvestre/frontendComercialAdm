@@ -69,26 +69,25 @@ color: #222;
 `
 
 const moveAnimation = keyframes`
-  from {
-      translate: 0 0;
-  }
+from {
+    translate: 0 0;
+}
 
-  to {
-      translate: -275% 0;
-      visibility: hidden;
-  }
+to {
+    translate: -255% 0;
+    visibility: hidden;
+}
 `;
 const desapear = keyframes`
-  from {
+from {
     translate: 0 0;
-  }
+}
 
-  to {
+to {
+    transition: .2s ease-in-out;
     translate: -89% 0;
-transition: .5s ease-in-out;
-      visibility: hidden;
-
-  }
+    visibility: hidden;
+}
 `;
 
 export const OptionsContainer = styled.span`
@@ -104,7 +103,9 @@ align-items: center;
 &:nth-child(n+2){
     z-index: 1;
 animation: ${({ $open }) => ($open ? 'none' : moveAnimation)} 1s ease-in-out forwards;
-
+}
+&:last-child{
+    animation: ${({ $open }) => ($open ? 'none' : moveAnimation)} 1s ease-in-out forwards;
 }
 `
 export const Edit = styled.div`
@@ -117,8 +118,7 @@ animation-delay: 1s;
 
 transform-origin: left;
 
-    background-color: ${props => props.able ? "#3485f5" : "#222"};
-/* background-color: #3a89f7; */
+background-color: ${props => props.able ? "#3485f5" : "#222"};
 color: #fff;
 border-radius:0 10px 10px 10px ;
 
