@@ -9,23 +9,23 @@ padding: 0 4rem;
 
 .nav-filter{
     display: flex;
-    gap: 2rem;
-    align-items: end;
+    align-items: center;
     justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    
     font-size: small ;
     border: 2px solid #dfe6f1;
     border-radius: .35rem;
     padding: 1.2rem;
     margin-bottom: 1.5rem;
 
-    #category-select label {
-    font-size: .75rem;
-    letter-spacing: .0225rem;
-    }
-    #selected-value{
-        font-size: .795rem;
-    }
-
+.name-filter{
+    display: flex;
+    gap: .2rem;
+    margin-right: 2rem;
+    align-items: end;
+}
 
 .filter{
     border: none;
@@ -36,36 +36,48 @@ padding: 0 4rem;
     margin-top: .5rem; 
     
 }
-.name-filter{
-    display: flex;
-    gap: 3px;
-    margin-right: 2rem;
-    align-items: end;
-}
+
 .button{
     border-radius: .35rem;
     padding: 0 .5rem ; 
     margin-top: 0; 
     border: none;
     background-color:#dfe6f1;
-    height: 2.38rem;
+    height: 2.395rem;
     transition-duration: .4s;
     &:hover{
-        padding: 0 1.5rem ; 
-    svg{
-    scale:1.2 ;
+    padding: 0 1.1rem ; 
     }
-    }
-}
-}
-.div-tax{
-    width: 5vw;
-    padding: 0 1.4rem;
-    translate: -3.2rem -.3rem;
 }
 
+.flex-group{
+    display: flex;
+    gap: .2rem;
+    flex-wrap: wrap;
+}
+}
+`
+
+export const PageUpdate = styled.div`
+order: -1;
+background-color: #1976d2;
+font-family: "Roboto","Helvetica","Arial",sans-serif;
+font-weight: 500;
+font-size: 0.675rem;
+letter-spacing: 0.02857em;
+text-transform: uppercase;
+min-width: 64px;
+padding: 10px 16px;
+border-radius: 4px;
+color: #fff;
+cursor: pointer;
+
+&:hover{
+background-color: #1f5fba;
+}
 
 `
+
 export const NavControl = styled.span`
     display: flex;
     justify-content: space-between;
@@ -240,22 +252,7 @@ export const Options = styled.li`
 `
 
 
-export const PageUpdate = styled.div`
-margin-top: 0.6rem ;
-background-color: #3485f5;
-border-radius: 10px ;
-padding: .6rem .8rem;
-height: 2.5rem;
-text-align: center;
-color: #fff;
-cursor: pointer;
-gap: .5rem;
-display: flex;
-&:hover{
-background-color: #1f5fba;
-}
 
-`
 export const Checked = styled.i`
 color: red;
 margin-left: auto;

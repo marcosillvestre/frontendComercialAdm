@@ -81,7 +81,7 @@ const ListFiltered = () => {
     const handleData = (data) => {
         setSkip(0)
         handleResetFilter()
-        setTake(parseInt(data))
+        setTake(data)
     }
 
 
@@ -102,20 +102,21 @@ const ListFiltered = () => {
         )
             .catch(() => alert("Alguma coisa deu errado, tente novamente mais tarde"))
             .then(() => window.location.reload())
-
-
     }
+
     return (
         <>
             <Container>
                 <MiniDrawer />
                 <span className='nav-filter' >
-                    <PageUpdate onClick={() => pageUpdate()}> Atualizar página </PageUpdate>
+
                     <SelectFilterBy opt={customizablePeriods} />
                     <SelectPeriodCustom opt={predeterminedPeriods} />
 
                     <form onSubmit={handleSubmit((data) => sender(data))}>
+
                         <p>Pesquisar no período:</p>
+
                         <div className='name-filter'>
                             <input
                                 type="text"
@@ -123,22 +124,46 @@ const ListFiltered = () => {
                                 className='filter'
                                 list='list'
                                 {...register('name')} />
+
                             <datalist id='list'>
                                 {
                                     filtered?.length > 0 && filtered.map(res => (
-                                        <option key={res.contrato} value={res.name} />
+                                        <option
+                                            key={res.contrato}
+                                            value={res.name}
+                                        />
                                     ))
                                 }
                             </datalist>
-                            <button type='submit' className='button' onClick={() => handleSearch()}><SearchIcon /></button>
+                            <button
+                                type='submit'
+                                className='button'
+                                onClick={() => handleSearch()}
+                            >
+                                <SearchIcon />
+                            </button>
                         </div>
                     </form>
 
-                    <ControlledAccordions />
+                    <span
+                        className='flex-group'
+                    >
+                        <ControlledAccordions />
 
-                    <div className='div-tax'>
-                        <Tax>{isPending === false && data !== undefined && data.data.total}</Tax>
-                    </div>
+                        <PageUpdate
+                            onClick={() => pageUpdate()}>
+                            Atualizar página
+                        </PageUpdate>
+
+                        <Tax>
+                            {
+                                isPending === false &&
+                                data !== undefined &&
+                                data.data.total
+                            }
+                        </Tax>
+                    </span>
+
 
 
                     <Filters className='filters'>
@@ -147,14 +172,20 @@ const ListFiltered = () => {
                                 <p>filtros aplicados: </p>
                                 <div >
                                     {typeFilter.map(res => (
-                                        <span key={res.key} onClick={() => handleResetFilter(res)}>
+                                        <span
+                                            key={res.key}
+                                            onClick={() => handleResetFilter(res)}
+                                        >
                                             <p className='header'>{res.key}:</p>
                                             <p className='body'>{res.value}</p>
                                         </span>
                                     ))}
                                 </div>
                                 <div>
-                                    <button onClick={() => handleResetFilter()}>Limpar filtros</button>
+                                    <button
+                                        onClick={() => handleResetFilter()}
+                                    >Limpar filtros
+                                    </button>
                                 </div>
                             </>
                         }
@@ -250,11 +281,16 @@ const ListFiltered = () => {
 
                                 <NumberContainer>
                                     <div>
-                                        <InputTake defaultValue={take} onChange={(e) => handleData(e.target.value)} >
+                                        <InputTake
+                                            defaultValue={take}
+                                            onChange={(e) => handleData(e.target.value)}
+                                        >
                                             <option value={10}>10</option>
                                             <option value={25}>25</option>
                                             <option value={50}>50</option>
                                             <option value={100}>100</option>
+                                            <option value='all'>Tudo</option>
+
                                         </InputTake>
                                         <p>Registros por página</p>
                                     </div>
