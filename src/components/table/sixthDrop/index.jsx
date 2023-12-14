@@ -31,7 +31,7 @@ const SixthDrop = (row) => {
                         <TableCell align="center">
                             {row?.data.subclasse}
                         </TableCell>
-                        <TableCell align="center" style={{ display: "grid", justifyContent: "center" }}>
+                        <TableCell align="center" >
                             {row?.data.materialDidatico.map(res => (<Td key={res}>{res}</Td>))}
                         </TableCell>
                         <TableCell align="center">

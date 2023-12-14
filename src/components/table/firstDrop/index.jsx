@@ -14,7 +14,8 @@ const FirstDrop = (row) => {
 
     const [value, setValue] = React.useState('')
 
-    const [payStatus, setPayStatus] = React.useState(row.tipoMatricula)
+    const [payStatus, setPayStatus] = React.useState(row.data.tipoMatricula)
+
     const Changer = async (area, e, id) => {
         setValue(e)
         area === "tipoMatricula" && setPayStatus(e)
@@ -31,11 +32,14 @@ const FirstDrop = (row) => {
     const currentDay = day.toLocaleDateString()
 
     async function SenderDirector(area, e, id) {
+        console.log(value)
+        console.log(e)
+        console.log(area)
 
         const directorValidationBody = {
             "area": area,
             "value": area !== 'observacao' ? e : value,
-            "day": e !== "ok" ? "" : currentDay,
+            "day": e !== "Ok" ? "" : currentDay,
         }
         const directorBody = {
             "area": area,
@@ -54,6 +58,8 @@ const FirstDrop = (row) => {
     }
 
     async function Sender(area, e, id) {
+
+
         await toast.promise(
             URI.put(`/controle/${id}`,
                 {
@@ -69,8 +75,6 @@ const FirstDrop = (row) => {
         )
     }
 
-
-
     return (
         <TableCell style={{
 
@@ -81,13 +85,41 @@ const FirstDrop = (row) => {
             <Collapse style={{ background: row.open ? "#f5f5f5" : "", width: "73.7rem" }} in={row.open} timeout="auto" unmountOnExit  >
                 <HeadTable  >
                     <TableRow>
-                        <TableCell align="center" style={{ fontWeight: "bold", fontSize: "small" }}>AC. Status</TableCell>
-                        <TableCell align="center" style={{ fontWeight: "bold", fontSize: "small" }} >TM. Status</TableCell>
-                        <TableCell align="center" style={{ fontWeight: "bold", fontSize: "small" }} >PP. Status</TableCell>
-                        <TableCell align="center" style={{ fontWeight: "bold", fontSize: "small" }}>MD. Status</TableCell>
-                        <TableCell align="center" style={{ fontWeight: "bold", fontSize: "small" }}>PA. Status</TableCell>
-                        <TableCell align="center" style={{ fontWeight: "bold", fontSize: "small" }}>Data da Matrícula</TableCell>
-                        <TableCell align="center" style={{ fontWeight: "bold", fontSize: "small" }}>Data da Validação</TableCell>
+                        <TableCell
+                            align="center"
+                            style={{ fontWeight: "bold", fontSize: "small" }}>
+                            AC. Status
+                        </TableCell>
+                        <TableCell
+                            align="center"
+                            style={{ fontWeight: "bold", fontSize: "small" }}
+                        >TM. Status
+                        </TableCell>
+                        <TableCell
+                            align="center"
+                            style={{ fontWeight: "bold", fontSize: "small" }}
+                        >PP. Status
+                        </TableCell>
+                        <TableCell
+                            align="center"
+                            style={{ fontWeight: "bold", fontSize: "small" }}>
+                            MD. Status
+                        </TableCell>
+                        <TableCell
+                            align="center"
+                            style={{ fontWeight: "bold", fontSize: "small" }}>
+                            PA. Status
+                        </TableCell>
+                        <TableCell
+                            align="center"
+                            style={{ fontWeight: "bold", fontSize: "small" }}>
+                            Data da Matrícula
+                        </TableCell>
+                        <TableCell
+                            align="center"
+                            style={{ fontWeight: "bold", fontSize: "small" }}>
+                            Data da Validação
+                        </TableCell>
 
                     </TableRow>
                 </HeadTable>
@@ -101,7 +133,10 @@ const FirstDrop = (row) => {
                                     <Td>{row?.data.acStatus}</Td>
                                     :
                                     <Td >
-                                        <Select defaultValue={row?.data.acStatus} onChange={(e) => Changer("acStatus", e.target.value, row?.data.contrato)}>
+                                        <Select
+                                            defaultValue={row?.data.acStatus}
+                                            onChange={(e) =>
+                                                Changer("acStatus", e.target.value, row?.data.contrato)}>
                                             {
                                                 nonEspecificOpt.map(res => (
                                                     <option value={res} key={res}>{res}</option>
@@ -119,7 +154,10 @@ const FirstDrop = (row) => {
                                 :
 
                                 <Td >
-                                    <Select defaultValue={row?.data.tmStatus} onChange={(e) => Changer("tmStatus", e.target.value, row?.data.contrato)}>
+                                    <Select
+                                        defaultValue={row?.data.tmStatus}
+                                        onChange={(e) =>
+                                            Changer("tmStatus", e.target.value, row?.data.contrato)}>
                                         {
                                             nonEspecificOpt.map(res => (
                                                 <option value={res} key={res}>{res}</option>
@@ -137,7 +175,10 @@ const FirstDrop = (row) => {
                                     <Td>{row?.data.ppStatus}</Td>
                                     :
                                     <Td >
-                                        <Select defaultValue={row?.data.ppStatus} onChange={(e) => Changer("ppStatus", e.target.value, row?.data.contrato)}>
+                                        <Select
+                                            defaultValue={row?.data.ppStatus}
+                                            onChange={(e) =>
+                                                Changer("ppStatus", e.target.value, row?.data.contrato)}>
                                             {
                                                 nonEspecificOpt.map(res => (
                                                     <option value={res} key={res}>{res}</option>
@@ -155,7 +196,10 @@ const FirstDrop = (row) => {
                                     <Td>{row?.data.mdStatus}</Td>
                                     :
                                     <Td >
-                                        <Select defaultValue={row?.data.mdStatus} onChange={(e) => Changer("mdStatus", e.target.value, row?.data.contrato)}>
+                                        <Select
+                                            defaultValue={row?.data.mdStatus}
+                                            onChange={(e) =>
+                                                Changer("mdStatus", e.target.value, row?.data.contrato)}>
                                             {
                                                 nonEspecificOpt.map(res => (
                                                     <option value={res} key={res}>{res}</option>
@@ -172,7 +216,10 @@ const FirstDrop = (row) => {
                                     <Td>{row?.data.paStatus}</Td>
                                     :
                                     <Td >
-                                        <Select defaultValue={row?.data.paStatus} onChange={(e) => Changer("paStatus", e.target.value, row?.data.contrato)}>
+                                        <Select
+                                            defaultValue={row?.data.paStatus}
+                                            onChange={(e) =>
+                                                Changer("paStatus", e.target.value, row?.data.contrato)}>
                                             {
                                                 nonEspecificOpt.map(res => (
                                                     <option value={res} key={res}>{res}</option>
@@ -209,40 +256,56 @@ const FirstDrop = (row) => {
                     <DataTable key={row?.data.contrato}>
 
                         <TableCell component="th" scope="row"  >
-                            {userData.role === 'comercial' ? "" :
+                            {userData.role !== 'comercial' ?
 
                                 <Td >
-                                    <Input defaultValue={row?.data.dataComissionamento} type="date" onChange={(e) => Changer("dataComissionamento", e.target.value, row?.data.contrato)} />
+                                    <Input
+                                        defaultValue={row?.data.dataComissionamento}
+                                        type="date"
+                                        onChange={(e) =>
+                                            Changer("dataComissionamento", e.target.value, row?.data.contrato)} />
 
-                                </Td>}
+                                </Td>
+                                :
+                                <Td >
+                                    {row?.data.dataComissionamento}
+                                </Td>
+                            }
 
 
                         </TableCell>
                         <TableCell align="center">
                             {
-                                userData.role === 'comercial' ?
-                                    <Td style={{ color: setColor[row?.data.tipoMatricula] }}>{row?.data.tipoMatricula}</Td>
-                                    :
+                                userData.role !== 'comercial' ?
+
                                     <Td >
                                         <Select
                                             style={{
-                                                backgroundColor: payStatus !== row?.tipoMatricula
-                                                    ? setColor[payStatus] : setColor[row?.tipoMatricula]
+                                                backgroundColor: payStatus !== row?.data.tipoMatricula
+                                                    ? setColor[payStatus] : setColor[row?.data.tipoMatricula]
                                             }}
-
-                                            defaultValue={row?.tipoMatricula}
-                                            onChange={(e) => Changer("tipoMatricula", e.target.value, row?.contrato)}>
+                                            defaultValue={row?.data.tipoMatricula}
+                                            onChange={(e) =>
+                                                Changer("tipoMatricula", e.target.value, row?.data.contrato)}>
                                             {
-
                                                 comissionStatusOpt.map(res => (
                                                     <option value={res} key={res}>{res}</option>
                                                 ))
                                             }
                                         </Select>
+                                    </Td>
+                                    :
+                                    <Td style={{
+                                        color: setColor[row?.data.tipoMatricula]
+                                    }}>
+                                        {row?.data.tipoMatricula}
+                                    </Td>
 
-                                    </Td>}
+                            }
 
                         </TableCell>
+
+
                         <TableCell align="center"> {row?.data.responsavelADM}</TableCell>
                         <TableCell align="center">
                             {

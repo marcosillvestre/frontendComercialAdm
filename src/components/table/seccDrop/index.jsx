@@ -75,21 +75,37 @@ const SeccDrop = (row) => {
             width: "66rem",
         }} colSpan={6}>
 
-            <Collapse style={{ width: "100%", background: row.open ? "#f5f5f5" : "" }} in={row.open} timeout="auto" unmountOnExit  >
+            <Collapse
+                style={{ width: "100%", background: row.open ? "#f5f5f5" : "" }}
+                in={row.open}
+                timeout="auto"
+                unmountOnExit  >
 
                 <HeadTable>
                     <TableRow>
 
-                        <TableCell align="center" style={{ fontWeight: "bold" }}>OBS. Matrícula</TableCell>
+                        <TableCell
+                            align="center"
+                            style={{ fontWeight: "bold" }}>
+                            OBS. Matrícula
+                        </TableCell>
 
                     </TableRow>
                 </HeadTable>
                 <BodyTable>
                     <TableRow key={row?.data.contrato}>
                         <TableCell align="center" >
-                            <Button onClick={() => userData.role !== 'direcao' ? Sender("observacao", value, row?.data.contrato) : SenderDirector("observacao", value, row?.data.contrato)}> ✔️</Button>
+                            <Button
+                                onClick={() => userData.role !== 'direcao' ?
+                                    Sender("observacao", value, row?.data.contrato) :
+                                    SenderDirector("observacao", value, row?.data.contrato)}>
+                                ✔️</Button>
 
-                            <Text cols='3' placeholder={row?.data.observacao} onChange={(e) => Changer("observacao", e.target.value, row?.data.contrato)}></Text>
+                            <Text cols='3'
+                                placeholder={row?.data.observacao}
+                                onChange={(e) =>
+                                    Changer("observacao", e.target.value, row?.data.contrato)}>
+                            </Text>
                         </TableCell>
 
                     </TableRow>

@@ -14,6 +14,7 @@ import { RowTable, Select, Td } from './styles';
 import URI from '../../app/utils/utils';
 import { useData } from '../../hooks/dataContext';
 import { useUser } from '../../hooks/userContext';
+
 import SureModal from '../sureModal';
 import FifthDrop from './fifthDrop';
 import FirstDrop from './firstDrop';
@@ -30,6 +31,7 @@ export function Row(props) {
 
     const { headers, userData, unity } = useUser()
     const { handleCustomizableData, customizableArray } = useData()
+
     const { row, index } = props;
 
 
@@ -60,7 +62,6 @@ export function Row(props) {
     const currentDay = day.toLocaleDateString()
 
     async function SenderDirector(area, e, id) {
-
         const directorValidationBody = {
             "area": area,
             "value": area !== 'observacao' ? e : value,
@@ -98,10 +99,12 @@ export function Row(props) {
         )
     }
 
-
     return (
         <React.Fragment>
-            <RowTable validated={row.dataValidacao === '' && true} openned={open && true}>
+            <RowTable
+                validated={row.dataValidacao === '' && true}
+                openned={open && true}
+            >
 
                 <TableCell align='center'>
                     <IconButton
@@ -127,9 +130,7 @@ export function Row(props) {
 
                 </TableCell>
 
-                <TableCell align="center">
-                    {row?.dataMatricula}
-                </TableCell>
+                <TableCell align="center">{row?.dataMatricula}</TableCell>
                 <TableCell align="center">{row?.aluno}</TableCell>
                 <TableCell align="center">{row?.name}</TableCell>
                 <TableCell align='center'>
@@ -139,7 +140,9 @@ export function Row(props) {
                             <Td >{row?.curso}</Td>
                             :
                             <Td >
-                                <Select defaultValue={row?.curso} onChange={(e) => Changer("curso", e.target.value, row?.contrato)}>
+                                <Select
+                                    defaultValue={row?.curso}
+                                    onChange={(e) => Changer("curso", e.target.value, row?.contrato)}>
                                     {
                                         coursesOpt.map(res => (
                                             <option value={res} key={res}>{res}</option>
@@ -189,10 +192,16 @@ export function Row(props) {
 
                 </TableCell>
 
-                <TableCell align="center">
+                <TableCell
+                    align="center"
+                >
                     {
                         userData.role === 'comercial' ?
-                            <Td style={{ backgroundColor: setColor[row?.tipoMatricula] }} >{row?.tipoMatricula}</Td>
+                            <Td style={{
+                                backgroundColor: setColor[row?.tipoMatricula]
+                            }} >
+                                {row?.tipoMatricula}
+                            </Td>
                             :
                             <Td >
                                 <Select
@@ -200,10 +209,9 @@ export function Row(props) {
                                         backgroundColor: payStatus !== row?.tipoMatricula
                                             ? setColor[payStatus] : setColor[row?.tipoMatricula]
                                     }}
-
-
                                     defaultValue={row?.tipoMatricula}
-                                    onChange={(e) => Changer("tipoMatricula", e.target.value, row?.contrato)}>
+                                    onChange={(e) =>
+                                        Changer("tipoMatricula", e.target.value, row?.contrato)}>
                                     {
                                         comissionStatusOpt.map(res => (
                                             <option value={res} key={res}>{res}</option>

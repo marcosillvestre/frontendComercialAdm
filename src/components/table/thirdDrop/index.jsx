@@ -39,7 +39,9 @@ const ThirdDrop = (row) => {
                         <TableCell >
                             {row?.data.inicioContrato}
                         </TableCell>
-                        <TableCell align="center"> {row?.data.fimContrato}</TableCell>
+                        <TableCell align="center">
+                            {row?.data.fimContrato}
+                        </TableCell>
                         <TableCell align="center">
                             {row?.data.acFormato}
                         </TableCell>
@@ -80,7 +82,6 @@ const ThirdDrop = (row) => {
                         <TableCell style={{ fontWeight: "bold" }}>Status do Contrato</TableCell>
                         <TableCell style={{ fontWeight: "bold" }}>Carga Horária</TableCell>
                         <TableCell align="center" style={{ fontWeight: "bold" }}>Tempo de Contrato</TableCell>
-                        <TableCell align="center" style={{ fontWeight: "bold" }}>Mês/Ano</TableCell>
                     </TableRow>
                 </HeadTable>
                 <BodyTable>
@@ -102,9 +103,6 @@ const ThirdDrop = (row) => {
                         </TableCell>
                         <TableCell align="center">
                             {diferenceInMonths} meses
-                        </TableCell>
-                        <TableCell align="center">
-                            {row?.data.dataValidacao.split("/")[1]}
                         </TableCell>
 
                     </TableRow>

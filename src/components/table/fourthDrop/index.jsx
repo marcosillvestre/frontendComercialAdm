@@ -73,8 +73,16 @@ const FourthDrop = (row) => {
             paddingTop: 0,
             width: "69rem",
         }} colSpan={6}>
-            <Collapse style={{ background: row.open ? "#f5f5f5" : "" }} in={row.open} timeout="auto" unmountOnExit>
-                <HeadTable style={{ display: "flex", alignItems: "center", paddingLeft: "1rem", fontSize: "1.2rem" }}>
+            <Collapse
+                style={{ background: row.open ? "#f5f5f5" : "" }}
+                in={row.open}
+                timeout="auto"
+                unmountOnExit>
+                <HeadTable
+                    style={{
+                        display: "flex", alignItems: "center",
+                        paddingLeft: "1rem", fontSize: "1.2rem"
+                    }}>
                     <TableRow>
                         Taxa de Matrícula :
                     </TableRow>
@@ -117,7 +125,10 @@ const FourthDrop = (row) => {
                                     </>
                                     :
                                     <Td >
-                                        <Select defaultValue={row?.data.tmStatus} onChange={(e) => Changer("tmStatus", e.target.value, row?.data.contrato)}>
+                                        <Select
+                                            defaultValue={row?.data.tmStatus}
+                                            onChange={(e) =>
+                                                Changer("tmStatus", e.target.value, row?.data.contrato)}>
                                             {
                                                 nonEspecificOpt.map(res => (
                                                     <option value={res} key={res}>{res}</option>
@@ -136,7 +147,11 @@ const FourthDrop = (row) => {
                                     :
                                     <>
                                         <Td style={{ display: "flex", margin: ".5rem 0 " }}>
-                                            <Input defaultValue={row?.data.tmData} type="date" onChange={(e) => Changer("tmData", e.target.value, row?.data.contrato)} />
+                                            <Input
+                                                defaultValue={row?.data.tmData}
+                                                type="date"
+                                                onChange={(e) =>
+                                                    Changer("tmData", e.target.value, row?.data.contrato)} />
 
                                         </Td>
 
@@ -146,7 +161,11 @@ const FourthDrop = (row) => {
                     </TableRow>
                 </BodyTable>
 
-                <HeadTable style={{ display: "flex", alignItems: "center", paddingLeft: "1rem", fontSize: "1.2rem" }}>
+                <HeadTable
+                    style={{
+                        display: "flex", alignItems: "center",
+                        paddingLeft: "1rem", fontSize: "1.2rem"
+                    }}>
                     <TableRow>
                         Parcela :
                     </TableRow>
@@ -187,7 +206,10 @@ const FourthDrop = (row) => {
                                     <Td>{row?.data.ppStatus}</Td>
                                     :
                                     <Td >
-                                        <Select defaultValue={row?.data.ppStatus} onChange={(e) => Changer("ppStatus", e.target.value, row?.data.contrato)}>
+                                        <Select
+                                            defaultValue={row?.data.ppStatus}
+                                            onChange={(e) =>
+                                                Changer("ppStatus", e.target.value, row?.data.contrato)}>
                                             {
                                                 nonEspecificOpt.map(res => (
                                                     <option value={res} key={res}>{res}</option>
@@ -205,7 +227,11 @@ const FourthDrop = (row) => {
                                     :
                                     <>
                                         <Td style={{ display: "flex", margin: ".5rem 0 " }}>
-                                            <Input defaultValue={row?.data.ppData} type="date" onChange={(e) => Changer("ppData", e.target.value, row?.data.contrato)} />
+                                            <Input
+                                                defaultValue={row?.data.ppData}
+                                                type="date"
+                                                onChange={(e) =>
+                                                    Changer("ppData", e.target.value, row?.data.contrato)} />
 
                                         </Td>
 
@@ -216,7 +242,10 @@ const FourthDrop = (row) => {
                     </TableRow>
                 </BodyTable>
 
-                <HeadTable style={{ display: "flex", alignItems: "center", paddingLeft: "1rem", fontSize: "1.2rem" }}>
+                <HeadTable style={{
+                    display: "flex", alignItems: "center",
+                    paddingLeft: "1rem", fontSize: "1.2rem"
+                }}>
                     <TableRow>
                         Material Didático :
                     </TableRow>
@@ -256,7 +285,10 @@ const FourthDrop = (row) => {
                                     <>{row?.data.mdStatus}</>
                                     :
                                     <Td >
-                                        <Select defaultValue={row?.data.mdStatus} onChange={(e) => Changer("mdStatus", e.target.value, row?.data.contrato)}>
+                                        <Select
+                                            defaultValue={row?.data.mdStatus}
+                                            onChange={(e) =>
+                                                Changer("mdStatus", e.target.value, row?.data.contrato)}>
                                             {
                                                 nonEspecificOpt.map(res => (
                                                     <option value={res} key={res}>{res}</option>
