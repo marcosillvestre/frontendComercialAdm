@@ -6,7 +6,7 @@ import { useUser } from '../../../hooks/userContext';
 import { Container, PagButton } from './styles';
 const Pagination = (data) => {
     const { take, skip, setSkip } = useUser()
-    const { setCustomizableArray } = useData()
+    const { setCustomizableArray, setTypeFilter } = useData()
 
     let pag = []
 
@@ -17,6 +17,7 @@ const Pagination = (data) => {
     const handlePagination = (index) => {
         setSkip(take * index)
         setCustomizableArray([])
+        setTypeFilter([])
     }
 
     return (
