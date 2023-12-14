@@ -13,7 +13,7 @@ const coursesOpt = [
     "Tecnologia",
 ]
 const backgroundOpt = [
-    "Novo Aluno",
+    "Novo aluno",
     "Ex-aluno",
     "Aluno",
 ]
@@ -52,7 +52,7 @@ const arrayQuantityChanges = [
         label: "Aprovação ADM.",
         type: "aprovacaoADM",
         options: nonEspecificOpt,
-        permission: ['gerencia'],
+        permission: ['administrativo'],
     },
 ]
 

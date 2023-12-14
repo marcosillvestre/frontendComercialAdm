@@ -16,45 +16,52 @@ export default function PositionedMenu(data) {
     const [anchorEl, setAnchorEl] = React.useState(null);
 
     const {
-        filtered, setFiltered, handleClose, pushData,
-        sellers, setOpenPeriodRange, unity, mutation
+        filtered, setFiltered, handleClose, mutationControlData,
+        sellers, setOpenPeriodRange, unity, mutation,
+        allData
     } = useUser()
 
     const { typeFilter, setTypeFilter } = useData()
 
-
-
     const handleFilter = (value, type) => {
-        let data = typeFilter.filter(res => res.key === type)
+        if (filtered.length < 1) {
+            alert("Este período de tempo não há matrículas")
+        }
 
-        data.length < 1 && typeFilter.length <= 2 ?
-            setTypeFilter([...typeFilter, { "key": type, "value": value }]) :
-            alert("Erro ao aplicar o filtro dinâmico")
+        if (filtered.length > 0) {
 
-        filtered.length < 1 && alert("Este período de tempo não há matrículas")
+            let data = typeFilter.filter(res => res.value === value)
+            let bool = data.length < 1 && typeFilter.length <= 2
 
-        if (type === 'owner') {
-            setFiltered(filtered.filter(res => res[type].toLowerCase().includes(value)))
-            close()
-        } else {
-            setFiltered(filtered.filter(res => res[type] === value))
-            close()
+            bool ?
+                setTypeFilter([...typeFilter, { "key": type, "value": value }]) :
+                alert("Erro ao aplicar o filtro dinâmico")
+
+            let aaa = filtered.filter(res => res[type] === value)
+            typeFilter.length === 0 ? setFiltered(aaa) : dataValidation(value, type)
         }
     }
 
-    const url = useLocation()
+    const dataValidation = (value, type) => {
 
-    const fetchData = async () => {
-        const info = await pushData(true)
-        setFiltered(info.data.deals)
+        const secc = typeFilter.length === 1 && allData.filter(data => {
+            return data[type].includes(value) || data[typeFilter[0].key].includes(typeFilter[0].value)
+        })
+
+        const third = typeFilter.length !== 1 && allData.filter(data => {
+            return data[type].includes(value) || data[typeFilter[0].key].includes(typeFilter[0].value) || data[typeFilter[1].key].includes(typeFilter[1].value)
+        })
+        typeFilter.length === 1 ? setFiltered(secc) : setFiltered(third)
     }
 
 
-    const handleFilterRangeDate = () => {
+    const url = useLocation()
+
+
+    const handleFilterRangeDate = async () => {
 
         setTypeFilter([])
-
-        url.pathname === '/controle-comercial' && fetchData()
+        url.pathname === '/controle-comercial' && await mutationControlData.mutate()
         url.pathname === '/controle-comissional' && mutation.mutate()
 
         close()
@@ -185,7 +192,10 @@ export default function PositionedMenu(data) {
                             <DatePickers text="Data final" />
                         </span>
                         <hr />
-                        <button className='button-filter' onClick={() => handleFilterRangeDate()}>Aplicar filtro</button>
+                        <button
+                            className='button-filter'
+                            onClick={() =>
+                                handleFilterRangeDate()}>Aplicar filtro</button>
                     </RangeDate>
                 }
 

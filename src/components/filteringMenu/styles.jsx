@@ -11,7 +11,7 @@ padding: 1rem;
 text-align: center;
 gap:2rem;
 width: 28rem ;
-height: 18rem;
+height: 27rem;
 background-color: #f2f2f2;
 
 input{
@@ -48,7 +48,7 @@ input{
     padding: .5rem;
     align-items: center;
     max-width: 100%;
-    height: 30%;
+    height: 20%;
     justify-content: center;
     border-radius: 10px;
     background-color: #fff;

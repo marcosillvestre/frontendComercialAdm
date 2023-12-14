@@ -130,7 +130,7 @@ export function Row(props) {
 
                 </TableCell>
 
-                <TableCell align="center">{row?.dataMatricula}</TableCell>
+                <TableCell align="center">{row?.dataMatricula} </TableCell>
                 <TableCell align="center">{row?.aluno}</TableCell>
                 <TableCell align="center">{row?.name}</TableCell>
                 <TableCell align='center'>

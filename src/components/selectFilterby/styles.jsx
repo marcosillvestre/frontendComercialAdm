@@ -67,7 +67,7 @@ background-color:#dfe6f1;
 
     #selected-value{
     color: #000;
-    font-size: .875rem;
+    font-size: .74rem;
     margin-right: 2rem;
 }
 `

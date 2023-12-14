@@ -11,6 +11,7 @@ export const DataProvider = ({ children }) => {
     const [rangeNamePeriodFilter, setRangeNamePeriodFilter] = useState([])
 
     const [customizableArray, setCustomizableArray] = useState([])
+    const [valueToBeChanged, setValueToBeChanged] = useState('')
 
 
 
@@ -51,7 +52,8 @@ export const DataProvider = ({ children }) => {
             rangeNamePeriodFilter, setRangeNamePeriodFilter,
             customizableArray, setCustomizableArray,
             handleCustomizableData,
-            qntAlet, setQntAlt
+            qntAlet, setQntAlt,
+            valueToBeChanged, setValueToBeChanged
         }}>
 
             {children}

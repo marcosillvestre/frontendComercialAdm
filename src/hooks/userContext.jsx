@@ -143,20 +143,31 @@ export const UserProvider = ({ children }) => {
 
 
     body["dates"] = `${selectedInitialDate}~${selectedEndDate}`
+
     const queryCache = useQueryClient();
+
+    const [allData, setAllData] = useState([])
 
     const mutationControlData = useMutation({
         mutationFn: () => {
             return URI.post('/periodo', body, { headers }).then(res => res.data)
         },
         onSuccess: (data) => {
+            setAllData(data.data.deals)
             setFiltered(data.data.deals)
         },
-        onError: () => alert("Erro ao buscar os dados, tente novamente mais tarde")
+        onError: (err) => console.log(err)
     })
 
     useEffect(() => {
-        headers.Authorization.includes("undefined") === false && body.range !== 'Selecione' && mutationControlData.mutate()
+        if (headers.Authorization.includes("undefined") === false && body.range !== 'Selecione' && body.range !== "Período personalizado") {
+            console.log('first')
+            mutationControlData.mutate()
+        }
+        if (body.range === "Período personalizado" && selectedInitialDate || selectedEndDate !== null) {
+            mutationControlData.mutate()
+        }
+
     }, [periodRange, skip, take])
 
 
@@ -183,6 +194,7 @@ export const UserProvider = ({ children }) => {
     const { data } = mutationControlData
 
     const resetFilter = async (filter) => {
+        console.log(filter)
         let types = (typeFilter.filter(res => res !== filter))
         const index = typeFilter.length - 2
 
@@ -228,7 +240,7 @@ export const UserProvider = ({ children }) => {
             selectedEndDate, setSelectedEndDate, resetFilter, unity, body, mutation,
             openPeriodRange, setOpenPeriodRange, unHandleLabel, setUnHandleLabel,
             mutationControlData, take, skip, setTake,
-            setSkip
+            setSkip, allData
         }}>
 
             {children}

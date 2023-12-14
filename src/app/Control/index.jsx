@@ -101,7 +101,16 @@ const ListFiltered = () => {
             }
         )
             .catch(() => alert("Alguma coisa deu errado, tente novamente mais tarde"))
-            .then(() => window.location.reload())
+            .then((res) => {
+                alert(res.data.total)
+
+                setTimeout(() => {
+                    window.location.reload()
+
+                }, 700);
+            }
+
+            )
     }
 
     return (

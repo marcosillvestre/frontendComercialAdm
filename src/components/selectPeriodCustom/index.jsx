@@ -14,7 +14,7 @@ const SelectPeriodCustom = (periods) => {
     const [label, setLabel] = React.useState(periodRange)
 
     const handleCheck = async (label) => {
-        await mutationControlData.mutate()
+        // await mutationControlData.mutate()
 
         setTypeFilter([])
         setCustomizableArray([])
