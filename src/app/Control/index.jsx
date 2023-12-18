@@ -81,7 +81,9 @@ const ListFiltered = () => {
     const handleData = (data) => {
         setSkip(0)
         handleResetFilter()
-        setTake(data)
+        const handleTake = data !== 'all' ? parseInt(data) : data
+
+        setTake(handleTake)
     }
 
 
@@ -100,13 +102,12 @@ const ListFiltered = () => {
                 error: 'Alguma coisa deu errado'
             }
         )
-            .catch(() => alert("Alguma coisa deu errado, tente novamente mais tarde"))
+            // .catch(() => alert("Alguma coisa deu errado, tente novamente mais tarde"))
             .then((res) => {
                 alert(res.data.total)
 
                 setTimeout(() => {
                     window.location.reload()
-
                 }, 700);
             }
 
@@ -178,8 +179,8 @@ const ListFiltered = () => {
                     <Filters className='filters'>
                         {typeFilter?.length > 0 &&
                             <>
-                                <p>filtros aplicados: </p>
                                 <div >
+                                    <p>filtros aplicados: </p>
                                     {typeFilter.map(res => (
                                         <span
                                             key={res.key}
@@ -303,6 +304,7 @@ const ListFiltered = () => {
                                         </InputTake>
                                         <p>Registros por página</p>
                                     </div>
+
                                     {
                                         data !== undefined && take + skip > data.data.total ?
                                             take > data.data.total ?
@@ -313,20 +315,23 @@ const ListFiltered = () => {
                                                 <p className='mid'>{`Mostrando ${skip + 1} - ${take + skip - diference} de
                                             ${isPending === false && data !== undefined && data.data.total} registross`} </p> :
 
-                                            <p className='mid'>{`Mostrando ${skip + 1} - ${take + skip} de
+                                            <p className='mid'>{`Mostrando ${skip + 1} - ${take === 'all' ? data.data.total : take + skip} de
                                             ${isPending === false && data !== undefined && data.data.total} registros`} </p>
                                     }
 
                                 </NumberContainer>
-                                <div className='separation'>
-                                    <hr />
-                                    <FilterListIcon />
-                                    <hr />
-                                </div>
                                 {
-                                    isPending === false && data !== undefined && data.data.total > 10 &&
-                                    <Pagination data={isPending === false && data !== undefined && data.data.total} />
+                                    isPending === false && data !== undefined && data.data.total / take > 0 &&
+                                    <>
+                                        <div className='separation'>
+                                            <hr />
+                                            <FilterListIcon />
+                                            <hr />
+                                        </div>
+                                        <Pagination data={isPending === false && data !== undefined && data.data.total} />
+                                    </>
                                 }
+
                             </Tabled>
 
                 }

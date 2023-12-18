@@ -32,9 +32,6 @@ const FirstDrop = (row) => {
     const currentDay = day.toLocaleDateString()
 
     async function SenderDirector(area, e, id) {
-        console.log(value)
-        console.log(e)
-        console.log(area)
 
         const directorValidationBody = {
             "area": area,

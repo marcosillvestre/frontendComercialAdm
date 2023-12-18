@@ -27,7 +27,7 @@ import colorsRules from '../../app/utils/Rules/colors.jsx';
 import businessRules from '../../app/utils/Rules/options.jsx';
 export function Row(props) {
     const { comissionStatusOpt, coursesOpt, backgroundOpt } = businessRules
-    const { setColor } = colorsRules
+    const { setColor, setClearColor } = colorsRules
 
     const { headers, userData, unity } = useUser()
     const { handleCustomizableData, customizableArray } = useData()
@@ -104,6 +104,10 @@ export function Row(props) {
             <RowTable
                 validated={row.dataValidacao === '' && true}
                 openned={open && true}
+                style={{
+                    backgroundColor: payStatus !== row?.tipoMatricula
+                        ? setClearColor[payStatus] : setClearColor[row?.tipoMatricula]
+                }}
             >
 
                 <TableCell align='center'>
@@ -117,7 +121,9 @@ export function Row(props) {
                 </TableCell>
 
 
-                <TableCell align="center">
+                <TableCell
+                    align="center"
+                >
 
                     <input
                         style={{ width: '1rem', height: '1rem' }}

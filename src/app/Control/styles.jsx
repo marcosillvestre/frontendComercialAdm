@@ -61,6 +61,7 @@ padding: 0 4rem;
 export const PageUpdate = styled.div`
 order: -1;
 background-color: #1976d2;
+
 font-family: "Roboto","Helvetica","Arial",sans-serif;
 font-weight: 500;
 font-size: 0.675rem;
@@ -126,10 +127,19 @@ export const Filters = styled.div`
         display: flex;
         gap: 5px;
         justify-content: center;
+        align-items: center;
         button{
             border: none;
             color: #fff;
             background-color: #e63946;
+
+font-family: "Roboto","Helvetica","Arial",sans-serif;
+font-weight: 500;
+font-size: 0.675rem;
+letter-spacing: 0.02857em;
+text-transform: uppercase;
+min-width: 64px;
+
             padding: 9px 20px;
             border-radius: 5px;
             margin: 5px;

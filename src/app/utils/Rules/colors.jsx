@@ -6,6 +6,13 @@ const setColor = {
     "Pendente": "#f4f4f4",
     "Comissionado": "#abc7f1",
 }
+const setClearColor = {
+    "Não aprovado": "#eadddd",
+    "Pré-aprovado": "#f5f7d4",
+    "Aprovado": "#d4ebd4",
+    "Pendente": "#f4f4f4",
+    "Comissionado": "#d9e1eb",
+}
 
 
-export default { setColor }
+export default { setColor, setClearColor }

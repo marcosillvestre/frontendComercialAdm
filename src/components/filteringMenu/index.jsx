@@ -17,8 +17,8 @@ export default function PositionedMenu(data) {
 
     const {
         filtered, setFiltered, handleClose, mutationControlData,
-        sellers, setOpenPeriodRange, unity, mutation,
-        allData
+        sellers, setOpenPeriodRange, unity, mutation, setTake,
+        // allData
     } = useUser()
 
     const { typeFilter, setTypeFilter } = useData()
@@ -27,33 +27,82 @@ export default function PositionedMenu(data) {
         if (filtered.length < 1) {
             alert("Este período de tempo não há matrículas")
         }
+        setTake('all')
 
         if (filtered.length > 0) {
 
-            let data = typeFilter.filter(res => res.value === value)
+            let data = typeFilter.filter(res => res.key === type)
             let bool = data.length < 1 && typeFilter.length <= 2
 
-            bool ?
-                setTypeFilter([...typeFilter, { "key": type, "value": value }]) :
-                alert("Erro ao aplicar o filtro dinâmico")
+            if (bool && type === 'owner') {
+                setTypeFilter([...typeFilter, { "key": type, "value": value }])
+                const filter = filtered.filter(data => data[type].toLowerCase().includes(value.toLowerCase()))
+                setFiltered(filter)
+            }
+            if (bool && type !== 'owner') {
+                setTypeFilter([...typeFilter, { "key": type, "value": value }])
+                const filter = filtered.filter(data => data[type].toLowerCase() === value.toLowerCase())
+                setFiltered(filter)
 
-            let aaa = filtered.filter(res => res[type] === value)
-            typeFilter.length === 0 ? setFiltered(aaa) : dataValidation(value, type)
+            }
+            if (!bool) {
+                return alert("Erro ao aplicar o filtro dinâmico")
+            }
+
+            // if (bool) {
+            //     if (type === 'owner') {
+            //         console.log(type)
+            //         console.log(value)
+
+            //         let dataFiltered = filtered.filter(res => res[type].toLowerCase().includes(value.toLowerCase()))
+            //         typeFilter.length === 0 ? console.log(dataFiltered) : dataValidation(value, type)
+            //         setTypeFilter([...typeFilter, { "key": type, "value": value }])
+            //         console.log('first')
+
+            //     }
+            //     if (type !== 'owner') {
+            //         setTypeFilter([...typeFilter, { "key": type, "value": value }])
+
+            //         let dataFiltered = filtered.filter(res => res[type].toLowerCase().includes(value.toLowerCase()))
+            //         typeFilter.length === 0 ? setFiltered(dataFiltered) : dataValidation(value, type)
+            //         console.log('first')
+
+            //     }
+            // }
+            // if (!bool) {
+            //     return alert("Erro ao aplicar o filtro dinâmico")
+
+            // }
+
+
         }
     }
 
-    const dataValidation = (value, type) => {
+    // const dataValidation = (value, type) => {
+    //     console.log(value)
+    //     if (typeFilter.some(res => res.key === 'owner') === false) {
+    //         const filteredData = typeFilter.length === 1 && filtered.filter(res => {
+    //             return res[type] === value
+    //         })
+    //         console.log('first')
+    //         setFiltered(filteredData)
+    //     }
 
-        const secc = typeFilter.length === 1 && allData.filter(data => {
-            return data[type].includes(value) || data[typeFilter[0].key].includes(typeFilter[0].value)
-        })
+    //     if (typeFilter.some(res => res.key === 'owner')) {
+    //         const filter = typeFilter.filter(res => res.key !== 'owner')
+    //         const ownerFiltered = filtered.filter(res => res['owner'].toLowerCase().includes(value.toLowerCase()))
+    //         console.log(filter)
+    //         console.log(typeFilter)
 
-        const third = typeFilter.length !== 1 && allData.filter(data => {
-            return data[type].includes(value) || data[typeFilter[0].key].includes(typeFilter[0].value) || data[typeFilter[1].key].includes(typeFilter[1].value)
-        })
-        typeFilter.length === 1 ? setFiltered(secc) : setFiltered(third)
-    }
+    //         filter.length === 1 && console.log(filtered.filter(res => res[filter[0].key] === filter[0].value))
 
+
+    //         filter.length === 2 && console.log(filtered.filter(res => res[filter[0].key] === filter[0].value &&
+    //             res[filter[1].key] === filter[1].value))
+
+    //     }
+
+    // }
 
     const url = useLocation()
 
@@ -136,7 +185,7 @@ export default function PositionedMenu(data) {
                 {
                     data.name === "Status do comissionamento" &&
                     <Label >
-                        <Select defaultValue="Selecione" onChange={(e) => handleFilter(e.target.value, "tipoMatricula")} >
+                        <Select onChange={(e) => handleFilter(e.target.value, "tipoMatricula")} >
 
                             <option value="selec">Selecione</option>
                             {

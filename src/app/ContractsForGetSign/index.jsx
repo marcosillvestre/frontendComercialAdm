@@ -25,8 +25,8 @@ const Contracts = () => {
                     info.data && filteringBySeller(info.data)
                 }).catch(err => {
                     if (err.response.data.error === 'token invalid') {
-                        alert("Faça login novamente, seu acesso expirou")
                         window.location.href = "/"
+                        alert("Faça login novamente, seu acesso expirou")
                         logOut()
                     }
                 })

@@ -84,13 +84,15 @@ export const UserProvider = ({ children }) => {
                     })
             }
             catch (err) {
-                if (err?.response?.data?.error.includes('token')) {
+                if (err.response.data.error === 'token invalid') {
                     window.location.href = "/"
+                    alert("Faça login novamente, seu acesso expirou")
                     logOut()
-                    alert("Sessão expirada")
                 }
             }
         }
+
+
     }, [fetchData, headers])
     /////////////////////////////////////
 
@@ -161,7 +163,6 @@ export const UserProvider = ({ children }) => {
 
     useEffect(() => {
         if (headers.Authorization.includes("undefined") === false && body.range !== 'Selecione' && body.range !== "Período personalizado") {
-            console.log('first')
             mutationControlData.mutate()
         }
         if (body.range === "Período personalizado" && selectedInitialDate || selectedEndDate !== null) {
@@ -177,11 +178,14 @@ export const UserProvider = ({ children }) => {
 
         }
         filterWithTwo(res, types) {
-            return res.filter(res => res[types[0].key] === types[0].value && res[types[1].key] === types[1].value)
+            return res.filter(res => res[types[0].key] === types[0].value
+                && res[types[1].key] === types[1].value)
 
         }
         filterWithTree(res, types) {
-            return res.filter(res => res[types[0].key] === types[0].value && res[types[1].key] === types[1].value && res[types[2].key] === types[2].value)
+            return res.filter(res => res[types[0].key] === types[0].value &&
+                res[types[1].key] === types[1].value &&
+                res[types[2].key] === types[2].value)
 
         }
     }
@@ -194,12 +198,11 @@ export const UserProvider = ({ children }) => {
     const { data } = mutationControlData
 
     const resetFilter = async (filter) => {
-        console.log(filter)
         let types = (typeFilter.filter(res => res !== filter))
         const index = typeFilter.length - 2
 
-        typeFilter.length === 1 || filter === undefined ? setFiltered(data.data.deals)
-            : setFiltered(possibilities[index](data.data.deals, types))
+        typeFilter.length === 1 || filter === undefined ? setFiltered(data?.data.deals)
+            : setFiltered(possibilities[index](data?.data.deals, types))
     }
 
 
