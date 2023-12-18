@@ -48,6 +48,7 @@ export default function PositionedMenu(data) {
             if (!bool) {
                 return alert("Erro ao aplicar o filtro dinâmico")
             }
+            close()
 
             // if (bool) {
             //     if (type === 'owner') {
