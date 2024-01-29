@@ -12,6 +12,8 @@ import { Boxes, ButtonDelete, Fades, Filter } from './styles';
 
 const style = {
     position: 'absolute',
+    display: 'flex',
+    justifyContent: 'center',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
@@ -25,7 +27,6 @@ const style = {
 
 import LoadingSpin from 'react-loading-spin';
 import generatePDF, { Margin, Resolution } from 'react-to-pdf';
-import URI from '../../app/utils/utils';
 import { useData } from '../../hooks/dataContext';
 export default function SureSendModal(data) {
 
@@ -59,7 +60,6 @@ export default function SureSendModal(data) {
         await generatePDF(content, options)
             .then(res => {
                 if (res) {
-                    setLoading(false)
                     setOpen(!open)
                     send && contaAzulSender()
 
@@ -71,6 +71,7 @@ export default function SureSendModal(data) {
                 }
             })
 
+        setLoading(false)
 
     }
 
@@ -83,33 +84,37 @@ export default function SureSendModal(data) {
             // await axios.post("http://localhost:3333/cadastros", data)
             .then((res) => {
                 if (res.status === 201) {
+
+                    setOpen(!open)
                     alert(res.data.data)
                 }
             }).catch(() => alert("Erro ao enviar ao Conta Azul, confira os dados"))
 
-        setOpen(!open)
+        setLoading(false)
 
     }
 
 
     async function createContract() {
-        // await axios.post('http://localhost:7070/criar-contratos', filteredContracts[0], { headers })
+        // await URI.post(`/criar-contratos`, filteredContracts[0], { headers })
 
-        await URI.post(`/criar-contratos`, filteredContracts[0], { headers })
+        await axios.post('http://localhost:7070/criar-contratos', filteredContracts[0], { headers })
             .then((res) => {
                 if (res) {
+                    setOpen(!open)
+
                     send && contaAzulSender()
                 }
             }
             )
             .catch(err => {
-                console.log(err)
                 if (err) {
+                    console.log(err);
                     alert("Erro ao enviar contrato")
                 }
             })
+        setLoading(false)
 
-        setOpen(!open)
 
     }
 
@@ -120,6 +125,10 @@ export default function SureSendModal(data) {
 
     const handleSender = () => {
 
+        if (filteredContracts === undefined) {
+            return alert("Nenhum contrato definido")
+        }
+
         if (data.data === 'Conta Azul') {
             contaAzulSender()
         }
@@ -128,12 +137,13 @@ export default function SureSendModal(data) {
         }
         if (data.data === 'PDF') {
             setView('template')
-            setLoading(true)
 
             setTimeout(() => {
                 senderImpressContract()
             }, 1000);
         }
+        setLoading(true)
+
         // if (data.data === 'Autentique') {
         //     senderContract()
         // }

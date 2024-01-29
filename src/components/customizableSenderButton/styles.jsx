@@ -21,35 +21,12 @@ export const Container = styled.div`
     border-radius: 5px;
     margin:  5px 0;
     box-shadow: ${props => props.able ? "4px 4px 0 #0069ff" : " 4px 4px 0 #505050"};
-
+display: flex;
 
     &:active{
         box-shadow: 0 0 0 #2d85ff;
     }
     transition: transform 0.1s, box-shadow 0.1s ;
-    &::after{
-        content: "";
-        transition: .4s ease;
-        width: ${props => props.$open ? "1rem" : ".6rem"};
-        background-color: #fff;
-        height: 2px;
-        position: absolute;
-        transform: ${props => props.$open ? "rotate(135deg)" : "rotate(135deg)"};
-        left:${props => props.$open ? "15.73rem" : "16rem"};
-        top: ${props => props.$open ? "20rem" : "20.28rem"};
-
-    }
-    &::before{
-        content: "";
-        transition: .4s ease;
-        width: ${props => props.$open ? "1rem" : ".6rem"};
-        background-color: #fff ;
-        height: 2px;
-        position: absolute;
-        transform: ${props => props.$open ? "rotate(45deg)" : "rotate(225deg)"};
-        left: ${props => props.$open ? "15.8rem" : "16rem"};
-        top: ${props => props.$open ? "20rem" : "19.9rem"};
-    }
 
 `
 
