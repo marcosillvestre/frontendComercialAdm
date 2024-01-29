@@ -51,11 +51,13 @@ const StyledMenu = styled((props) => (
 
 export default function CustomizedMenus() {
 
-    const { anchorEl, handleClose, setAnchorEl, userData } = useUser()
+    const { anchorEl, handleClose, setAnchorEl, userData, setTake } = useUser()
 
     const open = Boolean(anchorEl);
 
     const handleClick = (event) => {
+        setTake('all')
+
         setAnchorEl(event.currentTarget);
     };
 

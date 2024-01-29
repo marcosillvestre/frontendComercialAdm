@@ -1,6 +1,5 @@
 import Proptypes from 'prop-types'
-import { createContext, useContext, useState } from 'react'
-
+import { createContext, useContext, useRef, useState } from 'react'
 
 const idContext = createContext({})
 
@@ -9,10 +8,11 @@ export const DataProvider = ({ children }) => {
 
     const [typeFilter, setTypeFilter] = useState([])
     const [rangeNamePeriodFilter, setRangeNamePeriodFilter] = useState([])
+    const [view, setView] = useState('table')
 
     const [customizableArray, setCustomizableArray] = useState([])
     const [valueToBeChanged, setValueToBeChanged] = useState('')
-
+    const content = useRef()
 
 
     const handleCustomizableData = (e, data) => {
@@ -44,6 +44,7 @@ export const DataProvider = ({ children }) => {
 
     }
 
+
     const [qntAlet, setQntAlt] = useState([])
 
     return (
@@ -53,7 +54,9 @@ export const DataProvider = ({ children }) => {
             customizableArray, setCustomizableArray,
             handleCustomizableData,
             qntAlet, setQntAlt,
-            valueToBeChanged, setValueToBeChanged
+            valueToBeChanged, setValueToBeChanged,
+            content,
+            view, setView
         }}>
 
             {children}

@@ -1,5 +1,6 @@
 
 import { createBrowserRouter } from "react-router-dom";
+import AddNewRegister from '../app/AddRegister';
 import ComissionControll from '../app/ComissionControl';
 import Contracts from "../app/ContractsForGetSign";
 import { Control } from "../app/Control";
@@ -44,6 +45,10 @@ const Routes = createBrowserRouter([
     {
         path: "/cadastro/lista",
         element: directory ? <Register /> : <Login />,
+    },
+    {
+        path: "/novo-cadastro",
+        element: directory ? <AddNewRegister /> : <Login />,
     },
     {
         path: "/controle-comercial",

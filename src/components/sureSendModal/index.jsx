@@ -23,140 +23,95 @@ const style = {
 };
 
 
+import LoadingSpin from 'react-loading-spin';
+import generatePDF, { Margin, Resolution } from 'react-to-pdf';
+import URI from '../../app/utils/utils';
+import { useData } from '../../hooks/dataContext';
 export default function SureSendModal(data) {
+
     const [send, setSend] = React.useState(true)
-    const { filteredContracts, userData } = useUser()
-    const date = new Date()
+    const { filteredContracts, headers } = useUser()
+    const { content, setView } = useData()
 
     const [open, setOpen] = React.useState(false);
+    const [loading, setLoading] = React.useState(false)
+
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
 
-    const webhookGerente = "https://hook.us1.make.com/36kd4bq6u7n66flns4gbzshehem5fw7l"
-    const webhookGerenteImpresso = "https://hook.us1.make.com/e3hnjh27wp6in88nxulgqwmda4dr4tol"
+    const senderImpressContract = async () => {
 
-    const webhookVendedora1 = "https://hook.us1.make.com/oawrexoyph599vfsb6319q290dnag45d"
-    const webhookVendedora1Impresso = "https://hook.us1.make.com/b2yule57cpdg0t8hxuf7ofhj1lrcm6rj"
+        const options = {
+            filename: `adesão_${filteredContracts[0].name}`,
+            method: 'save',
+            resolution: Resolution.HIGH,
+            page: {
 
-    const webhookVendedora2 = "https://hook.us1.make.com/zk795dt1no3oaypygq048x84bao0smdr"
-    const webhookVendedora2Impresso = "https://hook.us1.make.com/tve9e0v23qlguiqhqfyd894jplvamrq1"
+                margin: Margin.MEDIUM,
 
-    // const webhookVendedora3 = "https://hook.us1.make.com/2aa3stdmay5vcat5pla5nuy4ubcdv91e"
-    // const webhookVendedora4 = "https://hook.us1.make.com/89stu7vdp6dxocgl837ekvw1z9mgafdb"
-
-    const webhookPrincipal = "https://hook.us1.make.com/ghzwtbkkjlkzfhdg3qiysocrfmhr2ucx"
-    const webhookPrincipalImpresso = "https://hook.us1.make.com/u5dh3xbxpzbexvnd9bvu1mzfym3nx87r"
-
-    const webhookAdministrativo = "https://hook.us1.make.com/hpqek8mfkdd4nqexrrwp8k6ytojdlodn"
-    const webhookAdministrativoImpresso = "https://hook.us1.make.com/7vkxorul0jiegksx2xgoo8bm86l0mqyj"
-
-
-    async function senderContract() {
-        if (filteredContracts?.length > 0) {
-
-            const obj = filteredContracts[0]
-            obj["dataEmissao"] = date.toLocaleDateString()
-            let desc = obj["descontoPorParcela"].split(',')
-
-            obj["valorParcelaDataCerta"] = parseFloat(obj["valorParcela"]) - parseFloat(`${desc[0]}.${desc[1]}`)
-            obj["descontoParcelaDataCorreta"] = obj["valorParcelaDataCerta"].toFixed(2)
-            obj["diaVencimento"] = obj["diaVenvimento"].split("/")[0]
-
-            let link
-
-            if (userData.role === 'gerencia') {
-                link = webhookGerente
+                format: 'A4',
+                // default is 'portrait'
+                orientation: 'portrait',
             }
+        };
 
-            if (userData.role === 'comercial') {
-                if (userData.name.toLowerCase().includes("aracelly")) {
-                    link = webhookVendedora1
+        await generatePDF(content, options)
+            .then(res => {
+                if (res) {
+                    setLoading(false)
+                    setOpen(!open)
+                    send && contaAzulSender()
+
                 }
-
-                if (userData.name.toLowerCase().includes("sophia")) {
-                    link = webhookVendedora2
+            })
+            .catch(err => {
+                if (err) {
+                    alert("Erro ao emitir o contrato impresso, tente novemente mais tarde!")
                 }
+            })
 
-            }
-            if (userData.role === 'direcao') {
-                link = webhookPrincipal
-            }
-            if (userData.role === 'administrativo') {
-                link = webhookAdministrativo
-            }
 
-            await axios.post(link, obj)
-                .then(res => {
-                    alert(res.data)
-                })
-
-            send && contaAzulSender()
-        } else {
-            alert("Não tem ninguém escolhido para emitir o contrato, você precisa escolher alguém!")
-        }
     }
 
-    async function senderImpressContract() {
-        if (filteredContracts[0].email === null || filteredContracts[0].email === undefined) {
-            alert("O campo de Email do cliente está em branco!")
-        }
-
-        if (filteredContracts?.length > 0) {
-
-            const obj = filteredContracts[0]
-            obj["dataEmissao"] = date.toLocaleDateString()
-            let desc = obj["descontoPorParcela"].split(',')
-
-            obj["valorParcelaDataCerta"] = parseFloat(obj["valorParcela"]) - parseFloat(`${desc[0]}.${desc[1]}`)
-            obj["descontoParcelaDataCorreta"] = obj["valorParcelaDataCerta"].toFixed(2)
-            obj["diaVencimento"] = obj["diaVenvimento"].split("/")[0]
-
-
-            let link
-
-            if (userData.role === 'gerencia') {
-                link = webhookGerenteImpresso
-            }
-
-            if (userData.role === 'comercial') {
-                if (userData.name.toLowerCase().includes("aracelly")) {
-                    link = webhookVendedora1Impresso
-                }
-                if (userData.name.toLowerCase().includes("sophia")) {
-                    link = webhookVendedora2Impresso
-                }
-            }
-            if (userData.role === 'direcao') {
-                link = webhookPrincipalImpresso
-            }
-            if (userData.role === 'administrativo') {
-                link = webhookAdministrativoImpresso
-            }
-
-            await axios.post(link, obj)
-                .then(res => {
-                    alert(res.data)
-                })
-
-            send && contaAzulSender()
-        } else {
-            alert("Não tem ninguém para emitir o contrato, você precisa escolher alguém!")
-        }
-    }
 
     async function contaAzulSender() {
         const data = {
             "name": `${filteredContracts[0].name}`
         }
         await axios.post("https://connection-with-conta-azul-rbv6l.ondigitalocean.app/cadastros", data)
+            // await axios.post("http://localhost:3333/cadastros", data)
             .then((res) => {
                 if (res.status === 201) {
                     alert(res.data.data)
                 }
             }).catch(() => alert("Erro ao enviar ao Conta Azul, confira os dados"))
+
+        setOpen(!open)
+
     }
 
+
+    async function createContract() {
+        // await axios.post('http://localhost:7070/criar-contratos', filteredContracts[0], { headers })
+
+        await URI.post(`/criar-contratos`, filteredContracts[0], { headers })
+            .then((res) => {
+                if (res) {
+                    send && contaAzulSender()
+                }
+            }
+            )
+            .catch(err => {
+                console.log(err)
+                if (err) {
+                    alert("Erro ao enviar contrato")
+                }
+            })
+
+        setOpen(!open)
+
+    }
 
 
     function handleFuncs() {
@@ -164,18 +119,24 @@ export default function SureSendModal(data) {
     }
 
     const handleSender = () => {
-        setOpen(!open)
-
 
         if (data.data === 'Conta Azul') {
             contaAzulSender()
         }
-        if (data.data === 'Google Drive') {
-            senderImpressContract()
-        }
         if (data.data === 'Autentique') {
-            senderContract()
+            createContract()
         }
+        if (data.data === 'PDF') {
+            setView('template')
+            setLoading(true)
+
+            setTimeout(() => {
+                senderImpressContract()
+            }, 1000);
+        }
+        // if (data.data === 'Autentique') {
+        //     senderContract()
+        // }
 
     }
 
@@ -197,22 +158,41 @@ export default function SureSendModal(data) {
             >
                 <Fades in={open}>
                     <Box sx={style}>
-                        <Typography id="transition-modal-title" variant="h6" component="h2">
-                            {data.text}
-                        </Typography>
+                        {
+                            loading === false ?
+                                <div>
 
-                        {data.data !== 'Conta Azul' &&
-                            <Boxes>
-                                <input type="checkbox" onClick={() => setSend(!send)} className='check' />
-                                <small>Não enviar este contrato ao Conta Azul</small>
-                            </Boxes>
+                                    <Typography id="transition-modal-title" variant="h6" component="h2">
+                                        {data.text}
+                                    </Typography>
+
+                                    {data.data !== 'Conta Azul' &&
+                                        <Boxes>
+                                            <input type="checkbox" onClick={() => setSend(!send)} className='check' />
+                                            <small>Não enviar este contrato ao Conta Azul</small>
+                                        </Boxes>
+                                    }
+                                    <Boxes radio>
+                                        <ButtonDelete onClick={() => handleSender()}>Emitir contrato</ButtonDelete>
+                                    </Boxes>
+                                </div>
+
+                                : <LoadingSpin
+                                    duration="10s"
+                                    width="15px"
+                                    timingFunction="ease-in-out"
+                                    direction="alternate"
+                                    size="60px"
+                                    primaryColor="#1976d2"
+                                    secondaryColor="#333"
+                                    numberOfRotationsInAnimation={3}
+                                    margin='0 auto'
+                                />
                         }
-                        <Boxes radio>
-                            <ButtonDelete onClick={() => handleSender()}>Emitir contrato</ButtonDelete>
-                        </Boxes>
                     </Box>
 
                 </Fades>
+
             </Modal>
         </div>
     );

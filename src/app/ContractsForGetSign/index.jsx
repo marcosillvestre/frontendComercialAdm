@@ -12,8 +12,9 @@ const Contracts = () => {
 
     const { contracts, headers, setContracts, userData, setFilteredContracts, logOut } = useUser()
 
+
     const personalText = {
-        googleDrive: "Ao emitir pelo Google drive você poderá encontra-lo apenas em sua pasta do drive para impressão, ele também será enviado ao Conta Azul!",
+        PDF: "Ao emitir via PDF o arquivo será baixado logo em seguida, ele também será enviado ao Conta Azul!",
         autentique: "Ao enviar um contrato via Autentique você pode encontra-lo no Google Drive, ele também será enviado ao Conta Azul!",
         contaAzul: "Ao enviar um contrato ao Conta Azul ele somente estará disponível no Conta Azul!"
     }
@@ -85,7 +86,7 @@ const Contracts = () => {
                     <Button open={emmit} onClick={() => setEmmit(!emmit)}>Emitir Contrato </Button>
                     <Box emmit={emmit} >
                         <SendContract> <SureSendModal data={"Autentique"} text={personalText.autentique} /></SendContract>
-                        <SendContract> <SureSendModal data={"Google Drive"} text={personalText.googleDrive} /></SendContract>
+                        <SendContract> <SureSendModal data={"PDF"} text={personalText.PDF} /></SendContract>
                         <SendContract> <SureSendModal data={"Conta Azul"} text={personalText.contaAzul} /></SendContract>
                     </Box>
                 </span>

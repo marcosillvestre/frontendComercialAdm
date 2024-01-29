@@ -170,6 +170,7 @@ padding: .5rem 1rem;
 
 
 `
+
 export const NavBar = styled.nav`
 width: 100%;
 display: flex;

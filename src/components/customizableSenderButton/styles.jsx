@@ -36,7 +36,7 @@ export const Container = styled.div`
         position: absolute;
         transform: ${props => props.$open ? "rotate(135deg)" : "rotate(135deg)"};
         left:${props => props.$open ? "15.73rem" : "16rem"};
-        top: ${props => props.$open ? "18.4rem" : "18.5rem"};
+        top: ${props => props.$open ? "20rem" : "20.28rem"};
 
     }
     &::before{
@@ -48,7 +48,7 @@ export const Container = styled.div`
         position: absolute;
         transform: ${props => props.$open ? "rotate(45deg)" : "rotate(225deg)"};
         left: ${props => props.$open ? "15.8rem" : "16rem"};
-        top: ${props => props.$open ? "18.4rem" : "18.1rem"};
+        top: ${props => props.$open ? "20rem" : "19.9rem"};
     }
 
 `

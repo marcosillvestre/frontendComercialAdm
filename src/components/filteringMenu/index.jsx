@@ -8,6 +8,7 @@ import DatePickers from '../datePicker';
 import { Label, RangeDate, Select } from './styles';
 
 import rules from '../../app/utils/Rules/options.jsx';
+
 export default function PositionedMenu(data) {
 
     const { comissionStatusOpt, coursesOpt, backgroundOpt } = rules
@@ -17,8 +18,8 @@ export default function PositionedMenu(data) {
 
     const {
         filtered, setFiltered, handleClose, mutationControlData,
-        sellers, setOpenPeriodRange, unity, mutation, setTake,
-        // allData
+        sellers, setOpenPeriodRange, unity, mutation,
+        allData
     } = useUser()
 
     const { typeFilter, setTypeFilter } = useData()
@@ -27,21 +28,20 @@ export default function PositionedMenu(data) {
         if (filtered.length < 1) {
             alert("Este período de tempo não há matrículas")
         }
-        setTake('all')
 
         if (filtered.length > 0) {
 
             let data = typeFilter.filter(res => res.key === type)
             let bool = data.length < 1 && typeFilter.length <= 2
 
+            const filter = type === 'owner' ? allData.filter(data => data[type].toLowerCase().includes(value.toLowerCase())) : allData.filter(data => data[type].toLowerCase() === value.toLowerCase())
+
             if (bool && type === 'owner') {
                 setTypeFilter([...typeFilter, { "key": type, "value": value }])
-                const filter = filtered.filter(data => data[type].toLowerCase().includes(value.toLowerCase()))
                 setFiltered(filter)
             }
             if (bool && type !== 'owner') {
                 setTypeFilter([...typeFilter, { "key": type, "value": value }])
-                const filter = filtered.filter(data => data[type].toLowerCase() === value.toLowerCase())
                 setFiltered(filter)
 
             }
@@ -50,60 +50,12 @@ export default function PositionedMenu(data) {
             }
             close()
 
-            // if (bool) {
-            //     if (type === 'owner') {
-            //         console.log(type)
-            //         console.log(value)
-
-            //         let dataFiltered = filtered.filter(res => res[type].toLowerCase().includes(value.toLowerCase()))
-            //         typeFilter.length === 0 ? console.log(dataFiltered) : dataValidation(value, type)
-            //         setTypeFilter([...typeFilter, { "key": type, "value": value }])
-            //         console.log('first')
-
-            //     }
-            //     if (type !== 'owner') {
-            //         setTypeFilter([...typeFilter, { "key": type, "value": value }])
-
-            //         let dataFiltered = filtered.filter(res => res[type].toLowerCase().includes(value.toLowerCase()))
-            //         typeFilter.length === 0 ? setFiltered(dataFiltered) : dataValidation(value, type)
-            //         console.log('first')
-
-            //     }
-            // }
-            // if (!bool) {
-            //     return alert("Erro ao aplicar o filtro dinâmico")
-
-            // }
 
 
         }
     }
 
-    // const dataValidation = (value, type) => {
-    //     console.log(value)
-    //     if (typeFilter.some(res => res.key === 'owner') === false) {
-    //         const filteredData = typeFilter.length === 1 && filtered.filter(res => {
-    //             return res[type] === value
-    //         })
-    //         console.log('first')
-    //         setFiltered(filteredData)
-    //     }
 
-    //     if (typeFilter.some(res => res.key === 'owner')) {
-    //         const filter = typeFilter.filter(res => res.key !== 'owner')
-    //         const ownerFiltered = filtered.filter(res => res['owner'].toLowerCase().includes(value.toLowerCase()))
-    //         console.log(filter)
-    //         console.log(typeFilter)
-
-    //         filter.length === 1 && console.log(filtered.filter(res => res[filter[0].key] === filter[0].value))
-
-
-    //         filter.length === 2 && console.log(filtered.filter(res => res[filter[0].key] === filter[0].value &&
-    //             res[filter[1].key] === filter[1].value))
-
-    //     }
-
-    // }
 
     const url = useLocation()
 
@@ -112,13 +64,14 @@ export default function PositionedMenu(data) {
 
         setTypeFilter([])
         url.pathname === '/controle-comercial' && await mutationControlData.mutate()
-        url.pathname === '/controle-comissional' && mutation.mutate()
+        url.pathname === '/controle-comissional' && await mutation.mutate()
 
         close()
         setOpenPeriodRange(false)
     }
 
     const open = Boolean(anchorEl);
+
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
