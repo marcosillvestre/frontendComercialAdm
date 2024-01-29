@@ -170,7 +170,7 @@ const ContracTableBodyata = () => {
 
 
                     :
-                    <div>
+                    <div >
                         <details >
                             <p className='parag'>Deseja emitir um contrato ? Selecione
                                 o Funil de vendas desejado na opção <q>Funil</q> e logo em seguida na
@@ -178,7 +178,7 @@ const ContracTableBodyata = () => {
                                 que já está na etapa de Matrícula!
                             </p>
                         </details>
-                        <img src={noContract} alt="Empty data representation" />
+                        <img style={{ margin: '5rem auto' }} src={noContract} alt="Empty data representation" />
                     </div>
             }
         </Container>
