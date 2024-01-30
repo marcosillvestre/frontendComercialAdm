@@ -27,6 +27,7 @@ const style = {
 
 import LoadingSpin from 'react-loading-spin';
 import generatePDF, { Margin, Resolution } from 'react-to-pdf';
+import URI from '../../app/utils/utils';
 import { useData } from '../../hooks/dataContext';
 export default function SureSendModal(data) {
 
@@ -96,9 +97,8 @@ export default function SureSendModal(data) {
 
 
     async function createContract() {
-        // await URI.post(`/criar-contratos`, filteredContracts[0], { headers })
 
-        await axios.post('http://localhost:7070/criar-contratos', filteredContracts[0], { headers })
+        await URI.post(`/criar-contratos`, filteredContracts[0], { headers })
             .then((res) => {
                 if (res) {
                     setOpen(!open)
