@@ -27,7 +27,6 @@ const style = {
 
 import LoadingSpin from 'react-loading-spin';
 import generatePDF, { Margin, Resolution } from 'react-to-pdf';
-import URI from '../../app/utils/utils';
 import { useData } from '../../hooks/dataContext';
 export default function SureSendModal(data) {
 
@@ -47,14 +46,12 @@ export default function SureSendModal(data) {
         const options = {
             filename: `adesão_${filteredContracts[0].name}`,
             method: 'save',
-            resolution: Resolution.HIGH,
+            resolution: Resolution.NORMAL,
+
             page: {
-
                 margin: Margin.MEDIUM,
-
                 format: 'A4',
-                // default is 'portrait'
-                orientation: 'portrait',
+                orientation: 'portrait'
             }
         };
 
@@ -95,14 +92,42 @@ export default function SureSendModal(data) {
 
     }
 
+    let idioma = "https://hook.us1.make.com/aubg255odycgwpc5355lgaa4n58637xa"
+    let particulares = "https://hook.us1.make.com/jqp2s2z42pw2civtmnjtste1ug4oelfo"
+    let standard = "https://hook.us1.make.com/2aratjfs2vvj7xueiiqpkkuv687bmib1"
+    let office = "https://hook.us1.make.com/52vy6g17uh62ti6ahyb1hjt1mj3m9oyv"
+    let excel = "https://hook.us1.make.com/0xknnw9e3pt1knf15qs94fi1czss7m3k"
+
+    const archives = {
+        "Kids": idioma,
+        "Teens": idioma,
+        "Adults and YA": idioma,
+        "Little Ones": idioma,
+        "Español - En grupo": idioma,
+        "Standard One": standard,
+        "Fluency Way One - X": particulares,
+        "Fluency Way Double - X": particulares,
+        "Fluency Way Triple - X": particulares,
+        "Español - X1": particulares,
+        "Español - X2": particulares,
+        "Español - X3": particulares,
+        "Pacote Office Essentials": office,
+        "Excel Avaçado": excel
+    }
+
+
 
     async function createContract() {
+        filteredContracts[0].vencimento = filteredContracts[0].diaVenvimento.split("/")[0]
+        filteredContracts[0].emissao = new Date().toLocaleDateString()
+        const rawPhone = filteredContracts[0].CelularResponsavel
 
-        await URI.post(`/criar-contratos`, filteredContracts[0], { headers })
+        filteredContracts[0].number = rawPhone.includes("+55") ? rawPhone : `+55${rawPhone}`
+        await axios.post(archives[filteredContracts[0].subclasse], filteredContracts[0], { headers })
+
             .then((res) => {
                 if (res) {
                     setOpen(!open)
-
                     send && contaAzulSender()
                 }
             }
@@ -110,11 +135,10 @@ export default function SureSendModal(data) {
             .catch(err => {
                 if (err) {
                     console.log(err);
-                    alert("Erro ao enviar contrato")
+                    alert(err.response.data.message)
                 }
             })
         setLoading(false)
-
 
     }
 
@@ -188,14 +212,14 @@ export default function SureSendModal(data) {
                                 </div>
 
                                 : <LoadingSpin
-                                    duration="10s"
+                                    duration="20s"
                                     width="15px"
                                     timingFunction="ease-in-out"
                                     direction="alternate"
                                     size="60px"
                                     primaryColor="#1976d2"
                                     secondaryColor="#333"
-                                    numberOfRotationsInAnimation={3}
+                                    numberOfRotationsInAnimation={10}
                                     margin='0 auto'
                                 />
                         }

@@ -139,12 +139,12 @@ const Office = ({ data }) => {
                             <h3>Tipo: {data.tipoModalidade}</h3>
                         </td>
                         <td>
-                            <h3>ClassNamee de curso: {data.classe}</h3>
+                            <h3>Classe de curso: {data.classe}</h3>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <h3>SubclassNamee de curso: {data.subclasse}</h3>
+                            <h3>Subclasse de curso: {data.subclasse}</h3>
                         </td>
                     </tr>
                 </table>
@@ -161,19 +161,18 @@ const Office = ({ data }) => {
                 <strong> SOBRE VALOR E DESCONTOS </strong>
                 <p>
                     O valor total da carga horária contratada é de
-                    R${data.valorParcela}, que será dividido e pago em
+                    R${data.valorCurso}, que será dividido e pago em
                     {data.numeroParcelas} parcelas cada qual com o vencimento
-                    para o dia {data.diaVenvimento} de cada mês, sendo o
-                    vencimento da primeira parcela na data
-                    {data.dataPrimeiraParcelaMensalidade} e, a última, no dia
-                    {data.dataUltimaParcelaMensalidade}.
+                    para o dia {data.diaVenvimento.split("/")[0]} de cada mês, sendo o
+                    vencimento da primeira parcela na data {data.dataPrimeiraParcelaMensalidade} e
+                    , a última, no dia {data.dataUltimaParcelaMensalidade}.
                 </p>
                 <p>
                     A CONTRATADA por iniciativa própria oferecerá ao
                     CONTRATANTE, descontos nas mensalidades totalizando o valor
                     de R${data.descontoTotal} . Observando que o valor de cada
-                    parcela será de R${data.descontoPorParcela}, cada parcela
-                    receberá o desconto de {data.descontoPorParcela} caso o
+                    parcela será de R${data.valorParcela}, cada parcela
+                    receberá o desconto de R${data.descontoPorParcela} caso o
                     pagamento seja realizado até a data de vencimento optado
                     pelo CONTRATANTE. Aos pagamentos efetuados após a data de
                     vencimento, o CONTRATANTE perderá o desconto por
@@ -211,7 +210,7 @@ const Office = ({ data }) => {
                     haja falta de quórum de alunos matriculados para o início do
                     curso na data prevista, fica a CONTRATADA autorizada a
                     prorrogar a data de início do cumprimento da carga horária
-                    contratada, independente do formato, modalidade ou classNamee,
+                    contratada, independente do formato, modalidade ou classe,
                     quantas vezes forem necessárias, por um prazo de até 2
                     (dois) meses, contado a partir da data de início prevista,
                     para o atingimento do referido quórum, ou para, então, não
@@ -226,7 +225,7 @@ const Office = ({ data }) => {
                     de aulas presenciais, online ou a distância, considerando a
                     natureza do conteúdo, característica, peculiaridade e demais
                     atividades que o ensino exigir, buscando inclusive,
-                    aperfeiçoar a relação de quantidade de alunos por classNamee.
+                    aperfeiçoar a relação de quantidade de alunos por classe.
                     4.2: Após a conclusão da carga horária e aprovação de cada
                     módulo, o CONTRATANTE poderá solicitar o envio online de seu
                     certificado de conclusão, sem custos adicionais. Caso o
@@ -278,7 +277,7 @@ const Office = ({ data }) => {
                     provas e avaliações, fixação de carga horária, designação e
                     contratação de professores, cooperativas e empresas
                     especializadas na prestação de serviços educacionais,
-                    organização de classNamees e agrupamento de alunos, orientação
+                    organização de classes e agrupamento de alunos, orientação
                     didática pedagógica, além de outras providências que os
                     serviços e atividades docentes do curso exigir, a seu
                     exclusivo critério, sem qualquer ingerência do CONTRATANTE.
@@ -602,6 +601,7 @@ export default Office
 
 Office.propTypes = {
     data: PropTypes.shape({
+        valorCurso: PropTypes.string,
         contrato: PropTypes.string,
         dataMatricula: PropTypes.string,
         formato: PropTypes.string,
@@ -625,8 +625,6 @@ Office.propTypes = {
         nomeAluno: PropTypes.string,
         nascimentoAluno: PropTypes.string,
         curso: PropTypes.string,
-        classNameNamee: PropTypes.string,
-        subclassNameNamee: PropTypes.string,
         cargaHoraria: PropTypes.string,
         paDATA: PropTypes.string,
         valorParcela: PropTypes.string,

@@ -163,9 +163,9 @@ const Excel = ({ data }) => {
                 <strong> SOBRE VALOR E DESCONTOS </strong>
                 <p>
                     O valor total da carga horária contratada é de
-                    R${data.valorParcela}, que será dividido e pago em
+                    R${data.valorCurso}, que será dividido e pago em
                     {data.numeroParcelas} parcelas cada qual com o vencimento
-                    para o dia {data.diaVenvimento} de cada mês, sendo o
+                    para o dia {data.diaVenvimento.split("/")[0]} de cada mês, sendo o
                     vencimento da primeira parcela na data
                     {data.dataPrimeiraParcelaMensalidade} e, a última, no dia
                     {data.dataUltimaParcelaMensalidade}.
@@ -174,7 +174,7 @@ const Excel = ({ data }) => {
                     A CONTRATADA por iniciativa própria oferecerá ao
                     CONTRATANTE, descontos nas mensalidades totalizando o valor
                     de R${data.descontoTotal} . Observando que o valor de cada
-                    parcela será de R${data.descontoPorParcela}, cada parcela
+                    parcela será de R${data.valorParcela}, cada parcela
                     receberá o desconto de {data.descontoPorParcela} caso o
                     pagamento seja realizado até a data de vencimento optado
                     pelo CONTRATANTE. Aos pagamentos efetuados após a data de
@@ -566,7 +566,31 @@ const Excel = ({ data }) => {
                     assinam, para que se produzam todos os efeitos legais.
                 </p>
             </div>
+            <div className="sign" id="sign">
+                <span className="sign-marker" id="sign-marker">
+                    CONTRATANTE/ RESPONSÁVEL LEGAL
+                </span>
+                <span className="sign-marker" id="sign-marker"> CONTRATADA </span>
+            </div>
 
+            <table>
+                <tr>
+                    <td className="field-sign">Testemunha 1:</td>
+                    <td className="field-sign">Testemunha 2:</td>
+                </tr>
+                <tr>
+                    <td className="field-sign">Nome:</td>
+                    <td className="field-sign">Nome:</td>
+                </tr>
+                <tr>
+                    <td className="field-sign">CPF:</td>
+                    <td className="field-sign">CPF:</td>
+                </tr>
+                <tr>
+                    <td className="field-sign">Assinatura:</td>
+                    <td className="field-sign">Assinatura:</td>
+                </tr>
+            </table>
         </Container>
 
     )
@@ -577,6 +601,7 @@ export default Excel
 
 Excel.propTypes = {
     data: PropTypes.shape({
+        valorCurso: PropTypes.string,
         contrato: PropTypes.string,
         dataMatricula: PropTypes.string,
         formato: PropTypes.string,
