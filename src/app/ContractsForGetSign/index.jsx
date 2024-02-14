@@ -62,32 +62,55 @@ const Contracts = () => {
             <MiniDrawer />
 
             <header className='search'>
-                <p>Funil:</p>
-                <select onChange={(e) => data(e.target.value)}>
-                    <option value=""></option>
-                    <option value="Funil-de-Vendas-PTB">Ptb</option>
-                    <option value="Funil-de-Rematrícula-PTB">Rematrícula PTB</option>
-                    <option value="Funil-de-Vendas-Centro"> Centro</option>
-                    <option value="Funil-de-Rematriculas-Centro">Rematrícula Centro</option>
-                </select>
+                <div className='inputs'>
+                    <p>Funil:</p>
+                    <select onChange={(e) => data(e.target.value)}>
+                        <option value=""></option>
+                        <option value="Funil-de-Vendas-PTB">Ptb</option>
+                        <option value="Funil-de-Rematrícula-PTB">Rematrícula PTB</option>
+                        <option value="Funil-de-Vendas-Centro"> Centro</option>
+                        <option value="Funil-de-Rematrículas-Centro">Rematrícula Centro</option>
+                    </select>
 
-                <p>Cliente: </p>
-                <input onChange={(e) => filterData(e.target.value)} list='person' />
-                <datalist id='person'>
-                    {
-                        contracts && contracts.map(res => (
-                            <option key={res.contrato} value={res.contrato}>{res.name}</option>
+                    <p>Cliente: </p>
+                    <input onChange={(e) => filterData(e.target.value)} list='person' />
+                    <datalist id='person'>
+                        {
+                            contracts && contracts.map(res => (
+                                <option key={res.contrato} value={res.contrato}>{res.name}</option>
 
-                        ))
-                    }
-                </datalist>
+                            ))
+                        }
+                    </datalist>
+                </div>
 
-                <span className='emmit'>
-                    <Button open={emmit} onClick={() => setEmmit(!emmit)}>Emitir Contrato </Button>
-                    <Box emmit={emmit} >
-                        <SendContract> <SureSendModal data={"Autentique"} text={personalText.autentique} /></SendContract>
-                        <SendContract> <SureSendModal data={"PDF"} text={personalText.PDF} /></SendContract>
-                        <SendContract> <SureSendModal data={"Conta Azul"} text={personalText.contaAzul} /></SendContract>
+                <div></div>
+                <div></div>
+
+                <span className='emmit' >
+                    <Button
+                        open={emmit}
+                        onClick={() => setEmmit(!emmit)}
+                    >
+                        Emitir Contrato
+                    </Button>
+
+                    <Box $emmit={emmit} >
+                        <SendContract $emmit={emmit}>
+                            <SureSendModal
+                                data={"Autentique"}
+                                text={personalText.autentique} />
+                        </SendContract>
+                        <SendContract $emmit={emmit}>
+                            <SureSendModal
+                                data={"PDF"}
+                                text={personalText.PDF} />
+                        </SendContract>
+                        <SendContract $emmit={emmit}>
+                            <SureSendModal
+                                data={"Conta Azul"}
+                                text={personalText.contaAzul} />
+                        </SendContract>
                     </Box>
                 </span>
             </header>

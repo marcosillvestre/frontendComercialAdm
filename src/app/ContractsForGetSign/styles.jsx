@@ -1,5 +1,6 @@
 
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
 export const Container = styled.div`
 display: flex;
 flex-direction: column;
@@ -7,22 +8,23 @@ justify-content: start;
 height: 100vh;
 max-width: 100vw;
 
-
 .search{
     translate: 0 -3rem;
     width: 100%;
-    padding: 3rem 0;
-    padding-left: 2rem;
-    display: grid;
-    justify-content: flex-start;
+    padding: 3rem 2rem;
     border-bottom: 1px solid #dededf;
+    display: flex;
+    justify-content: space-around;
+    p{
+        font-size: small;
+    }
+}
+.inputs{
+    display: grid;
     grid-template-areas:
     "p p"
     "select input"
     ;
-    p{
-        font-size: small;
-     }
 }
 select{
 grid-area: select;
@@ -38,7 +40,6 @@ option{
     text-transform: uppercase;
     font-weight: lighter;
     font-family: "Roboto","Helvetica","Arial",sans-serif;
-
 }
 }
 input{
@@ -50,76 +51,83 @@ width: 10rem;
 margin-top: .5rem; 
 }
 
+
 .emmit{
-position: absolute;
-bottom: 30%;
-right: 2%;
+
 text-align: center;
 font-weight: lighter;
+user-select:none;
 }
 `
 
 export const Button = styled.div`
-    border: none;
-    cursor: pointer;
-    color: #fff;
-    background-color: #3485f5;
-    padding: 1.1rem 2.5rem 1.1rem 1.1rem;
-    border-radius: 5px;
-    margin: 5px;
-    box-shadow: 4px 4px 0 #0069ff;
-    font-weight: bolder; 
+border: none;
+cursor: pointer;
+color: #fff;
+background-color: #3485f5;
+padding: 1.1rem 2.5rem 1.1rem 1.1rem;
+border-radius: 5px;
+margin: 5px;
+box-shadow: 4px 4px 0 #0069ff;
+font-weight: bolder; 
+z-index: 10;
     &:active{
         transform: translate(4px,4px);
         box-shadow: 0 0 0 #2d85ff;
     }
     transition: transform 0.1s, box-shadow 0.1s ;
-    &::after{
-        content: "";
-        transition: .5s ease;
-        width: ${props => props.open ? "1rem" : ".5rem"};
-        background-color: #fff;
-        animation: ease 1s;
-        height: 2px;
-        z-index: 10;
-        position: absolute;
-        transform: ${props => props.open ? "rotate(135deg)" : "rotate(45deg)"};
-        right:${props => props.open ? "8%" : "11%"};
-        bottom: ${props => props.open ? "50%" : "50%"};
-    }
-    &::before{
-        content: "";
-        transition: .5s ease;
-        width: ${props => props.open ? "1rem" : ".5rem"};
-        background-color: #fff ;
-        height: 2px;
-        z-index: 10;
-        position: absolute;
-        transform: ${props => props.open ? "rotate(45deg)" : "rotate(135deg)"};
-        right: 8%;
-        bottom: ${props => props.open ? "50%" : "50%"};
 
-    }
 
 `
 
 export const Box = styled.div`
-gap: .6rem;
-display: ${props => props.emmit ? "inline-block" : "none"};
+gap: 0.6rem;
+display: flex;
+align-items: center;
+justify-content: center;
+flex-direction: column;
+padding: .4rem;
+z-index: 1;
 position: absolute;
-right: 5.8%;
-
+width: 10.4%;
 `
 
+const up = keyframes`
+to {
+    translate:  0 -120%;
+    display: none;
+}
+`
+const down = keyframes`
+from {
+    translate:  0 -125%;
+    
+}
+to {
+    translate:  0;
+}
+`
+
+
 export const SendContract = styled.div`
-transform-origin: right;
+z-index: 0;
 background-color: #0069ff;
 color: #fff;
-padding: .4rem 1.1rem ;
+padding: .4rem 0 ;
+width: 100%;
 border-radius: 5px;
 border: none;
 cursor: pointer;
-margin:.2rem 0  ;
+margin: .2rem 0 ;
+transition: all.8s;
+:first-child{
+    animation: ${({ $emmit }) => ($emmit ? up : down)} .4s ease-in-out forwards ;
+}
+
+&:nth-child(n+2){
+    animation: ${({ $emmit }) => ($emmit ? up : down)} .5s ease-in-out forwards ;
+}
+
 &:hover{
 background-color: #2d85ff;
 }

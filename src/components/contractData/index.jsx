@@ -38,9 +38,22 @@ const ContracTableBodyata = () => {
             {
                 filteredContracts?.length > 0 &&
                 <NavBar>
-                    <p>Vizualização em</p>
-                    <ButtonLink onClick={() => setView('table')} open={view === 'table'}>Tabela</ButtonLink> ou
-                    <ButtonLink onClick={() => setView('template')} open={view === 'template'}>Template </ButtonLink>
+                    <p>Vizualização em:</p>
+                    <div className='buttons'>
+                        <ButtonLink
+                            onClick={() => setView('table')}
+                            open={view === 'table'}
+                        >
+                            Tabela
+                        </ButtonLink>
+                        ou
+                        <ButtonLink
+                            onClick={() => setView('template')}
+                            open={view === 'template'}
+                        >
+                            Template
+                        </ButtonLink>
+                    </div>
                 </NavBar>
             }
 

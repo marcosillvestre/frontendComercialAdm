@@ -29,10 +29,10 @@ div{
     flex-direction: column;
     /* gap: 4rem; */
     details{
-     border: 0.125em solid #1976d2; ;
-     padding: calc((4em - (1em * 1.5) - (0.125em * 2) - 0.375em) / 2) calc(1em * 1.5);
-     box-shadow: 0 0.375em 0 #1976d2;
-     border-radius: .5rem;
+        border: 0.125em solid #1976d2; ;
+        padding: calc((4em - (1em * 1.5) - (0.125em * 2) - 0.375em) / 2) calc(1em * 1.5);
+        box-shadow: 0 0.375em 0 #1976d2;
+        border-radius: .5rem;
     }
     img{
         height: 20rem;
@@ -48,23 +48,27 @@ div{
 
 
 export const NavBar = styled.nav`
-width: 100%;
-display: flex;
-justify-content: flex-end;
-padding-right:2rem ;
-align-items: center;
-gap: .5rem;
+text-align: center;
+.buttons{
+    display: flex;
+
+}
 `
 
 export const ButtonLink = styled.button`
-padding: .5rem 1.7rem;
+padding: .8rem 0;
+font-size: 1.1rem;
 border: none;
-background-color:${props => props.open ? "#bbbdc0" : "#dfe6f1"} ;
+background-color:${props => props.open ? "#3458f5" : "#bbbdc0"} ;
+color:${props => props.open ? "#fff" : "#222"} ;
+font-weight: bold;
 border-radius: .4rem;
 cursor: pointer;
 
 &:hover{
-background-color:#d4d9e4;
+color:#fff;
+background-color:${props => props.open ? "#6d7ccb" : "#3458f5"} ;
+
 
 }
 a{
