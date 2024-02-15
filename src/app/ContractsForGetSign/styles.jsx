@@ -89,7 +89,6 @@ flex-direction: column;
 padding: .4rem;
 z-index: 1;
 position: absolute;
-width: 14%;
 `
 
 const up = keyframes`
