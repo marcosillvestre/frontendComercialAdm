@@ -53,7 +53,6 @@ margin-top: .5rem;
 
 
 .emmit{
-
 text-align: center;
 font-weight: lighter;
 user-select:none;
@@ -75,13 +74,14 @@ z-index: 10;
         transform: translate(4px,4px);
         box-shadow: 0 0 0 #2d85ff;
     }
+    
     transition: transform 0.1s, box-shadow 0.1s ;
 
 
 `
 
 export const Box = styled.div`
-gap: 0.6rem;
+gap: 0.4rem;
 display: flex;
 align-items: center;
 justify-content: center;
@@ -89,7 +89,7 @@ flex-direction: column;
 padding: .4rem;
 z-index: 1;
 position: absolute;
-width: 10.4%;
+width: 14%;
 `
 
 const up = keyframes`
@@ -114,18 +114,19 @@ z-index: 0;
 background-color: #0069ff;
 color: #fff;
 padding: .4rem 0 ;
-width: 100%;
 border-radius: 5px;
 border: none;
 cursor: pointer;
-margin: .2rem 0 ;
 transition: all.8s;
+width: 10.4rem;
 :first-child{
     animation: ${({ $emmit }) => ($emmit ? up : down)} .4s ease-in-out forwards ;
 }
-
-&:nth-child(n+2){
+&:nth-child(2){
     animation: ${({ $emmit }) => ($emmit ? up : down)} .5s ease-in-out forwards ;
+}
+&:nth-child(3){
+    animation: ${({ $emmit }) => ($emmit ? up : down)} .6s ease-in-out forwards ;
 }
 
 &:hover{

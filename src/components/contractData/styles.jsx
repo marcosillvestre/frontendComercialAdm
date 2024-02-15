@@ -51,24 +51,21 @@ export const NavBar = styled.nav`
 text-align: center;
 .buttons{
     display: flex;
-
 }
 `
 
 export const ButtonLink = styled.button`
-padding: .8rem 0;
+padding: .5rem 0;
 font-size: 1.1rem;
 border: none;
 background-color:${props => props.open ? "#3458f5" : "#bbbdc0"} ;
 color:${props => props.open ? "#fff" : "#222"} ;
-font-weight: bold;
 border-radius: .4rem;
 cursor: pointer;
 
 &:hover{
 color:#fff;
-background-color:${props => props.open ? "#6d7ccb" : "#3458f5"} ;
-
+background-color:${props => props.open ? "#6d7ccb" : "#7387de"} ;
 
 }
 a{

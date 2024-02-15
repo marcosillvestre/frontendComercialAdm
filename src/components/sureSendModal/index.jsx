@@ -118,13 +118,16 @@ export default function SureSendModal(data) {
 
 
     async function createContract() {
+
         filteredContracts[0].vencimento = filteredContracts[0].diaVenvimento.split("/")[0]
         filteredContracts[0].emissao = new Date().toLocaleDateString()
         const rawPhone = filteredContracts[0].CelularResponsavel
 
         filteredContracts[0].number = rawPhone.includes("+55") ? rawPhone : `+55${rawPhone}`
-        await axios.post(archives[filteredContracts[0].subclasse], filteredContracts[0], { headers })
+        filteredContracts[0].number = filteredContracts[0].number.includes(" ") ? filteredContracts[0].number.replace(" ", "") : filteredContracts[0].number
+        filteredContracts[0].number = filteredContracts[0].number.includes("-") ? filteredContracts[0].number.replace("-", "") : filteredContracts[0].number
 
+        await axios.post(archives[filteredContracts[0].subclasse], filteredContracts[0], { headers })
             .then((res) => {
                 if (res) {
                     setOpen(!open)
