@@ -1,13 +1,11 @@
 import { Collapse, TableCell, TableRow } from '@mui/material'
 import React from 'react'
-import { toast } from 'react-toastify'
 import businnessRules from '../../../app/utils/Rules/options.jsx'
-import URI from '../../../app/utils/utils'
 import { useUser } from '../../../hooks/userContext'
 import { BodyTable, HeadTable, Input, Select, Td } from '../styles'
-const FourthDrop = (row) => {
+export const FourthDrop = (row) => {
     const { nonEspecificOpt } = businnessRules
-    const { userData, headers } = useUser()
+    const { userData, SenderDirector, Sender } = useUser()
 
     const [value, setValue] = React.useState('')
 
@@ -15,56 +13,13 @@ const FourthDrop = (row) => {
         setValue(e)
 
         if (userData.role !== 'direcao') {
-            area !== 'observacao' && Sender(area, e, id)
+            area !== 'observacao' && Sender(area, e, id, value)
         }
         if (userData.role === 'direcao') {
-            area !== 'observacao' && SenderDirector(area, e, id)
+            area !== 'observacao' && SenderDirector(area, e, id, value)
         }
     }
 
-
-    const day = new Date()
-    const currentDay = day.toLocaleDateString()
-
-
-    async function SenderDirector(area, e, id) {
-
-        const directorValidationBody = {
-            "area": area,
-            "value": area !== 'observacao' ? e : value,
-            "day": e !== "ok" ? "" : currentDay,
-        }
-        const directorBody = {
-            "area": area,
-            "value": area !== 'observacao' ? e : value,
-        }
-        await toast.promise(
-            URI.put(`/controle/${id}`,
-                area !== 'aprovacaoDirecao' ? directorBody : directorValidationBody
-                , { headers }),
-            {
-                pending: 'Conferindo os dados',
-                success: 'Atualizado com sucesso',
-                error: 'Alguma coisa deu errado'
-            }
-        )
-    }
-
-    async function Sender(area, e, id) {
-        await toast.promise(
-            URI.put(`/controle/${id}`,
-                {
-                    "area": area,
-                    "value": area !== 'observacao' ? e : value,
-                    "responsible": userData.name
-                }, { headers }),
-            {
-                pending: 'Conferindo os dados',
-                success: 'Atualizado com sucesso',
-                error: 'Alguma coisa deu errado'
-            }
-        )
-    }
 
 
     return (
@@ -323,5 +278,3 @@ const FourthDrop = (row) => {
 
     )
 }
-
-export default FourthDrop

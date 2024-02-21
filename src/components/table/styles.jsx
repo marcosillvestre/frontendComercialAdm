@@ -70,12 +70,13 @@ border-radius: 20%;
 }
 
 `
-export const Text = styled.textarea`
+export const Text = styled.input`
 min-width: 4rem;
-max-width: 15rem;
-max-height: 10rem;
+width: 75%;
+height: 2rem;
+text-overflow: ellipsis;
 padding: .3rem;
-box-shadow: -2px 3px 9px 0px rgba(0,0,0,0.66);
+/* box-shadow: -2px 3px 9px 0px rgba(0,0,0,0.66); */
 
 `
 
@@ -92,4 +93,32 @@ width: 7rem;
 border-radius: .6rem ;
 box-shadow: -2px 3px 4px 0px rgba(0,0,0,0.66);
 text-overflow: ellipsis;
+`
+
+
+export const ObservationField = styled.div`
+display: grid;
+gap: 3px;
+span{
+    display: flex;
+    align-items: center;
+}
+span:nth-child(2n){
+border-radius: 17px 0 17px 17px;
+translate: 5% 0;
+flex-direction: row-reverse;
+}
+div{
+    background-color: #2f31b1;
+    color: #fff;
+    padding: .2rem .5rem;
+    border-radius: 0 17px 17px 17px  ;
+    width: 70%;
+    font-weight: lighter;
+    font-size: 10px;
+    h5{
+        /* width: 40%; */
+    }
+}
+
 `

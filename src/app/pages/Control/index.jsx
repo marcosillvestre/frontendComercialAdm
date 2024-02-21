@@ -9,9 +9,9 @@ import TableRow from '@mui/material/TableRow';
 import { memo } from 'react';
 import { Container, Filters, InputTake, NavControl, NothingHere, NumberContainer, PageUpdate, Tabled, Tax } from './styles';
 
-import { Row } from '../../components/table';
+import { Row } from '../../../components/table';
 
-import { useUser } from '../../hooks/userContext';
+import { useUser } from '../../../hooks/userContext';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import FilterListIcon from '@mui/icons-material/FilterList';
@@ -19,18 +19,19 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useForm } from 'react-hook-form';
 import LoadingSpin from "react-loading-spin";
 import * as Yup from 'yup';
-import noData from '../../assets/noData.svg';
-import CustomizableButton from '../../components/customizableSenderButton';
-import ControlledAccordions from '../../components/filtering';
-import { default as SelectFilterBy } from '../../components/selectFilterby';
-import SelectPeriodCustom from '../../components/selectPeriodCustom';
-import MiniDrawer from '../../components/sideBar';
-import { useData } from '../../hooks/dataContext';
+import noData from '../../../assets/noData.svg';
+import CustomizableButton from '../../../components/customizableSenderButton';
+import ControlledAccordions from '../../../components/filtering';
+import { default as SelectFilterBy } from '../../../components/selectFilterby';
+import SelectPeriodCustom from '../../../components/selectPeriodCustom';
+import MiniDrawer from '../../../components/sideBar';
+import { useData } from '../../../hooks/dataContext';
 
 import { toast } from 'react-toastify';
-import URI from '../utils/utils';
+import URI from '../../utils/utils';
 import Pagination from './pagination';
-const ListFiltered = () => {
+
+export const ListFiltered = () => {
     const { headers, userData, filtered, setFiltered, resetFilter, setPeriodFilter, mutationControlData, setTake, take, skip, setSkip } = useUser()
     const { typeFilter, setTypeFilter, customizableArray, handleCustomizableData } = useData()
 
@@ -43,6 +44,8 @@ const ListFiltered = () => {
             resetFilter(filter)
         }
     }
+
+
 
 
     const schema = Yup.object({ name: Yup.string() })
@@ -247,10 +250,14 @@ const ListFiltered = () => {
 
                                 </NavControl>
                                 <TableContainer component={Paper} >
+
                                     <Table aria-label="collapsible table" >
                                         <TableHead >
                                             <TableRow >
-                                                <TableCell style={{ fontWeight: 'bold', fontSize: "small", }} align="center"></TableCell>
+                                                <TableCell
+                                                    style={{ fontWeight: 'bold', fontSize: "small", }}
+                                                    align="center"
+                                                ></TableCell>
 
 
                                                 <TableCell >
@@ -264,14 +271,29 @@ const ListFiltered = () => {
                                                 </TableCell>
 
 
-                                                <TableCell style={{ fontWeight: 'bold', fontSize: "small", }} align="center">Data</TableCell>
-                                                <TableCell style={{ fontWeight: 'bold', fontSize: "small", }} align="center">Aluno</TableCell>
-                                                <TableCell style={{ fontWeight: 'bold', fontSize: "small", }} align="center">Responsável</TableCell>
-                                                <TableCell style={{ fontWeight: 'bold', fontSize: "small", }} align="center">Curso</TableCell>
-                                                <TableCell style={{ fontWeight: 'bold', fontSize: "small", }} align="center">Unidade</TableCell>
-                                                <TableCell style={{ fontWeight: 'bold', fontSize: "small", }} align="center">Background</TableCell>
-                                                <TableCell style={{ fontWeight: 'bold', fontSize: "small", }} align="center">Status do Comissionamento</TableCell>
-                                                <TableCell align="right"></TableCell>
+                                                <TableCell
+                                                    style={{ fontWeight: 'bold', fontSize: "small", }}
+                                                    align="center">Data</TableCell>
+                                                <TableCell
+                                                    style={{ fontWeight: 'bold', fontSize: "small", }}
+                                                    align="center">Aluno</TableCell>
+                                                <TableCell
+                                                    style={{ fontWeight: 'bold', fontSize: "small", }}
+                                                    align="center">Responsável</TableCell>
+                                                <TableCell
+                                                    style={{ fontWeight: 'bold', fontSize: "small", }}
+                                                    align="center">Curso</TableCell>
+                                                <TableCell
+                                                    style={{ fontWeight: 'bold', fontSize: "small", }}
+                                                    align="center">Unidade</TableCell>
+                                                <TableCell
+                                                    style={{ fontWeight: 'bold', fontSize: "small", }}
+                                                    align="center">Background</TableCell>
+                                                <TableCell
+                                                    style={{ fontWeight: 'bold', fontSize: "small", }}
+                                                    align="center">Status do Comissionamento</TableCell>
+                                                <TableCell
+                                                    align="right"></TableCell>
                                             </TableRow>
                                         </TableHead>
 

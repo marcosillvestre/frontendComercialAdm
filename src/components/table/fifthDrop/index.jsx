@@ -1,7 +1,7 @@
 import { Collapse, TableCell, TableRow } from '@mui/material'
 import { BodyTable, HeadTable } from '../styles'
 
-const FifthDrop = (row) => {
+export const FifthDrop = (row) => {
     return (
         <TableCell style={{
             paddingBottom: 0,
@@ -44,5 +44,3 @@ const FifthDrop = (row) => {
         </TableCell>
     )
 }
-
-export default FifthDrop

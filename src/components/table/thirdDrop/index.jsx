@@ -1,7 +1,7 @@
 import { Collapse, TableCell, TableRow } from '@mui/material'
 import { BodyTable, HeadTable, Signs, Td } from '../styles'
 
-const ThirdDrop = (row) => {
+export const ThirdDrop = (row) => {
 
     const start = row.data.inicioContrato.split("/")
     const end = row.data.fimContrato.split("/")
@@ -112,5 +112,3 @@ const ThirdDrop = (row) => {
 
     )
 }
-
-export default ThirdDrop

@@ -19,7 +19,8 @@ import { styled, useTheme } from '@mui/material/styles';
 import * as React from 'react';
 import { useUser } from '../../hooks/userContext';
 import Header from '../header';
-import { Adduser, ComissionScreen, GetContracts, Home, Links } from './styles';
+import { Adduser, ComissionScreen, GetContracts, History, Home, Links } from './styles';
+
 
 const drawerWidth = 250;
 
@@ -138,11 +139,13 @@ export default function MiniDrawer() {
 
                 <List>
                     {[
-                        { name: 'Controle Comercial', url: '/controle-comercial', icon: <Home />, access: ['administrativo', 'direcao'] },
+                        { name: 'Controle Comercial', url: '/controle-comercial', icon: <Home />, access: ['administrativo', 'direcao', 'comercial', 'gerencia'] },
                         { name: 'Emitir Contratos', url: '/contratos-por-assinar', icon: <GetContracts />, access: ['administrativo', 'direcao', 'comercial', 'gerencia'] },
-                        { name: 'Novos Cadastros', url: '/novo-cadastro', icon: <PersonAddAlt1Icon />, access: ['administrativo', 'direcao', 'gerencia'] },
-                        { name: 'Painel dos Usuários', url: '/cadastro', icon: <Adduser />, access: ['direcao'] },
                         { name: 'Relatórios', url: '/controle-comissional', icon: <ComissionScreen />, access: ['administrativo', 'direcao', 'gerencia'] },
+
+                        { name: 'Painel dos Usuários', url: '/cadastro', icon: <Adduser />, access: ['direcao'] },
+                        { name: 'Novos Cadastros', url: '/novo-cadastro', icon: <PersonAddAlt1Icon />, access: ['direcao',] },
+                        { name: 'Histórico', url: '/historico', icon: <History />, access: ['direcao'] },
                     ]
                         .map((text) => (
                             text.access.some(res => res === userData.role) &&

@@ -1,8 +1,9 @@
 // import React from 'react'
 import { Splide, SplideSlide } from '@splidejs/react-splide';
 import '@splidejs/react-splide/css';
-import { useData } from '../../../hooks/dataContext';
-import { useUser } from '../../../hooks/userContext';
+import { useData } from '../../../../hooks/dataContext';
+import { useUser } from '../../../../hooks/userContext';
+
 import { Container, PagButton } from './styles';
 const Pagination = (data) => {
     const { take, skip, setSkip } = useUser()

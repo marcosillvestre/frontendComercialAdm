@@ -115,9 +115,7 @@ export default function CustomizableButton(data) {
                 able={data.able}
                 onClick={() => data.able ? handleManyAlteration() : ""}
             >
-
                 <p>{data.label}</p>
-
 
             </Container>
 

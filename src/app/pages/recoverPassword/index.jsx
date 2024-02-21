@@ -5,12 +5,12 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import * as Yup from 'yup';
-import aw from '../../assets/aw.png';
-import projects from '../../assets/und2.svg';
-import URI from '../utils/utils';
+import aw from '../../../assets/aw.png';
+import projects from '../../../assets/und2.svg';
+import URI from '../../utils/utils';
 import { Box, Container, ErrorMessage, Header, Input, Submit } from './styles';
 
-function RecoverPassword() {
+export function RecoverPassword() {
     const [recCode, setRecCode] = React.useState(false)
 
     const schema = Yup.object({
@@ -107,5 +107,3 @@ function RecoverPassword() {
         </>
     );
 }
-
-export default RecoverPassword

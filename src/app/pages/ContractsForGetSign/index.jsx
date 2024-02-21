@@ -1,13 +1,13 @@
 import React from 'react'
 
-import ContractData from '../../components/contractData'
-import MiniDrawer from '../../components/sideBar'
-import SureSendModal from '../../components/sureSendModal'
-import { useUser } from '../../hooks/userContext'
-import URI from '../utils/utils'
+import ContractData from '../../../components/contractData'
+import MiniDrawer from '../../../components/sideBar'
+import SureSendModal from '../../../components/sureSendModal'
+import { useUser } from '../../../hooks/userContext'
+import URI from '../../utils/utils'
 import { Box, Button, Container, SendContract } from './styles'
 
-const Contracts = () => {
+export const Contracts = () => {
     const [emmit, setEmmit] = React.useState(false)
 
     const { contracts, headers, setContracts, userData, setFilteredContracts, logOut } = useUser()
@@ -123,7 +123,6 @@ const Contracts = () => {
 
 }
 
-export default Contracts
 
 
 

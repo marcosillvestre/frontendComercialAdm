@@ -1,7 +1,7 @@
 import { Collapse, TableCell, TableRow } from '@mui/material'
 import { BodyTable, HeadTable, Td } from '../styles'
 
-const SixthDrop = (row) => {
+export const SixthDrop = (row) => {
     return (
         <TableCell style={{
             paddingBottom: 0,
@@ -83,5 +83,3 @@ const SixthDrop = (row) => {
         </TableCell>
     )
 }
-
-export default SixthDrop

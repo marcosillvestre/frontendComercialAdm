@@ -47,6 +47,8 @@ export const DataProvider = ({ children }) => {
 
     const [qntAlet, setQntAlt] = useState([])
 
+
+
     return (
         <idContext.Provider value={{
             setTypeFilter, typeFilter,

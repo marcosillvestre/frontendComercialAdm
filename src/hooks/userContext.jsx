@@ -7,6 +7,8 @@ import URI from "../app/utils/utils.jsx"
 import { useData } from "./dataContext.jsx"
 
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import axios from "axios"
+import { toast } from "react-toastify"
 
 
 const UserContext = createContext({})
@@ -234,6 +236,64 @@ export const UserProvider = ({ children }) => {
     const [periodFilter, setPeriodFilter] = useState(false)
 
 
+
+
+
+    async function SenderDirector(area, target, id, value) {
+        const day = new Date()
+        const currentDay = day.toLocaleDateString()
+
+        const directorValidationBody = {
+            "area": area,
+            "value": area !== 'observacao' ? target : value,
+            "day": target !== "Ok" ? "" : currentDay,
+            "responsible": { "name": userData.name, "role": userData.role }
+        }
+
+        await toast.promise(
+            // URI.put(`/controle/${id}`,
+            axios.put(`http://localhost:7070/controle/${id}`,
+                directorValidationBody
+                , { headers }),
+            {
+                success: 'Atualizado com sucesso',
+                pending: 'Conferindo os dados',
+                error: 'Alguma coisa deu errado'
+            }
+        )
+    }
+
+    async function Sender(area, e, id, value) {
+        await toast.promise(
+            URI.put(`/controle/${id}`,
+                {
+                    "area": area,
+                    "value": area !== 'observacao' ? e : value,
+                    "responsible": userData.name
+                }, { headers }),
+            {
+                pending: 'Conferindo os dados',
+                success: 'Atualizado com sucesso',
+                error: 'Alguma coisa deu errado'
+            }
+        )
+    }
+
+
+    const [historic, setHistoric] = useState()
+    const HistoricData = useMutation({
+        mutationFn: () => {
+            return axios.get('http://localhost:7070/historico', { headers }).then(res => res.data)
+            // URI.post('/periodo', body, { headers }).then(res => res.data)
+        },
+        onSuccess: (data) => {
+            setHistoric(data)
+        },
+        onError: (err) => console.log(err)
+    })
+
+
+
     return (
         <UserContext.Provider value={{
             contracts, setContracts, sellers, periodRange, setPeriodRange, periodFilter, setPeriodFilter,
@@ -243,7 +303,9 @@ export const UserProvider = ({ children }) => {
             selectedEndDate, setSelectedEndDate, resetFilter, unity, body, mutation,
             openPeriodRange, setOpenPeriodRange, unHandleLabel, setUnHandleLabel,
             mutationControlData, take, skip, setTake,
-            setSkip, allData
+            setSkip, allData,
+            SenderDirector, Sender,
+            HistoricData, historic
         }}>
 
             {children}

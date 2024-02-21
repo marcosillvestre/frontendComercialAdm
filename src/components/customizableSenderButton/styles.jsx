@@ -16,17 +16,17 @@ export const Container = styled.div`
     border: none;
     cursor: pointer;
     color: #fff;
-    background-color: ${props => props.able ? "#3485f5" : "#222"};
-    padding: 1.1rem 2.5rem .7rem 1.1rem;
+    background-color: ${props => props.able ? "#1976d2" : "#222"};
+    padding: .8rem ;
     border-radius: 5px;
     margin:  5px 0;
-    box-shadow: ${props => props.able ? "4px 4px 0 #0069ff" : " 4px 4px 0 #505050"};
-display: flex;
+    /* box-shadow: ${props => props.able ? "4px 4px 0 #0069ff" : " 4px 4px 0 #505050"}; */
+    display: flex;
 
-    &:active{
-        box-shadow: 0 0 0 #2d85ff;
-    }
     transition: transform 0.1s, box-shadow 0.1s ;
+    &:active{
+        opacity: .8;
+    }
 
 `
 
@@ -37,7 +37,7 @@ position: absolute;
 
 display: flex;
 gap: 1rem;
-margin: 0.3rem 0 0 12rem;
+margin: 0.3rem 0 0 10rem;
 
 padding: .4rem 2.5rem 1.1rem .6rem;
 
@@ -51,7 +51,7 @@ from {
 }
 
 to {
-    translate: -255% 0;
+    translate: -225% 0;
     visibility: hidden;
 }
 `;
@@ -62,7 +62,7 @@ from {
 
 to {
     transition: .2s ease-in-out;
-    translate: -89% 0;
+    translate: -75% 0;
     visibility: hidden;
 }
 `;
@@ -95,7 +95,7 @@ animation-delay: 1s;
 
 transform-origin: left;
 
-background-color: ${props => props.able ? "#3485f5" : "#222"};
+background-color: ${props => props.able ? "#1976d2" : "#222"};
 color: #fff;
 border-radius:0 10px 10px 10px ;
 
@@ -103,7 +103,6 @@ border: none;
 cursor: pointer;
 &:hover{
 background-color: #1f5fba;
-
     translate: 0 -10%;
 
 }

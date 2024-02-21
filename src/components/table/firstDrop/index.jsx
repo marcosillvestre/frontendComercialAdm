@@ -1,16 +1,14 @@
 import { Collapse, TableCell, TableRow } from '@mui/material'
 import React from 'react'
-import { toast } from 'react-toastify'
 import colorsRules from '../../../app/utils/Rules/colors.jsx'
 import businessRules from '../../../app/utils/Rules/options.jsx'
-import URI from '../../../app/utils/utils'
 import { useUser } from '../../../hooks/userContext'
 import { BodyTable, DataTable, HeadTable, Input, Select, Td } from '../styles'
 
-const FirstDrop = (row) => {
+export const FirstDrop = (row) => {
     const { comissionStatusOpt, nonEspecificOpt } = businessRules
     const { setColor } = colorsRules
-    const { userData, headers } = useUser()
+    const { userData, SenderDirector, Sender } = useUser()
 
     const [value, setValue] = React.useState('')
 
@@ -21,56 +19,14 @@ const FirstDrop = (row) => {
         area === "tipoMatricula" && setPayStatus(e)
 
         if (userData.role !== 'direcao') {
-            area !== 'observacao' && Sender(area, e, id)
+            area !== 'observacao' && Sender(area, e, id, value)
         }
         if (userData.role === 'direcao') {
-            area !== 'observacao' && SenderDirector(area, e, id)
+            area !== 'observacao' && SenderDirector(area, e, id, value)
         }
     }
 
-    const day = new Date()
-    const currentDay = day.toLocaleDateString()
 
-    async function SenderDirector(area, e, id) {
-
-        const directorValidationBody = {
-            "area": area,
-            "value": area !== 'observacao' ? e : value,
-            "day": e !== "Ok" ? "" : currentDay,
-        }
-        const directorBody = {
-            "area": area,
-            "value": area !== 'observacao' ? e : value,
-        }
-        await toast.promise(
-            URI.put(`/controle/${id}`,
-                area !== 'aprovacaoDirecao' ? directorBody : directorValidationBody
-                , { headers }),
-            {
-                pending: 'Conferindo os dados',
-                success: 'Atualizado com sucesso',
-                error: 'Alguma coisa deu errado'
-            }
-        )
-    }
-
-    async function Sender(area, e, id) {
-
-
-        await toast.promise(
-            URI.put(`/controle/${id}`,
-                {
-                    "area": area,
-                    "value": area !== 'observacao' ? e : value,
-                    "responsible": userData.name
-                }, { headers }),
-            {
-                pending: 'Conferindo os dados',
-                success: 'Atualizado com sucesso',
-                error: 'Alguma coisa deu errado'
-            }
-        )
-    }
 
     return (
         <TableCell style={{
@@ -352,5 +308,3 @@ const FirstDrop = (row) => {
 
     )
 }
-
-export default FirstDrop

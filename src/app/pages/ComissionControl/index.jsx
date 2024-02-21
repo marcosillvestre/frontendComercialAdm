@@ -3,17 +3,17 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { Area, Bar, BarChart, CartesianGrid, ComposedChart, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts';
-import PositionedMenu from '../../components/filteringMenu';
-import MiniDrawer from '../../components/sideBar';
-import { useUser } from '../../hooks/userContext';
-import URI from '../utils/utils';
+import PositionedMenu from '../../../components/filteringMenu';
+import MiniDrawer from '../../../components/sideBar';
+import { useUser } from '../../../hooks/userContext';
+import URI from '../../utils/utils';
 import { ButtonLink, ChartsContainer, Checked, Container, ContainerTable, Icon, ListOpt, NavBar, Options, SelectButton, Tax } from './styles';
 
 
-import rules from '../utils/Rules/options.jsx';
+import rules from '../../utils/Rules/options.jsx';
 import { Conversion, Sellers, Totals, Unity } from './listTypes';
 
-function ComissionControll() {
+export function ComissionControll() {
 
     const { comissionStatusOpt, coursesOpt } = rules
 
@@ -635,4 +635,3 @@ function ComissionControll() {
         )
     }
 }
-export default ComissionControll

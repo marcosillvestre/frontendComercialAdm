@@ -7,14 +7,14 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import * as Yup from 'yup';
-import aw from '../../assets/aw.png';
-import projects from '../../assets/und.svg';
-import { useUser } from '../../hooks/userContext';
-import URI from '../utils/utils';
+import aw from '../../../assets/aw.png';
+import projects from '../../../assets/und.svg';
+import { useUser } from '../../../hooks/userContext';
+import URI from '../../utils/utils';
 import { Box, Container, ErrorMessage, Header, Input, Submit } from './styles';
 
 
-function Login() {
+export const Login = () => {
     const [open, setOpen] = React.useState(true)
 
     const { putInfo } = useUser()
@@ -102,5 +102,3 @@ function Login() {
         </>
     );
 }
-
-export default Login

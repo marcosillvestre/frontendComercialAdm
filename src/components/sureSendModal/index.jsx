@@ -91,7 +91,6 @@ export default function SureSendModal(data) {
         setLoading(false)
 
     }
-
     let idioma = "https://hook.us1.make.com/aubg255odycgwpc5355lgaa4n58637xa"
     let particulares = "https://hook.us1.make.com/jqp2s2z42pw2civtmnjtste1ug4oelfo"
     let standard = "https://hook.us1.make.com/2aratjfs2vvj7xueiiqpkkuv687bmib1"
@@ -105,7 +104,7 @@ export default function SureSendModal(data) {
         "Little Ones": idioma,
         "Español - En grupo": idioma,
         "Standard One": standard,
-        "Fluency Way One - X": particulares,
+        "Fluency Way One -X": particulares,
         "Fluency Way Double - X": particulares,
         "Fluency Way Triple - X": particulares,
         "Español - X1": particulares,
@@ -114,7 +113,6 @@ export default function SureSendModal(data) {
         "Pacote Office Essentials": office,
         "Excel Avaçado": excel
     }
-
 
 
     async function createContract() {
@@ -137,8 +135,7 @@ export default function SureSendModal(data) {
             )
             .catch(err => {
                 if (err) {
-                    console.log(err);
-                    alert(err.response.data.message)
+                    console.log(err)
                 }
             })
         setLoading(false)

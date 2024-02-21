@@ -10,7 +10,7 @@ const data = {
 }
 
 
-const AddNewRegister = () => {
+export const AddNewRegister = () => {
     return (
         <>
             <div>AddNewRegister</div>
@@ -24,6 +24,4 @@ const AddNewRegister = () => {
             }
         </>
     )
-}
-
-export default AddNewRegister
+} 

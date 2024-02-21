@@ -7,21 +7,15 @@ import PropTypes from 'prop-types';
 import * as React from 'react';
 
 import { Collapse } from '@mui/material';
-import { toast } from 'react-toastify';
 import { RowTable, Select, Td } from './styles';
 
 
-import URI from '../../app/utils/utils';
 import { useData } from '../../hooks/dataContext';
 import { useUser } from '../../hooks/userContext';
 
+import { FifthDrop, FirstDrop, FourthDrop, SeccDrop, SixthDrop, ThirdDrop } from './source.jsx';
+
 import SureModal from '../sureModal';
-import FifthDrop from './fifthDrop';
-import FirstDrop from './firstDrop';
-import FourthDrop from './fourthDrop';
-import SeccDrop from './seccDrop';
-import SixthDrop from './sixthDrop';
-import ThirdDrop from './thirdDrop';
 
 import colorsRules from '../../app/utils/Rules/colors.jsx';
 import businessRules from '../../app/utils/Rules/options.jsx';
@@ -29,7 +23,7 @@ export function Row(props) {
     const { comissionStatusOpt, coursesOpt, backgroundOpt } = businessRules
     const { setColor, setClearColor } = colorsRules
 
-    const { headers, userData, unity } = useUser()
+    const { Sender, SenderDirector, userData, unity } = useUser()
     const { handleCustomizableData, customizableArray } = useData()
 
     const { row, index } = props;
@@ -51,52 +45,11 @@ export function Row(props) {
         area === "tipoMatricula" && setPayStatus(e)
 
         if (userData.role !== 'direcao') {
-            area !== 'observacao' && Sender(area, e, id)
+            area !== 'observacao' && Sender(area, e, id, value)
         }
         if (userData.role === 'direcao') {
-            area !== 'observacao' && SenderDirector(area, e, id)
+            area !== 'observacao' && SenderDirector(area, e, id, value)
         }
-    }
-
-    const day = new Date()
-    const currentDay = day.toLocaleDateString()
-
-    async function SenderDirector(area, e, id) {
-        const directorValidationBody = {
-            "area": area,
-            "value": area !== 'observacao' ? e : value,
-            "day": e !== "ok" ? "" : currentDay,
-        }
-        const directorBody = {
-            "area": area,
-            "value": area !== 'observacao' ? e : value,
-        }
-        await toast.promise(
-            URI.put(`/controle/${id}`,
-                area !== 'aprovacaoDirecao' ? directorBody : directorValidationBody
-                , { headers }),
-            {
-                pending: 'Conferindo os dados',
-                success: 'Atualizado com sucesso',
-                error: 'Alguma coisa deu errado'
-            }
-        )
-    }
-
-    async function Sender(area, e, id) {
-        await toast.promise(
-            URI.put(`/controle/${id}`,
-                {
-                    "area": area,
-                    "value": area !== 'observacao' ? e : value,
-                    "responsible": userData.name
-                }, { headers }),
-            {
-                pending: 'Conferindo os dados',
-                success: 'Atualizado com sucesso',
-                error: 'Alguma coisa deu errado'
-            }
-        )
     }
 
     return (

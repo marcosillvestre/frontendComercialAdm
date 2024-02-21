@@ -14,14 +14,15 @@ import { useForm } from 'react-hook-form';
 import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
-import MiniDrawer from '../../components/sideBar';
-import { Row } from '../../components/tableUsers';
-import { useUser } from '../../hooks/userContext';
-import URI from '../utils/utils';
+import MiniDrawer from '../../../components/sideBar';
+import { Row } from '../../../components/tableUsers';
+import { useUser } from '../../../hooks/userContext';
+import URI from '../../utils/utils';
+
 import { Anchor, Box, Container, ErrorMessage, Header, Input, MultiOption, RegisterContainer, Selected, Selects, Submit, Tax, UserContainer } from './styles';
 
 
-function Register() {
+export function Register() {
   const [unity, setUnity] = useState([])
   const { headers, users } = useUser()
 
@@ -221,5 +222,3 @@ function Register() {
   );
 }
 
-
-export default Register

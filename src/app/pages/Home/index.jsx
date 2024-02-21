@@ -1,9 +1,8 @@
 import { useLocation } from 'react-router-dom';
-import { Control } from "../Control";
-import Login from '../Login';
+import { Control, Login } from '../source.jsx';
 
 
-const Home = () => {
+export const Home = () => {
     const location = useLocation()
 
     return (
@@ -13,5 +12,3 @@ const Home = () => {
         </>
     )
 }
-
-export default Home

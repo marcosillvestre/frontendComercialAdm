@@ -1,10 +1,10 @@
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+import FactCheckIcon from '@mui/icons-material/FactCheck';
 import HomeIcon from '@mui/icons-material/Home';
 import PaidIcon from '@mui/icons-material/Paid';
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import { Link } from 'react-router-dom';
 import styled from "styled-components";
-
 export const Container = styled.div`
 `
 
@@ -30,4 +30,6 @@ cursor: pointer;
 `
 export const Home = styled(HomeIcon)`
 cursor: pointer;
+`
+export const History = styled(FactCheckIcon)`
 `
