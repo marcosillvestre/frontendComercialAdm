@@ -91,7 +91,10 @@ export const SeccDrop = (row) => {
                                                             <h5>{res.obs}</h5>
                                                             <p>por : {res.name}</p>
                                                         </div>
-                                                        <Trash onClick={() => deleteObservation(res.obs, row?.data.contrato)} />
+                                                        {
+                                                            res.name === userData.name &&
+                                                            <Trash onClick={() => deleteObservation(res.obs, row?.data.contrato)} />
+                                                        }
                                                     </span>
                                                 ))
                                             :
@@ -101,7 +104,10 @@ export const SeccDrop = (row) => {
                                                         <h5>{res.obs}</h5>
                                                         <p>por : {res.name} </p>
                                                     </div>
-                                                    <Trash onClick={() => deleteObservation(res.obs, row?.data.contrato)} />
+                                                    {
+                                                        res.name === userData.name &&
+                                                        <Trash onClick={() => deleteObservation(res.obs, row?.data.contrato)} />
+                                                    }
 
                                                 </span>
                                             ))
