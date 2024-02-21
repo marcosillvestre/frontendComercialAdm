@@ -7,7 +7,6 @@ import URI from "../app/utils/utils.jsx"
 import { useData } from "./dataContext.jsx"
 
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import axios from "axios"
 import { toast } from "react-toastify"
 
 
@@ -251,8 +250,8 @@ export const UserProvider = ({ children }) => {
         }
 
         await toast.promise(
-            // URI.put(`/controle/${id}`,
-            axios.put(`http://localhost:7070/controle/${id}`,
+            // axios.put(`http://localhost:7070/controle/${id}`,
+            URI.put(`/controle/${id}`,
                 directorValidationBody
                 , { headers }),
             {
@@ -283,8 +282,8 @@ export const UserProvider = ({ children }) => {
     const [historic, setHistoric] = useState()
     const HistoricData = useMutation({
         mutationFn: () => {
-            return axios.get('http://localhost:7070/historico', { headers }).then(res => res.data)
-            // URI.post('/periodo', body, { headers }).then(res => res.data)
+            return URI.post('/periodo', body, { headers }).then(res => res.data)
+            //  axios.get('http://localhost:7070/historico', { headers }).then(res => res.data)
         },
         onSuccess: (data) => {
             setHistoric(data)
