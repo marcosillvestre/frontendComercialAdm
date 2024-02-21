@@ -7,6 +7,7 @@ import URI from "../app/utils/utils.jsx"
 import { useData } from "./dataContext.jsx"
 
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import axios from "axios"
 import { toast } from "react-toastify"
 
 
@@ -250,8 +251,8 @@ export const UserProvider = ({ children }) => {
         }
 
         await toast.promise(
-            // axios.put(`http://localhost:7070/controle/${id}`,
-            URI.put(`/controle/${id}`,
+            axios.put(`http://localhost:7070/controle/${id}`,
+                // URI.put(`/controle/${id}`,
                 directorValidationBody
                 , { headers }),
             {

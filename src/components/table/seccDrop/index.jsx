@@ -12,7 +12,7 @@ export const SeccDrop = (row) => {
     const [observation, setObservation] = useState([])
 
     const Changer = async (area, e, id) => {
-        area !== 'observacao' ? setValue(e) : setValue({ "name": userData.name, "obs": e })
+        area !== 'observacao' ? setValue(e) : setValue({ "name": userData.name, "obs": e, "when": new Date().toLocaleString() })
 
         if (userData.role !== 'direcao') {
             area !== 'observacao' && Sender(area, e, id, value)
@@ -45,6 +45,7 @@ export const SeccDrop = (row) => {
             Sender("observacao", res, contrato, { "delete": true, "deleted": res }) :
             SenderDirector("observacao", res, contrato, { "delete": true, "deleted": res })
     }
+    console.log(row.data.observacao)
 
     return (
         <TableCell style={{
@@ -95,12 +96,15 @@ export const SeccDrop = (row) => {
                                                             res.name === userData.name &&
                                                             <Trash onClick={() => deleteObservation(res.obs, row?.data.contrato)} />
                                                         }
+
+                                                        {res.when && <small>{res.when}</small>}
                                                     </span>
+
                                                 ))
                                             :
                                             observation?.map(res => (
                                                 <span key={res.obs}>
-                                                    <div >
+                                                    <div>
                                                         <h5>{res.obs}</h5>
                                                         <p>por : {res.name} </p>
                                                     </div>
@@ -108,7 +112,7 @@ export const SeccDrop = (row) => {
                                                         res.name === userData.name &&
                                                         <Trash onClick={() => deleteObservation(res.obs, row?.data.contrato)} />
                                                     }
-
+                                                    {res.when && <small>{res.when}</small>}
                                                 </span>
                                             ))
                                     }

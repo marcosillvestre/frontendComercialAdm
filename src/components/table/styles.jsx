@@ -99,6 +99,10 @@ text-overflow: ellipsis;
 export const ObservationField = styled.div`
 display: grid;
 gap: 3px;
+small{
+    font-size: 8px;
+    
+}
 span{
     display: flex;
     align-items: center;
