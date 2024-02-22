@@ -27,6 +27,7 @@ const style = {
 
 import LoadingSpin from 'react-loading-spin';
 import generatePDF, { Margin, Resolution } from 'react-to-pdf';
+import URI from '../../app/utils/utils';
 import { useData } from '../../hooks/dataContext';
 export default function SureSendModal(data) {
 
@@ -78,19 +79,20 @@ export default function SureSendModal(data) {
         const data = {
             "name": `${filteredContracts[0].name}`
         }
-        await axios.post("https://connection-with-conta-azul-rbv6l.ondigitalocean.app/cadastros", data)
-            // await axios.post("http://localhost:3333/cadastros", data)
+        // await axios.post("https://connection-with-conta-azul-rbv6l.ondigitalocean.app/cadastros", data)
+        // await axios.post("http://localhost:7070/cadastros", data, { headers })
+        await URI.post("/cadastros", data, { headers })
             .then((res) => {
                 if (res.status === 201) {
-
                     setOpen(!open)
                     alert(res.data.data)
                 }
-            }).catch(() => alert("Erro ao enviar ao Conta Azul, confira os dados"))
-
+            }).catch(() => {
+                alert("Erro ao enviar ao Conta Azul, confira os dados")
+            })
         setLoading(false)
-
     }
+
     let idioma = "https://hook.us1.make.com/aubg255odycgwpc5355lgaa4n58637xa"
     let particulares = "https://hook.us1.make.com/jqp2s2z42pw2civtmnjtste1ug4oelfo"
     let standard = "https://hook.us1.make.com/2aratjfs2vvj7xueiiqpkkuv687bmib1"
@@ -125,7 +127,8 @@ export default function SureSendModal(data) {
         filteredContracts[0].number = filteredContracts[0].number.includes(" ") ? filteredContracts[0].number.replace(" ", "") : filteredContracts[0].number
         filteredContracts[0].number = filteredContracts[0].number.includes("-") ? filteredContracts[0].number.replace("-", "") : filteredContracts[0].number
 
-        await axios.post(archives[filteredContracts[0].subclasse], filteredContracts[0], { headers })
+        await axios.post(archives[filteredContracts[0].subclasse],
+            filteredContracts[0], { headers })
             .then((res) => {
                 if (res) {
                     setOpen(!open)
@@ -167,10 +170,6 @@ export default function SureSendModal(data) {
             }, 1000);
         }
         setLoading(true)
-
-        // if (data.data === 'Autentique') {
-        //     senderContract()
-        // }
 
     }
 

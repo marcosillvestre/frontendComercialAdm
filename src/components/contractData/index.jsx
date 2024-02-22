@@ -181,7 +181,6 @@ const ContracTableBodyata = () => {
                         </div>
                 ))
 
-
                     :
                     <div >
                         <details >
