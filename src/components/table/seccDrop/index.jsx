@@ -9,7 +9,7 @@ export const SeccDrop = (row) => {
     const { userData, SenderDirector, Sender } = useUser()
 
     const [value, setValue] = useState('')
-    const [observation, setObservation] = useState([])
+    const [observation, setObservation] = useState(row.data.observacao)
 
     const Changer = async (area, e, id) => {
         area !== 'observacao' ? setValue(e) : setValue({ "name": userData.name, "obs": e, "when": new Date().toLocaleString() })
@@ -24,7 +24,7 @@ export const SeccDrop = (row) => {
 
 
     const handler = (field, values, contrato, valueSetted) => {
-        let data = row.data.observacao.filter(res => res.obs !== "")
+        let data = observation.filter(res => res.obs !== "")
         setObservation(data.concat(value))
 
         userData.role !== 'direcao' ?
@@ -33,19 +33,13 @@ export const SeccDrop = (row) => {
     }
 
     const deleteObservation = async (res, contrato) => {
-
-        let data;
-        if (observation.length === 0) data = observation.length === 0 && row.data.observacao.filter(data => data.obs !== res && data.obs !== "")
-        if (observation.length === 1) data = []
-        if (observation.length > 1) data = observation.filter(data => data.obs !== res && data.obs !== "")
-
+        let data = observation.filter(data => data.obs !== res && data.obs !== "")
         setObservation(data)
 
         userData.role !== 'direcao' ?
             Sender("observacao", res, contrato, { "delete": true, "deleted": res }) :
             SenderDirector("observacao", res, contrato, { "delete": true, "deleted": res })
     }
-    console.log(row.data.observacao)
 
     return (
         <TableCell style={{
@@ -83,38 +77,24 @@ export const SeccDrop = (row) => {
                                 <ObservationField >
                                     {
                                         observation.length === 0 ?
-
-                                            row?.data.observacao[0].obs === "" ?
-                                                <div>Nenhuma observação ainda</div> :
-                                                row?.data.observacao.map(res => (
-                                                    <span key={res.obs}>
-                                                        <div >
-                                                            <h5>{res.obs}</h5>
-                                                            <p>por : {res.name}</p>
-                                                        </div>
-                                                        {
-                                                            res.name === userData.name &&
-                                                            <Trash onClick={() => deleteObservation(res.obs, row?.data.contrato)} />
-                                                        }
-
-                                                        {res.when && <small>{res.when}</small>}
-                                                    </span>
-
-                                                ))
-                                            :
+                                            <div>Nenhuma observação ainda</div> :
                                             observation?.map(res => (
                                                 <span key={res.obs}>
-                                                    <div>
+                                                    <div className="item">
                                                         <h5>{res.obs}</h5>
                                                         <p>por : {res.name} </p>
                                                     </div>
                                                     {
                                                         res.name === userData.name &&
-                                                        <Trash onClick={() => deleteObservation(res.obs, row?.data.contrato)} />
+                                                        <Trash onClick={() =>
+                                                            deleteObservation(
+                                                                res.obs, row?.data.contrato
+                                                            )} />
                                                     }
                                                     {res.when && <small>{res.when}</small>}
                                                 </span>
                                             ))
+
                                     }
 
                                 </ObservationField>
@@ -131,11 +111,15 @@ export const SeccDrop = (row) => {
                             <Text cols='3'
                                 placeholder={"Escreva um comentário "}
                                 onChange={(e) =>
-                                    Changer("observacao", e.target.value, row?.data.contrato)}>
+                                    Changer("observacao", e.target.value,
+                                        row?.data.contrato)
+                                }
+                            >
                             </Text>
                             <Button
                                 onClick={
-                                    () => handler("observacao", value, row?.data.contrato, value)
+                                    () => handler("observacao", value,
+                                        row?.data.contrato, value)
                                 }
                             >
                                 ✔️</Button>

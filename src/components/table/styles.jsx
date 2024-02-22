@@ -101,18 +101,20 @@ display: grid;
 gap: 3px;
 small{
     font-size: 8px;
-    
+    line-height: 10px;
 }
 span{
     display: flex;
     align-items: center;
 }
 span:nth-child(2n){
-border-radius: 17px 0 17px 17px;
-translate: 5% 0;
-flex-direction: row-reverse;
+    flex-direction: row-reverse;
+    div{
+        border-radius: 17px 0 17px 17px;
+        translate: 5% 0;
+    }
 }
-div{
+.item{
     background-color: #2f31b1;
     color: #fff;
     padding: .2rem .5rem;
