@@ -4,7 +4,6 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { Area, Bar, BarChart, CartesianGrid, ComposedChart, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts';
 import PositionedMenu from '../../../components/filteringMenu';
-import MiniDrawer from '../../../components/sideBar';
 import { useUser } from '../../../hooks/userContext';
 import URI from '../../utils/utils';
 import { ButtonLink, ChartsContainer, Checked, Container, ContainerTable, Icon, ListOpt, NavBar, Options, SelectButton, Tax } from './styles';
@@ -120,7 +119,6 @@ export function ComissionControll() {
     if (url.pathname === '/controle-comissional') {
         return (
             <>
-                <MiniDrawer />
 
                 <Container>
 
@@ -456,7 +454,6 @@ export function ComissionControll() {
     if (url.pathname === '/controle-comissional/grafico') {
         return (
             <>
-                <MiniDrawer />
                 <Container>
 
 

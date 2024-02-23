@@ -1,7 +1,6 @@
 import React from 'react'
 
 import ContractData from '../../../components/contractData'
-import MiniDrawer from '../../../components/sideBar'
 import SureSendModal from '../../../components/sureSendModal'
 import { useUser } from '../../../hooks/userContext'
 import URI from '../../utils/utils'
@@ -59,7 +58,6 @@ export const Contracts = () => {
     return (
 
         <Container>
-            <MiniDrawer />
 
             <header className='search'>
                 <div className='inputs'>

@@ -33,6 +33,8 @@ export const UserProvider = ({ children }) => {
 
     const { typeFilter } = useData()
 
+
+
     const handleClose = () => setAnchorEl(null);
 
     useEffect(() => {
@@ -279,18 +281,6 @@ export const UserProvider = ({ children }) => {
     }
 
 
-    const [historic, setHistoric] = useState()
-    const HistoricData = useMutation({
-        mutationFn: () => {
-            return URI.post('/historico', body, { headers }).then(res => res.data)
-            //  axios.get('http://localhost:7070/historico', { headers }).then(res => res.data)
-        },
-        onSuccess: (data) => {
-            setHistoric(data)
-        },
-        onError: (err) => console.log(err)
-    })
-
 
 
     return (
@@ -303,8 +293,7 @@ export const UserProvider = ({ children }) => {
             openPeriodRange, setOpenPeriodRange, unHandleLabel, setUnHandleLabel,
             mutationControlData, take, skip, setTake,
             setSkip, allData,
-            SenderDirector, Sender,
-            HistoricData, historic
+            SenderDirector, Sender
         }}>
 
             {children}

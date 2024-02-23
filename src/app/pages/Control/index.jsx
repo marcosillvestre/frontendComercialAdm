@@ -24,7 +24,6 @@ import CustomizableButton from '../../../components/customizableSenderButton';
 import ControlledAccordions from '../../../components/filtering';
 import { default as SelectFilterBy } from '../../../components/selectFilterby';
 import SelectPeriodCustom from '../../../components/selectPeriodCustom';
-import MiniDrawer from '../../../components/sideBar';
 import { useData } from '../../../hooks/dataContext';
 
 import { toast } from 'react-toastify';
@@ -120,7 +119,6 @@ export const ListFiltered = () => {
     return (
         <>
             <Container>
-                <MiniDrawer />
                 <span className='nav-filter' >
 
                     <SelectFilterBy opt={customizablePeriods} />

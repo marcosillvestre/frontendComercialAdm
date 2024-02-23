@@ -1,15 +1,5 @@
 
 import { createBrowserRouter } from "react-router-dom";
-// import AddNewRegister from '../app/pages/AddRegister';
-// import ComissionControll from '../app/pages/ComissionControl';
-// import Contracts from "../app/pages/ContractsForGetSign";
-// import { Control } from "../app/pages/Control";
-// import Home from "../app/pages/Home";
-// import Login from "../app/pages/Login";
-// import Register from "../app/pages/Register";
-// import Historic from "../app/pages/pages/Historic";
-// import RecoverPassword from "../app/pages/recoverPassword";
-
 
 import {
     AddNewRegister, ComissionControll, Contracts, Control,
@@ -18,10 +8,13 @@ import {
     RecoverPassword,
     Register
 } from '../app/pages/source.jsx';
+import MiniDrawer from '../components/sideBar';
+
+
 
 const user = localStorage.getItem('userData')
 const comissionalAcess = JSON.parse(user)?.role === 'direcao' || JSON.parse(user)?.role === 'administrativo' ? true : false
-const commandAccess = JSON.parse(user)?.role === 'direcao' || JSON.parse(user)?.role === 'administrativo' || JSON.parse(user)?.role === 'gerencia' ? true : false
+// const commandAccess = JSON.parse(user)?.role === 'direcao' || JSON.parse(user)?.role === 'administrativo' || JSON.parse(user)?.role === 'gerencia' ? true : false
 const directory = JSON.parse(user)?.role === 'direcao' ? true : false
 
 
@@ -34,39 +27,40 @@ const Routes = createBrowserRouter([
     {
         path: "/redefinir-senha",
         element: <RecoverPassword />,
+
     },
     {
         path: "/contratos-por-assinar",
-        element: user === null || user === undefined ? <Login /> : <Contracts />,
+        element: user === null || user === undefined ? <Login /> : <><MiniDrawer /><Contracts /> </>
     },
     {
         path: "/controle-comissional",
-        element: comissionalAcess ? <ComissionControll /> : <Control />,
+        element: comissionalAcess ? <><MiniDrawer /><ComissionControll /></> : <><MiniDrawer /><Control /></>,
     },
     {
         path: "/controle-comissional/grafico",
-        element: comissionalAcess ? <ComissionControll /> : <Control />,
+        element: comissionalAcess ? <><MiniDrawer /><ComissionControll /></> : <><MiniDrawer /><Control /></>
     },
     {
         path: "/cadastro",
-        element: directory ? <Register /> : <Login />,
+        element: directory ? <><MiniDrawer /><Register /> </> : <Login />,
     },
 
     {
         path: "/cadastro/lista",
-        element: directory ? <Register /> : <Login />,
+        element: directory ? <><MiniDrawer /><Register /></> : <Login />,
     },
     {
         path: "/novo-cadastro",
-        element: directory ? <AddNewRegister /> : <Login />,
+        element: directory ? <><MiniDrawer /><AddNewRegister /></> : <Login />,
     },
     {
         path: "/controle-comercial",
-        element: user === null || user === undefined ? <Login /> : <Control />,
+        element: user === null || user === undefined ? <Login /> : <><MiniDrawer /><Control /></>
     },
     {
         path: "/historico",
-        element: commandAccess === null || commandAccess === undefined ? <Login /> : <Historic />,
+        element: directory === null || directory === undefined ? <><MiniDrawer /><Control /></> : <><MiniDrawer /><Historic /></>
     },
 ]);
 

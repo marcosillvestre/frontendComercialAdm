@@ -1,8 +1,18 @@
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+import NotificationImportantIcon from '@mui/icons-material/NotificationImportant';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 import PaidIcon from '@mui/icons-material/Paid';
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import { Link } from 'react-router-dom';
 import styled from "styled-components";
+
+
+export const NoNotifications = styled(NotificationsIcon)`
+
+`
+export const WithNotifications = styled(NotificationImportantIcon)`
+
+`
 
 
 export const Container = styled.div`
@@ -26,6 +36,13 @@ display: flex;
 visibility: ${props => props.open ? "hidden" : "visible"};
 gap: .4rem;
 align-items: center;
+a[href='/historico']{
+    margin: auto 1rem;
+    &:visited{
+    color: #fff;
+
+    }
+}
 }
 `
 export const Nav = styled.nav`

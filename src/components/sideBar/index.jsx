@@ -19,7 +19,7 @@ import { styled, useTheme } from '@mui/material/styles';
 import * as React from 'react';
 import { useUser } from '../../hooks/userContext';
 import Header from '../header';
-import { Adduser, ComissionScreen, GetContracts, History, Home, Links } from './styles';
+import { Adduser, CLoseTab, ComissionScreen, GetContracts, History, Home, Links } from './styles';
 
 
 const drawerWidth = 250;
@@ -106,88 +106,92 @@ export default function MiniDrawer() {
     };
 
     return (
-        <Box sx={{ display: 'flex' }}>
-            <CssBaseline />
-            <AppBar position="fixed" open={open} sx={{ backgroundColor: '#2E2F8E' }}>
-                <Toolbar>
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        onClick={handleDrawerOpen}
-                        edge="start"
-                        sx={{
-                            marginRight: 5,
-                            ...(open && { display: 'none' }),
-                        }}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant="h6" noWrap component="div">
+        <>
+            <CLoseTab open={open} />
+            <Box sx={{ display: 'flex' }}>
+                <CssBaseline />
+                <AppBar position="fixed" open={open} sx={{ backgroundColor: '#2E2F8E' }}>
+                    <Toolbar>
+                        <IconButton
+                            color="inherit"
+                            aria-label="open drawer"
+                            onClick={handleDrawerOpen}
+                            edge="start"
+                            sx={{
+                                marginRight: 5,
+                                ...(open && { display: 'none' }),
+                            }}
+                        >
+                            <MenuIcon />
+                        </IconButton>
+                        <Typography variant="h6" noWrap component="div">
 
-                        <Header data={userData} open={open} />
+                            <Header data={userData} open={open} />
 
-                    </Typography>
-                </Toolbar>
-            </AppBar>
-            <Drawer variant="permanent" open={open}>
-                <DrawerHeader >
-                    <IconButton onClick={handleDrawerClose} style={{ marginTop: "1rem" }} >
-                        {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-                    </IconButton>
-                </DrawerHeader>
-                <Divider style={{ marginTop: "1rem" }} />
+                        </Typography>
+                    </Toolbar>
+                </AppBar>
+                <Drawer variant="permanent" open={open}>
+                    <DrawerHeader >
+                        <IconButton onClick={handleDrawerClose} style={{ marginTop: "1rem" }} >
+                            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                        </IconButton>
+                    </DrawerHeader>
+                    <Divider style={{ marginTop: "1rem" }} />
 
-                <List>
-                    {[
-                        { name: 'Controle Comercial', url: '/controle-comercial', icon: <Home />, access: ['administrativo', 'direcao', 'comercial', 'gerencia'] },
-                        { name: 'Emitir Contratos', url: '/contratos-por-assinar', icon: <GetContracts />, access: ['administrativo', 'direcao', 'comercial', 'gerencia'] },
-                        { name: 'Relatórios', url: '/controle-comissional', icon: <ComissionScreen />, access: ['administrativo', 'direcao', 'gerencia'] },
+                    <List>
+                        {[
+                            { name: 'Controle Comercial', url: '/controle-comercial', icon: <Home />, access: ['administrativo', 'direcao', 'comercial', 'gerencia'] },
+                            { name: 'Emitir Contratos', url: '/contratos-por-assinar', icon: <GetContracts />, access: ['administrativo', 'direcao', 'comercial', 'gerencia'] },
+                            { name: 'Relatórios', url: '/controle-comissional', icon: <ComissionScreen />, access: ['administrativo', 'direcao', 'gerencia'] },
 
-                        { name: 'Painel dos Usuários', url: '/cadastro', icon: <Adduser />, access: ['direcao'] },
-                        { name: 'Novos Cadastros', url: '/novo-cadastro', icon: <PersonAddAlt1Icon />, access: ['direcao',] },
-                        { name: 'Histórico', url: '/historico', icon: <History />, access: ['direcao'] },
-                    ]
-                        .map((text) => (
-                            text.access.some(res => res === userData.role) &&
+                            { name: 'Painel dos Usuários', url: '/cadastro', icon: <Adduser />, access: ['direcao'] },
+                            { name: 'Novos Cadastros', url: '/novo-cadastro', icon: <PersonAddAlt1Icon />, access: ['direcao',] },
+                            { name: 'Histórico', url: '/historico', icon: <History />, access: ['direcao'] },
+                        ]
+                            .map((text) => (
+                                text.access.some(res => res === userData.role) &&
 
-                            <ListItem key={text.name} disablePadding sx={{ display: 'block' }}>
-                                <ListItemButton
-                                    sx={{
-                                        minHeight: 70,
-                                        justifyContent: open ? 'initial' : 'right',
-                                        px: 2.5,
-                                    }}
-                                >
-                                    <ListItemIcon
+                                <ListItem key={text.name} disablePadding sx={{ display: 'block' }}>
+                                    <ListItemButton
                                         sx={{
-                                            minWidth: 0,
-                                            mr: open ? 1 : 'auto',
-                                            justifyContent: 'center',
+                                            minHeight: 70,
+                                            justifyContent: open ? 'initial' : 'right',
+                                            px: 2.5,
                                         }}
                                     >
-                                    </ListItemIcon>
+                                        <ListItemIcon
+                                            sx={{
+                                                minWidth: 0,
+                                                mr: open ? 1 : 'auto',
+                                                justifyContent: 'center',
+                                            }}
+                                        >
+                                        </ListItemIcon>
 
 
 
-                                    <Links key={text.name} to={text.url}>
-                                        {text.icon}
-                                        <ListItemText primary={text.name} sx={{ opacity: open ? 1 : 0 }} />
-                                    </Links>
+                                        <Links key={text.name} to={text.url}>
+                                            {text.icon}
+                                            <ListItemText primary={text.name} sx={{ opacity: open ? 1 : 0 }} />
+                                        </Links>
 
 
 
 
-                                </ListItemButton>
-                            </ListItem>
-                        ))
-                    }
-                </List>
+                                    </ListItemButton>
+                                </ListItem>
+                            ))
+                        }
+                    </List>
 
-            </Drawer>
-            <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-                <DrawerHeader />
+                </Drawer>
+                <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+                    <DrawerHeader />
 
+                </Box>
             </Box>
-        </Box>
+        </>
+
     );
 }

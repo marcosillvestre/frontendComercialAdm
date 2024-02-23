@@ -8,6 +8,9 @@ import styled from "styled-components";
 export const Container = styled.div`
 `
 
+export const CLoseTab = styled.div``
+
+
 export const GetContracts = styled(AssignmentIndIcon)`
 cursor: pointer;
 `
