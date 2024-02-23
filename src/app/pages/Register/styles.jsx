@@ -16,11 +16,16 @@ font-size:.8rem;
 `
 
 export const Anchor = styled.a`
-padding: 1rem 1rem;
+
+    padding: 0.5rem 1.7rem;
+    border: none;
+    cursor: pointer;
+
+
 border-radius: 1rem;
 margin: 1rem 0;
 text-decoration: none;
-background-color: ${props => props.active ? "#dededf" : ""};
+background-color: ${props => props.active ? "rgb(212, 217, 228)" : "rgb(223, 230, 241)"};
 color: #222;
     &:hover{
     background-color: #dededf;
@@ -71,7 +76,7 @@ padding: 1rem 2rem ;
 height: 22rem;
 align-items: center;
 color: #222;
-background-color: #f7f7f7;
+background-color: rgb(234, 235, 240);
 
 display: grid;
 align-items: flex-start;
@@ -96,7 +101,9 @@ grid-area: input;
 
 `
 export const UserContainer = styled.table`
+border-radius:  .25em;
 width: 85%;
+background-color: rgb(234, 235, 240);
 `
 
 

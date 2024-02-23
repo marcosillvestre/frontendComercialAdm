@@ -6,7 +6,7 @@ import { redirect } from "react-router-dom"
 import URI from "../app/utils/utils.jsx"
 import { useData } from "./dataContext.jsx"
 
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { toast } from "react-toastify"
 
 
@@ -281,6 +281,21 @@ export const UserProvider = ({ children }) => {
     }
 
 
+    const { data: historic, refetch: refetchHistoric, isPending: isPendingHistoric } = useQuery({
+        queryFn: () => {
+            if (headers.Authorization.includes("undefined") === false) {
+                return URI.get('/historico', { headers }).then(res => res.data)
+            }
+            //  axios.get('http://localhost:7070/historico', { headers }).then(res => res.data)
+        },
+        queryKey: ["historic"],
+        onSuccess: (data) => {
+            console.log(data.length)
+        },
+        onError: (err) => console.log(err)
+    })
+
+
 
 
     return (
@@ -293,7 +308,8 @@ export const UserProvider = ({ children }) => {
             openPeriodRange, setOpenPeriodRange, unHandleLabel, setUnHandleLabel,
             mutationControlData, take, skip, setTake,
             setSkip, allData,
-            SenderDirector, Sender
+            SenderDirector, Sender,
+            historic, refetchHistoric, isPendingHistoric
         }}>
 
             {children}

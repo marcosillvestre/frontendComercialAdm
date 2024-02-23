@@ -17,6 +17,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { styled, useTheme } from '@mui/material/styles';
 import * as React from 'react';
+import { useLocation } from 'react-router-dom';
 import { useUser } from '../../hooks/userContext';
 import Header from '../header';
 import { Adduser, CLoseTab, ComissionScreen, GetContracts, History, Home, Links } from './styles';
@@ -105,9 +106,12 @@ export default function MiniDrawer() {
         setOpen(false);
     };
 
+    const url = useLocation()
+
+
     return (
         <>
-            <CLoseTab open={open} />
+            <CLoseTab open={open} onClick={() => setOpen(false)} />
             <Box sx={{ display: 'flex' }}>
                 <CssBaseline />
                 <AppBar position="fixed" open={open} sx={{ backgroundColor: '#2E2F8E' }}>
@@ -155,7 +159,7 @@ export default function MiniDrawer() {
                                 <ListItem key={text.name} disablePadding sx={{ display: 'block' }}>
                                     <ListItemButton
                                         sx={{
-                                            minHeight: 70,
+                                            minHeight: 60,
                                             justifyContent: open ? 'initial' : 'right',
                                             px: 2.5,
                                         }}
@@ -171,7 +175,7 @@ export default function MiniDrawer() {
 
 
 
-                                        <Links key={text.name} to={text.url}>
+                                        <Links key={text.name} to={text.url} active={url.pathname === text.url} >
                                             {text.icon}
                                             <ListItemText primary={text.name} sx={{ opacity: open ? 1 : 0 }} />
                                         </Links>

@@ -8,7 +8,7 @@ import { useUser } from '../../hooks/userContext';
 import { Adduser, Box, ComissionScreen, Container, GetContracts, Image, Links, LogOut, Name, Nav, NoNotifications, WithNotifications } from "./styles";
 
 const Header = (parsed) => {
-    const { logOut, userData, historic } = useUser(false)
+    const { logOut, userData } = useUser(false)
     const [open, setOpen] = useState(false)
     const [user, setUser] = React.useState()
 
