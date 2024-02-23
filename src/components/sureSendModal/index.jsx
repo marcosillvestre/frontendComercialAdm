@@ -80,7 +80,24 @@ export default function SureSendModal(data) {
             "name": `${filteredContracts[0].name}`
         }
         // await axios.post("https://connection-with-conta-azul-rbv6l.ondigitalocean.app/cadastros", data)
+
+        if (filteredContracts[0].email === undefined || filteredContracts[0].cpf === undefined ||
+            filteredContracts[0].name === undefined || filteredContracts[0].CelularResponsavel === undefined ||
+            filteredContracts[0].CelularResponsavel === undefined ||
+            filteredContracts[0].DatadeNascdoResp === undefined ||
+            filteredContracts[0].cep === undefined ||
+            filteredContracts[0].estado === undefined ||
+            filteredContracts[0].estado === undefined ||
+            filteredContracts[0].cidade === undefined ||
+            filteredContracts[0].NumeroEnderecoResponsavel === undefined ||
+            filteredContracts[0].EnderecoResponsavel === undefined) {
+
+            return alert("Contrato não enviado ao Conta Azul, confira os dados do responsável financeiro")
+        }
+
+        // email, cpf, nome, telefone, nascimento, cep, endereco completo
         // await axios.post("http://localhost:7070/cadastros", data, { headers })
+
         await URI.post("/cadastros", data, { headers })
             .then((res) => {
                 if (res.status === 201) {
@@ -91,6 +108,7 @@ export default function SureSendModal(data) {
                 alert("Erro ao enviar ao Conta Azul, confira os dados")
             })
         setLoading(false)
+
     }
 
     let idioma = "https://hook.us1.make.com/aubg255odycgwpc5355lgaa4n58637xa"
@@ -123,9 +141,16 @@ export default function SureSendModal(data) {
         filteredContracts[0].emissao = new Date().toLocaleDateString()
         const rawPhone = filteredContracts[0].CelularResponsavel
 
-        filteredContracts[0].number = rawPhone.includes("+55") ? rawPhone : `+55${rawPhone}`
-        filteredContracts[0].number = filteredContracts[0].number.includes(" ") ? filteredContracts[0].number.replace(" ", "") : filteredContracts[0].number
-        filteredContracts[0].number = filteredContracts[0].number.includes("-") ? filteredContracts[0].number.replace("-", "") : filteredContracts[0].number
+        filteredContracts[0].number = rawPhone.includes("+") ? rawPhone : `+55${rawPhone}`
+
+        filteredContracts[0].number = filteredContracts[0].number.includes(" ") ?
+            filteredContracts[0].number.replace(" ", "") :
+            filteredContracts[0].number
+
+        filteredContracts[0].number = filteredContracts[0].number.includes("-") ?
+            filteredContracts[0].number.replace("-", "") :
+            filteredContracts[0].number
+
 
         await axios.post(archives[filteredContracts[0].subclasse],
             filteredContracts[0], { headers })
@@ -169,7 +194,7 @@ export default function SureSendModal(data) {
                 senderImpressContract()
             }, 1000);
         }
-        setLoading(true)
+        // setLoading(true)
 
     }
 

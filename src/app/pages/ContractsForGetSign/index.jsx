@@ -41,12 +41,12 @@ export const Contracts = () => {
                 setContracts(data)
             } else {
                 setContracts(info)
-
             }
         } else {
             setContracts([{ "name": "Não há ninguém na etapa de matrícula nesse funil!", "contrato": "❌" }])
         }
     }
+
 
     function filterData(e) {
         if (e !== "Não há ninguém na etapa de matrícula nesse funil!") {
