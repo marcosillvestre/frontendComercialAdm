@@ -5,12 +5,14 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import React, { useEffect, useState } from 'react';
 import aw from '../../assets/awbr.png';
 import { useUser } from '../../hooks/userContext';
-import { Adduser, Box, ComissionScreen, Container, GetContracts, Image, Links, LogOut, Name, Nav, NoNotifications, WithNotifications } from "./styles";
+import { Adduser, Box, ComissionScreen, Container, GetContracts, Image, Links, LogOut, Name, Nav, WithNotifications } from "./styles";
 
 const Header = (parsed) => {
     const { logOut, userData } = useUser(false)
     const [open, setOpen] = useState(false)
     const [user, setUser] = React.useState()
+
+
 
     function unLog() {
         logOut()
@@ -64,7 +66,6 @@ const Header = (parsed) => {
 
                     <nav className='nav-name'>
                         <a href="/historico">
-                            <NoNotifications />
                             <WithNotifications />
                         </a>
                         <p>Olá,</p><Name>{parsed?.data?.name}</Name>

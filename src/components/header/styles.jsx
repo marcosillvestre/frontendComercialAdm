@@ -1,15 +1,12 @@
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import NotificationImportantIcon from '@mui/icons-material/NotificationImportant';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import PaidIcon from '@mui/icons-material/Paid';
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import { Link } from 'react-router-dom';
 import styled from "styled-components";
 
 
-export const NoNotifications = styled(NotificationsIcon)`
 
-`
 export const WithNotifications = styled(NotificationImportantIcon)`
 
 `
