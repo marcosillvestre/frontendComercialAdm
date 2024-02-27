@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import * as React from 'react';
 
 import { toast } from 'react-toastify';
+// import URI from '../../app/utils/utils';
 import URI from '../../app/utils/utils';
 import { useUser } from '../../hooks/userContext';
 import { Boxes, ButtonDelete, Filter, Trash } from './styles';
@@ -24,7 +25,7 @@ const style = {
 
 
 export default function SureModal(data) {
-    const { fetchData, setFetchData, headers, } = useUser()
+    const { fetchData, setFetchData, headers, userData } = useUser()
 
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
@@ -37,8 +38,11 @@ export default function SureModal(data) {
     async function DeleteData(id) {
         setOpen(!open)
 
+        const responsible = userData.name
+
         await toast.promise(
-            URI.delete(`${data.url}/${id}`, { headers }),
+            // axios.delete(`http://localhost:7070${data.url}/${id}?responsible=${responsible}`, { headers }),
+            URI.delete(`${data.url}/${id}?responsible=${responsible}`, { headers }),
             {
                 pending: 'Conferindo os dados',
                 success: 'Deletado com sucesso',

@@ -23,7 +23,7 @@ import { Anchor, Box, Container, ErrorMessage, Header, Input, MultiOption, Regis
 
 export function Register() {
   const [unity, setUnity] = useState([])
-  const { headers, users } = useUser()
+  const { headers, users, userData } = useUser()
 
   const url = useLocation()
 
@@ -50,7 +50,8 @@ export function Register() {
       password: body.password,
       admin: body.admin,
       role: body.role,
-      unity: unity.length < 1 ? ["Todas"] : unity
+      unity: unity.length < 1 ? ["Todas"] : unity,
+      responsible: userData
     }
     await toast.promise(
       URI.post('/cadastro', person, { headers }),

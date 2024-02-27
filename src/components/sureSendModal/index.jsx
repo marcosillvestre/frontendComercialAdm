@@ -95,14 +95,13 @@ export default function SureSendModal(data) {
             return alert("Contrato não enviado ao Conta Azul, confira os dados do responsável financeiro")
         }
 
-        // email, cpf, nome, telefone, nascimento, cep, endereco completo
-        // await axios.post("http://localhost:7070/cadastros", data, { headers })
 
+        // await axios.post("http://localhost:7070/cadastros", data, { headers })
         await URI.post("/cadastros", data, { headers })
             .then((res) => {
                 if (res.status === 201) {
                     setOpen(!open)
-                    alert(res.data.data)
+                    alert(res.data.message)
                 }
             }).catch(() => {
                 alert("Erro ao enviar ao Conta Azul, confira os dados")

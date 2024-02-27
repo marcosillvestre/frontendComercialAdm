@@ -285,8 +285,8 @@ export const UserProvider = ({ children }) => {
         queryFn: () => {
             if (headers.Authorization.includes("undefined") === false) {
                 return URI.get('/historico', { headers }).then(res => res.data)
+                // return axios.get('http://localhost:7070/historico', { headers }).then(res => res.data)
             }
-            //  axios.get('http://localhost:7070/historico', { headers }).then(res => res.data)
         },
         queryKey: ["historic"],
         onSuccess: (data) => {

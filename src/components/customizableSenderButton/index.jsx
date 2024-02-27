@@ -94,10 +94,12 @@ export default function CustomizableButton(data) {
         const obj = {
             contracts: arr,
             where: optionGroup[0].type,
-            value: valueToBeChanged
+            value: valueToBeChanged,
+            responsible: userData
         }
 
         await toast.promise(
+            // axios.put(`http://localhost:7070/multi-update`, obj, { headers }),
             URI.put(`/multi-update`, obj, { headers }),
             {
                 pending: 'Conferindo os dados',

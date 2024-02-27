@@ -8,7 +8,11 @@ import { Container } from './styles';
 export const Historic = () => {
 
     const { historic, refetchHistoric, isPendingHistoric } = useUser()
-
+    const fields = {
+        "tipoMatricula": "Status de comissionamento",
+        "curso": "Curso",
+        "observacao": "Observação"
+    }
 
 
     return (
@@ -44,12 +48,11 @@ export const Historic = () => {
                                     historic.map(res => (
                                         <tr key={res.id}>
                                             <td>{res.responsible}</td>
-                                            <td>{res.information.field}</td>
+                                            <td>{fields[res.information.field] || res.information.field}</td>
                                             <td>{res.information.to}</td>
                                             <td>{new Date(res.date).toLocaleString()}</td>
                                             <td>{res.information.from}</td>
                                         </tr>
-
                                     ))
                                 }
                             </tbody>
