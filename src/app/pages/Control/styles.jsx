@@ -6,6 +6,9 @@ flex-direction: column;
 width: 100vw;
 padding: 0 4rem;
 
+@media(max-width:1090px){
+    padding: 0 .8rem;
+}
 
 .nav-filter{
     display: flex;
@@ -215,6 +218,7 @@ background: none;
 `
 export const NothingHere = styled.div`
 width: 100%;
+height: min-content;
 display: flex;
 font-size: 1.4rem;
 margin: 5rem 0 13.3rem 0;
@@ -222,7 +226,7 @@ justify-content: center;
 align-items: center;
 flex-direction: column;
 img{
-    height: 20rem;
+    height: 15rem;
     translate: 5% 0;
 }
 `

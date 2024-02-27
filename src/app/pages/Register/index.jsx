@@ -14,7 +14,7 @@ import { useForm } from 'react-hook-form';
 import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
-import { Row } from '../../../components/tableUsers';
+import { Row } from '../../../components/source.jsx';
 import { useUser } from '../../../hooks/userContext';
 import URI from '../../utils/utils';
 

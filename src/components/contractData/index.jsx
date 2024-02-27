@@ -8,7 +8,7 @@ import Office from './templates/office.jsx'
 import Particulares from './templates/particulares.jsx'
 import Standard from './templates/standard.jsx'
 
-const ContracTableBodyata = () => {
+export const ContractData = () => {
 
     const { filteredContracts } = useUser()
     const { content, view, setView } = useData()
@@ -196,5 +196,3 @@ const ContracTableBodyata = () => {
         </Container>
     )
 }
-
-export default ContracTableBodyata

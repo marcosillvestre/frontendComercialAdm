@@ -3,7 +3,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { Area, Bar, BarChart, CartesianGrid, ComposedChart, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts';
-import PositionedMenu from '../../../components/filteringMenu';
+import { CloserClick, PositionedMenu } from '../../../components/source.jsx';
 import { useUser } from '../../../hooks/userContext';
 import URI from '../../utils/utils';
 import { ButtonLink, ChartsContainer, Checked, Container, ContainerTable, Icon, ListOpt, NavBar, Options, SelectButton, Tax } from './styles';
@@ -115,16 +115,17 @@ export function ComissionControll() {
         setLabel(name)
     }
 
-
     if (url.pathname === '/controle-comissional') {
         return (
             <>
-
+                <CloserClick
+                    open={open1}
+                    fn={setOpen1} opacity={.01}
+                />
                 <Container>
-
                     <header>
                         <nav>
-                            <div id="category-select">
+                            <div >
                                 <label htmlFor=""> Período personalizado:</label>
 
                                 <SelectButton id="select-button" onClick={() => setOpen1(!open1)}>
@@ -454,18 +455,23 @@ export function ComissionControll() {
     if (url.pathname === '/controle-comissional/grafico') {
         return (
             <>
+                <CloserClick
+                    open={open1}
+                    fn={setOpen1} opacity={.01}
+                />
+                <CloserClick
+                    open={open2}
+                    fn={setOpen2} opacity={.01}
+                />
                 <Container>
-
-
-                    <header>
+                    <header className='page-header'>
                         <nav>
 
-                            <div id="category-select">
+                            <div >
                                 <label htmlFor=""> Gráfico:</label>
 
                                 <SelectButton id="select-button" onClick={() => setOpen1(!open1)}>
                                     <p id="selected-value"> {label6 === '' ? "Selecione" : label6}</p>
-
                                     <Icon id="chevrons" open={open1}>
                                         <i className='icon-up' > <KeyboardArrowDownIcon /></i>
                                         <i className='icon-down'> <KeyboardArrowDownIcon /></i>
@@ -483,26 +489,32 @@ export function ComissionControll() {
                                                     <p>{period?.label}</p>
                                                 </span>
                                                 <Checked className='icon-right'><DoneIcon /></Checked>
+
                                             </Options>
                                         ))
                                     }
                                 </ListOpt>
                             </div>
 
-                            <div id="category-select">
+                            <div >
                                 <label htmlFor=""> Parâmetros:</label>
 
-                                <SelectButton open={label6 !== '' ? false : true} parameters={true} onClick={() => setOpen2(!open2)}>
+                                <SelectButton
+                                    open={label6 !== '' ? false : true}
+                                    parameters={true} onClick={() => setOpen2(!open2)}>
+
                                     <div className='container-parameters'>
                                         {valueGraph.map(res => (
-                                            <span key={res} onClick={() => setValueGraph(valueGraph.filter(data => data !== res))} >
+                                            <span key={res} onClick={() =>
+                                                setValueGraph(valueGraph.filter(data => data !== res))} >
                                                 <p>
                                                     {res}
                                                 </p>
                                             </span>
                                         ))}
                                     </div>
-                                    <Icon id="chevrons" open={param === true && open2}>
+
+                                    <Icon id="chevrons" open={open2}>
                                         <i className='icon-up' > <KeyboardArrowDownIcon /></i>
                                         <i className='icon-down'> <KeyboardArrowDownIcon /></i>
                                     </Icon>
@@ -514,10 +526,13 @@ export function ComissionControll() {
                                     {
                                         label6 === 'Curso' &&
                                         coursesOpt?.map(period => (
-                                            <Options className="option" key={period?.name} >
-                                                <span className="label" onClick={() => handleGraphic("value", period?.name)}>
+                                            <Options className="option" key={period} >
+                                                <span className="label"
+                                                    onClick={() =>
+                                                        handleGraphic("value", period)}
+                                                >
 
-                                                    <p>{period?.name}</p>
+                                                    <p>{period}</p>
                                                 </span>
                                                 <Checked className='icon-right'><DoneIcon /></Checked>
                                             </Options>
@@ -527,7 +542,10 @@ export function ComissionControll() {
                                         label6 === 'Unidade' &&
                                         unity?.map(period => (
                                             <Options className="option" key={period?.name} >
-                                                <span className="label" onClick={() => handleGraphic("value", period?.name)}>
+                                                <span className="label"
+                                                    onClick={() =>
+                                                        handleGraphic("value", period?.name)}
+                                                >
 
                                                     <p>{period?.name}</p>
                                                 </span>
@@ -537,11 +555,14 @@ export function ComissionControll() {
                                     }
                                     {
                                         label6 === 'Comissionamento' &&
-                                        status?.map(period => (
-                                            <Options className="option" key={period?.name} >
-                                                <span className="label" onClick={() => handleGraphic("value", period?.name)}>
+                                        comissionStatusOpt?.map(period => (
+                                            <Options className="option" key={period} >
+                                                <span className="label"
+                                                    onClick={() =>
+                                                        handleGraphic("value", period)}
+                                                >
 
-                                                    <p>{period?.name}</p>
+                                                    <p>{period}</p>
                                                 </span>
                                                 <Checked className='icon-right'><DoneIcon /></Checked>
                                             </Options>
@@ -578,7 +599,7 @@ export function ComissionControll() {
                     {
 
                         <ChartsContainer>
-                            <BarChart width={800} height={330} data={yearGraph}>
+                            <BarChart width={600} height={400} data={yearGraph}>
                                 <CartesianGrid strokeDasharray="3 3" />
                                 <XAxis dataKey="name" />
                                 <YAxis />
@@ -597,7 +618,7 @@ export function ComissionControll() {
                                 {valueGraph[2] && <div><p>{valueGraph[2]}</p>  <hr style={{ backgroundColor: "#3a56df" }}></hr></div>}
                             </span>
 
-                            <LineChart width={800} height={300} data={yearGraph}>
+                            <LineChart width={600} height={400} data={yearGraph}>
                                 <Tooltip />
                                 <Line type="monotone" dataKey="fn.parameter1" stroke="#8884d8" />
                                 <Line type="monotone" dataKey="fn.parameter2" fill="#82ca9d" />
@@ -607,7 +628,7 @@ export function ComissionControll() {
                                 <YAxis />
                             </LineChart>
 
-                            <ComposedChart width={1230} height={400} data={yearGraph}>
+                            <ComposedChart width={600} height={400} data={yearGraph}>
                                 <XAxis dataKey="name" />
                                 <YAxis />
                                 <Tooltip />

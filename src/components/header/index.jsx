@@ -7,7 +7,7 @@ import aw from '../../assets/awbr.png';
 import { useUser } from '../../hooks/userContext';
 import { Adduser, Box, ComissionScreen, Container, GetContracts, Image, Links, LogOut, Name, Nav, WithNotifications } from "./styles";
 
-const Header = (parsed) => {
+export const Header = (parsed) => {
     const { logOut, userData } = useUser(false)
     const [open, setOpen] = useState(false)
     const [user, setUser] = React.useState()
@@ -83,5 +83,3 @@ const Header = (parsed) => {
         </Container>
     )
 }
-
-export default Header

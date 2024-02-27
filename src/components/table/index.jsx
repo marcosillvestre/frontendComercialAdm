@@ -15,11 +15,11 @@ import { useUser } from '../../hooks/userContext';
 
 import { FifthDrop, FirstDrop, FourthDrop, SeccDrop, SixthDrop, ThirdDrop } from './source.jsx';
 
-import SureModal from '../sureModal';
+import { SureModal } from '../source.jsx';
 
 import colorsRules from '../../app/utils/Rules/colors.jsx';
 import businessRules from '../../app/utils/Rules/options.jsx';
-export function Row(props) {
+export function FirstRow(props) {
     const { comissionStatusOpt, coursesOpt, backgroundOpt } = businessRules
     const { setColor, setClearColor } = colorsRules
 
@@ -327,7 +327,7 @@ export function Row(props) {
     );
 }
 
-Row.propTypes = {
+FirstRow.propTypes = {
     index: PropTypes.shape({
         index: PropTypes.bool
     }),

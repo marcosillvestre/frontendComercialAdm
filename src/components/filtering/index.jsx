@@ -5,7 +5,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { alpha, styled } from '@mui/material/styles';
 import { useUser } from '../../hooks/userContext';
-import PositionedMenu from '../filteringMenu';
+import { PositionedMenu } from '../source.jsx';
 
 const StyledMenu = styled((props) => (
     <Menu
@@ -49,7 +49,7 @@ const StyledMenu = styled((props) => (
     },
 }));
 
-export default function CustomizedMenus() {
+export function CustomizedMenus() {
 
     const { anchorEl, handleClose, setAnchorEl, userData, setTake } = useUser()
 

@@ -24,7 +24,7 @@ const style = {
 };
 
 
-export default function SureModal(data) {
+export function SureModal(data) {
     const { fetchData, setFetchData, headers, userData } = useUser()
 
     const [open, setOpen] = React.useState(false);

@@ -5,7 +5,7 @@ import { useUser } from "../../hooks/userContext";
 import { Container } from "./styles";
 
 
-const DatePickers = (parameters) => {
+export const DatePickers = (parameters) => {
     const { setSelectedEndDate, setSelectedInitialDate,
         //  setTypeFilter, typeFilter
     } = useUser()
@@ -33,5 +33,3 @@ const DatePickers = (parameters) => {
         </Container>
     );
 };
-
-export default DatePickers

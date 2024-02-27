@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import * as React from 'react';
 
 
-import SureModal from '../sureModal';
+import { SureModal } from '../source.jsx';
 
 export function Row(props) {
     const { row } = props;

@@ -4,12 +4,12 @@ import * as React from 'react';
 import { useLocation } from 'react-router-dom';
 import { useData } from '../../hooks/dataContext';
 import { useUser } from '../../hooks/userContext';
-import DatePickers from '../datePicker';
+import { DatePickers } from '../source.jsx';
 import { Label, RangeDate, Select } from './styles';
 
 import rules from '../../app/utils/Rules/options.jsx';
 
-export default function PositionedMenu(data) {
+export function PositionedMenu(data) {
 
     const { comissionStatusOpt, coursesOpt, backgroundOpt } = rules
 

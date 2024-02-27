@@ -2,10 +2,10 @@ import DoneIcon from '@mui/icons-material/Done';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import React from 'react';
 import { useUser } from '../../hooks/userContext';
-import PositionedMenu from '../filteringMenu';
+import { PositionedMenu } from '../source.jsx';
 import { Checked, Container, Icon, ListOpt, Options, SelectButton } from './styles';
 
-const UnhandleInput = (periods) => {
+export const UnhandleInput = (periods) => {
     const { openPeriodRange, setOpenPeriodRange, setPeriodRange } = useUser()
     const [label, setLabel] = React.useState(`${periods.opt[0]?.name}`)
 
@@ -52,5 +52,3 @@ const UnhandleInput = (periods) => {
         </Container >
     )
 }
-
-export default UnhandleInput

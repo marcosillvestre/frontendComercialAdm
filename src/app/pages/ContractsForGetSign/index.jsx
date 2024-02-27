@@ -1,7 +1,6 @@
 import React from 'react'
 
-import ContractData from '../../../components/contractData'
-import SureSendModal from '../../../components/sureSendModal'
+import { ContractData, SureSendModal } from '../../../components/source.jsx'
 import { useUser } from '../../../hooks/userContext'
 import URI from '../../utils/utils'
 import { Box, Button, Container, SendContract } from './styles'

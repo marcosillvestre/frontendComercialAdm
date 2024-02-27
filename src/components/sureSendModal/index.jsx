@@ -29,7 +29,9 @@ import LoadingSpin from 'react-loading-spin';
 import generatePDF, { Margin, Resolution } from 'react-to-pdf';
 import URI from '../../app/utils/utils';
 import { useData } from '../../hooks/dataContext';
-export default function SureSendModal(data) {
+
+
+export function SureSendModal(data) {
 
     const [send, setSend] = React.useState(true)
     const { filteredContracts, headers } = useUser()

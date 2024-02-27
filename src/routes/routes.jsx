@@ -8,7 +8,7 @@ import {
     RecoverPassword,
     Register
 } from '../app/pages/source.jsx';
-import MiniDrawer from '../components/sideBar';
+import { MiniDrawer } from '../components/source.jsx';
 
 
 

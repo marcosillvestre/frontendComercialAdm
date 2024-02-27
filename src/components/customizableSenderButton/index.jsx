@@ -6,7 +6,7 @@ import { useData } from '../../hooks/dataContext.jsx';
 import { useUser } from '../../hooks/userContext.jsx';
 import { Box, ButtonContainer, ButtonSender, Container, Edit, Options, OptionsContainer, Value } from './styles.jsx';
 
-export default function CustomizableButton(data) {
+export function CustomizableButton(data) {
     const { userData, headers } = useUser()
     const { valueToBeChanged, setValueToBeChanged } = useData()
 

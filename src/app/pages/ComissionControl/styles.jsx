@@ -6,7 +6,13 @@ flex-direction: column;
 gap: 2rem;
 nav{
     display: flex;
-    gap:.8rem;
+    gap: 8px;
+}
+.page-header{
+    @media(max-width:1090px){
+        flex-wrap: wrap;
+        justify-content: center;
+    }
 }
 header{
 width: 100vw;
@@ -16,6 +22,7 @@ justify-content: space-between;
 align-items: center;
 font-size: small;
 padding: 2rem 5rem;
+gap: 8px;
 .filters{
     display: flex;
     flex-direction: column;
@@ -107,8 +114,9 @@ font-size:.8rem;
 
 export const ChartsContainer = styled.div`
 display: flex;
-justify-content: flex-start;
 flex-wrap: wrap;
+width: 100%;
+background-color: #e9e9e9;
 
 `
 export const ListOpt = styled.ul`
@@ -118,7 +126,7 @@ export const ListOpt = styled.ul`
     margin-top: .3rem ;
     border-radius: .375rem;
     background-color:#dfe6f1;
-    width: ${props => props.parameters ? "30rem" : "15rem"};
+    min-width: 15rem;
 
 
 `
@@ -177,6 +185,10 @@ display: flex;
 justify-content: flex-end;
 padding-right:2rem ;
 align-items: center;
+@media(max-width:1090px){
+justify-content: center;
+
+}
 `
 
 export const ButtonLink = styled.button`
@@ -208,12 +220,12 @@ display: none;
 
 export const SelectButton = styled.div`
 color: #222;
-width: ${props => props.parameters ? "30rem" : "15rem"};
-height: 2.5rem;
+min-width: 15rem;
+min-height: 2.5rem;
 
 margin-top: .5rem;
 display: flex;
-padding: .75rem 2rem;
+padding: 0 2rem;
 align-items: center;
 justify-content: space-between;
 border-radius: .375rem;
@@ -223,13 +235,12 @@ background-color:${props => props.open ? "#d4d9e4" : "#dfe6f1"} ;
     color: #000;
     font-size: .875rem;
     margin-right: 2rem;
-    transform-origin: left;
     transition-duration: 3s;
 }
 .container-parameters{
 display: flex;
+flex-wrap: wrap;
     span{
-        
         border: 1px dashed;
         border-radius: 7px;
         padding: 3px 7px;

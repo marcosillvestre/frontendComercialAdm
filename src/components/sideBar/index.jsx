@@ -19,8 +19,8 @@ import { styled, useTheme } from '@mui/material/styles';
 import * as React from 'react';
 import { useLocation } from 'react-router-dom';
 import { useUser } from '../../hooks/userContext';
-import Header from '../header';
-import { Adduser, CLoseTab, ComissionScreen, GetContracts, History, Home, Links } from './styles';
+import { CloserClick, Header } from '../source.jsx';
+import { Adduser, ComissionScreen, GetContracts, History, Home, Links } from './styles';
 
 
 const drawerWidth = 250;
@@ -92,7 +92,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     }),
 );
 
-export default function MiniDrawer() {
+export function MiniDrawer() {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
     const { userData } = useUser()
@@ -111,7 +111,10 @@ export default function MiniDrawer() {
 
     return (
         <>
-            <CLoseTab open={open} onClick={() => setOpen(false)} />
+            <CloserClick
+                open={open}
+                fn={setOpen} opacity={.3}
+            />
             <Box sx={{ display: 'flex' }}>
                 <CssBaseline />
                 <AppBar position="fixed" open={open} sx={{ backgroundColor: '#2E2F8E' }}>
