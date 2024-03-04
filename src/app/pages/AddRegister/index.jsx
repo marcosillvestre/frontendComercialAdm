@@ -1,5 +1,7 @@
 // import React from 'react'
 
+import { Container } from "./styles"
+
 const data = {
     'select':
         <select>
@@ -12,16 +14,12 @@ const data = {
 
 export const AddNewRegister = () => {
     return (
-        <>
+        <Container>
             <div>AddNewRegister</div>
-            {
-
-                data['select']
-
-            }
+            {data['select']}
             {
                 data['input']
             }
-        </>
+        </Container>
     )
 } 

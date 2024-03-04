@@ -76,39 +76,119 @@ export function SureSendModal(data) {
 
     }
 
+    console.log(filteredContracts)
 
     async function contaAzulSender() {
-        const data = {
-            "name": `${filteredContracts[0].name}`
-        }
-        // await axios.post("https://connection-with-conta-azul-rbv6l.ondigitalocean.app/cadastros", data)
+        // const {
+        //     name, contrato, unidade,
+        //     rg, cpf, DatadeNascdoResp,
+        //     CelularResponsavel, EnderecoResponsavel, NumeroEnderecoResponsavel,
+        //     complemento, bairro, profissao,
+        //     email, nameResponsible,
+        //     cargaHoraria, numeroParcelas, descontoTotal, descontoPorParcela,
+        //     curso, valorCurso, ppFormaPg,
+        //     ppVencimento, dataUltimaP, materialDidatico,
+        //     mdValor, mdFormaPg, mdVencimento,
+        //     tmValor, tmFormaPg, tmVencimento, } = filteredContracts[0]
 
-        if (filteredContracts[0].email === undefined || filteredContracts[0].cpf === undefined ||
-            filteredContracts[0].name === undefined || filteredContracts[0].CelularResponsavel === undefined ||
-            filteredContracts[0].CelularResponsavel === undefined ||
-            filteredContracts[0].DatadeNascdoResp === undefined ||
-            filteredContracts[0].cep === undefined ||
-            filteredContracts[0].estado === undefined ||
-            filteredContracts[0].estado === undefined ||
-            filteredContracts[0].cidade === undefined ||
-            filteredContracts[0].NumeroEnderecoResponsavel === undefined ||
-            filteredContracts[0].EnderecoResponsavel === undefined) {
+        const {
+            vendedor, contrato,
+            unidade, name, rg,
+            cpf, DatadeNascdoResp, CelularResponsavel, EnderecoResponsavel,
+            NumeroEnderecoResponsavel, complemento, bairro, cidade,
+            estado, cep, profissao,
+            email, nomeAluno, cargaHoraria, numeroParcelas, dataUltimaParcelaMensalidade,
+            descontoTotal, descontoPorParcela, curso, ppFormaPg, ppVencimento,
+            dataUltimaP, materialDidatico, mdValor, mdFormaPg,
+            mdVencimento, tmValor, tmFormaPg, tmVencimento, valorCurso, service
+
+        } = filteredContracts[0]
+
+
+        const data = {
+            contrato, vendedor,
+            unidade, name, rg, cpf,
+            DatadeNascdoResp, CelularResponsavel, EnderecoResponsavel,
+            NumeroEnderecoResponsavel, complemento,
+            bairro, profissao, email, nomeAluno, cargaHoraria,
+            numeroParcelas, descontoTotal, descontoPorParcela, curso,
+            valorCurso, ppFormaPg, ppVencimento, dataUltimaP,
+            materialDidatico, mdValor, mdFormaPg, mdVencimento,
+            tmValor, tmFormaPg, tmVencimento, cep, estado, cidade,
+            dataUltimaParcelaMensalidade, service
+        }
+
+        // await axios.post("https://connection-with-conta-azul-rbv6l.ondigitalocean.app/cadastros", data)
+        if (data.email === undefined || data.cpf === undefined ||
+            data.name === undefined || data.CelularResponsavel === undefined ||
+            data.DatadeNascdoResp === undefined ||
+            data.cep === undefined ||
+            data.estado === undefined ||
+            data.cidade === undefined ||
+            data.NumeroEnderecoResponsavel === undefined ||
+            data.EnderecoResponsavel === undefined) {
 
             return alert("Contrato não enviado ao Conta Azul, confira os dados do responsável financeiro")
         }
 
 
-        // await axios.post("http://localhost:7070/cadastros", data, { headers })
-        await URI.post("/cadastros", data, { headers })
-            .then((res) => {
-                if (res.status === 201) {
-                    setOpen(!open)
-                    alert(res.data.message)
-                }
-            }).catch(() => {
-                alert("Erro ao enviar ao Conta Azul, confira os dados")
+        const client = async () => {
+            return new Promise((resolve, reject) => {
+                // axios.post("http://localhost:7070/cliente", data, { headers })
+                URI.post("/cliente", data, { headers })
+                    .then(res => {
+                        setLoading(false)
+                        resolve(res)
+
+                    })
+                    .catch(err => {
+                        setLoading(false)
+                        alert("Erro ao cadastrar o cliente no conta azul")
+                        reject(err)
+                    })
             })
-        setLoading(false)
+        }
+        const contract = async () => {
+            return new Promise((resolve, reject) => {
+                // axios.post("http://localhost:7070/contrato-conta-azul", data, { headers })
+                URI.post("/contrato-conta-azul", data, { headers })
+                    .then(res => {
+                        setLoading(false)
+                        resolve(res)
+
+                    })
+                    .catch(err => {
+                        setLoading(false)
+                        alert("Erro ao enviar o contrato de venda")
+                        reject(err)
+                    })
+
+
+            })
+        }
+        const sales = async () => {
+            return new Promise((resolve, reject) => {
+                // axios.post("http://localhost:7070/venda", data, { headers })
+                URI.post("/venda", data, { headers })
+                    .then(res => {
+                        setLoading(false)
+                        resolve(res)
+
+                    })
+                    .catch(err => {
+                        setLoading(false)
+                        alert("Erro ao enviar as vendas avulsas")
+                        reject(err)
+                    })
+
+            })
+        }
+
+        return Promise.all([
+            client(),
+            contract(),
+            sales()
+        ])
 
     }
 
@@ -195,7 +275,7 @@ export function SureSendModal(data) {
                 senderImpressContract()
             }, 1000);
         }
-        // setLoading(true)
+        setLoading(true)
 
     }
 
