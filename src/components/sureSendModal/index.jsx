@@ -137,12 +137,10 @@ export function SureSendModal(data) {
                 // axios.post("http://localhost:7070/cliente", data, { headers })
                 URI.post("/cliente", data, { headers })
                     .then(res => {
-                        setLoading(false)
                         resolve(res)
 
                     })
                     .catch(err => {
-                        setLoading(false)
                         alert("Erro ao cadastrar o cliente no conta azul")
                         reject(err)
                     })
@@ -150,15 +148,14 @@ export function SureSendModal(data) {
         }
         const contract = async () => {
             return new Promise((resolve, reject) => {
-                // axios.post("http://localhost:7070/contrato-conta-azul", data, { headers })
-                URI.post("/contrato-conta-azul", data, { headers })
+                // axios.post("http://localhost:7070/registro-conta-azul", data, { headers })
+                URI.post("/registro-conta-azul", data, { headers })
                     .then(res => {
-                        setLoading(false)
+                        console.log(res)
                         resolve(res)
 
                     })
                     .catch(err => {
-                        setLoading(false)
                         alert("Erro ao enviar o contrato de venda")
                         reject(err)
                     })
@@ -171,12 +168,10 @@ export function SureSendModal(data) {
                 // axios.post("http://localhost:7070/venda", data, { headers })
                 URI.post("/venda", data, { headers })
                     .then(res => {
-                        setLoading(false)
                         resolve(res)
 
                     })
                     .catch(err => {
-                        setLoading(false)
                         alert("Erro ao enviar as vendas avulsas")
                         reject(err)
                     })
@@ -188,7 +183,16 @@ export function SureSendModal(data) {
             client(),
             contract(),
             sales()
-        ])
+        ]).then(() => {
+            alert("Enviado com sucesso")
+            setLoading(false)
+
+        })
+            .catch(err => {
+                console.log(err)
+                setLoading(false)
+
+            })
 
     }
 
