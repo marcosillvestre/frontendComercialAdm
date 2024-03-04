@@ -13,10 +13,12 @@ export const FirstDrop = (row) => {
     const [value, setValue] = React.useState('')
 
     const [payStatus, setPayStatus] = React.useState(row.data.tipoMatricula)
+    const [acStatus, setAcStatus] = React.useState(row.data.acStatus)
 
     const Changer = async (area, e, id) => {
         setValue(e)
         area === "tipoMatricula" && setPayStatus(e)
+        area === "acStatus" && setAcStatus(e)
 
         if (userData.role !== 'direcao') {
             area !== 'observacao' && Sender(area, e, id, value)
@@ -25,8 +27,6 @@ export const FirstDrop = (row) => {
             area !== 'observacao' && SenderDirector(area, e, id, value)
         }
     }
-
-
 
     return (
         <TableCell style={{
@@ -87,6 +87,10 @@ export const FirstDrop = (row) => {
                                     :
                                     <Td >
                                         <Select
+                                            style={{
+                                                backgroundColor: acStatus !== row?.data.acStatus
+                                                    ? setColor[acStatus] : setColor[row?.data.acStatus]
+                                            }}
                                             defaultValue={row?.data.acStatus}
                                             onChange={(e) =>
                                                 Changer("acStatus", e.target.value, row?.data.contrato)}>
@@ -283,7 +287,9 @@ export const FirstDrop = (row) => {
                                     <Td>{row?.data.aprovacaoADM}</Td>
                                     :
                                     <Td >
-                                        <Select defaultValue={row?.data.aprovacaoADM} onChange={(e) => Changer("aprovacaoADM", e.target.value, row?.data.contrato)}>
+                                        <Select
+                                            defaultValue={row?.data.aprovacaoADM}
+                                            onChange={(e) => Changer("aprovacaoADM", e.target.value, row?.data.contrato)}>
                                             {
                                                 nonEspecificOpt.map(res => (
                                                     <option value={res} key={res}>{res}</option>

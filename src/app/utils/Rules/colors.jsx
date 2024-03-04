@@ -5,6 +5,8 @@ const setColor = {
     "Aprovado": "#c2f1c2",
     "Pendente": "#f4f4f4",
     "Comissionado": "#abc7f1",
+    "Não": "#e4b9b9",
+    "Ok": "#c2f1c2",
 }
 const setClearColor = {
     "Não aprovado": "#eadddd",
