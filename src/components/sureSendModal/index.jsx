@@ -41,7 +41,12 @@ export function SureSendModal(data) {
     const [loading, setLoading] = React.useState(false)
 
     const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const handleClose = () => {
+        setOpen(false)
+        setLoading(false)
+    };
+
+
 
 
     const senderImpressContract = async () => {
@@ -76,7 +81,6 @@ export function SureSendModal(data) {
 
     }
 
-    console.log(filteredContracts)
 
     async function contaAzulSender() {
         // const {
@@ -151,7 +155,6 @@ export function SureSendModal(data) {
                 // axios.post("http://localhost:7070/registro-conta-azul", data, { headers })
                 URI.post("/registro-conta-azul", data, { headers })
                     .then(res => {
-                        console.log(res)
                         resolve(res)
 
                     })
@@ -188,13 +191,11 @@ export function SureSendModal(data) {
             setLoading(false)
 
         })
-            .catch(err => {
-                console.log(err)
+            .catch(() => {
                 setLoading(false)
-
             })
-
     }
+
 
     let idioma = "https://hook.us1.make.com/aubg255odycgwpc5355lgaa4n58637xa"
     let particulares = "https://hook.us1.make.com/jqp2s2z42pw2civtmnjtste1ug4oelfo"
@@ -236,23 +237,30 @@ export function SureSendModal(data) {
             filteredContracts[0].number.replace("-", "") :
             filteredContracts[0].number
 
-
-        await axios.post(archives[filteredContracts[0].subclasse],
-            filteredContracts[0], { headers })
-            .then((res) => {
-                if (res) {
-                    setOpen(!open)
-                    send && contaAzulSender()
+        const send = async () => {
+            await axios.post(archives[filteredContracts[0].subclasse],
+                filteredContracts[0], { headers })
+                .then((res) => {
+                    if (res) {
+                        setOpen(!open)
+                        send && contaAzulSender()
+                    }
                 }
-            }
-            )
-            .catch(err => {
-                if (err) {
-                    console.log(err)
-                }
-            })
-        setLoading(false)
+                )
+                .catch(() => {
+                    alert("Erro ao enviar ao autentique")
+                })
+            setLoading(false)
+        }
 
+
+
+        filteredContracts[0].number.length === 14 ?
+            send() :
+            new Error("A quantidade de caracteres no telefone de contato desse cliente está errada! O contato precisa ter exatos 14.")
+        // alert("A quantidade de caracteres no telefone de contato desse cliente está errada! O contato precisa ter exatos 14.")
+
+        filteredContracts[0].number.length !== 14 && setLoading(false)
     }
 
 

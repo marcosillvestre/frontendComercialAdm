@@ -289,9 +289,6 @@ export const UserProvider = ({ children }) => {
             }
         },
         queryKey: ["historic"],
-        onSuccess: (data) => {
-            console.log(data.length)
-        },
         onError: (err) => console.log(err)
     })
 
