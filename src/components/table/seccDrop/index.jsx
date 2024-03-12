@@ -41,6 +41,9 @@ export const SeccDrop = (row) => {
             SenderDirector("observacao", res, contrato, { "delete": true, "deleted": res })
     }
 
+
+    console.log(observation)
+
     return (
         <TableCell style={{
             paddingBottom: 0,
@@ -76,8 +79,8 @@ export const SeccDrop = (row) => {
                             {
                                 <ObservationField >
                                     {
-                                        observation.length === 0 ?
-                                            <div>Nenhuma observação ainda</div> :
+                                        observation[0].obs === '' || observation[0].obs === undefined ?
+                                            <div className='none'>Nenhuma observação ainda</div> :
                                             observation?.map(res => (
                                                 <span key={res.obs}>
                                                     <div className="item">

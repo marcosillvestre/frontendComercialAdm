@@ -2,6 +2,7 @@ import React from 'react'
 
 import { ContractData, SureSendModal } from '../../../components/source.jsx'
 import { useUser } from '../../../hooks/userContext'
+// import URI from '../../utils/utils.jsx'
 import URI from '../../utils/utils.jsx'
 import { Box, Button, Container, SendContract } from './styles'
 
@@ -19,8 +20,8 @@ export const Contracts = () => {
 
     async function data(e) {
         if (e.length !== 0) {
-            // await axios.get(`http://localhost:7070/contrato/${e}`, { headers })
             await URI.get(`/contrato/${e}`, { headers })
+                // await axios.get(`http://localhost:7070/contrato/${e}`, { headers })
                 .then(info => {
                     info.data && filteringBySeller(info.data)
                 }).catch(err => {

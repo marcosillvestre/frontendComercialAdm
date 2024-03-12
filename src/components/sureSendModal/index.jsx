@@ -83,17 +83,6 @@ export function SureSendModal(data) {
 
 
     async function contaAzulSender() {
-        // const {
-        //     name, contrato, unidade,
-        //     rg, cpf, DatadeNascdoResp,
-        //     CelularResponsavel, EnderecoResponsavel, NumeroEnderecoResponsavel,
-        //     complemento, bairro, profissao,
-        //     email, nameResponsible,
-        //     cargaHoraria, numeroParcelas, descontoTotal, descontoPorParcela,
-        //     curso, valorCurso, ppFormaPg,
-        //     ppVencimento, dataUltimaP, materialDidatico,
-        //     mdValor, mdFormaPg, mdVencimento,
-        //     tmValor, tmFormaPg, tmVencimento, } = filteredContracts[0]
 
         const {
             vendedor, contrato,
@@ -104,8 +93,8 @@ export function SureSendModal(data) {
             email, nomeAluno, cargaHoraria, numeroParcelas, dataUltimaParcelaMensalidade,
             descontoTotal, descontoPorParcela, curso, ppFormaPg, ppVencimento,
             dataUltimaP, materialDidatico, mdValor, mdFormaPg,
-            mdVencimento, tmValor, tmFormaPg, tmVencimento, valorCurso, service
-
+            mdVencimento, tmValor, tmFormaPg, tmVencimento, valorCurso, service,
+            observacaoRd
         } = filteredContracts[0]
 
 
@@ -119,10 +108,10 @@ export function SureSendModal(data) {
             valorCurso, ppFormaPg, ppVencimento, dataUltimaP,
             materialDidatico, mdValor, mdFormaPg, mdVencimento,
             tmValor, tmFormaPg, tmVencimento, cep, estado, cidade,
-            dataUltimaParcelaMensalidade, service
+            dataUltimaParcelaMensalidade, service,
+            observacaoRd
         }
 
-        // await axios.post("https://connection-with-conta-azul-rbv6l.ondigitalocean.app/cadastros", data)
         if (data.email === undefined || data.cpf === undefined ||
             data.name === undefined || data.CelularResponsavel === undefined ||
             data.DatadeNascdoResp === undefined ||

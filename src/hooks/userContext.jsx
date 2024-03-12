@@ -240,21 +240,20 @@ export const UserProvider = ({ children }) => {
 
 
 
+
     async function SenderDirector(area, target, id, value) {
         const day = new Date()
         const currentDay = day.toLocaleDateString()
 
-        const directorValidationBody = {
-            "area": area,
-            "value": area !== 'observacao' ? target : value,
-            "day": target !== "Ok" ? "" : currentDay,
-            "responsible": { "name": userData.name, "role": userData.role }
-        }
-
         await toast.promise(
             // axios.put(`http://localhost:7070/controle/${id}`,
             URI.put(`/controle/${id}`,
-                directorValidationBody
+                {
+                    "area": area,
+                    "value": area !== 'observacao' ? target : value,
+                    "day": target !== "Ok" ? "" : currentDay,
+                    "responsible": { "name": userData.name, "role": userData.role }
+                }
                 , { headers }),
             {
                 success: 'Atualizado com sucesso',
@@ -264,13 +263,17 @@ export const UserProvider = ({ children }) => {
         )
     }
 
-    async function Sender(area, e, id, value) {
+    async function Sender(area, target, id, value) {
+        const day = new Date()
+        const currentDay = day.toLocaleDateString()
+
         await toast.promise(
             URI.put(`/controle/${id}`,
                 {
                     "area": area,
-                    "value": area !== 'observacao' ? e : value,
-                    "responsible": userData.name
+                    "value": area !== 'observacao' ? target : value,
+                    "day": target !== "Ok" ? "" : currentDay,
+                    "responsible": { "name": userData.name, "role": userData.role }
                 }, { headers }),
             {
                 pending: 'Conferindo os dados',
