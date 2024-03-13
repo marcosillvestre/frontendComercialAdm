@@ -86,4 +86,7 @@ padding: .5rem .2rem;
 font-weight: lighter;
 font-size: small;
 text-align: center;
+p{
+    margin: 0 3px;
+}
 `

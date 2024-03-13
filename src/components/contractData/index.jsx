@@ -31,7 +31,7 @@ export const ContractData = () => {
         "Excel Avaçado": <Excel id='content' data={filteredContracts !== undefined && filteredContracts[0]} />
     }
 
-
+    console.log(filteredContracts)
 
     return (
         <Container>
@@ -126,8 +126,8 @@ export const ContractData = () => {
                                     <th>PA. Data</th>
                                     <th>Tipo/Modalidade</th>
                                     <th>Classe</th>
-
                                 </tr>
+
                                 <tr>
                                     <TableBody empty={res.unidade === "" || res.unidade === undefined}>{res.unidade}</TableBody>
                                     <TableBody empty={res.formato === "" || res.formato === undefined}>{res.formato}</TableBody>
@@ -137,6 +137,22 @@ export const ContractData = () => {
                                     <TableBody empty={res.tipoModalidade === "" || res.tipoModalidade === undefined}>{res.tipoModalidade}</TableBody>
                                     <TableBody empty={res.classe === "" || res.classe === undefined}>{res.classe}</TableBody>
                                 </tr>
+
+                                <tr>
+                                    <th>Material didático</th>
+                                    <th>Valor do material didático</th>
+                                </tr>
+                                <tr>
+                                    <TableBody empty={res.materialDidatico === "" || res.materialDidatico === undefined}>
+                                        {res.materialDidatico.map(res => (
+                                            <p key={res}>
+                                                {res},
+                                            </p>
+                                        ))}</TableBody>
+                                    <TableBody empty={res.mdValor === "" || res.mdValor === undefined}>R$ {res.mdValor}</TableBody>
+
+                                </tr>
+
 
 
                                 <tr style={{ fontWeight: 'bold' }}>Financeiro:</tr>
@@ -163,11 +179,13 @@ export const ContractData = () => {
                                 <tr>
                                     <th>Número de Parcelas</th>
                                     <th>Dia Vencimento</th>
+                                    <th>Taxa de matrícula</th>
 
                                 </tr>
                                 <tr>
                                     <TableBody empty={res.numeroParcelas === "" || res.numeroParcelas === undefined}>{res.numeroParcelas}</TableBody>
                                     <TableBody empty={res.diaVenvimento === "" || res.diaVenvimento === undefined}>{res.diaVenvimento}</TableBody>
+                                    <TableBody empty={res.tmValor === "" || res.tmValor === undefined}>R$ {res.tmValor}</TableBody>
 
                                 </tr>
 
