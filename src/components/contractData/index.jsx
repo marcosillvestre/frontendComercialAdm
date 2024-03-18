@@ -31,7 +31,7 @@ export const ContractData = () => {
         "Excel Avaçado": <Excel id='content' data={filteredContracts !== undefined && filteredContracts[0]} />
     }
 
-    console.log(filteredContracts)
+    // console.log(filteredContracts)
 
     return (
         <Container>
@@ -108,12 +108,14 @@ export const ContractData = () => {
                                     <th>profissão</th>
                                     <th>nome Aluno</th>
                                     <th>nascimento Aluno</th>
+                                    <th>Responsável</th>
                                 </tr>
                                 <tr>
                                     <TableBody empty={res.estadoCivil === "" || res.estadoCivil === undefined}>{res.estadoCivil}</TableBody>
                                     <TableBody empty={res.profissao === "" || res.profissao === undefined}>{res.profissao}</TableBody>
                                     <TableBody empty={res.nomeAluno === "" || res.nomeAluno === undefined}>{res.nomeAluno}</TableBody>
                                     <TableBody empty={res.nascimentoAluno === "" || res.nascimentoAluno === undefined}>{res.nascimentoAluno}</TableBody>
+                                    <TableBody empty={res.vendedor === "" || res.vendedor === undefined}>{res.vendedor}</TableBody>
                                 </tr>
 
 
@@ -173,7 +175,7 @@ export const ContractData = () => {
                                     <TableBody empty={res.descontoTotal === "" || res.descontoTotal === undefined}>R$ {res.descontoTotal}</TableBody>
                                     <TableBody empty={res.descontoPorParcela === "" || res.descontoPorParcela === undefined}>R$ {res.descontoPorParcela}</TableBody>
                                     <TableBody empty={res.valorMensalidade === "" || res.valorMensalidade === undefined}>R$ {res.valorMensalidade}</TableBody>
-                                    <TableBody >R$ {parseFloat(parseInt(res.valorMensalidade) - parseInt(res.descontoPorParcela))}</TableBody>
+                                    <TableBody >R$ {parseFloat(parseFloat(res.valorMensalidade) - parseFloat(res.descontoPorParcela.includes(",") ? `${res.descontoPorParcela.split(",")[0]}.${res.descontoPorParcela.split(",")[1]}` : res.descontoPorParcela))}</TableBody>
                                     <TableBody empty={res?.valorCurso === "" || res.valorCurso === undefined} >R$ {res?.valorCurso}</TableBody>
                                 </tr>
                                 <tr>
