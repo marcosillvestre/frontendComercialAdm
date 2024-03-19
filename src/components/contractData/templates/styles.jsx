@@ -29,9 +29,10 @@ width: 100%;
 justify-content: space-around;
 }
 .sign-marker {
-/* width: 100%; */
+width: 50%;
 border-top: 1px solid #222;
-margin: 0 10rem;
+margin: 2rem;
+text-align: center;
 }
 .field-sign {
 padding: 1rem;

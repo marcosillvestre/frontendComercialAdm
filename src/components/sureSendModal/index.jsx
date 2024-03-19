@@ -189,11 +189,11 @@ export function SureSendModal(data) {
     }
 
 
-    let idioma = import.meta.env.IDIOMA
-    let particulares = import.meta.env.PARTICULARES
-    let standard = import.meta.env.STANDARD
-    let office = import.meta.env.OFFICE
-    let excel = import.meta.env.EXCEL
+    let idioma = import.meta.env.VITE_IDIOMA
+    let particulares = import.meta.env.VITE_PARTICULARES
+    let standard = import.meta.env.VITE_STANDARD
+    let office = import.meta.env.VITE_OFFICE
+    let excel = import.meta.env.VITE_EXCEL
 
     const archives = {
         "Kids": idioma,
@@ -234,8 +234,6 @@ export function SureSendModal(data) {
             await axios.post(archives[filteredContracts[0].subclasse],
                 filteredContracts[0], { headers })
                 .then((res) => {
-
-                    console.log(res)
                     if (res) {
                         setOpen(!open)
                         send && contaAzulSender()
