@@ -93,8 +93,8 @@ position: absolute;
 
 const up = keyframes`
 to {
-    translate:  0 -120%;
-    display: none;
+    translate:  0 -150%;
+    visibility: hidden;
 }
 `
 const down = keyframes`
@@ -112,20 +112,20 @@ export const SendContract = styled.div`
 z-index: 0;
 background-color: #0069ff;
 color: #fff;
-padding: .4rem 0 ;
+/* padding: .4rem 0 ; */
 border-radius: 5px;
 border: none;
 cursor: pointer;
 transition: all.8s;
 width: 10.4rem;
 :first-child{
-    animation: ${({ $emmit }) => ($emmit ? up : down)} .4s ease-in-out forwards ;
+    animation: ${({ $emmit }) => ($emmit ? down : up)} .3s ease-in-out forwards ;
 }
 &:nth-child(2){
-    animation: ${({ $emmit }) => ($emmit ? up : down)} .5s ease-in-out forwards ;
+    animation: ${({ $emmit }) => ($emmit ? down : up)} .5s ease-in-out forwards ;
 }
 &:nth-child(3){
-    animation: ${({ $emmit }) => ($emmit ? up : down)} .6s ease-in-out forwards ;
+    animation: ${({ $emmit }) => ($emmit ? down : up)} .7s ease-in-out forwards ;
 }
 
 &:hover{

@@ -2,17 +2,19 @@ import Button from '@mui/material/Button';
 import Fade from '@mui/material/Fade';
 import styled from "styled-components";
 
+export const Container = styled.div`
+width: 100%;
+height: 100%;
+`
 export const Fades = styled(Fade)`
 border: none;
 border-Radius: .9rem;
 width: 22vw;
-padding: 4rem 3rem ;
+padding: 4rem 2rem ;
 
 `
 
 export const Filter = styled(Button)`
-color: #fff;
-background-color: #fff;
 
 `
 

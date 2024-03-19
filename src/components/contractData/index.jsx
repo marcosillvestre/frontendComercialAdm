@@ -31,8 +31,6 @@ export const ContractData = () => {
         "Excel Avaçado": <Excel id='content' data={filteredContracts !== undefined && filteredContracts[0]} />
     }
 
-    // console.log(filteredContracts)
-
     return (
         <Container>
             {
@@ -79,7 +77,10 @@ export const ContractData = () => {
                                     <TableBody empty={res.dataMatricula === "" || res.dataMatricula === undefined}>{res.dataMatricula}</TableBody>
                                     <TableBody empty={res.cpf === "" || res.cpf === undefined}>{res.cpf}</TableBody>
                                     <TableBody empty={res.DatadeNascdoResp === "" || res.DatadeNascdoResp === undefined}>{res.DatadeNascdoResp}</TableBody>
-                                    <TableBody empty={res.CelularResponsavel === "" || res.CelularResponsavel === undefined}>{res.CelularResponsavel}</TableBody>
+                                    <TableBody empty={
+                                        res.CelularResponsavel === "" ||
+                                        res.CelularResponsavel === undefined}>
+                                        {res.CelularResponsavel}</TableBody>
                                 </tr>
 
 
@@ -116,6 +117,7 @@ export const ContractData = () => {
                                     <TableBody empty={res.nomeAluno === "" || res.nomeAluno === undefined}>{res.nomeAluno}</TableBody>
                                     <TableBody empty={res.nascimentoAluno === "" || res.nascimentoAluno === undefined}>{res.nascimentoAluno}</TableBody>
                                     <TableBody empty={res.vendedor === "" || res.vendedor === undefined}>{res.vendedor}</TableBody>
+
                                 </tr>
 
 
@@ -142,7 +144,11 @@ export const ContractData = () => {
 
                                 <tr>
                                     <th>Material didático</th>
-                                    <th>Valor do material didático</th>
+                                    {
+                                        res.observacaoRd ?
+                                            <th>Observações do rd</th> :
+                                            ""
+                                    }
                                 </tr>
                                 <tr>
                                     <TableBody empty={res.materialDidatico === "" || res.materialDidatico === undefined}>
@@ -151,7 +157,12 @@ export const ContractData = () => {
                                                 {res},
                                             </p>
                                         ))}</TableBody>
-                                    <TableBody empty={res.mdValor === "" || res.mdValor === undefined}>R$ {res.mdValor}</TableBody>
+                                    {
+                                        res.observacaoRd ?
+                                            <TableBody empty={res.observacaoRd === "" || res.observacaoRd === undefined}>{res.observacaoRd}</TableBody> :
+                                            ""
+                                    }
+
 
                                 </tr>
 
@@ -183,11 +194,17 @@ export const ContractData = () => {
                                     <th>Dia Vencimento</th>
                                     <th>Taxa de matrícula</th>
 
+                                    <th>Valor do material didático</th>
+                                    <th>Valor do desconto do material didático</th>
+
                                 </tr>
                                 <tr>
                                     <TableBody empty={res.numeroParcelas === "" || res.numeroParcelas === undefined}>{res.numeroParcelas}</TableBody>
                                     <TableBody empty={res.diaVenvimento === "" || res.diaVenvimento === undefined}>{res.diaVenvimento}</TableBody>
                                     <TableBody empty={res.tmValor === "" || res.tmValor === undefined}>R$ {res.tmValor}</TableBody>
+                                    <TableBody empty={res.mdValor === "" || res.mdValor === undefined}>R$ {res.mdValor}</TableBody>
+
+                                    <TableBody empty={isNaN(parseInt(res.mdDesconto)) || res.mdDesconto === undefined}>R$ {res.mdDesconto}</TableBody>
 
                                 </tr>
 
@@ -202,7 +219,7 @@ export const ContractData = () => {
                 ))
 
                     :
-                    <div >
+                    <div className='empty'>
                         <details >
                             <p className='parag'>Deseja emitir um contrato ? Selecione
                                 o Funil de vendas desejado na opção <q>Funil</q> e logo em seguida na

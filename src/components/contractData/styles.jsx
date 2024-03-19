@@ -24,7 +24,7 @@ th{
         text-transform: uppercase;
     }
 }
-div{
+.empty{
     display: flex;
     flex-direction: column;
     /* gap: 4rem; */
@@ -48,17 +48,23 @@ div{
 
 
 export const NavBar = styled.nav`
-text-align: center;
+/* text-align: center; */
+/* display: flex; */
 .buttons{
     display: flex;
+    gap: 6px;
+    align-items: center;
 }
 `
 
 export const ButtonLink = styled.button`
-padding: .5rem 0;
-font-size: 1.1rem;
+padding: .7rem 0 ;
+width: 7rem ;
+
+font-size: 1rem;
 border: none;
-background-color:${props => props.open ? "#3458f5" : "#bbbdc0"} ;
+/* background-color:${props => props.open ? "#3458f5" : "#6d7ccb"} ; */
+background-color:#3458f5 ;
 color:${props => props.open ? "#fff" : "#222"} ;
 border-radius: .4rem;
 cursor: pointer;

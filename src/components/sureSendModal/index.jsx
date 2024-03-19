@@ -8,7 +8,7 @@ import * as React from 'react';
 import { useUser } from '../../hooks/userContext';
 
 import axios from 'axios';
-import { Boxes, ButtonDelete, Fades, Filter } from './styles';
+import { Boxes, ButtonDelete, Container, Fades, Filter } from './styles';
 
 const style = {
     position: 'absolute',
@@ -41,6 +41,7 @@ export function SureSendModal(data) {
     const [loading, setLoading] = React.useState(false)
 
     const handleOpen = () => setOpen(true);
+
     const handleClose = () => {
         setOpen(false)
         setLoading(false)
@@ -83,6 +84,7 @@ export function SureSendModal(data) {
 
 
     async function contaAzulSender() {
+        setLoading(true)
 
         const {
             vendedor, contrato,
@@ -94,7 +96,7 @@ export function SureSendModal(data) {
             descontoTotal, descontoPorParcela, curso, ppFormaPg, ppVencimento,
             dataUltimaP, materialDidatico, mdValor, mdFormaPg,
             mdVencimento, tmValor, tmFormaPg, tmVencimento, valorCurso, service,
-            observacaoRd
+            observacaoRd, mdDesconto
         } = filteredContracts[0]
 
 
@@ -109,7 +111,7 @@ export function SureSendModal(data) {
             materialDidatico, mdValor, mdFormaPg, mdVencimento,
             tmValor, tmFormaPg, tmVencimento, cep, estado, cidade,
             dataUltimaParcelaMensalidade, service,
-            observacaoRd
+            observacaoRd, mdDesconto
         }
 
         if (data.email === undefined || data.cpf === undefined ||
@@ -119,28 +121,29 @@ export function SureSendModal(data) {
             data.estado === undefined ||
             data.cidade === undefined ||
             data.NumeroEnderecoResponsavel === undefined ||
-            data.EnderecoResponsavel === undefined) {
+            data.EnderecoResponsavel === undefined ||
+            isNaN(parseInt(mdDesconto)) === true) {
 
             return alert("Contrato não enviado ao Conta Azul, confira os dados do responsável financeiro")
         }
 
 
         const client = async () => {
-            return new Promise((resolve, reject) => {
+            return await Promise((resolve, reject) => {
                 // axios.post("http://localhost:7070/cliente", data, { headers })
                 URI.post("/cliente", data, { headers })
                     .then(res => {
                         resolve(res)
-
                     })
                     .catch(err => {
-                        alert("Erro ao cadastrar o cliente no conta azul")
+                        alert(err.response.data.message)
                         reject(err)
                     })
             })
         }
+
         const contract = async () => {
-            return new Promise((resolve, reject) => {
+            return await Promise((resolve, reject) => {
                 // axios.post("http://localhost:7070/registro-conta-azul", data, { headers })
                 URI.post("/registro-conta-azul", data, { headers })
                     .then(res => {
@@ -148,15 +151,15 @@ export function SureSendModal(data) {
 
                     })
                     .catch(err => {
-                        alert("Erro ao enviar o contrato de venda")
+                        alert(err.response.data.message)
                         reject(err)
                     })
 
-
             })
         }
+
         const sales = async () => {
-            return new Promise((resolve, reject) => {
+            return await Promise((resolve, reject) => {
                 // axios.post("http://localhost:7070/venda", data, { headers })
                 URI.post("/venda", data, { headers })
                     .then(res => {
@@ -164,33 +167,33 @@ export function SureSendModal(data) {
 
                     })
                     .catch(err => {
-                        alert("Erro ao enviar as vendas avulsas")
+                        alert(err.response.data.message)
                         reject(err)
                     })
 
             })
         }
 
-        return Promise.all([
-            client(),
-            contract(),
-            sales()
+        return await Promise.all([
+            client(), contract(), sales()
         ]).then(() => {
             alert("Enviado com sucesso")
             setLoading(false)
 
         })
-            .catch(() => {
+            .catch((err) => {
+                console.log(err)
                 setLoading(false)
             })
+
     }
 
 
-    let idioma = "https://hook.us1.make.com/aubg255odycgwpc5355lgaa4n58637xa"
-    let particulares = "https://hook.us1.make.com/jqp2s2z42pw2civtmnjtste1ug4oelfo"
-    let standard = "https://hook.us1.make.com/2aratjfs2vvj7xueiiqpkkuv687bmib1"
-    let office = "https://hook.us1.make.com/52vy6g17uh62ti6ahyb1hjt1mj3m9oyv"
-    let excel = "https://hook.us1.make.com/0xknnw9e3pt1knf15qs94fi1czss7m3k"
+    let idioma = import.meta.env.IDIOMA
+    let particulares = import.meta.env.PARTICULARES
+    let standard = import.meta.env.STANDARD
+    let office = import.meta.env.OFFICE
+    let excel = import.meta.env.EXCEL
 
     const archives = {
         "Kids": idioma,
@@ -211,6 +214,7 @@ export function SureSendModal(data) {
 
 
     async function createContract() {
+        setLoading(true)
 
         filteredContracts[0].vencimento = filteredContracts[0].diaVenvimento.split("/")[0]
         filteredContracts[0].emissao = new Date().toLocaleDateString()
@@ -226,30 +230,32 @@ export function SureSendModal(data) {
             filteredContracts[0].number.replace("-", "") :
             filteredContracts[0].number
 
-        const send = async () => {
+        const sender = async () => {
             await axios.post(archives[filteredContracts[0].subclasse],
                 filteredContracts[0], { headers })
                 .then((res) => {
+
+                    console.log(res)
                     if (res) {
                         setOpen(!open)
                         send && contaAzulSender()
                     }
                 }
                 )
-                .catch(() => {
+                .catch((err) => {
+                    console.log(err)
                     alert("Erro ao enviar ao autentique")
                 })
             setLoading(false)
         }
 
 
+        filteredContracts[0].number.length !== 14 && setLoading(false)
 
         filteredContracts[0].number.length === 14 ?
-            send() :
-            new Error("A quantidade de caracteres no telefone de contato desse cliente está errada! O contato precisa ter exatos 14.")
-        // alert("A quantidade de caracteres no telefone de contato desse cliente está errada! O contato precisa ter exatos 14.")
+            sender() :
+            alert("A quantidade de caracteres no telefone de contato desse cliente está errada! O contato precisa ter exatos 14.") && setLoading(false)
 
-        filteredContracts[0].number.length !== 14 && setLoading(false)
     }
 
 
@@ -276,13 +282,16 @@ export function SureSendModal(data) {
                 senderImpressContract()
             }, 1000);
         }
-        setLoading(true)
 
     }
 
     return (
-        <div>
-            <Filter onClick={handleFuncs} style={{ color: "#fff" }}>{data.data}</Filter>
+        <Container>
+            <Filter
+                onClick={handleFuncs}
+                style={{ color: "#fff", width: "100%" }}>
+                {data.data}
+            </Filter>
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
@@ -334,6 +343,6 @@ export function SureSendModal(data) {
                 </Fades>
 
             </Modal>
-        </div>
+        </Container>
     );
 }   
