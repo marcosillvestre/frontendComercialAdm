@@ -18,7 +18,6 @@ export const SelectPeriodCustom = (periods) => {
         setTypeFilter([])
         setCustomizableArray([])
 
-
         setTake(10)
         setSkip(0)
 
@@ -58,13 +57,14 @@ export const SelectPeriodCustom = (periods) => {
                     {
                         periods.opt?.map(period => (
                             <Options className="option" key={period?.name}  >
-                                <span className="label" onClick={() => handleCheck(period?.name)}>
-                                    {
-                                        period.customizable === undefined ? <p>{period?.name}</p> :
-                                            <PositionedMenu name={period?.name} />
-                                    }
-
-                                </span>
+                                {
+                                    period.customizable === undefined ?
+                                        <span className="label" onClick={() => handleCheck(period?.name)}>
+                                            <p>{period?.name}</p>
+                                        </span>
+                                        :
+                                        <PositionedMenu name={period?.name} />
+                                }
                                 <Checked className='icon-right'><DoneIcon /></Checked>
                             </Options>
                         ))

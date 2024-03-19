@@ -1,16 +1,18 @@
 import styled from "styled-components";
 
-export const Container = styled.main`
-
+export const Container = styled.div`
+width: 100rem;
+height: 100%;
 `
 
 export const RangeDate = styled.div`
 display: flex;
 flex-direction: column;
+justify-content: center;
 padding: 1rem;
 text-align: center;
 gap:2rem;
-width: 28rem ;
+width: 35rem ;
 height: 27rem;
 background-color: #f2f2f2;
 
@@ -21,7 +23,7 @@ input{
     border: none;
     background-color: #f2f2f2;
     transition: all.3s;
-
+    width: 100%;
 }
 .label{
     display: flex;

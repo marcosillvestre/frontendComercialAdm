@@ -27,7 +27,7 @@ export const DatePickers = (parameters) => {
                 dateFormat="dd/MM/yyyy"
                 placeholderText={parameters.text}
                 onChange={(date) => handleDate(date)}
-
+                autoComplete="off"
             />
 
         </Container>

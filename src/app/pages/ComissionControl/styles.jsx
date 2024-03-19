@@ -126,7 +126,7 @@ export const ListOpt = styled.ul`
     margin-top: .3rem ;
     border-radius: .375rem;
     background-color:#dfe6f1;
-    min-width: 15rem;
+    max-width: 15rem;
 
 
 `
@@ -134,7 +134,7 @@ export const Options = styled.li`
         transition: .4s;
         transform-origin: top;
         color: #222;
-        width: 100%;
+        /* width: 100%; */
         border-bottom: 1px solid #fafafa;
         height: 2.78rem;
         display: flex;
@@ -160,6 +160,7 @@ export const Options = styled.li`
 export const ContainerTable = styled.div`
 display: flex;
 align-items: flex-start;
+justify-content: center;
 gap: .8rem;
 padding: .5rem 1rem;
 
@@ -169,8 +170,10 @@ padding: .5rem 1rem;
     align-items: flex-end;
     gap: .5rem;
     font-size: small;
-
+    position: sticky;
+    top: 110px;
 }
+
 .cell-relatory{
     text-align: center;
     font-size: small;
@@ -221,11 +224,11 @@ display: none;
 export const SelectButton = styled.div`
 color: #222;
 min-width: 15rem;
-min-height: 2.5rem;
+height: 2.5rem;
 
 margin-top: .5rem;
 display: flex;
-padding: 0 2rem;
+padding: 0 1rem 0 1.4rem;
 align-items: center;
 justify-content: space-between;
 border-radius: .375rem;
@@ -236,20 +239,22 @@ background-color:${props => props.open ? "#d4d9e4" : "#dfe6f1"} ;
     font-size: .875rem;
     margin-right: 2rem;
     transition-duration: 3s;
+    white-space: nowrap;
 }
 .container-parameters{
 display: flex;
-flex-wrap: wrap;
     span{
         border: 1px dashed;
         border-radius: 7px;
-        padding: 3px 7px;
+        padding: 1px 7px;
+        white-space: nowrap;
         cursor: pointer;
         p{
             display: flex;
             width: 100%;
             &::after{
                 content:'✖️';
+                margin-left: 2px;
             }
             &:active{
                 padding: 2px 5px;
@@ -264,16 +269,10 @@ export const Icon = styled.div`
 display: flex;
 align-items: center;
 cursor: pointer;
-translate:  -2px -2px ;
 
- .icon-up{
-        transform: rotate(180deg);
-        transition: all 1s ease-in-out;
-        display:${props => props.open ? "block" : "none"} ;
-        translate:  0 -1px ;
+.icon{
+    transform: ${props => props.open ? "rotate(180deg)" : "rotate(0deg)"};
+    transition: all.4s;
     }
     
-    .icon-down{
-        display:${props => props.open ? "none" : "block"} ;
-    }
 `

@@ -1,6 +1,11 @@
 import styled from 'styled-components'
 
 export const Container = styled.span`
-width: fit-content;
+width: 90%;
 z-index: 10;
+
+.react-datepicker-wrapper{
+    width: 90%;
+}
+
 `

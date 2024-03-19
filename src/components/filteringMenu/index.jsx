@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
 import { useData } from '../../hooks/dataContext';
 import { useUser } from '../../hooks/userContext';
 import { DatePickers } from '../source.jsx';
-import { Label, RangeDate, Select } from './styles';
+import { Container, Label, RangeDate, Select } from './styles';
 
 import rules from '../../app/utils/Rules/options.jsx';
 
@@ -68,6 +68,7 @@ export function PositionedMenu(data) {
 
         close()
         setOpenPeriodRange(false)
+
     }
 
     const open = Boolean(anchorEl);
@@ -83,7 +84,7 @@ export function PositionedMenu(data) {
     };
 
     return (
-        <div style={{ width: "100%" }}>
+        <Container >
             <Button
                 id="demo-positioned-button"
                 aria-controls={open ? 'demo-positioned-menu' : undefined}
@@ -203,6 +204,6 @@ export function PositionedMenu(data) {
                 }
 
             </Menu>
-        </div>
+        </Container>
     );
 }
