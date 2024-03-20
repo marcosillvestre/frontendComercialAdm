@@ -31,6 +31,19 @@ export const ContractData = () => {
         "Excel Avaçado": <Excel id='content' data={filteredContracts !== undefined && filteredContracts[0]} />
     }
 
+
+    const parsingFloats = (number1, number2) => {
+        if (number1 !== undefined && number2 !== undefined) {
+            const first = number1.includes(",") ? number1.replace(",", ".") : parseFloat(number1)
+            const secc = number2.includes(",") ? number2.replace(",", ".") : parseFloat(number2)
+
+            let data = first - secc
+            let rounded = data.toFixed(2)
+            return rounded
+        }
+
+    }
+
     return (
         <Container>
             {
@@ -195,7 +208,8 @@ export const ContractData = () => {
                                     <th>Taxa de matrícula</th>
 
                                     <th>Valor do material didático</th>
-                                    <th>Valor do desconto do material didático</th>
+                                    <th>Desconto no material didático</th>
+                                    <th>Valor do material didático com desconto</th>
 
                                 </tr>
                                 <tr>
@@ -205,6 +219,9 @@ export const ContractData = () => {
                                     <TableBody empty={res.mdValor === "" || res.mdValor === undefined}>R$ {res.mdValor}</TableBody>
 
                                     <TableBody empty={isNaN(parseInt(res.mdDesconto)) || res.mdDesconto === undefined}>R$ {res.mdDesconto}</TableBody>
+                                    <TableBody empty={isNaN(parseInt(res.mdDesconto)) || res.mdDesconto === undefined}>
+                                        R$ {parsingFloats(res.mdValor, res.mdDesconto)}
+                                    </TableBody>
 
                                 </tr>
 

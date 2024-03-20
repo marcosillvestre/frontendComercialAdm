@@ -129,7 +129,7 @@ export function SureSendModal(data) {
 
 
         const client = async () => {
-            return await Promise((resolve, reject) => {
+            return await new Promise((resolve, reject) => {
                 // axios.post("http://localhost:7070/cliente", data, { headers })
                 URI.post("/cliente", data, { headers })
                     .then(res => {
@@ -143,7 +143,7 @@ export function SureSendModal(data) {
         }
 
         const contract = async () => {
-            return await Promise((resolve, reject) => {
+            return await new Promise((resolve, reject) => {
                 // axios.post("http://localhost:7070/registro-conta-azul", data, { headers })
                 URI.post("/registro-conta-azul", data, { headers })
                     .then(res => {
@@ -159,7 +159,7 @@ export function SureSendModal(data) {
         }
 
         const sales = async () => {
-            return await Promise((resolve, reject) => {
+            return await new Promise((resolve, reject) => {
                 // axios.post("http://localhost:7070/venda", data, { headers })
                 URI.post("/venda", data, { headers })
                     .then(res => {
@@ -167,24 +167,55 @@ export function SureSendModal(data) {
 
                     })
                     .catch(err => {
+                        // console.log(err.response)
                         alert(err.response.data.message)
                         reject(err)
-                    })
 
+                    })
+            })
+        }
+        const feeEnroll = async () => {
+            return await new Promise((resolve, reject) => {
+                // axios.post("http://localhost:7070/taxa", data, { headers })
+                URI.post("/venda", data, { headers })
+                    .then(res => {
+                        resolve(res)
+
+                    })
+                    .catch(err => {
+                        // console.log(err.response)
+                        alert(err.response.data.message)
+                        reject(err)
+
+                    })
             })
         }
 
-        return await Promise.all([
-            client(), contract(), sales()
-        ]).then(() => {
-            alert("Enviado com sucesso")
-            setLoading(false)
-
-        })
-            .catch((err) => {
-                console.log(err)
+        return await client().then(async () => {
+            await Promise.allSettled([
+                contract(),
+                sales(),
+                feeEnroll()
+            ]).then((response) => {
                 setLoading(false)
+                let rejected = response.filter(data => { data.status === 'rejected' })
+                // let acepted = response.filter(data => { data.status !== 'rejected' })
+
+                // console.log(rejected)
+                // console.log(acepted)
+                // if (rejected.length > 0) {
+                //     console.log(rejected)
+                // }
+                if (rejected.length === 0) {
+                    alert("Enviado com sucesso")
+                }
+
             })
+                .catch((err) => {
+                    alert(err.response.data.message)
+                    setLoading(false)
+                })
+        }).catch(err => console.log(err))
 
     }
 
