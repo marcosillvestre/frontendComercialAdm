@@ -144,8 +144,8 @@ export function SureSendModal(data) {
 
         const contract = async () => {
             return await new Promise((resolve, reject) => {
-                // URI.post("/registro-conta-azul", data, { headers })
-                axios.post("http://localhost:7070/registro-conta-azul", data, { headers })
+                URI.post("/registro-conta-azul", data, { headers })
+                    // axios.post("http://localhost:7070/registro-conta-azul", data, { headers })
                     .then(res => {
                         resolve(res)
 
@@ -160,8 +160,8 @@ export function SureSendModal(data) {
 
         const sales = async () => {
             return await new Promise((resolve, reject) => {
-                // URI.post("/venda", data, { headers })
-                axios.post("http://localhost:7070/venda", data, { headers })
+                URI.post("/venda", data, { headers })
+                    // axios.post("http://localhost:7070/venda", data, { headers })
                     .then(res => {
                         resolve(res)
 
