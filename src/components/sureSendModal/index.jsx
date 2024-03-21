@@ -17,7 +17,7 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
+    width: 490,
     bgcolor: 'background.paper',
     border: '1px solid #000',
     boxShadow: 24,
@@ -46,9 +46,6 @@ export function SureSendModal(data) {
         setOpen(false)
         setLoading(false)
     };
-
-
-
 
     const senderImpressContract = async () => {
 
@@ -82,6 +79,70 @@ export function SureSendModal(data) {
 
     }
 
+
+    const client = async (body) => {
+        return await new Promise((resolve, reject) => {
+            // axios.post("http://localhost:7070/cliente", data, { headers })
+            URI.post("/cliente", body, { headers })
+                .then(res => {
+                    resolve(res)
+                })
+                .catch(err => {
+                    alert(err.response.data.message)
+                    reject(err)
+                })
+        })
+    }
+
+    const contract = async (body) => {
+        return await new Promise((resolve, reject) => {
+            URI.post("/registro-conta-azul", body, { headers })
+                // axios.post("http://localhost:7070/registro-conta-azul", data, { headers })
+                .then(res => {
+                    resolve(res)
+
+                })
+                .catch(err => {
+                    alert(err.response.data.message)
+                    reject(err)
+                })
+
+        })
+    }
+
+    const sales = async (body) => {
+        return await new Promise((resolve, reject) => {
+            URI.post("/venda", body, { headers })
+                // axios.post("http://localhost:7070/venda", data, { headers })
+                .then(res => {
+                    resolve(res)
+
+                })
+                .catch(err => {
+                    // console.log(err.response)
+                    alert(err.response.data.message)
+                    reject(err)
+
+                })
+        })
+    }
+
+    const feeEnroll = async (body) => {
+        return await new Promise((resolve, reject) => {
+            URI.post("/taxa", body, { headers })
+                // axios.post("http://localhost:7070/taxa", data, { headers })
+                .then(res => {
+                    resolve(res)
+
+                })
+                .catch(err => {
+                    // console.log(err.response)
+                    alert(err.response.data.message)
+                    reject(err)
+
+                })
+        })
+    }
 
     async function contaAzulSender() {
         setLoading(true)
@@ -128,75 +189,11 @@ export function SureSendModal(data) {
         }
 
 
-        const client = async () => {
-            return await new Promise((resolve, reject) => {
-                // axios.post("http://localhost:7070/cliente", data, { headers })
-                URI.post("/cliente", data, { headers })
-                    .then(res => {
-                        resolve(res)
-                    })
-                    .catch(err => {
-                        alert(err.response.data.message)
-                        reject(err)
-                    })
-            })
-        }
-
-        const contract = async () => {
-            return await new Promise((resolve, reject) => {
-                URI.post("/registro-conta-azul", data, { headers })
-                    // axios.post("http://localhost:7070/registro-conta-azul", data, { headers })
-                    .then(res => {
-                        resolve(res)
-
-                    })
-                    .catch(err => {
-                        alert(err.response.data.message)
-                        reject(err)
-                    })
-
-            })
-        }
-
-        const sales = async () => {
-            return await new Promise((resolve, reject) => {
-                URI.post("/venda", data, { headers })
-                    // axios.post("http://localhost:7070/venda", data, { headers })
-                    .then(res => {
-                        resolve(res)
-
-                    })
-                    .catch(err => {
-                        // console.log(err.response)
-                        alert(err.response.data.message)
-                        reject(err)
-
-                    })
-            })
-        }
-
-        const feeEnroll = async () => {
-            return await new Promise((resolve, reject) => {
-                URI.post("/taxa", data, { headers })
-                    // axios.post("http://localhost:7070/taxa", data, { headers })
-                    .then(res => {
-                        resolve(res)
-
-                    })
-                    .catch(err => {
-                        // console.log(err.response)
-                        alert(err.response.data.message)
-                        reject(err)
-
-                    })
-            })
-        }
-
-        return await client().then(async () => {
+        return await client(data).then(async () => {
             await Promise.allSettled([
-                contract(),
-                sales(),
-                feeEnroll()
+                contract(data),
+                sales(data),
+                feeEnroll(data)
             ]).then((response) => {
                 setLoading(false)
                 let rejected = response.filter(data => { data.status === 'rejected' })
@@ -223,7 +220,26 @@ export function SureSendModal(data) {
         }).catch(err => console.log(err))
 
     }
+    const [sendingList, setSendingList] = React.useState([])
+    // const sendingList = []
 
+    console.log(sendingList)
+    const handleSendingList = (fn) => {
+        const data = sendingList.filter(item => item === fn)
+
+        data.length === 0 && setSendingList(fn)
+        data.length > 0 && setSendingList(sendingList.filter(item => item !== fn))
+    }
+
+    async function separated() {
+
+        if (sendingList.length === 0) {
+            return alert("Você precisa definir pelo menos um tipo de envio para o conta azul")
+        }
+
+        console.log(sendingList)
+
+    }
 
     let idioma = import.meta.env.VITE_IDIOMA
     let particulares = import.meta.env.VITE_PARTICULARES
@@ -293,10 +309,6 @@ export function SureSendModal(data) {
     }
 
 
-    function handleFuncs() {
-        handleOpen()
-    }
-
     const handleSender = () => {
 
         if (filteredContracts === undefined) {
@@ -322,7 +334,7 @@ export function SureSendModal(data) {
     return (
         <Container>
             <Filter
-                onClick={handleFuncs}
+                onClick={() => handleOpen()}
                 style={{ color: "#fff", width: "100%" }}>
                 {data.data}
             </Filter>
@@ -349,15 +361,49 @@ export function SureSendModal(data) {
                                         {data.text}
                                     </Typography>
 
-                                    {data.data !== 'Conta Azul' &&
-                                        <Boxes>
-                                            <input type="checkbox" onClick={() => setSend(!send)} className='check' />
-                                            <small>Não enviar este contrato ao Conta Azul</small>
-                                        </Boxes>
+                                    {
+                                        data.data !== 'Conta Azul' ?
+                                            <>
+                                                <Boxes>
+                                                    <input type="checkbox" onClick={() => setSend(!send)} className='check' />
+                                                    <small>Não enviar este contrato ao Conta Azul</small>
+                                                </Boxes>
+
+                                                <Boxes radio>
+                                                    <ButtonDelete onClick={() => handleSender()}>Emitir contrato</ButtonDelete>
+                                                </Boxes>
+                                            </>
+                                            :
+                                            <>
+                                                <Boxes style={{ flexDirection: "column", alignItems: "flex-start" }}>
+                                                    <div>
+                                                        <input type="checkbox"
+                                                            onClick={() => setSendingList("contract")}
+                                                            className='check' />
+                                                        <small>Contrato</small>
+                                                    </div>
+
+                                                    <div>
+                                                        <input type="checkbox"
+                                                            onClick={() => setSendingList("sales")}
+                                                            className='check' />
+                                                        <small>Material didático</small>
+                                                    </div>
+
+                                                    <div>
+                                                        <input type="checkbox"
+                                                            onClick={() => setSendingList("feeEnroll")}
+                                                            className='check' />
+                                                        <small>Taxa de matrícula</small>
+                                                    </div>
+
+                                                </Boxes>
+                                                <Boxes radio>
+                                                    <ButtonDelete onClick={() => separated()}>Emitir contrato</ButtonDelete>
+                                                </Boxes>
+                                            </>
                                     }
-                                    <Boxes radio>
-                                        <ButtonDelete onClick={() => handleSender()}>Emitir contrato</ButtonDelete>
-                                    </Boxes>
+
                                 </div>
 
                                 : <LoadingSpin

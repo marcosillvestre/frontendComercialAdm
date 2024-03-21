@@ -9,8 +9,8 @@ height: 100%;
 export const Fades = styled(Fade)`
 border: none;
 border-Radius: .9rem;
-width: 22vw;
-padding: 4rem 2rem ;
+width: 25vw;
+padding: 4rem 0rem ;
 
 `
 
