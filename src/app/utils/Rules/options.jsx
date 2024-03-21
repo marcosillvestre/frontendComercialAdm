@@ -15,7 +15,8 @@ const coursesOpt = [
 const backgroundOpt = [
     "Novo aluno",
     "Ex-aluno",
-    "Aluno",
+    "Aluno vigente",
+    "Rematrícula"
 ]
 const nonEspecificOpt = [
     "Pendente",
