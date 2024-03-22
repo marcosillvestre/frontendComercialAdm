@@ -2,7 +2,7 @@ import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
-import * as React from 'react';
+import { useState } from 'react';
 
 
 import { useUser } from '../../hooks/userContext';
@@ -33,18 +33,20 @@ import { useData } from '../../hooks/dataContext';
 
 export function SureSendModal(data) {
 
-    const [send, setSend] = React.useState(true)
+    const [send, setSend] = useState(true)
     const { filteredContracts, headers } = useUser()
     const { content, setView } = useData()
 
-    const [open, setOpen] = React.useState(false);
-    const [loading, setLoading] = React.useState(false)
+    const [open, setOpen] = useState(false);
+    const [loading, setLoading] = useState(false)
+    const [sendingList, setSendingList] = useState([])
 
     const handleOpen = () => setOpen(true);
 
     const handleClose = () => {
         setOpen(false)
         setLoading(false)
+        setSendingList([])
     };
 
     const senderImpressContract = async () => {
@@ -144,56 +146,54 @@ export function SureSendModal(data) {
         })
     }
 
+    const {
+        vendedor, contrato,
+        unidade, name, rg,
+        cpf, DatadeNascdoResp, CelularResponsavel, EnderecoResponsavel,
+        NumeroEnderecoResponsavel, complemento, bairro, cidade,
+        estado, cep, profissao,
+        email, nomeAluno, cargaHoraria, numeroParcelas, dataUltimaParcelaMensalidade,
+        descontoTotal, descontoPorParcela, curso, ppFormaPg, ppVencimento,
+        dataUltimaP, materialDidatico, mdValor, mdFormaPg,
+        mdVencimento, tmValor, tmFormaPg, tmVencimento, valorCurso, service,
+        observacaoRd, mdDesconto
+    } = filteredContracts === undefined || filteredContracts[0] === undefined ? {} : filteredContracts[0]
+
+    const body = {
+        contrato, vendedor,
+        unidade, name, rg, cpf,
+        DatadeNascdoResp, CelularResponsavel, EnderecoResponsavel,
+        NumeroEnderecoResponsavel, complemento,
+        bairro, profissao, email, nomeAluno, cargaHoraria,
+        numeroParcelas, descontoTotal, descontoPorParcela, curso,
+        valorCurso, ppFormaPg, ppVencimento, dataUltimaP,
+        materialDidatico, mdValor, mdFormaPg, mdVencimento,
+        tmValor, tmFormaPg, tmVencimento, cep, estado, cidade,
+        dataUltimaParcelaMensalidade, service,
+        observacaoRd, mdDesconto
+    }
     async function contaAzulSender() {
         setLoading(true)
 
-        const {
-            vendedor, contrato,
-            unidade, name, rg,
-            cpf, DatadeNascdoResp, CelularResponsavel, EnderecoResponsavel,
-            NumeroEnderecoResponsavel, complemento, bairro, cidade,
-            estado, cep, profissao,
-            email, nomeAluno, cargaHoraria, numeroParcelas, dataUltimaParcelaMensalidade,
-            descontoTotal, descontoPorParcela, curso, ppFormaPg, ppVencimento,
-            dataUltimaP, materialDidatico, mdValor, mdFormaPg,
-            mdVencimento, tmValor, tmFormaPg, tmVencimento, valorCurso, service,
-            observacaoRd, mdDesconto
-        } = filteredContracts[0]
-
-
-        const data = {
-            contrato, vendedor,
-            unidade, name, rg, cpf,
-            DatadeNascdoResp, CelularResponsavel, EnderecoResponsavel,
-            NumeroEnderecoResponsavel, complemento,
-            bairro, profissao, email, nomeAluno, cargaHoraria,
-            numeroParcelas, descontoTotal, descontoPorParcela, curso,
-            valorCurso, ppFormaPg, ppVencimento, dataUltimaP,
-            materialDidatico, mdValor, mdFormaPg, mdVencimento,
-            tmValor, tmFormaPg, tmVencimento, cep, estado, cidade,
-            dataUltimaParcelaMensalidade, service,
-            observacaoRd, mdDesconto
-        }
-
-        if (data.email === undefined || data.cpf === undefined ||
-            data.name === undefined || data.CelularResponsavel === undefined ||
-            data.DatadeNascdoResp === undefined ||
-            data.cep === undefined ||
-            data.estado === undefined ||
-            data.cidade === undefined ||
-            data.NumeroEnderecoResponsavel === undefined ||
-            data.EnderecoResponsavel === undefined ||
+        if (body.email === undefined || body.cpf === undefined ||
+            body.name === undefined || body.CelularResponsavel === undefined ||
+            body.DatadeNascdoResp === undefined ||
+            body.cep === undefined ||
+            body.estado === undefined ||
+            body.cidade === undefined ||
+            body.NumeroEnderecoResponsavel === undefined ||
+            body.EnderecoResponsavel === undefined ||
             isNaN(parseInt(mdDesconto)) === true) {
 
             return alert("Contrato não enviado ao Conta Azul, confira os dados do responsável financeiro")
         }
 
 
-        return await client(data).then(async () => {
+        return await client(body).then(async () => {
             await Promise.allSettled([
-                contract(data),
-                sales(data),
-                feeEnroll(data)
+                contract(body),
+                sales(body),
+                feeEnroll(body)
             ]).then((response) => {
                 setLoading(false)
                 let rejected = response.filter(data => { data.status === 'rejected' })
@@ -220,15 +220,11 @@ export function SureSendModal(data) {
         }).catch(err => console.log(err))
 
     }
-    const [sendingList, setSendingList] = React.useState([])
-    // const sendingList = []
 
-    console.log(sendingList)
     const handleSendingList = (fn) => {
-        const data = sendingList.filter(item => item === fn)
+        const bool = sendingList.some(item => item === fn)
+        bool ? setSendingList(sendingList.filter(res => res !== fn)) : setSendingList([...sendingList, fn])
 
-        data.length === 0 && setSendingList(fn)
-        data.length > 0 && setSendingList(sendingList.filter(item => item !== fn))
     }
 
     async function separated() {
@@ -236,8 +232,28 @@ export function SureSendModal(data) {
         if (sendingList.length === 0) {
             return alert("Você precisa definir pelo menos um tipo de envio para o conta azul")
         }
+        if (filteredContracts === undefined || filteredContracts[0] === undefined) {
+            return alert("Você precisa definir um contrato primeiro")
+        }
 
-        console.log(sendingList)
+
+        let funcs = {
+            "contract": contract,
+            "sales": sales,
+            "feeEnroll": feeEnroll,
+        }
+        let promises = []
+        for (let i = 0; i < sendingList.length; i++) {
+            promises[i] = funcs[sendingList[i]]
+        }
+
+        client(body)
+            .then(async () => {
+                const response = await Promise.allSettled(promises)
+
+                for (const r in response) {
+                }
+            })
 
     }
 
@@ -330,7 +346,6 @@ export function SureSendModal(data) {
         }
 
     }
-
     return (
         <Container>
             <Filter
@@ -378,21 +393,21 @@ export function SureSendModal(data) {
                                                 <Boxes style={{ flexDirection: "column", alignItems: "flex-start" }}>
                                                     <div>
                                                         <input type="checkbox"
-                                                            onClick={() => setSendingList("contract")}
+                                                            onClick={() => handleSendingList("contract")}
                                                             className='check' />
                                                         <small>Contrato</small>
                                                     </div>
 
                                                     <div>
                                                         <input type="checkbox"
-                                                            onClick={() => setSendingList("sales")}
+                                                            onClick={() => handleSendingList("sales")}
                                                             className='check' />
                                                         <small>Material didático</small>
                                                     </div>
 
                                                     <div>
                                                         <input type="checkbox"
-                                                            onClick={() => setSendingList("feeEnroll")}
+                                                            onClick={() => handleSendingList("feeEnroll")}
                                                             className='check' />
                                                         <small>Taxa de matrícula</small>
                                                     </div>
