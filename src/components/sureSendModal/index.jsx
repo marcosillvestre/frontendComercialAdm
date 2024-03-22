@@ -132,13 +132,8 @@ export function SureSendModal(data) {
             return await new Promise((resolve, reject) => {
                 // axios.post("http://localhost:7070/cliente", data, { headers })
                 URI.post("/cliente", data, { headers })
-                    .then(res => {
-                        resolve(res)
-                    })
-                    .catch(err => {
-                        alert(err.response.data.message)
-                        reject(err)
-                    })
+                    .then(res => { resolve(res) })
+                    .catch(err => { reject(err) })
             })
         }
 
@@ -146,32 +141,17 @@ export function SureSendModal(data) {
             return await new Promise((resolve, reject) => {
                 URI.post("/registro-conta-azul", data, { headers })
                     // axios.post("http://localhost:7070/registro-conta-azul", data, { headers })
-                    .then(res => {
-                        resolve(res)
-
-                    })
-                    .catch(err => {
-                        alert(err.response.data.message)
-                        reject(err)
-                    })
-
+                    .then(res => { resolve(res) })
+                    .catch(err => { reject(err) })
             })
         }
 
         const sales = async () => {
             return await new Promise((resolve, reject) => {
+                // axios.post("http://localhost:7070/venda", data, { headers })
                 URI.post("/venda", data, { headers })
-                    // axios.post("http://localhost:7070/venda", data, { headers })
-                    .then(res => {
-                        resolve(res)
-
-                    })
-                    .catch(err => {
-                        // console.log(err.response)
-                        alert(err.response.data.message)
-                        reject(err)
-
-                    })
+                    .then(res => { resolve(res) })
+                    .catch(err => { reject(err) })
             })
         }
 
@@ -179,48 +159,25 @@ export function SureSendModal(data) {
             return await new Promise((resolve, reject) => {
                 URI.post("/taxa", data, { headers })
                     // axios.post("http://localhost:7070/taxa", data, { headers })
-                    .then(res => {
-                        resolve(res)
-
-                    })
-                    .catch(err => {
-                        // console.log(err.response)
-                        alert(err.response.data.message)
-                        reject(err)
-
-                    })
+                    .then(res => { resolve(res) })
+                    .catch(err => { reject(err) })
             })
         }
 
         return await client().then(async () => {
-            await Promise.allSettled([
-                contract(),
-                sales(),
-                feeEnroll()
-            ]).then((response) => {
-                setLoading(false)
-                let rejected = response.filter(data => { data.status === 'rejected' })
-
-                if (rejected.length === 0) {
-                    setLoading(false)
-                    alert("Enviado com sucesso")
+            const response = await Promise.allSettled([contract(), sales(), feeEnroll()])
+            for (const r of response) {
+                if (r.status === "rejected") {
+                    return alert(r.reason.response.data.message)
                 }
+                alert(r.value)
+            }
+            setLoading(false)
 
-
-                // let acepted = response.filter(data => { data.status !== 'rejected' })
-
-                // console.log(rejected)
-                // console.log(acepted)
-                // if (rejected.length > 0) {
-                //     console.log(rejected)
-                // }
-
-            })
-                .catch((err) => {
-                    alert(err.response.data.message)
-                    setLoading(false)
-                })
-        }).catch(err => console.log(err))
+        }).catch(err => {
+            setLoading(false)
+            console.log(err.response.data.message)
+        })
 
     }
 
@@ -269,11 +226,9 @@ export function SureSendModal(data) {
         const sender = async () => {
             await axios.post(archives[filteredContracts[0].subclasse],
                 filteredContracts[0], { headers })
-                .then((res) => {
-                    if (res) {
-                        setOpen(!open)
-                        send && contaAzulSender()
-                    }
+                .then(async () => {
+                    setOpen(!open)
+                    send && await contaAzulSender()
                 }
                 )
                 .catch((err) => {
