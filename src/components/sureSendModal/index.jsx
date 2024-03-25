@@ -189,7 +189,7 @@ export function SureSendModal(data) {
         }
 
         return await client(body).then(async () => {
-            const response = await Promise.allSettled([contract(), sales(), feeEnroll()])
+            const response = await Promise.allSettled([contract(body), sales(body), feeEnroll(body)])
             for (const r of response) {
                 if (r.status === "rejected") {
                     return alert(r.reason.response.data.message)
