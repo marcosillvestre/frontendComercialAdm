@@ -228,7 +228,7 @@ export function SureSendModal(data) {
     }
 
     async function separated() {
-
+        setLoading(true)
         if (sendingList.length === 0) {
             return alert("Você precisa definir pelo menos um tipo de envio para o conta azul")
         }
@@ -242,18 +242,36 @@ export function SureSendModal(data) {
             "sales": sales,
             "feeEnroll": feeEnroll,
         }
+
         let promises = []
         for (let i = 0; i < sendingList.length; i++) {
             promises[i] = funcs[sendingList[i]]
         }
 
-        client(body)
-            .then(async () => {
-                const response = await Promise.allSettled(promises)
 
-                for (const r in response) {
-                }
+        return await client(body).then(async () => {
+            promises.map(async res => {
+                await new Promise((resolve, reject) => {
+                    res(body)
+                        .then(r => {
+                            resolve(r)
+                            alert(r.data.message)
+
+                        })
+                        .catch(err => {
+                            reject(err)
+
+                        })
+                })
+
+                setLoading(false)
             })
+
+        }).catch(err => {
+            setLoading(false)
+            console.log(err.response.data.message)
+        })
+
 
     }
 
