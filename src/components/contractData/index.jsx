@@ -31,6 +31,7 @@ export const ContractData = () => {
         "Excel Avaçado": <Excel id='content' data={filteredContracts !== undefined && filteredContracts[0]} />
     }
 
+    console.log(filteredContracts)
 
     const parsingFloats = (number1, number2) => {
         if (number1 !== undefined && number2 !== undefined) {
@@ -126,7 +127,7 @@ export const ContractData = () => {
                                 </tr>
                                 <tr>
                                     <TableBody empty={res.estadoCivil === "" || res.estadoCivil === undefined}>{res.estadoCivil}</TableBody>
-                                    <TableBody empty={res.profissao === "" || res.profissao === undefined}>{res.profissao}</TableBody>
+                                    <TableBody nonMandatory={res.profissao === "" || res.profissao === undefined}>{res.profissao}</TableBody>
                                     <TableBody empty={res.nomeAluno === "" || res.nomeAluno === undefined}>{res.nomeAluno}</TableBody>
                                     <TableBody empty={res.nascimentoAluno === "" || res.nascimentoAluno === undefined}>{res.nascimentoAluno}</TableBody>
                                     <TableBody empty={res.vendedor === "" || res.vendedor === undefined}>{res.vendedor}</TableBody>
@@ -157,11 +158,7 @@ export const ContractData = () => {
 
                                 <tr>
                                     <th>Material didático</th>
-                                    {
-                                        res.observacaoRd ?
-                                            <th>Observações do rd</th> :
-                                            ""
-                                    }
+
                                 </tr>
                                 <tr>
                                     <TableBody empty={res.materialDidatico === "" || res.materialDidatico === undefined}>
@@ -170,11 +167,7 @@ export const ContractData = () => {
                                                 {res},
                                             </p>
                                         ))}</TableBody>
-                                    {
-                                        res.observacaoRd ?
-                                            <TableBody empty={res.observacaoRd === "" || res.observacaoRd === undefined}>{res.observacaoRd}</TableBody> :
-                                            ""
-                                    }
+
 
 
                                 </tr>
@@ -184,25 +177,27 @@ export const ContractData = () => {
                                 <tr style={{ fontWeight: 'bold' }}>Financeiro:</tr>
 
                                 <tr>
+
+                                    <th>Observações do rd</th>
                                     <th>Primeira Parcela</th>
                                     <th>última Parcela</th>
                                     <th>desconto Total</th>
                                     <th>Desconto por Parcela</th>
                                     <th>valor cheio da Mensalidade</th>
                                     <th>Valor da Mensalidade com Desconto</th>
-                                    <th>Valor do Curso</th>
                                 </tr>
                                 <tr>
-
+                                    <TableBody nonMandatory={res.observacaoRd === "" || res.observacaoRd === undefined}>{res.observacaoRd}</TableBody>
                                     <TableBody empty={res.dataPrimeiraParcelaMensalidade === "" || res.dataPrimeiraParcelaMensalidade === undefined}>{res.dataPrimeiraParcelaMensalidade}</TableBody>
                                     <TableBody empty={res.dataUltimaParcelaMensalidade === "" || res.dataUltimaParcelaMensalidade === undefined}>{res.dataUltimaParcelaMensalidade}</TableBody>
                                     <TableBody empty={res.descontoTotal === "" || res.descontoTotal === undefined}>R$ {res.descontoTotal}</TableBody>
                                     <TableBody empty={res.descontoPorParcela === "" || res.descontoPorParcela === undefined}>R$ {res.descontoPorParcela}</TableBody>
                                     <TableBody empty={res.valorMensalidade === "" || res.valorMensalidade === undefined}>R$ {res.valorMensalidade}</TableBody>
                                     <TableBody >R$ {parseFloat(parseFloat(res.valorMensalidade) - parseFloat(res.descontoPorParcela.includes(",") ? `${res.descontoPorParcela.split(",")[0]}.${res.descontoPorParcela.split(",")[1]}` : res.descontoPorParcela))}</TableBody>
-                                    <TableBody empty={res?.valorCurso === "" || res.valorCurso === undefined} >R$ {res?.valorCurso}</TableBody>
                                 </tr>
                                 <tr>
+                                    <th>Valor do Curso</th>
+
                                     <th>Número de Parcelas</th>
                                     <th>Dia Vencimento</th>
                                     <th>Taxa de matrícula</th>
@@ -213,6 +208,8 @@ export const ContractData = () => {
 
                                 </tr>
                                 <tr>
+                                    <TableBody empty={res?.valorCurso === "" || res.valorCurso === undefined} >R$ {res?.valorCurso}</TableBody>
+
                                     <TableBody empty={res.numeroParcelas === "" || res.numeroParcelas === undefined}>{res.numeroParcelas}</TableBody>
                                     <TableBody empty={res.diaVenvimento === "" || res.diaVenvimento === undefined}>{res.diaVenvimento}</TableBody>
                                     <TableBody empty={res.tmValor === "" || res.tmValor === undefined}>R$ {res.tmValor}</TableBody>
@@ -225,6 +222,20 @@ export const ContractData = () => {
 
                                 </tr>
 
+                                <tr>
+                                    <th>Parcelas afetadas</th>
+                                    <th>Desconto nas primeiras parcelas</th>
+                                    <th>Demais parcelas</th>
+                                    <th>Desconto nas demais parcelas</th>
+                                    <th>Promoção</th>
+                                </tr>
+                                <tr>
+                                    <TableBody nonMandatory={res?.parcelasAfetadas === "" || res.parcelasAfetadas === undefined} > {res?.parcelasAfetadas}</TableBody>
+                                    <TableBody nonMandatory={res?.descontoPrimeirasParcelas === "" || res.descontoPrimeirasParcelas === undefined} >R$ {res?.descontoPrimeirasParcelas}</TableBody>
+                                    <TableBody nonMandatory={res?.demaisParcelas === "" || res.demaisParcelas === undefined} >R$ {res?.demaisParcelas}</TableBody>
+                                    <TableBody nonMandatory={res?.descontoDemaisParcelas === "" || res.descontoDemaisParcelas === undefined} >R$ {res?.descontoDemaisParcelas}</TableBody>
+                                    <TableBody > {res?.promocao}</TableBody>
+                                </tr>
                             </tbody>
                         </table>
                         :
