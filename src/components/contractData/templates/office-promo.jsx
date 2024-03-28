@@ -1,32 +1,22 @@
 
 import PropTypes from 'prop-types';
-import {
-    Container
-} from './styles.jsx';
+import { Container } from './styles.jsx';
 
-const Excel = ({
-    data }) => {
-
+const OfficePromo = ({ data }) => {
 
     return (
         <Container id="content">
             <div>
-
                 <h2>
                     QUADRO RESUMO DO CONTRATO DE PRESTAÇÃO DE SERVIÇO EDUCACIONAL
                 </h2>
 
                 <h2>CURSO DE IDIOMAS E TECNOLOGIA</h2>
-                <h3>CONTRATO Nº: {
-                    data.contrato}</h3>
-                <h3>DATA DA MATRÍCULA: {
-                    data.dataMatricula}</h3>
-                <h3>TIPO DE CONTRATO: {
-                    data.formato}</h3>
-                <h3>UNIDADE: {
-                    data.unidade}</h3>
-                <h3>TIPO DE ASSINATURA: {
-                    data.tipoModalidade}</h3>
+                <h3>CONTRATO Nº: {data.contrato}</h3>
+                <h3>DATA DA MATRÍCULA: {data.dataMatricula}</h3>
+                <h3>TIPO DE CONTRATO: {data.formato}</h3>
+                <h3>UNIDADE: {data.unidade}</h3>
+                <h3>TIPO DE ASSINATURA: {data.tipoModalidade}</h3>
                 <h2>DA QUALIFICAÇÃO DAS PARTES</h2>
 
                 <p>
@@ -40,78 +30,63 @@ const Excel = ({
                 <table>
                     <tr>
                         <td>
-                            <h3>Nome: {
-                                data.name}</h3>
+                            <h3>Nome: {data.name}</h3>
                         </td>
                         <td>
-                            <h3>CPF: {
-                                data.cpf}</h3>
+                            <h3>CPF: {data.cpf}</h3>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <h3>RG: {
-                                data.rg}</h3>
+                            <h3>RG: {data.rg}</h3>
                         </td>
                         <td>
-                            <h3>E-mail: {
-                                data.email}</h3>
+                            <h3>E-mail: {data.email}</h3>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <h3>Data de Nascimento: {
-                                data.DatadeNascdoResp}</h3>
+                            <h3>Data de Nascimento: {data.DatadeNascdoResp}</h3>
                         </td>
                         <td>
-                            <h3>Telefone: {
-                                data.CelularResponsavel}</h3>
+                            <h3>Telefone: {data.CelularResponsavel}</h3>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <h3>RUA/AV: {
-                                data.EnderecoResponsavel}</h3>
+                            <h3>RUA/AV: {data.EnderecoResponsavel}</h3>
                         </td>
                         <td>
-                            <h3>Nº: {
-                                data.NumeroEnderecoResponsavel}</h3>
+                            <h3>Nº: {data.NumeroEnderecoResponsavel}</h3>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <h3>COMPL: {
-                                data.complemento}</h3>
+                            <h3>COMPL: {data.complemento}</h3>
                         </td>
                         <td>
-                            <h3>BAIRRO: {
-                                data.bairro}</h3>
+                            <h3>BAIRRO: {data.bairro}</h3>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <h3>CIDADE: {
-                                data.cidade}</h3>
+                            <h3>CIDADE: {data.cidade}</h3>
                         </td>
                         <td>
-                            <h3>UF: {
-                                data.estado}</h3>
+                            <h3>UF: {data.estado}</h3>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <h3>CEP: {
-                                data.cep}</h3>
+                            <h3>CEP: {data.cep}</h3>
                         </td>
                         <td>
-                            <h3>Estado Civil: {
-                                data.estadoCivil}</h3>
+                            <h3>Estado Civil: {data.estadoCivil}</h3>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <h3>Profissão: {
-                                data.profissao}</h3>
+                            <h3>Profissão: {data.profissao}</h3>
                         </td>
                     </tr>
                 </table>
@@ -141,11 +116,9 @@ const Excel = ({
 
                 <p>
                     O presente contrato terá como
-                    <strong> ALUNO: {
-                        data.nomeAluno}</strong>
+                    <strong> ALUNO: {data.nomeAluno}</strong>
                 </p>
-                <h3>DATA DE NASCIMENTO: {
-                    data.nascimentoAluno}</h3>
+                <h3>DATA DE NASCIMENTO: {data.nascimentoAluno}</h3>
 
                 <p>
                     Dessa forma, já qualificados, aceitam e os seguintes termos e
@@ -155,76 +128,62 @@ const Excel = ({
                 <table>
                     <tr>
                         <td>
-                            <h3>Curso: {
-                                data.curso}</h3>
+                            <h3>Curso: {data.curso}</h3>
                         </td>
                         <td>
-                            <h3>Formato: {
-                                data.formato}</h3>
+                            <h3>Formato: {data.formato}</h3>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <h3>Tipo: {
-                                data.tipoModalidade}</h3>
+                            <h3>Tipo: {data.tipoModalidade}</h3>
                         </td>
                         <td>
-                            <h3>Classe de curso: {
-                                data.classe}</h3>
+                            <h3>Classe de curso: {data.classe}</h3>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <h3>Subclasse de curso: {
-                                data.subclasse}</h3>
+                            <h3>Subclasse de curso: {data.subclasse}</h3>
                         </td>
                     </tr>
                 </table>
 
-                <p>
-                    A carga horária contratada tem o total de {
 
-                        data.cargaHoraria
-                    } horas-aulas. Sendo o curso ministrado em
-                    1 módulo, que terá a duração estipulada dentro do calendário
-                    didático para o cumprimento da carga horária. De acordo com
-                    o planejamento didático, as aulas têm previsão para início
-                    no dia {
-                        data.paDATA}, sujeito à alteração mediante aviso
-                    prévio.
+                <p>
+                    A carga horária contratada tem o total de {data.cargahoraria}
+                    horas-aulas. Sendo o curso ministrado em 1 módulo, que terá
+                    a duração estipulada dentro do calendário didático para o
+                    cumprimento da carga horária. De acordo com o planejamento
+                    didático, as aulas têm previsão para início no dia
+                    {data.paDATA}, sujeito à alteração mediante aviso prévio.
                 </p>
                 <strong> SOBRE VALOR E DESCONTOS </strong>
                 <p>
-                    O valor total da carga horária contratada é de R${
-                        data.valorCurso}, que será dividido e pago em {
-                        data.numeroParcelas} parcelas cada qual com o vencimento
-                    para o dia {
-                        data.diaVenvimento.split("/")[0]} de cada mês, sendo o
-                    vencimento da primeira parcela na data {
-                        data.dataPrimeiraParcelaMensalidade} e, a última, no dia {
-                        data.dataUltimaParcelaMensalidade}.
+                    O valor total da carga horária contratada é de R${data.valorCurso}
+                    , que será dividido e pago em {data.numeroParcelas}
+                    parcelas cada qual com o vencimento para o dia
+                    {data.diaVenvimento} de cada mês, sendo o vencimento
+                    da primeira parcela na data {data.dataPrimeiraParcelaMensalidade}
+                    e, a última, no dia {data.dataUltimaParcelaMensalidade}.
                 </p>
                 <p>
-                    A CONTRATADA por iniciativa própria oferecerá ao
-                    CONTRATANTE, descontos nas mensalidades totalizando o valor
-                    de R${
-                        data.descontoTotal} . Observando que o valor de cada
-                    parcela será de R${
-                        data.valorParcela}, cada parcela
-                    receberá o desconto de {
-                        data.descontoPorParcela} caso o
-                    pagamento seja realizado até a data de vencimento optado
-                    pelo CONTRATANTE. Aos pagamentos efetuados após a data de
-                    vencimento, o CONTRATANTE perderá o desconto por
-                    pontualidade no mês de atraso do desconto aplicado, somado
-                    aos itens da cláusula 7.9.
-                </p>
-                <p>
-                    Contratos tipo “COMBO” contém valores especiais
-                    condicionados à manutenção de múltiplos contratos ativos, a
-                    CONTRATADA mantém o direito de reajuste de valores imediato
-                    e sem AVISO PRÉVIO após a descontinuação de um dos
-                    instrumentos ingressantes por parte do CONTRATANTE.
+                    A CONTRATADA por iniciativa própria oferecerá ao CONTRATANTE,
+                    descontos nas mensalidades totalizando o valor de
+                    R${data.descontoTotal}. Observando que o valor de
+                    cada parcela será de R${data.descontoPorParcela}, a(s)
+                    {data.parcelasAfetadas} primeira(s)
+                    parcela(s) receberá(aõ) o desconto de
+                    R${data.descontoPrimeirasParcelas} e as
+                    {data.demaisParcelas}  demais parcelas
+                    (caso houver) receberão  o desconto de
+                    R${data.descontoDemaisParcelas} caso o pagamento seja
+                    realizado até a data de vencimento optado pelo CONTRATANTE.
+                    Aos pagamentos efetuados após a data de vencimento,
+                    o CONTRATANTE perderá o desconto por pontualidade
+                    no mês de atraso do desconto aplicado, somado aos
+                    itens da cláusula 7.9.
+
                 </p>
                 <hr />
                 <strong>2. DO OBJETO: </strong>
@@ -245,17 +204,17 @@ const Excel = ({
                 <p>
                     3.1: O calendário didático será entregue em até 10 dias após
                     a primeira aula. 3.2: Os cursos na modalidade em turma,
-                    deverão contar com o número mínimo de 06(seis) alunos e o
-                    máximo de 12(doze) alunos para dar início às aulas. 3.3:
-                    Caso haja falta de quórum de alunos matriculados para o
-                    início do curso na data prevista, fica a CONTRATADA
-                    autorizada a prorrogar a data de início do cumprimento da
-                    carga horária contratada, independente do formato,
-                    modalidade ou classe, quantas vezes forem necessárias, por
-                    um prazo de até 2 (dois) meses, contado a partir da data de
-                    início prevista, para o atingimento do referido quórum, ou
-                    para, então, não atingido este, cancelamento unilateral do
-                    contrato a realização do início das aulas.
+                    deverão contar com o número mínimo de 05(cinco) alunos e o
+                    máximo de 10(dez) alunos para dar início às aulas. 3.3: Caso
+                    haja falta de quórum de alunos matriculados para o início do
+                    curso na data prevista, fica a CONTRATADA autorizada a
+                    prorrogar a data de início do cumprimento da carga horária
+                    contratada, independente do formato, modalidade ou classe,
+                    quantas vezes forem necessárias, por um prazo de até 2
+                    (dois) meses, contado a partir da data de início prevista,
+                    para o atingimento do referido quórum, ou para, então, não
+                    atingido este, cancelamento unilateral do contrato a
+                    realização do início das aulas.
                 </p>
                 <strong>4. DA OBRIGAÇÃO DA CONTRATADA: </strong>
                 <p>
@@ -345,23 +304,23 @@ const Excel = ({
                     (quinze) minutos contados a partir do início da aula, tanto
                     na modalidade online ou presencial. Após este período, o
                     ALUNO/CONTRATANTE poderá solicitar uma aula de reposição.
-                    6.1.1 O CONTRATANTE terá o direito a 10 (dez) reposições
+                    6.1.1 O CONTRATANTE terá o direito a 5 (cinco) reposições
                     gratuitas durante o período de cumprimento da carga horária
                     contratada, sejam essas reposições motivadas e imotivadas,
                     incluindo as da cláusula anterior e também os casos de
                     apresentação de atestado médico, sem custo. Ultrapassando
-                    esse limite, a décima primeira aula de reposição e outras
-                    serão cobrados o valor de R$ 35,00 (trinta e cinco reais)
-                    por cada aula. Em caso de falta, o CONTRATANTE tem o direito
-                    à remarcação da aula sem custos adicionais, desde que a
-                    falta seja comunicada com o mínimo de 24 (vinte e quatro)
-                    horas de antecedência. 6.1.2: A remarcação da aula de
-                    reposição cancelada seguindo os critérios mencionados na
-                    cláusula 6.1.1 observará os horários disponíveis da
-                    CONTRATADA.Em caso de perda das avaliações periódicas o
-                    CONTRATANTE, submeterá aos critérios estabelecidos pela
-                    CONTRATADA para a reposição, tais como, agendamento prévio,
-                    horário disponível, entre outras.
+                    esse limite, a sexta aula de reposição e outras serão
+                    cobrados o valor de R$ 35,00 (trinta e cinco reais) por cada
+                    aula. Em caso de falta, o CONTRATANTE tem o direito à
+                    remarcação da aula sem custos adicionais, desde que a falta
+                    seja comunicada com o mínimo de 24 (vinte e quatro) horas de
+                    antecedência. 6.1.2: A remarcação da aula de reposição
+                    cancelada seguindo os critérios mencionados na cláusula
+                    6.1.1 observará os horários disponíveis da CONTRATADA.Em
+                    caso de perda das avaliações periódicas o CONTRATANTE,
+                    submeterá aos critérios estabelecidos pela CONTRATADA para a
+                    reposição, tais como, agendamento prévio, horário
+                    disponível, entre outras.
                 </p>
                 <strong> 7. DO PAGAMENTO E MATRÍCULA: </strong>
                 <p>
@@ -603,6 +562,8 @@ const Excel = ({
                     assinam, para que se produzam todos os efeitos legais.
                 </p>
             </div>
+
+
             <div className="sign" id="sign">
                 <span className="sign-marker" id="sign-marker">
                     CONTRATANTE/ RESPONSÁVEL LEGAL
@@ -628,18 +589,17 @@ const Excel = ({
                     <td className="field-sign">Assinatura:</td>
                 </tr>
             </table>
+
         </Container>
 
     )
 }
 
-export default Excel
+export default OfficePromo
 
 
-Excel.propTypes = {
-
+OfficePromo.propTypes = {
     data: PropTypes.shape({
-
         valorCurso: PropTypes.string,
         contrato: PropTypes.string,
         dataMatricula: PropTypes.string,
@@ -664,8 +624,6 @@ Excel.propTypes = {
         nomeAluno: PropTypes.string,
         nascimentoAluno: PropTypes.string,
         curso: PropTypes.string,
-        classe: PropTypes.string,
-        subclasse: PropTypes.string,
         cargaHoraria: PropTypes.string,
         paDATA: PropTypes.string,
         valorParcela: PropTypes.string,
@@ -675,5 +633,14 @@ Excel.propTypes = {
         dataUltimaParcelaMensalidade: PropTypes.string,
         descontoTotal: PropTypes.string,
         descontoPorParcela: PropTypes.string,
+        classe: PropTypes.string,
+        subclasse: PropTypes.string,
+        cargahoraria: PropTypes.string,
+
+
+        parcelasAfetadas: PropTypes.string,
+        descontoPrimeirasParcelas: PropTypes.string,
+        demaisParcelas: PropTypes.string,
+        descontoDemaisParcelas: PropTypes.string,
     })
 }

@@ -8,30 +8,37 @@ import Office from './templates/office.jsx'
 import Particulares from './templates/particulares.jsx'
 import Standard from './templates/standard.jsx'
 
+import ExcelPromo from './templates/excel-promo.jsx'
+import IdiomaPromo from './templates/idioma-promo.jsx'
+import OfficePromo from './templates/office-promo.jsx'
+import ParticularesPromo from './templates/particulares-promo.jsx'
+import StandardPromo from './templates/standard-promo.jsx'
+
 export const ContractData = () => {
 
     const { filteredContracts } = useUser()
     const { content, view, setView } = useData()
 
-
+    let bool = filteredContracts !== undefined && filteredContracts.length !== 0
+    let body = filteredContracts !== undefined && filteredContracts[0]
     const archives = {
-        "Kids": <Idioma id='content' data={filteredContracts !== undefined && filteredContracts[0]} />,
-        "Teens": <Idioma id='content' data={filteredContracts !== undefined && filteredContracts[0]} />,
-        "Adults and YA": <Idioma id='content' data={filteredContracts !== undefined && filteredContracts[0]} />,
-        "Little Ones": <Idioma id='content' data={filteredContracts !== undefined && filteredContracts[0]} />,
-        "Español - En grupo": <Idioma id='content' data={filteredContracts !== undefined && filteredContracts[0]} />,
-        "Standard One": <Standard id='content' data={filteredContracts !== undefined && filteredContracts[0]} />,
-        "Fluency Way One - X": <Particulares id='content' data={filteredContracts !== undefined && filteredContracts[0]} />,
-        "Fluency Way Double - X": <Particulares id='content' data={filteredContracts !== undefined && filteredContracts[0]} />,
-        "Fluency Way Triple - X": <Particulares id='content' data={filteredContracts !== undefined && filteredContracts[0]} />,
-        "Español - X1": <Particulares id='content' data={filteredContracts !== undefined && filteredContracts[0]} />,
-        "Español - X2": <Particulares id='content' data={filteredContracts !== undefined && filteredContracts[0]} />,
-        "Español - X3": <Particulares id='content' data={filteredContracts !== undefined && filteredContracts[0]} />,
-        "Pacote Office Essentials": <Office id='content' data={filteredContracts !== undefined && filteredContracts[0]} />,
-        "Excel Avaçado": <Excel id='content' data={filteredContracts !== undefined && filteredContracts[0]} />
+        "Kids": bool ? filteredContracts[0].promocao === "Não" ? <Idioma id='content' data={body} /> : <IdiomaPromo id='content' data={body} /> : "",
+        "Teens": bool ? filteredContracts[0].promocao === "Não" ? <Idioma id='content' data={body} /> : <IdiomaPromo id='content' data={body} /> : "",
+        "Adults and YA": bool ? filteredContracts[0].promocao === "Não" ? <Idioma id='content' data={body} /> : <IdiomaPromo id='content' data={body} /> : "",
+        "Little Ones": bool ? filteredContracts[0].promocao === "Não" ? <Idioma id='content' data={body} /> : <IdiomaPromo id='content' data={body} /> : "",
+        "Español - En grupo": bool ? filteredContracts[0].promocao === "Não" ? <Idioma id='content' data={body} /> : <IdiomaPromo id='content' data={body} /> : "",
+        "Standard One": bool ? filteredContracts[0].promocao === "Não" ? <Standard id='content' data={body} /> : <StandardPromo id='content' data={body} /> : "",
+        "Fluency Way One - X": bool ? filteredContracts[0].promocao === "Não" ? <Particulares id='content' data={body} /> : <ParticularesPromo id='content' data={body} /> : "",
+        "Fluency Way Double - X": bool ? filteredContracts[0].promocao === "Não" ? <Particulares id='content' data={body} /> : <ParticularesPromo id='content' data={body} /> : "",
+        "Fluency Way Triple - X": bool ? filteredContracts[0].promocao === "Não" ? <Particulares id='content' data={body} /> : <ParticularesPromo id='content' data={body} /> : "",
+        "Español - X1": bool ? filteredContracts[0].promocao === "Não" ? <Particulares id='content' data={body} /> : <ParticularesPromo id='content' data={body} /> : "",
+        "Español - X2": bool ? filteredContracts[0].promocao === "Não" ? <Particulares id='content' data={body} /> : <ParticularesPromo id='content' data={body} /> : "",
+        "Español - X3": bool ? filteredContracts[0].promocao === "Não" ? <Particulares id='content' data={body} /> : <ParticularesPromo id='content' data={body} /> : "",
+        "Pacote Office Essentials": bool ? filteredContracts[0].promocao === "Não" ? <Office id='content' data={body} /> : <OfficePromo id='content' data={body} /> : "",
+        "Excel Avaçado": bool ? filteredContracts[0].promocao === "Não" ? <Excel id='content' data={body} /> : <ExcelPromo id='content' data={body} /> : ""
     }
 
-    console.log(filteredContracts)
+
 
     const parsingFloats = (number1, number2) => {
         if (number1 !== undefined && number2 !== undefined) {
@@ -79,7 +86,7 @@ export const ContractData = () => {
                                     <th>Nome</th>
                                     <th>Email</th>
                                     <th>Contrato</th>
-                                    <th>Data matrícula</th>
+                                    <th>Data Matrícula</th>
                                     <th>CPF</th>
                                     <th>nascimento resp</th>
                                     <th>Celular</th>
@@ -142,7 +149,7 @@ export const ContractData = () => {
                                     <th>Subclasse</th>
                                     <th>Carga Horária</th>
                                     <th>PA. Data</th>
-                                    <th>Tipo/Modalidade</th>
+                                    <th>Tipo</th>
                                     <th>Classe</th>
                                 </tr>
 
@@ -157,8 +164,8 @@ export const ContractData = () => {
                                 </tr>
 
                                 <tr>
-                                    <th>Material didático</th>
-
+                                    <th>Material Didático</th>
+                                    <th>Background</th>
                                 </tr>
                                 <tr>
                                     <TableBody empty={res.materialDidatico === "" || res.materialDidatico === undefined}>
@@ -168,6 +175,9 @@ export const ContractData = () => {
                                             </p>
                                         ))}</TableBody>
 
+                                    <TableBody empty={res.background === "" || res.background === undefined}>
+                                        {res.background}
+                                    </TableBody>
 
 
                                 </tr>
@@ -181,7 +191,7 @@ export const ContractData = () => {
                                     <th>Observações do rd</th>
                                     <th>Primeira Parcela</th>
                                     <th>última Parcela</th>
-                                    <th>desconto Total</th>
+                                    <th>Desconto Total</th>
                                     <th>Desconto por Parcela</th>
                                     <th>valor cheio da Mensalidade</th>
                                     <th>Valor da Mensalidade com Desconto</th>
@@ -200,11 +210,11 @@ export const ContractData = () => {
 
                                     <th>Número de Parcelas</th>
                                     <th>Dia Vencimento</th>
-                                    <th>Taxa de matrícula</th>
+                                    <th>Taxa de Matrícula</th>
 
-                                    <th>Valor do material didático</th>
-                                    <th>Desconto no material didático</th>
-                                    <th>Valor do material didático com desconto</th>
+                                    <th>Valor do Material Didático</th>
+                                    <th>Desconto no Material Didático</th>
+                                    <th>Valor do Material Didático com Desconto</th>
 
                                 </tr>
                                 <tr>
@@ -223,10 +233,10 @@ export const ContractData = () => {
                                 </tr>
 
                                 <tr>
-                                    <th>Parcelas afetadas</th>
-                                    <th>Desconto nas primeiras parcelas</th>
-                                    <th>Demais parcelas</th>
-                                    <th>Desconto nas demais parcelas</th>
+                                    <th>Parcelas Afetadas</th>
+                                    <th>Desconto nas Primeiras Parcelas</th>
+                                    <th>Demais Parcelas</th>
+                                    <th>Desconto nas Demais Parcelas</th>
                                     <th>Promoção</th>
                                 </tr>
                                 <tr>
@@ -234,14 +244,15 @@ export const ContractData = () => {
                                     <TableBody nonMandatory={res?.descontoPrimeirasParcelas === "" || res.descontoPrimeirasParcelas === undefined} >R$ {res?.descontoPrimeirasParcelas}</TableBody>
                                     <TableBody nonMandatory={res?.demaisParcelas === "" || res.demaisParcelas === undefined} >R$ {res?.demaisParcelas}</TableBody>
                                     <TableBody nonMandatory={res?.descontoDemaisParcelas === "" || res.descontoDemaisParcelas === undefined} >R$ {res?.descontoDemaisParcelas}</TableBody>
-                                    <TableBody > {res?.promocao}</TableBody>
+                                    <TableBody promo={res?.promocao === "Sim"}> {res?.promocao}</TableBody>
                                 </tr>
                             </tbody>
                         </table>
                         :
                         <div key={res.contrato} ref={content}>
                             {
-                                archives[filteredContracts !== undefined && filteredContracts[0].subclasse]
+                                archives[filteredContracts !== undefined &&
+                                filteredContracts[0].subclasse]
                             }
                         </div>
                 ))
@@ -251,7 +262,7 @@ export const ContractData = () => {
                         <details >
                             <p className='parag'>Deseja emitir um contrato ? Selecione
                                 o Funil de vendas desejado na opção <q>Funil</q> e logo em seguida na
-                                opção <q>Cliente</q> selecione a sua matrícula no RD Station
+                                opção <q>Cliente</q> selecione a sua Matrícula no RD Station
                                 que já está na etapa de Matrícula!
                             </p>
                         </details>

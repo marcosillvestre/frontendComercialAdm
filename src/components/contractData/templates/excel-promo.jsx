@@ -1,12 +1,8 @@
 
 import PropTypes from 'prop-types';
-import {
-    Container
-} from './styles.jsx';
+import { Container } from './styles.jsx';
 
-const Excel = ({
-    data }) => {
-
+const ExcelPromo = ({ data }) => {
 
     return (
         <Container id="content">
@@ -17,16 +13,11 @@ const Excel = ({
                 </h2>
 
                 <h2>CURSO DE IDIOMAS E TECNOLOGIA</h2>
-                <h3>CONTRATO Nº: {
-                    data.contrato}</h3>
-                <h3>DATA DA MATRÍCULA: {
-                    data.dataMatricula}</h3>
-                <h3>TIPO DE CONTRATO: {
-                    data.formato}</h3>
-                <h3>UNIDADE: {
-                    data.unidade}</h3>
-                <h3>TIPO DE ASSINATURA: {
-                    data.tipoModalidade}</h3>
+                <h3>CONTRATO Nº: {data.contrato}</h3>
+                <h3>DATA DA MATRÍCULA: {data.dataMatricula}</h3>
+                <h3>TIPO DE CONTRATO: {data.formato}</h3>
+                <h3>UNIDADE: {data.unidade}</h3>
+                <h3>TIPO DE ASSINATURA: {data.tipoModalidade}</h3>
                 <h2>DA QUALIFICAÇÃO DAS PARTES</h2>
 
                 <p>
@@ -40,78 +31,63 @@ const Excel = ({
                 <table>
                     <tr>
                         <td>
-                            <h3>Nome: {
-                                data.name}</h3>
+                            <h3>Nome: {data.name}</h3>
                         </td>
                         <td>
-                            <h3>CPF: {
-                                data.cpf}</h3>
+                            <h3>CPF: {data.cpf}</h3>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <h3>RG: {
-                                data.rg}</h3>
+                            <h3>RG: {data.rg}</h3>
                         </td>
                         <td>
-                            <h3>E-mail: {
-                                data.email}</h3>
+                            <h3>E-mail: {data.email}</h3>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <h3>Data de Nascimento: {
-                                data.DatadeNascdoResp}</h3>
+                            <h3>Data de Nascimento: {data.DatadeNascdoResp}</h3>
                         </td>
                         <td>
-                            <h3>Telefone: {
-                                data.CelularResponsavel}</h3>
+                            <h3>Telefone: {data.CelularResponsavel}</h3>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <h3>RUA/AV: {
-                                data.EnderecoResponsavel}</h3>
+                            <h3>RUA/AV: {data.EnderecoResponsavel}</h3>
                         </td>
                         <td>
-                            <h3>Nº: {
-                                data.NumeroEnderecoResponsavel}</h3>
+                            <h3>Nº: {data.NumeroEnderecoResponsavel}</h3>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <h3>COMPL: {
-                                data.complemento}</h3>
+                            <h3>COMPL: {data.complemento}</h3>
                         </td>
                         <td>
-                            <h3>BAIRRO: {
-                                data.bairro}</h3>
+                            <h3>BAIRRO: {data.bairro}</h3>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <h3>CIDADE: {
-                                data.cidade}</h3>
+                            <h3>CIDADE: {data.cidade}</h3>
                         </td>
                         <td>
-                            <h3>UF: {
-                                data.estado}</h3>
+                            <h3>UF: {data.estado}</h3>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <h3>CEP: {
-                                data.cep}</h3>
+                            <h3>CEP: {data.cep}</h3>
                         </td>
                         <td>
-                            <h3>Estado Civil: {
-                                data.estadoCivil}</h3>
+                            <h3>Estado Civil: {data.estadoCivil}</h3>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <h3>Profissão: {
-                                data.profissao}</h3>
+                            <h3>Profissão: {data.profissao}</h3>
                         </td>
                     </tr>
                 </table>
@@ -141,11 +117,9 @@ const Excel = ({
 
                 <p>
                     O presente contrato terá como
-                    <strong> ALUNO: {
-                        data.nomeAluno}</strong>
+                    <strong> ALUNO: {data.nomeAluno}</strong>
                 </p>
-                <h3>DATA DE NASCIMENTO: {
-                    data.nascimentoAluno}</h3>
+                <h3>DATA DE NASCIMENTO: {data.nascimentoAluno}</h3>
 
                 <p>
                     Dessa forma, já qualificados, aceitam e os seguintes termos e
@@ -155,76 +129,65 @@ const Excel = ({
                 <table>
                     <tr>
                         <td>
-                            <h3>Curso: {
-                                data.curso}</h3>
+                            <h3>Curso: {data.curso}</h3>
                         </td>
                         <td>
-                            <h3>Formato: {
-                                data.formato}</h3>
+                            <h3>Formato: {data.formato}</h3>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <h3>Tipo: {
-                                data.tipoModalidade}</h3>
+                            <h3>Tipo: {data.tipoModalidade}</h3>
                         </td>
                         <td>
-                            <h3>Classe de curso: {
-                                data.classe}</h3>
+                            <h3>Classe de curso: {data.classe}</h3>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <h3>Subclasse de curso: {
-                                data.subclasse}</h3>
+                            <h3>Subclasse de curso: {data.subclasse}</h3>
                         </td>
                     </tr>
                 </table>
 
                 <p>
                     A carga horária contratada tem o total de {
-
                         data.cargaHoraria
                     } horas-aulas. Sendo o curso ministrado em
                     1 módulo, que terá a duração estipulada dentro do calendário
                     didático para o cumprimento da carga horária. De acordo com
                     o planejamento didático, as aulas têm previsão para início
-                    no dia {
-                        data.paDATA}, sujeito à alteração mediante aviso
+                    no dia {data.paDATA}, sujeito à alteração mediante aviso
                     prévio.
                 </p>
                 <strong> SOBRE VALOR E DESCONTOS </strong>
                 <p>
-                    O valor total da carga horária contratada é de R${
-                        data.valorCurso}, que será dividido e pago em {
-                        data.numeroParcelas} parcelas cada qual com o vencimento
-                    para o dia {
-                        data.diaVenvimento.split("/")[0]} de cada mês, sendo o
-                    vencimento da primeira parcela na data {
-                        data.dataPrimeiraParcelaMensalidade} e, a última, no dia {
-                        data.dataUltimaParcelaMensalidade}.
+                    O valor total da carga horária contratada é de R${data.valorCurso}
+                    , que será dividido e pago em {
+                        data.numeroParcelas
+                    } parcelas cada qual com o vencimento para o dia {
+                        data.diaVenvimento} de cada mês, sendo o vencimento
+                    da primeira parcela na data {
+                        data.dataPrimeiraParcelaMensalidade
+                    } e, a última, no dia {data.dataUltimaParcelaMensalidade}.
                 </p>
                 <p>
-                    A CONTRATADA por iniciativa própria oferecerá ao
-                    CONTRATANTE, descontos nas mensalidades totalizando o valor
-                    de R${
-                        data.descontoTotal} . Observando que o valor de cada
-                    parcela será de R${
-                        data.valorParcela}, cada parcela
-                    receberá o desconto de {
-                        data.descontoPorParcela} caso o
-                    pagamento seja realizado até a data de vencimento optado
-                    pelo CONTRATANTE. Aos pagamentos efetuados após a data de
-                    vencimento, o CONTRATANTE perderá o desconto por
-                    pontualidade no mês de atraso do desconto aplicado, somado
-                    aos itens da cláusula 7.9.
-                </p>
-                <p>
-                    Contratos tipo “COMBO” contém valores especiais
-                    condicionados à manutenção de múltiplos contratos ativos, a
-                    CONTRATADA mantém o direito de reajuste de valores imediato
-                    e sem AVISO PRÉVIO após a descontinuação de um dos
-                    instrumentos ingressantes por parte do CONTRATANTE.
+                    A CONTRATADA por iniciativa própria oferecerá ao CONTRATANTE,
+                    descontos nas mensalidades totalizando o valor de
+                    R${data.descontoTotal}. Observando que o valor de
+                    cada parcela será de R${data.descontoPorParcela}, a(s) {
+                        data.parcelasAfetadas} primeira(s)
+                    parcela(s) receberá(aõ) o desconto de
+                    R${data.descontoPrimeirasParcelas} e as
+                    {data.demaisParcelas}  demais parcelas
+                    (caso houver) receberão  o desconto de
+                    R${data.descontoDemaisParcelas} caso o pagamento seja
+                    realizado até a data de vencimento optado pelo CONTRATANTE.
+                    Aos pagamentos efetuados após a data de vencimento,
+                    o CONTRATANTE perderá o desconto por pontualidade
+                    no mês de atraso do desconto aplicado, somado aos
+                    itens da cláusula 7.9.
+
                 </p>
                 <hr />
                 <strong>2. DO OBJETO: </strong>
@@ -633,13 +596,11 @@ const Excel = ({
     )
 }
 
-export default Excel
+export default ExcelPromo
 
 
-Excel.propTypes = {
-
+ExcelPromo.propTypes = {
     data: PropTypes.shape({
-
         valorCurso: PropTypes.string,
         contrato: PropTypes.string,
         dataMatricula: PropTypes.string,
@@ -675,5 +636,10 @@ Excel.propTypes = {
         dataUltimaParcelaMensalidade: PropTypes.string,
         descontoTotal: PropTypes.string,
         descontoPorParcela: PropTypes.string,
+
+        parcelasAfetadas: PropTypes.string,
+        descontoPrimeirasParcelas: PropTypes.string,
+        demaisParcelas: PropTypes.string,
+        descontoDemaisParcelas: PropTypes.string,
     })
 }

@@ -88,6 +88,7 @@ a{
 export const TableBody = styled.td`
 background-color: ${props => props.empty && "#f13434"};
 background-color: ${props => props.nonMandatory && "#f8e3e3"};
+background-color: ${props => props.promo && "#bce9b8"};
 
 border: 1px solid #222;
 padding: .5rem .2rem;
