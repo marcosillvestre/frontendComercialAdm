@@ -266,25 +266,29 @@ export function SureSendModal(data) {
     let office = import.meta.env.VITE_OFFICE
     let excel = import.meta.env.VITE_EXCEL
 
-    const archives = {
-        "Kids": idioma,
-        "Teens": idioma,
-        "Adults and YA": idioma,
-        "Little Ones": idioma,
-        "Español - En grupo": idioma,
-        "Standard One": standard,
-        "Fluency Way One -X": particulares,
-        "Fluency Way Double - X": particulares,
-        "Fluency Way Triple - X": particulares,
-        "Español - X1": particulares,
-        "Español - X2": particulares,
-        "Español - X3": particulares,
-        "Pacote Office Essentials": office,
-        "Excel Avaçado": excel
-    }
-
+    let idiomaPromo = import.meta.env.VITE_IDIOMA_PROMO
+    let particularesPromo = import.meta.env.VITE_PARTICULARES_PROMO
+    let standardPromo = import.meta.env.VITE_STANDARD_PROMO
+    let officePromo = import.meta.env.VITE_OFFICE_PROMO
+    let excelPromo = import.meta.env.VITE_EXCEL_PROMO
 
     async function createContract() {
+        const archives = {
+            "Kids": filteredContracts[0].promocao === "Não" ? idioma : idiomaPromo,
+            "Teens": filteredContracts[0].promocao === "Não" ? idioma : idiomaPromo,
+            "Adults and YA": filteredContracts[0].promocao === "Não" ? idioma : idiomaPromo,
+            "Little Ones": filteredContracts[0].promocao === "Não" ? idioma : idiomaPromo,
+            "Español - En grupo": filteredContracts[0].promocao === "Não" ? idioma : idiomaPromo,
+            "Standard One": filteredContracts[0].promocao === "Não" ? standard : standardPromo,
+            "Fluency Way One -X": filteredContracts[0].promocao === "Não" ? particulares : particularesPromo,
+            "Fluency Way Double - X": filteredContracts[0].promocao === "Não" ? particulares : particularesPromo,
+            "Fluency Way Triple - X": filteredContracts[0].promocao === "Não" ? particulares : particularesPromo,
+            "Español - X1": filteredContracts[0].promocao === "Não" ? particulares : particularesPromo,
+            "Español - X2": filteredContracts[0].promocao === "Não" ? particulares : particularesPromo,
+            "Español - X3": filteredContracts[0].promocao === "Não" ? particulares : particularesPromo,
+            "Pacote Office Essentials": filteredContracts[0].promocao === "Não" ? office : officePromo,
+            "Excel Avaçado": filteredContracts[0].promocao === "Não" ? excel : excelPromo
+        }
         setLoading(true)
 
         filteredContracts[0].vencimento = filteredContracts[0].diaVenvimento.split("/")[0]
