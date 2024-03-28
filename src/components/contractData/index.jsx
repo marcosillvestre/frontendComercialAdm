@@ -14,20 +14,43 @@ import OfficePromo from './templates/office-promo.jsx'
 import ParticularesPromo from './templates/particulares-promo.jsx'
 import StandardPromo from './templates/standard-promo.jsx'
 
+import StandardPromoRem from './templates/standard-promo-rem.jsx'
+import StandardRem from './templates/standard-rem.jsx'
+
 export const ContractData = () => {
 
     const { filteredContracts } = useUser()
     const { content, view, setView } = useData()
 
+    // console.log(filteredContracts[0])
+
     let bool = filteredContracts !== undefined && filteredContracts.length !== 0
     let body = filteredContracts !== undefined && filteredContracts[0]
+
+    let standard;
+
+    if (bool) {
+        if (filteredContracts[0].promocao === "Não" && filteredContracts[0].background !== "Rematrícula") {
+            standard = <Standard id='content' data={body} />
+        }
+        if (filteredContracts[0].promocao !== "Não" && filteredContracts[0].background !== "Rematrícula") {
+            standard = <StandardPromo id='content' data={body} />
+        }
+        if (filteredContracts[0].promocao !== "Não" && filteredContracts[0].background === "Rematrícula") {
+            standard = <StandardPromoRem id='content' data={body} />
+        }
+        if (filteredContracts[0].promocao === "Não" && filteredContracts[0].background === "Rematrícula") {
+            standard = <StandardRem id='content' data={body} />
+        }
+    }
+
     const archives = {
+        "Standard One": standard,
         "Kids": bool ? filteredContracts[0].promocao === "Não" ? <Idioma id='content' data={body} /> : <IdiomaPromo id='content' data={body} /> : "",
         "Teens": bool ? filteredContracts[0].promocao === "Não" ? <Idioma id='content' data={body} /> : <IdiomaPromo id='content' data={body} /> : "",
         "Adults and YA": bool ? filteredContracts[0].promocao === "Não" ? <Idioma id='content' data={body} /> : <IdiomaPromo id='content' data={body} /> : "",
         "Little Ones": bool ? filteredContracts[0].promocao === "Não" ? <Idioma id='content' data={body} /> : <IdiomaPromo id='content' data={body} /> : "",
         "Español - En grupo": bool ? filteredContracts[0].promocao === "Não" ? <Idioma id='content' data={body} /> : <IdiomaPromo id='content' data={body} /> : "",
-        "Standard One": bool ? filteredContracts[0].promocao === "Não" ? <Standard id='content' data={body} /> : <StandardPromo id='content' data={body} /> : "",
         "Fluency Way One - X": bool ? filteredContracts[0].promocao === "Não" ? <Particulares id='content' data={body} /> : <ParticularesPromo id='content' data={body} /> : "",
         "Fluency Way Double - X": bool ? filteredContracts[0].promocao === "Não" ? <Particulares id='content' data={body} /> : <ParticularesPromo id='content' data={body} /> : "",
         "Fluency Way Triple - X": bool ? filteredContracts[0].promocao === "Não" ? <Particulares id='content' data={body} /> : <ParticularesPromo id='content' data={body} /> : "",
