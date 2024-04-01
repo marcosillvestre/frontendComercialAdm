@@ -235,8 +235,7 @@ const IdiomaPromo = ({ data }) => {
                 <strong> SOBRE VALOR E DESCONTOS </strong>
                 <p>
                     O valor total da carga horária contratada é de R$ {
-                        data.valorCurso
-                    }, que será dividido e pago em  {
+                        data.valorCurso}, que será dividido e pago em  {
                         data.numeroParcelas
                     } parcelas cada qual com o vencimento para o dia {
                         data.diaVenvimento
@@ -251,22 +250,14 @@ const IdiomaPromo = ({ data }) => {
                 <p>
                     A CONTRATADA por iniciativa própria oferecerá ao CONTRATANTE,
                     descontos nas mensalidades totalizando o valor de
-                    R$ {
-                        data.descontoTotal
-                    } . Observando que o valor de
-                    cada parcela será de R$ {
-                        data.descontoPorParcela
+                    R$ {data.descontoTotal}. Observando que o valor de
+                    cada parcela será de R$ {data.valorParcela
                     } , a(s) {data.parcelasAfetadas}  primeira(s)
-                    parcela(s) receberá(aõ) o desconto de
-                    R$ {
+                    parcela(s) receberá(aõ) o desconto de R$ {
                         data.descontoPrimeirasParcelas
-                    }  e as {
-                        data.demaisParcelas
-                    }   demais parcelas
-                    (caso houver) receberão  o desconto de
-                    R$ {
-                        data.descontoDemaisParcelas
-                    }  caso o pagamento seja
+                    }  e as {data.demaisParcelas
+                    } demais parcelas (caso houver) receberão  o desconto de R$ {
+                        data.descontoDemaisParcelas}  caso o pagamento seja
                     realizado até a data de vencimento optado pelo CONTRATANTE.
                     Aos pagamentos efetuados após a data de vencimento,
                     o CONTRATANTE perderá o desconto por pontualidade

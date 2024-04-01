@@ -637,16 +637,6 @@ const Idioma = ({ data }) => {
                     forma, na presença de 02 (duas) testemunhas que também
                     assinam, para que se produzam todos os efeitos legais.
                 </p>
-                <br />
-                <hr />
-                <br />
-
-                <strong> 14. ADITIVO: </strong>
-                <div className='editable'>
-                    <p contentEditable='true'>
-                        Se houver, escreva o aditivo aqui
-                    </p>
-                </div>
             </div>
 
             <div className="sign" id="sign">

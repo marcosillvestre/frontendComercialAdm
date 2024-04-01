@@ -188,7 +188,7 @@ const ParticularesPromo = ({ data }) => {
                     A CONTRATADA por iniciativa própria oferecerá ao CONTRATANTE,
                     descontos nas mensalidades totalizando o valor de
                     R${data.descontoTotal}. Observando que o valor de
-                    cada parcela será de R${data.descontoPorParcela}, a(s)
+                    cada parcela será de R${data.valorParcela}, a(s)
                     {data.parcelasAfetadas} primeira(s)
                     parcela(s) receberá(aõ) o desconto de
                     R${data.descontoPrimeirasParcelas} e as
