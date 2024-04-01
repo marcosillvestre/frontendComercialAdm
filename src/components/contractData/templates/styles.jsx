@@ -2,9 +2,10 @@ import styled from 'styled-components'
 
 
 export const Container = styled.section`
-font: 25px 'Open Sans', sans-serif;
+font: 22px 'Open Sans', sans-serif;
 border: 1px solid #222;
-padding: 5rem;
+padding: 3rem 5rem;
+text-align: justify;
 
 table,
 tr,
@@ -13,9 +14,12 @@ border: 1px solid #000;
 border-collapse: collapse;
 border-spacing: 0;
 }
-tr,
-td {
-padding: 0 10px;
+tr,td {
+    padding: 0 10px;
+
+}
+td{
+
 }
 table {
 margin: 5px auto;

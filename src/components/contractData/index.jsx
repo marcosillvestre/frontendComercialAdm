@@ -22,7 +22,6 @@ export const ContractData = () => {
     const { filteredContracts } = useUser()
     const { content, view, setView } = useData()
 
-    // console.log(filteredContracts[0])
 
     let bool = filteredContracts !== undefined && filteredContracts.length !== 0
     let body = filteredContracts !== undefined && filteredContracts[0]
@@ -46,9 +45,10 @@ export const ContractData = () => {
 
     const archives = {
         "Standard One": standard,
+        "Adults and YA": bool ? filteredContracts[0].promocao === "Não" ? <Idioma id='content' data={body} /> : <IdiomaPromo id='content' data={body} /> : "",
+
         "Kids": bool ? filteredContracts[0].promocao === "Não" ? <Idioma id='content' data={body} /> : <IdiomaPromo id='content' data={body} /> : "",
         "Teens": bool ? filteredContracts[0].promocao === "Não" ? <Idioma id='content' data={body} /> : <IdiomaPromo id='content' data={body} /> : "",
-        "Adults and YA": bool ? filteredContracts[0].promocao === "Não" ? <Idioma id='content' data={body} /> : <IdiomaPromo id='content' data={body} /> : "",
         "Little Ones": bool ? filteredContracts[0].promocao === "Não" ? <Idioma id='content' data={body} /> : <IdiomaPromo id='content' data={body} /> : "",
         "Español - En grupo": bool ? filteredContracts[0].promocao === "Não" ? <Idioma id='content' data={body} /> : <IdiomaPromo id='content' data={body} /> : "",
         "Fluency Way One - X": bool ? filteredContracts[0].promocao === "Não" ? <Particulares id='content' data={body} /> : <ParticularesPromo id='content' data={body} /> : "",
@@ -169,21 +169,21 @@ export const ContractData = () => {
                                 <tr>
                                     <th>Unidade</th>
                                     <th>formato</th>
-                                    <th>Subclasse</th>
                                     <th>Carga Horária</th>
                                     <th>PA. Data</th>
                                     <th>Tipo</th>
                                     <th>Classe</th>
+                                    <th>Subclasse</th>
                                 </tr>
 
                                 <tr>
                                     <TableBody empty={res.unidade === "" || res.unidade === undefined}>{res.unidade}</TableBody>
                                     <TableBody empty={res.formato === "" || res.formato === undefined}>{res.formato}</TableBody>
-                                    <TableBody empty={res.subclasse === "" || res.subclasse === undefined}>{res.subclasse}</TableBody>
                                     <TableBody empty={res.cargaHoraria === "" || res.cargaHoraria === undefined}>{res.cargaHoraria}</TableBody>
                                     <TableBody empty={res.paDATA === "" || res.paDATA === undefined}>{res.paDATA}</TableBody>
                                     <TableBody empty={res.tipoModalidade === "" || res.tipoModalidade === undefined}>{res.tipoModalidade}</TableBody>
                                     <TableBody empty={res.classe === "" || res.classe === undefined}>{res.classe}</TableBody>
+                                    <TableBody empty={res.subclasse === "" || res.subclasse === undefined}>{res.subclasse}</TableBody>
                                 </tr>
 
                                 <tr>
