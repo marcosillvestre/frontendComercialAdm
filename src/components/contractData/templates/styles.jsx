@@ -41,4 +41,8 @@ text-align: center;
 .field-sign {
 padding: 1rem;
 }
+.editable{
+    padding: 3px;
+    border: 1px solid #222;
+}
 `

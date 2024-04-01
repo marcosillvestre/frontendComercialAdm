@@ -502,75 +502,22 @@ const Standard = ({ data }) => {
                 </strong>
 
                 <p>
+                    <br /> 9.1: É de entendimento mútuo entre as partes que o término do CONTRATO será efetuado, de fato, na INEXISTÊNCIA de débitos EM ABERTO por parte do CONTRATANTE, mediante o RECIBO DE QUITAÇÃO. Sendo assim, a) vencimento do prazo contratual, b) cumprimento de carga horária e/ou c) abandono de curso não são critérios válidos para o término de contrato, por si só.
+                    <br /> 9.2: A titularidade deste contrato é intransferível e insubstituível, e só poderá ser feita, como caso de EXCEÇÃO, em comum acordo entre as partes, devidamente assinado por ambos, através de um aditamento a este.
+                    <br /> 9.3: No tocante ao exercício do direito de desistência antes do início das aulas o mesmo terá apresente regulamentação:
+                    <br /> 9.3.1: Em caso de assinatura deste contrato de forma online para a realização de aulas presenciais, online ou híbridas o prazo para desistência é de 7 dias contados do ato da assinatura digital.
+                    <br /> 9.3.2: Em caso de assinatura presencial na sede da contratada seja para a modalidade presencial, online ou híbrida o prazo de desistência é de 48 (quarenta e oito) horas antes do início das aulas.
+                    <br /> 9.3.3: Em caso de desistência após os prazos estipulados acima, não haverá devolução de valores de pagamentos já efetuados.
+                    <br /> 9.4: O pedido de cancelamento/desistência/rescisão da matrícula deverá ser formalizado por escrito durante reunião presencial em uma das unidades com a Coordenação Pedagógica, a ser marcada pelo CONTRATANTE com antecedência mínima de 30 (trinta) dias, contados a partir do vencimento da última parcela paga, observadas as disposições legais. Em caso de aluno que faça o curso exclusivamente online, a reunião poderá ser realizada via videochamada.
+                    <br /> 9.5: Caso o cancelamento/desistência/rescisão da matrícula ocorra em até 90 dias após o início das aulas do módulo contratado, fica o CONTRATANTE obrigado a indenizar a CONTRATADA em multa correspondente a 10% (dez por cento) sobre o valor equivalente a carga horária restante. Em caso de cancelamento/desistência/rescisão ocorridas após 90 dias do início das aulas fica o CONTRATANTE isento da cobrança de multa  rescisória.
+                    <br /> 9.6: O pedido de cancelamento/desistência/rescisão da matrícula deverá ser formalizado por escrito durante reunião presencial em uma das unidades com a Coordenação Pedagógica, a ser marcada pelo CONTRATANTE com antecedência mínima de 30 (trinta) dias da data de vencimento da parcela referente ao mês de saída do curso. Em caso de aluno que faça o curso exclusivamente online, a reunião poderá ser realizada via videochamada.
+                    <br /> 9.7: Caso o aviso de cancelamento ocorra antes do prazo de 30 dias citados na cláusula anterior, serão devidos pelo CONTRATANTE a parcela referente ao mês de saída do aluno, além de multa rescisória caso o cancelamento ocorra dentro do prazo de 90 dias contados a partir do início das aulas mencionados na cláusula 9.3.
+                    <br /> 9.8: A ausência do aviso de cancelamento/desistência/rescisão obrigará o CONTRATANTE ao pagamento de 01 parcela correspondente ao período de 30 dias da comunicação que deveria ter sido efetuada ao CONTRATANTE.
+                    <br /> 9.9: Em se tratando de abandono das aulas da carga horária contratada, a CONTRATADA é autorizada a tomar quaisquer medidas cabíveis para recebimento dos devidos valores acrescidos de juros e correção monetária, e, medidas judiciais em prol do recebimento de eventuais valores. Os honorários e despesas processuais ficarão sob a responsabilidade do CONTRATANTE.
+                    <br /> 9.10: A CONTRATADA pode de imediato, rescindir o presente instrumento, independente de aviso ou notificação, em caso de descumprimento de qualquer dos itens expostos neste contrato, por parte do CONTRATANTE, ou por indisciplina do mesmo.
+                    <br /> 9.11: O não pagamento da mensalidade no vencimento dará permissão à CONTRATADA impedir a renovação da matrícula para o módulo seguinte, não isentando o CONTRATANTE da obrigação de quitação dos débitos existentes.
+                    <br /> 9.12: O contrato se consumará após a conclusão de todas as aulas contratadas e a confirmação de quitação de quaisquer débitos pendentes pelas partes envolvidas.
 
-                    <br />
-                    9.1: É de entendimento mútuo entre as partes que o término
-                    do CONTRATO será efetuado, de fato, na INEXISTÊNCIA de
-                    débitos EM ABERTO por parte do CONTRATANTE, mediante o
-                    RECIBO DE QUITAÇÃO. Sendo assim, (a) vencimento do prazo
-                    contratual, (b) cumprimento de carga horária e/ou (c)
-                    abandono de curso não são critérios válidos para o término
-                    de contrato, por si só.
-                    <br />
-                    9.2: A titularidade deste contrato é
-                    intransferível e insubstituível, e só poderá ser feita, como
-                    caso de EXCEÇÃO, em comum acordo entre as partes,
-                    devidamente assinado por ambos, através de um aditamento a
-                    este.
-                    <br />
-                    9.3: No tocante ao exercício do direito de desistência
-                    antes do início das aulas o mesmo terá apresente
-                    regulamentação:
-                    <br />
-                    9.3.1: Em caso de assinatura deste contrato
-                    de forma online para a realização de aulas presenciais,
-                    online ou híbridas o prazo para desistência é de 7 dias
-                    contados do ato da assinatura digital.
-                    <br />
-                    9.3.2: Em caso de
-                    assinatura presencial na sede da contratada seja para a
-                    modalidade presencial, online ou híbrida o prazo de
-                    desistência é de 48 (quarenta e oito) horas antes do início
-                    das aulas.
-                    <br />
-                    9.3.3: Em caso de desistência após os prazos
-                    estipulados acima, não haverá devolução de valores de
-                    pagamentos já efetuados.
-                    <br />
-                    9.4: O pedido de
-                    cancelamento/desistência/rescisão da matrícula deverá ser
-                    formalizado por escrito durante reunião presencial em uma
-                    das unidades com a Coordenação Pedagógica, a ser marcada
-                    pelo CONTRATANTE com antecedência mínima de 30 (trinta)
-                    dias, contados a partir do vencimento da última parcela
-                    paga, observadas as disposições legais. Em caso de aluno que
-                    faça o curso exclusivamente online, a reunião poderá ser
-                    realizada via videochamada.
-                    <br />
-                    9.5: Em se tratando de abandono
-                    das aulas da carga horária contratada, a CONTRATADA é
-                    autorizada a tomar quaisquer medidas cabíveis para
-                    recebimento dos devidos valores acrescidos de juros e
-                    correção monetária, e, medidas judiciais em prol do
-                    recebimento de eventuais valores. Os honorários e despesas
-                    processuais ficarão sob a responsabilidade do CONTRATANTE.
-
-                    <br />
-                    9.6: A CONTRATADA pode de imediato, rescindir o presente
-                    instrumento, independente de aviso ou notificação, em caso
-                    de descumprimento de qualquer dos itens expostos neste
-                    contrato, por parte do CONTRATANTE, ou por indisciplina do
-                    mesmo.
-                    <br />
-                    9.7: O não pagamento da mensalidade no vencimento
-                    dará permissão à CONTRATADA impedir a renovação da matrícula
-                    para o módulo seguinte, não isentando o CONTRATANTE da
-                    obrigação de quitação dos débitos existentes.
-                    <br />
-                    9.8: O
-                    contrato se consumará após a conclusão de todas as aulas
-                    contratadas e a confirmação de quitação de quaisquer débitos
-                    pendentes pelas partes envolvidas.
                 </p>
 
                 <br />
