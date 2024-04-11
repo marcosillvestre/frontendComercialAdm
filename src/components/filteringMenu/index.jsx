@@ -18,7 +18,7 @@ export function PositionedMenu(data) {
 
     const {
         filtered, setFiltered, handleClose, mutationControlData,
-        sellers, setOpenPeriodRange, unity, mutation,
+        sellers, setOpenPeriodRange, unity, mutation, setPeriodRange,
         allData
     } = useUser()
 
@@ -61,7 +61,7 @@ export function PositionedMenu(data) {
 
 
     const handleFilterRangeDate = async () => {
-
+        setPeriodRange("Período personalizado")
         setTypeFilter([])
         url.pathname === '/controle-comercial' && await mutationControlData.mutate()
         url.pathname === '/controle-comissional' && await mutation.mutate()
