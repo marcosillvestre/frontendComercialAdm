@@ -35,7 +35,9 @@ import URI from '../../utils/utils';
 import Pagination from './pagination';
 
 export const ListFiltered = () => {
-    const { headers, userData, filtered, setFiltered, resetFilter, setPeriodFilter, mutationControlData, setTake, take, skip, setSkip } = useUser()
+    const { headers, userData, filtered, setFiltered, resetFilter,
+        setPeriodFilter, mutationControlData, setTake,
+        take, skip, setSkip, allData } = useUser()
     const { typeFilter, setTypeFilter, customizableArray, handleCustomizableData } = useData()
 
     const handleResetFilter = (filter) => {
@@ -137,7 +139,16 @@ export const ListFiltered = () => {
                             placeholder='Pesquisar..'
                             className='filter'
                             list='list'
-                            {...register('name')} />
+                            {...register('name')}
+                            onFocus={() => setTake("all")}
+                            onChange={(e) => {
+                                if (e.target.value === "") {
+                                    setTake(10)
+                                    setFiltered(allData)
+                                }
+                            }}
+
+                        />
 
                         <datalist id='list'>
                             {

@@ -37,7 +37,7 @@ padding: 0 4rem;
     padding: .7rem .5rem;
     width: 10rem;
     margin-top: .5rem; 
-    
+
 }
 
 .button{
