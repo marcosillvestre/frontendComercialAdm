@@ -17,13 +17,19 @@ import { FifthDrop, FirstDrop, FourthDrop, SeccDrop, SixthDrop, ThirdDrop } from
 
 import { SureModal } from '../source.jsx';
 
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import LoadingSpin from 'react-loading-spin';
 import colorsRules from '../../app/utils/Rules/colors.jsx';
 import businessRules from '../../app/utils/Rules/options.jsx';
+import URI from '../../app/utils/utils.jsx';
+import { SeventhDrop } from './seventhDrop/index.jsx';
 export function FirstRow(props) {
+    const queryCache = useQueryClient();
+
     const { comissionStatusOpt, coursesOpt, backgroundOpt } = businessRules
     const { setColor, setClearColor } = colorsRules
 
-    const { Sender, SenderDirector, userData, unity } = useUser()
+    const { Sender, SenderDirector, userData, unity, headers } = useUser()
     const { handleCustomizableData, customizableArray } = useData()
 
     const { row, index } = props;
@@ -36,6 +42,10 @@ export function FirstRow(props) {
     const [open4, setOpen4] = React.useState(false);
     const [open5, setOpen5] = React.useState(false);
     const [open6, setOpen6] = React.useState(false);
+    const [open7, setOpen7] = React.useState(false);
+
+    const [contract, setContract] = React.useState("");
+
 
     const [value, setValue] = React.useState('')
     const [payStatus, setPayStatus] = React.useState(row.tipoMatricula)
@@ -52,6 +62,31 @@ export function FirstRow(props) {
         }
     }
 
+    const { data, isPending, refetch, } = useQuery({
+        queryFn: () => {
+            if (headers.Authorization.includes("undefined") === false && contract !== "") {
+                // return axios.get(`http://localhost:7070/pessoal?contract=${contract}`, { headers }).then(res => res.data)
+                return URI.get(`/pessoal?contract=${contract}`, { headers }).then(res => res.data)
+            }
+        },
+        queryKey: [`${contract}`],
+        onError: (err) => console.log(err)
+    })
+
+    async function GetHistoric(ctr) {
+        setContract(ctr)
+        setOpen7(!open7)
+
+        if (open7 === false && ctr !== contract) {
+            queryCache.invalidateQueries(contract)
+            refetch()
+        }
+        if (open7 === false && ctr === contract) {
+            refetch()
+        }
+
+
+    }
     return (
         <React.Fragment>
             <RowTable
@@ -319,6 +354,43 @@ export function FirstRow(props) {
                         </TableRow>
 
                         <SixthDrop data={row} open={open5} />
+
+
+
+
+
+
+
+
+                        <TableRow >
+                            <TableCell>
+                                <IconButton
+                                    aria-label="expand row"
+                                    size="small"
+                                    onClick={() => GetHistoric(row?.contrato)}
+                                >
+                                    {open7 ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                                </IconButton>
+                            </TableCell>
+                            <TableCell >7 - Histórico de alterações</TableCell>
+                        </TableRow>
+                        {
+                            isPending ?
+                                <LoadingSpin
+                                    duration="20s"
+                                    width="15px"
+                                    timingFunction="ease-in-out"
+                                    direction="alternate"
+                                    size="60px"
+                                    primaryColor="#1976d2"
+                                    secondaryColor="#333"
+                                    numberOfRotationsInAnimation={10}
+                                    margin='0 auto'
+                                />
+                                :
+                                <SeventhDrop data={data} open={open7} />
+                        }
+
 
                     </Collapse>
                 </TableCell>

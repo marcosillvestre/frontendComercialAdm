@@ -155,7 +155,9 @@ export const UserProvider = ({ children }) => {
 
     const mutationControlData = useMutation({
         mutationFn: () => {
-            return URI.post('/periodo', body, { headers }).then(res => res.data)
+            // return URI.post('http://localhost:7070/periodo', body, { headers })
+            return URI.post('/periodo', body, { headers })
+                .then(res => res.data)
         },
         onSuccess: (data) => {
             setAllData(data.data.deals)
@@ -294,7 +296,6 @@ export const UserProvider = ({ children }) => {
         queryKey: ["historic"],
         onError: (err) => console.log(err)
     })
-
 
 
 

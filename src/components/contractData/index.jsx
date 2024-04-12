@@ -230,7 +230,6 @@ export const ContractData = () => {
                                 </tr>
                                 <tr>
                                     <th>Valor do Curso</th>
-
                                     <th>Número de Parcelas</th>
                                     <th>Dia Vencimento</th>
                                     <th>Taxa de Matrícula</th>

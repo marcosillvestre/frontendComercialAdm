@@ -84,8 +84,8 @@ export function SureSendModal(data) {
 
     const client = async (body) => {
         return await new Promise((resolve, reject) => {
-            // axios.post("http://localhost:7070/cliente", data, { headers })
-            URI.post("/cliente", body, { headers })
+            axios.post("http://localhost:7070/cliente", body, { headers })
+                // URI.post("/cliente", body, { headers })
                 .then(res => {
                     resolve(res)
                 })
@@ -156,11 +156,12 @@ export function SureSendModal(data) {
         descontoTotal, descontoPorParcela, curso, ppFormaPg, ppVencimento,
         dataUltimaP, materialDidatico, mdValor, mdFormaPg,
         mdVencimento, tmValor, tmFormaPg, tmVencimento, valorCurso, service,
-        observacaoRd, mdDesconto
+        observacaoRd, mdDesconto, parcelasAfetadas, descontoPrimeirasParcelas, demaisParcelas, descontoDemaisParcelas, promocao
     } = filteredContracts === undefined || filteredContracts[0] === undefined ? {} : filteredContracts[0]
 
     const body = {
-        contrato, vendedor,
+        contrato, vendedor, parcelasAfetadas, descontoPrimeirasParcelas,
+        demaisParcelas, descontoDemaisParcelas, promocao,
         unidade, name, rg, cpf,
         DatadeNascdoResp, CelularResponsavel, EnderecoResponsavel,
         NumeroEnderecoResponsavel, complemento,
@@ -234,28 +235,29 @@ export function SureSendModal(data) {
         }
 
 
-        return await client(body).then(async () => {
-            promises.map(async res => {
-                await new Promise((resolve, reject) => {
-                    res(body)
-                        .then(r => {
-                            resolve(r)
-                            alert(r.data.message)
+        return await client(body)
+            .then(async () => {
+                promises.map(async res => {
+                    await new Promise((resolve, reject) => {
+                        res(body)
+                            .then(r => {
+                                resolve(r)
+                                alert(r.data.message)
 
-                        })
-                        .catch(err => {
-                            reject(err)
+                            })
+                            .catch(err => {
+                                reject(err)
+                            })
+                    })
 
-                        })
+                    setLoading(false)
                 })
 
+            }).catch(() => {
                 setLoading(false)
-            })
+                alert("Erro ao cadastrar o cliente")
 
-        }).catch(err => {
-            setLoading(false)
-            console.log(err.response.data.message)
-        })
+            })
 
 
     }
@@ -313,8 +315,7 @@ export function SureSendModal(data) {
                     send && await contaAzulSender()
                 }
                 )
-                .catch((err) => {
-                    console.log(err)
+                .catch(() => {
                     alert("Erro ao enviar ao autentique")
                 })
             setLoading(false)

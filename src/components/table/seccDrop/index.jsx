@@ -41,9 +41,6 @@ export const SeccDrop = (row) => {
             SenderDirector("observacao", res, contrato, { "delete": true, "deleted": res })
     }
 
-
-    console.log(observation)
-
     return (
         <TableCell style={{
             paddingBottom: 0,
