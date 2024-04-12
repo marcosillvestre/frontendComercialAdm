@@ -13,6 +13,7 @@ export const SeventhDrop = (row) => {
         "observacao": "Observação",
         "curso": "Curso",
         "aprovacaoDirecao": "Aprovação do diretor",
+        "unidade": "Unidade",
     }
 
 

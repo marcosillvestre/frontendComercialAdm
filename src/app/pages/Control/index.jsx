@@ -75,7 +75,7 @@ export const ListFiltered = () => {
         { name: "Este mês" },
         { name: "Mês passado" },
         { name: "Mês retrasado" },
-        { name: "Este ano" },
+        { name: "Todo período" },
         { name: "Período personalizado", customizable: true },
     ]
 
