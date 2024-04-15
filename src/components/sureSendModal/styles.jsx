@@ -5,6 +5,7 @@ import styled from "styled-components";
 export const Container = styled.div`
 width: 100%;
 height: 100%;
+
 `
 export const Fades = styled(Fade)`
 border: none;
@@ -20,7 +21,6 @@ export const Filter = styled(Button)`
 
 export const Boxes = styled.label`
 display: flex;
-height: 3.5vw;
 margin-top: ${props => props.radio ? "2rem" : "1rem"};
 justify-content: center;
 background-color: #fff;

@@ -84,8 +84,8 @@ export function SureSendModal(data) {
 
     const client = async (body) => {
         return await new Promise((resolve, reject) => {
-            axios.post("http://localhost:7070/cliente", body, { headers })
-                // URI.post("/cliente", body, { headers })
+            // axios.post("http://localhost:7070/cliente", body, { headers })
+            URI.post("/cliente", body, { headers })
                 .then(res => {
                     resolve(res)
                 })
@@ -102,9 +102,11 @@ export function SureSendModal(data) {
                 // axios.post("http://localhost:7070/registro-conta-azul", data, { headers })
                 .then(res => {
                     resolve(res)
+                    alert(res.data.message)
 
                 })
                 .catch(err => {
+                    console.log(err)
                     alert(err.response.data.message)
                     reject(err)
                 })
@@ -113,37 +115,42 @@ export function SureSendModal(data) {
     }
 
     const sales = async (body) => {
-        return await new Promise((resolve, reject) => {
-            URI.post("/venda", body, { headers })
-                // axios.post("http://localhost:7070/venda", data, { headers })
-                .then(res => {
-                    resolve(res)
+        if (filteredContracts[0].mdValor > 0) {
+            return await new Promise((resolve, reject) => {
+                URI.post("/venda", body, { headers })
+                    // axios.post("http://localhost:7070/venda", data, { headers })
+                    .then(res => {
+                        resolve(res)
+                        alert(res.data.message)
 
-                })
-                .catch(err => {
-                    // console.log(err.response)
-                    alert(err.response.data.message)
-                    reject(err)
+                    })
+                    .catch(err => {
+                        alert(err.response.data.message)
+                        reject(err)
 
-                })
-        })
+                    })
+            })
+        }
     }
 
     const feeEnroll = async (body) => {
-        return await new Promise((resolve, reject) => {
-            URI.post("/taxa", body, { headers })
-                // axios.post("http://localhost:7070/taxa", data, { headers })
-                .then(res => {
-                    resolve(res)
+        if (filteredContracts[0].tmValor > 0) {
+            return await new Promise((resolve, reject) => {
+                URI.post("/taxa", body, { headers })
+                    // axios.post("http://localhost:7070/taxa", data, { headers })
+                    .then(res => {
+                        resolve(res)
 
-                })
-                .catch(err => {
-                    // console.log(err.response)
-                    alert(err.response.data.message)
-                    reject(err)
+                        alert(res.data.message)
+                    })
+                    .catch(err => {
+                        // console.log(err.response)
+                        alert(err.response.data.message)
+                        reject(err)
 
-                })
-        })
+                    })
+            })
+        }
     }
 
     const {
@@ -213,6 +220,7 @@ export function SureSendModal(data) {
 
     }
 
+
     async function separated() {
         setLoading(true)
         if (sendingList.length === 0) {
@@ -235,32 +243,20 @@ export function SureSendModal(data) {
         }
 
 
-        return await client(body)
+
+        await client(body)
             .then(async () => {
                 promises.map(async res => {
-                    await new Promise((resolve, reject) => {
-                        res(body)
-                            .then(r => {
-                                resolve(r)
-                                alert(r.data.message)
-
-                            })
-                            .catch(err => {
-                                reject(err)
-                            })
-                    })
-
-                    setLoading(false)
+                    await new Promise(() => res(body))
                 })
 
             }).catch(() => {
-                setLoading(false)
                 alert("Erro ao cadastrar o cliente")
 
             })
-
-
+        setLoading(false)
     }
+
 
     let idioma = import.meta.env.VITE_IDIOMA
     let particulares = import.meta.env.VITE_PARTICULARES
@@ -350,8 +346,10 @@ export function SureSendModal(data) {
                 senderImpressContract()
             }, 1000);
         }
-
     }
+
+
+
     return (
         <Container>
             <Filter
@@ -395,30 +393,27 @@ export function SureSendModal(data) {
                                                 </Boxes>
                                             </>
                                             :
-                                            <>
-                                                <Boxes style={{ flexDirection: "column", alignItems: "flex-start" }}>
-                                                    <div>
-                                                        <input type="checkbox"
-                                                            onClick={() => handleSendingList("contract")}
-                                                            className='check' />
-                                                        <small>Contrato</small>
-                                                    </div>
-
-                                                    <div>
-                                                        <input type="checkbox"
-                                                            onClick={() => handleSendingList("sales")}
-                                                            className='check' />
-                                                        <small>Material didático</small>
-                                                    </div>
-
-                                                    <div>
-                                                        <input type="checkbox"
-                                                            onClick={() => handleSendingList("feeEnroll")}
-                                                            className='check' />
-                                                        <small>Taxa de matrícula</small>
-                                                    </div>
-
+                                            < >
+                                                <Boxes >
+                                                    <input type="checkbox"
+                                                        onClick={() => handleSendingList("contract")}
+                                                        className='check' />
+                                                    <small>Contrato</small>
                                                 </Boxes>
+                                                <Boxes >
+                                                    <input type="checkbox"
+                                                        onClick={() => handleSendingList("sales")}
+                                                        className='check' />
+                                                    <small>Material didático</small>
+                                                </Boxes>
+
+                                                <Boxes >
+                                                    <input type="checkbox"
+                                                        onClick={() => handleSendingList("feeEnroll")}
+                                                        className='check' />
+                                                    <small>Taxa de matrícula</small>
+                                                </Boxes>
+
                                                 <Boxes radio>
                                                     <ButtonDelete onClick={() => separated()}>Emitir contrato</ButtonDelete>
                                                 </Boxes>
@@ -428,14 +423,14 @@ export function SureSendModal(data) {
                                 </div>
 
                                 : <LoadingSpin
-                                    duration="20s"
+                                    duration="30s"
                                     width="15px"
                                     timingFunction="ease-in-out"
                                     direction="alternate"
                                     size="60px"
                                     primaryColor="#1976d2"
                                     secondaryColor="#333"
-                                    numberOfRotationsInAnimation={10}
+                                    numberOfRotationsInAnimation={4}
                                     margin='0 auto'
                                 />
                         }

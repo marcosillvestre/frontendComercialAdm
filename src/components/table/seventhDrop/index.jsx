@@ -14,6 +14,10 @@ export const SeventhDrop = (row) => {
         "curso": "Curso",
         "aprovacaoDirecao": "Aprovação do diretor",
         "unidade": "Unidade",
+        "background": "Background",
+        "mdData": "Data de pagamento do Material Didático",
+        "ppData": "Data de pagamento da Primeira Parcela",
+        "tmData": "Data de pagamento da Taxa de Matrícula",
     }
 
 
