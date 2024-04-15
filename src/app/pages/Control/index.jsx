@@ -31,8 +31,10 @@ import {
 import { useData } from '../../../hooks/dataContext';
 
 import { toast } from 'react-toastify';
+import businessRules from '../../utils/Rules/options.jsx';
 import URI from '../../utils/utils';
 import Pagination from './pagination';
+
 
 export const ListFiltered = () => {
     const { headers, userData, filtered, setFiltered, resetFilter,
@@ -67,19 +69,8 @@ export const ListFiltered = () => {
 
 
 
-    const customizablePeriods = [
-        { name: "Data de matrícula", undleLabel: true },
-        { name: "Data de validação", undleLabel: true }
-    ]
 
-    const predeterminedPeriods = [
-        { name: "Últimos 7 dias" },
-        { name: "Este mês" },
-        { name: "Mês passado" },
-        { name: "Mês retrasado" },
-        { name: "Todo período" },
-        { name: "Período personalizado", customizable: true },
-    ]
+
 
     const handleSearch = () => {
         setPeriodFilter(false)
@@ -96,8 +87,7 @@ export const ListFiltered = () => {
 
 
     const from = take + skip
-    const diference = data !== undefined && from % data.data.total
-
+    const diference = data !== undefined && from % data.total
     const allContracts = filtered.map(res => res.contrato)
 
     async function pageUpdate() {
@@ -126,8 +116,8 @@ export const ListFiltered = () => {
         <Container>
             <span className='nav-filter' >
 
-                <SelectFilterBy opt={customizablePeriods} />
-                <SelectPeriodCustom opt={predeterminedPeriods} />
+                <SelectFilterBy opt={businessRules.customizablePeriods} />
+                <SelectPeriodCustom opt={businessRules.predeterminedPeriods} />
 
                 <form onSubmit={handleSubmit((data) => sender(data))}>
 
@@ -184,7 +174,7 @@ export const ListFiltered = () => {
                         {
                             isPending === false &&
                             data !== undefined &&
-                            data.data.total
+                            data.total
                         }
                     </Tax>
                 </span>
@@ -340,29 +330,29 @@ export const ListFiltered = () => {
                                 </div>
 
                                 {
-                                    data !== undefined && take + skip > data.data.total ?
-                                        take > data.data.total ?
+                                    data !== undefined && take + skip > data.total ?
+                                        take > data.total ?
 
-                                            <p className='mid'>{`Mostrando ${skip + 1} - ${data.data.total} de
-                                            ${isPending === false && data !== undefined && data.data.total} registross`} </p> :
+                                            <p className='mid'>{`Mostrando ${skip + 1} - ${data.total} de
+                                            ${isPending === false && data !== undefined && data.total} registross`} </p> :
 
                                             <p className='mid'>{`Mostrando ${skip + 1} - ${take + skip - diference} de
-                                            ${isPending === false && data !== undefined && data.data.total} registross`} </p> :
+                                            ${isPending === false && data !== undefined && data.total} registross`} </p> :
 
-                                        <p className='mid'>{`Mostrando ${skip + 1} - ${take === 'all' ? data.data.total : take + skip} de
-                                            ${isPending === false && data !== undefined && data.data.total} registros`} </p>
+                                        <p className='mid'>{`Mostrando ${skip + 1} - ${take === 'all' ? data.total : take + skip} de
+                                            ${isPending === false && data !== undefined && data.total} registros`} </p>
                                 }
 
                             </NumberContainer>
                             {
-                                isPending === false && data !== undefined && data.data.total / take > 0 &&
+                                isPending === false && data !== undefined && data.total / take > 0 &&
                                 <>
                                     <div className='separation'>
                                         <hr />
                                         <FilterListIcon />
                                         <hr />
                                     </div>
-                                    <Pagination data={isPending === false && data !== undefined && data.data.total} />
+                                    <Pagination data={isPending === false && data !== undefined && data.total} />
                                 </>
                             }
 

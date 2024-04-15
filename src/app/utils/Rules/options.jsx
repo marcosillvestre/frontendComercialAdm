@@ -57,8 +57,23 @@ const arrayQuantityChanges = [
     },
 ]
 
+
+const predeterminedPeriods = [
+    { name: "Este mês" },
+    { name: "Últimos 7 dias" },
+    { name: "Mês passado" },
+    { name: "Mês retrasado" },
+    { name: "Todo período" },
+    { name: "Período personalizado", customizable: true },
+]
+
+const customizablePeriods = [
+    { name: "Data de matrícula", undleLabel: true },
+    { name: "Data de validação", undleLabel: true }
+]
+
 export default {
-    arrayQuantityChanges,
+    arrayQuantityChanges, predeterminedPeriods, customizablePeriods,
     comissionStatusOpt, coursesOpt, backgroundOpt, nonEspecificOpt
 
 }

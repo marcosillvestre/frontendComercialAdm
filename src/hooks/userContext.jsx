@@ -8,6 +8,7 @@ import { useData } from "./dataContext.jsx"
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { toast } from "react-toastify"
+import businessRules from '../app/utils/Rules/options.jsx'
 
 
 const UserContext = createContext({})
@@ -22,7 +23,8 @@ export const UserProvider = ({ children }) => {
     const [unity, setUnity] = useState([])
     const [filteredContracts, setFilteredContracts] = useState()
     const [sellers, setSeller] = useState()
-    const [periodRange, setPeriodRange] = useState('Selecione')
+    const [periodRange, setPeriodRange] = useState(businessRules.predeterminedPeriods[0].name)
+
     const [anchorEl, setAnchorEl] = useState(null);
     const [openPeriodRange, setOpenPeriodRange] = useState(false)
 
@@ -153,28 +155,33 @@ export const UserProvider = ({ children }) => {
 
     const [allData, setAllData] = useState([])
 
-    const mutationControlData = useMutation({
-        mutationFn: () => {
-            // return URI.post('http://localhost:7070/periodo', body, { headers })
-            return URI.post('/periodo', body, { headers })
-                .then(res => res.data)
-        },
-        onSuccess: (data) => {
-            setAllData(data.data.deals)
-            setFiltered(data.data.deals)
-        },
-        onError: (err) => console.log(err)
+    const indexPeriod = async () => {
+        const response = await URI.get(`/periodo?range=${periodRange}&role=${body.role}&name=${body.name}&unity=${body.unity}&dates=${body.dates}&types=${body.types}&skip=${body.skip}&take=${body.take}`, { headers })
+        return response?.data
+    }
+
+
+    const mutationControlData = useQuery({
+        queryFn: () => indexPeriod(),
+        queryKey: [body],
+        enabled: !headers.Authorization.includes("undefined")
     })
+
+
 
     useEffect(() => {
         if (headers.Authorization.includes("undefined") === false && body.range !== 'Selecione' && body.range !== "Período personalizado") {
-            mutationControlData.mutate()
+            mutationControlData.refetch()
         }
         if (body.range === "Período personalizado" && selectedInitialDate || selectedEndDate !== null) {
-            mutationControlData.mutate()
+            mutationControlData.refetch()
+        }
+        if (mutationControlData.isSuccess) {
+            setFiltered(mutationControlData.data.deals)
+            setAllData(mutationControlData.data.deals)
         }
 
-    }, [periodRange, skip, take])
+    }, [periodRange, skip, take, mutationControlData.isSuccess])
 
 
     class resetFiltering {

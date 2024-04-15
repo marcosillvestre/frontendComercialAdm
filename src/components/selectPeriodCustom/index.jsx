@@ -26,6 +26,8 @@ export const SelectPeriodCustom = (periods) => {
         setPeriodRange(label)
     }
 
+
+
     return (
         <>
             <CloserClick
@@ -56,17 +58,18 @@ export const SelectPeriodCustom = (periods) => {
 
                     {
                         periods.opt?.map(period => (
-                            <Options className="option" key={period?.name}  >
-                                {
-                                    period.customizable === undefined ?
-                                        <span className="label" onClick={() => handleCheck(period?.name)}>
-                                            <p>{period?.name}</p>
-                                        </span>
-                                        :
-                                        <PositionedMenu name={period?.name} />
-                                }
-                                <Checked className='icon-right'><DoneIcon /></Checked>
-                            </Options>
+                            period.name === periodRange ? "" :
+                                <Options className="option" key={period?.name}  >
+                                    {
+                                        period.customizable === undefined ?
+                                            <span className="label" onClick={() => handleCheck(period?.name)}>
+                                                <p>{period?.name}</p>
+                                            </span>
+                                            :
+                                            <PositionedMenu name={period?.name} />
+                                    }
+                                    <Checked className='icon-right'><DoneIcon /></Checked>
+                                </Options>
                         ))
                     }
                 </ListOpt>
