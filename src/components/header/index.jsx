@@ -65,9 +65,12 @@ export const Header = (parsed) => {
 
 
                     <nav className='nav-name'>
-                        <a href="/historico">
-                            <WithNotifications />
-                        </a>
+                        {
+                            userData.role === "direcao" &&
+                            <a href="/historico">
+                                <WithNotifications />
+                            </a>
+                        }
                         <p>Olá,</p><Name>{parsed?.data?.name}</Name>
                         <LogOut to="/" onClick={() => unLog()}> Sair  </LogOut>
                         <LogoutIcon style={{ color: "#f13434" }} />
