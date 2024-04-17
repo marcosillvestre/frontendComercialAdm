@@ -233,14 +233,17 @@ export const ListFiltered = () => {
                         :
                         <Tabled>
                             <NavControl>
+                                {
+                                    userData.admin &&
 
-                                <CustomizableButton
-                                    element={1}
-                                    able={customizableArray.some(res => res?.isChecked !== false)}
-                                    label={"Alterar em lote"}
-                                    flex={true}
-                                    toBeChanged={customizableArray}
-                                />
+                                    <CustomizableButton
+                                        element={1}
+                                        able={customizableArray.some(res => res?.isChecked !== false)}
+                                        label={"Alterar em lote"}
+                                        flex={true}
+                                        toBeChanged={customizableArray}
+                                    />
+                                }
 
 
 
@@ -265,15 +268,18 @@ export const ListFiltered = () => {
                                             ></TableCell>
 
 
-                                            <TableCell >
-                                                <input
-                                                    style={{ width: '1rem', height: '1rem' }}
-                                                    type="checkbox"
-                                                    name="allSelect"
-                                                    onClick={(e) => handleCustomizableData(e, allContracts)}
-                                                    checked={customizableArray.filter(res => res.isChecked === true).length === filtered.length ? true : false}
-                                                />
-                                            </TableCell>
+                                            {
+                                                userData.admin &&
+                                                <TableCell >
+                                                    <input
+                                                        style={{ width: '1rem', height: '1rem' }}
+                                                        type="checkbox"
+                                                        name="allSelect"
+                                                        onClick={(e) => handleCustomizableData(e, allContracts)}
+                                                        checked={customizableArray.filter(res => res.isChecked === true).length === filtered.length ? true : false}
+                                                    />
+                                                </TableCell>
+                                            }
 
 
                                             <TableCell

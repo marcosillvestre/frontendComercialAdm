@@ -214,7 +214,7 @@ export const FirstDrop = (row) => {
                             {
                                 userData.admin === false ?
                                     <Td >
-                                        {row?.data.dataComissionamento}
+                                        {row?.data.dataComissionamento === '' ? "Não foi agendadado" : row?.data.dataComissionamento}
                                     </Td> :
                                     <Td >
                                         <Input
@@ -222,20 +222,14 @@ export const FirstDrop = (row) => {
                                             type="date"
                                             onChange={(e) =>
                                                 Changer("dataComissionamento", e.target.value, row?.data.contrato)} />
-
                                     </Td>
-
                             }
-
-
                         </TableCell>
                         <TableCell align="center">
                             {
                                 userData.admin === false ?
 
-                                    <Td style={{
-                                        color: setColor[row?.data.tipoMatricula]
-                                    }}>
+                                    <Td >
                                         {row?.data.tipoMatricula}
                                     </Td> :
                                     <Td >

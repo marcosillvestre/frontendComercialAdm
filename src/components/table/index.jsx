@@ -107,22 +107,21 @@ export function FirstRow(props) {
                         {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                     </IconButton>
                 </TableCell>
-
-
-                <TableCell
-                    align="center"
-                >
-
-                    <input
-                        style={{ width: '1rem', height: '1rem' }}
-                        type="checkbox"
-                        name={row?.contrato}
-                        onChange={handleCustomizableData}
-                        value={index}
-                        checked={customizableArray[index]?.isChecked === true || false}
-                    />
-
-                </TableCell>
+                {
+                    userData.admin &&
+                    <TableCell
+                        align="center"
+                    >
+                        <input
+                            style={{ width: '1rem', height: '1rem' }}
+                            type="checkbox"
+                            name={row?.contrato}
+                            onChange={handleCustomizableData}
+                            value={index}
+                            checked={customizableArray[index]?.isChecked === true || false}
+                        />
+                    </TableCell>
+                }
 
                 <TableCell align="center">{row?.dataMatricula} </TableCell>
                 <TableCell align="center">{row?.aluno}</TableCell>
