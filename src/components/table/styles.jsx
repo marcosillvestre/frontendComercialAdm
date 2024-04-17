@@ -21,7 +21,7 @@ justify-content: center;
 `
 
 export const BodyTable = styled(TableBody)`
-border-left: .1rem solid #16207421;
+/* border: .1rem solid #16207421; */
 
 `
 export const HeadTable = styled(TableHead)`
@@ -30,8 +30,7 @@ height: 3rem;
 
 `
 export const DataTable = styled(TableRow)`
-border-left: .1rem solid #16207421;
-border-right: .1rem solid #16207421;
+border: .1rem solid #16207421;
 `
 
 export const ButtonChanger = styled.button`

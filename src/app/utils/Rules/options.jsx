@@ -72,8 +72,18 @@ const customizablePeriods = [
     { name: "Data de validação", undleLabel: true }
 ]
 
+
+const roles = [
+    { label: "Direção", value: "direcao" },
+    { label: "Comercial", value: "comercial" },
+    { label: "Gerencia", value: "gerencia" },
+    { label: "Administrativo", value: "administrativo" },
+    { label: "Pedagógico", value: "pedagogico" },
+]
+
 export default {
     arrayQuantityChanges, predeterminedPeriods, customizablePeriods,
-    comissionStatusOpt, coursesOpt, backgroundOpt, nonEspecificOpt
+    comissionStatusOpt, coursesOpt, backgroundOpt, nonEspecificOpt,
+    roles
 
 }

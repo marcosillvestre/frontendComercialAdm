@@ -63,23 +63,14 @@ export const UserProvider = ({ children }) => {
     }, [userData?.token])
 
 
-    useEffect(() => {
-        const unities = async () => {
-            await URI.get('/unidades', { headers })
-                .then(res => setUnity(res.data))
-        }
-        unities()
-
-    }, [headers])
-
-
-
 
     ////////////////////////////////////
     useEffect(() => {
-        const bool = headers.Authorization.includes('undefined')
-        if (fetchData === undefined && bool === false) {
-            data()
+
+
+        const unities = async () => {
+            await URI.get('/unidades', { headers })
+                .then(res => setUnity(res.data))
         }
         async function data() {
             try {
@@ -97,6 +88,11 @@ export const UserProvider = ({ children }) => {
             }
         }
 
+        const bool = headers.Authorization.includes('undefined')
+        if (fetchData === undefined && bool === false) {
+            data()
+            unities()
+        }
 
     }, [fetchData, headers])
     /////////////////////////////////////
@@ -126,8 +122,6 @@ export const UserProvider = ({ children }) => {
     }
 
     splited[1] !== undefined && users.length === 0 && getData()
-
-
 
 
     const typeSearch = {

@@ -18,8 +18,8 @@ export const ThirdDrop = (row) => {
             paddingBottom: 0,
             paddingTop: 0,
             width: "66rem",
-        }} colSpan={6}>
-            <Collapse style={{ background: row.open ? "#f5f5f5" : "" }} in={row.open} timeout="auto" unmountOnExit>
+        }} colSpan={8}>
+            <Collapse style={{ background: row.open ? "#f5f5f5" : "", width: "150%" }} in={row.open} timeout="auto" unmountOnExit>
                 <HeadTable>
                     <TableRow>
                         <TableCell style={{ fontWeight: "bold" }}>N°. do Contrato</TableCell>

@@ -45,12 +45,12 @@ export const SeccDrop = (row) => {
         <TableCell style={{
             paddingBottom: 0,
             paddingTop: 0,
-            width: "66rem",
-        }} colSpan={6}>
+        }} colSpan={7}>
 
             <Collapse
                 style={{
-                    width: "100%", background: row.open ?
+                    width: "150%",
+                    background: row.open ?
                         "#f5f5f5" :
                         ""
                 }}

@@ -16,8 +16,8 @@ import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 import { Row } from '../../../components/source.jsx';
 import { useUser } from '../../../hooks/userContext';
+import businessRules from '../../utils/Rules/options.jsx';
 import URI from '../../utils/utils';
-
 import { Anchor, Box, Container, ErrorMessage, Header, Input, MultiOption, RegisterContainer, Selected, Selects, Submit, Tax, UserContainer } from './styles';
 
 
@@ -140,10 +140,12 @@ export function Register() {
               <p>Cargo:</p>
               <Selected {...register("role", { required: true })}>
                 <option value=""></option>
-                <option value="direcao">Direção</option>
-                <option value="comercial">Comercial</option>
-                <option value="gerencia">Gerencia</option>
-                <option value="administrativo">Administrativo</option>
+                {
+                  businessRules.roles.map(res => (
+                    <option key={res.value} value={res.value}>{res.label}</option>
+                  ))
+                }
+
               </Selected>
             </Box>
 

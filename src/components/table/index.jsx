@@ -130,7 +130,7 @@ export function FirstRow(props) {
                 <TableCell align='center'>
 
                     {
-                        userData.role === 'comercial' ?
+                        userData.admin === false ?
                             <Td >{row?.curso}</Td>
                             :
                             <Td >
@@ -151,7 +151,7 @@ export function FirstRow(props) {
                 <TableCell align='center'>
 
                     {
-                        userData.role === 'comercial' ?
+                        userData.admin === false ?
                             <Td >{row?.unidade}</Td>
                             :
                             <Td >
@@ -170,7 +170,7 @@ export function FirstRow(props) {
                 <TableCell align='center'>
 
                     {
-                        userData.role === 'comercial' ?
+                        userData.admin === false ?
                             <Td >{row?.background}</Td>
                             :
                             <Td >
@@ -190,9 +190,12 @@ export function FirstRow(props) {
                     align="center"
                 >
                     {
-                        userData.role === 'comercial' ?
+                        userData.admin === false ?
                             <Td style={{
-                                backgroundColor: setColor[row?.tipoMatricula]
+                                backgroundColor: setColor[row?.tipoMatricula],
+                                borderRadius: "5px",
+                                padding: "5px",
+                                userSelect: "none"
                             }} >
                                 {row?.tipoMatricula}
                             </Td>

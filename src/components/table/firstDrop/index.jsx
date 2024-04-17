@@ -30,12 +30,10 @@ export const FirstDrop = (row) => {
 
     return (
         <TableCell style={{
-
             paddingBottom: 0,
             paddingTop: 0,
-            maxWidth: "50rem"
         }} colSpan={7}>
-            <Collapse style={{ background: row.open ? "#f5f5f5" : "", width: "73.7rem" }} in={row.open} timeout="auto" unmountOnExit  >
+            <Collapse style={{ background: row.open ? "#f5f5f5" : "", width: "150%" }} in={row.open} timeout="auto" unmountOnExit  >
                 <HeadTable  >
                     <TableRow>
                         <TableCell
@@ -82,7 +80,7 @@ export const FirstDrop = (row) => {
 
                         <TableCell >
                             {
-                                userData.role === 'comercial' ?
+                                userData.admin === false ?
                                     <Td>{row?.data.acStatus}</Td>
                                     :
                                     <Td >
@@ -106,7 +104,7 @@ export const FirstDrop = (row) => {
                         </TableCell>
 
                         <TableCell >
-                            {userData.role === 'comercial' ?
+                            {userData.admin === false ?
                                 <Td>{row?.data.tmStatus}</Td>
                                 :
 
@@ -128,7 +126,7 @@ export const FirstDrop = (row) => {
 
                         <TableCell align="center">
                             {
-                                userData.role === 'comercial' ?
+                                userData.admin === false ?
                                     <Td>{row?.data.ppStatus}</Td>
                                     :
                                     <Td >
@@ -149,7 +147,7 @@ export const FirstDrop = (row) => {
 
                         <TableCell align="center">
                             {
-                                userData.role === 'comercial' ?
+                                userData.admin === false ?
                                     <Td>{row?.data.mdStatus}</Td>
                                     :
                                     <Td >
@@ -169,7 +167,7 @@ export const FirstDrop = (row) => {
                         </TableCell>
                         <TableCell  >
                             {
-                                userData.role === 'comercial' ?
+                                userData.admin === false ?
                                     <Td>{row?.data.paStatus}</Td>
                                     :
                                     <Td >
@@ -213,28 +211,33 @@ export const FirstDrop = (row) => {
                     <DataTable key={row?.data.contrato}>
 
                         <TableCell component="th" scope="row"  >
-                            {userData.role !== 'comercial' ?
+                            {
+                                userData.admin === false ?
+                                    <Td >
+                                        {row?.data.dataComissionamento}
+                                    </Td> :
+                                    <Td >
+                                        <Input
+                                            defaultValue={row?.data.dataComissionamento}
+                                            type="date"
+                                            onChange={(e) =>
+                                                Changer("dataComissionamento", e.target.value, row?.data.contrato)} />
 
-                                <Td >
-                                    <Input
-                                        defaultValue={row?.data.dataComissionamento}
-                                        type="date"
-                                        onChange={(e) =>
-                                            Changer("dataComissionamento", e.target.value, row?.data.contrato)} />
+                                    </Td>
 
-                                </Td>
-                                :
-                                <Td >
-                                    {row?.data.dataComissionamento}
-                                </Td>
                             }
 
 
                         </TableCell>
                         <TableCell align="center">
                             {
-                                userData.role !== 'comercial' ?
+                                userData.admin === false ?
 
+                                    <Td style={{
+                                        color: setColor[row?.data.tipoMatricula]
+                                    }}>
+                                        {row?.data.tipoMatricula}
+                                    </Td> :
                                     <Td >
                                         <Select
                                             style={{
@@ -251,12 +254,7 @@ export const FirstDrop = (row) => {
                                             }
                                         </Select>
                                     </Td>
-                                    :
-                                    <Td style={{
-                                        color: setColor[row?.data.tipoMatricula]
-                                    }}>
-                                        {row?.data.tipoMatricula}
-                                    </Td>
+
 
                             }
 
@@ -283,7 +281,7 @@ export const FirstDrop = (row) => {
 
                         <TableCell align="center">
                             {
-                                userData.role === 'comercial' ?
+                                userData.admin === false ?
                                     <Td>{row?.data.aprovacaoADM}</Td>
                                     :
                                     <Td >

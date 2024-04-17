@@ -26,10 +26,10 @@ export const FourthDrop = (row) => {
         <TableCell style={{
             paddingBottom: 0,
             paddingTop: 0,
-            width: "69rem",
+            // width: "69rem",
         }} colSpan={6}>
             <Collapse
-                style={{ background: row.open ? "#f5f5f5" : "" }}
+                style={{ background: row.open ? "#f5f5f5" : "", width: "150%" }}
                 in={row.open}
                 timeout="auto"
                 unmountOnExit>
@@ -74,7 +74,8 @@ export const FourthDrop = (row) => {
                         </TableCell>
                         <TableCell align="center">
                             {
-                                userData.role === 'comercial' ?
+                                userData.admin === false ?
+
                                     <>
                                         {row?.data.tmStatus}
                                     </>
@@ -97,8 +98,9 @@ export const FourthDrop = (row) => {
                         </TableCell>
                         <TableCell align="center">
                             {
-                                userData.role === 'comercial' ?
-                                    <>Atualmente {row?.data.tmData}</>
+                                userData.admin === false ?
+
+                                    <> {row?.data.tmData}</>
                                     :
                                     <>
                                         <Td style={{ display: "flex", margin: ".5rem 0 " }}>
@@ -157,7 +159,8 @@ export const FourthDrop = (row) => {
                         </TableCell>
                         <TableCell align="center">
                             {
-                                userData.role === 'comercial' ?
+                                userData.admin === false ?
+
                                     <Td>{row?.data.ppStatus}</Td>
                                     :
                                     <Td >
@@ -177,8 +180,9 @@ export const FourthDrop = (row) => {
                         </TableCell>
                         <TableCell align="center">
                             {
-                                userData.role === 'comercial' ?
-                                    <Td>Atualmente {row?.data.ppData}</Td>
+                                userData.admin === false ?
+
+                                    <Td> {row?.data.ppData}</Td>
                                     :
                                     <>
                                         <Td style={{ display: "flex", margin: ".5rem 0 " }}>
@@ -236,7 +240,8 @@ export const FourthDrop = (row) => {
                         </TableCell>
                         <TableCell align="center">
                             {
-                                userData.role === 'comercial' ?
+                                userData.admin === false ?
+
                                     <>{row?.data.mdStatus}</>
                                     :
                                     <Td >
@@ -256,8 +261,9 @@ export const FourthDrop = (row) => {
                         </TableCell>
                         <TableCell align="center">
                             {
-                                userData.role === 'comercial' ?
-                                    <>Atualmente {row?.data.mdData}</>
+                                userData.admin === false ?
+
+                                    <> {row?.data.mdData}</>
                                     :
                                     <>
                                         <Td style={{ display: "flex", margin: ".5rem 0 " }}>
@@ -265,7 +271,7 @@ export const FourthDrop = (row) => {
 
                                         </Td>
                                         {row?.data.mdData ?
-                                            <Td>Atualmente {row?.data.mdData}</Td> : ""}
+                                            <Td> {row?.data.mdData}</Td> : ""}
                                     </>
                             }
                         </TableCell>

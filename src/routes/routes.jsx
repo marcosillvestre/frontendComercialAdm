@@ -19,6 +19,12 @@ const directory = JSON.parse(user)?.role === 'direcao' ? true : false
 
 
 const Routes = createBrowserRouter([
+    // {
+    //     path: "/configuracao",
+    //     element: user === null || user === undefined ? <Login /> : <><MiniDrawer /> <Contracts /> </>,
+    // },
+
+
     {
         path: "/",
         element: <Home />,
@@ -41,10 +47,12 @@ const Routes = createBrowserRouter([
         path: "/controle-comissional/grafico",
         element: comissionalAcess ? <><MiniDrawer /><ComissionControll /></> : <><MiniDrawer /><Control /></>
     },
+
     {
         path: "/cadastro",
         element: directory ? <><MiniDrawer /><Register /> </> : <Login />,
     },
+
 
     {
         path: "/cadastro/lista",

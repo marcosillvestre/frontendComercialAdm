@@ -130,7 +130,9 @@ export const ListFiltered = () => {
                             className='filter'
                             list='list'
                             {...register('name')}
-                            onFocus={() => setTake("all")}
+                            onFocus={() => {
+                                setTake("all ")
+                            }}
                             onChange={(e) => {
                                 if (e.target.value === "") {
                                     setTake(10)
@@ -251,6 +253,7 @@ export const ListFiltered = () => {
                                 </div>
 
                             </NavControl>
+
                             <TableContainer component={Paper} >
 
                                 <Table aria-label="collapsible table" >

@@ -148,8 +148,8 @@ export function MiniDrawer() {
 
                     <List>
                         {[
-                            { name: 'Controle Comercial', url: '/controle-comercial', icon: <Home />, access: ['administrativo', 'direcao', 'comercial', 'gerencia'] },
-                            { name: 'Emitir Contratos', url: '/contratos-por-assinar', icon: <GetContracts />, access: ['administrativo', 'direcao', 'comercial', 'gerencia'] },
+                            { name: 'Controle Comercial', url: '/controle-comercial', icon: <Home />, access: ['administrativo', 'direcao', 'comercial', 'gerencia', 'pedagogico'] },
+                            { name: 'Emitir Contratos', url: '/contratos-por-assinar', icon: <GetContracts />, access: ['administrativo', 'direcao', 'comercial', 'gerencia', 'pedagogico'] },
                             { name: 'Relatórios', url: '/controle-comissional', icon: <ComissionScreen />, access: ['administrativo', 'direcao', 'gerencia'] },
 
                             { name: 'Painel dos Usuários', url: '/cadastro', icon: <Adduser />, access: ['direcao'] },

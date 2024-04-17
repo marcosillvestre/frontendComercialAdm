@@ -27,7 +27,7 @@ export const SeventhDrop = (row) => {
             paddingTop: 0,
             width: "66rem",
         }} colSpan={6}>
-            <Collapse style={{ background: row.open ? "#f5f5f5" : "" }}
+            <Collapse style={{ background: row.open ? "#f5f5f5" : "", width: "150%" }}
                 in={row.open} timeout="auto" unmountOnExit>
                 {
                     row.data && row.data.length > 0 ?
