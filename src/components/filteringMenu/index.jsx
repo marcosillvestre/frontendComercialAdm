@@ -24,7 +24,10 @@ export function PositionedMenu(data) {
 
     const { typeFilter, setTypeFilter } = useData()
 
+
+
     const handleFilter = (value, type) => {
+        console.log(typeFilter)
         if (filtered.length < 1) {
             alert("Este período de tempo não há matrículas")
         }

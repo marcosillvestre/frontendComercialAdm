@@ -94,8 +94,8 @@ export function Register() {
 
       <Header>
         <nav>
-          <Anchor href="/cadastro" active={url.pathname === "/cadastro"}> Criar novo usuário</Anchor>
-          <Anchor href="/cadastro/lista" active={url.pathname === "/cadastro/lista"}> Listar usuários</Anchor>
+          <Anchor href="/cadastro" active={url.pathname === "/cadastro" ? true : undefined}> Criar novo usuário</Anchor>
+          <Anchor href="/cadastro/lista" active={url.pathname === "/cadastro/lista" ? true : undefined}> Listar usuários</Anchor>
         </nav>
 
         <nav>

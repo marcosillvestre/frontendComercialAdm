@@ -221,7 +221,7 @@ export const UserProvider = ({ children }) => {
 
     const [cell, setCell] = useState([])
 
-    const mutation = useMutation({
+    const relatories = useMutation({
         mutationFn: () => {
             return URI.post('/comissao', bodyComission, { headers }).then(res => res.data.data)
         },
@@ -306,7 +306,7 @@ export const UserProvider = ({ children }) => {
             users, headers, putInfo, userData, anchorEl, setAnchorEl, handleClose, cell, setCell,
             logOut, fetchData, setFetchData, setUsers, selectedInitialDate, setSelectedInitialDate,
             filtered, setFiltered, filteredContracts, setFilteredContracts, setLabel, label,
-            selectedEndDate, setSelectedEndDate, resetFilter, unity, body, mutation,
+            selectedEndDate, setSelectedEndDate, resetFilter, unity, body, relatories,
             openPeriodRange, setOpenPeriodRange, unHandleLabel, setUnHandleLabel,
             mutationControlData, take, skip, setTake,
             setSkip, allData,

@@ -250,7 +250,7 @@ export const ListFiltered = () => {
                                 <div className='container'>
                                     <p>{filtered.length} registro(s) ao todo</p>
                                     {
-                                        userData.role !== 'comercial' &&
+                                        userData.admin &&
                                         <p>{customizableArray.filter(res => res.isChecked === true).length} registro(s) selecionado(s)</p>
                                     }
                                 </div>

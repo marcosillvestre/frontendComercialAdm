@@ -17,13 +17,13 @@ export function ComissionControll() {
 
     const { comissionStatusOpt, coursesOpt } = rules
 
-    const { sellers, unity, headers, selectedInitialDate, selectedEndDate, mutation, setLabel, label, cell } = useUser()
+    const { sellers, unity, headers, selectedInitialDate, selectedEndDate, relatories, setLabel, label, cell } = useUser()
 
     const [yearGraph, setYearGraph] = React.useState([])
 
 
 
-    const { data, isPending, } = mutation
+    const { data, isPending, } = relatories
 
     const [open1, setOpen1] = React.useState(false)
     const [open2, setOpen2] = React.useState(false)
@@ -40,7 +40,7 @@ export function ComissionControll() {
     const url = useLocation()
 
     const filterCell = () => {
-        mutation.mutate()
+        relatories.mutate()
     }
 
     React.useEffect(() => {
