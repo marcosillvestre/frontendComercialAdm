@@ -1,24 +1,7 @@
 import { Collapse, TableCell, TableRow } from '@mui/material'
+import businesRules from '../../../app/utils/Rules/options.jsx'
 import { BodyTable, HeadTable } from '../styles'
-
 export const SeventhDrop = (row) => {
-    const fields = {
-        "tipoMatricula": "Status de comissionamento",
-        "tmStatus": "Taxa de matricula",
-        "ppStatus": "Primeira parcela",
-        "mdStatus": "Material didatico",
-        "acStatus": "Assinatura de contrato",
-        "paStatus": "Primeira aula",
-        "aprovacaoADM": "Aprovação do adm",
-        "observacao": "Observação",
-        "curso": "Curso",
-        "aprovacaoDirecao": "Aprovação do diretor",
-        "unidade": "Unidade",
-        "background": "Background",
-        "mdData": "Data de pagamento do Material Didático",
-        "ppData": "Data de pagamento da Primeira Parcela",
-        "tmData": "Data de pagamento da Taxa de Matrícula",
-    }
 
 
     return (
@@ -53,7 +36,7 @@ export const SeventhDrop = (row) => {
                                                 {new Date(response?.date).toLocaleString()}
                                             </TableCell>
                                             <TableCell align="center">
-                                                {fields[response?.information.field]}
+                                                {businesRules.fields[response?.information.field]}
                                             </TableCell>
                                             <TableCell align="center">
                                                 {response?.information.to}

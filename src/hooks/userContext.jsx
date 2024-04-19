@@ -178,38 +178,31 @@ export const UserProvider = ({ children }) => {
     }, [periodRange, skip, take, mutationControlData.isSuccess])
 
 
-    class resetFiltering {
-        filterWithJustOne(res, types) {
-            return res.filter(res => res[types[0].key] === types[0].value)
 
-        }
-        filterWithTwo(res, types) {
-            return res.filter(res => res[types[0].key] === types[0].value
-                && res[types[1].key] === types[1].value)
+    const decreaseFilters = (types) => {
 
+        const twoFilters = () => {
+            return allData.filter(res => res[types[0].key].includes(types[0].value) && res[types[1].key].includes(types[1].value))
         }
-        filterWithTree(res, types) {
-            return res.filter(res => res[types[0].key] === types[0].value &&
-                res[types[1].key] === types[1].value &&
-                res[types[2].key] === types[2].value)
 
+        const oneFilter = () => {
+            return allData.filter(res => res[types[0].key].includes(types[0].value))
         }
+
+        setFiltered(types.length === 2 ? twoFilters() : oneFilter())
     }
-
-    let filteringClass = new resetFiltering;
-
-
-    const possibilities = [filteringClass.filterWithJustOne, filteringClass.filterWithTwo, filteringClass.filterWithTree]
-
-    const { data } = mutationControlData
 
     const resetFilter = async (filter) => {
-        let types = (typeFilter.filter(res => res !== filter))
-        const index = typeFilter.length - 2
+        let types = typeFilter.filter(res => res !== filter)
 
-        typeFilter.length === 1 || filter === undefined ? setFiltered(data?.data.deals)
-            : setFiltered(possibilities[index](data?.data.deals, types))
+        typeFilter.length === 1 || filter === undefined ?
+            setFiltered(allData) :
+            decreaseFilters(types)
     }
+
+
+
+
 
 
     const [label, setLabel] = useState("Selecione")
