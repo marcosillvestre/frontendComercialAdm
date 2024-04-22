@@ -134,7 +134,7 @@ export const Options = styled.li`
         transition: .4s;
         transform-origin: top;
         color: #222;
-        /* width: 100%; */
+        width: 15rem;
         border-bottom: 1px solid #fafafa;
         height: 2.78rem;
         display: flex;

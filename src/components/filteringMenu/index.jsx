@@ -18,14 +18,12 @@ export function PositionedMenu(data) {
 
     const {
         filtered, setFiltered, handleClose, mutationControlData,
-        sellers, setOpenPeriodRange, unity, mutation, setPeriodRange,
+        sellers, setOpenPeriodRange, unity, comissionQuery, setPeriodRange,
         // allData
+        setLabel
     } = useUser()
 
     const { typeFilter, setTypeFilter } = useData()
-
-
-    console.log(typeFilter)
 
     const handleFilter = (value, type) => {
         if (filtered.length < 1) {
@@ -55,12 +53,16 @@ export function PositionedMenu(data) {
 
     const url = useLocation()
 
-
     const handleFilterRangeDate = async () => {
-        setPeriodRange("Período personalizado")
+        const fn = {
+            "periodRange": setPeriodRange(data.name),
+            "label": setLabel(data.name),
+        }
+        data.fn[fn]
+
         setTypeFilter([])
-        url.pathname === '/controle-comercial' && await mutationControlData.mutate()
-        url.pathname === '/controle-comissional' && await mutation.mutate()
+        url.pathname === '/controle-comercial' && await mutationControlData.refetch()
+        url.pathname === '/controle-comissional' && await comissionQuery.refetch()
 
         close()
         setOpenPeriodRange(false)

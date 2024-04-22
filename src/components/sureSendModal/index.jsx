@@ -106,7 +106,6 @@ export function SureSendModal(data) {
 
                 })
                 .catch(err => {
-                    console.log(err)
                     alert(err.response.data.message)
                     reject(err)
                 })

@@ -6,7 +6,7 @@ import { redirect } from "react-router-dom"
 import URI from "../app/utils/utils.jsx"
 import { useData } from "./dataContext.jsx"
 
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { toast } from "react-toastify"
 import businessRules from '../app/utils/Rules/options.jsx'
 
@@ -145,7 +145,6 @@ export const UserProvider = ({ children }) => {
 
     body["dates"] = `${selectedInitialDate}~${selectedEndDate}`
 
-    const queryCache = useQueryClient();
 
     const [allData, setAllData] = useState([])
 
@@ -164,7 +163,8 @@ export const UserProvider = ({ children }) => {
 
 
     useEffect(() => {
-        if (headers.Authorization.includes("undefined") === false && body.range !== 'Selecione' && body.range !== "Período personalizado") {
+        if (headers.Authorization.includes("undefined") === false
+            && body.range !== "Período personalizado") {
             mutationControlData.refetch()
         }
         if (body.range === "Período personalizado" && selectedInitialDate || selectedEndDate !== null) {
@@ -186,7 +186,7 @@ export const UserProvider = ({ children }) => {
         }
 
         const oneFilter = () => {
-            return allData.filter(res => res[types[0].key].includes(types[0].value))
+            return allData.filter(res => res[types[0].key].toLowerCase().includes(types[0].value.toLowerCase()))
         }
 
         setFiltered(types.length === 2 ? twoFilters() : oneFilter())
@@ -205,7 +205,7 @@ export const UserProvider = ({ children }) => {
 
 
 
-    const [label, setLabel] = useState("Selecione")
+    const [label, setLabel] = useState(businessRules.predeterminedPeriods[0].name)
 
     const bodyComission = {
         range: label,
@@ -214,27 +214,26 @@ export const UserProvider = ({ children }) => {
 
     const [cell, setCell] = useState([])
 
-    const mutation = useMutation({
-        mutationFn: () => {
-            return URI.post('/comissao', bodyComission, { headers }).then(res => res.data.data)
-        },
-        onSuccess: (data) => {
-            setCell(data.deals)
-            queryCache.invalidateQueries({ queryKey: ['todos'] })
-        },
-        onError: (err) => err
+    const comissionData = async () => {
+        const response = await URI.get(`http://localhost:7070/comissao?range=${bodyComission.range}&dates=${bodyComission.dates}`, { headers }).then(res => res.data.data)
+        return response
+    }
+    const comissionQuery = useQuery({
+        queryFn: () => comissionData(),
+        queryKey: [bodyComission],
+        enabled: !headers.Authorization.includes("undefined")
     })
 
+
+
     useEffect(() => {
-        headers.Authorization.includes("undefined") === false && body.range !== 'Selecione' && mutation.mutate()
-    }, [label])
+        headers.Authorization.includes("undefined") === false && comissionQuery.refetch()
+
+        comissionQuery.isSuccess && setCell(comissionQuery.data.deals)
+    }, [label, comissionQuery.isSuccess])
 
 
     const [periodFilter, setPeriodFilter] = useState(false)
-
-
-
-
 
 
     async function SenderDirector(area, target, id, value) {
@@ -299,7 +298,7 @@ export const UserProvider = ({ children }) => {
             users, headers, putInfo, userData, anchorEl, setAnchorEl, handleClose, cell, setCell,
             logOut, fetchData, setFetchData, setUsers, selectedInitialDate, setSelectedInitialDate,
             filtered, setFiltered, filteredContracts, setFilteredContracts, setLabel, label,
-            selectedEndDate, setSelectedEndDate, resetFilter, unity, body, mutation,
+            selectedEndDate, setSelectedEndDate, resetFilter, unity, body, comissionQuery,
             openPeriodRange, setOpenPeriodRange, unHandleLabel, setUnHandleLabel,
             mutationControlData, take, skip, setTake,
             setSkip, allData,
