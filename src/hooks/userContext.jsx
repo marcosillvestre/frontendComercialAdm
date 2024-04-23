@@ -215,7 +215,7 @@ export const UserProvider = ({ children }) => {
     const [cell, setCell] = useState([])
 
     const comissionData = async () => {
-        const response = await URI.get(`http://localhost:7070/comissao?range=${bodyComission.range}&dates=${bodyComission.dates}`, { headers }).then(res => res.data.data)
+        const response = await URI.get(`/comissao?range=${bodyComission.range}&dates=${bodyComission.dates}`, { headers }).then(res => res.data.data)
         return response
     }
     const comissionQuery = useQuery({
