@@ -10,6 +10,7 @@ import * as Yup from 'yup';
 import aw from '../../../assets/aw.png';
 import projects from '../../../assets/und.svg';
 import { useUser } from '../../../hooks/userContext';
+import { paths } from '../../constants/paths';
 import URI from '../../utils/utils';
 import { Box, Container, ErrorMessage, Header, Input, Submit } from './styles';
 
@@ -40,7 +41,7 @@ export const Login = () => {
         ).then(async res => {
             if (res.status === 200) {
                 putInfo(res.data)
-                window.location.href = "/controle-comercial"
+                window.location.href = paths.control
             }
         })
     }
@@ -88,7 +89,7 @@ export const Login = () => {
                                 {errors.password && <ErrorMessage>Password is required.</ErrorMessage>}
                                 <div onClick={() => setOpen(!open)} >{open ? <VisibilityIcon /> : <VisibilityOffIcon />}</div>
                             </div>
-                            <a href="/redefinir-senha">Esqueceu a senha ? Clique aqui</a>
+                            <a href={paths.redefinePass}>Esqueceu a senha ? Clique aqui</a>
                         </Box>
 
                         <Submit type="submit" />

@@ -7,6 +7,7 @@ import { useUser } from '../../hooks/userContext';
 import { DatePickers } from '../source.jsx';
 import { Container, Label, RangeDate, Select } from './styles';
 
+import { paths } from '../../app/constants/paths.js';
 import rules from '../../app/utils/Rules/options.jsx';
 
 export function PositionedMenu(data) {
@@ -61,8 +62,8 @@ export function PositionedMenu(data) {
         data.fn[fn]
 
         setTypeFilter([])
-        url.pathname === '/controle-comercial' && await mutationControlData.refetch()
-        url.pathname === '/controle-comissional' && await comissionQuery.refetch()
+        url.pathname === paths.control && await mutationControlData.refetch()
+        url.pathname === paths.comissionalControl && await comissionQuery.refetch()
 
         close()
         setOpenPeriodRange(false)

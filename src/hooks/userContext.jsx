@@ -8,6 +8,7 @@ import { useData } from "./dataContext.jsx"
 
 import { useQuery } from '@tanstack/react-query'
 import { toast } from "react-toastify"
+import { paths } from '../app/constants/paths.js'
 import businessRules from '../app/utils/Rules/options.jsx'
 
 
@@ -46,7 +47,7 @@ export const UserProvider = ({ children }) => {
                 setUserData(JSON.parse(clientInfo))
             }
             if (!clientInfo) {
-                redirect("/")
+                redirect(paths.home)
             }
         }
         loadUserData()
@@ -81,7 +82,7 @@ export const UserProvider = ({ children }) => {
             }
             catch (err) {
                 if (err.response.data.error === 'token invalid') {
-                    window.location.href = "/"
+                    window.location.href = paths.home
                     alert("Faça login novamente, seu acesso expirou")
                     logOut()
                 }
@@ -226,11 +227,40 @@ export const UserProvider = ({ children }) => {
 
 
 
+
+
+    const [customField, setCustomField] = useState([])
+    const customFields = async () => {
+        const response = await URI.get("http://localhost:7070/campos-personalizados", { headers })
+        return response.data
+    }
+
+    const customFieldsQuery = useQuery({
+        queryFn: () => customFields(),
+        queryKey: "customFields",
+        enabled: !headers.Authorization.includes("undefined")
+    })
+
+
+
+    useEffect(() => {
+        headers.Authorization.includes("undefined") === false && customFieldsQuery.refetch()
+
+        customFieldsQuery.isSuccess && setCustomField(customFieldsQuery.data)
+    }, [label, customFieldsQuery.isSuccess])
+
+
     useEffect(() => {
         headers.Authorization.includes("undefined") === false && comissionQuery.refetch()
 
         comissionQuery.isSuccess && setCell(comissionQuery.data.deals)
     }, [label, comissionQuery.isSuccess])
+
+
+
+
+
+
 
 
     const [periodFilter, setPeriodFilter] = useState(false)
@@ -292,6 +322,8 @@ export const UserProvider = ({ children }) => {
 
 
 
+
+
     return (
         <UserContext.Provider value={{
             contracts, setContracts, sellers, periodRange, setPeriodRange, periodFilter, setPeriodFilter,
@@ -303,7 +335,8 @@ export const UserProvider = ({ children }) => {
             mutationControlData, take, skip, setTake,
             setSkip, allData,
             SenderDirector, Sender,
-            historic, refetchHistoric, isPendingHistoric
+            historic, refetchHistoric, isPendingHistoric,
+            customField
         }}>
 
             {children}

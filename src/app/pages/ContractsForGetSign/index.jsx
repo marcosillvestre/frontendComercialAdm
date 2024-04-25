@@ -2,8 +2,10 @@ import React from 'react'
 
 import { ContractData, SureSendModal } from '../../../components/source.jsx'
 import { useUser } from '../../../hooks/userContext'
+import { paths } from '../../constants/paths.js'
 import URI from '../../utils/utils.jsx'
 import { Box, Button, Container, SendContract } from './styles'
+
 
 export const Contracts = () => {
     const [emmit, setEmmit] = React.useState(false)
@@ -25,7 +27,7 @@ export const Contracts = () => {
                     info.data && filteringBySeller(info.data)
                 }).catch(err => {
                     if (err.response.data.error === 'token invalid') {
-                        window.location.href = "/"
+                        window.location.href = paths.home
                         alert("Faça login novamente, seu acesso expirou")
                         logOut()
                     }

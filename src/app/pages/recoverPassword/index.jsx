@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import * as Yup from 'yup';
 import aw from '../../../assets/aw.png';
 import projects from '../../../assets/und2.svg';
+import { paths } from '../../constants/paths.js';
 import URI from '../../utils/utils';
 import { Box, Container, ErrorMessage, Header, Input, Submit } from './styles';
 
@@ -35,12 +36,12 @@ export function RecoverPassword() {
         }
 
         await toast.promise(
-            URI.post(recCode ? '/nova-senha' : '/redefinir-senha',
+            URI.post(recCode ? paths.newPass : paths.redefinePass,
                 recCode ? newPassword : recover
             ).then(res => {
                 if (res.status === 200) {
                     setRecCode(true)
-                    recCode === true ? window.location.href = "/" : ""
+                    recCode === true ? window.location.href = paths.home : ""
 
                 }
             }),

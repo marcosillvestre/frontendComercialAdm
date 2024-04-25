@@ -17,3 +17,5 @@ export * from './tableUsers'
 export * from './unhandleSelect'
 
 export * from './closeClick'
+export * from './customFieldsTable'
+
