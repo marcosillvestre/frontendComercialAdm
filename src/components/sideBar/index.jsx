@@ -2,6 +2,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import MenuIcon from '@mui/icons-material/Menu';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
+import SettingsIcon from '@mui/icons-material/Settings';
 import MuiAppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -18,9 +19,10 @@ import Typography from '@mui/material/Typography';
 import { styled, useTheme } from '@mui/material/styles';
 import * as React from 'react';
 import { useLocation } from 'react-router-dom';
+import { paths } from '../../app/constants/paths.js';
 import { useUser } from '../../hooks/userContext';
 import { CloserClick, Header } from '../source.jsx';
-import { Adduser, ComissionScreen, GetContracts, History, Home, Links } from './styles';
+import { ComissionScreen, GetContracts, History, Home, Links } from './styles';
 
 
 const drawerWidth = 250;
@@ -148,13 +150,14 @@ export function MiniDrawer() {
 
                     <List>
                         {[
-                            { name: 'Controle Comercial', url: '/controle-comercial', icon: <Home />, access: ['administrativo', 'direcao', 'comercial', 'gerencia', 'pedagogico'] },
-                            { name: 'Emitir Contratos', url: '/contratos-por-assinar', icon: <GetContracts />, access: ['administrativo', 'direcao', 'comercial', 'gerencia', 'pedagogico'] },
-                            { name: 'Relatórios', url: '/controle-comissional', icon: <ComissionScreen />, access: ['administrativo', 'direcao', 'gerencia'] },
+                            { name: 'Controle Comercial', url: paths.control, icon: <Home />, access: ['administrativo', 'direcao', 'comercial', 'gerencia', 'pedagogico'] },
+                            { name: 'Emitir Contratos', url: paths.signContracts, icon: <GetContracts />, access: ['administrativo', 'direcao', 'comercial', 'gerencia', 'pedagogico'] },
+                            { name: 'Relatórios', url: paths.comissionalControl, icon: <ComissionScreen />, access: ['administrativo', 'direcao', 'gerencia'] },
 
-                            { name: 'Painel dos Usuários', url: '/cadastro', icon: <Adduser />, access: ['direcao'] },
-                            { name: 'Novos Cadastros', url: '/novo-cadastro', icon: <PersonAddAlt1Icon />, access: ['direcao',] },
-                            { name: 'Histórico', url: '/historico', icon: <History />, access: ['direcao'] },
+                            { name: 'Novos Cadastros', url: paths.newRegister, icon: <PersonAddAlt1Icon />, access: ['direcao',] },
+                            { name: 'Histórico', url: paths.historic, icon: <History />, access: ['direcao'] },
+
+                            { name: 'Configurações', url: paths.config, icon: <SettingsIcon />, access: ['direcao'] },
                         ]
                             .map((text) => (
                                 text.access.some(res => res === userData.role) &&

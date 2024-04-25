@@ -106,7 +106,6 @@ export function SureSendModal(data) {
 
                 })
                 .catch(err => {
-                    console.log(err)
                     alert(err.response.data.message)
                     reject(err)
                 })
@@ -115,7 +114,7 @@ export function SureSendModal(data) {
     }
 
     const sales = async (body) => {
-        if (filteredContracts[0].mdValor > 0) {
+        if (parseFloat(filteredContracts[0].mdValor) > 0) {
             return await new Promise((resolve, reject) => {
                 URI.post("/venda", body, { headers })
                     // axios.post("http://localhost:7070/venda", data, { headers })
@@ -134,7 +133,7 @@ export function SureSendModal(data) {
     }
 
     const feeEnroll = async (body) => {
-        if (filteredContracts[0].tmValor > 0) {
+        if (parseFloat(filteredContracts[0].tmValor) > 0) {
             return await new Promise((resolve, reject) => {
                 URI.post("/taxa", body, { headers })
                     // axios.post("http://localhost:7070/taxa", data, { headers })
@@ -241,7 +240,6 @@ export function SureSendModal(data) {
         for (let i = 0; i < sendingList.length; i++) {
             promises[i] = funcs[sendingList[i]]
         }
-
 
 
         await client(body)

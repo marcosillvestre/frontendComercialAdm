@@ -7,7 +7,9 @@ import { CloserClick, PositionedMenu } from '../source.jsx';
 import { Checked, Container, Icon, ListOpt, Options, SelectButton } from './styles';
 
 export const SelectPeriodCustom = (periods) => {
-    const { setPeriodRange, periodFilter, setPeriodFilter, periodRange, setTake, setSkip } = useUser()
+    const { setPeriodRange, periodFilter, setPeriodFilter, periodRange, setTake, setSkip,
+        selectedInitialDate, selectedEndDate
+    } = useUser()
     const { setTypeFilter, setCustomizableArray } = useData()
 
 
@@ -66,13 +68,22 @@ export const SelectPeriodCustom = (periods) => {
                                                 <p>{period?.name}</p>
                                             </span>
                                             :
-                                            <PositionedMenu name={period?.name} />
+                                            <PositionedMenu
+                                                name={period?.name}
+                                                fn={"periodRange"}
+                                            />
                                     }
                                     <Checked className='icon-right'><DoneIcon /></Checked>
                                 </Options>
                         ))
                     }
                 </ListOpt>
+                <p style={{ textAlign: "center" }}>
+                    {
+                        selectedInitialDate &&
+                        `${selectedInitialDate !== null ? new Date(selectedInitialDate).toLocaleDateString() : ""} ~ ${selectedEndDate !== null ? new Date(selectedEndDate).toLocaleDateString() : ""}`
+                    }
+                </p>
             </Container >
         </>
     )

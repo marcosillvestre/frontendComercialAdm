@@ -6,8 +6,9 @@ import { redirect } from "react-router-dom"
 import URI from "../app/utils/utils.jsx"
 import { useData } from "./dataContext.jsx"
 
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { toast } from "react-toastify"
+import { paths } from '../app/constants/paths.js'
 import businessRules from '../app/utils/Rules/options.jsx'
 
 
@@ -46,7 +47,7 @@ export const UserProvider = ({ children }) => {
                 setUserData(JSON.parse(clientInfo))
             }
             if (!clientInfo) {
-                redirect("/")
+                redirect(paths.home)
             }
         }
         loadUserData()
@@ -81,7 +82,7 @@ export const UserProvider = ({ children }) => {
             }
             catch (err) {
                 if (err.response.data.error === 'token invalid') {
-                    window.location.href = "/"
+                    window.location.href = paths.home
                     alert("Faça login novamente, seu acesso expirou")
                     logOut()
                 }
@@ -145,7 +146,6 @@ export const UserProvider = ({ children }) => {
 
     body["dates"] = `${selectedInitialDate}~${selectedEndDate}`
 
-    const queryCache = useQueryClient();
 
     const [allData, setAllData] = useState([])
 
@@ -164,7 +164,8 @@ export const UserProvider = ({ children }) => {
 
 
     useEffect(() => {
-        if (headers.Authorization.includes("undefined") === false && body.range !== 'Selecione' && body.range !== "Período personalizado") {
+        if (headers.Authorization.includes("undefined") === false
+            && body.range !== "Período personalizado") {
             mutationControlData.refetch()
         }
         if (body.range === "Período personalizado" && selectedInitialDate || selectedEndDate !== null) {
@@ -178,41 +179,34 @@ export const UserProvider = ({ children }) => {
     }, [periodRange, skip, take, mutationControlData.isSuccess])
 
 
-    class resetFiltering {
-        filterWithJustOne(res, types) {
-            return res.filter(res => res[types[0].key] === types[0].value)
 
-        }
-        filterWithTwo(res, types) {
-            return res.filter(res => res[types[0].key] === types[0].value
-                && res[types[1].key] === types[1].value)
+    const decreaseFilters = (types) => {
 
+        const twoFilters = () => {
+            return allData.filter(res => res[types[0].key].includes(types[0].value) && res[types[1].key].includes(types[1].value))
         }
-        filterWithTree(res, types) {
-            return res.filter(res => res[types[0].key] === types[0].value &&
-                res[types[1].key] === types[1].value &&
-                res[types[2].key] === types[2].value)
 
+        const oneFilter = () => {
+            return allData.filter(res => res[types[0].key].toLowerCase().includes(types[0].value.toLowerCase()))
         }
+
+        setFiltered(types.length === 2 ? twoFilters() : oneFilter())
     }
-
-    let filteringClass = new resetFiltering;
-
-
-    const possibilities = [filteringClass.filterWithJustOne, filteringClass.filterWithTwo, filteringClass.filterWithTree]
-
-    const { data } = mutationControlData
 
     const resetFilter = async (filter) => {
-        let types = (typeFilter.filter(res => res !== filter))
-        const index = typeFilter.length - 2
+        let types = typeFilter.filter(res => res !== filter)
 
-        typeFilter.length === 1 || filter === undefined ? setFiltered(data?.data.deals)
-            : setFiltered(possibilities[index](data?.data.deals, types))
+        typeFilter.length === 1 || filter === undefined ?
+            setFiltered(allData) :
+            decreaseFilters(types)
     }
 
 
-    const [label, setLabel] = useState("Selecione")
+
+
+
+
+    const [label, setLabel] = useState(businessRules.predeterminedPeriods[0].name)
 
     const bodyComission = {
         range: label,
@@ -221,27 +215,56 @@ export const UserProvider = ({ children }) => {
 
     const [cell, setCell] = useState([])
 
-    const relatories = useMutation({
-        mutationFn: () => {
-            return URI.post('/comissao', bodyComission, { headers }).then(res => res.data.data)
-        },
-        onSuccess: (data) => {
-            setCell(data.deals)
-            queryCache.invalidateQueries({ queryKey: ['todos'] })
-        },
-        onError: (err) => err
+
+    const comissionData = async () => {
+        const response = await URI.get(`/comissao?range=${bodyComission.range}&dates=${bodyComission.dates}`, { headers }).then(res => res.data.data)
+        return response
+    }
+    const comissionQuery = useQuery({
+        queryFn: () => comissionData(),
+        queryKey: [bodyComission],
+        enabled: !headers.Authorization.includes("undefined")
     })
 
+
+
+
+
+    const [customField, setCustomField] = useState([])
+    const customFields = async () => {
+        const response = await URI.get("http://localhost:7070/campos-personalizados", { headers })
+        return response.data
+    }
+
+    const customFieldsQuery = useQuery({
+        queryFn: () => customFields(),
+        queryKey: "customFields",
+        enabled: !headers.Authorization.includes("undefined")
+    })
+
+
+
     useEffect(() => {
-        headers.Authorization.includes("undefined") === false && body.range !== 'Selecione' && mutation.mutate()
-    }, [label])
+        headers.Authorization.includes("undefined") === false && customFieldsQuery.refetch()
+
+        customFieldsQuery.isSuccess && setCustomField(customFieldsQuery.data)
+    }, [label, customFieldsQuery.isSuccess])
+
+
+    useEffect(() => {
+        headers.Authorization.includes("undefined") === false && comissionQuery.refetch()
+
+        comissionQuery.isSuccess && setCell(comissionQuery.data.deals)
+    }, [label, comissionQuery.isSuccess])
+
+
+
+
+
+
 
 
     const [periodFilter, setPeriodFilter] = useState(false)
-
-
-
-
 
 
     async function SenderDirector(area, target, id, value) {
@@ -300,18 +323,21 @@ export const UserProvider = ({ children }) => {
 
 
 
+
+
     return (
         <UserContext.Provider value={{
             contracts, setContracts, sellers, periodRange, setPeriodRange, periodFilter, setPeriodFilter,
             users, headers, putInfo, userData, anchorEl, setAnchorEl, handleClose, cell, setCell,
             logOut, fetchData, setFetchData, setUsers, selectedInitialDate, setSelectedInitialDate,
             filtered, setFiltered, filteredContracts, setFilteredContracts, setLabel, label,
-            selectedEndDate, setSelectedEndDate, resetFilter, unity, body, relatories,
+            selectedEndDate, setSelectedEndDate, resetFilter, unity, body, comissionQuery,
             openPeriodRange, setOpenPeriodRange, unHandleLabel, setUnHandleLabel,
             mutationControlData, take, skip, setTake,
             setSkip, allData,
             SenderDirector, Sender,
-            historic, refetchHistoric, isPendingHistoric
+            historic, refetchHistoric, isPendingHistoric,
+            customField
         }}>
 
             {children}

@@ -1,7 +1,6 @@
 import DoneIcon from '@mui/icons-material/Done';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import React from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useState } from 'react';
 import { Area, Bar, BarChart, CartesianGrid, ComposedChart, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts';
 import { CloserClick, PositionedMenu } from '../../../components/source.jsx';
 import { useUser } from '../../../hooks/userContext';
@@ -10,20 +9,25 @@ import { ButtonLink, ChartsContainer, Checked, Container, ContainerTable, Icon, 
 
 
 import LoadingSpin from 'react-loading-spin';
-import rules from '../../utils/Rules/options.jsx';
+import { default as businessRules, default as rules } from '../../utils/Rules/options.jsx';
 import { Conversion, Sellers, Totals, Unity } from './listTypes';
-
 export function ComissionControll() {
 
     const { comissionStatusOpt, coursesOpt } = rules
 
-    const { sellers, unity, headers, selectedInitialDate, selectedEndDate, relatories, setLabel, label, cell } = useUser()
+
+    const { sellers, unity, headers, selectedInitialDate,
+        selectedEndDate, comissionQuery, setLabel, label, cell,
+    } = useUser()
+
 
     const [yearGraph, setYearGraph] = React.useState([])
 
 
 
-    const { data, isPending, } = relatories
+
+    const { data, isPending } = comissionQuery
+
 
     const [open1, setOpen1] = React.useState(false)
     const [open2, setOpen2] = React.useState(false)
@@ -37,25 +41,12 @@ export function ComissionControll() {
     const [label6, setLabel6] = React.useState("")
 
 
-    const url = useLocation()
-
-    const filterCell = () => {
-        relatories.mutate()
-    }
-
-    React.useEffect(() => {
-        label !== "Selecione" && filterCell()
-    }, [label])
+    const [view, setView] = useState('list')
 
 
-    const periods = [
-        { name: "Últimos 7 dias", },
-        { name: "Este mês", },
-        { name: "Mês passado", },
-        { name: "Mês retrasado", },
-        { name: "Todo período", },
-        { name: "Período personalizado", customizable: true, },
-    ]
+
+    const { predeterminedPeriods } = businessRules
+
 
     const graphType = [
         { name: "curso", label: "Curso" },
@@ -116,14 +107,20 @@ export function ComissionControll() {
         setLabel(name)
     }
 
-    if (url.pathname === '/controle-comissional') {
-        return (
-            <>
-                <CloserClick
-                    open={open1}
-                    fn={setOpen1} opacity={.01}
-                />
-                <Container>
+    return (
+        <>
+            <CloserClick
+                open={open1}
+                fn={setOpen1} opacity={.01}
+            />
+            <CloserClick
+                open={open2}
+                fn={setOpen2} opacity={.01}
+            />
+
+            <Container>
+
+                {view === 'list' ?
                     <header>
                         <nav>
                             <div >
@@ -137,15 +134,13 @@ export function ComissionControll() {
                                     </Icon>
                                 </SelectButton>
 
-                                {
-                                    selectedInitialDate !== null || selectedEndDate !== null &&
-                                    `${new Date(selectedInitialDate).toLocaleDateString()}~${new Date(selectedEndDate).toLocaleDateString()}`
-                                }
+
 
                                 <ListOpt open={open1}>
 
                                     {
-                                        periods?.map(period => (
+                                        predeterminedPeriods?.map(period => (
+                                            period.name !== label &&
                                             <Options className="option" key={period?.name} >
                                                 {
                                                     period.customizable === undefined ?
@@ -155,7 +150,7 @@ export function ComissionControll() {
                                                         :
                                                         <PositionedMenu
                                                             name={period?.name}
-                                                            onClick={() => setOpen1(!open1)}
+                                                            fn={"label"}
                                                         />
 
                                                 }
@@ -164,14 +159,21 @@ export function ComissionControll() {
                                         ))
                                     }
                                 </ListOpt>
+                                <p style={{ textAlign: "center" }}>
+                                    {
+                                        selectedInitialDate &&
+                                        `${selectedInitialDate !== null ? new Date(selectedInitialDate).toLocaleDateString() : ""} ~ ${selectedEndDate !== null ? new Date(selectedEndDate).toLocaleDateString() : ""}`
+                                    }
+                                </p>
+
                             </div>
 
                         </nav>
 
                         <NavBar>
                             <p>Vizualização em </p>
-                            <ButtonLink open={url.pathname === '/controle-comissional'}><a href='/controle-comissional' >Lista</a></ButtonLink> ou
-                            <ButtonLink open={url.pathname === '/controle-comissional/grafico'}><a href='/controle-comissional/grafico'>Gráfico</a> </ButtonLink>
+                            <ButtonLink open={view === 'list' && true} onClick={() => setView("list")}>Lista</ButtonLink> ou
+                            <ButtonLink open={view === 'graphic' && true} onClick={() => setView("graphic")}>Gráfico </ButtonLink>
                         </NavBar>
                         <Tax>
                             {
@@ -181,7 +183,136 @@ export function ComissionControll() {
                         </Tax>
 
                     </header>
+                    :
+                    <header className='page-header'>
+                        <nav>
 
+                            <div >
+                                <label htmlFor=""> Gráfico:</label>
+
+                                <SelectButton id="select-button" onClick={() => setOpen1(!open1)}>
+                                    <p id="selected-value"> {label6 === '' ? "Selecione" : label6}</p>
+                                    <Icon id="chevrons" open={open1}>
+                                        <i className='icon' > <KeyboardArrowDownIcon /></i>
+                                    </Icon>
+                                </SelectButton>
+
+
+                                <ListOpt open={open1}>
+
+                                    {
+                                        graphType?.map(period => (
+                                            <Options className="option" key={period?.name} >
+                                                <span className="label" onClick={() => handleGraphic("type", period?.name, period?.label)}>
+
+                                                    <p>{period?.label}</p>
+                                                </span>
+                                                <Checked className='icon-right'><DoneIcon /></Checked>
+
+                                            </Options>
+                                        ))
+                                    }
+                                </ListOpt>
+                            </div>
+
+                            <div >
+                                <label htmlFor=""> Parâmetros:</label>
+
+                                <SelectButton
+                                    open={label6 !== '' ? false : true}
+                                    parameters={true} onClick={() => setOpen2(!open2)}>
+
+                                    <div className='container-parameters'>
+                                        {valueGraph.map(res => (
+                                            <span key={res} onClick={() =>
+                                                setValueGraph(valueGraph.filter(data => data !== res))} >
+                                                <p>
+                                                    {res}
+                                                </p>
+                                            </span>
+                                        ))}
+                                    </div>
+
+                                    <Icon id="chevrons" open={open2}>
+                                        <i className='icon' > <KeyboardArrowDownIcon /></i>
+                                    </Icon>
+                                </SelectButton>
+
+
+                                <ListOpt open={param === true && open2} parameters={true}>
+
+                                    {
+                                        label6 === 'Curso' &&
+                                        coursesOpt?.map(period => (
+                                            <Options className="option" key={period} >
+                                                <span className="label"
+                                                    onClick={() =>
+                                                        handleGraphic("value", period)}
+                                                >
+
+                                                    <p>{period}</p>
+                                                </span>
+                                                <Checked className='icon-right'><DoneIcon /></Checked>
+                                            </Options>
+                                        ))
+                                    }
+                                    {
+                                        label6 === 'Unidade' &&
+                                        unity?.map(period => (
+                                            <Options className="option" key={period?.name} >
+                                                <span className="label"
+                                                    onClick={() =>
+                                                        handleGraphic("value", period?.name)}
+                                                >
+
+                                                    <p>{period?.name}</p>
+                                                </span>
+                                                <Checked className='icon-right'><DoneIcon /></Checked>
+                                            </Options>
+                                        ))
+                                    }
+                                    {
+                                        label6 === 'Comissionamento' &&
+                                        comissionStatusOpt?.map(period => (
+                                            <Options className="option" key={period} >
+                                                <span className="label"
+                                                    onClick={() =>
+                                                        handleGraphic("value", period)}
+                                                >
+
+                                                    <p>{period}</p>
+                                                </span>
+                                                <Checked className='icon-right'><DoneIcon /></Checked>
+                                            </Options>
+                                        ))
+                                    }
+                                    {
+                                        label6 === 'Consultor' &&
+                                        sellers?.map(period => (
+                                            <Options className="option" key={period?.name} >
+                                                <span className="label" onClick={() => handleGraphic("value", period?.name)}>
+
+                                                    <p>{period?.name}</p>
+                                                </span>
+                                                <Checked className='icon-right'><DoneIcon /></Checked>
+                                            </Options>
+                                        ))
+                                    }
+
+                                </ListOpt>
+                            </div>
+
+                        </nav>
+
+                        <NavBar>
+                            <p>Vizualização em</p>
+                            <ButtonLink open={view === 'list' && true} onClick={() => setView("list")}>Lista</ButtonLink> ou
+                            <ButtonLink open={view === 'graphic' && true} onClick={() => setView("graphic")}>Gráfico </ButtonLink>
+                        </NavBar>
+
+                    </header>
+                }
+                {view === 'list' ?
                     <ContainerTable >
                         {
                             isPending ?
@@ -472,155 +603,7 @@ export function ComissionControll() {
 
                         }
                     </ContainerTable>
-
-                </Container>
-
-            </>
-        )
-    }
-
-    if (url.pathname === '/controle-comissional/grafico') {
-        return (
-            <>
-                <CloserClick
-                    open={open1}
-                    fn={setOpen1} opacity={.01}
-                />
-                <CloserClick
-                    open={open2}
-                    fn={setOpen2} opacity={.01}
-                />
-                <Container>
-                    <header className='page-header'>
-                        <nav>
-
-                            <div >
-                                <label htmlFor=""> Gráfico:</label>
-
-                                <SelectButton id="select-button" onClick={() => setOpen1(!open1)}>
-                                    <p id="selected-value"> {label6 === '' ? "Selecione" : label6}</p>
-                                    <Icon id="chevrons" open={open1}>
-                                        <i className='icon-up' > <KeyboardArrowDownIcon /></i>
-                                        <i className='icon-down'> <KeyboardArrowDownIcon /></i>
-                                    </Icon>
-                                </SelectButton>
-
-
-                                <ListOpt open={open1}>
-
-                                    {
-                                        graphType?.map(period => (
-                                            <Options className="option" key={period?.name} >
-                                                <span className="label" onClick={() => handleGraphic("type", period?.name, period?.label)}>
-
-                                                    <p>{period?.label}</p>
-                                                </span>
-                                                <Checked className='icon-right'><DoneIcon /></Checked>
-
-                                            </Options>
-                                        ))
-                                    }
-                                </ListOpt>
-                            </div>
-
-                            <div >
-                                <label htmlFor=""> Parâmetros:</label>
-
-                                <SelectButton
-                                    open={label6 !== '' ? false : true}
-                                    parameters={true} onClick={() => setOpen2(!open2)}>
-
-                                    <div className='container-parameters'>
-                                        {valueGraph.map(res => (
-                                            <span key={res} onClick={() =>
-                                                setValueGraph(valueGraph.filter(data => data !== res))} >
-                                                <p>
-                                                    {res}
-                                                </p>
-                                            </span>
-                                        ))}
-                                    </div>
-
-                                    <Icon id="chevrons" open={open2}>
-                                        <i className='icon-up' > <KeyboardArrowDownIcon /></i>
-                                        <i className='icon-down'> <KeyboardArrowDownIcon /></i>
-                                    </Icon>
-                                </SelectButton>
-
-
-                                <ListOpt open={param === true && open2} parameters={true}>
-
-                                    {
-                                        label6 === 'Curso' &&
-                                        coursesOpt?.map(period => (
-                                            <Options className="option" key={period} >
-                                                <span className="label"
-                                                    onClick={() =>
-                                                        handleGraphic("value", period)}
-                                                >
-
-                                                    <p>{period}</p>
-                                                </span>
-                                                <Checked className='icon-right'><DoneIcon /></Checked>
-                                            </Options>
-                                        ))
-                                    }
-                                    {
-                                        label6 === 'Unidade' &&
-                                        unity?.map(period => (
-                                            <Options className="option" key={period?.name} >
-                                                <span className="label"
-                                                    onClick={() =>
-                                                        handleGraphic("value", period?.name)}
-                                                >
-
-                                                    <p>{period?.name}</p>
-                                                </span>
-                                                <Checked className='icon-right'><DoneIcon /></Checked>
-                                            </Options>
-                                        ))
-                                    }
-                                    {
-                                        label6 === 'Comissionamento' &&
-                                        comissionStatusOpt?.map(period => (
-                                            <Options className="option" key={period} >
-                                                <span className="label"
-                                                    onClick={() =>
-                                                        handleGraphic("value", period)}
-                                                >
-
-                                                    <p>{period}</p>
-                                                </span>
-                                                <Checked className='icon-right'><DoneIcon /></Checked>
-                                            </Options>
-                                        ))
-                                    }
-                                    {
-                                        label6 === 'Consultor' &&
-                                        sellers?.map(period => (
-                                            <Options className="option" key={period?.name} >
-                                                <span className="label" onClick={() => handleGraphic("value", period?.name)}>
-
-                                                    <p>{period?.name}</p>
-                                                </span>
-                                                <Checked className='icon-right'><DoneIcon /></Checked>
-                                            </Options>
-                                        ))
-                                    }
-
-                                </ListOpt>
-                            </div>
-
-                        </nav>
-
-                        <NavBar>
-                            <p>Vizualização em</p>
-                            <ButtonLink open={url.pathname === '/controle-comissional'}><a href='/controle-comissional' >Lista</a></ButtonLink> ou
-                            <ButtonLink open={url.pathname === '/controle-comissional/grafico'}><a href='/controle-comissional/grafico'>Gráfico</a> </ButtonLink>
-                        </NavBar>
-
-                    </header>
-
+                    :
 
 
                     <ChartsContainer>
@@ -667,9 +650,12 @@ export function ComissionControll() {
 
 
                     </ChartsContainer>
-                </Container>
-            </>
+                }
 
-        )
-    }
+            </Container>
+
+        </>
+    )
+
+
 }

@@ -5,12 +5,6 @@ export const Sellers = (data) => {
     const [dataFiltered, setDataFiltered] = React.useState([])
 
 
-    // const { filter1, filter2, data: info } = data
-
-    // console.log(filter1)
-    // console.log(filter2)
-    // console.log(info)
-
     React.useEffect(() => {
         const filteringData = (fil1, fil2) => {
             if (data.data !== undefined) {

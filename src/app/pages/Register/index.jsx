@@ -16,6 +16,7 @@ import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 import { Row } from '../../../components/source.jsx';
 import { useUser } from '../../../hooks/userContext';
+import { paths } from '../../constants/paths.js';
 import businessRules from '../../utils/Rules/options.jsx';
 import URI from '../../utils/utils';
 import { Anchor, Box, Container, ErrorMessage, Header, Input, MultiOption, RegisterContainer, Selected, Selects, Submit, Tax, UserContainer } from './styles';
@@ -94,8 +95,8 @@ export function Register() {
 
       <Header>
         <nav>
-          <Anchor href="/cadastro" active={url.pathname === "/cadastro" ? true : undefined}> Criar novo usuário</Anchor>
-          <Anchor href="/cadastro/lista" active={url.pathname === "/cadastro/lista" ? true : undefined}> Listar usuários</Anchor>
+          <Anchor href={paths.configRegister} active={url.pathname === paths.configRegister}> Criar novo usuário</Anchor>
+          <Anchor href={paths.consfigRegisterList} active={url.pathname === paths.consfigRegisterList}> Listar usuários</Anchor>
         </nav>
 
         <nav>
@@ -108,7 +109,7 @@ export function Register() {
       </Header>
 
       {
-        url.pathname === '/cadastro' &&
+        url.pathname === paths.configRegister &&
         <RegisterContainer onSubmit={handleSubmit((data) => Sender(data))}>
           <div className='container1'>
 
@@ -187,7 +188,7 @@ export function Register() {
       }
 
       {
-        url.pathname === '/cadastro/lista' &&
+        url.pathname === paths.consfigRegisterList &&
 
         <UserContainer>
           <TableContainer component={Paper}>

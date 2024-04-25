@@ -19,3 +19,6 @@ export * from './unhandleSelect'
 export * from './closeClick'
 
 export * from './select'
+
+export * from './customFieldsTable'
+

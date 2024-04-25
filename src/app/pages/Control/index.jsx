@@ -193,7 +193,7 @@ export const ListFiltered = () => {
                                         key={res.key}
                                         onClick={() => handleResetFilter(res)}
                                     >
-                                        <p className='header'>{res.key}:</p>
+                                        <p className='header'>{businessRules.fields[res.key]}:</p>
                                         <p className='body'>{res.value}</p>
                                     </span>
                                 ))}

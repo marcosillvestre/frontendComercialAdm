@@ -7,6 +7,7 @@ import { useUser } from '../../hooks/userContext';
 import { DatePickers } from '../source.jsx';
 import { Container, Label, RangeDate, Select } from './styles';
 
+import { paths } from '../../app/constants/paths.js';
 import rules from '../../app/utils/Rules/options.jsx';
 
 export function PositionedMenu(data) {
@@ -18,8 +19,9 @@ export function PositionedMenu(data) {
 
     const {
         filtered, setFiltered, handleClose, mutationControlData,
-        sellers, setOpenPeriodRange, unity, mutation, setPeriodRange,
-        allData
+        sellers, setOpenPeriodRange, unity, comissionQuery, setPeriodRange,
+        // allData
+        setLabel
     } = useUser()
 
     const { typeFilter, setTypeFilter } = useData()
@@ -29,45 +31,42 @@ export function PositionedMenu(data) {
     const handleFilter = (value, type) => {
         console.log(typeFilter)
         if (filtered.length < 1) {
-            alert("Este período de tempo não há matrículas")
+            return alert("Este período de tempo não há matrículas")
         }
 
-        if (filtered.length > 0) {
 
-            let data = typeFilter.filter(res => res.key === type)
-            let bool = data.length < 1 && typeFilter.length <= 2
+        let data = typeFilter.filter(res => res.key === type)
+        let bool = data.length < 1 && typeFilter.length <= 2
 
-            const filter = type === 'owner' ? allData.filter(data => data[type].toLowerCase().includes(value.toLowerCase())) : allData.filter(data => data[type].toLowerCase() === value.toLowerCase())
-
-            if (bool && type === 'owner') {
-                setTypeFilter([...typeFilter, { "key": type, "value": value }])
-                setFiltered(filter)
-            }
-            if (bool && type !== 'owner') {
-                setTypeFilter([...typeFilter, { "key": type, "value": value }])
-                setFiltered(filter)
-
-            }
-            if (!bool) {
-                return alert("Erro ao aplicar o filtro dinâmico")
-            }
-            close()
+        const filter = filtered.filter(data => data[type].toLowerCase().includes(value.toLowerCase()))
 
 
-
+        if (bool) {
+            setTypeFilter([...typeFilter, { "key": type, "value": value }])
+            setFiltered(filter)
         }
+
+        if (!bool) {
+            return alert("Erro ao aplicar o filtro dinâmico")
+        }
+        close()
+
     }
 
 
 
     const url = useLocation()
 
-
     const handleFilterRangeDate = async () => {
-        setPeriodRange("Período personalizado")
+        const fn = {
+            "periodRange": setPeriodRange(data.name),
+            "label": setLabel(data.name),
+        }
+        data.fn[fn]
+
         setTypeFilter([])
-        url.pathname === '/controle-comercial' && await mutationControlData.mutate()
-        url.pathname === '/controle-comissional' && await mutation.mutate()
+        url.pathname === paths.control && await mutationControlData.refetch()
+        url.pathname === paths.comissionalControl && await comissionQuery.refetch()
 
         close()
         setOpenPeriodRange(false)
