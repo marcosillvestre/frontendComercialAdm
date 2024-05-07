@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 
 export const Container = styled.section`
-font: 22px 'Open Sans', sans-serif;
+font: 24px 'Open Sans', sans-serif;
 border: 1px solid #222;
 padding: 3rem 5rem;
 text-align: justify;
