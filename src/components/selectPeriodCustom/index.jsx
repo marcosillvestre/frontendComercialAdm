@@ -8,7 +8,7 @@ import { Checked, Container, Icon, ListOpt, Options, SelectButton } from './styl
 
 export const SelectPeriodCustom = (periods) => {
     const { setPeriodRange, periodFilter, setPeriodFilter, periodRange, setTake, setSkip,
-        selectedInitialDate, selectedEndDate
+        selectedInitialDate, selectedEndDate, setSelectedInitialDate, setSelectedEndDate
     } = useUser()
     const { setTypeFilter, setCustomizableArray } = useData()
 
@@ -16,6 +16,8 @@ export const SelectPeriodCustom = (periods) => {
     const [label, setLabel] = React.useState(periodRange)
 
     const handleCheck = async (label) => {
+        setSelectedInitialDate(null)
+        setSelectedEndDate(null)
 
         setTypeFilter([])
         setCustomizableArray([])
@@ -26,6 +28,7 @@ export const SelectPeriodCustom = (periods) => {
         setPeriodFilter(false)
         setLabel(label)
         setPeriodRange(label)
+
     }
 
 
@@ -49,8 +52,7 @@ export const SelectPeriodCustom = (periods) => {
                         <p id="selected-value"> {label}</p>
 
                         <Icon id="chevrons" open={periodFilter}>
-                            <i className='icon-up' > <KeyboardArrowDownIcon /></i>
-                            <i className='icon-down'> <KeyboardArrowDownIcon /></i>
+                            <i className='icon' > <KeyboardArrowDownIcon /></i>
                         </Icon>
                     </SelectButton>
                 </div>

@@ -1,15 +1,14 @@
 import styled from "styled-components";
 
 export const Container = styled.section`
-padding: 2rem 10rem;
+padding: 0rem 5rem ;
 
 header{
     font-weight: bold;
     overflow: hidden;
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     margin: 2rem auto;
-    /* white-space: nowrap; */
-    /* text-overflow: ellipsis; */
+    
 }
 `
 export const MainBox = styled.main`
@@ -18,29 +17,33 @@ display: grid;
 grid-template-columns: repeat(3, 1fr);
 grid-template-rows: 1fr;
 grid-column-gap: 50px;
-grid-row-gap: 0px;
+grid-row-gap: 15px;
 .boxes{
-    background-color: aliceblue;
+    background-color: #dbe1fc;
     padding: 3rem 2rem;
-    border-radius: 1.5rem;
-    text-align: center;
-    display: grid;
+    border-radius: .9rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
     a{
         background-color: #222;
-        padding: 1.5rem;
+        font-size: .9rem;
+        padding: .5rem 1.5rem;
         color: #fff;
         border-radius: .9rem;
-        margin: 2rem 0 0 0;
         text-align: center;
         text-decoration: none;
+        &:hover{
+            background-color: #3b3a3a;
+        }
         &:visited{
             color: #fff;
         }
     }
 
     img{
-        height: 14rem;
-        margin: 1rem 0;
+        height: 10rem;
     }
 }
 `

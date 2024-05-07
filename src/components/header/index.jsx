@@ -72,7 +72,6 @@ export const Header = (parsed) => {
                                                     <a href={res.link}>
                                                         {res.label}
                                                     </a>
-
                                                 </ol>
 
                                             ))

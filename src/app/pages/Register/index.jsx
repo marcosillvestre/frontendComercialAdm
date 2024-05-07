@@ -94,6 +94,7 @@ export function Register() {
     <Container>
 
       <Header>
+
         <nav>
           <Anchor href={paths.configRegister} active={url.pathname === paths.configRegister}> Criar novo usuário</Anchor>
           <Anchor href={paths.consfigRegisterList} active={url.pathname === paths.consfigRegisterList}> Listar usuários</Anchor>

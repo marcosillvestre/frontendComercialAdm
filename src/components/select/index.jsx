@@ -1,78 +1,101 @@
+import DoneIcon from '@mui/icons-material/Done';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import React from 'react';
-import { useData } from '../../hooks/dataContext';
-import { useUser } from '../../hooks/userContext';
-import { CloserClick } from '../source.jsx';
-import { Container, Icon, ListOpt, SelectButton } from './styles';
+import { useState } from 'react';
+import businessRules from '../../app/utils/Rules/options.jsx';
+// import { useData } from '../../hooks/dataContext';
+// import { useUser } from '../../hooks/userContext';
+import { CloserClick, PositionedMenu } from '../source.jsx';
+import { Checked, Container, Icon, ListOpt, Options, SelectButton } from './styles';
 
 export const Select = (parameters) => {
-    const { setPeriodRange, periodFilter, setPeriodFilter, setTake, setSkip } = useUser()
-    const { setTypeFilter, setCustomizableArray } = useData()
+    // const { setPeriodRange, periodFilter, setPeriodFilter, setTake, setSkip } = useUser()
+    // const { setTypeFilter, setCustomizableArray } = useData()
+
+    const { types } = businessRules
 
 
 
-    console.log(parameters)
-
-    const [label, setLabel] = React.useState()
+    const [label, setLabel] = useState(types[parameters.label])
+    const [open, setOpen] = useState(false)
 
     const handleCheck = async (label) => {
 
-        setTypeFilter([])
-        setCustomizableArray([])
+        // setTypeFilter([])
+        // setCustomizableArray([])
 
-        setTake(10)
-        setSkip(0)
+        // setTake(10)
+        // setSkip(0)
 
-        setPeriodFilter(false)
-        setLabel(label)
-        setPeriodRange(label)
+        // setClicked(label)
+        // setPeriodFilter(false)
+        // setPeriodRange(label)
+
+
+        setLabel(label.value)
+
+        parameters.where === 'customField' || parameters.where === 'newContract' ?
+            engineFunctions(label.field, label.value) : engineFunctions(label)
+
+        setOpen(false)
     }
 
 
+    const engineFunctions = (values, secValue) => {
+        parameters.fn.map(res => {
+
+            new Promise(resolve => {
+                resolve(res(values, types[secValue] ? types[secValue] : secValue))
+            })
+        })
+    }
 
     return (
         <>
             <CloserClick
-                open={periodFilter}
-                fn={setPeriodFilter} opacity={.01}
+                open={open}
+                fn={setOpen} opacity={.01}
             />
-            <Container>
+            <Container
+                style={{
+                    width: `${parameters.width}`,
+
+                }}
+            >
 
                 <div id="category-select">
-
-
-                    <label htmlFor=""> Período personalizado:</label>
-
                     <SelectButton id="select-button"
-                    // onClick={() => parameters.periods?.opt[0]?.undleLabel === undefined && setPeriodFilter(!periodFilter)}
+                        onClick={() => setOpen(!open)}
                     >
                         <p id="selected-value"> {label}</p>
-
-                        <Icon id="chevrons" open={periodFilter}>
-                            <i className='icon-up' > <KeyboardArrowDownIcon /></i>
-                            <i className='icon-down'> <KeyboardArrowDownIcon /></i>
+                        <Icon id="chevrons" open={open}>
+                            <i className='icon'> <KeyboardArrowDownIcon /></i>
                         </Icon>
                     </SelectButton>
                 </div>
 
 
-                <ListOpt open={periodFilter}>
-
+                <ListOpt open={open}>
                     {
-                        // parameters.periods.opt?.map(period => (
-                        //     period.name === periodRange ? "" :
-                        //         <Options className="option" key={period?.name}  >
-                        //             {
-                        //                 period.customizable === undefined ?
-                        //                     <span className="label" onClick={() => handleCheck(period?.name)}>
-                        //                         <p>{period?.name}</p>
-                        //                     </span>
-                        //                     :
-                        //                     <PositionedMenu name={period?.name} />
-                        //             }
-                        //             <Checked className='icon-right'><DoneIcon /></Checked>
-                        //         </Options>
-                        // ))
+                        parameters.option?.map((period, index) => (
+                            period.name === label ? "" :
+                                <Options className="option" key={index}  >
+                                    {
+                                        period.customizable === undefined ?
+                                            <span
+                                                className="label"
+                                                onClick={() => handleCheck({
+                                                    field: parameters.field ? parameters.field : "",
+                                                    value: period?.name
+                                                })}>
+
+                                                <p>{period?.name}</p>
+                                            </span>
+                                            :
+                                            <PositionedMenu name={period?.name} />
+                                    }
+                                    <Checked className='icon'><DoneIcon /></Checked>
+                                </Options>
+                        ))
                     }
                 </ListOpt>
             </Container >

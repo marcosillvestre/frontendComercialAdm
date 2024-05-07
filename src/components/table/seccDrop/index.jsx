@@ -1,3 +1,4 @@
+import SendIcon from '@mui/icons-material/Send';
 import { Collapse, TableCell, TableRow } from '@mui/material';
 import { useState } from 'react';
 import { useUser } from '../../../hooks/userContext';
@@ -122,7 +123,7 @@ export const SeccDrop = (row) => {
                                         row?.data.contrato, value)
                                 }
                             >
-                                ✔️</Button>
+                                <SendIcon /></Button>
 
                         </TableCell>
 

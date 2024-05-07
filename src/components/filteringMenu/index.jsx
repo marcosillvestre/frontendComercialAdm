@@ -29,7 +29,6 @@ export function PositionedMenu(data) {
 
 
     const handleFilter = (value, type) => {
-        console.log(typeFilter)
         if (filtered.length < 1) {
             return alert("Este período de tempo não há matrículas")
         }

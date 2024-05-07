@@ -8,37 +8,32 @@ export const Filter = styled(Button)`
 
 `
 
-export const Boxes = styled.label`
+export const Boxes = styled.div`
 display: flex;
-width: 20vw;
-height: 3.5vw;
+margin-top: .8rem ;
 justify-content: center;
 `
 
 export const ButtonDelete = styled.button`
 background: none;
-color: rgb(25, 118, 210);
+background-color: rgb(25, 118, 210);
+color:  #fff;
 border: none;
-font-size: 1rem;
-margin: 0 2rem;
-padding: 1rem 2rem;
+font-size: .7rem;
+padding: 1rem;
 border-radius: 0.5rem;
-font-family: "Roboto","Helvetica","Arial",sans-serif;
-font-weight: 500;
-font-size: 0.875rem;
-line-height: 1.75;
-letter-spacing: 0.02857em;
 text-transform: uppercase;
 &:hover{
-    text-decoration: none;
-    background-color: rgba(32, 119, 206, 0.04);
+    /* text-decoration: none; */
+    background-color: rgb(16, 87, 158);
+    color: #f1f1f1;
 }
 
 `
 export const Trash = styled(DeleteIcon)`
 
 &:hover{
-    color: #5e5e5e;
+    color: #336ba3;
 }
 &:active{
     opacity: 0.7;

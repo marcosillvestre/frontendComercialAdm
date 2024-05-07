@@ -6,21 +6,21 @@ import styled from "styled-components";
 export const NavList = styled.span`
 text-align: center;
 display: grid;
-gap: 15px;
+gap: 10px;
 font-size: 14px;
 display: ${props => props.active ? "" : "none"};
 position: absolute;
 top: 60px;
 background-color: #fff;
-padding:  25px 10px ;
+padding:  25px 15px ;
 border-radius: 5px;
 box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.56);
 transition: all.9s;
 z-index: 11;
 a{
     color: #222;
-    display: grid;
     text-decoration: none;
+    border-bottom: 1px solid ;
     cursor: pointer;
     &:visited{
     color: #222;

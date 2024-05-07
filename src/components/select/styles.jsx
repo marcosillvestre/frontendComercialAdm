@@ -12,12 +12,12 @@ letter-spacing: .0225rem;
 
 export const ListOpt = styled.ul`
     display:${props => props.open ? "block" : "none"} ;
-    position: absolute;
+    position: relative;
     z-index: 10;
     margin-top: .25rem ;
     border-radius: .375rem;
     background-color:#dfe6f1;
-    width: 15rem;
+    width: 100%;
 
 `
 export const Options = styled.li`
@@ -53,7 +53,7 @@ display: none;
 
 export const SelectButton = styled.div`
 color: #222;
-width: 15rem;
+width: 100%;
 height: 2.5rem;
 
 margin-top: .5rem;
@@ -77,14 +77,8 @@ align-items: center;
 cursor: pointer;
 translate:  -2px -2px ;
 
- .icon-up{
-        transform: rotate(180deg);
-        transition: all 1s ease-in-out;
-        display:${props => props.open ? "block" : "none"} ;
-        translate:  0 -1px ;
-    }
-    
-    .icon-down{
-        display:${props => props.open ? "none" : "block"} ;
+.icon{
+    transform: ${props => props.open ? "rotate(180deg)" : "rotate(0deg)"};
+    transition: all.4s;
     }
 `

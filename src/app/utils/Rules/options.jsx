@@ -100,7 +100,28 @@ const fields = {
     "owner": "Consultor",
 }
 
+
+const types = {
+    String: "Texto",
+    "Texto": "String",
+
+    Number: "Número",
+    "Número": "Number",
+
+    Date: "Data",
+    "Data": "Date",
+    Select: "Seleção única",
+    "Seleção única": "Select",
+    MultiSelect: "Multi-Select",
+    "Multi-Select": "MultiSelect",
+    "Sim": true,
+    "Não": false,
+    true: "Sim",
+    false: "Não",
+}
+
 export default {
+    types,
     arrayQuantityChanges, predeterminedPeriods, customizablePeriods,
     comissionStatusOpt, coursesOpt, backgroundOpt, nonEspecificOpt,
     roles, fields

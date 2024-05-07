@@ -35,8 +35,7 @@ export const SelectFilterBy = (periods) => {
                         <p id="selected-value"> {label}</p>
 
                         <Icon id="chevrons" open={openPeriodRange}             >
-                            <i className='icon-up' > <KeyboardArrowDownIcon /></i>
-                            <i className='icon-down'> <KeyboardArrowDownIcon /></i>
+                            <i className='icon' > <KeyboardArrowDownIcon /></i>
                         </Icon>
                     </SelectButton>
                 </div>

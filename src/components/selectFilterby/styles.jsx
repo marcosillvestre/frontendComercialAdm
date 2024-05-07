@@ -77,14 +77,8 @@ align-items: center;
 cursor: pointer;
 translate:  -2px -2px ;
 
- .icon-up{
-        transform: rotate(180deg);
-        transition: all 1s ease-in-out;
-        display:${props => props.open ? "block" : "none"} ;
-        translate:  0 -1px ;
-    }
-    
-    .icon-down{
-        display:${props => props.open ? "none" : "block"} ;
+.icon{
+    transform: ${props => props.open ? "rotate(180deg)" : "rotate(0deg)"};
+    transition: all.4s;
     }
 `

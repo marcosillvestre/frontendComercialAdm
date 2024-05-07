@@ -1,4 +1,3 @@
-import { createContext, useContext, useEffect, useMemo, useState } from "react"
 
 
 import Proptypes from 'prop-types'
@@ -6,11 +5,12 @@ import { redirect } from "react-router-dom"
 import URI from "../app/utils/utils.jsx"
 import { useData } from "./dataContext.jsx"
 
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { toast } from "react-toastify"
 import { paths } from '../app/constants/paths.js'
 import businessRules from '../app/utils/Rules/options.jsx'
 
+import { createContext, useContext, useEffect, useMemo, useState } from "react"
 
 const UserContext = createContext({})
 export const UserProvider = ({ children }) => {
@@ -228,9 +228,10 @@ export const UserProvider = ({ children }) => {
 
 
 
+    const queryCache = useQueryClient();
 
 
-    const [customField, setCustomField] = useState([])
+
     const customFields = async () => {
         const response = await URI.get("http://localhost:7070/campos-personalizados", { headers })
         return response.data
@@ -238,17 +239,11 @@ export const UserProvider = ({ children }) => {
 
     const customFieldsQuery = useQuery({
         queryFn: () => customFields(),
-        queryKey: "customFields",
+        queryKey: ["custom"],
         enabled: !headers.Authorization.includes("undefined")
     })
 
-
-
-    useEffect(() => {
-        headers.Authorization.includes("undefined") === false && customFieldsQuery.refetch()
-
-        customFieldsQuery.isSuccess && setCustomField(customFieldsQuery.data)
-    }, [label, customFieldsQuery.isSuccess])
+    const cfSrted = customFieldsQuery.data !== undefined ? customFieldsQuery.data.sort((a, b) => a.order - b.order) : false
 
 
     useEffect(() => {
@@ -258,7 +253,24 @@ export const UserProvider = ({ children }) => {
     }, [label, comissionQuery.isSuccess])
 
 
+    const sendFields = async (body) => {
+        return await toast.promise(
+            URI.put("http://localhost:7070/campos-personalizados", body, { headers })
+            , {
+                pending: 'Conferindo os dados',
+                success: 'Atualizado com sucesso',
+                error: 'Alguma coisa deu errado'
+            }
+        )
+    }
+    const [fieldBody, setBody] = useState()
 
+    const { mutateAsync: changeField } = useMutation({
+        mutationFn: () => sendFields(fieldBody),
+        onSuccess: () => {
+            queryCache.invalidateQueries(["custom"])
+        }
+    })
 
 
 
@@ -323,7 +335,8 @@ export const UserProvider = ({ children }) => {
 
 
 
-
+    const [openSidebar, setOpenSidebar] = useState(false);
+    const [typeSidebar, setTypeSidebar] = useState(0)
 
     return (
         <UserContext.Provider value={{
@@ -337,7 +350,11 @@ export const UserProvider = ({ children }) => {
             setSkip, allData,
             SenderDirector, Sender,
             historic, refetchHistoric, isPendingHistoric,
-            customField
+            customFieldsQuery,
+            changeField, setBody,
+            openSidebar, setOpenSidebar,
+            typeSidebar, setTypeSidebar,
+            cfSrted
         }}>
 
             {children}
