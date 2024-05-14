@@ -25,9 +25,9 @@ const style = {
 };
 
 
-import LoadingSpin from 'react-loading-spin';
+import { useMutation } from '@tanstack/react-query';
 import generatePDF, { Margin, Resolution } from 'react-to-pdf';
-import URI from '../../app/utils/utils';
+import { toast } from 'react-toastify';
 import { useData } from '../../hooks/dataContext';
 
 
@@ -38,14 +38,12 @@ export function SureSendModal(data) {
     const { content, setView } = useData()
 
     const [open, setOpen] = useState(false);
-    const [loading, setLoading] = useState(false)
     const [sendingList, setSendingList] = useState([])
 
     const handleOpen = () => setOpen(true);
 
     const handleClose = () => {
         setOpen(false)
-        setLoading(false)
         setSendingList([])
     };
 
@@ -63,92 +61,80 @@ export function SureSendModal(data) {
             }
         };
 
-        await generatePDF(content, options)
-            .then(res => {
-                if (res) {
-                    setOpen(!open)
-                    send && contaAzulSender()
+        await toast.promise(
+            generatePDF(content, options)
+                .then(res => {
+                    if (res) {
+                        setOpen(!open)
+                        send && contaAzulSender()
 
-                }
-            })
-            .catch(err => {
-                if (err) {
-                    alert("Erro ao emitir o contrato impresso, tente novemente mais tarde!")
-                }
-            })
-
-        setLoading(false)
-
+                    }
+                })
+            , {
+                pending: 'Criando o documento',
+                success: 'Baixado com sucesso',
+                error: 'Alguma coisa deu errado'
+            }
+        )
     }
 
 
     const client = async (body) => {
-        return await new Promise((resolve, reject) => {
-            // axios.post("http://localhost:7070/cliente", body, { headers })
-            URI.post("/cliente", body, { headers })
-                .then(res => {
-                    resolve(res)
-                })
-                .catch(err => {
-                    alert(err.response.data.message)
-                    reject(err)
-                })
-        })
+        await toast.promise(
+            axios.post("http://localhost:7070/cliente", body, { headers })
+            //     // URI.post("/cliente", body, { headers })
+
+            , {
+                pending: 'Criando o cadastro no CA',
+                success: 'Criado com sucesso',
+                error: "Erro ao criar cadastro"
+            }
+        )
+            .catch(res => alert(res.response.data.message))
+
     }
 
     const contract = async (body) => {
-        return await new Promise((resolve, reject) => {
-            URI.post("/registro-conta-azul", body, { headers })
-                // axios.post("http://localhost:7070/registro-conta-azul", data, { headers })
-                .then(res => {
-                    resolve(res)
-                    alert(res.data.message)
+        await toast.promise(
+            axios.post("http://localhost:7070/registro-conta-azul", body, { headers })
+            //     // URI.post("/registro-conta-azul", body, { headers })
+            , {
+                pending: 'Enviando o contrato',
+                success: 'Enviado com sucesso',
+                error: "Erro ao criar o contrato"
+            }
+                .catch(res => alert(res.response.data.message))
+        )
 
-                })
-                .catch(err => {
-                    alert(err.response.data.message)
-                    reject(err)
-                })
-
-        })
     }
 
     const sales = async (body) => {
         if (parseFloat(filteredContracts[0].mdValor) > 0) {
-            return await new Promise((resolve, reject) => {
-                URI.post("/venda", body, { headers })
-                    // axios.post("http://localhost:7070/venda", data, { headers })
-                    .then(res => {
-                        resolve(res)
-                        alert(res.data.message)
 
-                    })
-                    .catch(err => {
-                        alert(err.response.data.message)
-                        reject(err)
-
-                    })
-            })
+            await toast.promise(
+                axios.post("http://localhost:7070/venda", body, { headers })
+                //     // URI.post("/venda", body, { headers })
+                , {
+                    pending: 'Enviando o material didático',
+                    success: 'Enviado com sucesso',
+                    error: "Erro ao enviar o material didático"
+                }
+            )
+                .catch(res => alert(res.response.data.message))
         }
     }
 
     const feeEnroll = async (body) => {
         if (parseFloat(filteredContracts[0].tmValor) > 0) {
-            return await new Promise((resolve, reject) => {
-                URI.post("/taxa", body, { headers })
-                    // axios.post("http://localhost:7070/taxa", data, { headers })
-                    .then(res => {
-                        resolve(res)
-
-                        alert(res.data.message)
-                    })
-                    .catch(err => {
-                        // console.log(err.response)
-                        alert(err.response.data.message)
-                        reject(err)
-
-                    })
-            })
+            await toast.promise(
+                axios.post("http://localhost:7070/taxa", body, { headers })
+                //     // URI.post("/taxa", body, { headers })
+                , {
+                    pending: 'Enviando a taxa de matrícula',
+                    success: 'Enviado com sucesso',
+                    error: "Erro ao enviar a taxa de matrícula"
+                }
+            )
         }
     }
 
@@ -180,7 +166,6 @@ export function SureSendModal(data) {
         observacaoRd, mdDesconto
     }
     async function contaAzulSender() {
-        setLoading(true)
 
         if (body.email === undefined || body.cpf === undefined ||
             body.name === undefined || body.CelularResponsavel === undefined ||
@@ -195,23 +180,38 @@ export function SureSendModal(data) {
             return alert("Contrato não enviado ao Conta Azul, confira os dados do responsável financeiro")
         }
 
-        return await client(body).then(async () => {
-            const response = await Promise.allSettled([contract(body), sales(body), feeEnroll(body)])
-            for (const r of response) {
-                if (r.status === "rejected") {
-                    return alert(r.reason.response.data.message)
-                }
-                alert(r.value)
-            }
-            setLoading(false)
 
-        })
-            .catch((err) => {
-                alert(err.response.data.message)
-                setLoading(false)
+        mutateEverything.mutateAsync()
+    }
+
+
+
+    const sendEverything = async () => {
+
+        client(body)
+            .then(async () => {
+                await Promise.all([
+                    contract(body),
+                    sales(body),
+                    feeEnroll(body),
+                ])
+                // await contract(body)
+                // await sales(body)
+                // await feeEnroll(body)
             })
 
+
+
+
     }
+
+
+    const mutateEverything = useMutation({
+        mutationFn: () => sendEverything(),
+        // onSuccess: () =>
+    })
+
+
 
     const handleSendingList = (fn) => {
         const bool = sendingList.some(item => item === fn)
@@ -221,7 +221,6 @@ export function SureSendModal(data) {
 
 
     async function separated() {
-        setLoading(true)
         if (sendingList.length === 0) {
             return alert("Você precisa definir pelo menos um tipo de envio para o conta azul")
         }
@@ -252,7 +251,6 @@ export function SureSendModal(data) {
                 alert("Erro ao cadastrar o cliente")
 
             })
-        setLoading(false)
     }
 
 
@@ -285,7 +283,6 @@ export function SureSendModal(data) {
             "Pacote Office Essentials": filteredContracts[0].promocao === "Não" ? office : officePromo,
             "Excel Avaçado": filteredContracts[0].promocao === "Não" ? excel : excelPromo
         }
-        setLoading(true)
 
         filteredContracts[0].vencimento = filteredContracts[0].diaVenvimento.split("/")[0]
         filteredContracts[0].emissao = new Date().toLocaleDateString()
@@ -312,15 +309,12 @@ export function SureSendModal(data) {
                 .catch(() => {
                     alert("Erro ao enviar ao autentique")
                 })
-            setLoading(false)
         }
 
 
-        filteredContracts[0].number.length !== 14 && setLoading(false)
-
         filteredContracts[0].number.length === 14 ?
             sender() :
-            alert("A quantidade de caracteres no telefone de contato desse cliente está errada! O contato precisa ter exatos 14.") && setLoading(false)
+            alert("A quantidade de caracteres no telefone de contato desse cliente está errada! O contato precisa ter exatos 14.")
 
     }
 
@@ -342,7 +336,7 @@ export function SureSendModal(data) {
 
             setTimeout(() => {
                 senderImpressContract()
-            }, 1000);
+            }, 500);
         }
     }
 
@@ -371,66 +365,55 @@ export function SureSendModal(data) {
                 <Fades in={open}>
                     <Box sx={style}>
                         {
-                            loading === false ?
-                                <div>
 
-                                    <Typography id="transition-modal-title" variant="h6" component="h2">
-                                        {data.text}
-                                    </Typography>
+                            <div>
 
-                                    {
-                                        data.data !== 'Conta Azul' ?
-                                            <>
-                                                <Boxes>
-                                                    <input type="checkbox" onClick={() => setSend(!send)} className='check' />
-                                                    <small>Não enviar este contrato ao Conta Azul</small>
-                                                </Boxes>
+                                <Typography id="transition-modal-title" variant="h6" component="h2">
+                                    {data.text}
+                                </Typography>
 
-                                                <Boxes radio>
-                                                    <ButtonDelete onClick={() => handleSender()}>Emitir contrato</ButtonDelete>
-                                                </Boxes>
-                                            </>
-                                            :
-                                            < >
-                                                <Boxes >
-                                                    <input type="checkbox"
-                                                        onClick={() => handleSendingList("contract")}
-                                                        className='check' />
-                                                    <small>Contrato</small>
-                                                </Boxes>
-                                                <Boxes >
-                                                    <input type="checkbox"
-                                                        onClick={() => handleSendingList("sales")}
-                                                        className='check' />
-                                                    <small>Material didático</small>
-                                                </Boxes>
+                                {
+                                    data.data !== 'Conta Azul' ?
+                                        <>
+                                            <Boxes>
+                                                <input type="checkbox" onClick={() => setSend(!send)} className='check' />
+                                                <small>Não enviar este contrato ao Conta Azul</small>
+                                            </Boxes>
 
-                                                <Boxes >
-                                                    <input type="checkbox"
-                                                        onClick={() => handleSendingList("feeEnroll")}
-                                                        className='check' />
-                                                    <small>Taxa de matrícula</small>
-                                                </Boxes>
+                                            <Boxes radio>
+                                                <ButtonDelete onClick={() => handleSender()}>Emitir contrato</ButtonDelete>
+                                            </Boxes>
+                                        </>
+                                        :
+                                        < >
+                                            <Boxes >
+                                                <input type="checkbox"
+                                                    onClick={() => handleSendingList("contract")}
+                                                    className='check' />
+                                                <small>Contrato</small>
+                                            </Boxes>
+                                            <Boxes >
+                                                <input type="checkbox"
+                                                    onClick={() => handleSendingList("sales")}
+                                                    className='check' />
+                                                <small>Material didático</small>
+                                            </Boxes>
 
-                                                <Boxes radio>
-                                                    <ButtonDelete onClick={() => separated()}>Emitir contrato</ButtonDelete>
-                                                </Boxes>
-                                            </>
-                                    }
+                                            <Boxes >
+                                                <input type="checkbox"
+                                                    onClick={() => handleSendingList("feeEnroll")}
+                                                    className='check' />
+                                                <small>Taxa de matrícula</small>
+                                            </Boxes>
 
-                                </div>
+                                            <Boxes radio>
+                                                <ButtonDelete onClick={() => separated()}>Emitir contrato</ButtonDelete>
+                                            </Boxes>
+                                        </>
+                                }
 
-                                : <LoadingSpin
-                                    duration="30s"
-                                    width="15px"
-                                    timingFunction="ease-in-out"
-                                    direction="alternate"
-                                    size="60px"
-                                    primaryColor="#1976d2"
-                                    secondaryColor="#333"
-                                    numberOfRotationsInAnimation={4}
-                                    margin='0 auto'
-                                />
+                            </div>
+
                         }
                     </Box>
 
