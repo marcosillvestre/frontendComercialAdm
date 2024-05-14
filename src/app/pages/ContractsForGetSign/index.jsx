@@ -8,7 +8,7 @@ import { Box, Button, Container, SendContract } from './styles'
 export const Contracts = () => {
     const [emmit, setEmmit] = React.useState(false)
 
-    const { contracts, headers, setContracts, userData, setFilteredContracts, logOut } = useUser()
+    const { contracts, headers, setContracts, userData, setFilteredContracts, logOut, filteredContracts } = useUser()
 
 
     const personalText = {
@@ -61,6 +61,7 @@ export const Contracts = () => {
 
             <header className='search'>
                 <div className='inputs'>
+
                     <p>Funil:</p>
                     <select onChange={(e) => data(e.target.value)}>
                         <option value=""></option>
@@ -85,32 +86,37 @@ export const Contracts = () => {
                 <div></div>
                 <div></div>
 
-                <span className='emmit' >
-                    <Button
-                        open={emmit}
-                        onClick={() => setEmmit(!emmit)}
-                    >
-                        Emitir Contrato
-                    </Button>
+                {
+                    filteredContracts !== undefined &&
+                    filteredContracts[0] !== undefined &&
+                    <span className='emmit' >
+                        <Button
+                            open={emmit}
+                            onClick={() => setEmmit(!emmit)}
+                        >
+                            Emitir Contrato
+                        </Button>
 
-                    <Box $emmit={emmit} >
-                        <SendContract $emmit={emmit}>
-                            <SureSendModal
-                                data={"Autentique"}
-                                text={personalText.autentique} />
-                        </SendContract>
-                        <SendContract $emmit={emmit}>
-                            <SureSendModal
-                                data={"PDF"}
-                                text={personalText.PDF} />
-                        </SendContract>
-                        <SendContract $emmit={emmit}>
-                            <SureSendModal
-                                data={"Conta Azul"}
-                                text={personalText.contaAzul} />
-                        </SendContract>
-                    </Box>
-                </span>
+                        <Box $emmit={emmit} >
+                            <SendContract $emmit={emmit}>
+                                <SureSendModal
+                                    data={"Autentique"}
+                                    text={personalText.autentique} />
+                            </SendContract>
+                            <SendContract $emmit={emmit}>
+                                <SureSendModal
+                                    data={"PDF"}
+                                    text={personalText.PDF} />
+                            </SendContract>
+                            <SendContract $emmit={emmit}>
+                                <SureSendModal
+                                    data={"Conta Azul"}
+                                    text={personalText.contaAzul} />
+                            </SendContract>
+                        </Box>
+                    </span>
+                }
+
             </header>
 
             <ContractData />

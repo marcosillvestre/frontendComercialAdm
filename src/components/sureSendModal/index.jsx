@@ -28,6 +28,7 @@ const style = {
 import { useMutation } from '@tanstack/react-query';
 import generatePDF, { Margin, Resolution } from 'react-to-pdf';
 import { toast } from 'react-toastify';
+import URI from '../../app/utils/utils';
 import { useData } from '../../hooks/dataContext';
 
 
@@ -81,8 +82,8 @@ export function SureSendModal(data) {
 
     const client = async (body) => {
         await toast.promise(
-            axios.post("http://localhost:7070/cliente", body, { headers })
-            //     // URI.post("/cliente", body, { headers })
+            // axios.post("http://localhost:7070/cliente", body, { headers })
+            URI.post("/cliente", body, { headers })
 
             , {
                 pending: 'Criando o cadastro no CA',
@@ -96,8 +97,8 @@ export function SureSendModal(data) {
 
     const contract = async (body) => {
         await toast.promise(
-            axios.post("http://localhost:7070/registro-conta-azul", body, { headers })
-            //     // URI.post("/registro-conta-azul", body, { headers })
+            // axios.post("http://localhost:7070/registro-conta-azul", body, { headers })
+            URI.post("/registro-conta-azul", body, { headers })
             , {
                 pending: 'Enviando o contrato',
                 success: 'Enviado com sucesso',
@@ -112,8 +113,8 @@ export function SureSendModal(data) {
         if (parseFloat(filteredContracts[0].mdValor) > 0) {
 
             await toast.promise(
-                axios.post("http://localhost:7070/venda", body, { headers })
-                //     // URI.post("/venda", body, { headers })
+                // axios.post("http://localhost:7070/venda", body, { headers })
+                URI.post("/venda", body, { headers })
                 , {
                     pending: 'Enviando o material didático',
                     success: 'Enviado com sucesso',
@@ -127,8 +128,8 @@ export function SureSendModal(data) {
     const feeEnroll = async (body) => {
         if (parseFloat(filteredContracts[0].tmValor) > 0) {
             await toast.promise(
-                axios.post("http://localhost:7070/taxa", body, { headers })
-                //     // URI.post("/taxa", body, { headers })
+                // axios.post("http://localhost:7070/taxa", body, { headers })
+                URI.post("/taxa", body, { headers })
                 , {
                     pending: 'Enviando a taxa de matrícula',
                     success: 'Enviado com sucesso',
@@ -187,7 +188,6 @@ export function SureSendModal(data) {
 
 
     const sendEverything = async () => {
-
         client(body)
             .then(async () => {
                 await Promise.all([
@@ -195,14 +195,8 @@ export function SureSendModal(data) {
                     sales(body),
                     feeEnroll(body),
                 ])
-                // await contract(body)
-                // await sales(body)
-                // await feeEnroll(body)
+
             })
-
-
-
-
     }
 
 
