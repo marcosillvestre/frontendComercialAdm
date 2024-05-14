@@ -232,20 +232,6 @@ export const UserProvider = ({ children }) => {
 
 
 
-    const customFields = async () => {
-        const response = await URI.get("http://localhost:7070/campos-personalizados", { headers })
-        return response.data
-    }
-
-    const customFieldsQuery = useQuery({
-        queryFn: () => customFields(),
-        queryKey: ["custom"],
-        enabled: !headers.Authorization.includes("undefined")
-    })
-
-    const cfSrted = customFieldsQuery.data !== undefined ? customFieldsQuery.data.sort((a, b) => a.order - b.order) : false
-
-
     useEffect(() => {
         headers.Authorization.includes("undefined") === false && comissionQuery.refetch()
 
@@ -350,11 +336,10 @@ export const UserProvider = ({ children }) => {
             setSkip, allData,
             SenderDirector, Sender,
             historic, refetchHistoric, isPendingHistoric,
-            customFieldsQuery,
             changeField, setBody,
             openSidebar, setOpenSidebar,
             typeSidebar, setTypeSidebar,
-            cfSrted
+
         }}>
 
             {children}

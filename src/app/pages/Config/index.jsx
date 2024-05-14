@@ -16,8 +16,7 @@ export const Settings = () => {
             <MainBox>
                 <div className='boxes'>
                     <p>
-                        Crie campos personalizados
-                        de acordo com a sua necessidade.
+                        Crie novos campos personalizados
                     </p>
                     <img src={settings} alt="" />
                     <a href={paths.configCustomFields}>
@@ -27,8 +26,8 @@ export const Settings = () => {
 
                 <div className='boxes'>
                     <p>
-                        Convide o resto da equipe
-                        a fazer parte do seu time.
+                        Convide toda a sua equipe
+                        a fazer parte do time
                     </p>
                     <img src={team} alt="" />
                     <a href={paths.configRegister}>
@@ -38,7 +37,7 @@ export const Settings = () => {
 
                 <div className='boxes'>
                     <p>
-                        Cadastre todas as unidades do sua operação .
+                        Cadastre todas as unidades da sua operação
                     </p>
                     <img src={unity} alt="" />
                     <a href={paths.configRegister}>

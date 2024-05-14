@@ -112,22 +112,22 @@ export function MiniDrawer() {
     const theme = useTheme();
 
     const { openSidebar, setOpenSidebar, typeSidebar,
-        setTypeSidebar, cfSrted, users } = useUser()
+        setTypeSidebar, users } = useUser()
 
     const { userData } = useUser()
 
-    const { options, setOptions, setCustomFields,
+    const { options, setOptions, setCustomFields, customFields,
+        createCustomFIeld, cfSrted } = useCustomFields()
+
+
+    const { createContracts, setContractData, contractData,
         multiSelectOptions, setMultiSelectOptions,
-        createCustomFIeld } = useCustomFields()
-
-
-    const { createContracts, setContractData
     } = useContractsHook()
 
     const url = useLocation()
 
 
-    const [fieldData, setFieldData] = useState([])
+    // const [fieldData, setFieldData] = useState([])
     // const [options, setOptions] = useState([])
     // const [multiSelectOptions, setMultiSelectOptions] = useState([])
 
@@ -164,21 +164,32 @@ export function MiniDrawer() {
 
 
     console.log(multiSelectOptions)
-    console.log(fieldData)
+    // console.log(fieldData)
     console.log(typeSidebar)
 
-    const sender = async (field, data) => {
-        if (field !== undefined && data !== undefined) {
-            if (typeSidebar === 1) {
-                setFieldData({ ...fieldData, [field]: data })
+    const sender = async (field, value, order) => {
+        if (field !== undefined && value !== undefined) {
+            console.log(typeSidebar)
+            const sidebar = {
+                // 1: customFields,
+                2: contractData
             }
-            if (typeSidebar === 2) {
-                setFieldData([...fieldData, { label: field, value: data }])
 
-            }
+
+            typeSidebar === 1 && setCustomFields({ ...customFields, [field]: value })
+
+            const filtered = sidebar[typeSidebar].filter(res => res.label !== field)
+            typeSidebar === 2 && setContractData([...filtered, { label: field, value, order }])
+
+            // if (typeSidebar === 2) {
+            //     setFieldData([...fieldData, { label: field, value: data }])
+
+            // }
         }
     }
+
     const multiSelectSender = async (field, data) => {
+        console.log(data)
         const index = multiSelectOptions.findIndex(r => r.label === field)
 
         setMultiSelectOptions(multiSelectOptions.some(r => r?.label === field) ?
@@ -191,37 +202,18 @@ export function MiniDrawer() {
 
     const submit = (type) => {
         const submitCustomField = () => {
-            if (!fieldData.label) {
+            if (!customFields.label) {
                 return alert("O 'nome do campo' é obrigatório!")
             }
-
-            setCustomFields(fieldData)
-            toast.promise(
-                createCustomFIeld.mutateAsync(),
-                {
-                    pending: 'Conferindo os dados',
-                    success: 'Campo criado com sucesso',
-                    error: 'Algo deu errado'
-                }
-
-            )
+            createCustomFIeld.mutateAsync()
         }
 
         const submitContracts = async () => {
-            if (!fieldData.name && !fieldData.user) {
+            if (!contractData.some(r => r.label === 'name') && !contractData.some(r => r.label === 'user')) {
                 return alert("Os campos 'Nome' e 'Vendedor' são obrigatórios!")
             }
 
-            setContractData(fieldData)
-            toast.promise(
-                createContracts.mutateAsync(),
-                {
-                    pending: 'Conferindo os dados',
-                    success: 'Novo contrato criado com sucesso',
-                    error: 'Algo deu errado'
-                }
-
-            )
+            createContracts.mutateAsync()
         }
 
         type === 1 ? submitCustomField() : submitContracts()
@@ -230,6 +222,7 @@ export function MiniDrawer() {
 
 
 
+    console.log(customFields)
 
     const possibilities = {
         "String": 'text',
@@ -277,254 +270,275 @@ export function MiniDrawer() {
                     <Divider style={{ marginTop: "1rem" }} />
                     <List>
                         {
-                            typeSidebar === 0 &&
-                            pages.map((text) => (
-                                text.access.some(res => res === userData.role) &&
+                            typeSidebar === 0 ?
+                                pages.map((text) => (
+                                    text.access.some(res => res === userData.role) &&
 
-                                <ListItem key={text.name} disablePadding sx={{ display: 'block' }}>
-                                    <ListItemButton
-                                        sx={{
-                                            minHeight: 60,
-                                            justifyContent: openSidebar ? 'initial' : 'right',
-                                            px: 2.5,
-                                        }}
-                                    >
-                                        <ListItemIcon
+                                    <ListItem key={text.name} disablePadding sx={{ display: 'block' }}>
+                                        <ListItemButton
                                             sx={{
-                                                minWidth: 0,
-                                                mr: openSidebar ? 1 : 'auto',
-                                                justifyContent: 'center',
+                                                minHeight: 60,
+                                                justifyContent: openSidebar ? 'initial' : 'right',
+                                                px: 2.5,
                                             }}
                                         >
-                                        </ListItemIcon>
-
-                                        {
-
-                                            <Links key={text.name} to={text.url} active={url.pathname === text.url} >
-                                                {text.icon}
-                                                <ListItemText primary={text.name} sx={{ opacity: openSidebar ? 1 : 0 }} />
-                                            </Links>
-
-                                        }
-
-                                    </ListItemButton>
-                                </ListItem>
-                            ))
-                        }
-                        <Form>
-                            {
-                                typeSidebar === 1 &&
-                                < >
-                                    <Label htmlFor="">
-                                        <p>Nome do campo:</p>
-                                        <Input
-                                            type="text"
-                                            onBlur={(e) => sender("label", e.target.value)}
-                                        />
-                                    </Label>
-
-                                    <Label htmlFor="">
-                                        <p>Tipo:</p>
-                                        <Select
-                                            label={"String"}
-                                            option={
-                                                [
-                                                    { name: "Texto" },
-                                                    { name: "Número" },
-                                                    { name: "Data" },
-                                                    { name: "Seleção única" },
-                                                    { name: "Multi-Select" }
-                                                ]
-                                            }
-                                            width="100%"
-                                            field="type"
-                                            where="customField"
-                                            fn={[sender]}
-                                        />
-                                    </Label>
-                                    <Label htmlFor="">
-                                        <p>Obrigatório:</p>
-
-                                        <FormGroup>
-                                            <FormControlLabel
-                                                control={<Switch />}
-                                                label=""
-                                                onClick={() => {
-                                                    setRequired(!required)
-                                                    sender("required", !required)
+                                            <ListItemIcon
+                                                sx={{
+                                                    minWidth: 0,
+                                                    mr: openSidebar ? 1 : 'auto',
+                                                    justifyContent: 'center',
                                                 }}
-                                            />
-                                        </FormGroup>
-                                    </Label>
-
-                                    {
-                                        fieldData.type &&
-                                        fieldData.type.includes('Select') &&
-                                        <Label htmlFor="">
-                                            <p>Opções:</p>
-                                            <div
-                                                className='container'
                                             >
+                                            </ListItemIcon>
 
+                                            {
+
+                                                <Links
+                                                    key={text.name}
+                                                    to={text.url}
+                                                    active={url.pathname === text.url} >
+
+                                                    {text.icon}
+
+                                                    <ListItemText
+                                                        primary={text.name}
+                                                        sx={{ opacity: openSidebar ? 1 : 0 }}
+                                                    />
+                                                </Links>
+
+                                            }
+
+                                        </ListItemButton>
+                                    </ListItem>
+                                ))
+                                :
+                                <Form>
+                                    {
+                                        typeSidebar === 1 &&
+                                        < >
+                                            <Label htmlFor="">
+                                                <p>Nome do campo</p>
                                                 <Input
                                                     type="text"
-                                                    name="options"
-                                                    style={{ width: "9rem" }}
-                                                    ref={opt}
+                                                    onBlur={(e) => {
+                                                        sender("label", e.target.value)
+                                                        toast.success("Gravado")
+                                                    }} /// trocar
                                                 />
-                                                <ButtonIcon
-                                                    onClick={() => {
-                                                        opt.current.value !== '' &&
-                                                            setOptions([...options, opt.current.value])
-                                                    }}
-                                                >
-                                                    <SendIcon />
+                                            </Label>
 
-                                                </ButtonIcon>
-                                            </div>
-                                            <div
-                                                className='container-options-group'>
+                                            <Label htmlFor="">
+                                                <p>Tipo</p>
+                                                <Select
+                                                    label={""}
+                                                    option={
+                                                        [
+                                                            { name: "Texto" },
+                                                            { name: "Número" },
+                                                            { name: "Data" },
+                                                            { name: "Seleção única" },
+                                                            { name: "Multi-Select" }
+                                                        ]
+                                                    }
+                                                    width="100%"
+                                                    field="type"
+                                                    where="customField"
+                                                    fn={[sender]} /// trocar 
+                                                />
+                                            </Label>
+                                            <Label htmlFor="">
+                                                <p>Obrigatório</p>
 
-                                                {
-                                                    options &&
-                                                    options.map((res, index) => (
-                                                        <span
-                                                            className='options-group'
-                                                            key={index}
+                                                <FormGroup>
+                                                    <FormControlLabel
+                                                        control={<Switch />}
+                                                        label=""
+                                                        onClick={() => {
+                                                            setRequired(!required)
+                                                            sender("required", !required)  /// trocar
+                                                            toast.success("Gravado")
+
+                                                        }}
+                                                    />
+                                                </FormGroup>
+                                            </Label>
+
+                                            {
+                                                customFields.type !== undefined &&
+                                                customFields.type.includes('Select') &&
+                                                <Label htmlFor="">
+                                                    <p>Opções</p>
+                                                    <div
+                                                        className='container'
+                                                    >
+
+                                                        <Input
+                                                            type="text"
+                                                            name="options"
+                                                            style={{ width: "9rem" }}
+                                                            ref={opt}
+                                                        />
+                                                        <ButtonIcon
                                                             onClick={() => {
-                                                                setOptions(options.filter(r => r !== res))
+                                                                opt.current.value !== '' &&
+                                                                    setOptions([...options, opt.current.value])
                                                             }}
                                                         >
+                                                            <SendIcon />
 
-                                                            <p >{res}</p>
-                                                        </span>
-                                                    ))
-                                                }
-                                            </div>
-                                        </Label>
+                                                        </ButtonIcon>
+                                                    </div>
+                                                    <div
+                                                        className='container-options-group'>
+
+                                                        {
+                                                            options &&
+                                                            options.map((res, index) => (
+                                                                <span
+                                                                    className='options-group'
+                                                                    key={index}
+                                                                    onClick={() => {
+                                                                        setOptions(options.filter(r => r !== res))
+                                                                    }}
+                                                                >
+
+                                                                    <p >{res}</p>
+                                                                </span>
+                                                            ))
+                                                        }
+                                                    </div>
+                                                </Label>
+                                            }
+                                        </>
                                     }
-                                </>
-                            }
-                            {
-                                typeSidebar === 2 &&
-                                <>
-                                    <Label >
-                                        <p>Nome</p>
-                                        < Input
-                                            type="text"
-                                            onBlur={(e) => {
-                                                sender("name", e.target.value)
-                                            }}
-                                        />
-                                    </Label>
-                                    <Label >
-                                        <p>Vendedor</p>
-                                        <Select
-                                            label={""}
-                                            option={users}
-                                            width="100%"
-                                            field={"user"}
-                                            where="newContract"
-                                            fn={[sender]}
-                                        />
-                                    </Label>
                                     {
-                                        cfSrted &&
-                                        cfSrted.map(res => (
-                                            <Label key={res.id}>
-                                                <p>{res.label}</p>
-                                                {
-                                                    possibilities[res.type] ?
-                                                        < Input
-                                                            type={res.type}
-                                                            onBlur={(e) => {
-                                                                sender(res.label, e.target.value)
-                                                            }}
-                                                        />
-                                                        :
-                                                        <div
-                                                            className='multi-container'>
-                                                            <div
-                                                                className='container'
-                                                            >
-                                                                <Select
-                                                                    label={res.options[0]}
-                                                                    option={res.options.map(opt => {
-                                                                        return { "name": opt }
-                                                                    })}
-                                                                    width="100%"
-                                                                    field={res.label}
-                                                                    where="newContract"
-                                                                    fn={[res.type === "MultiSelect" ? multiSelectSender : sender]}
+                                        typeSidebar === 2 &&
+                                        <>
+                                            <Label >
+                                                <p>Nome</p>
+                                                < Input
+                                                    type="text"
+                                                    onBlur={(e) => {
+                                                        e.target.value !== '' &&
+                                                            sender("name", e.target.value) &&
+                                                            toast.success("Gravado")
+
+                                                    }}
+                                                />
+                                            </Label>
+                                            <Label >
+                                                <p>Vendedor</p>
+                                                <Select
+                                                    label={""}
+                                                    option={users}
+                                                    width="100%"
+                                                    field={"user"}
+                                                    where="newContract"
+                                                    fn={[sender]}
+                                                />
+                                            </Label>
+                                            {
+                                                cfSrted &&
+                                                cfSrted.map((res, index) => (
+                                                    <Label key={res.id}>
+                                                        <p>{res.label}</p>
+                                                        {
+                                                            possibilities[res.type] ?
+                                                                < Input
+                                                                    type={res.type}
+                                                                    onBlur={(e) => {
+                                                                        e.target.value !== '' &&
+                                                                            sender(res.label, e.target.value, index) &&
+                                                                            toast.success("Gravado")
+
+                                                                    }}
                                                                 />
-                                                                {
-                                                                    res.type === "MultiSelect" &&
-                                                                    <ButtonIcon
-                                                                        onClick={() => {
-                                                                            sender(res.label, multiSelectOptions.filter(ms => ms.label === res.label)[0].value)
-                                                                            toast.success("Gravado com sucesso")
-
-                                                                        }}
+                                                                :
+                                                                <div
+                                                                    className='multi-container'>
+                                                                    <div
+                                                                        className='container'
                                                                     >
-                                                                        <SendIcon />
-                                                                    </ButtonIcon>
-                                                                }
-                                                            </div>
+                                                                        <Select
+                                                                            label={res.options[0]}
+                                                                            option={res.options.map(opt => {
+                                                                                return { "name": opt }
+                                                                            })}
+                                                                            order={res.order}
+                                                                            width="100%"
+                                                                            field={res.label}
+                                                                            where="newContract"
+                                                                            fn={[res.type === "MultiSelect" ? multiSelectSender : sender]}
+                                                                        />
+                                                                        {
+                                                                            res.type === "MultiSelect" &&
+                                                                            <ButtonIcon
+                                                                                onClick={() => {
+                                                                                    sender(res.label, multiSelectOptions.filter(ms => ms.label === res.label)[0].value, res.order)
+                                                                                    toast.success("Gravado")
 
-                                                            {
-                                                                res.type === "MultiSelect" &&
-                                                                multiSelectOptions.some(r => r.label === res.label) &&
-                                                                < div
-                                                                    className='container-options-group'>
+                                                                                }}
+                                                                            >
+                                                                                <SendIcon />
+                                                                            </ButtonIcon>
+                                                                        }
+                                                                    </div>
+
                                                                     {
-                                                                        multiSelectOptions
-                                                                            .map((r, index) => (
-                                                                                r.label === res.label &&
-                                                                                r.value.map(v => (
-                                                                                    <span
-                                                                                        className='options-group'
-                                                                                        key={index}
-                                                                                        onClick={() => {
-                                                                                            let data = multiSelectOptions.filter(m => m.label === r.label)[0]
-                                                                                            data.value = data.value.filter(dv => dv !== v)
-                                                                                            setMultiSelectOptions([data])
+                                                                        res.type === "MultiSelect" &&
+                                                                        multiSelectOptions.some(r => r.label === res.label) &&
+                                                                        < div
+                                                                            className='container-options-group'>
+                                                                            {
+                                                                                multiSelectOptions
+                                                                                    .map((r, index) => (
+                                                                                        r.label === res.label &&
+                                                                                        r.value.map(v => (
+                                                                                            <span
+                                                                                                className='options-group'
+                                                                                                key={index}
+                                                                                                onClick={() => {
+                                                                                                    let data = multiSelectOptions.filter(m => m.label === r.label)[0]
+                                                                                                    data.value = data.value.filter(dv => dv !== v)
+                                                                                                    setMultiSelectOptions([data])
 
-                                                                                            data.value.length !== 0 ?
-                                                                                                setFieldData([...fieldData.filter(fd => fd.label !== res.label), data]) :
-                                                                                                setFieldData(fieldData.filter(fd => fd.label !== res.label))
-                                                                                        }}
-                                                                                    >
-                                                                                        <p key={v}>{v}</p>
+                                                                                                    data.value.length !== 0 ?
+                                                                                                        setContractData([...contractData.filter(fd => fd.label !== res.label), data]) :
+                                                                                                        setContractData(contractData.filter(fd => fd.label !== res.label))
+                                                                                                }}
+                                                                                            >
+                                                                                                <p key={v}>{v}</p>
 
 
-                                                                                    </span>
-                                                                                ))
-                                                                            ))
+                                                                                            </span>
+                                                                                        ))
+                                                                                    ))
+                                                                            }
+                                                                        </div>
+
                                                                     }
                                                                 </div>
 
-                                                            }
-                                                        </div>
+
+                                                        }
+                                                    </Label>
+                                                ))
+                                            }
 
 
-                                                }
-                                            </Label>
-                                        ))
+                                        </>
                                     }
+                                    <hr />
 
+                                    <Submit
+                                        placeholder="Enviar"
+                                        onClick={() => submit(typeSidebar)}
+                                    >
+                                        Enviar
+                                    </Submit>
 
-                                </>
-                            }
-                            <hr />
-
-                            <Submit
-                                placeholder="Enviar"
-                                onClick={() => submit(typeSidebar)}
-                            >
-                                Enviar
-                            </Submit>
-
-                        </Form>
+                                </Form>
+                        }
 
                     </List>
 

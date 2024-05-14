@@ -11,17 +11,20 @@ export const Contracts = ({ children }) => {
 
     const { headers } = useUser()
     const [contractData, setContractData] = useState([])
+    const [multiSelectOptions, setMultiSelectOptions] = useState([])
 
     const queryClient = useQueryClient()
+
     const sendData = async () => {
-        const { name, user, ...customFields } = contractData
+
+        console.log(contractData)
 
         const response = await toast.promise(
-            URI.post("http://localhost:7070/novos-contratos", { name, user, ...customFields }, { headers }),
+            URI.post("http://localhost:7070/novos-contratos", contractData, { headers }),
             {
                 pending: 'Conferindo os dados',
-                success: 'Enviado com sucesso',
-                error: 'Alguma coisa deu errado'
+                success: 'Novo contrato criado com sucesso',
+                error: 'Algo deu errado'
             }
         )
         return response.data
@@ -34,10 +37,19 @@ export const Contracts = ({ children }) => {
         }
     })
 
+
+
+
+
+
+
     return (
         <ContractsHook.Provider value={{
+            contractData,
             createContracts,
-            setContractData
+            setContractData,
+            multiSelectOptions, setMultiSelectOptions,
+
         }}>
 
             {children}

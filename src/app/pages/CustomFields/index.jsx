@@ -3,15 +3,18 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from
 import Paper from '@mui/material/Paper';
 import LoadingSpin from 'react-loading-spin';
 import { CustomFieldTable } from '../../../components/source.jsx';
+import { useCustomFields } from '../../../hooks/customFields/customFIelds.hook.jsx';
 import { useUser } from '../../../hooks/userContext.jsx';
 import { Container, MainBox } from './styles.jsx';
 
 
 
 export const CustomFields = () => {
-    const { customFieldsQuery,
-        openSidebar, setOpenSidebar, setTypeSidebar, cfSrted
+    const {
+        openSidebar, setOpenSidebar, setTypeSidebar
     } = useUser()
+
+    const { cfSrted, customFieldsQuery } = useCustomFields()
 
 
     return (
@@ -63,7 +66,10 @@ export const CustomFields = () => {
                                     <TableBody >
                                         {
                                             cfSrted && cfSrted.map((row, index) => (
-                                                <CustomFieldTable key={row.id} row={row} index={index} />
+                                                <CustomFieldTable
+                                                    key={row.id}
+                                                    row={row}
+                                                    index={index} />
                                             ))
                                         }
 

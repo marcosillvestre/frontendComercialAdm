@@ -1,5 +1,5 @@
 
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import Proptypes from 'prop-types'
 import { createContext, useContext, useState } from "react"
 import { toast } from "react-toastify"
@@ -12,17 +12,18 @@ export const CustomFields = ({ children }) => {
     const queryClient = useQueryClient()
     const { headers } = useUser()
 
-    const [customFields, setCustomFields] = useState([])
+    const [customFields, setCustomFields] = useState()
     const [options, setOptions] = useState([])
-    const [multiSelectOptions, setMultiSelectOptions] = useState([])
+
+    console.log(customFields)
 
     const sendData = async () => {
         const response = await toast.promise(
             URI.post("http://localhost:7070/campos-personalizados", { "options": options, "for": "deal", ...customFields }, { headers }),
             {
                 pending: 'Conferindo os dados',
-                success: 'Enviado com sucesso',
-                error: 'Alguma coisa deu errado'
+                success: 'Campo criado com sucesso',
+                error: 'Algo deu errado'
             }
         )
         return response.data
@@ -35,18 +36,34 @@ export const CustomFields = ({ children }) => {
         }
     })
 
+
+
+    const queryCustomFields = async () => {
+        const response = await URI.get("http://localhost:7070/campos-personalizados", { headers })
+        return response.data
+    }
+
+    const customFieldsQuery = useQuery({
+        queryFn: () => queryCustomFields(),
+        queryKey: ["custom"],
+        enabled: !headers.Authorization.includes("undefined")
+    })
+
+    const cfSrted = customFieldsQuery.data !== undefined ? customFieldsQuery.data.sort((a, b) => a.order - b.order) : false
+
     return (
         <CustomFieldsHook.Provider value={{
             createCustomFIeld,
             options, setOptions,
-            multiSelectOptions, setMultiSelectOptions,
-            customFields, setCustomFields
+            customFields, setCustomFields,
+            cfSrted, customFieldsQuery
         }}>
 
             {children}
 
         </CustomFieldsHook.Provider>
     )
+
 }
 
 export const useCustomFields = () => {

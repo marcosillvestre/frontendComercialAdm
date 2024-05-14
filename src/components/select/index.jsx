@@ -34,17 +34,17 @@ export const Select = (parameters) => {
         setLabel(label.value)
 
         parameters.where === 'customField' || parameters.where === 'newContract' ?
-            engineFunctions(label.field, label.value) : engineFunctions(label)
+            engineFunctions(label.field, label.value, label.order || "") : engineFunctions(label)
 
         setOpen(false)
     }
 
 
-    const engineFunctions = (values, secValue) => {
+    const engineFunctions = (values, secValue, thirdValue) => {
         parameters.fn.map(res => {
 
             new Promise(resolve => {
-                resolve(res(values, types[secValue] ? types[secValue] : secValue))
+                resolve(res(values, types[secValue] || secValue, thirdValue))
             })
         })
     }
@@ -85,7 +85,8 @@ export const Select = (parameters) => {
                                                 className="label"
                                                 onClick={() => handleCheck({
                                                     field: parameters.field ? parameters.field : "",
-                                                    value: period?.name
+                                                    value: period?.name,
+                                                    order: parameters?.order
                                                 })}>
 
                                                 <p>{period?.name}</p>
