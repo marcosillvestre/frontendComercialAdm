@@ -1,11 +1,11 @@
 
 
 const comissionStatusOpt = [
-    "Pendente",
-    "Não aprovado",
-    "Pré-aprovado",
-    "Comissionado",
-    "Aprovado",
+    { name: "Pendente" },
+    { name: "Não aprovado" },
+    { name: "Pré-aprovado" },
+    { name: "Comissionado" },
+    { name: "Aprovado" }
 ]
 const coursesOpt = [
     "Inglês",
@@ -74,11 +74,11 @@ const customizablePeriods = [
 
 
 const roles = [
-    { label: "Direção", value: "direcao" },
-    { label: "Comercial", value: "comercial" },
-    { label: "Gerencia", value: "gerencia" },
-    { label: "Administrativo", value: "administrativo" },
-    { label: "Pedagógico", value: "pedagogico" },
+    { name: "Direção", value: "direcao" },
+    { name: "Comercial", value: "comercial" },
+    { name: "Gerencia", value: "gerencia" },
+    { name: "Administrativo", value: "administrativo" },
+    { name: "Pedagógico", value: "pedagogico" },
 ]
 
 const fields = {

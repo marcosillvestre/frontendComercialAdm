@@ -11,6 +11,9 @@ import styled from "styled-components";
 
 export const Label = styled.div`
 font-size: 13px;
+p{
+    font-size: 11px;
+}
 
 .container{
     display: flex;

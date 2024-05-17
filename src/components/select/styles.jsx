@@ -2,7 +2,8 @@ import styled from "styled-components"
 
 export const Container = styled.div`
 
-#category-select label {
+#category-select {
+
 font-size: .75rem;
 letter-spacing: .0225rem;
 }
@@ -11,16 +12,17 @@ letter-spacing: .0225rem;
 `
 
 export const ListOpt = styled.ul`
-    display:${props => props.open ? "block" : "none"} ;
-    position: relative;
+    display:${props => props.open ? "" : "none"} ;
+    position: absolute;
     z-index: 10;
     margin-top: .25rem ;
     border-radius: .375rem;
     background-color:#dfe6f1;
-    width: 100%;
+
 
 `
 export const Options = styled.li`
+
         transition: .4s;
         transform-origin: top;
         color: #222;
@@ -65,7 +67,7 @@ justify-content: space-between;
 border-radius: .375rem;
 background-color:#dfe6f1;
 
-    #selected-value{
+#selected-value{
     color: #000;
     font-size: .67rem;
     margin-right: 2rem;

@@ -2,39 +2,21 @@ import DoneIcon from '@mui/icons-material/Done';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useState } from 'react';
 import businessRules from '../../app/utils/Rules/options.jsx';
-// import { useData } from '../../hooks/dataContext';
-// import { useUser } from '../../hooks/userContext';
 import { CloserClick, PositionedMenu } from '../source.jsx';
 import { Checked, Container, Icon, ListOpt, Options, SelectButton } from './styles';
 
 export const Select = (parameters) => {
-    // const { setPeriodRange, periodFilter, setPeriodFilter, setTake, setSkip } = useUser()
-    // const { setTypeFilter, setCustomizableArray } = useData()
 
     const { types } = businessRules
-
-
-
-    const [label, setLabel] = useState(types[parameters.label])
+    const [label, setLabel] = useState(types[parameters.label] || parameters.label)
     const [open, setOpen] = useState(false)
 
     const handleCheck = async (label) => {
 
-        // setTypeFilter([])
-        // setCustomizableArray([])
-
-        // setTake(10)
-        // setSkip(0)
-
-        // setClicked(label)
-        // setPeriodFilter(false)
-        // setPeriodRange(label)
-
-
         setLabel(label.value)
 
         parameters.where === 'customField' || parameters.where === 'newContract' ?
-            engineFunctions(label.field, label.value, label.order || "") : engineFunctions(label)
+            engineFunctions(label.field, label.value, label.order || "") : engineFunctions(label.value)
 
         setOpen(false)
     }
@@ -58,7 +40,6 @@ export const Select = (parameters) => {
             <Container
                 style={{
                     width: `${parameters.width}`,
-
                 }}
             >
 
@@ -74,7 +55,12 @@ export const Select = (parameters) => {
                 </div>
 
 
-                <ListOpt open={open}>
+                <ListOpt
+                    open={open}
+                    style={{
+                        width: `${parameters.width}`,
+                    }}
+                >
                     {
                         parameters.option?.map((period, index) => (
                             period.name === label ? "" :
@@ -84,8 +70,8 @@ export const Select = (parameters) => {
                                             <span
                                                 className="label"
                                                 onClick={() => handleCheck({
-                                                    field: parameters.field ? parameters.field : "",
                                                     value: period?.name,
+                                                    field: parameters?.field ? parameters?.field : "",
                                                     order: parameters?.order
                                                 })}>
 

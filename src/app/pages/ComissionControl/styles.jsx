@@ -1,9 +1,7 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-display: flex;
-flex-direction: column;
-gap: 2rem;
+padding: 0 4rem;
 nav{
     display: flex;
     gap: 8px;
@@ -15,14 +13,7 @@ nav{
     }
 }
 header{
-width: 100vw;
-border-bottom: 1px solid #dededf;
-display: flex;
-justify-content: space-between;
-align-items: center;
-font-size: small;
-padding: 2rem 5rem;
-gap: 8px;
+
 .filters{
     display: flex;
     flex-direction: column;
@@ -95,11 +86,34 @@ thead, tr, tbody, td {
 
 `
 
+export const Header = styled.header`
+
+
+display: flex;
+align-items: center;
+width: 100%;
+font-size: small ;
+border: 2px solid #dfe6f1;
+border-radius: .35rem;
+padding: 1rem 3rem;
+
+margin-bottom: 1.5rem;
+nav{
+    width:100%;
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+    margin: 0 3rem;
+    gap: 1rem;
+}
+`
+
+
 
 
 export const Tax = styled.div`
 display: flex;
-padding: calc((4em - (1em * 1.5) - (0.125em * 2) - 0.375em) / 2) calc(1em * 1.5);
+padding: 12px;
 border: 0.125em solid #1976d2; ;
 box-shadow: 0 0.375em 0 #1976d2;
 align-items: center;
@@ -109,7 +123,7 @@ height: 2rem;
 border-radius: .5rem;
 background-color: #fff;
 font-size:.8rem;
-
+margin: 0 auto;
 `
 
 export const ChartsContainer = styled.div`
@@ -159,10 +173,10 @@ export const Options = styled.li`
 
 export const ContainerTable = styled.div`
 display: flex;
-align-items: flex-start;
-justify-content: center;
-gap: .8rem;
-padding: .5rem 1rem;
+/* align-items: flex-start;
+justify-content: center; */
+gap: 2rem;
+/* padding: .5rem 1rem; */
 
 .seller-relatory{
     display: flex;
@@ -176,18 +190,25 @@ padding: .5rem 1rem;
 
 .cell-relatory{
     text-align: center;
-    font-size: small;
+    font-size: smaller;
+    margin: 1rem ;
 }
 
 
 `
 
 export const NavBar = styled.nav`
-width: 100%;
+width: 15rem;
 display: flex;
-justify-content: flex-end;
-padding-right:2rem ;
-align-items: center;
+flex-direction: column;
+text-align: center;
+div{
+    display: flex;
+    gap: 6px;
+    align-items: center;
+
+}
+
 @media(max-width:1090px){
 justify-content: center;
 
@@ -195,14 +216,20 @@ justify-content: center;
 `
 
 export const ButtonLink = styled.button`
-padding: .5rem 1.7rem;
+padding: .7rem 0 ;
+width: 7rem ;
+
+font-size: 1rem;
 border: none;
-background-color:${props => props.open ? "#d4d9e4" : "#dfe6f1"} ;
+/* background-color:${props => props.open ? "#3458f5" : "#6d7ccb"} ; */
+background-color:#3458f5 ;
+color:${props => props.open ? "#fff" : "#222"} ;
 border-radius: .4rem;
 cursor: pointer;
 
 &:hover{
-background-color:#d4d9e4;
+color:#fff;
+background-color:${props => props.open ? "#6d7ccb" : "#7387de"} ;
 
 }
 a{

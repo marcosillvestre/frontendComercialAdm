@@ -10,12 +10,11 @@ const CustomFieldsHook = createContext({})
 export const CustomFields = ({ children }) => {
 
     const queryClient = useQueryClient()
-    const { headers } = useUser()
+    const { headers, setTypeSidebar, setOpenSidebar } = useUser()
 
     const [customFields, setCustomFields] = useState()
     const [options, setOptions] = useState([])
 
-    console.log(customFields)
 
     const sendData = async () => {
         const response = await toast.promise(
@@ -33,6 +32,8 @@ export const CustomFields = ({ children }) => {
         mutationFn: () => sendData(),
         onSuccess: () => {
             queryClient.invalidateQueries(["custom"])
+            setTypeSidebar(0)
+            setOpenSidebar(false);
         }
     })
 

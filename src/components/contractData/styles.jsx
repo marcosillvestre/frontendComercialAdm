@@ -5,7 +5,6 @@ margin: 0 auto;
 display: flex;
 flex-direction: column;
 gap: 1rem;
-max-width: 80vw ;
 
 
 table, th, tr, thead{
@@ -26,29 +25,21 @@ th{
 }
 .empty{
     display: flex;
-    flex-direction: column;
-    /* gap: 4rem; */
-    details{
-        border: 0.125em solid #1976d2; ;
-        padding: calc((4em - (1em * 1.5) - (0.125em * 2) - 0.375em) / 2) calc(1em * 1.5);
-        box-shadow: 0 0.375em 0 #1976d2;
-        border-radius: .5rem;
-    }
+    align-items: center;
+
     img{
-        height: 20rem;
+        height: 15rem;
     }
 
 }
 
-.parag{
-    width: 35rem;
-}
 
 `
 
 
 export const NavBar = styled.nav`
-/* text-align: center; */
+text-align: center;
+width: 15rem;
 /* display: flex; */
 .buttons{
     display: flex;

@@ -9,15 +9,13 @@ import { useUser } from "../userContext"
 const ContractsHook = createContext({})
 export const Contracts = ({ children }) => {
 
-    const { headers } = useUser()
+    const { headers, setTypeSidebar, setOpenSidebar } = useUser()
     const [contractData, setContractData] = useState([])
     const [multiSelectOptions, setMultiSelectOptions] = useState([])
 
     const queryClient = useQueryClient()
 
     const sendData = async () => {
-
-        console.log(contractData)
 
         const response = await toast.promise(
             URI.post("http://localhost:7070/novos-contratos", contractData, { headers }),
@@ -33,7 +31,9 @@ export const Contracts = ({ children }) => {
     const createContracts = useMutation({
         mutationFn: () => sendData(),
         onSuccess: () => {
-            queryClient.invalidateQueries([""]) ///// alterar esse cara pra mexer no main data
+            queryClient.invalidateQueries(["contracts"]) ///// alterar esse cara pra mexer no main data
+            setTypeSidebar(0)
+            setOpenSidebar(false);
         }
     })
 

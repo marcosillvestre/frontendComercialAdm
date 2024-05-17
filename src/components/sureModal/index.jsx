@@ -44,7 +44,7 @@ export function SureModal(data) {
 
         await toast.promise(
             // axios.delete(`http://localhost:7070${data.url}/${id}?responsible=${responsible}`, { headers }),
-            URI.delete(`http://localhost:7070${data.url}/${id}?responsible=${responsible}`, { headers }),
+            URI.delete(`${data.url}/${id}?responsible=${responsible}`, { headers }),
             {
                 pending: 'Conferindo os dados',
                 success: 'Deletado com sucesso',

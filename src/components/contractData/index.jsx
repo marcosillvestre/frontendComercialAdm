@@ -80,7 +80,7 @@ export const ContractData = () => {
             {
                 filteredContracts?.length > 0 &&
                 <NavBar>
-                    <p>Vizualização em:</p>
+                    <p>Visualização em</p>
                     <div className='buttons'>
                         <ButtonLink
                             onClick={() => setView('table')}
@@ -93,7 +93,7 @@ export const ContractData = () => {
                             onClick={() => setView('template')}
                             open={view === 'template'}
                         >
-                            Template
+                            Contrato
                         </ButtonLink>
                     </div>
                 </NavBar>
@@ -281,13 +281,6 @@ export const ContractData = () => {
 
                     :
                     <div className='empty'>
-                        <details >
-                            <p className='parag'>Deseja emitir um contrato ? Selecione
-                                o Funil de vendas desejado na opção <q>Funil</q> e logo em seguida na
-                                opção <q>Cliente</q> selecione a sua Matrícula no RD Station
-                                que já está na etapa de Matrícula!
-                            </p>
-                        </details>
                         <img style={{ margin: '5rem auto' }} src={noContract} alt="Empty data representation" />
                     </div>
             }

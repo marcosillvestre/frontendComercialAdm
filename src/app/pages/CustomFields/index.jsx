@@ -5,7 +5,7 @@ import LoadingSpin from 'react-loading-spin';
 import { CustomFieldTable } from '../../../components/source.jsx';
 import { useCustomFields } from '../../../hooks/customFields/customFIelds.hook.jsx';
 import { useUser } from '../../../hooks/userContext.jsx';
-import { Container, MainBox } from './styles.jsx';
+import { Container, Header, MainBox, Tax } from './styles.jsx';
 
 
 
@@ -19,23 +19,32 @@ export const CustomFields = () => {
 
     return (
         <Container>
-            <header>
-                <div>
+            <h1>Configurações</h1>
+            <h3>Campos personalizados</h3>
+            <Header>
+                <nav>
 
-                    <h1>Configurações</h1>
+                    <div>
+                        <Tax>
+                            {
+                                customFieldsQuery.data &&
+                                customFieldsQuery.data.length
+                            }
+                        </Tax>
+                        campos
 
-                    <h3>Campos personalizados</h3>
-                </div>
+                    </div>
 
 
-                <button onClick={() => {
-                    setTypeSidebar(1)
-                    setOpenSidebar(!openSidebar)
-                }
-                }>
-                    Criar campo
-                </button>
-            </header>
+                    <button onClick={() => {
+                        setTypeSidebar(1)
+                        setOpenSidebar(!openSidebar)
+                    }
+                    }>
+                        Criar campo
+                    </button>
+                </nav>
+            </Header>
 
             <MainBox>
                 {
@@ -50,7 +59,7 @@ export const CustomFields = () => {
                             secondaryColor="#333"
                             numberOfRotationsInAnimation={3} />
                         :
-                        <table>
+                        <table className='tableContainer'>
                             <TableContainer component={Paper}>
                                 <Table aria-label="collapsible table">
                                     <TableHead>

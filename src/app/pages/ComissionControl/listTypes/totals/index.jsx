@@ -41,8 +41,8 @@ export const Totals = (data) => {
                                         </tr>
                                             :
 
-                                            data.data?.map(res => (
-                                                <tr key={res?.name}>
+                                            data.data?.map((res, i) => (
+                                                <tr key={i}>
                                                     <td>
                                                         {res?.name}
                                                     </td>

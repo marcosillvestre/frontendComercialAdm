@@ -29,6 +29,8 @@ import { CloserClick, Header, Select } from '../source.jsx';
 import { toast } from 'react-toastify';
 import { useContractsHook } from '../../hooks/contracts/contracts.hook.jsx';
 import { useCustomFields } from '../../hooks/customFields/customFIelds.hook.jsx';
+import { useUsers } from '../../hooks/users/usersContext.hook.jsx';
+import { Navigation } from './navigation/navigation.jsx';
 import {
     ButtonIcon,
     ComissionScreen,
@@ -37,7 +39,7 @@ import {
     Label,
     Links, Submit
 } from './styles';
-
+import { CreateUsersForm } from './users/customField.create.jsx';
 
 const drawerWidth = 250;
 
@@ -112,9 +114,9 @@ export function MiniDrawer() {
     const theme = useTheme();
 
     const { openSidebar, setOpenSidebar, typeSidebar,
-        setTypeSidebar, users } = useUser()
+        setTypeSidebar, userData } = useUser()
 
-    const { userData } = useUser()
+    const { person, createUsers, UsersQuery } = useUsers()
 
     const { options, setOptions, setCustomFields, customFields,
         createCustomFIeld, cfSrted } = useCustomFields()
@@ -127,17 +129,10 @@ export function MiniDrawer() {
     const url = useLocation()
 
 
-    // const [fieldData, setFieldData] = useState([])
-    // const [options, setOptions] = useState([])
-    // const [multiSelectOptions, setMultiSelectOptions] = useState([])
-
-
     const handleDrawerOpen = () => {
         setOpenSidebar(true);
         setTypeSidebar(0)
     };
-
-
 
 
 
@@ -152,7 +147,6 @@ export function MiniDrawer() {
         { name: 'Emitir Contratos', url: paths.signContracts, icon: <GetContracts />, access: ['administrativo', 'direcao', 'comercial', 'gerencia', 'pedagogico'] },
         { name: 'Relatórios', url: paths.comissionalControl, icon: <ComissionScreen />, access: ['administrativo', 'direcao', 'gerencia'] },
 
-        // { name: 'Novos Cadastros', url: paths.newRegister, icon: <PersonAddAlt1Icon />, access: ['direcao',] },
         { name: 'Histórico', url: paths.historic, icon: <History />, access: ['direcao'] },
 
         { name: 'Configurações', url: paths.config, icon: <SettingsIcon />, access: ['direcao'] },
@@ -163,13 +157,8 @@ export function MiniDrawer() {
     const opt = useRef()
 
 
-    console.log(multiSelectOptions)
-    // console.log(fieldData)
-    console.log(typeSidebar)
-
     const sender = async (field, value, order) => {
         if (field !== undefined && value !== undefined) {
-            console.log(typeSidebar)
             const sidebar = {
                 // 1: customFields,
                 2: contractData
@@ -189,10 +178,9 @@ export function MiniDrawer() {
     }
 
     const multiSelectSender = async (field, data) => {
-        console.log(data)
         const index = multiSelectOptions.findIndex(r => r.label === field)
 
-        setMultiSelectOptions(multiSelectOptions.some(r => r?.label === field) ?
+        setMultiSelectOptions(index > 0 ?
             [{ label: field, value: [...multiSelectOptions[index].value, data] }] :
             [...multiSelectOptions, { label: field, value: [data] }]
         )
@@ -206,23 +194,39 @@ export function MiniDrawer() {
                 return alert("O 'nome do campo' é obrigatório!")
             }
             createCustomFIeld.mutateAsync()
+
+
         }
 
-        const submitContracts = async () => {
+        const submitContracts = () => {
             if (!contractData.some(r => r.label === 'name') && !contractData.some(r => r.label === 'user')) {
                 return alert("Os campos 'Nome' e 'Vendedor' são obrigatórios!")
             }
 
             createContracts.mutateAsync()
+
         }
 
-        type === 1 ? submitCustomField() : submitContracts()
-        // handleDrawerClose()
+        const submitUsers = () => {
+            if (!person.name || !person.email || !person.password || !person.confirmPassword || !person.unity || !person.role) {
+                return toast.error("Preencha todos os campos")
+            }
+            if (person.password !== person.confirmPassword) {
+                return toast.error("As senhas devem coincidir")
+            }
+            createUsers.mutateAsync()
+
+
+        }
+
+        type === 1 && submitCustomField()
+        type === 2 && submitContracts()
+        type === 3 && submitUsers()
+
     }
 
 
 
-    console.log(customFields)
 
     const possibilities = {
         "String": 'text',
@@ -236,7 +240,7 @@ export function MiniDrawer() {
         <>
             <CloserClick
                 open={openSidebar}
-                fn={setOpenSidebar} opacity={.3}
+                fn={setOpenSidebar} opacity={0}
             />
             <Box sx={{ display: 'flex', }}>
                 <CssBaseline />
@@ -364,7 +368,7 @@ export function MiniDrawer() {
                                             </Label>
 
                                             {
-                                                customFields.type !== undefined &&
+                                                customFields !== undefined &&
                                                 customFields.type.includes('Select') &&
                                                 <Label htmlFor="">
                                                     <p>Opções</p>
@@ -409,7 +413,10 @@ export function MiniDrawer() {
                                                     </div>
                                                 </Label>
                                             }
+                                            <Navigation open={openSidebar} />
                                         </>
+
+
                                     }
                                     {
                                         typeSidebar === 2 &&
@@ -430,7 +437,7 @@ export function MiniDrawer() {
                                                 <p>Vendedor</p>
                                                 <Select
                                                     label={""}
-                                                    option={users}
+                                                    option={UsersQuery.data}
                                                     width="100%"
                                                     field={"user"}
                                                     where="newContract"
@@ -528,8 +535,13 @@ export function MiniDrawer() {
 
                                         </>
                                     }
-                                    <hr />
 
+                                    {
+                                        typeSidebar === 3 &&
+                                        <CreateUsersForm />
+
+                                    }
+                                    <hr />
                                     <Submit
                                         placeholder="Enviar"
                                         onClick={() => submit(typeSidebar)}

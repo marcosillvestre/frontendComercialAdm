@@ -1,51 +1,41 @@
 
 import styled, { keyframes } from "styled-components";
 
-export const Container = styled.div`
+export const Header = styled.header`
 display: flex;
-flex-direction: column;
-justify-content: start;
-height: 100vh;
-max-width: 100vw;
+width: 100%;
+font-size: small ;
+border: 2px solid #dfe6f1;
+border-radius: .35rem;
+padding: 1rem 3rem;
 
-.search{
-    translate: 0 -3rem;
-    width: 100%;
-    padding: 3rem 2rem;
-    border-bottom: 1px solid #dededf;
+margin-bottom: 1.5rem;
+nav{
+    width:100%;
+    justify-content: space-between;
     display: flex;
-    justify-content: space-around;
-    p{
-        font-size: small;
-    }
+    align-items: center;
+    margin: 0 3rem;
+    gap: 1rem;
 }
+`
+
+
+export const Container = styled.div`
+
+width: 100%;
+padding: 0 4rem;
+
 .inputs{
-    display: grid;
-    grid-template-areas:
-    "p p"
-    "select input"
-    ;
+    display: flex;
+    gap: 1rem;
+
 }
-select{
-grid-area: select;
-border: none;
-background-color:#dfe6f1;
-border-radius:.5rem 0 0 .5rem;
-border-right: .35px solid #bec0c4; 
-padding-left: .5rem ;
-width: 10rem;
-margin-top: .54rem; 
-    
-option{
-    text-transform: uppercase;
-    font-weight: lighter;
-    font-family: "Roboto","Helvetica","Arial",sans-serif;
-}
-}
+
 input{
 border: none;
 background-color:#dfe6f1;
-border-radius:0 .5rem .5rem 0;
+border-radius:.5rem ;
 padding: .7rem .5rem;
 width: 10rem;
 margin-top: .5rem; 

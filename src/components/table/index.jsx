@@ -22,6 +22,7 @@ import LoadingSpin from 'react-loading-spin';
 import colorsRules from '../../app/utils/Rules/colors.jsx';
 import businessRules from '../../app/utils/Rules/options.jsx';
 import URI from '../../app/utils/utils.jsx';
+import { useUnities } from '../../hooks/unities/unitiesContext.hook.jsx';
 import { SeventhDrop } from './seventhDrop/index.jsx';
 export function FirstRow(props) {
     const queryCache = useQueryClient();
@@ -29,8 +30,9 @@ export function FirstRow(props) {
     const { comissionStatusOpt, coursesOpt, backgroundOpt } = businessRules
     const { setColor, setClearColor } = colorsRules
 
-    const { Sender, SenderDirector, userData, unity, headers } = useUser()
+    const { Sender, SenderDirector, userData, headers } = useUser()
     const { handleCustomizableData, customizableArray } = useData()
+    const { unityQuery } = useUnities()
 
     const { row, index } = props;
 
@@ -156,7 +158,7 @@ export function FirstRow(props) {
                             <Td >
                                 <Select defaultValue={row?.unidade} onChange={(e) => Changer("unidade", e.target.value, row?.contrato)}>
                                     {
-                                        unity && unity.map(res => (
+                                        unityQuery.data && unityQuery.data.map(res => (
                                             <option key={res.id} value={res.name}>{res.name}</option>
                                         ))
                                     }
@@ -209,8 +211,8 @@ export function FirstRow(props) {
                                     onChange={(e) =>
                                         Changer("tipoMatricula", e.target.value, row?.contrato)}>
                                     {
-                                        comissionStatusOpt.map(res => (
-                                            <option value={res} key={res}>{res}</option>
+                                        comissionStatusOpt.map((res, i) => (
+                                            <option value={res.name} key={i}>{res.name}</option>
                                         ))}
                                 </Select>
 

@@ -5,7 +5,7 @@ import { redirect } from "react-router-dom"
 import URI from "../app/utils/utils.jsx"
 import { useData } from "./dataContext.jsx"
 
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { toast } from "react-toastify"
 import { paths } from '../app/constants/paths.js'
 import businessRules from '../app/utils/Rules/options.jsx'
@@ -18,12 +18,9 @@ export const UserProvider = ({ children }) => {
     const [userData, setUserData] = useState({})
 
     const [fetchData, setFetchData] = useState()
-    const [users, setUsers] = useState([])
     const [filtered, setFiltered] = useState([])
     const [contracts, setContracts] = useState([])
-    const [unity, setUnity] = useState([])
     const [filteredContracts, setFilteredContracts] = useState()
-    const [sellers, setSeller] = useState()
     const [periodRange, setPeriodRange] = useState(businessRules.predeterminedPeriods[0].name)
 
     const [anchorEl, setAnchorEl] = useState(null);
@@ -55,49 +52,6 @@ export const UserProvider = ({ children }) => {
     }, [])
 
 
-
-    const headers = useMemo(() => {
-        return {
-            'Content-Type': "application/json",
-            "Authorization": `Bearer ${userData?.token}`
-        }
-    }, [userData?.token])
-
-
-
-    ////////////////////////////////////
-    useEffect(() => {
-
-
-        const unities = async () => {
-            await URI.get('/unidades', { headers })
-                .then(res => setUnity(res.data))
-        }
-        async function data() {
-            try {
-                await URI.get('/controle', { headers })
-                    .then(async info => {
-                        setFetchData(info.data)
-                    })
-            }
-            catch (err) {
-                if (err.response.data.error === 'token invalid') {
-                    window.location.href = paths.home
-                    alert("Faça login novamente, seu acesso expirou")
-                    logOut()
-                }
-            }
-        }
-
-        const bool = headers.Authorization.includes('undefined')
-        if (fetchData === undefined && bool === false) {
-            data()
-            unities()
-        }
-
-    }, [fetchData, headers])
-    /////////////////////////////////////
-
     const putInfo = async (userInfos) => {
         setUserData(userInfos)
         await localStorage.setItem('userData', JSON.stringify(userInfos))
@@ -109,20 +63,23 @@ export const UserProvider = ({ children }) => {
     }
 
 
-    const bool = headers.Authorization
-    let splited = bool.split(" ")
+    const headers = useMemo(() => {
+        return {
+            'Content-Type': "application/json",
+            "Authorization": `Bearer ${userData?.token}`
+        }
+    }, [userData?.token])
 
-    const getData = async () => {
-        await URI.get('/users', { headers })
-            .then(res => {
-                setUsers(res.data)
-                setSeller(res.data?.filter(role =>
-                    role.role === 'comercial' || role.role === 'gerencia'))
 
-            }).catch((err) => (err))
-    }
 
-    splited[1] !== undefined && users.length === 0 && getData()
+
+
+
+
+
+
+
+
 
 
     const typeSearch = {
@@ -228,9 +185,6 @@ export const UserProvider = ({ children }) => {
 
 
 
-    const queryCache = useQueryClient();
-
-
 
     useEffect(() => {
         headers.Authorization.includes("undefined") === false && comissionQuery.refetch()
@@ -238,25 +192,6 @@ export const UserProvider = ({ children }) => {
         comissionQuery.isSuccess && setCell(comissionQuery.data.deals)
     }, [label, comissionQuery.isSuccess])
 
-
-    const sendFields = async (body) => {
-        return await toast.promise(
-            URI.put("http://localhost:7070/campos-personalizados", body, { headers })
-            , {
-                pending: 'Conferindo os dados',
-                success: 'Atualizado com sucesso',
-                error: 'Alguma coisa deu errado'
-            }
-        )
-    }
-    const [fieldBody, setBody] = useState()
-
-    const { mutateAsync: changeField } = useMutation({
-        mutationFn: () => sendFields(fieldBody),
-        onSuccess: () => {
-            queryCache.invalidateQueries(["custom"])
-        }
-    })
 
 
 
@@ -326,17 +261,16 @@ export const UserProvider = ({ children }) => {
 
     return (
         <UserContext.Provider value={{
-            contracts, setContracts, sellers, periodRange, setPeriodRange, periodFilter, setPeriodFilter,
-            users, headers, putInfo, userData, anchorEl, setAnchorEl, handleClose, cell, setCell,
-            logOut, fetchData, setFetchData, setUsers, selectedInitialDate, setSelectedInitialDate,
+            contracts, setContracts, periodRange, setPeriodRange, periodFilter, setPeriodFilter,
+            headers, putInfo, userData, anchorEl, setAnchorEl, handleClose, cell, setCell,
+            logOut, fetchData, setFetchData, selectedInitialDate, setSelectedInitialDate,
             filtered, setFiltered, filteredContracts, setFilteredContracts, setLabel, label,
-            selectedEndDate, setSelectedEndDate, resetFilter, unity, body, comissionQuery,
+            selectedEndDate, setSelectedEndDate, resetFilter, body, comissionQuery,
             openPeriodRange, setOpenPeriodRange, unHandleLabel, setUnHandleLabel,
             mutationControlData, take, skip, setTake,
             setSkip, allData,
             SenderDirector, Sender,
             historic, refetchHistoric, isPendingHistoric,
-            changeField, setBody,
             openSidebar, setOpenSidebar,
             typeSidebar, setTypeSidebar,
 

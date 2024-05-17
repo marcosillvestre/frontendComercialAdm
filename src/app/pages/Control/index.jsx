@@ -23,7 +23,7 @@ import {
     CustomizableButton,
     CustomizedMenus,
     FirstRow,
-    SelectPeriodCustom
+    Select
 } from '../../../components/source.jsx';
 
 import { useData } from '../../../hooks/dataContext';
@@ -33,12 +33,18 @@ import Pagination from './pagination';
 
 
 export const ListFiltered = () => {
+
     const { userData, filtered, setFiltered, resetFilter,
         setPeriodFilter, mutationControlData, setTake,
-        take, skip, setSkip, allData, setTypeSidebar, setOpenSidebar } = useUser()
+        take, skip, setSkip, allData, setTypeSidebar, setOpenSidebar,
+        setPeriodRange, setSelectedInitialDate, setSelectedEndDate
+    } = useUser()
+
 
     const { typeFilter, setTypeFilter,
-        customizableArray, handleCustomizableData } = useData()
+        customizableArray, handleCustomizableData, setCustomizableArray } = useData()
+
+
 
     const handleResetFilter = (filter) => {
         if (filter === undefined) {
@@ -85,27 +91,7 @@ export const ListFiltered = () => {
     const diference = data !== undefined && from % data.total
     const allContracts = filtered.map(res => res.contrato)
 
-    // async function pageUpdate() {
-    //     let obj = { data: 0 }
-    //     await toast.promise(
-    //         URI.post('/page-update', obj, { headers }),
-    //         {
-    //             pending: 'Conferindo os dados',
-    //             success: 'Atualizado com sucesso',
-    //             error: 'Alguma coisa deu errado'
-    //         }
-    //     )
-    //         // .catch(() => alert("Alguma coisa deu errado, tente novamente mais tarde"))
-    //         .then((res) => {
-    //             alert(res.data.total)
 
-    //             setTimeout(() => {
-    //                 window.location.reload()
-    //             }, 700);
-    //         }
-
-    //         )
-    // }
 
     const [search, setSearch] = useState(false)
 
@@ -114,15 +100,43 @@ export const ListFiltered = () => {
         setTypeSidebar(2)
         setOpenSidebar(true)
     }
+
+
+    const handleCheck = async (label) => {
+        setSelectedInitialDate(null)
+        setSelectedEndDate(null)
+        setCustomizableArray([])
+        setPeriodRange(label.value)
+
+        setTypeFilter([])
+
+        setTake(10)
+        setSkip(0)
+
+        setPeriodFilter(false)
+        // setLabel(label)
+    }
+
     return (
         <Container>
             <span className='nav-filter' >
                 <div className='wrapper'>
-                    {/* <SelectFilterBy opt={businessRules.customizablePeriods} /> */}
-                    <SelectPeriodCustom opt={businessRules.predeterminedPeriods} />
-                    <form onSubmit={handleSubmit((data) => sender(data))}>
 
-                        <p>Pesquisar no período:</p>
+                    <label htmlFor="">
+                        <p>Período personalizado</p>
+                        <Select
+                            label={businessRules.predeterminedPeriods[0].name}
+                            option={businessRules.predeterminedPeriods}
+                            width="14rem"
+                            // field="type"
+                            // where="customField"
+                            fn={[handleCheck]}
+
+                        />
+                    </label>
+
+                    <form onSubmit={handleSubmit((data) => sender(data))}>
+                        <p>Pesquisar no período</p>
 
                         <div className='name-filter'>
                             <InputSearch
@@ -183,10 +197,6 @@ export const ListFiltered = () => {
                     <span
                         className='flex-group'
                     >
-                        {/* <PageUpdate
-                            onClick={() => pageUpdate()}>
-                            Atualizar página
-                        </PageUpdate> */}
 
                         <CustomizedMenus />
 
@@ -261,8 +271,6 @@ export const ListFiltered = () => {
                                         toBeChanged={customizableArray}
                                     />
                                 }
-
-
 
                                 <div className='container'>
                                     <p>{filtered.length} registro(s)</p>

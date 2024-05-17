@@ -41,7 +41,7 @@ export const Settings = () => {
                     </p>
                     <img src={unity} alt="" />
                     <a href={paths.configRegister}>
-                        Nova unidade
+                        Unidades
                     </a>
                 </div>
 
