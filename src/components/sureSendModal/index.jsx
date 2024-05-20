@@ -260,6 +260,7 @@ export function SureSendModal(data) {
     let officePromo = import.meta.env.VITE_OFFICE_PROMO
     let excelPromo = import.meta.env.VITE_EXCEL_PROMO
 
+
     async function createContract() {
         const archives = {
             "Kids": filteredContracts[0].promocao === "Não" ? idioma : idiomaPromo,
@@ -293,11 +294,20 @@ export function SureSendModal(data) {
             filteredContracts[0].number
 
         const sender = async () => {
-            await axios.post(archives[filteredContracts[0].subclasse],
-                filteredContracts[0], { headers })
-                .then(async () => {
-                    setOpen(!open)
-                    send && await contaAzulSender()
+            await toast.promise(
+                axios.post(archives[filteredContracts[0].subclasse],
+                    filteredContracts[0], { headers })
+                , {
+                    pending: 'Enviando a taxa de matrícula',
+                    success: 'Enviado com sucesso',
+                    error: "Erro ao enviar a taxa de matrícula"
+                })
+
+                .then(async (res) => {
+                    if (res.status === 200) {
+                        setOpen(!open)
+                        send && await contaAzulSender()
+                    }
                 }
                 )
                 .catch(() => {
