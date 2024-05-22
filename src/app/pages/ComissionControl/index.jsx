@@ -1,17 +1,20 @@
-import React, { useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import { Area, Bar, BarChart, CartesianGrid, ComposedChart, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts';
 import { CloserClick, Select } from '../../../components/source.jsx';
 import { useUser } from '../../../hooks/userContext';
 import URI from '../../utils/utils';
-import { ButtonLink, ChartsContainer, Container, ContainerTable, Header, NavBar, Tax } from './styles';
+import { ButtonLink, ChartsContainer, Container, ContainerTable, Header, NavBar, SelectButton, Tax, Wrapper } from './styles';
 
+
+import { gsap } from 'gsap';
+import { Flip } from 'gsap/Flip';
+gsap.registerPlugin(Flip)
 
 import LoadingSpin from 'react-loading-spin';
 import { useUnities } from '../../../hooks/unities/unitiesContext.hook.jsx';
 import { useUsers } from '../../../hooks/users/usersContext.hook.jsx';
 import businessRules from '../../utils/Rules/options.jsx';
 import { Totals } from './listTypes';
-
 export function ComissionControll() {
 
     const { predeterminedPeriods, comissionStatusOpt, coursesOpt } = businessRules
@@ -25,45 +28,76 @@ export function ComissionControll() {
 
     const { unityQuery } = useUnities()
 
+    const [yearGraph, setYearGraph] = useState([])
 
+    // const { data, isPending } = comissionQuery
 
-
-    const [yearGraph, setYearGraph] = React.useState([])
-
-
-
-
-    const { data, isPending } = comissionQuery
-
-
-    const [open1, setOpen1] = React.useState(false)
-    const [open2, setOpen2] = React.useState(false)
-
-    const [relatoryUnity, setRelatoryUnity] = React.useState("Todas")
-    const [statusRelatory, setStatusRelatory] = React.useState("Todas")
-
-    const [secondRelatory, setSecondRelatory] = React.useState("Todas")
-
-    const [thirdRelatory, setThirdRelatory] = React.useState("Todas")
-    const [label6, setLabel6] = React.useState("")
+    const [open1, setOpen1] = useState(false)
+    const [open2, setOpen2] = useState(false)
 
 
     const [view, setView] = useState('list')
 
+    const [relatory, setRelatory] = useState([])
+    const [type, setType] = useState([])
+    const [sellersRelatories, setSellersRelatories] = useState([])
+    const [unities, setUnitiesRelatories] = useState([])
 
 
 
 
-    const graphType = [
-        { name: "curso", label: "Curso" },
-        { name: "tipoMatricula", label: "Comissionamento" },
-        { name: "unidade", label: "Unidade" },
-        { name: "owner", label: "Consultor" }
-    ]
+    const handleFilter = (key, value) => {
+        if (value === 'Tudo') return setType(type.filter(res => res.key !== key))
+        setType([...type, { key, value }])
+    }
 
-    const [param, setParam] = React.useState(false)
-    const [type, setType] = React.useState('')
-    const [valueGraph, setValueGraph] = React.useState([])
+    useLayoutEffect(() => {
+
+        function filtrarArray(array, filtros, arrayPadrao) {
+            if (filtros.length === 0) {
+                return arrayPadrao;
+            }
+
+
+            return array.filter(item => {
+                return filtros.every(filtro => item[filtro.key] === filtro.value);
+            });
+        }
+        if (comissionQuery.status === 'success') {
+
+            const resultado = filtrarArray(comissionQuery.data.deals, type, comissionQuery.data.deals);
+            setRelatory(resultado)
+
+
+            const data = resultado.reduce((contador, item) => {
+                const owner = item.owner;
+                if (contador[owner]) {
+                    contador[owner]++;
+
+                } else {
+                    contador[owner] = 1;
+                }
+                return contador;
+            }, {});
+
+
+            setSellersRelatories(Object.keys(data).map(owner => ({
+                owner: owner,
+                count: data[owner]
+            })))
+        }
+    }, [comissionQuery.data, comissionQuery.status, type])
+
+    // const graphType = [
+    //     { name: "curso", label: "Curso" },
+    //     { name: "tipoMatricula", label: "Comissionamento" },
+    //     { name: "unidade", label: "Unidade" },
+    //     { name: "owner", label: "Consultor" }
+    // ]
+
+
+
+    const [valueGraph, setValueGraph] = useState([])
 
 
     async function push(type, value) {
@@ -82,9 +116,7 @@ export function ComissionControll() {
 
     const handleGraphic = (type, value, label) => {
         if (type === 'type') {
-            setParam(true)
-            setLabel6(label)
-            setType(value)
+            // setType(value)
             setValueGraph([])
             setOpen1(!open1)
         }
@@ -99,19 +131,43 @@ export function ComissionControll() {
         }
     }
 
-    React.useEffect(() => {
-        valueGraph.length > 0 && push(type, valueGraph)
-
-    }, [type, valueGraph])
 
 
 
-    const [list, setCompleteList] = React.useState("All")
+    const [list, setList] = useState('')
+    console.log(list)
 
     const handleInput = (name) => {
         setOpen1(!open1)
         setLabel(name)
     }
+
+    const realData = relatory.length > 0 ? relatory : comissionQuery.data && comissionQuery.data.deals
+
+    const cards = document.querySelectorAll(".grid-cards")
+    cards?.forEach((card, idx) => {
+        card.addEventListener("click", () => {
+            const state = Flip.getState(cards)
+
+            const isActive = card.classList.contains("active")
+
+            cards.forEach((other, otherIdx) => {
+                other.classList.remove("active")
+                other.classList.remove("inactive")
+                if (!isActive && idx !== otherIdx) {
+                    other.classList.add("inactive")
+                }
+            })
+            if (!isActive && list !== '') card.classList.add("active");
+
+            Flip.from(state, {
+                duration: 1,
+                ease: 'expo.out',
+                absolute: true
+            })
+        })
+    })
+
 
     return (
         <>
@@ -149,22 +205,31 @@ export function ComissionControll() {
 
                         <label htmlFor="">
                             <p>Unidade</p>
-
-                            <Select
-                                label={'Tudo'}
-                                option={unityQuery.data && [{ name: "Tudo" }, ...unityQuery.data]}
-                                width="10rem"
-                                fn={[]}
-                            />
+                            {
+                                unityQuery.status === 'success' &&
+                                <Select
+                                    label={'Tudo'}
+                                    option={[{ name: "Tudo" }, ...unityQuery.data]}
+                                    where="create"
+                                    field='unidade'
+                                    width="10rem"
+                                    fn={[handleFilter]}
+                                />
+                            }
                         </label>
                         <label htmlFor="">
                             <p>Usuário responsável</p>
-                            <Select
-                                label={'Tudo'}
-                                option={UsersQuery.data && [{ name: "Tudo" }, ...UsersQuery.data]}
-                                width="10rem"
-                                fn={[]}
-                            />
+                            {
+                                UsersQuery.status === 'success' &&
+                                <Select
+                                    label={'Tudo'}
+                                    option={[{ name: "Tudo" }, ...UsersQuery.data]}
+                                    where="create"
+                                    field='owner'
+                                    width="10rem"
+                                    fn={[handleFilter]}
+                                />
+                            }
                         </label>
                         <label htmlFor="">
                             <p>Status</p>
@@ -172,138 +237,82 @@ export function ComissionControll() {
                             <Select
                                 label={'Tudo'}
                                 option={[{ name: "Tudo" }, ...comissionStatusOpt]}
+                                where="create"
+                                field='tipoMatricula'
                                 width="10rem"
-                                fn={[]}
+                                fn={[handleFilter]}
                             />
                         </label>
 
+                        <Tax>
+                            {
+                                comissionQuery.isPending ? <p>Carregando...</p> :
+                                    comissionQuery.data?.total
+                            }
+                        </Tax>
+
                     </nav>
-
-                    {/* <nav>
-                            <div >
-                                <label htmlFor=""> Gráfico:</label>
-
-                                <SelectButton id="select-button" onClick={() => setOpen1(!open1)}>
-                                    <p id="selected-value"> {label6 === '' ? "Selecione" : label6}</p>
-                                    <Icon id="chevrons" open={open1}>
-                                        <i className='icon' > <KeyboardArrowDownIcon /></i>
-                                    </Icon>
-                                </SelectButton>
-
-
-                                <ListOpt open={open1}>
-
-                                    {
-                                        graphType?.map(period => (
-                                            <Options className="option" key={period?.name} >
-                                                <span className="label" onClick={() => handleGraphic("type", period?.name, period?.label)}>
-
-                                                    <p>{period?.label}</p>
-                                                </span>
-                                                <Checked className='icon-right'><DoneIcon /></Checked>
-
-                                            </Options>
-                                        ))
-                                    }
-                                </ListOpt>
-                            </div>
-
-                            <div >
-                                <label htmlFor=""> Parâmetros:</label>
-
-                                <SelectButton
-                                    open={label6 !== '' ? false : true}
-                                    parameters={true} onClick={() => setOpen2(!open2)}>
-
-                                    <div className='container-parameters'>
-                                        {valueGraph.map(res => (
-                                            <span key={res} onClick={() =>
-                                                setValueGraph(valueGraph.filter(data => data !== res))} >
-                                                <p>
-                                                    {res}
-                                                </p>
-                                            </span>
-                                        ))}
-                                    </div>
-
-                                    <Icon id="chevrons" open={open2}>
-                                        <i className='icon' > <KeyboardArrowDownIcon /></i>
-                                    </Icon>
-                                </SelectButton>
-
-
-                                <ListOpt open={param === true && open2} parameters={true}>
-
-                                    {
-                                        label6 === 'Curso' &&
-                                        coursesOpt?.map(period => (
-                                            <Options className="option" key={period} >
-                                                <span className="label"
-                                                    onClick={() =>
-                                                        handleGraphic("value", period)}
-                                                >
-
-                                                    <p>{period}</p>
-                                                </span>
-                                                <Checked className='icon-right'><DoneIcon /></Checked>
-                                            </Options>
-                                        ))
-                                    }
-
-                                    {
-                                        label6 === 'Comissionamento' &&
-                                        comissionStatusOpt?.map(period => (
-                                            <Options className="option" key={period.name} >
-                                                <span className="label"
-                                                    onClick={() =>
-                                                        handleGraphic("value", period.name)}
-                                                >
-
-                                                    <p>{period.name}</p>
-                                                </span>
-                                                <Checked className='icon-right'><DoneIcon /></Checked>
-                                            </Options>
-                                        ))
-                                    }
-                                    {
-                                        label6 === 'Consultor' &&
-                                        UsersQuery.data && UsersQuery.data?.map(period => (
-                                            <Options className="option" key={period?.name} >
-                                                <span className="label" onClick={() => handleGraphic("value", period?.name)}>
-
-                                                    <p>{period?.name}</p>
-                                                </span>
-                                                <Checked className='icon-right'><DoneIcon /></Checked>
-                                            </Options>
-                                        ))
-                                    }
-
-                                </ListOpt>
-                            </div>
-                        </nav>
-                     */}    
-
-                    <Tax>
-                        {
-                            isPending ? <p>Carregando...</p> :
-                                data?.total
-                        }
-                    </Tax>
 
                 </Header>
 
                 <NavBar>
-                    <p>Visualização em </p>
-                    <div>
-                        <ButtonLink open={view === 'list' && true} onClick={() => setView("list")}>Lista</ButtonLink> ou
-                        <ButtonLink open={view === 'graphic' && true} onClick={() => setView("graphic")}>Dashboard </ButtonLink>
+                    <span>
+                        <p>Visualização em </p>
+                        <div>
+                            <ButtonLink open={view === 'list' && true} onClick={() => setView("list")}>Lista</ButtonLink> ou
+                            <ButtonLink open={view === 'graphic' && true} onClick={() => setView("graphic")}>Dashboard </ButtonLink>
+                        </div>
+                    </span>
+
+
+                    <div className='subtitle'>
+                        <span className='container'>
+                            <p>Vendedores</p>
+                            <hr />
+                            {sellersRelatories.map(res => (
+                                <div key={res.owner} className='wrapper-container'>
+                                    <SelectButton
+                                        className='paragraph'
+                                        onClick={() => setList(res.owner)}
+                                        open={list === res.owner}
+                                    >
+                                        {res.owner}
+                                    </SelectButton>
+                                </div>
+                            ))}
+                        </span>
                     </div>
+                    <Wrapper>
+
+                        {
+                            unityQuery.data && realData &&
+                            unityQuery.data.map(res => (
+                                <div
+                                    className='grid-cards subtitle'
+                                    key={res.name}
+                                >
+                                    <p className=''>
+                                        {res.name}
+                                    </p>
+                                    <hr />
+                                    <p className='count'>
+                                        {realData.map((r, idx) => (
+                                            r.unidade === res.name && r.owner === list &&
+                                            <p key={idx}>{r.name}</p>
+                                        ))
+                                            // .length
+                                        }
+                                    </p>
+                                </div>
+                            ))
+                        }
+                    </Wrapper>
                 </NavBar>
 
                 {view === 'list' ?
                     <ContainerTable >
                         {
-                            isPending ?
+                            comissionQuery.isPending ?
                                 <LoadingSpin
                                     duration="4s"
                                     width="15px"
@@ -317,7 +326,10 @@ export function ComissionControll() {
 
                                 <div className='cell-relatory'>
 
-                                    <Totals pending={isPending} data={data?.deals} />
+                                    <Totals
+                                        pending={comissionQuery.isPending}
+                                        data={realData}
+                                    />
 
                                 </div>
 

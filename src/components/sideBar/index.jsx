@@ -346,7 +346,7 @@ export function MiniDrawer() {
                                                     }
                                                     width="100%"
                                                     field="type"
-                                                    where="customField"
+                                                    where="create"
                                                     fn={[sender]} /// trocar 
                                                 />
                                             </Label>
@@ -440,7 +440,7 @@ export function MiniDrawer() {
                                                     option={UsersQuery.data}
                                                     width="100%"
                                                     field={"user"}
-                                                    where="newContract"
+                                                    where="create"
                                                     fn={[sender]}
                                                 />
                                             </Label>
@@ -474,7 +474,7 @@ export function MiniDrawer() {
                                                                             order={res.order}
                                                                             width="100%"
                                                                             field={res.label}
-                                                                            where="newContract"
+                                                                            where="create"
                                                                             fn={[res.type === "MultiSelect" ? multiSelectSender : sender]}
                                                                         />
                                                                         {

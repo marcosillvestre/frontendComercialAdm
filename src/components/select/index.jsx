@@ -15,8 +15,9 @@ export const Select = (parameters) => {
 
         setLabel(label.value)
 
-        parameters.where === 'customField' || parameters.where === 'newContract' ?
-            engineFunctions(label.field, label.value, label.order || "") : engineFunctions(label.value)
+        parameters.where === 'create' ?
+            engineFunctions(label.field, label.value, label.order || "") :
+            engineFunctions(label.value)
 
         setOpen(false)
     }
@@ -62,23 +63,23 @@ export const Select = (parameters) => {
                     }}
                 >
                     {
-                        parameters.option?.map((period, index) => (
-                            period.name === label ? "" :
-                                <Options className="option" key={index}  >
+                        parameters.option?.map((data, idx) => (
+                            data.name === label ? "" :
+                                <Options className="option" key={idx}  >
                                     {
-                                        period.customizable === undefined ?
+                                        data.customizable === undefined ?
                                             <span
                                                 className="label"
                                                 onClick={() => handleCheck({
-                                                    value: period?.name,
+                                                    value: data?.name,
                                                     field: parameters?.field ? parameters?.field : "",
                                                     order: parameters?.order
                                                 })}>
 
-                                                <p>{period?.name}</p>
+                                                <p>{data?.name}</p>
                                             </span>
                                             :
-                                            <PositionedMenu name={period?.name} />
+                                            <PositionedMenu name={data?.name} />
                                     }
                                     <Checked className='icon'><DoneIcon /></Checked>
                                 </Options>

@@ -52,7 +52,8 @@ label{
 table{
     border-radius: 4px; 
     padding: 20px;
-    box-shadow: 1.5px 2px 4px 1.5px rgba(35, 36, 37, 0.3);
+    box-shadow: 0.2rem 0.2rem 0rem rgb(39,39,39);
+    border: 1.85px solid rgb(39,39,39);
     
 }
 
@@ -63,47 +64,26 @@ thead, tr, tbody, td {
 
 }
 
-.subtitle{
-    margin: 0 1rem;
-    box-shadow: 1.5px 2px 4px 1.5px rgba(35, 36, 37, 0.3);
-    border-radius: 4px; 
-    padding: 20px;
-    height: min-content;
-    position: sticky;
-    top: 18%;
-
-    div{
-        width: 10rem;
-        display: flex;
-        justify-content: space-between;
-        gap: 1rem;
-        hr{
-            height: 1rem;
-            width: 5rem;
-        }
-    }
-}
 
 `
 
 export const Header = styled.header`
-
-
 display: flex;
 align-items: center;
+flex-wrap: wrap;
 width: 100%;
 font-size: small ;
 border: 2px solid #dfe6f1;
 border-radius: .35rem;
 padding: 1rem 3rem;
-
 margin-bottom: 1.5rem;
 nav{
     width:100%;
-    justify-content: space-between;
+    justify-content: center;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    margin: 0 3rem;
+    /* margin: 0 3rem; */
     gap: 1rem;
 }
 `
@@ -123,7 +103,6 @@ height: 2rem;
 border-radius: .5rem;
 background-color: #fff;
 font-size:.8rem;
-margin: 0 auto;
 `
 
 export const ChartsContainer = styled.div`
@@ -197,16 +176,70 @@ gap: 2rem;
 
 `
 
-export const NavBar = styled.nav`
-width: 15rem;
-display: flex;
-flex-direction: column;
-text-align: center;
-div{
-    display: flex;
-    gap: 6px;
-    align-items: center;
 
+export const Wrapper = styled.span`
+display: grid;
+grid-template-columns: repeat(8, 1fr);
+gap: 1rem;
+width: 20rem;
+`
+export const NavBar = styled.nav`
+/* width: 15rem; */
+display: flex;
+
+
+.subtitle{
+    margin: 0 1rem;
+    box-shadow: 0.2rem 0.2rem 0rem rgb(39,39,39);
+    border: 1.85px solid rgb(39,39,39);;
+    border-radius: 4px; 
+    padding: 20px;
+    height: max-content;
+
+.container{
+
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
+    .wrapper-container{
+        width: 100%;
+        .paragraph{
+        width: 100%;
+        padding: 5px ;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-align: left;
+    }
+    }
+    }
+}
+
+
+.grid-cards{
+    grid-column: span 4;
+    font-size: small;
+    text-align: center;
+    animation-duration: all 1s;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 2rem;
+    justify-content: center;
+}
+.count{
+    display: none;
+}
+.active .count {
+    display: inline;
+}
+.active{
+    grid-column: 1 / span 8;
+    grid-row: 1;
+    order: 0;
+}
+.inactive{
+    grid-column: span 4;
 }
 
 @media(max-width:1090px){
@@ -240,8 +273,9 @@ a{
     
     }
 }
-
 `
+
+
 export const Checked = styled.i`
 margin-left: auto;
 display: none;
@@ -249,47 +283,16 @@ display: none;
 
 
 export const SelectButton = styled.div`
-color: #222;
-min-width: 15rem;
-height: 2.5rem;
-
-margin-top: .5rem;
-display: flex;
-padding: 0 1rem 0 1.4rem;
-align-items: center;
-justify-content: space-between;
+font-size: 12px;
+text-align: center;
 border-radius: .375rem;
-background-color:${props => props.open ? "#d4d9e4" : "#dfe6f1"} ;
+background-color:${props => props.open ? "#1c5bd0" : "#dfe6f1"} ;
+color:${props => props.open ? "#fff" : "#222"} ;
 
-    #selected-value{
-    color: #000;
-    font-size: .875rem;
-    margin-right: 2rem;
-    transition-duration: 3s;
-    white-space: nowrap;
-}
-.container-parameters{
-display: flex;
-    span{
-        border: 1px dashed;
-        border-radius: 7px;
-        padding: 1px 7px;
-        white-space: nowrap;
-        cursor: pointer;
-        p{
-            display: flex;
-            width: 100%;
-            &::after{
-                content:'✖️';
-                margin-left: 2px;
-            }
             &:active{
                 padding: 2px 5px;
                 
             }
-        }
-    }
-    }
 `
 
 export const Icon = styled.div`

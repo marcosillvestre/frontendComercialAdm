@@ -87,7 +87,7 @@ export const CreateUsersForm = () => {
                     option={unityQuery.data}
                     width="10.8rem"
                     field={"unity"}
-                    where="newContract"
+                    where="create"
                     fn={[multiSelectSender]}
                 />
                 < div
@@ -117,7 +117,7 @@ export const CreateUsersForm = () => {
                     option={roles}
                     width="10.8rem"
                     field={"role"}
-                    where="newContract"
+                    where="create"
                     fn={[sender]}
                 />
             </Label>
