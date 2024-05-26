@@ -10,12 +10,20 @@ import { Box, Button, Container, Header, SendContract } from './styles'
 export const Contracts = () => {
     const [emmit, setEmmit] = React.useState(false)
 
-    const { contracts, headers, setContracts, userData, setFilteredContracts, logOut } = useUser()
+    const { contracts, headers, setContracts,
+        userData, setFilteredContracts, logOut,
+        filteredContracts } = useUser()
 
 
     const personalText = {
         PDF: "Ao emitir via PDF o arquivo será baixado logo em seguida, ele também será enviado ao Conta Azul!",
-        autentique: "Ao enviar um contrato via Autentique você pode encontra-lo no Google Drive, ele também será enviado ao Conta Azul!",
+        autentique: <p>
+            Ao enviar um contrato via Autentique você deve
+            selecionar um contrato já existente.
+            Ele será enviado à este número: <u>{filteredContracts[0].CelularResponsavel}</u> e
+            via whatsapp, após enviar você poderá copiar o link
+            para para o cliente!
+        </p>,
         contaAzul: "Ao enviar um contrato ao Conta Azul ele somente estará disponível no Conta Azul!"
     }
 
@@ -110,13 +118,13 @@ export const Contracts = () => {
                         <Box $emmit={emmit} >
                             <SendContract $emmit={emmit}>
                                 <SureSendModal
-                                    data={"Autentique"}
-                                    text={personalText.autentique} />
+                                    data={"PDF"}
+                                    text={personalText.PDF} />
                             </SendContract>
                             <SendContract $emmit={emmit}>
                                 <SureSendModal
-                                    data={"PDF"}
-                                    text={personalText.PDF} />
+                                    data={"Autentique"}
+                                    text={personalText.autentique} />
                             </SendContract>
                             <SendContract $emmit={emmit}>
                                 <SureSendModal

@@ -18,7 +18,8 @@ export const Contracts = ({ children }) => {
     const sendData = async () => {
 
         const response = await toast.promise(
-            URI.post("http://localhost:7070/novos-contratos", contractData, { headers }),
+            // http://localhost:7070
+            URI.post("/novos-contratos", contractData, { headers }),
             {
                 pending: 'Conferindo os dados',
                 success: 'Novo contrato criado com sucesso',

@@ -7,7 +7,6 @@ import { useState } from 'react';
 
 import { useUser } from '../../hooks/userContext';
 
-import axios from 'axios';
 import { Boxes, ButtonDelete, ChooseArchive, Container, Fades, Filter, UploadIcon } from './styles';
 
 const style = {
@@ -259,70 +258,6 @@ export function SureSendModal(data) {
     }
 
 
-    // let idioma = import.meta.env.VITE_IDIOMA
-    // let particulares = import.meta.env.VITE_PARTICULARES
-    // let standard = import.meta.env.VITE_STANDARD
-    // let office = import.meta.env.VITE_OFFICE
-    // let excel = import.meta.env.VITE_EXCEL
-
-    // let idiomaPromo = import.meta.env.VITE_IDIOMA_PROMO
-    // let particularesPromo = import.meta.env.VITE_PARTICULARES_PROMO
-    // let standardPromo = import.meta.env.VITE_STANDARD_PROMO
-    // let officePromo = import.meta.env.VITE_OFFICE_PROMO
-    // let excelPromo = import.meta.env.VITE_EXCEL_PROMO
-
-    // async function createContract() {
-    //     const archives = {
-    //         "Kids": filteredContracts[0].promocao === "Não" ? idioma : idiomaPromo,
-    //         "Teens": filteredContracts[0].promocao === "Não" ? idioma : idiomaPromo,
-    //         "Adults and YA": filteredContracts[0].promocao === "Não" ? idioma : idiomaPromo,
-    //         "Little Ones": filteredContracts[0].promocao === "Não" ? idioma : idiomaPromo,
-    //         "Español - En grupo": filteredContracts[0].promocao === "Não" ? idioma : idiomaPromo,
-    //         "Standard One": filteredContracts[0].promocao === "Não" ? standard : standardPromo,
-    //         "Fluency Way One -X": filteredContracts[0].promocao === "Não" ? particulares : particularesPromo,
-    //         "Fluency Way Double - X": filteredContracts[0].promocao === "Não" ? particulares : particularesPromo,
-    //         "Fluency Way Triple - X": filteredContracts[0].promocao === "Não" ? particulares : particularesPromo,
-    //         "Español - X1": filteredContracts[0].promocao === "Não" ? particulares : particularesPromo,
-    //         "Español - X2": filteredContracts[0].promocao === "Não" ? particulares : particularesPromo,
-    //         "Español - X3": filteredContracts[0].promocao === "Não" ? particulares : particularesPromo,
-    //         "Pacote Office Essentials": filteredContracts[0].promocao === "Não" ? office : officePromo,
-    //         "Excel Avaçado": filteredContracts[0].promocao === "Não" ? excel : excelPromo
-    //     }
-
-    //     filteredContracts[0].vencimento = filteredContracts[0].diaVenvimento.split("/")[0]
-    //     filteredContracts[0].emissao = new Date().toLocaleDateString()
-    //     const rawPhone = filteredContracts[0].CelularResponsavel
-
-    //     filteredContracts[0].number = rawPhone.includes("+") ? rawPhone : `+55${rawPhone}`
-
-    //     filteredContracts[0].number = filteredContracts[0].number.includes(" ") ?
-    //         filteredContracts[0].number.replace(" ", "") :
-    //         filteredContracts[0].number
-
-    //     filteredContracts[0].number = filteredContracts[0].number.includes("-") ?
-    //         filteredContracts[0].number.replace("-", "") :
-    //         filteredContracts[0].number
-
-    //     const sender = async () => {
-    //         await axios.post(archives[filteredContracts[0].subclasse],
-    //             filteredContracts[0], { headers })
-    //             .then(async () => {
-    //                 setOpen(!open)
-    //                 send && await contaAzulSender()
-    //             }
-    //             )
-    //             .catch(() => {
-    //                 alert("Erro ao enviar ao autentique")
-    //             })
-    //     }
-
-
-    //     filteredContracts[0].number.length === 14 ?
-    //         sender() :
-    //         alert("A quantidade de caracteres no telefone de contato desse cliente está errada! O contato precisa ter exatos 14.")
-
-    // }
-
     const senderImpressContract = async () => {
         const options = {
             filename: `adesao_${filteredContracts && filteredContracts[0].name}`,
@@ -356,7 +291,6 @@ export function SureSendModal(data) {
 
     const SendViaAutentique = async body => {
 
-        console.log(body)
 
         const data = new FormData()
         data.append('name', filteredContracts[0].name)
@@ -383,7 +317,8 @@ export function SureSendModal(data) {
         }
 
         await toast.promise(
-            axios.post('http://localhost:7070/uploads',
+            // axios.post('http://localhost:7070/uploads',
+            URI.post("/uploads",
                 data, { 'Content-Type': 'multipart/form-data', ...headers })
                 .then(res => {
                     const data = res.data.message
@@ -409,11 +344,7 @@ export function SureSendModal(data) {
         if (data.data === 'Conta Azul') {
             contaAzulSender()
         }
-        if (data.data === 'Autentique') {
-            // createContract()
-            // SendViaAutentique()
 
-        }
         if (data.data === 'PDF') {
             setView('template')
 
@@ -431,8 +362,6 @@ export function SureSendModal(data) {
     }
 
 
-    console.log(Links)
-    console.log(fileName)
 
     return (
         <Container>
@@ -469,12 +398,15 @@ export function SureSendModal(data) {
                                         data.data === 'Autentique' ?
                                             <>
                                                 <Boxes>
-                                                    <input
-                                                        type="checkbox"
-                                                        onClick={() => setSend(!send)}
-                                                        className='check'
-                                                    />
-                                                    <small>Não enviar este contrato ao Conta Azul</small>
+                                                    <label htmlFor="not-send">
+                                                        <input
+                                                            id="not-send"
+                                                            type="checkbox"
+                                                            onClick={() => setSend(!send)}
+                                                            className='check'
+                                                        />
+                                                        <small>Não enviar este contrato ao Conta Azul</small>
+                                                    </label>
                                                 </Boxes>
 
                                                 <Boxes radio>

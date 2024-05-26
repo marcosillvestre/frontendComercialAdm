@@ -39,11 +39,9 @@ gap: .1rem;
 }
 form{
 text-align: center;
-
+width: 100%;
 input[type="file"]{
-    visibility: hidden;
     width: 0;
-    position: absolute;
 }
 
 div{
@@ -93,22 +91,22 @@ svg{
 `
 
 export const ButtonDelete = styled.button`
-background: none;
-color: rgb(25, 118, 210);
-
+width: 100%;
 border: none;
-font-size: 1rem;
-padding: 1rem 2rem;
-border-radius: 0.5rem;
-font-family: "Roboto","Helvetica","Arial",sans-serif;
-font-weight: 500;
-font-size: 0.875rem;
-line-height: 1.75;
-letter-spacing: 0.02857em;
-text-transform: uppercase;
+color: #fff;
+background-color: #3458f5;
+padding: .8rem  ;
+border-radius: 5px;
+margin: 5px 0;
 &:hover{
-    text-decoration: none;
-    background-color: rgba(32, 119, 206, 0.04);
+background-color:#526cdf;
+
 }
+&:active{
+opacity: .8;
+
+}
+
+
 
 `
