@@ -52,10 +52,10 @@ export const ButtonLink = styled.button`
 padding: .7rem 0 ;
 width: 7rem ;
 
-font-size: 1rem;
+font-size: 12px;
 border: none;
-/* background-color:${props => props.open ? "#3458f5" : "#6d7ccb"} ; */
-background-color:#3458f5 ;
+background-color:${props => props.open ? "#3458f5" : "#fff"} ;
+/* border:${props => props.open ? "" : "1px solid "} ; */
 color:${props => props.open ? "#fff" : "#222"} ;
 border-radius: .4rem;
 cursor: pointer;

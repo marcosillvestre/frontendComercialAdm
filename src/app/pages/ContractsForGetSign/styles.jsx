@@ -53,21 +53,13 @@ export const Button = styled.div`
 border: none;
 cursor: pointer;
 color: #fff;
-background-color: #3485f5;
-padding: 1.1rem 2.5rem 1.1rem 1.1rem;
+background-color: #3458f5;
+padding: .7rem 2.3rem ;
 border-radius: 5px;
 margin: 5px;
-box-shadow: 4px 4px 0 #0069ff;
 font-weight: bolder; 
-z-index: 10;
-    &:active{
-        transform: translate(4px,4px);
-        box-shadow: 0 0 0 #2d85ff;
-    }
-    
-    transition: transform 0.1s, box-shadow 0.1s ;
-
-
+z-index: 10;    
+transition: transform 0.1s, box-shadow 0.1s ;
 `
 
 export const Box = styled.div`
@@ -107,7 +99,7 @@ border-radius: 5px;
 border: none;
 cursor: pointer;
 transition: all.8s;
-width: 10.4rem;
+width: 10.1rem;
 :first-child{
     animation: ${({ $emmit }) => ($emmit ? down : up)} .3s ease-in-out forwards ;
 }
@@ -119,7 +111,7 @@ width: 10.4rem;
 }
 
 &:hover{
-background-color: #2d85ff;
+background-color: #4392ff;
 }
 &:active{
     opacity: .8;

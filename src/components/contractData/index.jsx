@@ -88,7 +88,7 @@ export const ContractData = () => {
                         >
                             Tabela
                         </ButtonLink>
-                        ou
+                        |
                         <ButtonLink
                             onClick={() => setView('template')}
                             open={view === 'template'}

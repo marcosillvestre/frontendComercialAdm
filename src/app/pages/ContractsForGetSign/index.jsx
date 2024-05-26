@@ -20,7 +20,6 @@ export const Contracts = () => {
     }
 
     async function data(e) {
-        console.log(e)
         if (e.value !== '') {
             // await axios.get(`http://localhost:7070/contrato/${e}`, { headers })
             await URI.get(`/contrato/${e}`, { headers })
