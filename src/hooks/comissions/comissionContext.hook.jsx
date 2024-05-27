@@ -11,7 +11,7 @@ import { useUser } from "../userContext.jsx"
 const ComissionContext = createContext({})
 export const ComissionProvider = ({ children }) => {
 
-    const { headers, selectedInitialDate, selectedEndDate } = useUser()
+    const { selectedInitialDate, selectedEndDate, headers } = useUser()
 
     const [label, setLabel] = useState(businessRules.predeterminedPeriods[0].name)
 
@@ -25,7 +25,7 @@ export const ComissionProvider = ({ children }) => {
 
     const comissionData = async () => {
 
-        const response = await URI.get(`/comissao?range=${bodyComission.range}&dates=${bodyComission.dates}`, { headers }).then(res => res.data.data)
+        const response = await URI.get(`/comissao?range=${bodyComission.range}&dates=${bodyComission.dates}`).then(res => res.data.data)
         return response
     }
     const comissionQuery = useQuery({

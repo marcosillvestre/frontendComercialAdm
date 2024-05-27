@@ -7,7 +7,7 @@ import { useUser } from '../../hooks/userContext.jsx';
 import { Box, ButtonContainer, ButtonSender, Container, Edit, Options, OptionsContainer, Value } from './styles.jsx';
 
 export function CustomizableButton(data) {
-    const { userData, headers } = useUser()
+    const { userData } = useUser()
     const { valueToBeChanged, setValueToBeChanged } = useData()
 
     const { arrayQuantityChanges } = businessRules
@@ -100,7 +100,7 @@ export function CustomizableButton(data) {
 
         await toast.promise(
             // axios.put(`http://localhost:7070/multi-update`, obj, { headers }),
-            URI.put(`/multi-update`, obj, { headers }),
+            URI.put(`/multi-update`, obj),
             {
                 pending: 'Conferindo os dados',
                 success: 'Atualizado com sucesso',

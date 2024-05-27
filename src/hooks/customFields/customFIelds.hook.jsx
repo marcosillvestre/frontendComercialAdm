@@ -18,7 +18,7 @@ export const CustomFields = ({ children }) => {
 
     const sendData = async () => {
         const response = await toast.promise(
-            URI.post("http://localhost:7070/campos-personalizados", { "options": options, "for": "deal", ...customFields }, { headers }),
+            URI.post("http://localhost:7070/campos-personalizados", { "options": options, "for": "deal", ...customFields }),
             {
                 pending: 'Conferindo os dados',
                 success: 'Campo criado com sucesso',
@@ -40,7 +40,7 @@ export const CustomFields = ({ children }) => {
 
 
     const queryCustomFields = async () => {
-        const response = await URI.get("http://localhost:7070/campos-personalizados", { headers })
+        const response = await URI.get("http://localhost:7070/campos-personalizados")
         return response.data
     }
 

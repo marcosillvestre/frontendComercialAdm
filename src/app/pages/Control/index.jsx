@@ -106,7 +106,7 @@ export const ListFiltered = () => {
         setSelectedInitialDate(null)
         setSelectedEndDate(null)
         setCustomizableArray([])
-        setPeriodRange(label.value)
+        setPeriodRange(label)
 
         setTypeFilter([])
 

@@ -29,7 +29,6 @@ export const CreateUsersForm = () => {
 
     }
 
-    console.log(multiUnities)
 
     return (
         <div>

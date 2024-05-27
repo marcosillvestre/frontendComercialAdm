@@ -49,6 +49,7 @@ export function SureSendModal(data) {
     const [open, setOpen] = useState(false);
     const [sendingList, setSendingList] = useState([])
     const [fileName, setFileName] = useState('')
+    const [file, setFile] = useState('')
     const [Links, setLinks] = useState({})
 
 
@@ -58,7 +59,6 @@ export function SureSendModal(data) {
         file:
             Yup.mixed()
                 .test('required', 'Você precisa enviar um arquivo', value => {
-                    console.log(value)
                     return value && value?.length > 0
                 })
     })
@@ -86,7 +86,7 @@ export function SureSendModal(data) {
     const client = async (body) => {
         await toast.promise(
             // axios.post("http://localhost:7070/cliente", body, { headers })
-            URI.post("/cliente", body, { headers })
+            URI.post("/cliente", body)
 
             , {
                 pending: 'Criando o cadastro no CA',
@@ -101,7 +101,7 @@ export function SureSendModal(data) {
     const contract = async (body) => {
         await toast.promise(
             // axios.post("http://localhost:7070/registro-conta-azul", body, { headers })
-            URI.post("/registro-conta-azul", body, { headers })
+            URI.post("/registro-conta-azul", body)
             , {
                 pending: 'Enviando o contrato',
                 success: 'Enviado com sucesso',
@@ -117,7 +117,7 @@ export function SureSendModal(data) {
 
             await toast.promise(
                 // axios.post("http://localhost:7070/venda", body, { headers })
-                URI.post("/venda", body, { headers })
+                URI.post("/venda", body)
                 , {
                     pending: 'Enviando o material didático',
                     success: 'Enviado com sucesso',
@@ -132,7 +132,7 @@ export function SureSendModal(data) {
         if (parseFloat(filteredContracts[0].tmValor) > 0) {
             await toast.promise(
                 // axios.post("http://localhost:7070/taxa", body, { headers })
-                URI.post("/taxa", body, { headers })
+                URI.post("/taxa", body)
                 , {
                     pending: 'Enviando a taxa de matrícula',
                     success: 'Enviado com sucesso',
@@ -141,6 +141,9 @@ export function SureSendModal(data) {
             )
         }
     }
+
+
+
 
     const {
         vendedor, contrato,
@@ -170,24 +173,6 @@ export function SureSendModal(data) {
         observacaoRd, mdDesconto
     }
 
-    async function contaAzulSender() {
-        if (body.email === undefined || body.cpf === undefined ||
-            body.name === undefined || body.CelularResponsavel === undefined ||
-            body.DatadeNascdoResp === undefined ||
-            body.cep === undefined ||
-            body.estado === undefined ||
-            body.cidade === undefined ||
-            body.NumeroEnderecoResponsavel === undefined ||
-            body.EnderecoResponsavel === undefined ||
-            isNaN(parseInt(mdDesconto)) === true) {
-
-            return alert("Contrato não enviado ao Conta Azul, confira os dados do responsável financeiro")
-        }
-
-
-        mutateEverything.mutateAsync()
-    }
-
 
 
     const sendEverything = async () => {
@@ -205,8 +190,6 @@ export function SureSendModal(data) {
             })
 
 
-
-
     }
 
 
@@ -214,6 +197,27 @@ export function SureSendModal(data) {
         mutationFn: () => sendEverything(),
         // onSuccess: () =>
     })
+
+
+    async function contaAzulSender() {
+        if (body.email === undefined || body.cpf === undefined ||
+            body.name === undefined || body.CelularResponsavel === undefined ||
+            body.DatadeNascdoResp === undefined ||
+            body.cep === undefined ||
+            body.estado === undefined ||
+            body.cidade === undefined ||
+            body.NumeroEnderecoResponsavel === undefined ||
+            body.EnderecoResponsavel === undefined ||
+            isNaN(parseInt(mdDesconto)) === true) {
+            return alert("Contrato não enviado ao Conta Azul, confira os dados do responsável financeiro")
+        }
+
+
+        mutateEverything.mutateAsync()
+    }
+
+
+
 
 
 
@@ -276,7 +280,7 @@ export function SureSendModal(data) {
                 .then(res => {
                     if (res) {
                         setOpen(!open)
-                        send && contaAzulSender()
+                        send === true && contaAzulSender()
 
                     }
                 })
@@ -290,7 +294,6 @@ export function SureSendModal(data) {
 
 
     const SendViaAutentique = async body => {
-
 
         const data = new FormData()
         data.append('name', filteredContracts[0].name)
@@ -311,28 +314,30 @@ export function SureSendModal(data) {
         data.append('number', filteredContracts[0].number)
 
         if (body.file && body.file[0]) {
-            data.append('file', body.file[0]);
+            data.append('file', file);
         } else {
             alert('Arquivo não encontrado');
         }
+        headers['Content-Type'] = 'multipart/form-data',
 
-        await toast.promise(
-            // axios.post('http://localhost:7070/uploads',
-            URI.post("/uploads",
-                data, { 'Content-Type': 'multipart/form-data', ...headers })
-                .then(res => {
-                    const data = res.data.message
-                    data.customer && setLinks(data)
-                    send && contaAzulSender()
-                })
-            , {
-                pending: 'Enviando para o autentique',
-                success: 'Enviado com sucesso',
-                error: "Erro ao enviar, confira seus dados"
-            }
-        )
+
+            // return
+            await toast.promise(
+                // axios.post('http://localhost:7070/uploads',
+                URI.post("/uploads",
+                    data, { headers: headers })
+                    .then(res => {
+                        const data = res.data.message
+                        data.customer && setLinks(data)
+                        send === true && contaAzulSender()
+                    })
+                , {
+                    pending: 'Enviando para o autentique',
+                    success: 'Enviado com sucesso',
+                    error: "Erro ao enviar, confira seus dados"
+                }
+            )
     }
-
 
 
     const handleSender = () => {
@@ -420,6 +425,7 @@ export function SureSendModal(data) {
                                                             accept=".pdf"
                                                             {...register("file")}
                                                             onChange={(e) => {
+                                                                setFile(e.target.files[0]);
                                                                 setFileName(e.target.files[0].name)
                                                             }}
                                                         />

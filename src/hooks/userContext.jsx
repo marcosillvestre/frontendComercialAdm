@@ -65,18 +65,9 @@ export const UserProvider = ({ children }) => {
 
     const headers = useMemo(() => {
         return {
-            'Content-Type': "application/json",
             "Authorization": `Bearer ${userData?.token}`
         }
     }, [userData?.token])
-
-
-
-
-
-
-
-
 
 
 
@@ -100,14 +91,14 @@ export const UserProvider = ({ children }) => {
         "skip": skip
     }
 
-
     body["dates"] = `${selectedInitialDate}~${selectedEndDate}`
 
 
     const [allData, setAllData] = useState([])
 
     const indexPeriod = async () => {
-        const response = await URI.get(`/periodo?range=${periodRange}&role=${body.role}&name=${body.name}&unity=${body.unity}&dates=${body.dates}&types=${body.types}&skip=${body.skip}&take=${body.take}`, { headers })
+        const response = await
+            URI.get(`/periodo?range=${periodRange}&role=${body.role}&name=${body.name}&unity=${body.unity}&dates=${body.dates}&types=${body.types}&skip=${body.skip}&take=${body.take}`)
         return response?.data
     }
 
@@ -115,6 +106,7 @@ export const UserProvider = ({ children }) => {
     const mutationControlData = useQuery({
         queryFn: () => indexPeriod(),
         queryKey: [body],
+        staleTime: 0,
         enabled: !headers.Authorization.includes("undefined")
     })
 
@@ -174,7 +166,7 @@ export const UserProvider = ({ children }) => {
 
 
     const comissionData = async () => {
-        const response = await URI.get(`/comissao?range=${bodyComission.range}&dates=${bodyComission.dates}`, { headers }).then(res => res.data.data)
+        const response = await URI.get(`/comissao?range=${bodyComission.range}&dates=${bodyComission.dates}`,).then(res => res.data.data)
         return response
     }
     const comissionQuery = useQuery({
@@ -213,7 +205,7 @@ export const UserProvider = ({ children }) => {
                     "day": target !== "Ok" ? "" : currentDay,
                     "responsible": { "name": userData.name, "role": userData.role }
                 }
-                , { headers }),
+            ),
             {
                 success: 'Atualizado com sucesso',
                 pending: 'Conferindo os dados',
@@ -233,7 +225,7 @@ export const UserProvider = ({ children }) => {
                     "value": area !== 'observacao' ? target : value,
                     "day": target !== "Ok" ? "" : currentDay,
                     "responsible": { "name": userData.name, "role": userData.role }
-                }, { headers }),
+                },),
             {
                 pending: 'Conferindo os dados',
                 success: 'Atualizado com sucesso',
@@ -246,8 +238,8 @@ export const UserProvider = ({ children }) => {
     const { data: historic, refetch: refetchHistoric, isPending: isPendingHistoric } = useQuery({
         queryFn: () => {
             if (headers.Authorization.includes("undefined") === false) {
-                return URI.get('/historico', { headers }).then(res => res.data)
-                // return axios.get('http://localhost:7070/historico', { headers }).then(res => res.data)
+                return URI.get('/historico',).then(res => res.data)
+                // return axios.get('http://localhost:7070/historico', ).then(res => res.data)
             }
         },
         queryKey: ["historic"],

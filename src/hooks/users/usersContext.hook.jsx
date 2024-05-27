@@ -19,7 +19,7 @@ export const UsersProvider = ({ children }) => {
         if (multiUnities.unity === undefined) return
         const response = await toast.promise(
             // http://localhost:7070
-            URI.post("/cadastro", { ...person, unity: multiUnities.unity, responsible: userData.name }, { headers }),
+            URI.post("/cadastro", { ...person, unity: multiUnities.unity, responsible: userData.name }),
             {
                 pending: 'Conferindo os dados',
                 success: 'Usuário criado com sucesso',
@@ -44,7 +44,7 @@ export const UsersProvider = ({ children }) => {
 
 
     const queryUsers = async () => {
-        const response = await URI.get("/users", { headers })
+        const response = await URI.get("/users")
         return response.data
     }
 

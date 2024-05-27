@@ -27,7 +27,7 @@ const style = {
 
 
 export function SureModal(data) {
-    const { fetchData, setFetchData, headers, userData } = useUser()
+    const { fetchData, setFetchData, userData } = useUser()
 
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
@@ -44,7 +44,7 @@ export function SureModal(data) {
 
         await toast.promise(
             // axios.delete(`http://localhost:7070${data.url}/${id}?responsible=${responsible}`, { headers }),
-            URI.delete(`${data.url}/${id}?responsible=${responsible}`, { headers }),
+            URI.delete(`${data.url}/${id}?responsible=${responsible}`),
             {
                 pending: 'Conferindo os dados',
                 success: 'Deletado com sucesso',

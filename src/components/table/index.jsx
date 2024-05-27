@@ -68,7 +68,7 @@ export function FirstRow(props) {
         queryFn: () => {
             if (headers.Authorization.includes("undefined") === false && contract !== "") {
                 // return axios.get(`http://localhost:7070/pessoal?contract=${contract}`, { headers }).then(res => res.data)
-                return URI.get(`/pessoal?contract=${contract}`, { headers }).then(res => res.data)
+                return URI.get(`/pessoal?contract=${contract}`).then(res => res.data)
             }
         },
         queryKey: [`${contract}`],

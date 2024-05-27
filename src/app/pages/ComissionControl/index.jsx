@@ -17,11 +17,11 @@ import businessRules from '../../utils/Rules/options.jsx';
 import { Totals } from './listTypes';
 export function ComissionControll() {
 
-    const { predeterminedPeriods, comissionStatusOpt, coursesOpt } = businessRules
+    const { predeterminedPeriods, comissionStatusOpt, } = businessRules
 
 
-    const { headers, selectedInitialDate,
-        selectedEndDate, comissionQuery, setLabel, label, cell,
+    const { selectedInitialDate,
+        selectedEndDate, comissionQuery, setLabel,
     } = useUser()
 
     const { UsersQuery } = useUsers()
@@ -42,7 +42,7 @@ export function ComissionControll() {
     const [type, setType] = useState([])
     const [sellersRelatories, setSellersRelatories] = useState([])
 
-    const [unities, setUnitiesRelatories] = useState([])
+    // const [unities, setUnitiesRelatories] = useState([])
 
 
 
@@ -108,7 +108,7 @@ export function ComissionControll() {
                 "value": value
             }
         }
-        await URI.post('/grafico', body, { headers })
+        await URI.post('/grafico', body)
             .then(res => {
                 setYearGraph(res.data.data)
             }).catch(err => (err))

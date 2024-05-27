@@ -22,7 +22,6 @@ export const Select = (parameters) => {
         setOpen(false)
     }
 
-
     const engineFunctions = (values, secValue, thirdValue) => {
         parameters.fn.map(res => {
 

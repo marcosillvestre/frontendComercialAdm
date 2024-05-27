@@ -16,7 +16,7 @@ export const UnitiesProvider = ({ children }) => {
 
     const sendData = async () => {
         const response = await toast.promise(
-            URI.post("/unidades", unity, { headers }),
+            URI.post("/unidades", unity),
             {
                 pending: 'Conferindo os dados',
                 success: 'Usuário criado com sucesso',
@@ -35,7 +35,7 @@ export const UnitiesProvider = ({ children }) => {
 
 
     const queryUnities = async () => {
-        const response = await URI.get("/unidades", { headers })
+        const response = await URI.get("/unidades")
         return response.data
     }
 

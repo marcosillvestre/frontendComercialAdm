@@ -9,7 +9,7 @@ import { useUser } from "../userContext"
 const ContractsHook = createContext({})
 export const Contracts = ({ children }) => {
 
-    const { headers, setTypeSidebar, setOpenSidebar } = useUser()
+    const { setTypeSidebar, setOpenSidebar } = useUser()
     const [contractData, setContractData] = useState([])
     const [multiSelectOptions, setMultiSelectOptions] = useState([])
 
@@ -19,7 +19,7 @@ export const Contracts = ({ children }) => {
 
         const response = await toast.promise(
             // http://localhost:7070
-            URI.post("/novos-contratos", contractData, { headers }),
+            URI.post("/novos-contratos", contractData),
             {
                 pending: 'Conferindo os dados',
                 success: 'Novo contrato criado com sucesso',

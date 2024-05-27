@@ -13,7 +13,7 @@ import { Input, OptionsGroup } from './styles.jsx';
 
 export function CustomFieldTable(props) {
     const { row, index } = props;
-    const { changeField, setBody, headers } = useUser()
+    const { changeField, setBody } = useUser()
 
 
     const { types } = businessRules
@@ -51,7 +51,7 @@ export function CustomFieldTable(props) {
 
     const sendData = async () => {
         const response = await toast.promise(
-            URI.put("http://localhost:7070/campos-personalizados", { updateOptionType: optionsDelete }, { headers }),
+            URI.put("http://localhost:7070/campos-personalizados", { updateOptionType: optionsDelete }),
             {
                 pending: 'Conferindo os dados',
                 success: 'Deletado com sucesso',
@@ -107,7 +107,7 @@ export function CustomFieldTable(props) {
                         width="10rem"
                         field="type"
                         fn={fnArray}
-                        onChange={(e) => console.log(e)}
+                    // onChange={(e) => console.log(e)}
                     />
 
                 </TableCell>

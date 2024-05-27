@@ -10,7 +10,7 @@ import { Box, Button, Container, Header, SendContract } from './styles'
 export const Contracts = () => {
     const [emmit, setEmmit] = React.useState(false)
 
-    const { contracts, headers, setContracts,
+    const { contracts, setContracts,
         userData, setFilteredContracts, logOut,
         filteredContracts } = useUser()
 
@@ -30,7 +30,7 @@ export const Contracts = () => {
     async function data(e) {
         if (e.value !== '') {
             // await axios.get(`http://localhost:7070/contrato/${e}`, { headers })
-            await URI.get(`/contrato/${e}`, { headers })
+            await URI.get(`/contrato/${e}`)
                 .then(info => {
                     info.data && filteringBySeller(info.data)
                 }).catch(err => {

@@ -6,7 +6,6 @@ export const Conversion = (data) => {
 
     const [dataFiltered, setDataFiltered] = React.useState([])
 
-    console.log(data)
     React.useEffect(() => {
 
         const filteringData = (fil1) => {
