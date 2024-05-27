@@ -1,13 +1,15 @@
 import LoadingSpin from "react-loading-spin";
-import { Container } from "./styles";
+import { Container, TableRow } from "./styles";
 
-export const Totals = (data) => {
+export const Totals = (params) => {
+    const { pending, data, sellected } = params
+    console.log(sellected)
     return (
 
         <Container>
             <table>
                 {
-                    data.pending ? <LoadingSpin
+                    pending ? <LoadingSpin
                         duration="4s"
                         width="15px"
                         timingFunction="ease-in-out"
@@ -31,39 +33,38 @@ export const Totals = (data) => {
                             </thead>
                             <tbody>
                                 {
-                                    data.data === undefined ? <tr>
-                                        <td>Selecione um período </td>
-                                    </tr> :
+                                    data &&
+                                        data?.length < 1 ? <tr>
+                                        <td>Nada por aqui </td>
+                                    </tr>
+                                        :
 
-                                        data &&
-                                            data.data?.length < 1 ? <tr>
-                                            <td>Nada por aqui </td>
-                                        </tr>
-                                            :
+                                        data?.map((res, i) => (
+                                            <TableRow
+                                                key={i}
+                                                $active={res.owner === sellected && true}
+                                            >
+                                                <td>
+                                                    {res?.name}
+                                                </td>
+                                                <td>
+                                                    {res?.aluno}
+                                                </td>
+                                                <td>
+                                                    {res?.curso}
+                                                </td>
+                                                <td>
+                                                    {res?.tipoMatricula}
+                                                </td>
+                                                <td>
+                                                    {res?.owner}
+                                                </td>
+                                                <td>
+                                                    {res?.unidade}
+                                                </td>
+                                            </TableRow>
 
-                                            data.data?.map((res, i) => (
-                                                <tr key={i}>
-                                                    <td>
-                                                        {res?.name}
-                                                    </td>
-                                                    <td>
-                                                        {res?.aluno}
-                                                    </td>
-                                                    <td>
-                                                        {res?.curso}
-                                                    </td>
-                                                    <td>
-                                                        {res?.tipoMatricula}
-                                                    </td>
-                                                    <td>
-                                                        {res?.owner}
-                                                    </td>
-                                                    <td>
-                                                        {res?.unidade}
-                                                    </td>
-                                                </tr>
-
-                                            ))
+                                        ))
 
                                 }
                             </tbody>

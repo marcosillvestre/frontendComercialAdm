@@ -96,7 +96,7 @@ export const CustomFields = () => {
         return (
             <div style={{ width: "100vw", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
                 <p>
-                    Em desenvolvimento..
+                    Em breve..
                 </p>
 
                 <LoadingSpin

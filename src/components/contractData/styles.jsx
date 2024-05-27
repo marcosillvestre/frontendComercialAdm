@@ -40,7 +40,6 @@ th{
 export const NavBar = styled.nav`
 text-align: center;
 width: 15rem;
-/* display: flex; */
 .buttons{
     display: flex;
     gap: 6px;
@@ -62,10 +61,6 @@ width: 15rem;
         p{
         z-index: 2;
         }
-            /* &:hover{
-            color:#222;
-
-            } */
 
     }
     .ac{

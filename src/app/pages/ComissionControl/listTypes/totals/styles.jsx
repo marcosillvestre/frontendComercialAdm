@@ -16,3 +16,9 @@ thead, tr, tbody, td {
 
 }
 `
+
+export const TableRow = styled.tr`
+background-color: ${props => props.$active ? "#3458f5" : ""};
+color: ${props => props.$active ? "#fff" : "#222"};
+
+`

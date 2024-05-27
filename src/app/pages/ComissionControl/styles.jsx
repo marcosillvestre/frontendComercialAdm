@@ -2,53 +2,7 @@ import styled from "styled-components";
 
 export const Container = styled.div`
 padding: 0 4rem;
-nav{
-    display: flex;
-    gap: 8px;
-}
-.page-header{
-    @media(max-width:1090px){
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-}
-header{
 
-.filters{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-    div{
-        display: flex;
-        gap: 5px;
-        justify-content: center;
-    }
-    span{
-    border: 1px dashed;
-    border-radius: 10px;
-    padding: 7px;
-    cursor: pointer;
-    display: grid;
-    .header{
-        font-size:.6rem;
-    }
-    .body{
-
-        &::after{
-            content:' ✖️';
-        }
-    }
-    }
-}
-div, label{
-    align-items: center;
-    gap: .5rem;
-}
-label{
-    flex-direction: column;
-}
-}
 table{
     border-radius: 4px; 
     padding: 20px;
@@ -70,7 +24,7 @@ thead, tr, tbody, td {
 export const Header = styled.header`
 display: flex;
 align-items: center;
-flex-wrap: wrap;
+justify-content: space-between;
 width: 100%;
 font-size: small ;
 border: 2px solid #dfe6f1;
@@ -79,7 +33,7 @@ padding: 1rem 3rem;
 margin-bottom: 1.5rem;
 nav{
     width:100%;
-    justify-content: center;
+    /* justify-content: space-between; */
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -157,35 +111,15 @@ justify-content: center; */
 gap: 2rem;
 /* padding: .5rem 1rem; */
 
-.seller-relatory{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: .5rem;
-    font-size: small;
-    position: sticky;
-    top: 110px;
-}
+
 
 .cell-relatory{
+    display: flex;
     text-align: center;
     font-size: smaller;
     margin: 1rem ;
+    height: 16.5rem;
 }
-
-
-`
-
-
-export const Wrapper = styled.span`
-display: grid;
-grid-template-columns: repeat(8, 1fr);
-gap: 1rem;
-width: 20rem;
-`
-export const NavBar = styled.nav`
-/* width: 15rem; */
-display: flex;
 
 
 .subtitle{
@@ -195,14 +129,18 @@ display: flex;
     border-radius: 4px; 
     padding: 20px;
     height: max-content;
-
-.container{
-
     display: flex;
     flex-direction: column;
-    gap: .3rem;
+    /* align-items: center; */
+
+.container{
+    display: flex;
+    flex-direction: column;
+    gap: .4rem;
+    margin-bottom: 2rem;
     .wrapper-container{
         width: 100%;
+
         .paragraph{
         width: 100%;
         padding: 5px ;
@@ -211,6 +149,7 @@ display: flex;
         -webkit-box-orient: vertical;
         overflow: hidden;
         text-align: left;
+
     }
     }
     }
@@ -218,6 +157,7 @@ display: flex;
 
 
 .grid-cards{
+    width: max-content;
     grid-column: span 4;
     font-size: small;
     text-align: center;
@@ -226,52 +166,86 @@ display: flex;
     flex-direction: column;
     padding: 1rem 2rem;
     justify-content: center;
+    cursor: pointer;
+    user-select: none;
+    
 }
 .count{
     display: none;
 }
 .active .count {
-    display: inline;
+    display: block;
 }
 .active{
-    grid-column: 1 / span 8;
+    grid-column: 1 / span 7;
     grid-row: 1;
     order: 0;
 }
 .inactive{
-    grid-column: span 4;
+    grid-column: span 3;
+    width: fit-content;
 }
+
+`
+
+export const Wrapper = styled.span`
+display: grid;
+grid-template-columns: repeat(10, 1fr);
+width: min-content;
+gap: 2rem;
+height: 100%;
+/* background-color: green; */
+
+
+`
+
+
+export const NavBar = styled.nav`
+text-align: center;
+display: flex;
+align-items: center;
+.buttons{
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    user-select: none;
+    .button-link{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: .7rem 0 ;
+        width: 5rem ;
+        font-size: 12px;
+        border: none;
+        border-radius: .4rem;
+        cursor: pointer;
+        background-color: transparent;
+        position: relative;
+
+        p{
+        z-index: 2;
+        }
+    }
+    .ac{
+        color: #fff;
+    }
+    .active{
+        width: 100%;
+        height: 40px;
+        background-color: #3458f5;
+        border-radius: .5rem;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        z-index: 1;
+    }
+}
+
+
 
 @media(max-width:1090px){
 justify-content: center;
 
-}
-`
-
-export const ButtonLink = styled.button`
-padding: .7rem 0 ;
-width: 7rem ;
-
-font-size: 1rem;
-border: none;
-/* background-color:${props => props.open ? "#3458f5" : "#6d7ccb"} ; */
-background-color:#3458f5 ;
-color:${props => props.open ? "#fff" : "#222"} ;
-border-radius: .4rem;
-cursor: pointer;
-
-&:hover{
-color:#fff;
-background-color:${props => props.open ? "#6d7ccb" : "#7387de"} ;
-
-}
-a{
-    text-decoration: none;
-    color: #222;
-    &:visited{
-        color: #222;
-    
-    }
 }
 `
 
@@ -282,17 +256,15 @@ display: none;
 `
 
 
-export const SelectButton = styled.div`
+export const SelectButton = styled.button`
 font-size: 12px;
 text-align: center;
 border-radius: .375rem;
 background-color:${props => props.open ? "#1c5bd0" : "#dfe6f1"} ;
 color:${props => props.open ? "#fff" : "#222"} ;
+cursor: pointer;
+border: none;
 
-            &:active{
-                padding: 2px 5px;
-                
-            }
 `
 
 export const Icon = styled.div`
