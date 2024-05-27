@@ -1,14 +1,35 @@
-import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import NotificationImportantIcon from '@mui/icons-material/NotificationImportant';
-import PaidIcon from '@mui/icons-material/Paid';
-import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import { Link } from 'react-router-dom';
 import styled from "styled-components";
 
 
+export const NavList = styled.span`
+text-align: center;
+display: grid;
+gap: 10px;
+font-size: 14px;
+display: ${props => props.active ? "" : "none"};
+position: absolute;
+top: 60px;
+background-color: #fff;
+padding:  25px 15px ;
+border-radius: 5px;
+box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.56);
+transition: all.9s;
+z-index: 11;
+a{
+    color: #222;
+    text-decoration: none;
+    border-bottom: 1px solid ;
+    cursor: pointer;
+    &:visited{
+    color: #222;
 
+    }
+}
+
+`
 export const WithNotifications = styled(NotificationImportantIcon)`
-
 `
 
 
@@ -31,40 +52,23 @@ height: 2rem;
 font-size: 1.2rem;
 display: flex;
 visibility: ${props => props.open ? "hidden" : "visible"};
-gap: .4rem;
+gap: .7rem;
 align-items: center;
-a[href='/historico']{
-    margin: auto 1rem;
+.anchor{
+    color: #fff;
+    margin: auto .5rem;
+    display: grid;
+    justify-items: center;
     &:visited{
     color: #fff;
 
     }
 }
-}
-`
-export const Nav = styled.nav`
-display: flex;
-flex-direction: column;
-align-items: center;
-display:  none;
 
-`
-
-export const Links = styled(Link)`
-color: #222;
-
-&:visited{
-    color: #222;
 }
 `
 
-export const Box = styled.div`
-    display: flex;
-    scale: ${props => props.isOpen ? 1.4 : 0.5} ;
-    transition: ease-in-out 0.5s;
-    transform-origin: bottom;
 
-`
 export const LogOut = styled(Link)`
 border: none;
 color: inherit;
@@ -90,17 +94,4 @@ color: none;
     text-transform: capitalize;
 }
 
-`
-export const Adduser = styled(SupervisedUserCircleIcon)`
-cursor: pointer;
-
-`
-
-export const ComissionScreen = styled(PaidIcon)`
-cursor: pointer;
-
-`
-
-export const GetContracts = styled(AssignmentIndIcon)`
-cursor: pointer;
 `

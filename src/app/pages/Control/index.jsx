@@ -6,9 +6,8 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { memo } from 'react';
-import { Container, Filters, InputTake, NavControl, NothingHere, NumberContainer, PageUpdate, Tabled, Tax } from './styles';
-
+import { memo, useState } from 'react';
+import { Container, Filters, InputSearch, InputTake, NavControl, NothingHere, NumberContainer, Tabled } from './styles';
 
 import { useUser } from '../../../hooks/userContext';
 
@@ -20,27 +19,32 @@ import LoadingSpin from "react-loading-spin";
 import * as Yup from 'yup';
 import noData from '../../../assets/noData.svg';
 
-
-
 import {
     CustomizableButton,
     CustomizedMenus,
-    FirstRow, SelectFilterBy, SelectPeriodCustom
+    FirstRow,
+    Select
 } from '../../../components/source.jsx';
 
 import { useData } from '../../../hooks/dataContext';
 
-import { toast } from 'react-toastify';
 import businessRules from '../../utils/Rules/options.jsx';
-import URI from '../../utils/utils';
 import Pagination from './pagination';
 
 
 export const ListFiltered = () => {
-    const { headers, userData, filtered, setFiltered, resetFilter,
+
+    const { userData, filtered, setFiltered, resetFilter,
         setPeriodFilter, mutationControlData, setTake,
-        take, skip, setSkip, allData } = useUser()
-    const { typeFilter, setTypeFilter, customizableArray, handleCustomizableData } = useData()
+        take, skip, setSkip, allData, setTypeSidebar, setOpenSidebar,
+        setPeriodRange, setSelectedInitialDate, setSelectedEndDate
+    } = useUser()
+
+
+    const { typeFilter, setTypeFilter,
+        customizableArray, handleCustomizableData, setCustomizableArray } = useData()
+
+
 
     const handleResetFilter = (filter) => {
         if (filter === undefined) {
@@ -69,9 +73,6 @@ export const ListFiltered = () => {
 
 
 
-
-
-
     const handleSearch = () => {
         setPeriodFilter(false)
         setTypeFilter([])
@@ -90,123 +91,150 @@ export const ListFiltered = () => {
     const diference = data !== undefined && from % data.total
     const allContracts = filtered.map(res => res.contrato)
 
-    async function pageUpdate() {
-        let obj = { data: 0 }
-        await toast.promise(
-            URI.post('/page-update', obj, { headers }),
-            {
-                pending: 'Conferindo os dados',
-                success: 'Atualizado com sucesso',
-                error: 'Alguma coisa deu errado'
-            }
-        )
-            // .catch(() => alert("Alguma coisa deu errado, tente novamente mais tarde"))
-            .then((res) => {
-                alert(res.data.total)
 
-                setTimeout(() => {
-                    window.location.reload()
-                }, 700);
-            }
 
-            )
+    const [search, setSearch] = useState(false)
+
+
+    const openCreateContract = () => {
+        setTypeSidebar(2)
+        setOpenSidebar(true)
+    }
+
+
+    const handleCheck = async (label) => {
+        setSelectedInitialDate(null)
+        setSelectedEndDate(null)
+        setCustomizableArray([])
+        setPeriodRange(label.value)
+
+        setTypeFilter([])
+
+        setTake(10)
+        setSkip(0)
+
+        setPeriodFilter(false)
+        // setLabel(label)
     }
 
     return (
         <Container>
             <span className='nav-filter' >
+                <div className='wrapper'>
 
-                <SelectFilterBy opt={businessRules.customizablePeriods} />
-                <SelectPeriodCustom opt={businessRules.predeterminedPeriods} />
-
-                <form onSubmit={handleSubmit((data) => sender(data))}>
-
-                    <p>Pesquisar no período:</p>
-
-                    <div className='name-filter'>
-                        <input
-                            type="text"
-                            placeholder='Pesquisar..'
-                            className='filter'
-                            list='list'
-                            {...register('name')}
-                            onFocus={() => {
-                                setTake("all ")
-                            }}
-                            onChange={(e) => {
-                                if (e.target.value === "") {
-                                    setTake(10)
-                                    setFiltered(allData)
-                                }
-                            }}
+                    <label htmlFor="">
+                        <p>Período personalizado</p>
+                        <Select
+                            label={businessRules.predeterminedPeriods[0].name}
+                            option={businessRules.predeterminedPeriods}
+                            width="14rem"
+                            // field="type"
+                            // where="customField"
+                            fn={[handleCheck]}
 
                         />
+                    </label>
 
-                        <datalist id='list'>
-                            {
-                                filtered?.length > 0 && filtered.map(res => (
-                                    <option
-                                        key={res.contrato}
-                                        value={res.name}
-                                    />
-                                ))
-                            }
-                        </datalist>
-                        <button
-                            type='submit'
-                            className='button'
-                            onClick={() => handleSearch()}
-                        >
-                            <SearchIcon />
-                        </button>
-                    </div>
-                </form>
+                    <form onSubmit={handleSubmit((data) => sender(data))}>
+                        <p>Pesquisar no período</p>
 
-                <span
-                    className='flex-group'
-                >
-                    <CustomizedMenus />
+                        <div className='name-filter'>
+                            <InputSearch
+                                type="text"
+                                placeholder='Pesquisar..'
+                                className='filter'
+                                list='list'
+                                {...register('name')}
+                                active={search}
+                                onFocus={() => {
+                                    setSearch(true)
+                                    setTake("all")
+                                }}
+                                onBlur={() => {
+                                    setSearch(false)
 
-                    <PageUpdate
-                        onClick={() => pageUpdate()}>
-                        Atualizar página
-                    </PageUpdate>
+                                }}
+                                onChange={(e) => {
+                                    if (e.target.value === "") {
+                                        setTake(10)
+                                        setFiltered(allData)
+                                    }
+                                }}
+                            />
 
-                    <Tax>
+                            <datalist id='list'>
+                                {
+                                    filtered?.length > 0 && filtered.map(res => (
+                                        <option
+                                            key={res.contrato}
+                                            value={res.name}
+                                        />
+                                    ))
+                                }
+                            </datalist>
+
+                            <button
+                                type='submit'
+                                className='button'
+                                onClick={() => handleSearch()}
+                            >
+                                <SearchIcon />
+                            </button>
+                        </div>
+                    </form>
+
+                    {/* <Tax>
                         {
                             isPending === false &&
                             data !== undefined &&
                             data.total
                         }
-                    </Tax>
-                </span>
+                    </Tax> */}
+
+                    <CustomizedMenus />
+                </div>
+                <div className='wrapper'>
+                    <span
+                        className='flex-group'
+                    >
 
 
+                        {/* <PageUpdate
+                            onClick={() => {
+                                openCreateContract()
+                            }}>
+                            Criar contrato
+                        </PageUpdate> */}
 
-                <Filters className='filters'>
-                    {typeFilter?.length > 0 &&
-                        <>
-                            <div >
-                                <p>filtros aplicados: </p>
-                                {typeFilter.map(res => (
-                                    <span
-                                        key={res.key}
-                                        onClick={() => handleResetFilter(res)}
-                                    >
-                                        <p className='header'>{businessRules.fields[res.key]}:</p>
-                                        <p className='body'>{res.value}</p>
-                                    </span>
-                                ))}
-                            </div>
-                            <div>
-                                <button
-                                    onClick={() => handleResetFilter()}
-                                >Limpar filtros
-                                </button>
-                            </div>
-                        </>
-                    }
-                </Filters>
+                    </span>
+
+                    <Filters className='filters'>
+                        {typeFilter?.length > 0 &&
+                            <>
+                                <div >
+                                    <p>filtros aplicados: </p>
+                                    {typeFilter.map(res => (
+                                        <span
+                                            key={res.key}
+                                            onClick={() => handleResetFilter(res)}
+                                        >
+                                            <p className='header'>{businessRules.fields[res.key]}:</p>
+                                            <p className='body'>{res.value}</p>
+                                        </span>
+                                    ))}
+                                </div>
+                                <div>
+                                    <button
+                                        onClick={() => handleResetFilter()}
+                                    >Limpar filtros
+                                    </button>
+                                </div>
+                            </>
+                        }
+                    </Filters>
+                </div>
+
+
 
             </span>
 
@@ -235,7 +263,6 @@ export const ListFiltered = () => {
                             <NavControl>
                                 {
                                     userData.admin &&
-
                                     <CustomizableButton
                                         element={1}
                                         able={customizableArray.some(res => res?.isChecked !== false)}
@@ -245,12 +272,10 @@ export const ListFiltered = () => {
                                     />
                                 }
 
-
-
                                 <div className='container'>
-                                    <p>{filtered.length} registro(s) ao todo</p>
+                                    <p>{filtered.length} registro(s)</p>
                                     {
-                                        userData.role !== 'comercial' &&
+                                        userData.admin &&
                                         <p>{customizableArray.filter(res => res.isChecked === true).length} registro(s) selecionado(s)</p>
                                     }
                                 </div>
@@ -343,10 +368,10 @@ export const ListFiltered = () => {
                                         take > data.total ?
 
                                             <p className='mid'>{`Mostrando ${skip + 1} - ${data.total} de
-                                            ${isPending === false && data !== undefined && data.total} registross`} </p> :
+                                            ${isPending === false && data !== undefined && data.total} registros`} </p> :
 
                                             <p className='mid'>{`Mostrando ${skip + 1} - ${take + skip - diference} de
-                                            ${isPending === false && data !== undefined && data.total} registross`} </p> :
+                                            ${isPending === false && data !== undefined && data.total} registros`} </p> :
 
                                         <p className='mid'>{`Mostrando ${skip + 1} - ${take === 'all' ? data.total : take + skip} de
                                             ${isPending === false && data !== undefined && data.total} registros`} </p>

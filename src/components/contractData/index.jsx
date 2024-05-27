@@ -1,7 +1,7 @@
 import noContract from '../../assets/noContract.svg'
 import { useData } from '../../hooks/dataContext.jsx'
 import { useUser } from '../../hooks/userContext'
-import { ButtonLink, Container, NavBar, TableBody } from './styles'
+import { Container, NavBar, TableBody } from './styles'
 import Excel from './templates/excel.jsx'
 import Idioma from './templates/idioma.jsx'
 import Office from './templates/office.jsx'
@@ -17,7 +17,11 @@ import StandardPromo from './templates/standard-promo.jsx'
 import StandardPromoRem from './templates/standard-promo-rem.jsx'
 import StandardRem from './templates/standard-rem.jsx'
 
+import { gsap } from 'gsap'
+import { Flip } from 'gsap/Flip'
+
 export const ContractData = () => {
+    gsap.registerPlugin(Flip)
 
     const { filteredContracts } = useUser()
     const { content, view, setView } = useData()
@@ -75,26 +79,59 @@ export const ContractData = () => {
 
     }
 
+    const buttonsLinks = document.querySelectorAll(".button-link")
+    const active = document.querySelector(".active")
+
+    buttonsLinks.forEach((button, idx) => {
+        button.addEventListener('click', () => {
+
+            const ac = button.classList.contains('ac')
+            if (!ac) {
+                button.classList.add('ac')
+                buttonsLinks.forEach((other, otherIdx) => {
+                    idx !== otherIdx && other.classList.remove('ac')
+                })
+
+            }
+            const state = Flip.getState(active)
+            button.appendChild(active)
+
+            Flip.from(state, {
+                duration: 1.5,
+                absolute: true,
+                ease: 'elastic.out(1,0.5)'
+            })
+
+        })
+    })
+
+
     return (
         <Container>
             {
                 filteredContracts?.length > 0 &&
                 <NavBar>
-                    <p>Vizualização em:</p>
+                    <p>Visualização em</p>
                     <div className='buttons'>
-                        <ButtonLink
+                        <div
                             onClick={() => setView('table')}
                             open={view === 'table'}
+                            className='button-link ac'
                         >
-                            Tabela
-                        </ButtonLink>
-                        ou
-                        <ButtonLink
+                            <p>Tabela </p>
+                            <div className='active'></div>
+                        </div>
+
+                        |
+
+                        <div
                             onClick={() => setView('template')}
                             open={view === 'template'}
+                            className='button-link'
+
                         >
-                            Template
-                        </ButtonLink>
+                            <p>Contrato</p>
+                        </div>
                     </div>
                 </NavBar>
             }
@@ -281,13 +318,6 @@ export const ContractData = () => {
 
                     :
                     <div className='empty'>
-                        <details >
-                            <p className='parag'>Deseja emitir um contrato ? Selecione
-                                o Funil de vendas desejado na opção <q>Funil</q> e logo em seguida na
-                                opção <q>Cliente</q> selecione a sua Matrícula no RD Station
-                                que já está na etapa de Matrícula!
-                            </p>
-                        </details>
                         <img style={{ margin: '5rem auto' }} src={noContract} alt="Empty data representation" />
                     </div>
             }

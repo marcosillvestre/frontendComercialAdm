@@ -2,7 +2,8 @@ import styled from "styled-components"
 
 export const Container = styled.div`
 
-#category-select label {
+#category-select {
+
 font-size: .75rem;
 letter-spacing: .0225rem;
 }
@@ -11,19 +12,21 @@ letter-spacing: .0225rem;
 `
 
 export const ListOpt = styled.ul`
-    display:${props => props.open ? "block" : "none"} ;
+    display:${props => props.open ? "" : "none"} ;
     position: absolute;
     z-index: 10;
     margin-top: .25rem ;
     border-radius: .375rem;
     background-color:#dfe6f1;
-    width: 15rem;
+
 
 `
 export const Options = styled.li`
+
         transition: .4s;
         transform-origin: top;
         color: #222;
+        padding: .75rem;
         width: 100%;
         border-bottom: 1px solid #fafafa;
         height: 2.78rem;
@@ -52,7 +55,7 @@ display: none;
 
 export const SelectButton = styled.div`
 color: #222;
-width: 15rem;
+width: 100%;
 height: 2.5rem;
 
 margin-top: .5rem;
@@ -60,30 +63,24 @@ display: flex;
 padding: .75rem;
 align-items: center;
 justify-content: space-between;
+
 border-radius: .375rem;
 background-color:#dfe6f1;
 
-    #selected-value{
+#selected-value{
     color: #000;
-    font-size: .74rem;
+    font-size: .67rem;
     margin-right: 2rem;
 }
 `
-
 export const Icon = styled.div`
 display: flex;
 align-items: center;
 cursor: pointer;
 translate:  -2px -2px ;
 
- .icon-up{
-        transform: rotate(180deg);
-        transition: all 1s ease-in-out;
-        display:${props => props.open ? "block" : "none"} ;
-        translate:  0 -1px ;
-    }
-    
-    .icon-down{
-        display:${props => props.open ? "none" : "block"} ;
+.icon{
+    transform: ${props => props.open ? "rotate(180deg)" : "rotate(0deg)"};
+    transition: all.4s;
     }
 `

@@ -1,57 +1,5 @@
 import styled from 'styled-components';
 
-export const Tax = styled.div`
-display: flex;
-padding: calc((4em - (1em * 1.5) - (0.125em * 2) - 0.375em) / 2) calc(1em * 1.5);
-border: 0.125em solid #1976d2; ;
-box-shadow: 0 0.375em 0 #1976d2;
-align-items: center;
-justify-content: center;
-width: 3rem;
-height: 2rem;
-border-radius: .5rem;
-background-color: #fff;
-font-size:.8rem;
-
-`
-
-export const Anchor = styled.a`
-
-    padding: 0.5rem 1.7rem;
-    border: none;
-    cursor: pointer;
-
-
-border-radius: 1rem;
-margin: 1rem 0;
-text-decoration: none;
-background-color: ${props => props.active ? "rgb(212, 217, 228)" : "rgb(223, 230, 241)"};
-color: #222;
-    &:hover{
-    background-color: #dededf;
-    }
-    &:visited{
-        color: #222;
-    }
-`
-export const Header = styled.header`
-width: 100vw;
-border-bottom: 1px solid #dededf;
-display: flex;
-justify-content: space-between;
-align-items: center;
-font-size: small;
-nav{
-    display: flex;
-    align-items: center;
-    margin: 0 3rem;
-    gap: 1rem;
-}
-`
-
-
-
-
 
 
 export const Container = styled.main`
@@ -61,6 +9,7 @@ gap: 1rem;
 width: 100vw;
 justify-content: center;
 align-items: center;
+padding: 0 4rem;
 
 p{
     margin-bottom: .2rem;
@@ -68,8 +17,84 @@ p{
 
 `
 
+
+export const UserContainer = styled.table`
+width: 100%;
+
+border-radius: 1rem;
+padding: 1rem 2rem ;
+height: 22rem;
+align-items: center;
+color: #222;
+background-color: rgb(234, 235, 240);
+
+.openDrawer{
+    margin: 0 0 2rem 84%;
+        border: none;
+        background-color: #1976d2;
+        font-family: "Roboto","Helvetica","Arial",sans-serif;
+        font-weight: 500;
+        font-size: 0.75rem;
+        letter-spacing: 0.02857em;
+        text-transform: uppercase;
+        min-width: 64px;
+        padding: 16px;
+        border-radius: 4px;
+        color: #fff;
+        cursor: pointer;
+        height: 3rem;
+        &:hover{
+        background-color: #1f5fba;
+        }
+    }
+`
+
+
+export const Header = styled.header`
+
+
+display: flex;
+width: 100%;
+font-size: small ;
+border: 2px solid #dfe6f1;
+border-radius: .35rem;
+padding: 1rem 3rem;
+
+margin-bottom: 1.5rem;
+nav{
+    width:100%;
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+    margin: 0 3rem;
+    gap: 1rem;
+}
+`
+
+
+export const Tax = styled.div`
+display: flex;
+padding: 12px;
+border: 0.125em solid #1976d2; ;
+box-shadow: 0 0.375em 0 #1976d2;
+align-items: center;
+justify-content: center;
+width: 3rem;
+height: 2rem;
+border-radius: .5rem;
+background-color: #fff;
+font-size:.8rem;
+margin: 0 auto;
+`
+
+
+
+
+
+
+
 export const RegisterContainer = styled.form` 
-width: 70%;
+width: 100%;
 
 border-radius: 1rem;
 padding: 1rem 2rem ;
@@ -100,12 +125,6 @@ grid-area: input;
 }
 
 `
-export const UserContainer = styled.table`
-border-radius:  .25em;
-width: 85%;
-background-color: rgb(234, 235, 240);
-`
-
 
 
 export const Image = styled.img`

@@ -1,59 +1,104 @@
-import DoneIcon from '@mui/icons-material/Done';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import React, { useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import { Area, Bar, BarChart, CartesianGrid, ComposedChart, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts';
-import { CloserClick, PositionedMenu } from '../../../components/source.jsx';
+import { CloserClick, Select } from '../../../components/source.jsx';
 import { useUser } from '../../../hooks/userContext';
 import URI from '../../utils/utils';
-import { ButtonLink, ChartsContainer, Checked, Container, ContainerTable, Icon, ListOpt, NavBar, Options, SelectButton, Tax } from './styles';
+import { ButtonLink, ChartsContainer, Container, ContainerTable, Header, NavBar, SelectButton, Tax, Wrapper } from './styles';
 
+
+import { gsap } from 'gsap';
+import { Flip } from 'gsap/Flip';
+gsap.registerPlugin(Flip)
 
 import LoadingSpin from 'react-loading-spin';
-import { default as businessRules, default as rules } from '../../utils/Rules/options.jsx';
-import { Conversion, Sellers, Totals, Unity } from './listTypes';
+import { useUnities } from '../../../hooks/unities/unitiesContext.hook.jsx';
+import { useUsers } from '../../../hooks/users/usersContext.hook.jsx';
+import businessRules from '../../utils/Rules/options.jsx';
+import { Totals } from './listTypes';
 export function ComissionControll() {
 
-    const { comissionStatusOpt, coursesOpt } = rules
+    const { predeterminedPeriods, comissionStatusOpt, coursesOpt } = businessRules
 
-    const { sellers, unity, headers, selectedInitialDate,
+
+    const { headers, selectedInitialDate,
         selectedEndDate, comissionQuery, setLabel, label, cell,
-
     } = useUser()
 
-    const [yearGraph, setYearGraph] = React.useState([])
+    const { UsersQuery } = useUsers()
 
+    const { unityQuery } = useUnities()
 
+    const [yearGraph, setYearGraph] = useState([])
 
-    const { data, isPending } = comissionQuery
+    // const { data, isPending } = comissionQuery
 
-    const [open1, setOpen1] = React.useState(false)
-    const [open2, setOpen2] = React.useState(false)
-
-    const [relatoryUnity, setRelatoryUnity] = React.useState("Todas")
-    const [statusRelatory, setStatusRelatory] = React.useState("Todas")
-
-    const [secondRelatory, setSecondRelatory] = React.useState("Todas")
-
-    const [thirdRelatory, setThirdRelatory] = React.useState("Todas")
-    const [label6, setLabel6] = React.useState("")
+    const [open1, setOpen1] = useState(false)
+    const [open2, setOpen2] = useState(false)
 
 
     const [view, setView] = useState('list')
 
+    const [relatory, setRelatory] = useState([])
+    const [type, setType] = useState([])
+    const [sellersRelatories, setSellersRelatories] = useState([])
 
-    const { predeterminedPeriods } = businessRules
+    const [unities, setUnitiesRelatories] = useState([])
 
 
-    const graphType = [
-        { name: "curso", label: "Curso" },
-        { name: "tipoMatricula", label: "Comissionamento" },
-        { name: "unidade", label: "Unidade" },
-        { name: "owner", label: "Consultor" }
-    ]
 
-    const [param, setParam] = React.useState(false)
-    const [type, setType] = React.useState('')
-    const [valueGraph, setValueGraph] = React.useState([])
+
+    const handleFilter = (key, value) => {
+        if (value === 'Tudo') return setType(type.filter(res => res.key !== key))
+        setType([...type, { key, value }])
+    }
+
+    useLayoutEffect(() => {
+
+        function filtrarArray(array, filtros, arrayPadrao) {
+            if (filtros.length === 0) {
+                return arrayPadrao;
+            }
+
+
+            return array.filter(item => {
+                return filtros.every(filtro => item[filtro.key] === filtro.value);
+            });
+        }
+        if (comissionQuery.status === 'success') {
+
+            const resultado = filtrarArray(comissionQuery.data.deals, type, comissionQuery.data.deals);
+            setRelatory(resultado)
+
+
+            const data = resultado.reduce((contador, item) => {
+                const owner = item.owner;
+                if (contador[owner]) {
+                    contador[owner]++;
+
+                } else {
+                    contador[owner] = 1;
+                }
+                return contador;
+            }, {});
+
+
+            setSellersRelatories(Object.keys(data).map(owner => ({
+                owner: owner,
+                count: data[owner]
+            })))
+        }
+    }, [comissionQuery.data, comissionQuery.status, type])
+
+    // const graphType = [
+    //     { name: "curso", label: "Curso" },
+    //     { name: "tipoMatricula", label: "Comissionamento" },
+    //     { name: "unidade", label: "Unidade" },
+    //     { name: "owner", label: "Consultor" }
+    // ]
+
+
+
+    const [valueGraph, setValueGraph] = useState([])
 
 
     async function push(type, value) {
@@ -72,9 +117,7 @@ export function ComissionControll() {
 
     const handleGraphic = (type, value, label) => {
         if (type === 'type') {
-            setParam(true)
-            setLabel6(label)
-            setType(value)
+            // setType(value)
             setValueGraph([])
             setOpen1(!open1)
         }
@@ -89,19 +132,42 @@ export function ComissionControll() {
         }
     }
 
-    React.useEffect(() => {
-        valueGraph.length > 0 && push(type, valueGraph)
-
-    }, [type, valueGraph])
 
 
 
-    const [list, setCompleteList] = React.useState("All")
+    const [list, setList] = useState('')
 
     const handleInput = (name) => {
         setOpen1(!open1)
         setLabel(name)
     }
+
+    const realData = relatory.length > 0 ? relatory : comissionQuery.data && comissionQuery.data.deals
+
+    const cards = document.querySelectorAll(".grid-cards")
+    cards?.forEach((card, idx) => {
+        card.addEventListener("click", () => {
+            const state = Flip.getState(cards)
+
+            const isActive = card.classList.contains("active")
+
+            cards.forEach((other, otherIdx) => {
+                other.classList.remove("active")
+                other.classList.remove("inactive")
+                if (!isActive && idx !== otherIdx) {
+                    other.classList.add("inactive")
+                }
+            })
+            if (!isActive && list !== '') card.classList.add("active");
+
+            Flip.from(state, {
+                duration: 1,
+                ease: 'expo.out',
+                absolute: true
+            })
+        })
+    })
+
 
     return (
         <>
@@ -116,202 +182,137 @@ export function ComissionControll() {
 
             <Container>
 
-                {view === 'list' ?
-                    <header>
-                        <nav>
-                            <div >
-                                <label htmlFor=""> Período personalizado:</label>
+                <Header>
 
-                                <SelectButton id="select-button" onClick={() => setOpen1(!open1)}>
-                                    <p id="selected-value"> {label}</p>
+                    <nav>
+                        <label htmlFor="">
+                            <p>
+                                Período personalizado:
+                            </p>
+                            <Select
+                                label={businessRules.predeterminedPeriods[0].name}
+                                option={predeterminedPeriods}
+                                width="10rem"
+                                fn={[handleInput]}
+                            />
+                            <p style={{ textAlign: "center" }}>
+                                {
+                                    selectedInitialDate &&
+                                    `${selectedInitialDate !== null ? new Date(selectedInitialDate).toLocaleDateString() : ""} ~ ${selectedEndDate !== null ? new Date(selectedEndDate).toLocaleDateString() : ""}`
+                                }
+                            </p>
+                        </label>
 
-                                    <Icon id="chevrons" open={open1}>
-                                        <i className='icon'> <KeyboardArrowDownIcon /></i>
-                                    </Icon>
-                                </SelectButton>
+                        <label htmlFor="">
+                            <p>Unidade</p>
+                            {
+                                unityQuery.status === 'success' &&
+                                <Select
+                                    label={'Tudo'}
+                                    option={[{ name: "Tudo" }, ...unityQuery.data]}
+                                    where="create"
+                                    field='unidade'
+                                    width="10rem"
+                                    fn={[handleFilter]}
+                                />
+                            }
+                        </label>
+                        <label htmlFor="">
+                            <p>Usuário responsável</p>
+                            {
+                                UsersQuery.status === 'success' &&
+                                <Select
+                                    label={'Tudo'}
+                                    option={[{ name: "Tudo" }, ...UsersQuery.data]}
+                                    where="create"
+                                    field='owner'
+                                    width="10rem"
+                                    fn={[handleFilter]}
+                                />
+                            }
+                        </label>
+                        <label htmlFor="">
+                            <p>Status</p>
 
+                            <Select
+                                label={'Tudo'}
+                                option={[{ name: "Tudo" }, ...comissionStatusOpt]}
+                                where="create"
+                                field='tipoMatricula'
+                                width="10rem"
+                                fn={[handleFilter]}
+                            />
+                        </label>
 
-
-                                <ListOpt open={open1}>
-
-                                    {
-                                        predeterminedPeriods?.map(period => (
-                                            period.name !== label &&
-                                            <Options className="option" key={period?.name} >
-                                                {
-                                                    period.customizable === undefined ?
-                                                        <span className="label" onClick={() => handleInput(period?.name)}>
-                                                            <p>{period?.name}</p>
-                                                        </span>
-                                                        :
-                                                        <PositionedMenu
-                                                            name={period?.name}
-                                                            fn={"label"}
-                                                        />
-
-                                                }
-                                                <Checked className='icon-right'><DoneIcon /></Checked>
-                                            </Options>
-                                        ))
-                                    }
-                                </ListOpt>
-                                <p style={{ textAlign: "center" }}>
-                                    {
-                                        selectedInitialDate &&
-                                        `${selectedInitialDate !== null ? new Date(selectedInitialDate).toLocaleDateString() : ""} ~ ${selectedEndDate !== null ? new Date(selectedEndDate).toLocaleDateString() : ""}`
-                                    }
-                                </p>
-
-                            </div>
-
-                        </nav>
-
-                        <NavBar>
-                            <p>Vizualização em </p>
-                            <ButtonLink open={view === 'list' && true} onClick={() => setView("list")}>Lista</ButtonLink> ou
-                            <ButtonLink open={view === 'graphic' && true} onClick={() => setView("graphic")}>Gráfico </ButtonLink>
-                        </NavBar>
                         <Tax>
                             {
-                                isPending ? <p>Carregando...</p> :
-                                    data?.total
+                                comissionQuery.isPending ? <p>Carregando...</p> :
+                                    comissionQuery.data?.total
                             }
                         </Tax>
 
-                    </header>
-                    :
-                    <header className='page-header'>
-                        <nav>
+                    </nav>
 
-                            <div >
-                                <label htmlFor=""> Gráfico:</label>
+                </Header>
 
-                                <SelectButton id="select-button" onClick={() => setOpen1(!open1)}>
-                                    <p id="selected-value"> {label6 === '' ? "Selecione" : label6}</p>
-                                    <Icon id="chevrons" open={open1}>
-                                        <i className='icon' > <KeyboardArrowDownIcon /></i>
-                                    </Icon>
-                                </SelectButton>
+                <NavBar>
+                    <span>
+                        <p>Visualização em </p>
+                        <div>
+                            <ButtonLink open={view === 'list' && true} onClick={() => setView("list")}>Lista</ButtonLink> |
+                            <ButtonLink open={view === 'graphic' && true} onClick={() => setView("graphic")}>Dashboard </ButtonLink>
+                        </div>
+                    </span>
 
 
-                                <ListOpt open={open1}>
+                    <div className='subtitle'>
+                        <span className='container'>
+                            <p>Vendedores</p>
+                            <hr />
+                            {sellersRelatories.map(res => (
+                                <div key={res.owner} className='wrapper-container'>
+                                    <SelectButton
+                                        className='paragraph'
+                                        onClick={() => setList(res.owner)}
+                                        open={list === res.owner}
+                                    >
+                                        {res.owner}
+                                    </SelectButton>
+                                </div>
+                            ))}
+                        </span>
+                    </div>
+                    <Wrapper>
 
-                                    {
-                                        graphType?.map(period => (
-                                            <Options className="option" key={period?.name} >
-                                                <span className="label" onClick={() => handleGraphic("type", period?.name, period?.label)}>
-
-                                                    <p>{period?.label}</p>
-                                                </span>
-                                                <Checked className='icon-right'><DoneIcon /></Checked>
-
-                                            </Options>
+                        {
+                            unityQuery.data && realData &&
+                            unityQuery.data.map(res => (
+                                <div
+                                    className='grid-cards subtitle'
+                                    key={res.name}
+                                >
+                                    <p className=''>
+                                        {res.name}
+                                    </p>
+                                    <hr />
+                                    <p className='count'>
+                                        {realData.map((r, idx) => (
+                                            r.unidade === res.name && r.owner === list &&
+                                            <p key={idx}>{r.name}</p>
                                         ))
-                                    }
-                                </ListOpt>
-                            </div>
+                                            // .length
+                                        }
+                                    </p>
+                                </div>
+                            ))
+                        }
+                    </Wrapper>
+                </NavBar>
 
-                            <div >
-                                <label htmlFor=""> Parâmetros:</label>
-
-                                <SelectButton
-                                    open={label6 !== '' ? false : true}
-                                    parameters={true} onClick={() => setOpen2(!open2)}>
-
-                                    <div className='container-parameters'>
-                                        {valueGraph.map(res => (
-                                            <span key={res} onClick={() =>
-                                                setValueGraph(valueGraph.filter(data => data !== res))} >
-                                                <p>
-                                                    {res}
-                                                </p>
-                                            </span>
-                                        ))}
-                                    </div>
-
-                                    <Icon id="chevrons" open={open2}>
-                                        <i className='icon' > <KeyboardArrowDownIcon /></i>
-                                    </Icon>
-                                </SelectButton>
-
-
-                                <ListOpt open={param === true && open2} parameters={true}>
-
-                                    {
-                                        label6 === 'Curso' &&
-                                        coursesOpt?.map(period => (
-                                            <Options className="option" key={period} >
-                                                <span className="label"
-                                                    onClick={() =>
-                                                        handleGraphic("value", period)}
-                                                >
-
-                                                    <p>{period}</p>
-                                                </span>
-                                                <Checked className='icon-right'><DoneIcon /></Checked>
-                                            </Options>
-                                        ))
-                                    }
-                                    {
-                                        label6 === 'Unidade' &&
-                                        unity?.map(period => (
-                                            <Options className="option" key={period?.name} >
-                                                <span className="label"
-                                                    onClick={() =>
-                                                        handleGraphic("value", period?.name)}
-                                                >
-
-                                                    <p>{period?.name}</p>
-                                                </span>
-                                                <Checked className='icon-right'><DoneIcon /></Checked>
-                                            </Options>
-                                        ))
-                                    }
-                                    {
-                                        label6 === 'Comissionamento' &&
-                                        comissionStatusOpt?.map(period => (
-                                            <Options className="option" key={period} >
-                                                <span className="label"
-                                                    onClick={() =>
-                                                        handleGraphic("value", period)}
-                                                >
-
-                                                    <p>{period}</p>
-                                                </span>
-                                                <Checked className='icon-right'><DoneIcon /></Checked>
-                                            </Options>
-                                        ))
-                                    }
-                                    {
-                                        label6 === 'Consultor' &&
-                                        sellers?.map(period => (
-                                            <Options className="option" key={period?.name} >
-                                                <span className="label" onClick={() => handleGraphic("value", period?.name)}>
-
-                                                    <p>{period?.name}</p>
-                                                </span>
-                                                <Checked className='icon-right'><DoneIcon /></Checked>
-                                            </Options>
-                                        ))
-                                    }
-
-                                </ListOpt>
-                            </div>
-
-                        </nav>
-
-                        <NavBar>
-                            <p>Vizualização em</p>
-                            <ButtonLink open={view === 'list' && true} onClick={() => setView("list")}>Lista</ButtonLink> ou
-                            <ButtonLink open={view === 'graphic' && true} onClick={() => setView("graphic")}>Gráfico </ButtonLink>
-                        </NavBar>
-
-                    </header>
-                }
                 {view === 'list' ?
                     <ContainerTable >
                         {
-                            isPending ?
+                            comissionQuery.isPending ?
                                 <LoadingSpin
                                     duration="4s"
                                     width="15px"
@@ -322,280 +323,15 @@ export function ComissionControll() {
                                     secondaryColor="#333"
                                     numberOfRotationsInAnimation={3}
                                 /> :
-                                <>
-                                    <div className='seller-relatory'>
 
-                                        <div style={{ display: "flex", gap: "20px" }}>
-                                            <input disabled={data === undefined} type="radio" name='radio' onClick={() => setCompleteList(data ? "Sellers" : "")} />
-                                            <h3 >Relatório base de consultores </h3>
-                                        </div>
+                                <div className='cell-relatory'>
 
-                                        <table >
-                                            <thead>
-                                                <tr>
-                                                    <th>Consultor</th>
-                                                    <th>Vendas</th>
+                                    <Totals
+                                        pending={comissionQuery.isPending}
+                                        data={realData}
+                                    />
 
-                                                    <th>
-                                                        <select name="" id="" onChange={(e) => setRelatoryUnity(e.target.value)}>
-                                                            <option value="Todas">Todas</option>
-                                                            {
-                                                                unity.map(res => (
-                                                                    <option value={res.name} key={res.name}>
-                                                                        {res.name}
-                                                                    </option>
-                                                                ))
-                                                            }
-                                                        </select>
-                                                    </th>
-                                                    <th>
-                                                        <select name="" id="" onChange={(e) => setStatusRelatory(e.target.value)}>
-                                                            <option value="Todas">Todas</option>
-
-                                                            {
-
-                                                                comissionStatusOpt.map(res => (
-                                                                    <option value={res} key={res}>
-                                                                        {res}
-                                                                    </option>
-                                                                ))
-                                                            }
-                                                        </select>
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {
-                                                    sellers && sellers.map(res => (
-                                                        <tr key={res.name}>
-                                                            <td >
-                                                                {res.name}
-                                                            </td>
-                                                            <td>
-                                                                {data !== undefined && data.deals.filter(data => data['owner'].includes(res.name)).length}
-                                                            </td>
-
-                                                            <td >
-                                                                {data !== undefined ?
-                                                                    relatoryUnity !== 'Todas' ?
-                                                                        data.deals.filter(data => data['owner'].includes(res.name) && data['unidade'].includes(relatoryUnity)).length :
-                                                                        data.deals.filter(data => data['owner'].includes(res.name)).length
-                                                                    : ""
-                                                                }
-                                                            </td>
-                                                            <td>
-
-                                                                {
-                                                                    data !== undefined ?
-                                                                        statusRelatory !== 'Todas' && relatoryUnity === 'Todas' &&
-                                                                        data.deals.filter(data => data['owner'].includes(res.name) && data['tipoMatricula'].includes(statusRelatory)).length
-                                                                        : ""
-                                                                }
-                                                                {
-                                                                    data !== undefined ?
-                                                                        statusRelatory === 'Todas' && relatoryUnity === 'Todas' &&
-                                                                        data.deals.filter(data => data['owner'].includes(res.name)).length
-                                                                        : ""
-                                                                }
-                                                                {
-                                                                    data !== undefined ?
-                                                                        statusRelatory === 'Todas' && relatoryUnity !== 'Todas' &&
-                                                                        data.deals.filter(data => data['owner'].includes(res.name) && data['unidade'].includes(relatoryUnity)).length
-                                                                        : ""
-                                                                }
-                                                                {
-                                                                    data !== undefined ?
-                                                                        statusRelatory !== 'Todas' && relatoryUnity !== 'Todas' &&
-                                                                        data.deals.filter(data => data['owner'].includes(res.name) && data['unidade'].includes(relatoryUnity) && data['tipoMatricula'].includes(statusRelatory)).length
-                                                                        : ""
-                                                                }
-                                                            </td>
-                                                        </tr>
-                                                    ))
-                                                }
-                                            </tbody>
-                                        </table>
-
-
-                                        <div style={{ display: "flex", gap: "20px" }}>
-                                            <input disabled={data === undefined} type="radio" name='radio' onClick={() => setCompleteList(data ? "Unity" : "")} />
-                                            <h3 >Relatório base de unidades </h3>
-                                        </div>
-
-                                        <table >
-                                            <thead>
-                                                <tr>
-                                                    <th>Unidades</th>
-                                                    <th>Vendas</th>
-
-                                                    <th>
-                                                        <select name="" id="" onChange={(e) => setSecondRelatory(e.target.value)}>
-                                                            <option value="Todas">Todas</option>
-                                                            {
-
-                                                                comissionStatusOpt.map(res => (
-                                                                    <option value={res} key={res}>
-                                                                        {res}
-                                                                    </option>
-                                                                ))
-                                                            }
-                                                        </select>
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {
-                                                    unity && unity.map(res => (
-                                                        <tr key={res.name}>
-                                                            <td >
-                                                                {res.name}
-                                                            </td>
-                                                            <td>
-                                                                {data !== undefined && data.deals.filter(data => data['unidade'].includes(res.name)).length}
-                                                            </td>
-
-                                                            <td>
-                                                                {
-
-                                                                    data !== undefined ?
-                                                                        secondRelatory !== "Todas" ?
-                                                                            data.deals.filter(data => data['unidade'].includes(res.name) && data['tipoMatricula'].includes(secondRelatory)).length :
-                                                                            data.deals.filter(data => data['unidade'].includes(res.name)).length
-                                                                        : ""
-                                                                }
-                                                            </td>
-                                                        </tr>
-                                                    ))
-                                                }
-                                            </tbody>
-                                        </table>
-
-
-                                        <div style={{ display: "flex", gap: "20px" }}>
-                                            <input disabled={data === undefined} type="radio" name='radio' onClick={() => setCompleteList(data ? "Conversion" : "")} />
-                                            <h3 > Base de conversão de matrículas </h3>
-                                        </div>
-
-                                        <table >
-                                            <thead>
-                                                <tr>
-                                                    <th>
-                                                        <select name="" id="" onChange={(e) => setThirdRelatory(e.target.value)}>
-                                                            <option value="Todas">Todas</option>
-                                                            {
-                                                                unity.map(res => (
-                                                                    <option value={res.name} key={res.name}>
-                                                                        {res.name}
-                                                                    </option>
-                                                                ))
-                                                            }
-                                                        </select>
-                                                    </th>
-                                                </tr>
-                                                <tr>
-                                                    {
-                                                        comissionStatusOpt.map(res => (
-                                                            <th key={res}>{res}</th>
-                                                        ))
-                                                    }
-
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {
-                                                    <tr >
-                                                        <td >
-                                                            {
-                                                                data !== undefined ?
-                                                                    thirdRelatory !== "Todas" ?
-                                                                        data.deals.filter(data => data['unidade'].includes(thirdRelatory) && data['tipoMatricula'].includes("Pendente")).length :
-                                                                        data.deals.filter(data => data['tipoMatricula'].includes("Pendente")).length
-                                                                    : ""
-                                                            }
-
-                                                        </td>
-                                                        <td>
-                                                            {
-                                                                data !== undefined ?
-                                                                    thirdRelatory !== "Todas" ?
-                                                                        data.deals.filter(data => data['unidade'].includes(thirdRelatory) && data['tipoMatricula'].includes("Não aprovado")).length :
-                                                                        data.deals.filter(data => data['tipoMatricula'].includes("Não aprovado")).length
-                                                                    : ""
-                                                            }
-                                                        </td>
-
-                                                        <td>
-                                                            {
-                                                                data !== undefined ?
-                                                                    thirdRelatory !== "Todas" ?
-                                                                        data.deals.filter(data => data['unidade'].includes(thirdRelatory) && data['tipoMatricula'].includes("Pré-aprovado")).length :
-                                                                        data.deals.filter(data => data['tipoMatricula'].includes("Pré-aprovado")).length
-                                                                    : ""
-                                                            }
-                                                        </td>
-                                                        <td>
-                                                            {
-                                                                data !== undefined ?
-                                                                    thirdRelatory !== "Todas" ?
-                                                                        data.deals.filter(data => data['unidade'].includes(thirdRelatory) && data['tipoMatricula'].includes("Aprovado")).length :
-                                                                        data.deals.filter(data => data['tipoMatricula'].includes("Aprovado")).length
-                                                                    : ""
-                                                            }
-                                                        </td>
-                                                        <td>
-                                                            {
-                                                                data !== undefined ?
-                                                                    thirdRelatory !== "Todas" ?
-                                                                        data.deals.filter(data => data['unidade'].includes(thirdRelatory) && data['tipoMatricula'].includes("Comissionado")).length :
-                                                                        data.deals.filter(data => data['tipoMatricula'].includes("Comissionado")).length
-                                                                    : ""
-                                                            }
-                                                        </td>
-                                                    </tr>
-
-
-                                                }
-                                            </tbody>
-                                        </table>
-
-                                    </div>
-
-                                    <div className='cell-relatory'>
-                                        <div style={{ display: "flex", gap: "20px", justifyContent: "center" }}>
-
-                                            <input disabled={data === undefined} checked={list === "All"} type="radio" name='radio' onClick={() => setCompleteList("All")} />
-                                            <h3> Lista completa</h3>
-                                        </div>
-                                        {
-                                            list === "All" &&
-                                            <Totals pending={isPending} data={data?.deals} />
-                                        }
-                                        {
-                                            list === "Sellers" &&
-                                            <Sellers pending={isPending}
-                                                data={data?.deals}
-                                                filter1={{ key: "tipoMatricula", value: statusRelatory }}
-                                                filter2={{ key: "unidade", value: relatoryUnity }} />
-                                        }
-                                        {
-                                            list === "Unity" &&
-                                            <Unity pending={isPending}
-                                                data={data?.deals}
-                                                filter1={{ key: 'tipoMatricula', value: secondRelatory }} />
-                                        }
-
-                                        {
-                                            list === "Conversion" &&
-                                            <Conversion pending={isPending}
-                                                data={data?.deals}
-                                                cell={cell}
-                                                filter1={{ key: "unidade", value: thirdRelatory }} />
-                                        }
-
-
-
-                                    </div>
-                                </>
+                                </div>
 
                         }
                     </ContainerTable>

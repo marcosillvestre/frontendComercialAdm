@@ -7,7 +7,10 @@ import { useUser } from '../../hooks/userContext';
 import { DatePickers } from '../source.jsx';
 import { Container, Label, RangeDate, Select } from './styles';
 
+import { paths } from '../../app/constants/paths.js';
 import rules from '../../app/utils/Rules/options.jsx';
+import { useUnities } from '../../hooks/unities/unitiesContext.hook.jsx';
+import { useUsers } from '../../hooks/users/usersContext.hook.jsx';
 
 export function PositionedMenu(data) {
 
@@ -15,15 +18,18 @@ export function PositionedMenu(data) {
 
 
     const [anchorEl, setAnchorEl] = React.useState(null);
-
+    const { unityQuery } = useUnities()
+    const { UsersQuery } = useUsers()
     const {
         filtered, setFiltered, handleClose, mutationControlData,
-        sellers, setOpenPeriodRange, unity, comissionQuery, setPeriodRange,
+        setOpenPeriodRange, comissionQuery, setPeriodRange,
         // allData
         setLabel
     } = useUser()
 
     const { typeFilter, setTypeFilter } = useData()
+
+
 
     const handleFilter = (value, type) => {
         if (filtered.length < 1) {
@@ -50,7 +56,6 @@ export function PositionedMenu(data) {
     }
 
 
-
     const url = useLocation()
 
     const handleFilterRangeDate = async () => {
@@ -58,15 +63,15 @@ export function PositionedMenu(data) {
             "periodRange": setPeriodRange(data.name),
             "label": setLabel(data.name),
         }
-        data.fn[fn]
 
         setTypeFilter([])
-        url.pathname === '/controle-comercial' && await mutationControlData.refetch()
-        url.pathname === '/controle-comissional' && await comissionQuery.refetch()
+        url.pathname === paths.control && await mutationControlData.refetch()
+        url.pathname === paths.comissionalControl && await comissionQuery.refetch()
 
         close()
         setOpenPeriodRange(false)
 
+        data.fn[fn]
     }
 
     const open = Boolean(anchorEl);
@@ -128,7 +133,7 @@ export function PositionedMenu(data) {
                         <Select onChange={(e) => handleFilter(e.target.value, "unidade")} >
                             <option value="selec">Selecione</option>
                             {
-                                unity && unity.map(res => (
+                                unityQuery.data && unityQuery.data.map(res => (
                                     <option key={res.id} value={res.name}>{res.name}</option>
                                 ))
                             }
@@ -142,8 +147,13 @@ export function PositionedMenu(data) {
 
                             <option value="selec">Selecione</option>
                             {
-                                comissionStatusOpt.map(res => (
-                                    <option value={res} key={res}>{res}</option>
+                                comissionStatusOpt.map((res, i) => (
+                                    <option
+                                        value={res.name}
+                                        key={i}
+                                    >
+                                        {res.name}
+                                    </option>
                                 ))
 
                             }
@@ -156,8 +166,8 @@ export function PositionedMenu(data) {
                         <Select onChange={(e) => handleFilter(e.target.value, "curso")} >
                             <option value="selec">Selecione</option>
                             {
-                                coursesOpt.map(res => (
-                                    <option value={res} key={res}>{res}</option>
+                                coursesOpt.map((res, i) => (
+                                    <option value={res} key={i}>{res}</option>
                                 ))
 
                             }
@@ -170,8 +180,8 @@ export function PositionedMenu(data) {
                         <Select onChange={(e) => handleFilter(e.target.value.toLowerCase(), "owner")} >
                             <option value="selec">Selecione</option>
                             {
-                                sellers?.map(res => (
-                                    <option key={res.name} value={res.name}>{res.name}</option>
+                                UsersQuery.data && UsersQuery.data.map((res, i) => (
+                                    <option key={i} value={res.name}>{res.name}</option>
                                 ))
 
                             }

@@ -1,6 +1,6 @@
 // import React from 'react';
 import LoadingSpin from 'react-loading-spin';
-import { useUser } from '../../../hooks/userContext';
+import { useUser } from '../../../hooks/userContext.jsx';
 
 import businessRules from '../../utils/Rules/options.jsx';
 import { Container } from './styles';

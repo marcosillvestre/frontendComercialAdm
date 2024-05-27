@@ -7,6 +7,7 @@ import * as React from 'react';
 
 import { toast } from 'react-toastify';
 // import URI from '../../app/utils/utils';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import URI from '../../app/utils/utils';
 import { useUser } from '../../hooks/userContext';
 import { Boxes, ButtonDelete, Filter, Trash } from './styles';
@@ -21,6 +22,7 @@ const style = {
     border: '1px solid #000',
     boxShadow: 24,
     p: 4,
+    textAlign: 'center'
 };
 
 
@@ -53,6 +55,16 @@ export function SureModal(data) {
             setFetchData(filtered)
         })
     }
+    const queryCache = useQueryClient();
+
+
+    const mutationDeleteData = useMutation({
+        mutationFn: () => DeleteData(data.data),
+        onSuccess: () => {
+            queryCache.invalidateQueries(["custom"])
+
+        }
+    })
 
     return (
         <div>
@@ -70,14 +82,16 @@ export function SureModal(data) {
                     },
                 }}
             >
-                <Fade in={open} style={{ border: "none", borderRadius: ".9rem", width: "23vw" }}>
+                <Fade in={open} style={{ border: "none", borderRadius: ".9rem", width: "40%" }}>
                     <Box sx={style}>
                         <Typography id="transition-modal-title" variant="h6" component="h2">
-                            Quer mesmo apagar {data.name} ?
+                            Quer mesmo apagar <q>{data.name}</q> ?
                         </Typography>
 
                         <Boxes>
-                            <ButtonDelete onClick={() => DeleteData(data.data)}>Sim, quero apagar</ButtonDelete>
+                            <ButtonDelete onClick={() => mutationDeleteData.mutateAsync()}>
+                                Apagar
+                            </ButtonDelete>
                         </Boxes>
                     </Box>
 

@@ -19,6 +19,7 @@ export function Row(props) {
                     {row?.name}
                 </TableCell>
                 <TableCell align="center">{row?.email}</TableCell>
+                {/* <TableCell align="center">{row?.active}</TableCell> */}
                 <TableCell align="center">
                     {
                         <>
@@ -51,6 +52,7 @@ Row.propTypes = {
         role: PropTypes.string.isRequired,
         password: PropTypes.string.isRequired,
         admin: PropTypes.bool.isRequired,
+        active: PropTypes.bool.isRequired,
 
     }).isRequired,
 

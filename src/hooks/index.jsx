@@ -1,13 +1,24 @@
 import PropTypes from 'prop-types'
 
+import { Contracts } from './contracts/contracts.hook'
+import { CustomFields } from './customFields/customFIelds.hook'
 import { DataProvider } from './dataContext'
+import { UnitiesProvider } from './unities/unitiesContext.hook'
 import { UserProvider } from './userContext'
-
+import { UsersProvider } from './users/usersContext.hook'
 
 const AppProvider = ({ children }) => (
     <DataProvider>
         <UserProvider>
-            {children}
+            <CustomFields>
+                <Contracts>
+                    <UsersProvider>
+                        <UnitiesProvider>
+                            {children}
+                        </UnitiesProvider>
+                    </UsersProvider>
+                </Contracts>
+            </CustomFields>
         </UserProvider>
     </DataProvider>
 )

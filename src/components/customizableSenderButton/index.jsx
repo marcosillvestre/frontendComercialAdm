@@ -144,10 +144,10 @@ export function CustomizableButton(data) {
                                 res.options.map(opt => (
                                     <Options
                                         $open={res.open}
-                                        key={opt}
-                                        onClick={() => handleDropChange(opt)}
+                                        key={opt.name}
+                                        onClick={() => handleDropChange(opt.name)}
                                     >
-                                        {opt}
+                                        {opt.name}
                                     </Options>
 
                                 ))

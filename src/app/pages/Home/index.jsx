@@ -1,4 +1,5 @@
 import { useLocation } from 'react-router-dom';
+import { paths } from '../../constants/paths.js';
 import { Control, Login } from '../source.jsx';
 
 
@@ -7,8 +8,8 @@ export const Home = () => {
 
     return (
         <>
-            {location.pathname === '/' && <Login />}
-            {location.pathname === '/controle-comercial' && <Control />}
+            {location.pathname === paths.home && <Login />}
+            {location.pathname === paths.control && <Control />}
         </>
     )
 }

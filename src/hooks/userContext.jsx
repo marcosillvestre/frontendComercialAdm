@@ -1,4 +1,3 @@
-import { createContext, useContext, useEffect, useMemo, useState } from "react"
 
 
 import Proptypes from 'prop-types'
@@ -8,8 +7,10 @@ import { useData } from "./dataContext.jsx"
 
 import { useQuery } from '@tanstack/react-query'
 import { toast } from "react-toastify"
+import { paths } from '../app/constants/paths.js'
 import businessRules from '../app/utils/Rules/options.jsx'
 
+import { createContext, useContext, useEffect, useMemo, useState } from "react"
 
 const UserContext = createContext({})
 export const UserProvider = ({ children }) => {
@@ -17,12 +18,9 @@ export const UserProvider = ({ children }) => {
     const [userData, setUserData] = useState({})
 
     const [fetchData, setFetchData] = useState()
-    const [users, setUsers] = useState([])
     const [filtered, setFiltered] = useState([])
     const [contracts, setContracts] = useState([])
-    const [unity, setUnity] = useState([])
     const [filteredContracts, setFilteredContracts] = useState()
-    const [sellers, setSeller] = useState()
     const [periodRange, setPeriodRange] = useState(businessRules.predeterminedPeriods[0].name)
 
     const [anchorEl, setAnchorEl] = useState(null);
@@ -46,56 +44,13 @@ export const UserProvider = ({ children }) => {
                 setUserData(JSON.parse(clientInfo))
             }
             if (!clientInfo) {
-                redirect("/")
+                redirect(paths.home)
             }
         }
         loadUserData()
 
     }, [])
 
-
-
-    const headers = useMemo(() => {
-        return {
-            'Content-Type': "application/json",
-            "Authorization": `Bearer ${userData?.token}`
-        }
-    }, [userData?.token])
-
-
-
-    ////////////////////////////////////
-    useEffect(() => {
-
-
-        const unities = async () => {
-            await URI.get('/unidades', { headers })
-                .then(res => setUnity(res.data))
-        }
-        async function data() {
-            try {
-                await URI.get('/controle', { headers })
-                    .then(async info => {
-                        setFetchData(info.data)
-                    })
-            }
-            catch (err) {
-                if (err.response.data.error === 'token invalid') {
-                    window.location.href = "/"
-                    alert("Faça login novamente, seu acesso expirou")
-                    logOut()
-                }
-            }
-        }
-
-        const bool = headers.Authorization.includes('undefined')
-        if (fetchData === undefined && bool === false) {
-            data()
-            unities()
-        }
-
-    }, [fetchData, headers])
-    /////////////////////////////////////
 
     const putInfo = async (userInfos) => {
         setUserData(userInfos)
@@ -108,20 +63,23 @@ export const UserProvider = ({ children }) => {
     }
 
 
-    const bool = headers.Authorization
-    let splited = bool.split(" ")
+    const headers = useMemo(() => {
+        return {
+            'Content-Type': "application/json",
+            "Authorization": `Bearer ${userData?.token}`
+        }
+    }, [userData?.token])
 
-    const getData = async () => {
-        await URI.get('/users', { headers })
-            .then(res => {
-                setUsers(res.data)
-                setSeller(res.data?.filter(role =>
-                    role.role === 'comercial' || role.role === 'gerencia'))
 
-            }).catch((err) => (err))
-    }
 
-    splited[1] !== undefined && users.length === 0 && getData()
+
+
+
+
+
+
+
+
 
 
     const typeSearch = {
@@ -214,6 +172,7 @@ export const UserProvider = ({ children }) => {
 
     const [cell, setCell] = useState([])
 
+
     const comissionData = async () => {
         const response = await URI.get(`/comissao?range=${bodyComission.range}&dates=${bodyComission.dates}`, { headers }).then(res => res.data.data)
         return response
@@ -226,11 +185,16 @@ export const UserProvider = ({ children }) => {
 
 
 
+
     useEffect(() => {
         headers.Authorization.includes("undefined") === false && comissionQuery.refetch()
 
         comissionQuery.isSuccess && setCell(comissionQuery.data.deals)
     }, [label, comissionQuery.isSuccess])
+
+
+
+
 
 
     const [periodFilter, setPeriodFilter] = useState(false)
@@ -292,18 +256,24 @@ export const UserProvider = ({ children }) => {
 
 
 
+    const [openSidebar, setOpenSidebar] = useState(false);
+    const [typeSidebar, setTypeSidebar] = useState(0)
+
     return (
         <UserContext.Provider value={{
-            contracts, setContracts, sellers, periodRange, setPeriodRange, periodFilter, setPeriodFilter,
-            users, headers, putInfo, userData, anchorEl, setAnchorEl, handleClose, cell, setCell,
-            logOut, fetchData, setFetchData, setUsers, selectedInitialDate, setSelectedInitialDate,
+            contracts, setContracts, periodRange, setPeriodRange, periodFilter, setPeriodFilter,
+            headers, putInfo, userData, anchorEl, setAnchorEl, handleClose, cell, setCell,
+            logOut, fetchData, setFetchData, selectedInitialDate, setSelectedInitialDate,
             filtered, setFiltered, filteredContracts, setFilteredContracts, setLabel, label,
-            selectedEndDate, setSelectedEndDate, resetFilter, unity, body, comissionQuery,
+            selectedEndDate, setSelectedEndDate, resetFilter, body, comissionQuery,
             openPeriodRange, setOpenPeriodRange, unHandleLabel, setUnHandleLabel,
             mutationControlData, take, skip, setTake,
             setSkip, allData,
             SenderDirector, Sender,
-            historic, refetchHistoric, isPendingHistoric
+            historic, refetchHistoric, isPendingHistoric,
+            openSidebar, setOpenSidebar,
+            typeSidebar, setTypeSidebar,
+
         }}>
 
             {children}

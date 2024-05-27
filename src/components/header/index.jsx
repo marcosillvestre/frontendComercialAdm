@@ -1,15 +1,22 @@
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 import LogoutIcon from '@mui/icons-material/Logout';
+import SettingsIcon from '@mui/icons-material/Settings';
 import React, { useEffect, useState } from 'react';
+import { paths } from '../../app/constants/paths';
 import aw from '../../assets/awbr.png';
 import { useUser } from '../../hooks/userContext';
-import { Adduser, Box, ComissionScreen, Container, GetContracts, Image, Links, LogOut, Name, Nav, WithNotifications } from "./styles";
+import { CloserClick } from '../closeClick';
+import {
+    Container,
+    Image,
+    LogOut, Name,
+    NavList,
+    WithNotifications
+} from "./styles";
 
 export const Header = (parsed) => {
     const { logOut, userData } = useUser(false)
-    const [open, setOpen] = useState(false)
+    const [nav, setNav] = useState(false)
     const [user, setUser] = React.useState()
 
 
@@ -26,63 +33,64 @@ export const Header = (parsed) => {
     }, [parsed])
 
 
+    const links = [
+        { link: paths.configRegister, label: "Painel de usuários" },
+        { link: paths.configCustomFields, label: "Configurar campos" },
+        { link: paths.config, label: "Todas as configurações" },
+    ]
+
 
     return (
-        <Container open={parsed.open} >
-            <nav>
-                <a href="/controle-comercial">
-                    <Image src={aw} alt="American way" /> :
-                </a>
-            </nav>
+        <>
+            <CloserClick
+                open={nav}
+                fn={setNav} opacity={0}
+            />
+            <Container open={parsed.open} >
+                <nav>
+                    <a href={paths.control}>
+                        <Image src={aw} alt="American way" /> :
+                    </a>
+                </nav>
 
-            {user &&
-                <>
-                    <Nav  >
-                        <Box isOpen={open} >
-                            <>
-                                <nav>
-                                    <Links to="/contratos-por-assinar"><GetContracts /></Links>
-                                </nav>
-                                <nav>
-                                    {userData?.role === 'direcao' &&
-                                        <Links to="/cadastro"><Adduser /></Links>}
-                                </nav>
-
-
-                                <nav>
-                                    {userData?.role === 'direcao' || userData.role === 'administrativo' ?
-                                        <Links to="/controle-comissional"><ComissionScreen /></Links> : ""
-                                    }
-                                </nav>
-                            </>
-                        </Box>
-                        {open ?
-                            <div className='arrow' onClick={() => setOpen(!open)}> <KeyboardArrowDownIcon /></div>
-                            :
-                            <div className='arrow' onClick={() => setOpen(!open)}><KeyboardArrowUpIcon /></div>
-                        }
-                    </Nav>
-
-
+                {user &&
                     <nav className='nav-name'>
                         {
                             userData.role === "direcao" &&
-                            <a href="/historico">
-                                <WithNotifications />
-                            </a>
+                            <>
+                                <div className='anchor'>
+                                    <SettingsIcon
+                                        onMouseOver={() => setNav(true)}
+                                    />
+
+                                    <NavList
+                                        active={nav}
+                                    >
+                                        {
+                                            links.map(res => (
+                                                <ol key={res.link}>
+                                                    <a href={res.link}>
+                                                        {res.label}
+                                                    </a>
+                                                </ol>
+
+                                            ))
+                                        }
+                                    </NavList>
+                                </div>
+
+                                <a href={paths.historic} className='anchor'>
+                                    <WithNotifications />
+                                </a>
+                            </>
                         }
                         <p>Olá,</p><Name>{parsed?.data?.name}</Name>
-                        <LogOut to="/" onClick={() => unLog()}> Sair  </LogOut>
+                        <LogOut to={paths.home} onClick={() => unLog()}> Sair  </LogOut>
                         <LogoutIcon style={{ color: "#f13434" }} />
                     </nav>
-                </>
+                }
 
-
-
-            }
-
-
-
-        </Container>
+            </Container>
+        </>
     )
 }

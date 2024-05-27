@@ -11,34 +11,30 @@ padding: 0 4rem;
 }
 
 .nav-filter{
+    display: grid;
+    gap:1rem;
+    
+    .wrapper{
     display: flex;
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 1.5rem;
+    }
     
     font-size: small ;
     border: 2px solid #dfe6f1;
     border-radius: .35rem;
-    padding: 1.2rem;
+    padding: 1rem 3rem;
+
     margin-bottom: 1.5rem;
 
 .name-filter{
     display: flex;
     gap: .2rem;
-    margin-right: 2rem;
     align-items: end;
 }
 
-.filter{
-    border: none;
-    background-color:#dfe6f1;
-    border-radius: .35rem;
-    padding: .7rem .5rem;
-    width: 10rem;
-    margin-top: .5rem; 
-
-}
 
 .button{
     border-radius: .35rem;
@@ -49,7 +45,8 @@ padding: 0 4rem;
     height: 2.395rem;
     transition-duration: .4s;
     &:hover{
-    padding: 0 1.1rem ; 
+    background-color:#d9d9d9;
+
     }
 }
 
@@ -61,8 +58,18 @@ padding: 0 4rem;
 }
 `
 
+export const InputSearch = styled.input`
+    border: none;
+    background-color:#dfe6f1;
+    border-radius: .35rem;
+    padding: .7rem .5rem;
+    width: ${props => props.active ? "10rem" : "5.3rem"};
+    transition: all.9s;
+    margin-top: .5rem; 
+    text-overflow: ellipsis;
+
+`
 export const PageUpdate = styled.div`
-order: -1;
 background-color: #1976d2;
 
 font-family: "Roboto","Helvetica","Arial",sans-serif;
@@ -175,7 +182,7 @@ min-width: 64px;
 
 export const Tax = styled.div`
 display: flex;
-padding: calc((4em - (1em * 1.5) - (0.125em * 2) - 0.375em) / 2) calc(1em * 1.5);
+padding: .5rem 1rem;
 border: 0.125em solid #1976d2; ;
 box-shadow: 0 0.375em 0 #1976d2;
 align-items: center;
@@ -291,13 +298,9 @@ export const Icon = styled.div`
 display: flex;
 align-items: center;
 cursor: pointer;
-    .icon-up{
-        transform: rotate(180deg);
-        display:${props => props.open ? "block" : "none"} ;
-    }
-    
-    .icon-down{
-        display:${props => props.open ? "none" : "block"} ;
+   .icon{
+    transform: ${props => props.open ? "rotate(180deg)" : "rotate(0deg)"};
+    transition: all.4s;
     }
 `
 

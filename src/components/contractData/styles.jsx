@@ -5,7 +5,6 @@ margin: 0 auto;
 display: flex;
 flex-direction: column;
 gap: 1rem;
-max-width: 80vw ;
 
 
 table, th, tr, thead{
@@ -26,63 +25,63 @@ th{
 }
 .empty{
     display: flex;
-    flex-direction: column;
-    /* gap: 4rem; */
-    details{
-        border: 0.125em solid #1976d2; ;
-        padding: calc((4em - (1em * 1.5) - (0.125em * 2) - 0.375em) / 2) calc(1em * 1.5);
-        box-shadow: 0 0.375em 0 #1976d2;
-        border-radius: .5rem;
-    }
+    align-items: center;
+
     img{
-        height: 20rem;
+        height: 15rem;
     }
 
 }
 
-.parag{
-    width: 35rem;
-}
 
 `
 
 
 export const NavBar = styled.nav`
-/* text-align: center; */
+text-align: center;
+width: 15rem;
 /* display: flex; */
 .buttons{
     display: flex;
     gap: 6px;
     align-items: center;
-}
-`
+    user-select: none;
+    .button-link{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: .7rem 0 ;
+        width: 5rem ;
+        font-size: 12px;
+        border: none;
+        border-radius: .4rem;
+        cursor: pointer;
+        background-color: transparent;
+        position: relative;
 
-export const ButtonLink = styled.button`
-padding: .7rem 0 ;
-width: 7rem ;
+        p{
+        z-index: 2;
+        }
+            /* &:hover{
+            color:#222;
 
-font-size: 1rem;
-border: none;
-/* background-color:${props => props.open ? "#3458f5" : "#6d7ccb"} ; */
-background-color:#3458f5 ;
-color:${props => props.open ? "#fff" : "#222"} ;
-border-radius: .4rem;
-cursor: pointer;
+            } */
 
-&:hover{
-color:#fff;
-background-color:${props => props.open ? "#6d7ccb" : "#7387de"} ;
-
-}
-a{
-    text-decoration: none;
-    color: #222;
-    &:visited{
-        color: #222;
-    
+    }
+    .ac{
+        color: #fff;
+    }
+    .active{
+        width: 100%;
+        height: 40px;
+        background-color: #3458f5;
+        border-radius: .5rem;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        z-index: 1;
     }
 }
-
 `
 
 export const TableBody = styled.td`

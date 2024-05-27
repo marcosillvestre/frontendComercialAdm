@@ -242,8 +242,8 @@ export const FirstDrop = (row) => {
                                             onChange={(e) =>
                                                 Changer("tipoMatricula", e.target.value, row?.data.contrato)}>
                                             {
-                                                comissionStatusOpt.map(res => (
-                                                    <option value={res} key={res}>{res}</option>
+                                                comissionStatusOpt.map((res, i) => (
+                                                    <option value={res.name} key={i}>{res.name}</option>
                                                 ))
                                             }
                                         </Select>

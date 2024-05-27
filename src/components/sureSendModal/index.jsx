@@ -7,8 +7,7 @@ import { useState } from 'react';
 
 import { useUser } from '../../hooks/userContext';
 
-import axios from 'axios';
-import { Boxes, ButtonDelete, Container, Fades, Filter } from './styles';
+import { Boxes, ButtonDelete, ChooseArchive, Container, Fades, Filter, UploadIcon } from './styles';
 
 const style = {
     position: 'absolute',
@@ -19,20 +18,29 @@ const style = {
     transform: 'translate(-50%, -50%)',
     width: 490,
     bgcolor: 'background.paper',
-    border: '1px solid #000',
+    // border: '1px solid #000',
     boxShadow: 24,
     p: 4,
 };
 
 
 import { useMutation } from '@tanstack/react-query';
+import { useForm } from 'react-hook-form';
 import generatePDF, { Margin, Resolution } from 'react-to-pdf';
 import { toast } from 'react-toastify';
 import URI from '../../app/utils/utils';
 import { useData } from '../../hooks/dataContext';
 
+import { yupResolver } from '@hookform/resolvers/yup';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import * as Yup from 'yup';
+
+
+
+
 
 export function SureSendModal(data) {
+
 
     const [send, setSend] = useState(true)
     const { filteredContracts, headers } = useUser()
@@ -40,6 +48,30 @@ export function SureSendModal(data) {
 
     const [open, setOpen] = useState(false);
     const [sendingList, setSendingList] = useState([])
+    const [fileName, setFileName] = useState('')
+    const [Links, setLinks] = useState({})
+
+
+
+
+    const schema = Yup.object({
+        file:
+            Yup.mixed()
+                .test('required', 'Você precisa enviar um arquivo', value => {
+                    console.log(value)
+                    return value && value?.length > 0
+                })
+    })
+
+
+    const { register, handleSubmit, formState: { errors } } = useForm({
+        resolver: yupResolver(schema)
+    });
+
+
+
+
+
 
     const handleOpen = () => setOpen(true);
 
@@ -48,36 +80,7 @@ export function SureSendModal(data) {
         setSendingList([])
     };
 
-    const senderImpressContract = async () => {
 
-        const options = {
-            filename: `adesão_${filteredContracts[0].name}`,
-            method: 'save',
-            resolution: Resolution.NORMAL,
-
-            page: {
-                margin: Margin.MEDIUM,
-                format: 'A4',
-                orientation: 'portrait'
-            }
-        };
-
-        await toast.promise(
-            generatePDF(content, options)
-                .then(res => {
-                    if (res) {
-                        setOpen(!open)
-                        send && contaAzulSender()
-
-                    }
-                })
-            , {
-                pending: 'Criando o documento',
-                success: 'Baixado com sucesso',
-                error: 'Alguma coisa deu errado'
-            }
-        )
-    }
 
 
     const client = async (body) => {
@@ -166,8 +169,8 @@ export function SureSendModal(data) {
         dataUltimaParcelaMensalidade, service,
         observacaoRd, mdDesconto
     }
-    async function contaAzulSender() {
 
+    async function contaAzulSender() {
         if (body.email === undefined || body.cpf === undefined ||
             body.name === undefined || body.CelularResponsavel === undefined ||
             body.DatadeNascdoResp === undefined ||
@@ -188,6 +191,7 @@ export function SureSendModal(data) {
 
 
     const sendEverything = async () => {
+
         client(body)
             .then(async () => {
                 await Promise.all([
@@ -195,8 +199,14 @@ export function SureSendModal(data) {
                     sales(body),
                     feeEnroll(body),
                 ])
-
+                // await contract(body)
+                // await sales(body)
+                // await feeEnroll(body)
             })
+
+
+
+
     }
 
 
@@ -248,41 +258,44 @@ export function SureSendModal(data) {
     }
 
 
-    let idioma = import.meta.env.VITE_IDIOMA
-    let particulares = import.meta.env.VITE_PARTICULARES
-    let standard = import.meta.env.VITE_STANDARD
-    let office = import.meta.env.VITE_OFFICE
-    let excel = import.meta.env.VITE_EXCEL
+    const senderImpressContract = async () => {
+        const options = {
+            filename: `adesao_${filteredContracts && filteredContracts[0].name}`,
+            method: 'save',
+            resolution: Resolution.NORMAL,
 
-    let idiomaPromo = import.meta.env.VITE_IDIOMA_PROMO
-    let particularesPromo = import.meta.env.VITE_PARTICULARES_PROMO
-    let standardPromo = import.meta.env.VITE_STANDARD_PROMO
-    let officePromo = import.meta.env.VITE_OFFICE_PROMO
-    let excelPromo = import.meta.env.VITE_EXCEL_PROMO
+            page: {
+                margin: Margin.MEDIUM,
+                format: 'A4',
+                orientation: 'portrait'
+            }
+        };
+
+        await toast.promise(
+            generatePDF(content, options)
+                .then(res => {
+                    if (res) {
+                        setOpen(!open)
+                        send && contaAzulSender()
+
+                    }
+                })
+            , {
+                pending: 'Criando o documento',
+                success: 'Baixado com sucesso',
+                error: 'Alguma coisa deu errado'
+            }
+        )
+    }
 
 
-    async function createContract() {
-        const archives = {
-            "Kids": filteredContracts[0].promocao === "Não" ? idioma : idiomaPromo,
-            "Teens": filteredContracts[0].promocao === "Não" ? idioma : idiomaPromo,
-            "Adults and YA": filteredContracts[0].promocao === "Não" ? idioma : idiomaPromo,
-            "Little Ones": filteredContracts[0].promocao === "Não" ? idioma : idiomaPromo,
-            "Español - En grupo": filteredContracts[0].promocao === "Não" ? idioma : idiomaPromo,
-            "Standard One": filteredContracts[0].promocao === "Não" ? standard : standardPromo,
-            "Fluency Way One -X": filteredContracts[0].promocao === "Não" ? particulares : particularesPromo,
-            "Fluency Way Double - X": filteredContracts[0].promocao === "Não" ? particulares : particularesPromo,
-            "Fluency Way Triple - X": filteredContracts[0].promocao === "Não" ? particulares : particularesPromo,
-            "Español - X1": filteredContracts[0].promocao === "Não" ? particulares : particularesPromo,
-            "Español - X2": filteredContracts[0].promocao === "Não" ? particulares : particularesPromo,
-            "Español - X3": filteredContracts[0].promocao === "Não" ? particulares : particularesPromo,
-            "Pacote Office Essentials": filteredContracts[0].promocao === "Não" ? office : officePromo,
-            "Excel Avaçado": filteredContracts[0].promocao === "Não" ? excel : excelPromo
-        }
+    const SendViaAutentique = async body => {
 
-        filteredContracts[0].vencimento = filteredContracts[0].diaVenvimento.split("/")[0]
-        filteredContracts[0].emissao = new Date().toLocaleDateString()
+
+        const data = new FormData()
+        data.append('name', filteredContracts[0].name)
+
         const rawPhone = filteredContracts[0].CelularResponsavel
-
         filteredContracts[0].number = rawPhone.includes("+") ? rawPhone : `+55${rawPhone}`
 
         filteredContracts[0].number = filteredContracts[0].number.includes(" ") ?
@@ -293,34 +306,33 @@ export function SureSendModal(data) {
             filteredContracts[0].number.replace("-", "") :
             filteredContracts[0].number
 
-        const sender = async () => {
-            await toast.promise(
-                axios.post(archives[filteredContracts[0].subclasse],
-                    filteredContracts[0], { headers })
-                , {
-                    pending: 'Enviando a taxa de matrícula',
-                    success: 'Enviado com sucesso',
-                    error: "Erro ao enviar a taxa de matrícula"
-                })
 
-                .then(async (res) => {
-                    if (res.status === 200) {
-                        setOpen(!open)
-                        send && await contaAzulSender()
-                    }
-                }
-                )
-                .catch(() => {
-                    alert("Erro ao enviar ao autentique")
-                })
+
+        data.append('number', filteredContracts[0].number)
+
+        if (body.file && body.file[0]) {
+            data.append('file', body.file[0]);
+        } else {
+            alert('Arquivo não encontrado');
         }
 
-
-        filteredContracts[0].number.length === 14 ?
-            sender() :
-            alert("A quantidade de caracteres no telefone de contato desse cliente está errada! O contato precisa ter exatos 14.")
-
+        await toast.promise(
+            // axios.post('http://localhost:7070/uploads',
+            URI.post("/uploads",
+                data, { 'Content-Type': 'multipart/form-data', ...headers })
+                .then(res => {
+                    const data = res.data.message
+                    data.customer && setLinks(data)
+                    send && contaAzulSender()
+                })
+            , {
+                pending: 'Enviando para o autentique',
+                success: 'Enviado com sucesso',
+                error: "Erro ao enviar, confira seus dados"
+            }
+        )
     }
+
 
 
     const handleSender = () => {
@@ -332,9 +344,7 @@ export function SureSendModal(data) {
         if (data.data === 'Conta Azul') {
             contaAzulSender()
         }
-        if (data.data === 'Autentique') {
-            createContract()
-        }
+
         if (data.data === 'PDF') {
             setView('template')
 
@@ -342,6 +352,13 @@ export function SureSendModal(data) {
                 senderImpressContract()
             }, 500);
         }
+    }
+
+
+    const copy = () => {
+        let copy = document.querySelector('.copied')
+        navigator.clipboard.writeText(copy.innerText)
+        alert("Copiado para área de transferência")
     }
 
 
@@ -378,16 +395,83 @@ export function SureSendModal(data) {
 
                                 {
                                     data.data !== 'Conta Azul' ?
-                                        <>
-                                            <Boxes>
-                                                <input type="checkbox" onClick={() => setSend(!send)} className='check' />
-                                                <small>Não enviar este contrato ao Conta Azul</small>
-                                            </Boxes>
+                                        data.data === 'Autentique' ?
+                                            <>
+                                                <Boxes>
+                                                    <label htmlFor="not-send">
+                                                        <input
+                                                            id="not-send"
+                                                            type="checkbox"
+                                                            onClick={() => setSend(!send)}
+                                                            className='check'
+                                                        />
+                                                        <small>Não enviar este contrato ao Conta Azul</small>
+                                                    </label>
+                                                </Boxes>
 
-                                            <Boxes radio>
-                                                <ButtonDelete onClick={() => handleSender()}>Emitir contrato</ButtonDelete>
-                                            </Boxes>
-                                        </>
+                                                <Boxes radio>
+
+                                                    <form
+                                                        onSubmit={handleSubmit(SendViaAutentique)}
+                                                    >
+                                                        <input
+                                                            type="file"
+                                                            id="fileUpload"
+                                                            accept=".pdf"
+                                                            {...register("file")}
+                                                            onChange={(e) => {
+                                                                setFileName(e.target.files[0].name)
+                                                            }}
+                                                        />
+                                                        <ChooseArchive >
+                                                            <label
+                                                                htmlFor="fileUpload"
+                                                                onClick={
+                                                                    () => setLinks({})
+                                                                }
+                                                            >
+                                                                <UploadIcon />
+                                                            </label>
+
+                                                            {fileName !== '' &&
+                                                                fileName
+                                                            }
+                                                            <input type="submit" />
+                                                        </ChooseArchive>
+                                                        <p style={{ color: 'red' }}>
+                                                            {errors.file?.message &&
+                                                                errors.file?.message}
+                                                        </p>
+
+                                                        {
+                                                            Links.customer !== undefined &&
+                                                            <>
+                                                                <p>Link para assinatura </p>
+                                                                <div>
+                                                                    <span onClick={() => copy()}>
+                                                                        <p className='copied'>{Links.customer} </p>
+                                                                        <ContentCopyIcon />
+                                                                    </span>
+                                                                </div>
+                                                            </>
+
+                                                        }
+                                                    </form>
+
+
+
+                                                </Boxes>
+                                            </> :
+                                            <>
+                                                <Boxes>
+                                                    <input type="checkbox" onClick={() => setSend(!send)} className='check' />
+                                                    <small>Não enviar este contrato ao Conta Azul</small>
+                                                </Boxes>
+
+                                                <Boxes radio>
+                                                    <ButtonDelete onClick={() => handleSender()}>Emitir contrato</ButtonDelete>
+                                                </Boxes>
+                                            </>
                                         :
                                         < >
                                             <Boxes >

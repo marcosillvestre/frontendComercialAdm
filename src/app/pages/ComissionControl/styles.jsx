@@ -1,9 +1,7 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-display: flex;
-flex-direction: column;
-gap: 2rem;
+padding: 0 4rem;
 nav{
     display: flex;
     gap: 8px;
@@ -15,14 +13,7 @@ nav{
     }
 }
 header{
-width: 100vw;
-border-bottom: 1px solid #dededf;
-display: flex;
-justify-content: space-between;
-align-items: center;
-font-size: small;
-padding: 2rem 5rem;
-gap: 8px;
+
 .filters{
     display: flex;
     flex-direction: column;
@@ -61,7 +52,8 @@ label{
 table{
     border-radius: 4px; 
     padding: 20px;
-    box-shadow: 1.5px 2px 4px 1.5px rgba(35, 36, 37, 0.3);
+    box-shadow: 0.2rem 0.2rem 0rem rgb(39,39,39);
+    border: 1.85px solid rgb(39,39,39);
     
 }
 
@@ -72,34 +64,36 @@ thead, tr, tbody, td {
 
 }
 
-.subtitle{
-    margin: 0 1rem;
-    box-shadow: 1.5px 2px 4px 1.5px rgba(35, 36, 37, 0.3);
-    border-radius: 4px; 
-    padding: 20px;
-    height: min-content;
-    position: sticky;
-    top: 18%;
-
-    div{
-        width: 10rem;
-        display: flex;
-        justify-content: space-between;
-        gap: 1rem;
-        hr{
-            height: 1rem;
-            width: 5rem;
-        }
-    }
-}
 
 `
+
+export const Header = styled.header`
+display: flex;
+align-items: center;
+flex-wrap: wrap;
+width: 100%;
+font-size: small ;
+border: 2px solid #dfe6f1;
+border-radius: .35rem;
+padding: 1rem 3rem;
+margin-bottom: 1.5rem;
+nav{
+    width:100%;
+    justify-content: center;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    /* margin: 0 3rem; */
+    gap: 1rem;
+}
+`
+
 
 
 
 export const Tax = styled.div`
 display: flex;
-padding: calc((4em - (1em * 1.5) - (0.125em * 2) - 0.375em) / 2) calc(1em * 1.5);
+padding: 12px;
 border: 0.125em solid #1976d2; ;
 box-shadow: 0 0.375em 0 #1976d2;
 align-items: center;
@@ -109,7 +103,6 @@ height: 2rem;
 border-radius: .5rem;
 background-color: #fff;
 font-size:.8rem;
-
 `
 
 export const ChartsContainer = styled.div`
@@ -159,10 +152,10 @@ export const Options = styled.li`
 
 export const ContainerTable = styled.div`
 display: flex;
-align-items: flex-start;
-justify-content: center;
-gap: .8rem;
-padding: .5rem 1rem;
+/* align-items: flex-start;
+justify-content: center; */
+gap: 2rem;
+/* padding: .5rem 1rem; */
 
 .seller-relatory{
     display: flex;
@@ -176,18 +169,79 @@ padding: .5rem 1rem;
 
 .cell-relatory{
     text-align: center;
-    font-size: small;
+    font-size: smaller;
+    margin: 1rem ;
 }
 
 
 `
 
+
+export const Wrapper = styled.span`
+display: grid;
+grid-template-columns: repeat(8, 1fr);
+gap: 1rem;
+width: 20rem;
+`
 export const NavBar = styled.nav`
-width: 100%;
+/* width: 15rem; */
 display: flex;
-justify-content: flex-end;
-padding-right:2rem ;
-align-items: center;
+
+
+.subtitle{
+    margin: 0 1rem;
+    box-shadow: 0.2rem 0.2rem 0rem rgb(39,39,39);
+    border: 1.85px solid rgb(39,39,39);;
+    border-radius: 4px; 
+    padding: 20px;
+    height: max-content;
+
+.container{
+
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
+    .wrapper-container{
+        width: 100%;
+        .paragraph{
+        width: 100%;
+        padding: 5px ;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-align: left;
+    }
+    }
+    }
+}
+
+
+.grid-cards{
+    grid-column: span 4;
+    font-size: small;
+    text-align: center;
+    animation-duration: all 1s;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 2rem;
+    justify-content: center;
+}
+.count{
+    display: none;
+}
+.active .count {
+    display: inline;
+}
+.active{
+    grid-column: 1 / span 8;
+    grid-row: 1;
+    order: 0;
+}
+.inactive{
+    grid-column: span 4;
+}
+
 @media(max-width:1090px){
 justify-content: center;
 
@@ -195,14 +249,20 @@ justify-content: center;
 `
 
 export const ButtonLink = styled.button`
-padding: .5rem 1.7rem;
+padding: .7rem 0 ;
+width: 7rem ;
+
+font-size: 1rem;
 border: none;
-background-color:${props => props.open ? "#d4d9e4" : "#dfe6f1"} ;
+/* background-color:${props => props.open ? "#3458f5" : "#6d7ccb"} ; */
+background-color:#3458f5 ;
+color:${props => props.open ? "#fff" : "#222"} ;
 border-radius: .4rem;
 cursor: pointer;
 
 &:hover{
-background-color:#d4d9e4;
+color:#fff;
+background-color:${props => props.open ? "#6d7ccb" : "#7387de"} ;
 
 }
 a{
@@ -213,8 +273,9 @@ a{
     
     }
 }
-
 `
+
+
 export const Checked = styled.i`
 margin-left: auto;
 display: none;
@@ -222,47 +283,16 @@ display: none;
 
 
 export const SelectButton = styled.div`
-color: #222;
-min-width: 15rem;
-height: 2.5rem;
-
-margin-top: .5rem;
-display: flex;
-padding: 0 1rem 0 1.4rem;
-align-items: center;
-justify-content: space-between;
+font-size: 12px;
+text-align: center;
 border-radius: .375rem;
-background-color:${props => props.open ? "#d4d9e4" : "#dfe6f1"} ;
+background-color:${props => props.open ? "#1c5bd0" : "#dfe6f1"} ;
+color:${props => props.open ? "#fff" : "#222"} ;
 
-    #selected-value{
-    color: #000;
-    font-size: .875rem;
-    margin-right: 2rem;
-    transition-duration: 3s;
-    white-space: nowrap;
-}
-.container-parameters{
-display: flex;
-    span{
-        border: 1px dashed;
-        border-radius: 7px;
-        padding: 1px 7px;
-        white-space: nowrap;
-        cursor: pointer;
-        p{
-            display: flex;
-            width: 100%;
-            &::after{
-                content:'✖️';
-                margin-left: 2px;
-            }
             &:active{
                 padding: 2px 5px;
                 
             }
-        }
-    }
-    }
 `
 
 export const Icon = styled.div`
