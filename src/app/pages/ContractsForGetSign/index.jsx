@@ -14,13 +14,12 @@ export const Contracts = () => {
         userData, setFilteredContracts, logOut,
         filteredContracts } = useUser()
 
-
     const personalText = {
         PDF: "Ao emitir via PDF o arquivo será baixado logo em seguida, ele também será enviado ao Conta Azul!",
         autentique: <p>
             Ao enviar um contrato via Autentique você deve
             selecionar um contrato já existente.
-            Ele será enviado à este número: <u>{filteredContracts && filteredContracts[0].CelularResponsavel}</u> via
+            Ele será enviado via
             whatsapp, após enviar você poderá copiar o link
             para para o cliente!
         </p>,
