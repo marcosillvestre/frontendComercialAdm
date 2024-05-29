@@ -1,9 +1,9 @@
 import { useLayoutEffect, useState } from 'react';
 import { Area, Bar, BarChart, CartesianGrid, ComposedChart, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts';
 import { CloserClick, Select } from '../../../components/source.jsx';
+import { useComission } from '../../../hooks/comissions/comissionContext.hook.jsx';
 import { useUser } from '../../../hooks/userContext';
-import { ChartsContainer, Container, ContainerTable, Header, NavBar, SelectButton, Tax, Wrapper } from './styles';
-
+import { ChartsContainer, Container, ContainerTable, Header, NavBar, SelectButton, Tax } from './styles';
 
 import { gsap } from 'gsap';
 import { Flip } from 'gsap/Flip';
@@ -23,7 +23,7 @@ export function ComissionControll() {
 
 
     const { selectedInitialDate,
-        selectedEndDate, comissionQuery, setLabel, userData
+        selectedEndDate, setLabel, userData
     } = useUser()
 
     // const { UsersQuery } = useUsers()
@@ -32,7 +32,7 @@ export function ComissionControll() {
 
     // const [yearGraph, setYearGraph] = useState([])
 
-    // const { data, isPending } = comissionQuery
+    const { comissionSuccess, comissionQuery, comissionPending } = useComission()
 
     const [open1, setOpen1] = useState(false)
     const [open2, setOpen2] = useState(false)
@@ -41,7 +41,9 @@ export function ComissionControll() {
     const [view, setView] = useState('list')
 
     const [relatory, setRelatory] = useState([])
-    // const [type, setType] = useState([])
+    // const [filters, setFilters] = useState([])
+    const [list, setList] = useState([])
+
     const [sellersRelatories, setSellersRelatories] = useState([])
 
     // const [unities, setUnitiesRelatories] = useState([])
@@ -56,23 +58,38 @@ export function ComissionControll() {
 
     useLayoutEffect(() => {
 
+        function agruparFiltros(filtros) {
+            return filtros.reduce((agrupados, filtro) => {
+                if (!agrupados[filtro.key]) {
+                    agrupados[filtro.key] = [];
+                }
+                agrupados[filtro.key].push(filtro.value);
+                return agrupados;
+            }, {});
+        }
+
         function filtrarArray(array, filtros, arrayPadrao) {
             if (filtros.length === 0) {
                 return arrayPadrao;
             }
 
+            const filtrosAgrupados = agruparFiltros(filtros);
 
             return array.filter(item => {
-                return filtros.every(filtro => item[filtro.key] === filtro.value);
+                return Object.keys(filtrosAgrupados).every(key => {
+                    return filtrosAgrupados[key].includes(item[key]);
+                });
             });
         }
-        if (comissionQuery.status === 'success') {
+        console.log
 
-            const resultado = filtrarArray(comissionQuery.data.deals, [], comissionQuery.data.deals);
+        if (comissionSuccess) {
+
+            const resultado = filtrarArray(comissionQuery, list, comissionQuery);
             setRelatory(resultado)
 
 
-            const data = resultado.reduce((contador, item) => {
+            const data = comissionQuery.reduce((contador, item) => {
                 const owner = item.owner;
                 if (contador[owner]) {
                     contador[owner]++;
@@ -89,8 +106,8 @@ export function ComissionControll() {
                 count: data[owner]
             })))
         }
-    }, [comissionQuery.data, comissionQuery.status,
-        //  type
+    }, [comissionQuery, comissionSuccess,
+        list
     ])
 
     // const graphType = [
@@ -138,40 +155,10 @@ export function ComissionControll() {
 
 
 
-
-    const [list, setList] = useState('')
-
     const handleInput = (name) => {
         setOpen1(!open1)
         setLabel(name)
     }
-
-    const realData = relatory.length > 0 ? relatory : comissionQuery.data && comissionQuery.data.deals
-
-    const cards = document.querySelectorAll(".grid-cards")
-    cards?.forEach((card, idx) => {
-        card.addEventListener("click", () => {
-            const state = Flip.getState(cards)
-
-            const isActive = card.classList.contains("active")
-
-            cards.forEach((other, otherIdx) => {
-                other.classList.remove("active")
-                other.classList.remove("inactive")
-                if (!isActive && idx !== otherIdx) {
-                    other.classList.add("inactive")
-                }
-            })
-            if (!isActive && list !== '') card.classList.add("active");
-
-
-            Flip.from(state, {
-                duration: 1,
-                ease: "back.out",
-                absolute: true
-            })
-        })
-    })
 
 
     const buttonsLinks = document.querySelectorAll(".button-link")
@@ -235,53 +222,12 @@ export function ComissionControll() {
                             </p>
                         </label>
 
-                        {/* <label htmlFor="">
-                            <p>Unidade</p>
-                            {
-                                unityQuery.status === 'success' &&
-                                <Select
-                                    label={'Tudo'}
-                                    option={[{ name: "Tudo" }, ...unityQuery.data]}
-                                    where="create"
-                                    field='unidade'
-                                    width="10rem"
-                                    fn={[handleFilter]}
-                                />
-                            }
-                        </label> */}
-                        {/* <label htmlFor="">
-                            <p>Usuário responsável</p>
-                            {
-                                UsersQuery.status === 'success' &&
-                                <Select
-                                    label={'Tudo'}
-                                    option={[{ name: "Tudo" }, ...UsersQuery.data]}
-                                    where="create"
-                                    field='owner'
-                                    width="10rem"
-                                    fn={[handleFilter]}
-                                />
-                            }
-                        </label> */}
-                        {/* <label htmlFor="">
-                            <p>Status</p>
-
-                            <Select
-                                label={'Tudo'}
-                                option={[{ name: "Tudo" }, ...comissionStatusOpt]}
-                                where="create"
-                                field='tipoMatricula'
-                                width="10rem"
-                                fn={[handleFilter]}
-                            />
-                        </label>
- */}
 
                     </nav>
                     <Tax>
                         {
-                            comissionQuery.isPending ? <p>Carregando...</p> :
-                                comissionQuery.data?.total
+                            comissionPending ? <p>Carregando...</p> :
+                                comissionQuery?.total
                         }
                     </Tax>
 
@@ -315,10 +261,12 @@ export function ComissionControll() {
 
                 </NavBar>
 
-                {view === 'list' && userData.name === "Marcos" ?
-                    <ContainerTable >
+                {view === 'list' ?
+                    <ContainerTable
+                        load={comissionPending}
+                    >
                         {
-                            comissionQuery.isPending ?
+                            comissionPending ?
                                 <LoadingSpin
                                     duration="4s"
                                     width="15px"
@@ -333,90 +281,93 @@ export function ComissionControll() {
                                 <div className='cell-relatory'>
 
                                     <Totals
-                                        pending={comissionQuery.isPending}
-                                        data={realData}
+                                        pending={comissionPending}
+                                        data={relatory}
                                         sellected={list}
                                     />
 
                                     <div className='subtitle'>
+                                        {
+                                            userData.role !== 'comercial' &&
+                                            <span className='container '>
+                                                <p>Vendedores</p>
+                                                <hr />
+                                                <SelectButton
+                                                    className='paragraph'
+                                                    onClick={() => setList(list.filter(res => res.key !== 'owner'))}
+                                                    open={list.filter(res => res.key === 'owner').length === 0}
+                                                >
+                                                    Todos
+                                                </SelectButton>
+                                                {sellersRelatories.map(res => (
+                                                    <div
+                                                        key={res.owner}
+                                                        className='wrapper-container'>
+
+                                                        <SelectButton
+                                                            className='paragraph'
+                                                            onClick={() => list.find(r => r.value === res.owner) ?
+                                                                setList(list.filter(r => r.value !== res.owner))
+                                                                : setList([...list, { key: "owner", value: res.owner }])}
+                                                            open={list && list.some(r => r.value === res.owner)}
+                                                        >
+                                                            {res.owner}
+                                                        </SelectButton>
+                                                    </div>
+                                                ))}
+                                            </span>
+                                        }
+
                                         <span className='container '>
-                                            <p>Vendedores</p>
+                                            <p>Unidades</p>
                                             <hr />
                                             <SelectButton
                                                 className='paragraph'
-                                                onClick={() => setList('')}
-                                                open={list === ''}
+                                                onClick={() => setList(list.filter(res => res.key !== 'unidade'))}
+                                                open={list.filter(res => res.key === 'unidade').length === 0}
                                             >
                                                 Todos
                                             </SelectButton>
-                                            {sellersRelatories.map(res => (
-                                                <div
-                                                    key={res.owner}
-                                                    className='wrapper-container'>
+                                            {unityQuery.data &&
+                                                unityQuery.data.map(res => (
+                                                    <div
+                                                        key={res.id}
+                                                        className='wrapper-container'>
 
-                                                    <SelectButton
-                                                        className='paragraph'
-                                                        onClick={() => setList(res.owner)}
-                                                        open={list === res.owner}
-                                                    >
-                                                        {res.owner}
-                                                    </SelectButton>
-                                                </div>
-                                            ))}
+                                                        <SelectButton
+                                                            className='paragraph'
+                                                            onClick={() => list.find(r => r.value === res.name) ?
+                                                                setList(list.filter(r => r.value !== res.name))
+                                                                : setList([...list, { key: "unidade", value: res.name }])}
+                                                            open={list && list.some(r => r.value === res.name)}
+                                                        >
+                                                            {res.name}
+                                                        </SelectButton>
+                                                    </div>
+                                                ))
+                                            }
                                         </span>
 
-                                        {
-                                            list !== '' &&
-                                            <div
-                                                className=''
-                                            > Total
-                                                <hr />
-                                                <p>
-                                                    {realData.filter((r) => r.owner === list).length}
-                                                </p>
-                                            </div>
-                                        }
+
+                                        <div>
+                                            Total
+                                            <hr />
+                                            <p>
+                                                {relatory.length}
+                                            </p>
+                                        </div>
                                     </div>
-                                    <Wrapper>
-
-                                        {
-                                            unityQuery.data && realData &&
-                                            unityQuery.data.map(res => (
-                                                <div
-                                                    className='grid-cards subtitle'
-                                                    key={res.name}
-                                                >
-                                                    {res.name}
-                                                    <hr />
-                                                    <p className='count'>
-                                                        {
-                                                            realData.map((r, idx) => (
-                                                                r.unidade === res.name && r.owner === list &&
-                                                                <p key={idx} className='ac'>{r.name}</p>
-                                                            ))
-                                                        }
-                                                    </p>
-
-                                                    <p>
-                                                        {
-                                                            list !== '' &&
-                                                            realData.filter((r) => r.unidade === res.name && r.owner === list).length
-                                                        }
-                                                    </p>
-                                                </div>
-                                            ))
-                                        }
-
-                                    </Wrapper>
                                 </div>
 
                         }
                     </ContainerTable>
                     :
 
-                    userData.name === "Marcos " ?
+                    userData.name === "Marcos" ?
                         <ChartsContainer>
-                            <BarChart width={600} height={400} data={yearGraph}>
+                            <BarChart width={600} height={400}
+                            // data={}
+                            >
                                 <CartesianGrid strokeDasharray="3 3" />
                                 <XAxis dataKey="name" />
                                 <YAxis />
@@ -429,13 +380,15 @@ export function ComissionControll() {
 
                             <span className='subtitle' >
 
-                                <h2>Legenda</h2>
+                                {/* <h2>Legenda</h2>
                                 {valueGraph[0] && <div><p>{valueGraph[0]}</p>  <hr style={{ backgroundColor: "#8884d8" }}></hr></div>}
                                 {valueGraph[1] && <div><p>{valueGraph[1]}</p>  <hr style={{ backgroundColor: "#82ca9d" }}></hr></div>}
-                                {valueGraph[2] && <div><p>{valueGraph[2]}</p>  <hr style={{ backgroundColor: "#3a56df" }}></hr></div>}
+                                {valueGraph[2] && <div><p>{valueGraph[2]}</p>  <hr style={{ backgroundColor: "#3a56df" }}></hr></div>} */}
                             </span>
 
-                            <LineChart width={600} height={400} data={yearGraph}>
+                            <LineChart width={600} height={400}
+                            // data={yearGraph}
+                            >
                                 <Tooltip />
                                 <Line type="monotone" dataKey="fn.parameter1" stroke="#8884d8" />
                                 <Line type="monotone" dataKey="fn.parameter2" fill="#82ca9d" />
@@ -445,7 +398,9 @@ export function ComissionControll() {
                                 <YAxis />
                             </LineChart>
 
-                            <ComposedChart width={600} height={400} data={yearGraph}>
+                            <ComposedChart width={600} height={400}
+                            // data={yearGraph}
+                            >
                                 <XAxis dataKey="name" />
                                 <YAxis />
                                 <Tooltip />

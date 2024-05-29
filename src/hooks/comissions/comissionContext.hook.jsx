@@ -11,7 +11,7 @@ import { useUser } from "../userContext.jsx"
 const ComissionContext = createContext({})
 export const ComissionProvider = ({ children }) => {
 
-    const { selectedInitialDate, selectedEndDate, headers } = useUser()
+    const { selectedInitialDate, selectedEndDate, headers, userData } = useUser()
 
     const [label, setLabel] = useState(businessRules.predeterminedPeriods[0].name)
 
@@ -28,17 +28,26 @@ export const ComissionProvider = ({ children }) => {
         const response = await URI.get(`/comissao?range=${bodyComission.range}&dates=${bodyComission.dates}`).then(res => res.data.data)
         return response
     }
-    const comissionQuery = useQuery({
+
+    const { isPending: comissionPending, isSuccess: comissionSuccess, data: comissionQueried } = useQuery({
         queryFn: () => comissionData(),
         queryKey: [bodyComission],
         enabled: !headers.Authorization.includes("undefined")
     })
 
+    const admRoles = () => {
+        if (userData.role !== 'comercial') return comissionQueried.deals
+        return comissionQueried.deals.filter(res => res.owner.toLowerCase().includes(userData.name.toLowerCase()))
+    }
+
+    const comissionQuery = comissionSuccess && admRoles()
 
     return (
         <ComissionContext.Provider value={{
             setLabel,
-            comissionQuery
+            comissionQuery,
+            comissionPending,
+            comissionSuccess,
         }}>
 
             {children}

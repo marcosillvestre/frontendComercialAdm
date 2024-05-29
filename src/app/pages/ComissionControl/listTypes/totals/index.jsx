@@ -2,10 +2,8 @@ import LoadingSpin from "react-loading-spin";
 import { Container, TableRow } from "./styles";
 
 export const Totals = (params) => {
-    const { pending, data, sellected } = params
-    console.log(sellected)
+    const { pending, data } = params
     return (
-
         <Container>
             <table>
                 {
@@ -42,7 +40,6 @@ export const Totals = (params) => {
                                         data?.map((res, i) => (
                                             <TableRow
                                                 key={i}
-                                                $active={res.owner === sellected && true}
                                             >
                                                 <td>
                                                     {res?.name}

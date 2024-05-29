@@ -96,7 +96,10 @@ export const Contracts = () => {
                             <datalist id='person'>
                                 {
                                     contracts && contracts.map(res => (
-                                        <option key={res.contrato} value={res.contrato}>{res.name}</option>
+                                        <option
+                                            key={res.contrato}
+                                            value={res.contrato}
+                                        >{res.name}</option>
 
                                     ))
                                 }

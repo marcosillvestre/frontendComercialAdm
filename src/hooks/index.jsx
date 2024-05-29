@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 
+import { ComissionProvider } from './comissions/comissionContext.hook'
 import { Contracts } from './contracts/contracts.hook'
 import { CustomFields } from './customFields/customFIelds.hook'
 import { DataProvider } from './dataContext'
@@ -14,7 +15,9 @@ const AppProvider = ({ children }) => (
                 <Contracts>
                     <UsersProvider>
                         <UnitiesProvider>
-                            {children}
+                            <ComissionProvider>
+                                {children}
+                            </ComissionProvider>
                         </UnitiesProvider>
                     </UsersProvider>
                 </Contracts>

@@ -107,9 +107,9 @@ export const Options = styled.li`
 export const ContainerTable = styled.div`
 display: flex;
 /* align-items: flex-start;
-justify-content: center; */
-gap: 2rem;
 /* padding: .5rem 1rem; */
+justify-content: ${props => props.load ? "center" : ""};
+gap: 2rem;
 
 
 
@@ -137,7 +137,11 @@ gap: 2rem;
     display: flex;
     flex-direction: column;
     gap: .4rem;
+    padding: .2rem 1rem;
     margin-bottom: 2rem;
+    p{
+        font-weight: bold;
+    }
     .wrapper-container{
         width: 100%;
 

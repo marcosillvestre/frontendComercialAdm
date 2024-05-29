@@ -63,8 +63,8 @@ export const InputSearch = styled.input`
     background-color:#dfe6f1;
     border-radius: .35rem;
     padding: .7rem .5rem;
-    width: ${props => props.active ? "10rem" : "5.3rem"};
-    transition: all.9s;
+    width: ${props => props.active ? "10rem" : "80%"};
+    transition: all.7s;
     margin-top: .5rem; 
     text-overflow: ellipsis;
 

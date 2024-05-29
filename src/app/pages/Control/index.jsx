@@ -11,12 +11,8 @@ import { Container, Filters, InputSearch, InputTake, NavControl, NothingHere, Nu
 
 import { useUser } from '../../../hooks/userContext';
 
-import { yupResolver } from '@hookform/resolvers/yup';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import SearchIcon from '@mui/icons-material/Search';
-import { useForm } from 'react-hook-form';
 import LoadingSpin from "react-loading-spin";
-import * as Yup from 'yup';
 import noData from '../../../assets/noData.svg';
 
 import {
@@ -36,7 +32,8 @@ export const ListFiltered = () => {
 
     const { userData, filtered, setFiltered, resetFilter,
         setPeriodFilter, mutationControlData, setTake,
-        take, skip, setSkip, allData, setTypeSidebar, setOpenSidebar,
+        take, skip, setSkip, allData,
+        //  setTypeSidebar, setOpenSidebar,
         setPeriodRange, setSelectedInitialDate, setSelectedEndDate
     } = useUser()
 
@@ -57,26 +54,19 @@ export const ListFiltered = () => {
     }
 
 
-
-
-    const schema = Yup.object({ name: Yup.string() })
-    const { register, handleSubmit, } = useForm({ resolver: yupResolver(schema) });
-
     const { isPending, data } = mutationControlData
 
 
-    const sender = (data) => {
-        setTypeFilter([])
-        const filteredByName = filtered?.filter(res => res.name.toLowerCase().includes(data.name.toLowerCase()))
-        data.name !== '' && setFiltered(filteredByName)
-    }
+    const sender = (name) => {
 
-
-
-    const handleSearch = () => {
         setPeriodFilter(false)
         setTypeFilter([])
+
+        const filteredByName = filtered?.filter(res => res.name.toLowerCase().includes(name.toLowerCase()))
+        name !== '' && setFiltered(filteredByName)
     }
+
+
 
     const handleData = (data) => {
         setSkip(0)
@@ -96,10 +86,10 @@ export const ListFiltered = () => {
     const [search, setSearch] = useState(false)
 
 
-    const openCreateContract = () => {
-        setTypeSidebar(2)
-        setOpenSidebar(true)
-    }
+    // const openCreateContract = () => {
+    //     setTypeSidebar(2)
+    //     setOpenSidebar(true)
+    // }
 
 
     const handleCheck = async (label) => {
@@ -135,7 +125,7 @@ export const ListFiltered = () => {
                         />
                     </label>
 
-                    <form onSubmit={handleSubmit((data) => sender(data))}>
+                    <label >
                         <p>Pesquisar no período</p>
 
                         <div className='name-filter'>
@@ -144,17 +134,16 @@ export const ListFiltered = () => {
                                 placeholder='Pesquisar..'
                                 className='filter'
                                 list='list'
-                                {...register('name')}
                                 active={search}
                                 onFocus={() => {
                                     setSearch(true)
-                                    setTake("all")
+                                    // setTake("all")
                                 }}
                                 onBlur={() => {
                                     setSearch(false)
-
                                 }}
                                 onChange={(e) => {
+                                    sender(e.target.value)
                                     if (e.target.value === "") {
                                         setTake(10)
                                         setFiltered(allData)
@@ -162,26 +151,22 @@ export const ListFiltered = () => {
                                 }}
                             />
 
-                            <datalist id='list'>
+                            <datalist id='list' >
                                 {
-                                    filtered?.length > 0 && filtered.map(res => (
+                                    allData?.length > 0 && allData.map(res => (
                                         <option
                                             key={res.contrato}
                                             value={res.name}
-                                        />
+                                        >
+                                            Aluno: {res.aluno}
+                                        </option>
                                     ))
                                 }
                             </datalist>
 
-                            <button
-                                type='submit'
-                                className='button'
-                                onClick={() => handleSearch()}
-                            >
-                                <SearchIcon />
-                            </button>
+
                         </div>
-                    </form>
+                    </label>
 
                     {/* <Tax>
                         {
