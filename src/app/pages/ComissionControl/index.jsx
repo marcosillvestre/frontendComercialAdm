@@ -23,7 +23,7 @@ export function ComissionControll() {
 
 
     const { selectedInitialDate,
-        selectedEndDate, setLabel, userData
+        selectedEndDate, userData
     } = useUser()
 
     // const { UsersQuery } = useUsers()
@@ -32,7 +32,7 @@ export function ComissionControll() {
 
     // const [yearGraph, setYearGraph] = useState([])
 
-    const { comissionSuccess, comissionQuery, comissionPending } = useComission()
+    const { comissionSuccess, comissionQuery, comissionPending, setLabel } = useComission()
 
     const [open1, setOpen1] = useState(false)
     const [open2, setOpen2] = useState(false)
@@ -41,20 +41,9 @@ export function ComissionControll() {
     const [view, setView] = useState('list')
 
     const [relatory, setRelatory] = useState([])
-    // const [filters, setFilters] = useState([])
     const [list, setList] = useState([])
 
     const [sellersRelatories, setSellersRelatories] = useState([])
-
-    // const [unities, setUnitiesRelatories] = useState([])
-
-
-
-
-    // const handleFilter = (key, value) => {
-    //     if (value === 'Tudo') return setType(type.filter(res => res.key !== key))
-    //     setType([...type, { key, value }])
-    // }
 
     useLayoutEffect(() => {
 
@@ -81,7 +70,6 @@ export function ComissionControll() {
                 });
             });
         }
-        console.log
 
         if (comissionSuccess) {
 
@@ -226,8 +214,9 @@ export function ComissionControll() {
                     </nav>
                     <Tax>
                         {
-                            comissionPending ? <p>Carregando...</p> :
-                                comissionQuery?.total
+                            comissionPending === false && <p>
+                                {comissionQuery.length}
+                            </p>
                         }
                     </Tax>
 

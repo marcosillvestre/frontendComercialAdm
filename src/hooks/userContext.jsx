@@ -155,40 +155,6 @@ export const UserProvider = ({ children }) => {
 
 
 
-    const [label, setLabel] = useState(businessRules.predeterminedPeriods[0].name)
-
-    const bodyComission = {
-        range: label,
-        dates: label === "Período personalizado" ? `${selectedInitialDate}~${selectedEndDate}` : ""
-    }
-
-    const [cell, setCell] = useState([])
-
-
-    const comissionData = async () => {
-        const response = await URI.get(`/comissao?range=${bodyComission.range}&dates=${bodyComission.dates}`,).then(res => res.data.data)
-        return response
-    }
-    const comissionQuery = useQuery({
-        queryFn: () => comissionData(),
-        queryKey: [bodyComission],
-        enabled: !headers.Authorization.includes("undefined")
-    })
-
-
-
-
-    useEffect(() => {
-        headers.Authorization.includes("undefined") === false && comissionQuery.refetch()
-
-        comissionQuery.isSuccess && setCell(comissionQuery.data.deals)
-    }, [label, comissionQuery.isSuccess])
-
-
-
-
-
-
     const [periodFilter, setPeriodFilter] = useState(false)
 
 
@@ -254,10 +220,10 @@ export const UserProvider = ({ children }) => {
     return (
         <UserContext.Provider value={{
             contracts, setContracts, periodRange, setPeriodRange, periodFilter, setPeriodFilter,
-            headers, putInfo, userData, anchorEl, setAnchorEl, handleClose, cell, setCell,
+            headers, putInfo, userData, anchorEl, setAnchorEl, handleClose,
             logOut, fetchData, setFetchData, selectedInitialDate, setSelectedInitialDate,
-            filtered, setFiltered, filteredContracts, setFilteredContracts, setLabel, label,
-            selectedEndDate, setSelectedEndDate, resetFilter, body, comissionQuery,
+            filtered, setFiltered, filteredContracts, setFilteredContracts,
+            selectedEndDate, setSelectedEndDate, resetFilter, body,
             openPeriodRange, setOpenPeriodRange, unHandleLabel, setUnHandleLabel,
             mutationControlData, take, skip, setTake,
             setSkip, allData,

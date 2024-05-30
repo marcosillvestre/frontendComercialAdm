@@ -21,10 +21,8 @@ export const Navigation = (openSidebar) => {
     const pages = [
         { name: 'Controle Comercial', url: paths.control, icon: <Home />, access: ['administrativo', 'direcao', 'comercial', 'gerencia', 'pedagogico'] },
         { name: 'Emitir Contratos', url: paths.signContracts, icon: <GetContracts />, access: ['administrativo', 'direcao', 'comercial', 'gerencia', 'pedagogico'] },
-        { name: 'Relatórios', url: paths.comissionalControl, icon: <ComissionScreen />, access: ['administrativo', 'direcao', 'gerencia'] },
-
+        { name: 'Relatórios', url: paths.comissionalControl, icon: <ComissionScreen />, access: ['administrativo', 'direcao', 'gerencia', 'comercial'] },
         { name: 'Histórico', url: paths.historic, icon: <History />, access: ['direcao'] },
-
         { name: 'Configurações', url: paths.config, icon: <SettingsIcon />, access: ['direcao'] },
     ]
 
