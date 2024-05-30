@@ -1,10 +1,11 @@
 import styled from "styled-components";
 
+
 export const Container = styled.div`
 padding: 0 4rem;
 
 table{
-    border-radius: 4px; 
+    border-radius: var(--border-radius); 
     padding: 20px;
     box-shadow: 0.2rem 0.2rem 0rem rgb(39,39,39);
     border: 1.85px solid rgb(39,39,39);
@@ -28,7 +29,7 @@ justify-content: space-between;
 width: 100%;
 font-size: small ;
 border: 2px solid #dfe6f1;
-border-radius: .35rem;
+border-radius: var(--border-radius);
 padding: 1rem 3rem;
 margin-bottom: 1.5rem;
 nav{
@@ -54,7 +55,7 @@ align-items: center;
 justify-content: center;
 width: 3rem;
 height: 2rem;
-border-radius: .5rem;
+border-radius: var(--border-radius);
 background-color: #fff;
 font-size:.8rem;
 `
@@ -71,7 +72,7 @@ export const ListOpt = styled.ul`
     position: absolute;
     z-index: 10;
     margin-top: .3rem ;
-    border-radius: .375rem;
+    border-radius: var(--border-radius);
     background-color:#dfe6f1;
     max-width: 15rem;
 
@@ -106,19 +107,19 @@ export const Options = styled.li`
 
 export const ContainerTable = styled.div`
 display: flex;
-/* align-items: flex-start;
-/* padding: .5rem 1rem; */
-justify-content: ${props => props.load ? "center" : ""};
+justify-content: ${props => props.load ? "center" : "space-around"};
+align-items: ${props => props.load ? "center" : ""};
+width: 100%;
 gap: 2rem;
-
-
+min-height: 60vh;
 
 .cell-relatory{
     display: flex;
     text-align: center;
     font-size: smaller;
-    margin: 1rem ;
-    height: 16.5rem;
+    margin: 1rem 0;
+    height: 65vh;
+    width: 100%;
 }
 
 
@@ -126,12 +127,11 @@ gap: 2rem;
     margin: 0 1rem;
     box-shadow: 0.2rem 0.2rem 0rem rgb(39,39,39);
     border: 1.85px solid rgb(39,39,39);;
-    border-radius: 4px; 
+    border-radius: var(--border-radius); 
     padding: 20px;
     height: max-content;
     display: flex;
     flex-direction: column;
-    /* align-items: center; */
 
 .container{
     display: flex;
@@ -153,61 +153,21 @@ gap: 2rem;
         -webkit-box-orient: vertical;
         overflow: hidden;
         text-align: left;
-
     }
     }
     }
 }
-
-
-.grid-cards{
-    width: max-content;
-    grid-column: span 4;
-    font-size: small;
-    text-align: center;
-    animation-duration: all 1s;
-    display: flex;
-    flex-direction: column;
-    padding: 1rem 2rem;
-    justify-content: center;
-    cursor: pointer;
-    user-select: none;
-    
-}
-.count{
-    display: none;
-}
-.active .count {
-    display: block;
-}
-.active{
-    grid-column: 1 / span 7;
-    grid-row: 1;
-    order: 0;
-}
-.inactive{
-    grid-column: span 3;
-    width: fit-content;
-}
-
-`
-
-export const Wrapper = styled.span`
-display: grid;
-grid-template-columns: repeat(10, 1fr);
-width: min-content;
-gap: 2rem;
-height: 100%;
-/* background-color: green; */
 
 
 `
-
 
 export const NavBar = styled.nav`
 text-align: center;
 display: flex;
-align-items: center;
+align-items: end;
+gap: 35px;
+padding-bottom: 5px;
+
 .buttons{
     display: flex;
     gap: 6px;
@@ -221,11 +181,10 @@ align-items: center;
         width: 5rem ;
         font-size: 12px;
         border: none;
-        border-radius: .4rem;
+        border-radius: var(--border-radius);
         cursor: pointer;
         background-color: transparent;
         position: relative;
-
         p{
         z-index: 2;
         }
@@ -236,8 +195,8 @@ align-items: center;
     .active{
         width: 100%;
         height: 40px;
+        border-radius: var(--border-radius);
         background-color: #3458f5;
-        border-radius: .5rem;
         position: absolute;
         left: 0;
         bottom: 0;
@@ -245,14 +204,92 @@ align-items: center;
     }
 }
 
+.generate{
+    background-color: #107c42;
+    padding: 7px;
+    color: #fff;
+    font-size: 12px;
+    height: 40px;
+    border-radius: var(--border-radius);
+    transition: transform 0.2s ease;
+    &::after,
+    &::before{
+        content: "";
+        height: 5px;
+        width: 5px;
+        background-color: #fff;
+        border-radius: 50%;
+    }
+    
+    &::after{
+        animation: ${props => props.animate ? "spinButtonRight " : ""}3s forwards alternate;
+    }
+    &::before{
+        animation: ${props => props.animate ? "spinButtonLeft " : ""}3s forwards alternate;
+    }
+    &:active{
+        transform: scale(0.96);
+    }
+    &:hover{
+        background-color: #107c42e6;
+    }
+    img{
+        height: 25px;
+    }
 
+    @keyframes spinButtonLeft{
+        
+    30%{
+        background-color: #107c42;
+        translate: -20px 0;
+    }
+    40%{
 
-@media(max-width:1090px){
-justify-content: center;
+        translate: -20px -30px;
+    }
+    60%{
+        translate: 150px -30px;
+    }
+    90%{
+        translate: 150px 0px;
+        background-color: #79bb97;
+
+    }
+    100%{
+        translate: 124px 0;
+    }
+    }
+    @keyframes spinButtonRight{
+        
+    30%{
+        background-color: #107c42;
+        translate: 20px 0;
+    }
+    40%{
+
+        translate: 20px 30px;
+    }
+    60%{
+        translate: -150px 30px;
+    }
+    90%{
+        translate: -150px 0px;
+        background-color: #79bb97;
+
+    }
+    100%{
+        translate: -124px 0px;
+
+    }
+
+    }
 
 }
-`
 
+@media(max-width:1090px){
+    justify-content: center;
+}
+`
 
 export const Checked = styled.i`
 margin-left: auto;
@@ -263,7 +300,7 @@ display: none;
 export const SelectButton = styled.button`
 font-size: 12px;
 text-align: center;
-border-radius: .375rem;
+border-radius: var(--border-radius);
 background-color:${props => props.open ? "#1c5bd0" : "#dfe6f1"} ;
 color:${props => props.open ? "#fff" : "#222"} ;
 cursor: pointer;

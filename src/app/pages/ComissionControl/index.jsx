@@ -13,6 +13,12 @@ import { useUnities } from '../../../hooks/unities/unitiesContext.hook.jsx';
 // import { useUsers } from '../../../hooks/users/usersContext.hook.jsx';
 import businessRules from '../../utils/Rules/options.jsx';
 import { Totals } from './listTypes';
+
+import { saveAs } from 'file-saver';
+import { toast } from 'react-toastify';
+import * as XLSX from 'xlsx';
+import excel from '../../../assets/excel.svg';
+
 export function ComissionControll() {
     gsap.registerPlugin(Flip)
 
@@ -32,7 +38,7 @@ export function ComissionControll() {
 
     // const [yearGraph, setYearGraph] = useState([])
 
-    const { comissionSuccess, comissionQuery, comissionPending, setLabel } = useComission()
+    const { comissionSuccess, comissionQuery, comissionPending, setLabel, label } = useComission()
 
     const [open1, setOpen1] = useState(false)
     const [open2, setOpen2] = useState(false)
@@ -42,6 +48,7 @@ export function ComissionControll() {
 
     const [relatory, setRelatory] = useState([])
     const [list, setList] = useState([])
+    const [animation, setAnimation] = useState(false)
 
     const [sellersRelatories, setSellersRelatories] = useState([])
 
@@ -141,8 +148,22 @@ export function ComissionControll() {
     //     }
     // }
 
+    const exportToExcel = () => {
+        setAnimation(true)
+        const worksheet = XLSX.utils.json_to_sheet(comissionQuery);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
 
+        // Buffer to store the generated Excel file
+        const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+        const blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8' });
 
+        setTimeout(() => {
+            toast.success("Planilha criada com sucesso")
+            setAnimation(false)
+            saveAs(blob, `${label}.xlsx`)
+        }, 3600);
+    };
     const handleInput = (name) => {
         setOpen1(!open1)
         setLabel(name)
@@ -222,7 +243,7 @@ export function ComissionControll() {
 
                 </Header>
 
-                <NavBar>
+                <NavBar animate={animation}>
                     <span>
                         <p>Visualização em </p>
                         <div className='buttons'>
@@ -246,6 +267,16 @@ export function ComissionControll() {
                             </div>
                         </div>
                     </span>
+
+                    <div
+                        className='buttons generate'
+                        onClick={() => exportToExcel()}
+                    >
+                        Gerar planilha
+                        <img src={excel} alt="excel logo" />
+                    </div>
+
+
 
 
                 </NavBar>

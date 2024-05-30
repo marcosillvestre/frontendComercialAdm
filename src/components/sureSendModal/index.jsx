@@ -363,7 +363,7 @@ export function SureSendModal(data) {
     const copy = () => {
         let copy = document.querySelector('.copied')
         navigator.clipboard.writeText(copy.innerText)
-        alert("Copiado para área de transferência")
+        toast.success("Copiado para área de transferência")
     }
 
 

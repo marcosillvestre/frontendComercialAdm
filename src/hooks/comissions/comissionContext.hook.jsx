@@ -48,6 +48,7 @@ export const ComissionProvider = ({ children }) => {
             comissionQuery,
             comissionPending,
             comissionSuccess,
+            label
         }}>
 
             {children}

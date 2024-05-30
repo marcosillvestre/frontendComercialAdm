@@ -2,7 +2,9 @@
 import { createGlobalStyle } from "styled-components"
 
 export default createGlobalStyle`
-
+:root{
+    --border-radius: .35rem;
+}
 *{ 
     margin: 0;
     padding: 0;
