@@ -1,9 +1,8 @@
-import DoneIcon from '@mui/icons-material/Done';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useState } from 'react';
 import businessRules from '../../app/utils/Rules/options.jsx';
 import { CloserClick, PositionedMenu } from '../source.jsx';
-import { Checked, Container, Icon, ListOpt, Options, SelectButton } from './styles';
+import { Container, Icon, ListOpt, Options, SelectButton } from './styles';
 
 export const Select = (parameters) => {
 
@@ -30,16 +29,11 @@ export const Select = (parameters) => {
             })
         })
     }
-
     return (
         <>
-            <CloserClick
-                open={open}
-                fn={setOpen} opacity={.01}
-            />
             <Container
                 style={{
-                    width: `${parameters.width}`,
+                    minWidth: `${parameters.width}`,
                 }}
             >
 
@@ -49,7 +43,9 @@ export const Select = (parameters) => {
                     >
                         <p id="selected-value"> {label}</p>
                         <Icon id="chevrons" open={open}>
-                            <i className='icon'> <KeyboardArrowDownIcon /></i>
+                            <i className='icon'>
+                                <KeyboardArrowDownIcon />
+                            </i>
                         </Icon>
                     </SelectButton>
                 </div>
@@ -58,13 +54,17 @@ export const Select = (parameters) => {
                 <ListOpt
                     open={open}
                     style={{
-                        width: `${parameters.width}`,
+                        minWidth: `${parameters.width}`,
                     }}
                 >
                     {
                         parameters.option?.map((data, idx) => (
                             data.name === label ? "" :
-                                <Options className="option" key={idx}  >
+                                <Options
+                                    className="option"
+                                    key={idx}
+
+                                >
                                     {
                                         data.customizable === undefined ?
                                             <span
@@ -80,12 +80,16 @@ export const Select = (parameters) => {
                                             :
                                             <PositionedMenu name={data?.name} />
                                     }
-                                    <Checked className='icon'><DoneIcon /></Checked>
                                 </Options>
                         ))
                     }
                 </ListOpt>
+
             </Container >
+            <CloserClick
+                open={open}
+                fn={setOpen} opacity={.01}
+            />
         </>
     )
 }

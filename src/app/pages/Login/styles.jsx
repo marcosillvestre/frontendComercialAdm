@@ -16,9 +16,7 @@ a{
 `
 export const Container = styled.span`
 display: flex;
-max-width: 100vw;
 background-color: #4e5f9b;
-height: calc(100vh - 17vh);
 
 
 span{
@@ -50,15 +48,7 @@ span{
             }
         }
     }
-    .pwb{
-    position: absolute;
-    display: flex;
-    gap: 0.2rem;
-    bottom: 1rem;
-    font-size: 0.6rem;
-    color: rgb(34, 34, 34);
-    z-index: 174;
-    }
+
 }
 .mainbox{
     background-color: #535175;
@@ -111,6 +101,17 @@ span{
 }
 `
 
+export const Powered = styled.div`
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    gap: 0.2rem;
+    font-size: 0.6rem;
+    color: rgb(34, 34, 34);
+    z-index: 174;
+    padding: 2rem;
+    
+`
 export const Input = styled.input`
 width: 100% ;
 height: 1.7rem;

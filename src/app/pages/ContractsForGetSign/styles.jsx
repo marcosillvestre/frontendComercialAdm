@@ -4,7 +4,8 @@ import styled, { keyframes } from "styled-components";
 export const Header = styled.header`
 display: flex;
 width: 100%;
-font-size: small ;
+            font-size: var(--fsLow) ;
+
 border: 2px solid #dfe6f1;
 border-radius: .35rem;
 padding: 1rem 3rem;

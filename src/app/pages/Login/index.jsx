@@ -12,7 +12,7 @@ import projects from '../../../assets/und.svg';
 import { useUser } from '../../../hooks/userContext';
 import { paths } from '../../constants/paths';
 import URI from '../../utils/utils';
-import { Box, Container, ErrorMessage, Header, Input, Submit } from './styles';
+import { Box, Container, ErrorMessage, Header, Input, Powered, Submit } from './styles';
 
 
 export const Login = () => {
@@ -65,11 +65,7 @@ export const Login = () => {
                         <img src={projects} alt="many-projects-handle" />
                     </div >
 
-                    <div className='pwb'>
-                        powered by
-                        <a href='https://github.com/marcosillvestre'>
-                            marcosillvestre</a>
-                    </div>
+
                 </span>
                 <div className='mainbox'>
                     <form onSubmit={handleSubmit((data) => Sender(data))}>
@@ -97,8 +93,13 @@ export const Login = () => {
 
                 </div >
 
-
             </Container>
+
+            <Powered>
+                powered by
+                <a href='https://github.com/marcosillvestre'>
+                    marcosillvestre</a>
+            </Powered>
         </>
     );
 }

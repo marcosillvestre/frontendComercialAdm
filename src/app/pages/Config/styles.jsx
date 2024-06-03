@@ -2,11 +2,12 @@ import styled from "styled-components";
 
 export const Container = styled.section`
 padding: 0rem 5rem ;
+font-size: var(--fsMid) ;
 
 header{
     font-weight: bold;
     overflow: hidden;
-    font-size: 1.5rem;
+    font-size: var(--fsLow) ;
     margin: 2rem auto;
     
 }
@@ -26,7 +27,8 @@ padding: 20px 0;
     flex-direction: column;
     align-items: center;
     gap: 1rem;
-    font-size: 13px;
+        font-size: var(--fsLow) ;
+
 
     @media(max-width: 750px){
     width: 100%;
@@ -34,7 +36,8 @@ padding: 20px 0;
 }
     a{
         background-color: #222;
-        font-size: .9rem;
+            font-size: var(--fsMid) ;
+
         padding: .5rem ;
         width: 70%;
         color: #fff;

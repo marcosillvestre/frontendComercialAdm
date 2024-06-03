@@ -77,6 +77,7 @@ export const Header = (parsed) => {
                                             ))
                                         }
                                     </NavList>
+
                                 </div>
 
                                 <a href={paths.historic} className='anchor'>
@@ -85,8 +86,9 @@ export const Header = (parsed) => {
                             </>
                         }
                         <p>Olá,</p><Name>{parsed?.data?.name}</Name>
-                        <LogOut to={paths.home} onClick={() => unLog()}> Sair  </LogOut>
-                        <LogoutIcon style={{ color: "#f13434" }} />
+                        <LogOut to={paths.home} onClick={() => unLog()}> Sair
+                            <LogoutIcon style={{ color: "#f13434" }} />
+                        </LogOut>
                     </nav>
                 }
 

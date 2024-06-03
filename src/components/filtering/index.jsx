@@ -1,11 +1,11 @@
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { alpha, styled } from '@mui/material/styles';
 import { useUser } from '../../hooks/userContext';
 import { PositionedMenu } from '../source.jsx';
+import { Buttonn, Container } from './styles.jsx';
 
 const StyledMenu = styled((props) => (
     <Menu
@@ -62,8 +62,8 @@ export function CustomizedMenus() {
     };
 
     return (
-        <div>
-            <Button
+        <Container>
+            <Buttonn
                 id="demo-customized-button"
                 aria-controls={open ? 'demo-customized-menu' : undefined}
                 aria-haspopup="true"
@@ -74,11 +74,11 @@ export function CustomizedMenus() {
                 endIcon={<KeyboardArrowDownIcon />}
                 style={{
                     fontSize: '0.675rem',
-                    padding: '10px 16px'
+                    padding: '10px 16px',
                 }}
             >
                 Mais filtros
-            </Button>
+            </Buttonn>
 
             <StyledMenu
                 id="demo-customized-menu"
@@ -88,6 +88,7 @@ export function CustomizedMenus() {
                 anchorEl={anchorEl}
                 open={open}
                 onClose={handleClose}
+
             >
                 <MenuItem disableRipple>
                     <PositionedMenu name={"Background"} />
@@ -116,6 +117,6 @@ export function CustomizedMenus() {
 
 
             </StyledMenu>
-        </div>
+        </Container>
     );
 }

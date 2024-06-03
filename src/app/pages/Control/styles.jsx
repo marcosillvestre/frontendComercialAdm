@@ -1,27 +1,23 @@
 import styled from "styled-components";
 
 export const Container = styled.main`
+    font-size: var(--fsLowest) ;
+
 display: flex;
 flex-direction: column;
 width: 100vw;
 padding: 0 4rem;
-font-size: 11px ;
-
-@media(max-width:1090px){
-    /* padding: 0 .8rem; */
+.wrapper{
+display: flex;
+align-items: end;
+flex-wrap: wrap;
+gap: 1rem;
+margin-bottom: 10px;
+label{
+    min-width: min-content;
 }
-    .wrapper{
-    display: flex;
-    align-items: end;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-bottom: 10px;
-    label{
-        min-width: min-content;
-    }
-    }
+}
 .nav-filter{
-    display: grid;
     border: 2px solid #dfe6f1;
     border-radius: .35rem;
     padding: 1rem 3rem;
@@ -47,17 +43,31 @@ font-size: 11px ;
     flex-wrap: wrap;
 }
 }
+
+@media(max-width:760px){
+.nav-filter{
+padding: .5rem;
+}
+.wrapper{
+justify-content: center;
+label{
+width: 100%;
+}
+}
+
+}
 `
 
 export const InputSearch = styled.input`
-    border: none;
+    border: ${props => props.active ? "1px solid #000000" : "none"};
     background-color:#dfe6f1;
     border-radius: .35rem;
     padding: .7rem .5rem;
-    width: ${props => props.active ? "10rem" : "7rem"};
+    width: 100%;
     transition: all.7s;
-    margin-top: .5rem; 
+    margin-top: .5rem;
     text-overflow: ellipsis;
+    height: 2.4rem;
 
 `
 export const PageUpdate = styled.div`
@@ -65,7 +75,9 @@ background-color: #1976d2;
 
 font-family: "Roboto","Helvetica","Arial",sans-serif;
 font-weight: 500;
-font-size: 0.675rem;
+
+    font-size: var(--fsLow) ;
+
 letter-spacing: 0.02857em;
 text-transform: uppercase;
 min-width: 64px;
@@ -84,7 +96,8 @@ export const NavControl = styled.span`
     display: flex;
     justify-content: space-between;
     margin: 1rem 2.3rem 1rem 1.6rem;
-    font-size: 11px;
+        font-size: var(--fsLow) ;
+
 .container{
     display: flex;
     gap: .3rem;
@@ -133,7 +146,8 @@ export const Filters = styled.div`
             background-color: #e63946;
             font-family: "Roboto","Helvetica","Arial",sans-serif;
             font-weight: 500;
-            font-size: 0.675rem;
+                font-size: var(--fsLow) ;
+
             letter-spacing: 0.02857em;
             text-transform: uppercase;
             padding: .5rem;
@@ -156,7 +170,8 @@ export const Filters = styled.div`
     padding: 7px;
     cursor: pointer;
    .header{
-        font-size:.6rem;
+            font-size: var(--fsMid) ;
+
     }
     .body{
         &::after{
@@ -179,7 +194,8 @@ width: 3rem;
 height: 2rem;
 border-radius: .5rem;
 background-color: #fff;
-font-size:.8rem;
+            font-size: var(--fsMid) ;
+
 
 `
 
@@ -190,32 +206,10 @@ export const Filter = styled.select`
 
 `
 
-export const SearchButton = styled.button`
-background: none;
-    color: rgb(25, 118, 210);
-    border: none;
-    font-size: 1rem;
-    margin: 0 1rem 0.6rem 2rem;
-    padding: 0 1rem;
-    border-radius: 0.5rem;
-    font-family: "Roboto","Helvetica","Arial",sans-serif;
-    font-weight: 500;
-    font-size: 0.875rem;
-    line-height: 1.75;
-    letter-spacing: 0.02857em;
-    text-transform: uppercase;
-
-&:hover{
-        text-decoration: none;
-    background-color: rgba(25, 118, 210, 0.04);
-}
-
-`
 export const NothingHere = styled.div`
 width: 100%;
 height: min-content;
 display: flex;
-font-size: 1.4rem;
 margin: 5rem 0 13.3rem 0;
 justify-content: center;
 align-items: center;
@@ -223,6 +217,13 @@ flex-direction: column;
 img{
     height: 15rem;
     translate: 5% 0;
+}
+
+@media(max-width:760px){
+    margin: 0 auto;
+    img{
+        height: 10rem;
+    }
 }
 `
 
@@ -296,7 +297,8 @@ export const NumberContainer = styled.div`
 display: flex;
 justify-content: space-between;
 margin: 1rem 1rem 1rem 1.6rem;
-font-size:11px;
+            font-size: var(--fsMid) ;
+
 
 align-items: center;
 div{
@@ -314,5 +316,6 @@ width: 5rem;
 border: none ;
 height: 2rem;
 border-radius: .5rem;
-font-size:11px;
+            font-size: var(--fsMid) ;
+
 `

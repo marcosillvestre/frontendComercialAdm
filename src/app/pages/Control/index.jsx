@@ -118,7 +118,7 @@ export const ListFiltered = () => {
                             id="select"
                             label={businessRules.predeterminedPeriods[0].name}
                             option={businessRules.predeterminedPeriods}
-                            width="14rem"
+                            width="100%"
                             // field="type"
                             // where="customField"
                             fn={[handleCheck]}
@@ -163,9 +163,9 @@ export const ListFiltered = () => {
                         </datalist>
                     </label>
 
-                    <CustomizedMenus />
+                    <CustomizedMenus
+                    />
                 </div>
-
 
 
             </span>

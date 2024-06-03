@@ -109,12 +109,11 @@ cursor: pointer;
 export const Links = styled(Link)`
 color: #2E2F8E;
 display: flex;
-gap: 1rem;
+gap: 3rem;
 text-decoration: none;
 width: 100%;
 height: 100%;
 
-background-color: ${props => props.active ? "rgb(234, 235, 240)" : ""};
 &:visited{
     color: #2E2F8E;
 }

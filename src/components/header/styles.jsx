@@ -7,7 +7,6 @@ export const NavList = styled.span`
 text-align: center;
 display: grid;
 gap: 10px;
-font-size: 14px;
 display: ${props => props.active ? "" : "none"};
 position: absolute;
 top: 60px;
@@ -40,6 +39,8 @@ align-items: center;
 justify-content: space-between;
 padding: 2.5rem 9.3rem 2.5rem 0rem ;
 height: 2rem;
+font-size: var(--fsLow);
+
 .arrow{
     border-radius: 55%;
     padding: 0.2rem;
@@ -49,7 +50,6 @@ height: 2rem;
 }
 
 .nav-name{
-font-size: 1.2rem;
 display: flex;
 visibility: ${props => props.open ? "hidden" : "visible"};
 gap: .7rem;
@@ -61,10 +61,20 @@ align-items: center;
     justify-items: center;
     &:visited{
     color: #fff;
-
     }
+
 }
 
+}
+
+    @media(max-width:760px){
+padding: 2.5rem 10rem 2.5rem 0rem ;
+
+        .nav-name{
+            .anchor{
+                display: none;
+            }
+        }
 }
 `
 
@@ -75,16 +85,22 @@ color: inherit;
 border-left: .1rem solid #fff;
 padding-left: 1.5rem;
 background: none;
-font-size: 1.4rem;
+font-size: var(--fsMid);
 color: #f13434;
 cursor: pointer;
 text-decoration:none;
 font-weight: bold;
 text-shadow: -1px 1px 1px #fff;
+display: flex;
+align-items: center;
+gap: .5rem;
 `
 
 export const Image = styled.img`
 width: 6rem;
+    /* @media(max-width:760px){
+    width: 6rem;
+} */
 `
 
 export const Name = styled.p`

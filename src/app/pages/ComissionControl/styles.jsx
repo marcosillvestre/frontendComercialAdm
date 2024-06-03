@@ -3,6 +3,8 @@ import styled from "styled-components";
 
 export const Container = styled.div`
 padding: 0 4rem;
+font-size: var(--fsMid) ;
+
 
 table{
     border-radius: var(--border-radius); 
@@ -27,7 +29,7 @@ display: flex;
 align-items: center;
 justify-content: space-between;
 width: 100%;
-font-size: small ;
+font-size: var(--fsMid) ;
 border: 2px solid #dfe6f1;
 border-radius: var(--border-radius);
 padding: 1rem 3rem;
@@ -57,7 +59,8 @@ width: 3rem;
 height: 2rem;
 border-radius: var(--border-radius);
 background-color: #fff;
-font-size:.8rem;
+font-size: var(--fsMid) ;
+
 `
 
 export const ChartsContainer = styled.div`
@@ -116,7 +119,7 @@ min-height: 60vh;
 .cell-relatory{
     display: flex;
     text-align: center;
-    font-size: smaller;
+    font-size: small;
     margin: 1rem 0;
     height: 65vh;
     width: 100%;
@@ -180,7 +183,7 @@ padding-bottom: 5px;
         justify-content: center;
         padding: .7rem 0 ;
         width: 5rem ;
-        font-size: 12px;
+        font-size: var(--fsMid);
         border: none;
         border-radius: var(--border-radius);
         cursor: pointer;
@@ -209,7 +212,7 @@ padding-bottom: 5px;
     background-color: #107c42;
     padding: 7px;
     color: #fff;
-    font-size: 12px;
+    font-size: var(--fsLow) ;
     height: 40px;
     border-radius: var(--border-radius);
     transition: transform 0.2s ease;
@@ -299,7 +302,7 @@ display: none;
 
 
 export const SelectButton = styled.button`
-font-size: 12px;
+font-size: var(--fsLow) ;
 text-align: center;
 border-radius: var(--border-radius);
 background-color:${props => props.open ? "#1c5bd0" : "#dfe6f1"} ;
