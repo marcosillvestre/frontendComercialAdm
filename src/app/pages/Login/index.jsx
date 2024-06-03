@@ -65,7 +65,6 @@ export const Login = () => {
                         <img src={projects} alt="many-projects-handle" />
                     </div >
 
-
                     <div className='pwb'>
                         powered by
                         <a href='https://github.com/marcosillvestre'>

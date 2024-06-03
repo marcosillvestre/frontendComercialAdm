@@ -16,10 +16,10 @@ a{
 `
 export const Container = styled.span`
 display: flex;
-justify-content: space-between;
 max-width: 100vw;
 background-color: #4e5f9b;
 height: calc(100vh - 17vh);
+
 
 span{
     text-align: center;
@@ -91,10 +91,26 @@ box-shadow: -4px -7px 51px -16px rgba(0,0,0,0.62);
     font-size: .9rem;
     justify-items: center;
 }
+
+@media(max-width:1000px){
+display: flex;
+flex-direction: column;
+span{
+    .intituitional{
+    padding: 0 5px;
+    img{
+    height: 22.5vh;
+    }        
+    }
+}
+.mainbox{
+    margin: 20px 0;
+    width: 100vw;
+    background: transparent;
+}
+}
 `
-export const Image = styled.img`
-width: 45vw;
-`
+
 export const Input = styled.input`
 width: 100% ;
 height: 1.7rem;
@@ -133,10 +149,10 @@ background-color: #fff;
 display: flex;
 justify-content: center;
 align-items: center;
-box-shadow: 5px 5px 5px 5spx rgba(0,0,0,0.66);
 
 img{
     width: 16rem;
     height: 10rem;
 }
+
 `
