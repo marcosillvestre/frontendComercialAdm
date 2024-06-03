@@ -113,10 +113,8 @@ gap: 1rem;
 text-decoration: none;
 width: 100%;
 height: 100%;
-background-color: ${props => props.active ? "rgb(234, 235, 240)" : ""};
-border-radius: 10px;
-padding: .5rem ;
 
+background-color: ${props => props.active ? "rgb(234, 235, 240)" : ""};
 &:visited{
     color: #2E2F8E;
 }

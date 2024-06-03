@@ -1,7 +1,6 @@
 import SettingsIcon from '@mui/icons-material/Settings';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { useLocation } from 'react-router-dom';
 import { paths } from "../../../app/constants/paths";
@@ -40,15 +39,6 @@ export const Navigation = (openSidebar) => {
                                 px: 2.5,
                             }}
                         >
-
-                            <ListItemIcon
-                                sx={{
-                                    minWidth: 0,
-                                    mr: openSidebar.open ? 1 : 'auto',
-                                    justifyContent: 'center',
-                                }}
-                            >
-                            </ListItemIcon>
 
                             {
 

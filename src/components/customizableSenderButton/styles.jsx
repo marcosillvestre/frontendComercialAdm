@@ -1,7 +1,6 @@
 import styled, { keyframes } from 'styled-components';
 
 export const ButtonContainer = styled.span`
-
 display: flex;
 gap: 5rem;
 font-weight: 500;
@@ -17,12 +16,11 @@ export const Container = styled.div`
     cursor: pointer;
     color: #fff;
     background-color: ${props => props.able ? "#1976d2" : "#222"};
-    padding: .8rem ;
     border-radius: 5px;
     margin:  5px 0;
-    /* box-shadow: ${props => props.able ? "4px 4px 0 #0069ff" : " 4px 4px 0 #505050"}; */
     display: flex;
-
+    padding: .4rem .6rem ;
+    font-size: 10px;
     transition: transform 0.1s, box-shadow 0.1s ;
     &:active{
         opacity: .8;
@@ -32,16 +30,14 @@ export const Container = styled.div`
 
 export const Box = styled.div`
 user-select: none;
-
 position: absolute;
-
 display: flex;
-gap: 1rem;
-margin: 0.3rem 0 0 10rem;
-
-padding: .4rem 2.5rem 1.1rem .6rem;
-
+gap: .6rem;
+margin: .1rem 0 0 8rem;
 color: #222;
+
+padding: .4rem .6rem ;
+font-size: 10px;
 
 `
 
@@ -62,14 +58,14 @@ from {
 
 to {
     transition: .2s ease-in-out;
-    translate: -75% 0;
+    translate: -81% 0;
     visibility: hidden;
 }
 `;
 
 export const OptionsContainer = styled.span`
 display: flex;
-gap: .2rem;
+gap: .5rem;
 flex-direction: column;
 align-items: center;
 
@@ -87,8 +83,7 @@ animation: ${({ $open }) => ($open ? 'none' : moveAnimation)} 1s ease-in-out for
 `
 export const Edit = styled.div`
 transition: .5s ease-in-out;
-
-padding: ${props => props.$open ? "1rem 2rem" : ".3rem .3rem"} ;
+padding: ${props => props.$open ? ".4rem .6rem" : ".3rem .3rem"} ;
 animation: ${({ $open }) => ($open ? 'none' : desapear)} 800ms ease-in-out forwards ;
 animation-delay: 1s;
 
@@ -115,10 +110,10 @@ export const Options = styled.div`
 display: ${props => props.$open ? "block" : "none"};
 transition: .3s ease-in-out;
 
-background-color: #3485f5;
+background-color: #4e5866;
 border-radius:10px ;
 
-padding: .6rem;
+padding: .3rem;
 width: 100%;
 text-align: center;
 color: #fff;

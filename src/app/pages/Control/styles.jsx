@@ -5,36 +5,27 @@ display: flex;
 flex-direction: column;
 width: 100vw;
 padding: 0 4rem;
+font-size: 11px ;
 
 @media(max-width:1090px){
-    padding: 0 .8rem;
+    /* padding: 0 .8rem; */
 }
-
-.nav-filter{
-    display: grid;
-    gap:1rem;
-    
     .wrapper{
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: end;
     flex-wrap: wrap;
-    gap: 1.5rem;
+    gap: 1rem;
+    margin-bottom: 10px;
+    label{
+        min-width: min-content;
     }
-    
-    font-size: small ;
+    }
+.nav-filter{
+    display: grid;
     border: 2px solid #dfe6f1;
     border-radius: .35rem;
     padding: 1rem 3rem;
-
     margin-bottom: 1.5rem;
-
-.name-filter{
-    display: flex;
-    gap: .2rem;
-    align-items: end;
-}
-
 
 .button{
     border-radius: .35rem;
@@ -63,7 +54,7 @@ export const InputSearch = styled.input`
     background-color:#dfe6f1;
     border-radius: .35rem;
     padding: .7rem .5rem;
-    width: ${props => props.active ? "10rem" : "80%"};
+    width: ${props => props.active ? "10rem" : "7rem"};
     transition: all.7s;
     margin-top: .5rem; 
     text-overflow: ellipsis;
@@ -93,11 +84,10 @@ export const NavControl = styled.span`
     display: flex;
     justify-content: space-between;
     margin: 1rem 2.3rem 1rem 1.6rem;
-    font-size: small;
+    font-size: 11px;
 .container{
     display: flex;
-    flex-direction: column;
-    gap: .1rem;
+    gap: .3rem;
     align-items: center;
 }
 `
@@ -130,7 +120,6 @@ export const Tabled = styled.span`
 
 export const Filters = styled.div`
     display: flex;
-    flex-direction: column;
     align-items: center;
     gap: 5px;
     div{
@@ -142,23 +131,22 @@ export const Filters = styled.div`
             border: none;
             color: #fff;
             background-color: #e63946;
-
-font-family: "Roboto","Helvetica","Arial",sans-serif;
-font-weight: 500;
-font-size: 0.675rem;
-letter-spacing: 0.02857em;
-text-transform: uppercase;
-min-width: 64px;
-
-            padding: 9px 20px;
+            font-family: "Roboto","Helvetica","Arial",sans-serif;
+            font-weight: 500;
+            font-size: 0.675rem;
+            letter-spacing: 0.02857em;
+            text-transform: uppercase;
+            padding: .5rem;
             border-radius: 5px;
             margin: 5px;
-            box-shadow: 4px 4px 0 #d90429;
-            transition: transform 0.1s, box-shadow 0.1s ;
-        &:active{
-            transform: translate(4px,4px);
-            box-shadow: 0 0 0 #d90429;
+        &:hover{
+            background-color: #ac4047;
         }
+        
+        &:active{
+            opacity: .8;
+        }
+
         }
 
     }
@@ -307,8 +295,8 @@ cursor: pointer;
 export const NumberContainer = styled.div`
 display: flex;
 justify-content: space-between;
-font-size: small;
 margin: 1rem 1rem 1rem 1.6rem;
+font-size:11px;
 
 align-items: center;
 div{
@@ -323,10 +311,8 @@ div{
 
 export const InputTake = styled.select`
 width: 5rem;
-border: 0.125em solid #222; ;
-box-shadow: 0 0.375em 0 #222;
-width: 3rem;
+border: none ;
 height: 2rem;
 border-radius: .5rem;
-font-size:.8rem;
+font-size:11px;
 `

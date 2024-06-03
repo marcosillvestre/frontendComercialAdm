@@ -132,13 +132,14 @@ min-height: 60vh;
     height: max-content;
     display: flex;
     flex-direction: column;
-
+    max-height: 100%;
+    /* position: fixed; */
 .container{
     display: flex;
     flex-direction: column;
-    gap: .4rem;
+    gap: .3rem;
     padding: .2rem 1rem;
-    margin-bottom: 2rem;
+    /* margin-bottom: 2rem; */
     p{
         font-weight: bold;
     }

@@ -112,116 +112,90 @@ export const ListFiltered = () => {
             <span className='nav-filter' >
                 <div className='wrapper'>
 
-                    <label htmlFor="">
-                        <p>Período personalizado</p>
+                    <label htmlFor="select">
+                        <p>Período</p>
                         <Select
+                            id="select"
                             label={businessRules.predeterminedPeriods[0].name}
                             option={businessRules.predeterminedPeriods}
                             width="14rem"
                             // field="type"
                             // where="customField"
                             fn={[handleCheck]}
-
                         />
                     </label>
 
                     <label >
                         <p>Pesquisar no período</p>
-
-                        <div className='name-filter'>
-                            <InputSearch
-                                type="text"
-                                placeholder='Pesquisar..'
-                                className='filter'
-                                list='list'
-                                active={search}
-                                onFocus={() => {
-                                    setSearch(true)
-                                    // setTake("all")
-                                }}
-                                onBlur={() => {
-                                    setSearch(false)
-                                }}
-                                onChange={(e) => {
-                                    sender(e.target.value)
-                                    if (e.target.value === "") {
-                                        setTake(10)
-                                        setFiltered(allData)
-                                    }
-                                }}
-                            />
-
-                            <datalist id='list' >
-                                {
-                                    allData?.length > 0 && allData.map(res => (
-                                        <option
-                                            key={res.contrato}
-                                            value={res.name}
-                                        >
-                                            Aluno: {res.aluno}
-                                        </option>
-                                    ))
+                        <InputSearch
+                            type="text"
+                            placeholder='Pesquisar..'
+                            className='filter'
+                            list='list'
+                            active={search}
+                            onFocus={() => {
+                                setSearch(true)
+                                // setTake("all")
+                            }}
+                            onBlur={() => {
+                                setSearch(false)
+                            }}
+                            onChange={(e) => {
+                                sender(e.target.value)
+                                if (e.target.value === "") {
+                                    setTake(10)
+                                    setFiltered(allData)
                                 }
-                            </datalist>
+                            }}
+                        />
 
-
-                        </div>
+                        <datalist id='list' >
+                            {
+                                allData?.length > 0 && allData.map(res => (
+                                    <option
+                                        key={res.contrato}
+                                        value={res.name}
+                                    >
+                                        Aluno: {res.aluno}
+                                    </option>
+                                ))
+                            }
+                        </datalist>
                     </label>
 
-                    {/* <Tax>
-                        {
-                            isPending === false &&
-                            data !== undefined &&
-                            data.total
-                        }
-                    </Tax> */}
-
                     <CustomizedMenus />
-                </div>
-                <div className='wrapper'>
-                    <span
-                        className='flex-group'
-                    >
-
-
-                        {/* <PageUpdate
-                            onClick={() => {
-                                openCreateContract()
-                            }}>
-                            Criar contrato
-                        </PageUpdate> */}
-
-                    </span>
-
-                    <Filters className='filters'>
-                        {typeFilter?.length > 0 &&
-                            <>
-                                <div >
-                                    <p>filtros aplicados: </p>
-                                    {typeFilter.map(res => (
-                                        <span
-                                            key={res.key}
-                                            onClick={() => handleResetFilter(res)}
-                                        >
-                                            <p className='header'>{businessRules.fields[res.key]}:</p>
-                                            <p className='body'>{res.value}</p>
-                                        </span>
-                                    ))}
-                                </div>
-                                <div>
-                                    <button
-                                        onClick={() => handleResetFilter()}
-                                    >Limpar filtros
-                                    </button>
-                                </div>
-                            </>
-                        }
-                    </Filters>
                 </div>
 
 
 
             </span>
+            <div className='wrapper'>
+
+                <Filters className='filters'>
+                    {typeFilter?.length > 0 &&
+                        <>
+                            <div >
+                                {typeFilter.map(res => (
+                                    <span
+                                        key={res.key}
+                                        onClick={() => handleResetFilter(res)}
+                                    >
+                                        <p className='header'>{businessRules.fields[res.key]}:</p>
+                                        <p className='body'>{res.value}</p>
+                                    </span>
+                                ))}
+                            </div>
+                            <div>
+                                <button
+                                    onClick={() => handleResetFilter()}
+                                >Limpar filtros
+                                </button>
+                            </div>
+                        </>
+                    }
+                </Filters>
+            </div>
+
 
             {
                 isPending ?
@@ -248,21 +222,22 @@ export const ListFiltered = () => {
                             <NavControl>
                                 {
                                     userData.admin &&
-                                    <CustomizableButton
-                                        element={1}
-                                        able={customizableArray.some(res => res?.isChecked !== false)}
-                                        label={"Alterar em lote"}
-                                        flex={true}
-                                        toBeChanged={customizableArray}
-                                    />
+
+                                    <div className='container'>
+                                        <p>{customizableArray.filter(res => res.isChecked === true).length} registro(s) selecionado(s)</p>
+                                        <CustomizableButton
+                                            element={1}
+                                            able={customizableArray.some(res => res?.isChecked !== false)}
+                                            label={"Alterar em lote"}
+                                            flex={true}
+                                            toBeChanged={customizableArray}
+                                        />
+                                    </div>
                                 }
 
                                 <div className='container'>
                                     <p>{filtered.length} registro(s)</p>
-                                    {
-                                        userData.admin &&
-                                        <p>{customizableArray.filter(res => res.isChecked === true).length} registro(s) selecionado(s)</p>
-                                    }
+
                                 </div>
 
                             </NavControl>
