@@ -56,7 +56,6 @@ export const Login = () => {
             <Container>
                 <span>
                     <div className='intituitional'>
-                        <h1>SCCM</h1>
                         <p>
                             Este é um sistema voltado para gestão de matrículas e finanças para empresas.
                             Confie em nós para simplificar o processo e otimizar o sucesso de sua organização.

@@ -10,43 +10,34 @@ div{
     gap: .3rem;
 }
 a{
-    font-size: x-small;
+    font-size: var(--fsLowest);
+
     text-align: start;
 }
 `
 export const Container = styled.span`
 display: flex;
 background-color: #4e5f9b;
-
+height: calc(100vh - 12vh);
 
 span{
     text-align: center;
     width: 100%;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
     .intituitional{
         color: #fff;
-        z-index: 10;
         display: flex;
         flex-direction: column;
         justify-content: center;
         width: 25rem;
         gap:2rem;
-        margin-top: 2rem;
+        /* margin-top: 2rem; */
         text-align: justify;
         img{
             height: 42.5vh;
         }
-        h1{
-            text-align: center;
-            font-size: 3rem;
-            font-family: 'Lobster Two', cursive;
 
-            @media(min-width: 1600px){
-                font-size: 4em;
-            }
-        }
     }
 
 }
@@ -68,23 +59,23 @@ span{
 
 form{
     background-color: rgb(255, 255, 255);
-    height: 20rem;
-    padding: 1rem 1.5rem 2rem 1.5rem;
+    padding: 2rem 1.5rem;
     display: grid;
-    gap: 0.1rem;
+    gap: 1rem;
     color: #031b4e;
 
-box-shadow: -4px -7px 51px -16px rgba(0,0,0,0.62);
--webkit-box-shadow: -4px -7px 51px -16px rgba(0,0,0,0.62);
--moz-box-shadow: -4px -7px 51px -16px rgba(0,0,0,0.62);
-    border-radius: .7rem;
-    font-size: .9rem;
+    box-shadow: -4px -7px 51px -16px rgba(0,0,0,0.62);
+    border-radius: var(--border-radius);
+    font-size: var(--fsLow);
     justify-items: center;
 }
 
 @media(max-width:1000px){
 display: flex;
 flex-direction: column;
+padding: 2rem 0;
+justify-content: center;
+
 span{
     .intituitional{
     padding: 0 5px;
@@ -102,11 +93,9 @@ span{
 `
 
 export const Powered = styled.div`
-    display: flex;
     text-align: center;
-    justify-content: center;
     gap: 0.2rem;
-    font-size: 0.6rem;
+    font-size: var(--fsLow);
     color: rgb(34, 34, 34);
     z-index: 174;
     padding: 2rem;
@@ -138,7 +127,7 @@ margin-top: 3rem ;
 
 `
 export const ErrorMessage = styled.p`
-font-size: small;
+font-size: var(--fsLow);
 color:#ff8c00;
 margin-top: .2rem;
 `
