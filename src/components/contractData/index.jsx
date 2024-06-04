@@ -56,7 +56,7 @@ export const ContractData = () => {
         "Little Ones": bool ? filteredContracts[0].promocao === "Não" ? <Idioma id='content' data={body} /> : <IdiomaPromo id='content' data={body} /> : "",
         "Español - En grupo": bool ? filteredContracts[0].promocao === "Não" ? <Idioma id='content' data={body} /> : <IdiomaPromo id='content' data={body} /> : "",
         "Fluency Way One - X": bool ? filteredContracts[0].promocao === "Não" ? <Particulares id='content' data={body} /> : <ParticularesPromo id='content' data={body} /> : "",
-        "Fluency Way Double - X": bool ? filteredContracts[0].promocao === "Não" ? <Particulares id='content' data={body} /> : <ParticularesPromo id='content' data={body} /> : "",
+        "Fluency Way Double -X": bool ? filteredContracts[0].promocao === "Não" ? <Particulares id='content' data={body} /> : <ParticularesPromo id='content' data={body} /> : "",
         "Fluency Way Triple - X": bool ? filteredContracts[0].promocao === "Não" ? <Particulares id='content' data={body} /> : <ParticularesPromo id='content' data={body} /> : "",
         "Español - X1": bool ? filteredContracts[0].promocao === "Não" ? <Particulares id='content' data={body} /> : <ParticularesPromo id='content' data={body} /> : "",
         "Español - X2": bool ? filteredContracts[0].promocao === "Não" ? <Particulares id='content' data={body} /> : <ParticularesPromo id='content' data={body} /> : "",
