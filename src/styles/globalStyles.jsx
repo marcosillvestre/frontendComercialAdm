@@ -4,11 +4,14 @@ import { createGlobalStyle } from "styled-components"
 export default createGlobalStyle`
 :root{
     --border-radius: .35rem;
+
     --fsLowest: .7rem;
     --fsLow: .9rem;
     --fsMid: 1.3rem;
     --fsBig: 1.7rem;
     --fsBigger: 2.3rem;
+
+    --boxHei: 2.4rem;
 }
 html{
     @media (max-width: 1255px){

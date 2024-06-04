@@ -4,7 +4,8 @@ export const Container = styled.div`
 position: relative;
 font-size: var(--fsLowest) ;
 z-index: 11;
-    height: 2.4rem;
+    height: var(--boxHei);
+
 
 #category-select {
             font-size: var(--fsLowest) ;
@@ -37,7 +38,8 @@ align-items: center;
 justify-content: center;
 gap: .75rem;
 cursor: pointer;
-height: 2.4rem;
+    height: var(--boxHei);
+
 font-size: var(--fsLowest);
 
         span{
@@ -54,8 +56,7 @@ font-size: var(--fsLowest);
 
 export const SelectButton = styled.div`
 color: #222;
-height: 2.4rem;
-
+    height: var(--boxHei);
 
 margin-top: .5rem;
 display: flex;

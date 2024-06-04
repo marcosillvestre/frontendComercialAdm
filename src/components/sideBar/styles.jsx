@@ -109,7 +109,7 @@ cursor: pointer;
 export const Links = styled(Link)`
 color: #2E2F8E;
 display: flex;
-gap: 3rem;
+gap: 2rem;
 text-decoration: none;
 width: 100%;
 height: 100%;

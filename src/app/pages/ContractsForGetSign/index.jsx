@@ -69,78 +69,78 @@ export const Contracts = () => {
         <Container>
 
             <Header className='search'>
-                <nav>
-                    <div className='inputs'>
-                        <label htmlFor="">
+                <div className='inputs'>
+                    <label htmlFor="">
 
-                            <p>Funil:</p>
-                            <Select
-                                label={""}
-                                option={
-                                    [
-                                        { name: "Funil-de-Vendas-PTB" },
-                                        { name: "Funil-de-Rematrícula-PTB" },
-                                        { name: "Funil-de-Vendas-Centro" },
-                                        { name: "Funil-de-Rematrículas-Centro" },
-                                    ]
-                                }
-                                width="12rem"
-                                field="type"
-                                fn={[data]}
-                            />
-                        </label>
+                        <p>Funil:</p>
+                        <Select
+                            label={""}
+                            option={
+                                [
+                                    { name: "Funil-de-Vendas-PTB" },
+                                    { name: "Funil-de-Rematrícula-PTB" },
+                                    { name: "Funil-de-Vendas-Centro" },
+                                    { name: "Funil-de-Rematrículas-Centro" },
+                                ]
+                            }
+                            width="100%"
+                            field="type"
+                            fn={[data]}
+                        />
+                    </label>
 
-                        <label htmlFor="">
-                            <p>Cliente: </p>
-                            <input onChange={(e) => filterData(e.target.value)} list='person' />
-                            <datalist id='person'>
-                                {
-                                    contracts && contracts.map(res => (
-                                        <option
-                                            key={res.contrato}
-                                            value={res.contrato}
-                                        >{res.name}</option>
+                    <label htmlFor="">
+                        <p>Cliente: </p>
+                        <input
+                            onChange={(e) => filterData(e.target.value)}
+                            list='person'
+                        />
+                        <datalist id='person'>
+                            {
+                                contracts && contracts.map(res => (
+                                    <option
+                                        key={res.contrato}
+                                        value={res.contrato}
+                                    >{res.name}</option>
 
-                                    ))
-                                }
-                            </datalist>
+                                ))
+                            }
+                        </datalist>
 
-                        </label>
-                    </div>
+                    </label>
+                </div>
 
-
-                    {
-                        filteredContracts !== undefined &&
-                        filteredContracts[0] !== undefined &&
-                        <span className='emmit' >
-                            <Button
-                                open={emmit}
-                                onClick={() => setEmmit(!emmit)}
-                            >
-                                Emitir Contrato
-                            </Button>
-
-                            <Box $emmit={emmit} >
-                                <SendContract $emmit={emmit}>
-                                    <SureSendModal
-                                        data={"PDF"}
-                                        text={personalText.PDF} />
-                                </SendContract>
-                                <SendContract $emmit={emmit}>
-                                    <SureSendModal
-                                        data={"Autentique"}
-                                        text={personalText.autentique} />
-                                </SendContract>
-                                <SendContract $emmit={emmit}>
-                                    <SureSendModal
-                                        data={"Conta Azul"}
-                                        text={personalText.contaAzul} />
-                                </SendContract>
-                            </Box>
-                        </span>
-                    }
-                </nav>
             </Header>
+            {
+                filteredContracts !== undefined &&
+                filteredContracts[0] !== undefined &&
+                <span className='emmit' >
+                    <Button
+                        open={emmit}
+                        onClick={() => setEmmit(!emmit)}
+                    >
+                        Emitir Contrato
+                    </Button>
+
+                    <Box $emmit={emmit} >
+                        <SendContract $emmit={emmit}>
+                            <SureSendModal
+                                data={"PDF"}
+                                text={personalText.PDF} />
+                        </SendContract>
+                        <SendContract $emmit={emmit}>
+                            <SureSendModal
+                                data={"Autentique"}
+                                text={personalText.autentique} />
+                        </SendContract>
+                        <SendContract $emmit={emmit}>
+                            <SureSendModal
+                                data={"Conta Azul"}
+                                text={personalText.contaAzul} />
+                        </SendContract>
+                    </Box>
+                </span>
+            }
 
             <ContractData />
 

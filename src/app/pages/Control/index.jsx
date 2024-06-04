@@ -7,7 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { memo, useState } from 'react';
-import { Container, Filters, InputSearch, InputTake, NavControl, NothingHere, NumberContainer, Tabled } from './styles';
+import { Container, Filters, InputSearch, NavControl, NothingHere, NumberContainer, Tabled } from './styles';
 
 import { useUser } from '../../../hooks/userContext';
 
@@ -307,35 +307,42 @@ export const ListFiltered = () => {
 
                             </TableContainer>
 
-                            <NumberContainer>
-                                <div>
-                                    <InputTake
-                                        defaultValue={take}
-                                        onChange={(e) => handleData(e.target.value)}
-                                    >
-                                        <option value={10}>10</option>
-                                        <option value={25}>25</option>
-                                        <option value={50}>50</option>
-                                        <option value={100}>100</option>
-                                        <option value='all'>Tudo</option>
 
-                                    </InputTake>
+                            <NumberContainer>
+                                <div className='container-select'>
+                                    <Select
+                                        label={take}
+                                        option={[
+                                            { name: 10 },
+                                            { name: 25 },
+                                            { name: 50 },
+                                            { name: 100 },
+                                            { name: 'all' },
+                                        ]}
+                                        width="2rem"
+                                        fn={[handleData]}
+                                    >
+
+                                    </Select>
                                     <p>Registros por página</p>
                                 </div>
 
-                                {
-                                    data !== undefined && take + skip > data.total ?
-                                        take > data.total ?
+                                <div className='container-select'>
+                                    <p>Monstrando</p>
+                                    {
+                                        data !== undefined && take + skip > data.total ?
+                                            take > data.total ?
 
-                                            <p className='mid'>{`Mostrando ${skip + 1} - ${data.total} de
+                                                <p>{` ${skip + 1} - ${data.total} de
                                             ${isPending === false && data !== undefined && data.total} registros`} </p> :
 
-                                            <p className='mid'>{`Mostrando ${skip + 1} - ${take + skip - diference} de
+                                                <p>{` ${skip + 1} - ${take + skip - diference} de
                                             ${isPending === false && data !== undefined && data.total} registros`} </p> :
 
-                                        <p className='mid'>{`Mostrando ${skip + 1} - ${take === 'all' ? data.total : take + skip} de
+                                            <p>{` ${skip + 1} - ${take === 'all' ? data.total : take + skip} de
                                             ${isPending === false && data !== undefined && data.total} registros`} </p>
-                                }
+                                    }
+                                </div>
 
                             </NumberContainer>
                             {

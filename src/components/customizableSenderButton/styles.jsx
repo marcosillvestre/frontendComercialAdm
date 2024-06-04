@@ -4,7 +4,7 @@ export const ButtonContainer = styled.span`
 display: flex;
 gap: 5rem;
 font-weight: 500;
-font-size: 0.875rem;
+font-size: var(--fsLowest);
 line-height: 1.75;
 letter-spacing: 0.02857em;
 text-transform: uppercase;
@@ -20,7 +20,7 @@ export const Container = styled.div`
     margin:  5px 0;
     display: flex;
     padding: .4rem .6rem ;
-    font-size: 10px;
+    font-size:var(--fsLowest);
     transition: transform 0.1s, box-shadow 0.1s ;
     &:active{
         opacity: .8;
@@ -37,7 +37,7 @@ margin: .1rem 0 0 8rem;
 color: #222;
 
 padding: .4rem .6rem ;
-font-size: 10px;
+font-size: var(--fsLowest);
 
 `
 

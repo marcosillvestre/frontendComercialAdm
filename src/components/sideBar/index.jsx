@@ -44,9 +44,9 @@ const closedMixin = (theme) => ({
         duration: theme.transitions.duration.leavingScreen,
     }),
     overflowX: 'hidden',
-    width: `calc(${theme.spacing(7)} + 1px)`,
+    width: `calc(${theme.spacing(6)} + 0px)`,
     [theme.breakpoints.up('sm')]: {
-        width: `calc(${theme.spacing(0)} + 1px)`,
+        width: `calc(${theme.spacing(0)} + px)`,
     },
 });
 
@@ -177,9 +177,13 @@ export function MiniDrawer() {
                 open={openSidebar}
                 fn={setOpenSidebar} opacity={0}
             />
-            <Box sx={{ display: 'flex', }}>
+            <Box >
                 <CssBaseline />
-                <AppBar position="fixed" open={openSidebar} sx={{ backgroundColor: '#2E2F8E' }}>
+                <AppBar
+                    position="fixed"
+                    open={openSidebar}
+                    sx={{ backgroundColor: '#2E2F8E' }}
+                >
                     <Toolbar>
                         <IconButton
                             color="inherit"
@@ -187,7 +191,7 @@ export function MiniDrawer() {
                             onClick={handleDrawerOpen}
                             edge="start"
                             sx={{
-                                marginRight: 5,
+                                marginRight: 4,
                                 ...(openSidebar && { display: 'none' }),
                             }}
                         >

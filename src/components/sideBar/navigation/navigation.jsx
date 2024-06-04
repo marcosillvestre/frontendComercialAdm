@@ -30,39 +30,43 @@ export const Navigation = (openSidebar) => {
             {
                 pages.map((text) => (
                     text.access.some(res => res === userData.role) &&
+                    <label htmlFor="link"
+                        key={text.name}
+                    >
 
-                    <ListItem key={text.name} disablePadding sx={{ display: 'block' }}>
-                        <ListItemButton
-                            sx={{
-                                minHeight: 60,
-                                justifyContent: openSidebar.open ? 'initial' : 'right',
-                                px: 2.5,
-                            }}
-                        >
-
-                            {
-
+                        <ListItem
+                            disablePadding sx={{ display: 'block' }}>
+                            <ListItemButton
+                                sx={{
+                                    minHeight: 60,
+                                    justifyContent: openSidebar.open ? 'initial' : 'right',
+                                    px: 2,
+                                }}
+                            >
                                 <Links
+                                    id="link"
                                     key={text.name}
                                     to={text.url}
                                     active={url.pathname === text.url} >
 
                                     {text.icon}
                                     {text.name}
+
                                     <ListItemText
                                         primary={text.name}
                                         sx={{ opacity: openSidebar.open ? 1 : 0 }}
                                     />
+
                                 </Links>
 
-                            }
+                            </ListItemButton>
 
-                        </ListItemButton>
-                    </ListItem>
+                        </ListItem>
+                    </label>
                 ))
 
             }
-        </div>
+        </div >
     )
 }
 

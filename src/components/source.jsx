@@ -12,7 +12,6 @@ export * from './sureSendModal'
 export * from './table'
 
 export * from './tableUsers'
-export * from './unhandleSelect'
 
 export * from './closeClick'
 

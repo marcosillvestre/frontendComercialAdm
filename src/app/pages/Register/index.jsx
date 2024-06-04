@@ -39,7 +39,6 @@ export function Register() {
           </div>
 
           <div>
-            Usuários ativos
             <Tax>
               {UsersQuery.data && UsersQuery.data.length}
             </Tax>
@@ -51,15 +50,11 @@ export function Register() {
 
       <UserContainer>
 
-        <button
-          className='openDrawer'
-          onClick={() => handleDrawerOpen()}
-        >
-          Novo usuário
-        </button>
 
-        <TableContainer component={Paper}>
-          <Table aria-label="collapsible table">
+        <TableContainer
+          component={Paper}
+        >
+          <Table aria-label="collapsible table" >
             <TableHead>
               <TableRow>
                 <TableCell />
@@ -69,7 +64,15 @@ export function Register() {
                 <TableCell style={{ fontWeight: 'bold' }} align="left">Unidade</TableCell>
                 <TableCell style={{ fontWeight: 'bold' }} align="center">Cargo</TableCell>
                 <TableCell style={{ fontWeight: 'bold' }} align="center">Acesso</TableCell>
-                <TableCell align="right"></TableCell>
+                <TableCell align="right">
+                  <button
+                    className='openDrawer'
+                    onClick={() => handleDrawerOpen()}
+                  >
+                    Novo usuário
+                  </button>
+
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody >
@@ -82,10 +85,8 @@ export function Register() {
             </TableBody>
           </Table>
         </TableContainer>
+
       </UserContainer>
-
-
-
 
     </Container>
 

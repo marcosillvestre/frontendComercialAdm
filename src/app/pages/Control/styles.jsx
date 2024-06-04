@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
 export const Container = styled.main`
-    font-size: var(--fsLowest) ;
-
+font-size: var(--fsLowest) ;
 display: flex;
 flex-direction: column;
-width: 100vw;
 padding: 0 4rem;
+margin-left: 17px;
+
 .wrapper{
 display: flex;
 align-items: end;
@@ -45,6 +45,8 @@ label{
 }
 
 @media(max-width:760px){
+margin-left: 34px ;
+
 .nav-filter{
 padding: .5rem;
 }
@@ -67,7 +69,8 @@ export const InputSearch = styled.input`
     transition: all.7s;
     margin-top: .5rem;
     text-overflow: ellipsis;
-    height: 2.4rem;
+    height: var(--boxHei);
+    font-size: var(--fsLow);
 
 `
 export const PageUpdate = styled.div`
@@ -99,7 +102,7 @@ export const NavControl = styled.span`
         font-size: var(--fsLow) ;
 
 .container{
-    display: flex;
+    display: grid;
     gap: .3rem;
     align-items: center;
 }
@@ -297,25 +300,16 @@ export const NumberContainer = styled.div`
 display: flex;
 justify-content: space-between;
 margin: 1rem 1rem 1rem 1.6rem;
-            font-size: var(--fsMid) ;
+font-size: var(--fsLow) ;
 
 
 align-items: center;
-div{
+.container-select{
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: .5rem;
+    justify-content: center;
+    gap: 1rem;
 }
-.mid{
-    translate: -30px 0;
-}
-`
-
-export const InputTake = styled.select`
-width: 5rem;
-border: none ;
-height: 2rem;
-border-radius: .5rem;
-            font-size: var(--fsMid) ;
 
 `

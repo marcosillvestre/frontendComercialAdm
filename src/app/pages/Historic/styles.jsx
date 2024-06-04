@@ -15,7 +15,7 @@ thead{
     font-weight: bolder;
 }
 tbody{
-    font-size: 12px;
+    font-size: var(--fsLow);
 }
 table{
     border-radius: .5rem;
@@ -28,7 +28,8 @@ background-color: #1976d2;
 border: none;
 font-family: "Roboto", "Helvetica", "Arial", sans-serif;
 font-weight: 500;
-font-size: 0.675rem;
+    font-size: var(--fsLowest);
+
 letter-spacing: 0.02857em;
 text-transform: uppercase;
 min-width: 64px;

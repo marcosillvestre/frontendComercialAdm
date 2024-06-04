@@ -3,7 +3,8 @@ import styled from "styled-components";
 
 export const Container = styled.div`
 padding: 0 4rem;
-font-size: var(--fsMid) ;
+margin-left: 17px;
+font-size: var(--fsLowest) ;
 
 
 table{
@@ -20,7 +21,12 @@ thead, tr, tbody, td {
     padding: 5px 20px;
 
 }
+@media(max-width:760px){
+margin-left: 34px ;
 
+
+
+}
 
 `
 
@@ -28,8 +34,7 @@ export const Header = styled.header`
 display: flex;
 align-items: center;
 justify-content: space-between;
-width: 100%;
-font-size: var(--fsMid) ;
+font-size: var(--fsLow) ;
 border: 2px solid #dfe6f1;
 border-radius: var(--border-radius);
 padding: 1rem 3rem;
@@ -59,7 +64,7 @@ width: 3rem;
 height: 2rem;
 border-radius: var(--border-radius);
 background-color: #fff;
-font-size: var(--fsMid) ;
+font-size: var(--fsLow) ;
 
 `
 
@@ -116,18 +121,7 @@ width: 100%;
 gap: 2rem;
 min-height: 60vh;
 
-.cell-relatory{
-    display: flex;
-    text-align: center;
-    font-size: small;
-    margin: 1rem 0;
-    height: 65vh;
-    width: 100%;
-}
-
-
 .subtitle{
-    margin: 0 1rem;
     box-shadow: 0.2rem 0.2rem 0rem rgb(39,39,39);
     border: 1.85px solid rgb(39,39,39);;
     border-radius: var(--border-radius); 
@@ -135,7 +129,6 @@ min-height: 60vh;
     height: max-content;
     display: flex;
     flex-direction: column;
-    max-height: 100%;
     /* position: fixed; */
 .container{
     display: flex;
@@ -163,15 +156,44 @@ min-height: 60vh;
 }
 
 
+.cell-relatory{
+    display: flex;
+    text-align: center;
+    margin: 1rem 0;
+    width: 100%;
+    gap: 15px;
+    
+}
+.subtitle{
+
+}
+
+@media(max-width:978px){
+    
+.cell-relatory{
+flex-direction: column;
+}
+.subtitle{
+    order: -1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 3fr));
+    
+}
+.container{
+    width: 100%;
+}
+
+}
 `
 
 export const NavBar = styled.nav`
 text-align: center;
+margin: 15px 0;
+width: fit-content;
+
 display: flex;
 align-items: end;
 gap: 35px;
-padding-bottom: 5px;
-
 .buttons{
     display: flex;
     gap: 6px;
@@ -183,7 +205,6 @@ padding-bottom: 5px;
         justify-content: center;
         padding: .7rem 0 ;
         width: 5rem ;
-        font-size: var(--fsMid);
         border: none;
         border-radius: var(--border-radius);
         cursor: pointer;
@@ -198,9 +219,9 @@ padding-bottom: 5px;
     }
     .active{
         width: 100%;
-        height: 40px;
-        border-radius: var(--border-radius);
+        height: var(--boxHei);
         background-color: #3458f5;
+        border-radius: .5rem;
         position: absolute;
         left: 0;
         bottom: 0;
@@ -212,8 +233,7 @@ padding-bottom: 5px;
     background-color: #107c42;
     padding: 7px;
     color: #fff;
-    font-size: var(--fsLow) ;
-    height: 40px;
+    height: var(--boxHei);
     border-radius: var(--border-radius);
     transition: transform 0.2s ease;
     &::after,
@@ -238,7 +258,7 @@ padding-bottom: 5px;
         background-color: #107c42e6;
     }
     img{
-        height: 25px;
+        height: 15px;
     }
 
     @keyframes spinButtonLeft{
@@ -288,10 +308,12 @@ padding-bottom: 5px;
 
     }
 
+
 }
 
 @media(max-width:1090px){
-    justify-content: center;
+width: 100%;
+justify-content: space-between;
 }
 `
 

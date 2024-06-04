@@ -369,7 +369,7 @@ export function ComissionControll() {
                                         </span>
 
 
-                                        <div>
+                                        <div className='container'>
                                             Total
                                             <hr />
                                             <p>

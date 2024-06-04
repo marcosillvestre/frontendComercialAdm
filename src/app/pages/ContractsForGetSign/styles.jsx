@@ -1,66 +1,88 @@
 
 import styled, { keyframes } from "styled-components";
 
-export const Header = styled.header`
-display: flex;
-width: 100%;
-            font-size: var(--fsLow) ;
-
-border: 2px solid #dfe6f1;
-border-radius: .35rem;
-padding: 1rem 3rem;
-
-margin-bottom: 1.5rem;
-nav{
-    width:100%;
-    justify-content: space-between;
-    display: flex;
-    align-items: center;
-    margin: 0 3rem;
-    gap: 1rem;
-}
-`
 
 
 export const Container = styled.div`
 
-width: 100%;
 padding: 0 4rem;
-
-.inputs{
-    display: flex;
-    gap: 1rem;
-
-}
-
-input{
-border: none;
-background-color:#dfe6f1;
-border-radius:.5rem ;
-padding: .7rem .5rem;
-width: 10rem;
-margin-top: .5rem; 
-}
-
+margin-left: 17px ;
+position: relative;
 
 .emmit{
 text-align: center;
 font-weight: lighter;
 user-select:none;
+position: absolute;
+right: 65px;
+}
+
+@media(max-width:760px){
+margin-left: 34px ;
+.inputs{
+    label{
+    width: 100%;
+    }
+}
+.emmit{
+position: relative;
+right:0px
+}
+
 }
 `
+
+export const Header = styled.header`
+display: flex;
+width: 100%;
+font-size: var(--fsLow) ;
+
+border: 2px solid #dfe6f1;
+border-radius: .35rem;
+padding: 1rem 3rem;
+margin-bottom: 1.5rem;
+
+.inputs{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    width: 100%;
+    label{
+        min-width: 30%;
+    }
+}
+input{
+border: none;
+background-color:#dfe6f1;
+border-radius:.5rem ;
+padding: .7rem .5rem;
+width: 100%;
+margin-top: .5rem; 
+height: var(--boxHei);
+
+}
+@media(max-width:760px){
+.inputs{
+    label{
+    width: 100%;
+    }
+}
+}
+`
+
 
 export const Button = styled.div`
 border: none;
 cursor: pointer;
 color: #fff;
 background-color: #3458f5;
-padding: .7rem 2.3rem ;
+padding: .7rem  ;
 border-radius: 5px;
-margin: 5px;
+margin: 5px 0;
 font-weight: bolder; 
 z-index: 10;    
-transition: transform 0.1s, box-shadow 0.1s ;
+transition: transform 0.1s;
+
 `
 
 export const Box = styled.div`
@@ -71,13 +93,12 @@ justify-content: center;
 flex-direction: column;
 padding: .4rem;
 z-index: 1;
-position: absolute;
 `
 
 const up = keyframes`
 to {
     translate:  0 -150%;
-    visibility: hidden;
+    display: none;
 }
 `
 const down = keyframes`
@@ -100,7 +121,7 @@ border-radius: 5px;
 border: none;
 cursor: pointer;
 transition: all.8s;
-width: 10.1rem;
+width: 100%;
 :first-child{
     animation: ${({ $emmit }) => ($emmit ? down : up)} .3s ease-in-out forwards ;
 }

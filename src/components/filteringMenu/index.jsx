@@ -189,12 +189,12 @@ export function PositionedMenu(data) {
                     </Label>
                 }
                 {
-                    data.name === "Período personalizado" &&
+                    data.name === "Personalizado" &&
                     <RangeDate>
                         <span className='label'>
 
                             <button onClick={() => setAnchorEl(null)}><ArrowBackIcon /></button>
-                            <h3>{data.name}</h3>
+                            <h3>Período {data.name}</h3>
                             <div></div>
 
                         </span>

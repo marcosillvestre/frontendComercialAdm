@@ -33,7 +33,13 @@ export const Totals = (params) => {
                                 {
                                     data &&
                                         data?.length < 1 ? <tr>
-                                        <td>Nada por aqui </td>
+
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
                                     </tr>
                                         :
 
