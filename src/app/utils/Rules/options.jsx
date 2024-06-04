@@ -64,7 +64,7 @@ const predeterminedPeriods = [
     { name: "Mês passado" },
     { name: "Mês retrasado" },
     { name: "Todo período" },
-    { name: "Período personalizado", customizable: true },
+    { name: "Personalizado", customizable: true },
 ]
 
 const customizablePeriods = [
