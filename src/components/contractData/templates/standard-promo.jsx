@@ -13,10 +13,10 @@ const StandardPromo = ({ data }) => {
                 <h4>CURSO DE IDIOMAS E TECNOLOGIA</h4>
                 <h5>CONTRATO Nº: {data.contrato}</h5>
                 <h5>DATA DA MATRÍCULA: {data.dataMatricula}</h5>
-                <h5>TIPO DE CONTRATO: {data.formato}</h5>
+                <h5>TIPO DE CONTRATO: {data.tipoModalidade}</h5>
                 <h5>UNIDADE: {data.unidade}</h5>
-                <h5>TIPO DE ASSINATURA: {data.tipoModalidade}</h5>
-                <h4>DA QUALIFICAÇÃO DAS PARTES</h4>
+                <h5>TIPO DE ASSINATURA: {data.formato}</h5>
+                <h5>DA QUALIFICAÇÃO DAS PARTES</h5>
 
                 <p>
                     Pelo presente instrumento particular, que fazem entre si de um

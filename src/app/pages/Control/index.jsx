@@ -24,18 +24,29 @@ import {
 
 import { useData } from '../../../hooks/dataContext';
 
+import PropTypes from 'prop-types';
 import businessRules from '../../utils/Rules/options.jsx';
 import Pagination from './pagination';
 
 
 export const ListFiltered = () => {
 
+
     const { userData, filtered, setFiltered, resetFilter,
         setPeriodFilter, mutationControlData, setTake,
         take, skip, setSkip, allData,
         //  setTypeSidebar, setOpenSidebar,
-        setPeriodRange, setSelectedInitialDate, setSelectedEndDate
+        setPeriodRange, setSelectedInitialDate, setSelectedEndDate,
+
+        setQueryParam
     } = useUser()
+
+
+
+    // const [searchParams, setSearchParams] = useSearchParams()
+
+
+
 
 
     const { typeFilter, setTypeFilter,
@@ -93,6 +104,11 @@ export const ListFiltered = () => {
 
 
     const handleCheck = async (label) => {
+        // setSearchParams(state => {
+        //     state.delete('contract')
+        //     return state
+        // })
+        setQueryParam({ param: "", value: "" })
         setSelectedInitialDate(null)
         setSelectedEndDate(null)
         setCustomizableArray([])
@@ -104,8 +120,11 @@ export const ListFiltered = () => {
         setSkip(0)
 
         setPeriodFilter(false)
+
         // setLabel(label)
     }
+
+
 
     return (
         <Container>
@@ -132,7 +151,7 @@ export const ListFiltered = () => {
                             placeholder='Pesquisar..'
                             className='filter'
                             list='list'
-                            active={search}
+                            active={search && true}
                             onFocus={() => {
                                 setSearch(true)
                                 // setTake("all")
@@ -163,8 +182,7 @@ export const ListFiltered = () => {
                         </datalist>
                     </label>
 
-                    <CustomizedMenus
-                    />
+                    <CustomizedMenus />
                 </div>
 
 
@@ -365,3 +383,7 @@ export const ListFiltered = () => {
 }
 
 export const Control = memo(ListFiltered)
+
+ListFiltered.propTypes = {
+    location: PropTypes.object
+}

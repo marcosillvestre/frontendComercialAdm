@@ -73,14 +73,14 @@ export const Login = () => {
                         <Box htmlFor="email">
                             <h5>Email:</h5>
                             <Input {...register('email', { required: true })} />
-                            {errors.email && <ErrorMessage>Email is required.</ErrorMessage>}
+                            {errors.email && <ErrorMessage>Email é obrigatório.</ErrorMessage>}
                         </Box>
 
                         <Box htmlFor="password">
                             <h5>Password:</h5>
                             <div>
                                 <Input type={open ? "password" : "text"} {...register('password', { required: true })} />
-                                {errors.password && <ErrorMessage>Password is required.</ErrorMessage>}
+                                {errors.password && <ErrorMessage>Senha é obrigatória.</ErrorMessage>}
                                 <div onClick={() => setOpen(!open)} >{open ? <VisibilityIcon /> : <VisibilityOffIcon />}</div>
                             </div>
                             <a href={paths.redefinePass}>Esqueceu a senha ? Clique aqui</a>

@@ -20,6 +20,7 @@ import { useCustomFields } from '../../hooks/customFields/customFIelds.hook.jsx'
 import { useUsers } from '../../hooks/users/usersContext.hook.jsx';
 import { Contracts } from './contracts/contract.create.jsx';
 import { CustomFields } from './customFields/customField.create.jsx';
+import { Historic } from './historic/historic.get.jsx';
 import { Navigation } from './navigation/navigation.jsx';
 import {
     Form,
@@ -44,9 +45,9 @@ const closedMixin = (theme) => ({
         duration: theme.transitions.duration.leavingScreen,
     }),
     overflowX: 'hidden',
-    width: `calc(${theme.spacing(6)} + 0px)`,
+    width: `calc(${theme.spacing(5)} + 0px)`,
     [theme.breakpoints.up('sm')]: {
-        width: `calc(${theme.spacing(0)} + px)`,
+        width: `calc(${theme.spacing(7)} + 0px)`,
     },
 });
 
@@ -55,7 +56,7 @@ const DrawerHeader = styled('div')(({ theme }) => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'flex-end',
-        padding: theme.spacing(0, 1),
+        padding: theme.spacing(0, 2),
         // necessary for content to be below app bar
         ...theme.mixins.toolbar,
     });
@@ -232,16 +233,26 @@ export function MiniDrawer() {
                                 <CreateUsersForm />
 
                             }
-                            <hr />
+
+                            {
+                                typeSidebar === 4 &&
+                                <Historic />
+                            }
+
 
                             {
                                 typeSidebar !== 0 &&
-                                <Submit
-                                    placeholder="Enviar"
-                                    onClick={() => submit(typeSidebar)}
-                                >
-                                    Enviar
-                                </Submit>}
+                                typeSidebar !== 4 &&
+                                <>
+                                    <hr />
+                                    <Submit
+                                        placeholder="Enviar"
+                                        onClick={() => submit(typeSidebar)}
+                                    >
+                                        Enviar
+                                    </Submit>
+                                </>
+                            }
 
                         </Form>
 

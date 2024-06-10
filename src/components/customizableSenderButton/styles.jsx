@@ -38,7 +38,11 @@ color: #222;
 
 padding: .4rem .6rem ;
 font-size: var(--fsLowest);
+text-align: center;
 
+@media(max-width: 768px){
+    flex-direction: column;
+}
 `
 
 const moveAnimation = keyframes`
@@ -51,26 +55,18 @@ to {
     visibility: hidden;
 }
 `;
-const desapear = keyframes`
-from {
-    translate: 0 0;
-}
 
-to {
-    transition: .2s ease-in-out;
-    translate: -81% 0;
-    visibility: hidden;
-}
-`;
 
 export const OptionsContainer = styled.span`
 display: flex;
-gap: .5rem;
+gap: .3rem;
 flex-direction: column;
 align-items: center;
 
+
 &:first-child{
     z-index: 2;
+animation: ${({ $open }) => ($open ? 'none' : moveAnimation)} 1s ease-in-out forwards;
 
 }
 &:nth-child(n+2){
@@ -83,8 +79,9 @@ animation: ${({ $open }) => ($open ? 'none' : moveAnimation)} 1s ease-in-out for
 `
 export const Edit = styled.div`
 transition: .5s ease-in-out;
-padding: ${props => props.$open ? ".4rem .6rem" : ".3rem .3rem"} ;
-animation: ${({ $open }) => ($open ? 'none' : desapear)} 800ms ease-in-out forwards ;
+width: 100% ;
+
+padding: .4rem .6rem;
 animation-delay: 1s;
 
 
@@ -110,7 +107,8 @@ export const Options = styled.div`
 display: ${props => props.$open ? "block" : "none"};
 transition: .3s ease-in-out;
 
-background-color: #4e5866;
+background-color: #1f5fba;
+
 border-radius:10px ;
 
 padding: .3rem;
@@ -120,7 +118,6 @@ color: #fff;
 cursor: pointer;
 &:hover{
     translate: 5% 0;
-background-color: #1f5fba;
 
     
 }
@@ -131,7 +128,7 @@ background-color: #1f5fba;
 export const Value = styled.div`
 
 background-color: #3485f5;
-border-radius:10px ;
+border-radius: 10px ;
 padding: .6rem;
 height: 2.5rem;
 text-align: center;

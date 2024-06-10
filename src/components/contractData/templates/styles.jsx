@@ -33,9 +33,9 @@ width: 100%;
 justify-content: space-around;
 }
 .sign-marker {
-width: 50%;
+/* width: 50%; */
 border-top: 1px solid #222;
-margin: 2rem;
+margin: 2rem 0;
 text-align: center;
 }
 .field-sign {

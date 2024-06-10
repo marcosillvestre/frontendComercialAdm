@@ -1,6 +1,12 @@
 export const paths = {
     home: "/",
-    control: "/controle-comercial",
+    control: "/controle-comercial/",
+
+
+    nestedControl: "/controle-comercial/:query",
+
+
+
     comissionalControl: "/controle-comissional",
     newPass: "/nova-senha",
     redefinePass: "/redefinir-senha",

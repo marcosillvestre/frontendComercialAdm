@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const Container = styled.section`
 padding: 0rem 5rem ;
 font-size: var(--fsMid) ;
+margin-left: 17px;
 
 header{
     font-weight: bold;
@@ -10,6 +11,10 @@ header{
     font-size: var(--fsLow) ;
     margin: 2rem auto;
     
+}
+
+@media(max-width:760px){
+margin-left: 34px ;
 }
 `
 export const MainBox = styled.main`

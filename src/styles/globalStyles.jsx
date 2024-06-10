@@ -13,16 +13,20 @@ export default createGlobalStyle`
 
     --boxHei: 2.4rem;
 }
+
+
 html{
     @media (max-width: 1255px){
-         font-size: 80%;
+        font-size: 80%;
         } 
-        @media (max-width: 750px){
-        font-size: 60%;
-    }
+
+        @media (max-width: 768px){
+        font-size: 65%;
+        }
+
     @media (max-width: 375px){
-        font-size: 50%;
-    } 
+        font-size: 40%;
+        } 
 }
 
 *{ 

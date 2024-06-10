@@ -15,7 +15,7 @@ import {
 } from "./styles";
 
 export const Header = (parsed) => {
-    const { logOut, userData } = useUser(false)
+    const { logOut, userData, setTypeSidebar, setOpenSidebar } = useUser(false)
     const [nav, setNav] = useState(false)
     const [user, setUser] = React.useState()
 
@@ -64,7 +64,7 @@ export const Header = (parsed) => {
                                     />
 
                                     <NavList
-                                        active={nav}
+                                        active={nav && true}
                                     >
                                         {
                                             links.map(res => (
@@ -80,9 +80,15 @@ export const Header = (parsed) => {
 
                                 </div>
 
-                                <a href={paths.historic} className='anchor'>
+                                <button
+                                    className='anchor'
+                                    onClick={() => {
+                                        setTypeSidebar(4)
+                                        setOpenSidebar(true)
+                                    }}
+                                >
                                     <WithNotifications />
-                                </a>
+                                </button>
                             </>
                         }
                         <p>Olá,</p><Name>{parsed?.data?.name}</Name>

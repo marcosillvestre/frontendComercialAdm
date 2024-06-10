@@ -8,9 +8,8 @@ import { useUser } from "../../../hooks/userContext";
 import {
     ComissionScreen,
     GetContracts,
-    History,
     Home,
-    Links,
+    Links
 } from "../styles";
 
 export const Navigation = (openSidebar) => {
@@ -21,7 +20,6 @@ export const Navigation = (openSidebar) => {
         { name: 'Controle Comercial', url: paths.control, icon: <Home />, access: ['administrativo', 'direcao', 'comercial', 'gerencia', 'pedagogico'] },
         { name: 'Emitir Contratos', url: paths.signContracts, icon: <GetContracts />, access: ['administrativo', 'direcao', 'comercial', 'gerencia', 'pedagogico'] },
         { name: 'Relatórios', url: paths.comissionalControl, icon: <ComissionScreen />, access: ['administrativo', 'direcao', 'gerencia', 'comercial'] },
-        { name: 'Histórico', url: paths.historic, icon: <History />, access: ['direcao'] },
         { name: 'Configurações', url: paths.config, icon: <SettingsIcon />, access: ['direcao'] },
     ]
 
@@ -47,7 +45,7 @@ export const Navigation = (openSidebar) => {
                                     id="link"
                                     key={text.name}
                                     to={text.url}
-                                    active={url.pathname === text.url} >
+                                    active={url.pathname === text.url && true} >
 
                                     {text.icon}
                                     {text.name}

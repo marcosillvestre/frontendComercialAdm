@@ -5,7 +5,6 @@ export * from './Config'
 export * from "./ContractsForGetSign"
 export * from "./Control"
 export * from "./CustomFields"
-export * from "./Historic"
 export * from "./Home"
 export * from "./Login"
 export * from "./Register"

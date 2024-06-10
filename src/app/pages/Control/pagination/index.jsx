@@ -39,7 +39,7 @@ const Pagination = (data) => {
                             <PagButton
                                 onClick={() => handlePagination(index)}
                                 key={res}
-                                active={skip / take === index}
+                                active={skip / take === index && true}
                             >
                                 {index + 1}
 

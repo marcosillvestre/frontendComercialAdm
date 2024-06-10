@@ -108,6 +108,8 @@ border-radius: 0.2rem;
 border: none;
 padding-left:.5rem;
 box-shadow: 0px 0px 1px 1px rgba(0,0,0,0.66);
+font-size: var(--fsLowest);
+
 `
 
 export const Submit = styled.input`

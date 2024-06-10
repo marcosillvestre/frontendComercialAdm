@@ -70,7 +70,7 @@ export const InputSearch = styled.input`
     margin-top: .5rem;
     text-overflow: ellipsis;
     height: var(--boxHei);
-    font-size: var(--fsLow);
+    font-size: var(--fsLowest);
 
 `
 export const PageUpdate = styled.div`

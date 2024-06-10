@@ -98,6 +98,9 @@ const fields = {
     "ppData": "Data de pagamento da Primeira Parcela",
     "tmData": "Data de pagamento da Taxa de Matrícula",
     "owner": "Consultor",
+    "dataComissionamento": "Data de comissionamento",
+    "dataMatricula": "Data de matrícula",
+    "dataValidacao": "Data de validação",
 }
 
 

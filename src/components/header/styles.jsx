@@ -39,7 +39,7 @@ align-items: center;
 justify-content: space-between;
 padding: 2.5rem 9.3rem 2.5rem 0rem ;
 height: 2rem;
-font-size: var(--fsLow);
+font-size: var(--fsMid);
 
 .arrow{
     border-radius: 55%;
@@ -59,6 +59,9 @@ align-items: center;
     margin: auto .5rem;
     display: grid;
     justify-items: center;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
     &:visited{
     color: #fff;
     }
@@ -72,12 +75,11 @@ padding: 2.5rem 10rem 2.5rem 0rem ;
 
         .nav-name{
             .anchor{
-                display: none;
+                /* display: none; */
             }
         }
 }
 `
-
 
 export const LogOut = styled(Link)`
 border: none;
@@ -85,7 +87,7 @@ color: inherit;
 border-left: .1rem solid #fff;
 padding-left: 1.5rem;
 background: none;
-font-size: var(--fsMid);
+font-size: var(--fsBig);
 color: #f13434;
 cursor: pointer;
 text-decoration:none;

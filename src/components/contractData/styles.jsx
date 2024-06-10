@@ -2,21 +2,16 @@ import styled from "styled-components";
 
 export const Container = styled.section`
 
-/* display: flex; */
-/* flex-direction: column; */
-/* gap: 1rem; */
 font-size: var(--fsLowest);
 width: 100%;
 
-
 table, th, tr, thead{
     border: 1px solid #222;
-    padding: .5rem .2rem;
+    /* padding: .1rem ; */
 
 }
 table{
     border-radius: .5rem;
-
 }
 
 th{

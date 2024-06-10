@@ -11,6 +11,7 @@ background-color: ${props => props.openned ? "#f5f5f5" : ""};
 
 border-left: .2rem solid #4648da;
 border-right: .2rem solid #4648da;
+font-size: calc(var(--fsLowest) - 2px);
 
 `
 
@@ -52,6 +53,7 @@ padding: .4rem;
 border-radius: .6rem ;
 box-shadow: -2px 2px 9px 0px rgba(0,0,0,0.66);
 text-overflow: ellipsis;
+font-size: calc(var(--fsLowest) - 1px);
 
 `
 export const Button = styled.button`
@@ -99,7 +101,7 @@ export const ObservationField = styled.div`
 display: grid;
 gap: 3px;
 small{
-    font-size: 8px;
+    font-size: calc(var(--fsLowest) - 2px);
     line-height: 10px;
 }
 span{
@@ -120,7 +122,9 @@ span:nth-child(2n){
     border-radius: 0 17px 17px 17px  ;
     width: 70%;
     font-weight: lighter;
-    font-size: 10px;
+
+    font-size: calc(var(--fsLowest) - 1px);
+
     h5{
         /* width: 40%; */
     }

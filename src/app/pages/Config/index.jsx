@@ -7,6 +7,7 @@ import { paths } from '../../constants/paths.js'
 import { Container, MainBox } from './styles.jsx'
 export const Settings = () => {
 
+
     return (
         <Container>
             <header>

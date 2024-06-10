@@ -80,6 +80,7 @@ export const UserProvider = ({ children }) => {
 
     const [take, setTake] = useState(10)
     const [skip, setSkip] = useState(0)
+    const [queryParam, setQueryParam] = useState({ param: "", value: "" })
 
     const body = {
         "range": periodRange,
@@ -88,7 +89,7 @@ export const UserProvider = ({ children }) => {
         "name": userData.name,
         "unity": userData.unity,
         "take": take,
-        "skip": skip
+        "skip": skip,
     }
 
     body["dates"] = `${selectedInitialDate}~${selectedEndDate}`
@@ -96,16 +97,21 @@ export const UserProvider = ({ children }) => {
 
     const [allData, setAllData] = useState([])
 
+
+
     const indexPeriod = async () => {
+        let url = queryParam.value !== '' ?
+            `/query?param=${queryParam.param}&value=${queryParam.value}` :
+            `/periodo?range=${periodRange}&role=${body.role}&name=${body.name}&unity=${body.unity}&dates=${body.dates}&types=${body.types}&skip=${body.skip}&take=${body.take}`
         const response = await
-            URI.get(`/periodo?range=${periodRange}&role=${body.role}&name=${body.name}&unity=${body.unity}&dates=${body.dates}&types=${body.types}&skip=${body.skip}&take=${body.take}`)
+            URI.get(url)
         return response?.data
     }
 
 
     const mutationControlData = useQuery({
         queryFn: () => indexPeriod(),
-        queryKey: [body],
+        queryKey: [body, queryParam.value],
         staleTime: 0,
         enabled: !headers.Authorization.includes("undefined")
     })
@@ -199,18 +205,22 @@ export const UserProvider = ({ children }) => {
             }
         )
     }
+    const [historicTake, setHistoricTake] = useState(10)
+    const queryHistoric = async () => {
+        const response = await URI.get(`/historico?take=${historicTake}`)
+        return response?.data
+    }
 
 
-    const { data: historic, refetch: refetchHistoric, isPending: isPendingHistoric } = useQuery({
-        queryFn: () => {
-            if (headers.Authorization.includes("undefined") === false) {
-                return URI.get('/historico',).then(res => res.data)
-                // return axios.get('http://localhost:7070/historico', ).then(res => res.data)
-            }
-        },
-        queryKey: ["historic"],
-        onError: (err) => console.log(err)
-    })
+    const {
+        data: historic,
+        refetch: refetchHistoric,
+        isPending: isPendingHistoric,
+        isSuccess: historicSuccess } = useQuery({
+            queryFn: () => queryHistoric(),
+            queryKey: ["historic", historicTake],
+            onError: (err) => console.log(err)
+        })
 
 
 
@@ -228,10 +238,10 @@ export const UserProvider = ({ children }) => {
             mutationControlData, take, skip, setTake,
             setSkip, allData,
             SenderDirector, Sender,
-            historic, refetchHistoric, isPendingHistoric,
+            historic, refetchHistoric, isPendingHistoric, historicSuccess, setHistoricTake, historicTake,
             openSidebar, setOpenSidebar,
             typeSidebar, setTypeSidebar,
-
+            setQueryParam
         }}>
 
             {children}

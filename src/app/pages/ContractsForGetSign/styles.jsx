@@ -8,7 +8,6 @@ export const Container = styled.div`
 padding: 0 4rem;
 margin-left: 17px ;
 position: relative;
-
 .emmit{
 text-align: center;
 font-weight: lighter;
@@ -59,6 +58,7 @@ padding: .7rem .5rem;
 width: 100%;
 margin-top: .5rem; 
 height: var(--boxHei);
+font-size: var(--fsLowest) ;
 
 }
 @media(max-width:760px){
@@ -86,13 +86,13 @@ transition: transform 0.1s;
 `
 
 export const Box = styled.div`
-gap: 0.4rem;
 display: flex;
 align-items: center;
 justify-content: center;
 flex-direction: column;
-padding: .4rem;
 z-index: 1;
+display: ${({ $emmit }) => ($emmit ? "block" : "none")};
+gap: 1rem;
 `
 
 const up = keyframes`
@@ -116,7 +116,7 @@ export const SendContract = styled.div`
 z-index: 0;
 background-color: #0069ff;
 color: #fff;
-/* padding: .4rem 0 ; */
+margin: .4rem 0 ;
 border-radius: 5px;
 border: none;
 cursor: pointer;

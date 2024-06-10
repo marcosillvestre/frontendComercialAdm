@@ -109,6 +109,7 @@ export function CustomizableButton(data) {
         )
     }
 
+
     return (
         <ButtonContainer>
 
@@ -121,33 +122,32 @@ export function CustomizableButton(data) {
 
             </Container>
 
-            <Box  >
+            <Box $emmit={manyAlteration}>
                 {
-                    optionGroup && optionGroup.map((res, index) => (
-
+                    optionGroup &&
+                    optionGroup.map((res, index) => (
                         res.permission.some(info => info === userData.role) &&
                         <OptionsContainer
-                            key={res.label}
+                            key={index}
                             $open={manyAlteration}
                         >
 
                             <Edit
                                 able={data.able}
                                 $open={manyAlteration}
-                                key={res.label}
                                 onClick={() => handleOptionGroup(res.label, index)}
                             >
                                 {res.label}
                             </Edit>
 
                             {
-                                res.options.map(opt => (
+                                res.options.map((opt, idx) => (
                                     <Options
                                         $open={res.open}
-                                        key={opt.name}
-                                        onClick={() => handleDropChange(opt.name)}
+                                        key={idx}
+                                        onClick={() => handleDropChange(opt.name ? opt.name : opt)}
                                     >
-                                        {opt.name}
+                                        {opt.name ? opt.name : opt}
                                     </Options>
 
                                 ))
@@ -172,7 +172,6 @@ export function CustomizableButton(data) {
                         Enviar
                     </ButtonSender>
                 }
-
 
             </Box>
         </ButtonContainer>

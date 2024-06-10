@@ -64,7 +64,7 @@ border: none;
 background-color: #1976d2;
 font-family: "Roboto","Helvetica","Arial",sans-serif;
 font-weight: 500;
-font-size: 0.75rem;
+font-size: calc(var(--fsLowest) - 3px);
 letter-spacing: 0.02857em;
 text-transform: uppercase;
 width: 50%;
@@ -135,4 +135,40 @@ export const Home = styled(HomeIcon)`
 cursor: pointer;
 `
 export const History = styled(FactCheckIcon)`
+`
+
+export const HistoricCard = styled.div`
+display: flex;
+flex-direction: column;
+border: 2px solid rgb(223, 230, 241);
+
+border-radius: var(--border-radius);
+font-size: calc(var(--fsLowest) - 1px );
+
+margin: .6rem 0;
+padding: .6rem;
+transition-duration: 1s;
+    u{
+    margin: 0 .2rem;
+    }
+    &:hover{
+        translate: 6px 0;
+    }
+`
+
+
+export const Card = styled(Link)`
+text-decoration: none;
+padding: .1rem;
+display: flex;
+flex-direction: column;
+gap: .4rem;
+color: #222;
+
+    p{
+    font-size: calc(var(--fsLowest) - 2.2px );
+}
+    &:visited{
+        color: #222;
+    }
 `
