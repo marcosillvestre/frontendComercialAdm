@@ -36,7 +36,7 @@ export function CustomizableButton(data) {
 
 
     const handleOptionGroup = (label, index) => {
-
+        setValueToBeChanged('')
         if (optionGroup[index].open === undefined || optionGroup[index].open === false) {
             let arr = []
             const newObj = {
@@ -109,6 +109,8 @@ export function CustomizableButton(data) {
         )
     }
 
+
+    console.log(data.able)
 
     return (
         <ButtonContainer>

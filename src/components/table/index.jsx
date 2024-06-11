@@ -89,6 +89,8 @@ export function FirstRow(props) {
 
 
     }
+
+
     return (
         <React.Fragment>
             <RowTable
@@ -408,7 +410,7 @@ FirstRow.propTypes = {
         index: PropTypes.bool
     }),
     row: PropTypes.shape({
-        observacao: PropTypes.string.isRequired,
+        observacao: PropTypes.array.isRequired,
         curso: PropTypes.string.isRequired,
         contrato: PropTypes.string.isRequired,
         aprovacaoDirecao: PropTypes.string.isRequired,
@@ -440,9 +442,7 @@ FirstRow.propTypes = {
         unidade: PropTypes.string.isRequired,
         ppVencimento: PropTypes.string.isRequired,
         tmValor: PropTypes.string.isRequired,
-
         dataMatricula: PropTypes.string.isRequired,
-
         dataValidacao: PropTypes.string.isRequired,
         dataComissionamento: PropTypes.string.isRequired,
         contratoStatus: PropTypes.string.isRequired,

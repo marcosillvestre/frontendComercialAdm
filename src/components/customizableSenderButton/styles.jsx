@@ -47,12 +47,12 @@ text-align: center;
 
 const moveAnimation = keyframes`
 from {
-    translate: 0 0;
+    /* translate: 0 0; */
 }
 
 to {
-    translate: -225% 0;
-    visibility: hidden;
+    translate: -725px 0;
+    display: none;
 }
 `;
 
@@ -62,26 +62,31 @@ display: flex;
 gap: .3rem;
 flex-direction: column;
 align-items: center;
-
-
-&:first-child{
-    z-index: 2;
+z-index: 2;
 animation: ${({ $open }) => ($open ? 'none' : moveAnimation)} 1s ease-in-out forwards;
 
+/* display: ${({ $open }) => ($open ? 'none' : 'block')}; */
+/* display: none; */
+
+/* 
 }
 &:nth-child(n+2){
     z-index: 1;
-animation: ${({ $open }) => ($open ? 'none' : moveAnimation)} 1s ease-in-out forwards;
-}
-&:last-child{
-    animation: ${({ $open }) => ($open ? 'none' : moveAnimation)} 1s ease-in-out forwards;
-}
+/* animation: ${({ $open }) => ($open ? 'none' : moveAnimation)} 1s ease-in-out forwards; */
+/* } */
+/* &:last-child{ */
+    /* animation: ${({ $open }) => ($open ? 'none' : moveAnimation)} 1s ease-in-out forwards; */
+/* }  */
+
 `
 export const Edit = styled.div`
 transition: .5s ease-in-out;
 width: 100% ;
 
-padding: .4rem .6rem;
+display: flex;
+padding: 0 .5rem;
+align-items: center;
+height: var(--boxHei);
 animation-delay: 1s;
 
 
@@ -127,10 +132,12 @@ cursor: pointer;
 `
 export const Value = styled.div`
 
-background-color: #3485f5;
+background-color: #1976d2;
 border-radius: 10px ;
-padding: .6rem;
-height: 2.5rem;
+display: flex;
+padding: 0 .5rem;
+align-items: center;
+height: var(--boxHei);
 text-align: center;
 color: #fff;
 cursor: pointer;
@@ -145,11 +152,12 @@ background-color: #1f5fba;
 `
 
 export const ButtonSender = styled.div`
-background-color: #3485f5;
+background-color: #1976d2;
 border-radius:10px ;
-padding: .6rem .8rem;
-height: 2.5rem;
-text-align: center;
+display: flex;
+padding: 0 .5rem;
+align-items: center;
+height: var(--boxHei);
 color: #fff;
 cursor: pointer;
 display: flex;
