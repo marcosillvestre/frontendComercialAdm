@@ -53,7 +53,7 @@ padding: .4rem;
 border-radius: .6rem ;
 box-shadow: -2px 2px 9px 0px rgba(0,0,0,0.66);
 text-overflow: ellipsis;
-font-size: calc(var(--fsLowest) - 1px);
+font-size: calc(var(--fsLow) - 2px);
 
 `
 export const Button = styled.button`

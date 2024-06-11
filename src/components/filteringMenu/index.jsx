@@ -9,6 +9,7 @@ import { Container, Label, RangeDate, Select } from './styles';
 
 import { paths } from '../../app/constants/paths.js';
 import rules from '../../app/utils/Rules/options.jsx';
+import { useComission } from '../../hooks/comissions/comissionContext.hook.jsx';
 import { useUnities } from '../../hooks/unities/unitiesContext.hook.jsx';
 import { useUsers } from '../../hooks/users/usersContext.hook.jsx';
 
@@ -22,13 +23,12 @@ export function PositionedMenu(data) {
     const { UsersQuery } = useUsers()
     const {
         filtered, setFiltered, handleClose, mutationControlData,
-        setOpenPeriodRange, comissionQuery, setPeriodRange,
+        setOpenPeriodRange, setPeriodRange,
         // allData
-        setLabel
     } = useUser()
 
     const { typeFilter, setTypeFilter } = useData()
-
+    const { comissionQuery } = useComission()
 
 
     const handleFilter = (value, type) => {
@@ -58,10 +58,11 @@ export function PositionedMenu(data) {
 
     const url = useLocation()
 
+
     const handleFilterRangeDate = async () => {
+
         const fn = {
             "periodRange": setPeriodRange(data.name),
-            "label": setLabel(data.name),
         }
 
         setTypeFilter([])

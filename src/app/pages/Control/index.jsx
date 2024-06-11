@@ -125,7 +125,6 @@ export const ListFiltered = () => {
     }
 
 
-
     return (
         <Container>
             <span className='nav-filter' >
@@ -364,15 +363,20 @@ export const ListFiltered = () => {
 
                             </NumberContainer>
                             {
-                                isPending === false && data !== undefined && data.total / take > 0 &&
-                                <>
-                                    <div className='separation'>
+                                isPending === false &&
+                                data !== undefined &&
+                                data.total > take &&
+                                <div className='separation'>
+                                    <span>
                                         <hr />
                                         <FilterListIcon />
                                         <hr />
-                                    </div>
-                                    <Pagination data={isPending === false && data !== undefined && data.total} />
-                                </>
+                                    </span>
+
+                                    <span>
+                                        <Pagination data={isPending === false && data !== undefined && data.total} />
+                                    </span>
+                                </div>
                             }
 
                         </Tabled>

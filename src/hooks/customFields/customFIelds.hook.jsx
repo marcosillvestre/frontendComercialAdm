@@ -29,7 +29,7 @@ export const CustomFields = ({ children }) => {
     }
 
     const createCustomFIeld = useMutation({
-        mutationFn: () => sendData(),
+        // mutationFn: () => sendData(),
         onSuccess: () => {
             queryClient.invalidateQueries(["custom"])
             setTypeSidebar(0)
@@ -45,7 +45,7 @@ export const CustomFields = ({ children }) => {
     }
 
     const customFieldsQuery = useQuery({
-        queryFn: () => queryCustomFields(),
+        // queryFn: () => queryCustomFields(),
         queryKey: ["custom"],
         enabled: !headers.Authorization.includes("undefined")
     })

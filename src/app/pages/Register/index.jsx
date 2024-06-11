@@ -46,8 +46,16 @@ export function Register() {
         </nav>
 
       </Header>
+      <nav className='nav-drawer'>
 
+        <button
+          className='openDrawer'
+          onClick={() => handleDrawerOpen()}
+        >
+          Novo usuário
+        </button>
 
+      </nav>
       <UserContainer>
 
 
@@ -65,12 +73,6 @@ export function Register() {
                 <TableCell style={{ fontWeight: 'bold' }} align="center">Cargo</TableCell>
                 <TableCell style={{ fontWeight: 'bold' }} align="center">Acesso</TableCell>
                 <TableCell align="right">
-                  <button
-                    className='openDrawer'
-                    onClick={() => handleDrawerOpen()}
-                  >
-                    Novo usuário
-                  </button>
 
                 </TableCell>
               </TableRow>

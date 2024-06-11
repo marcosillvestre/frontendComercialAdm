@@ -122,15 +122,21 @@ export const Tabled = styled.span`
     }
     .separation{
     display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: .7rem;
+    flex-direction: column;
+    gap: 1rem;
     color: #fff;
+
+    span{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
         hr{
             border: 1px solid #fff;
             width: 40%;
             height: 0 ;
         }
+    }
     }
 `
 

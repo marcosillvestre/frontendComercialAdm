@@ -45,7 +45,7 @@ const closedMixin = (theme) => ({
         duration: theme.transitions.duration.leavingScreen,
     }),
     overflowX: 'hidden',
-    width: `calc(${theme.spacing(5)} + 0px)`,
+    width: `calc(${theme.spacing(5.5)} + 0px)`,
     [theme.breakpoints.up('sm')]: {
         width: `calc(${theme.spacing(7)} + 0px)`,
     },
@@ -211,7 +211,7 @@ export function MiniDrawer() {
                             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
                         </IconButton>
                     </DrawerHeader>
-                    <Divider style={{ marginTop: "1rem" }} />
+                    <Divider />
                     <List>
                         {
                             typeSidebar === 0 &&

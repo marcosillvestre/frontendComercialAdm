@@ -220,7 +220,7 @@ gap: 35px;
     .active{
         width: 100%;
         height: var(--boxHei);
-        background-color: #3458f5;
+        background-color: #1976d2;
         border-radius: .5rem;
         position: absolute;
         left: 0;
@@ -322,12 +322,11 @@ margin-left: auto;
 display: none;
 `
 
-
 export const SelectButton = styled.button`
 font-size: var(--fsLow) ;
 text-align: center;
 border-radius: var(--border-radius);
-background-color:${props => props.open ? "#1c5bd0" : "#dfe6f1"} ;
+background-color:${props => props.open ? "#1976d2" : "#dfe6f1"} ;
 color:${props => props.open ? "#fff" : "#222"} ;
 cursor: pointer;
 border: none;

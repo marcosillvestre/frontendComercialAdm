@@ -35,7 +35,7 @@ export const Header = (parsed) => {
 
     const links = [
         { link: paths.configRegister, label: "Painel de usuários" },
-        { link: paths.configCustomFields, label: "Configurar campos" },
+        // { link: paths.configCustomFields, label: "Configurar campos" },
         { link: paths.config, label: "Todas as configurações" },
     ]
 

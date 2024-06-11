@@ -71,18 +71,25 @@ font-size: var(--fsLowest) ;
 `
 
 
-export const Button = styled.div`
+export const Button = styled.button`
 border: none;
-cursor: pointer;
+background-color: #1976d2;
+font-family: "Roboto","Helvetica","Arial",sans-serif;
+font-weight: 500;
+font-size: var(--fsLowest);
+letter-spacing: 0.02857em;
+text-transform: uppercase;
+border-radius: var(--border-radius);
 color: #fff;
-background-color: #3458f5;
-padding: .7rem  ;
-border-radius: 5px;
+cursor: pointer;
+height: var(--boxHei);
 margin: 5px 0;
-font-weight: bolder; 
 z-index: 10;    
 transition: transform 0.1s;
-
+padding: .5rem;
+@media(max-width:760px){
+    width: 100%;
+}
 `
 
 export const Box = styled.div`
@@ -114,7 +121,7 @@ to {
 
 export const SendContract = styled.div`
 z-index: 0;
-background-color: #0069ff;
+background-color: #1976d2;
 color: #fff;
 margin: .4rem 0 ;
 border-radius: 5px;

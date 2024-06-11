@@ -116,24 +116,24 @@ export const Contracts = () => {
                 filteredContracts[0] !== undefined &&
                 <span className='emmit' >
                     <Button
-                        open={emmit}
+                        open={emmit && true}
                         onClick={() => setEmmit(!emmit)}
                     >
                         Emitir Contrato
                     </Button>
 
-                    <Box $emmit={emmit} >
-                        <SendContract $emmit={emmit}>
+                    <Box $emmit={emmit && true} >
+                        <SendContract $emmit={emmit && true}>
                             <SureSendModal
                                 data={"PDF"}
                                 text={personalText.PDF} />
                         </SendContract>
-                        <SendContract $emmit={emmit}>
+                        <SendContract $emmit={emmit && true}>
                             <SureSendModal
                                 data={"Autentique"}
                                 text={personalText.autentique} />
                         </SendContract>
-                        <SendContract $emmit={emmit}>
+                        <SendContract $emmit={emmit && true}>
                             <SureSendModal
                                 data={"Conta Azul"}
                                 text={personalText.contaAzul} />

@@ -4,7 +4,7 @@ import team from '../../../assets/team.svg'
 import unity from '../../../assets/unity.svg'
 
 import { paths } from '../../constants/paths.js'
-import { Container, MainBox } from './styles.jsx'
+import { Container, Links, MainBox } from './styles.jsx'
 export const Settings = () => {
 
 
@@ -15,18 +15,6 @@ export const Settings = () => {
             </header>
 
             <MainBox>
-                <div className='boxes'>
-                    <p>
-                        Crie novos campos personalizados
-                    </p>
-                    <img src={settings} alt="" />
-                    <a
-                        href={paths.configCustomFields}
-                        style={{ pointerEvents: "none" }}
-                    >
-                        Em breve..
-                    </a>
-                </div>
 
                 <div className='boxes'>
                     <p>
@@ -34,9 +22,9 @@ export const Settings = () => {
                         a fazer parte do time
                     </p>
                     <img src={team} alt="" />
-                    <a href={paths.configRegister}>
+                    <Links to={paths.configRegister}>
                         Convidar usuários
-                    </a>
+                    </Links>
                 </div>
 
                 <div className='boxes'>
@@ -44,14 +32,31 @@ export const Settings = () => {
                         Cadastre todas as unidades da sua operação
                     </p>
                     <img src={unity} alt="" />
-                    <a
-                        href={paths.configRegister}
+                    <Links
+                        to={paths.configRegister}
                         style={{ pointerEvents: "none" }}
 
                     >
                         Em breve..
-                    </a>
+                    </Links>
                 </div>
+
+                <div className='boxes'>
+                    <p>
+                        Crie novos campos personalizados
+                    </p>
+                    <img src={settings} alt="" />
+                    <Links
+                        to={paths.configCustomFields}
+                        style={{ pointerEvents: "none" }}
+                    >
+                        Em breve..
+                    </Links>
+                </div>
+
+
+
+
 
 
 

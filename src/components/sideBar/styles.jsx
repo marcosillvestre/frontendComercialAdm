@@ -64,7 +64,7 @@ border: none;
 background-color: #1976d2;
 font-family: "Roboto","Helvetica","Arial",sans-serif;
 font-weight: 500;
-font-size: calc(var(--fsLowest) - 3px);
+font-size: calc(var(--fsLowest));
 letter-spacing: 0.02857em;
 text-transform: uppercase;
 width: 50%;

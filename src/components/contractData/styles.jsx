@@ -68,7 +68,7 @@ margin: 15px 0;
     .active{
         width: 100%;
         height: var(--boxHei);
-        background-color: #3458f5;
+        background-color: #1976d2;
         border-radius: .5rem;
         position: absolute;
         left: 0;
