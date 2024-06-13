@@ -16,7 +16,7 @@ const Office = ({ data }) => {
                 <h5>DATA DA MATRÍCULA: {data.dataMatricula}</h5>
                 <h5>TIPO DE CONTRATO: {data.tipoModalidade}</h5>
                 <h5>UNIDADE: {data.unidade}</h5>
-                <h5>TIPO DE ASSINATURA: {data.formato}</h5>
+                <h5>TIPO DE ASSINATURA: {data.acFormato}</h5>
                 <h5>DA QUALIFICAÇÃO DAS PARTES</h5>
 
                 <p>
@@ -720,7 +720,9 @@ export default Office
 
 Office.propTypes = {
     data: PropTypes.shape({
-        valorCurso: PropTypes.string,
+        acFormato: PropTypes.string,
+
+        valorCurso: PropTypes.number,
         contrato: PropTypes.string,
         dataMatricula: PropTypes.string,
         formato: PropTypes.string,

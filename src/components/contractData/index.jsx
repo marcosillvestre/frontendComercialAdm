@@ -1,4 +1,3 @@
-import noContract from '../../assets/noContract.svg'
 import { useData } from '../../hooks/dataContext.jsx'
 import { useUser } from '../../hooks/userContext'
 import { Container, NavBar, TableBody } from './styles'
@@ -19,7 +18,7 @@ import StandardRem from './templates/standard-rem.jsx'
 
 import { gsap } from 'gsap'
 import { Flip } from 'gsap/Flip'
-
+import noContract from '../../assets/noContract.svg'
 export const ContractData = () => {
     gsap.registerPlugin(Flip)
 
@@ -27,42 +26,42 @@ export const ContractData = () => {
     const { content, view, setView } = useData()
 
 
-    let bool = filteredContracts !== undefined && filteredContracts.length !== 0
-    let body = filteredContracts !== undefined && filteredContracts[0]
+    let bool = filteredContracts !== undefined
 
     let standard;
 
+
     if (bool) {
-        if (filteredContracts[0].promocao === "Não" && filteredContracts[0].background !== "Rematrícula") {
-            standard = <Standard id='content' data={body} />
+        if (filteredContracts.promocao === "Não" && filteredContracts.background !== "Rematrícula") {
+            standard = <Standard id='content' data={filteredContracts} />
         }
-        if (filteredContracts[0].promocao !== "Não" && filteredContracts[0].background !== "Rematrícula") {
-            standard = <StandardPromo id='content' data={body} />
+        if (filteredContracts.promocao !== "Não" && filteredContracts.background !== "Rematrícula") {
+            standard = <StandardPromo id='content' data={filteredContracts} />
         }
-        if (filteredContracts[0].promocao !== "Não" && filteredContracts[0].background === "Rematrícula") {
-            standard = <StandardPromoRem id='content' data={body} />
+        if (filteredContracts.promocao !== "Não" && filteredContracts.background === "Rematrícula") {
+            standard = <StandardPromoRem id='content' data={filteredContracts} />
         }
-        if (filteredContracts[0].promocao === "Não" && filteredContracts[0].background === "Rematrícula") {
-            standard = <StandardRem id='content' data={body} />
+        if (filteredContracts.promocao === "Não" && filteredContracts.background === "Rematrícula") {
+            standard = <StandardRem id='content' data={filteredContracts} />
         }
     }
 
     const archives = {
         "Standard One": standard,
-        "Adults and YA": bool ? filteredContracts[0].promocao === "Não" ? <Idioma id='content' data={body} /> : <IdiomaPromo id='content' data={body} /> : "",
+        "Adults and YA": bool ? filteredContracts.promocao === "Não" ? <Idioma id='content' data={filteredContracts} /> : <IdiomaPromo id='content' data={filteredContracts} /> : "",
 
-        "Kids": bool ? filteredContracts[0].promocao === "Não" ? <Idioma id='content' data={body} /> : <IdiomaPromo id='content' data={body} /> : "",
-        "Teens": bool ? filteredContracts[0].promocao === "Não" ? <Idioma id='content' data={body} /> : <IdiomaPromo id='content' data={body} /> : "",
-        "Little Ones": bool ? filteredContracts[0].promocao === "Não" ? <Idioma id='content' data={body} /> : <IdiomaPromo id='content' data={body} /> : "",
-        "Español - En grupo": bool ? filteredContracts[0].promocao === "Não" ? <Idioma id='content' data={body} /> : <IdiomaPromo id='content' data={body} /> : "",
-        "Fluency Way One - X": bool ? filteredContracts[0].promocao === "Não" ? <Particulares id='content' data={body} /> : <ParticularesPromo id='content' data={body} /> : "",
-        "Fluency Way Double -X": bool ? filteredContracts[0].promocao === "Não" ? <Particulares id='content' data={body} /> : <ParticularesPromo id='content' data={body} /> : "",
-        "Fluency Way Triple - X": bool ? filteredContracts[0].promocao === "Não" ? <Particulares id='content' data={body} /> : <ParticularesPromo id='content' data={body} /> : "",
-        "Español - X1": bool ? filteredContracts[0].promocao === "Não" ? <Particulares id='content' data={body} /> : <ParticularesPromo id='content' data={body} /> : "",
-        "Español - X2": bool ? filteredContracts[0].promocao === "Não" ? <Particulares id='content' data={body} /> : <ParticularesPromo id='content' data={body} /> : "",
-        "Español - X3": bool ? filteredContracts[0].promocao === "Não" ? <Particulares id='content' data={body} /> : <ParticularesPromo id='content' data={body} /> : "",
-        "Pacote Office Essentials": bool ? filteredContracts[0].promocao === "Não" ? <Office id='content' data={body} /> : <OfficePromo id='content' data={body} /> : "",
-        "Excel Avaçado": bool ? filteredContracts[0].promocao === "Não" ? <Excel id='content' data={body} /> : <ExcelPromo id='content' data={body} /> : ""
+        "Kids": bool ? filteredContracts.promocao === "Não" ? <Idioma id='content' data={filteredContracts} /> : <IdiomaPromo id='content' data={filteredContracts} /> : "",
+        "Teens": bool ? filteredContracts.promocao === "Não" ? <Idioma id='content' data={filteredContracts} /> : <IdiomaPromo id='content' data={filteredContracts} /> : "",
+        "Little Ones": bool ? filteredContracts.promocao === "Não" ? <Idioma id='content' data={filteredContracts} /> : <IdiomaPromo id='content' data={filteredContracts} /> : "",
+        "Español - En grupo": bool ? filteredContracts.promocao === "Não" ? <Idioma id='content' data={filteredContracts} /> : <IdiomaPromo id='content' data={filteredContracts} /> : "",
+        "Fluency Way One - X": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} /> : <ParticularesPromo id='content' data={filteredContracts} /> : "",
+        "Fluency Way Double -X": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} /> : <ParticularesPromo id='content' data={filteredContracts} /> : "",
+        "Fluency Way Triple - X": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} /> : <ParticularesPromo id='content' data={filteredContracts} /> : "",
+        "Español - X1": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} /> : <ParticularesPromo id='content' data={filteredContracts} /> : "",
+        "Español - X2": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} /> : <ParticularesPromo id='content' data={filteredContracts} /> : "",
+        "Español - X3": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} /> : <ParticularesPromo id='content' data={filteredContracts} /> : "",
+        "Pacote Office Essentials": bool ? filteredContracts.promocao === "Não" ? <Office id='content' data={filteredContracts} /> : <OfficePromo id='content' data={filteredContracts} /> : "",
+        "Excel Avaçado": bool ? filteredContracts.promocao === "Não" ? <Excel id='content' data={filteredContracts} /> : <ExcelPromo id='content' data={filteredContracts} /> : ""
     }
 
 
@@ -104,12 +103,11 @@ export const ContractData = () => {
 
         })
     })
-
-
     return (
         <Container>
             {
-                filteredContracts?.length > 0 &&
+                filteredContracts !== undefined &&
+
                 <NavBar>
                     <p>Visualização em</p>
                     <div className='buttons'>
@@ -137,10 +135,10 @@ export const ContractData = () => {
             }
 
             {
-                filteredContracts?.length > 0 ? filteredContracts.map(res => (
+                filteredContracts !== undefined ?
                     view === 'table' ?
-                        <table key={res.contrato}>
-                            <tbody key={res.contrato}>
+                        <table >
+                            <tbody >
                                 <tr style={{ fontWeight: 'bold' }}>Pessoal:</tr>
                                 <tr>
                                     <th>Nome</th>
@@ -151,17 +149,17 @@ export const ContractData = () => {
                                     <th>nascimento resp</th>
                                     <th>Celular</th>
                                 </tr>
-                                <tr key={res.contrato}>
-                                    <TableBody empty={res.name === "" || res.name === undefined}>{res.name}</TableBody>
-                                    <TableBody empty={res.email === "" || res.email === undefined}>{res.email}</TableBody>
-                                    <TableBody empty={res.contrato === "" || res.contrato === undefined}>{res.contrato}</TableBody>
-                                    <TableBody empty={res.dataMatricula === "" || res.dataMatricula === undefined}>{res.dataMatricula}</TableBody>
-                                    <TableBody empty={res.cpf === "" || res.cpf === undefined}>{res.cpf}</TableBody>
-                                    <TableBody empty={res.DatadeNascdoResp === "" || res.DatadeNascdoResp === undefined}>{res.DatadeNascdoResp}</TableBody>
+                                <tr >
+                                    <TableBody empty={filteredContracts.name === "" || filteredContracts.name === undefined}>{filteredContracts.name}</TableBody>
+                                    <TableBody empty={filteredContracts.email === "" || filteredContracts.email === undefined}>{filteredContracts.email}</TableBody>
+                                    <TableBody empty={filteredContracts.contrato === "" || filteredContracts.contrato === undefined}>{filteredContracts.contrato}</TableBody>
+                                    <TableBody empty={filteredContracts.dataMatricula === "" || filteredContracts.dataMatricula === undefined}>{filteredContracts.dataMatricula}</TableBody>
+                                    <TableBody empty={filteredContracts.cpf === "" || filteredContracts.cpf === undefined}>{filteredContracts.cpf}</TableBody>
+                                    <TableBody empty={filteredContracts.DatadeNascdoResp === "" || filteredContracts.DatadeNascdoResp === undefined}>{filteredContracts.DatadeNascdoResp}</TableBody>
                                     <TableBody empty={
-                                        res.CelularResponsavel === "" ||
-                                        res.CelularResponsavel === undefined}>
-                                        {res.CelularResponsavel}</TableBody>
+                                        filteredContracts.CelularResponsavel === "" ||
+                                        filteredContracts.CelularResponsavel === undefined}>
+                                        {filteredContracts.CelularResponsavel}</TableBody>
                                 </tr>
 
 
@@ -177,13 +175,13 @@ export const ContractData = () => {
                                 </tr>
 
                                 <tr >
-                                    <TableBody empty={res.EnderecoResponsavel === "" || res.EnderecoResponsavel === undefined}>{res.EnderecoResponsavel}</TableBody>
-                                    <TableBody empty={res.NumeroEnderecoResponsavel === "" || res.NumeroEnderecoResponsavel === undefined}>{res.NumeroEnderecoResponsavel}</TableBody>
-                                    <TableBody empty={res.complemento === "" || res.complemento === undefined}>{res.complemento}</TableBody>
-                                    <TableBody empty={res.bairro === "" || res.bairro === undefined}>{res.bairro}</TableBody>
-                                    <TableBody empty={res.cidade === "" || res.cidade === undefined}>{res.cidade}</TableBody>
-                                    <TableBody empty={res.estado === "" || res.estado === undefined}>{res.estado}</TableBody>
-                                    <TableBody empty={res.cep === "" || res.cep === undefined}>{res.cep}</TableBody>
+                                    <TableBody empty={filteredContracts.EnderecoResponsavel === "" || filteredContracts.EnderecoResponsavel === undefined}>{filteredContracts.EnderecoResponsavel}</TableBody>
+                                    <TableBody empty={filteredContracts.NumeroEnderecoResponsavel === "" || filteredContracts.NumeroEnderecoResponsavel === undefined}>{filteredContracts.NumeroEnderecoResponsavel}</TableBody>
+                                    <TableBody empty={filteredContracts.complemento === "" || filteredContracts.complemento === undefined}>{filteredContracts.complemento}</TableBody>
+                                    <TableBody empty={filteredContracts.bairro === "" || filteredContracts.bairro === undefined}>{filteredContracts.bairro}</TableBody>
+                                    <TableBody empty={filteredContracts.cidade === "" || filteredContracts.cidade === undefined}>{filteredContracts.cidade}</TableBody>
+                                    <TableBody empty={filteredContracts.estado === "" || filteredContracts.estado === undefined}>{filteredContracts.estado}</TableBody>
+                                    <TableBody empty={filteredContracts.cep === "" || filteredContracts.cep === undefined}>{filteredContracts.cep}</TableBody>
                                 </tr>
                                 <tr>
                                     <th>estado Cívil</th>
@@ -193,11 +191,11 @@ export const ContractData = () => {
                                     <th>Responsável</th>
                                 </tr>
                                 <tr>
-                                    <TableBody empty={res.estadoCivil === "" || res.estadoCivil === undefined}>{res.estadoCivil}</TableBody>
-                                    <TableBody nonMandatory={res.profissao === "" || res.profissao === undefined}>{res.profissao}</TableBody>
-                                    <TableBody empty={res.nomeAluno === "" || res.nomeAluno === undefined}>{res.nomeAluno}</TableBody>
-                                    <TableBody empty={res.nascimentoAluno === "" || res.nascimentoAluno === undefined}>{res.nascimentoAluno}</TableBody>
-                                    <TableBody empty={res.vendedor === "" || res.vendedor === undefined}>{res.vendedor}</TableBody>
+                                    <TableBody empty={filteredContracts.estadoCivil === "" || filteredContracts.estadoCivil === undefined}>{filteredContracts.estadoCivil}</TableBody>
+                                    <TableBody nonMandatory={filteredContracts.profissao === "" || filteredContracts.profissao === undefined}>{filteredContracts.profissao}</TableBody>
+                                    <TableBody empty={filteredContracts.nomeAluno === "" || filteredContracts.nomeAluno === undefined}>{filteredContracts.nomeAluno}</TableBody>
+                                    <TableBody empty={filteredContracts.nascimentoAluno === "" || filteredContracts.nascimentoAluno === undefined}>{filteredContracts.nascimentoAluno}</TableBody>
+                                    <TableBody empty={filteredContracts.vendedor === "" || filteredContracts.vendedor === undefined}>{filteredContracts.vendedor}</TableBody>
 
                                 </tr>
 
@@ -214,13 +212,13 @@ export const ContractData = () => {
                                 </tr>
 
                                 <tr>
-                                    <TableBody empty={res.unidade === "" || res.unidade === undefined}>{res.unidade}</TableBody>
-                                    <TableBody empty={res.formato === "" || res.formato === undefined}>{res.formato}</TableBody>
-                                    <TableBody empty={res.cargaHoraria === "" || res.cargaHoraria === undefined}>{res.cargaHoraria}</TableBody>
-                                    <TableBody empty={res.paDATA === "" || res.paDATA === undefined}>{res.paDATA}</TableBody>
-                                    <TableBody empty={res.tipoModalidade === "" || res.tipoModalidade === undefined}>{res.tipoModalidade}</TableBody>
-                                    <TableBody empty={res.classe === "" || res.classe === undefined}>{res.classe}</TableBody>
-                                    <TableBody empty={res.subclasse === "" || res.subclasse === undefined}>{res.subclasse}</TableBody>
+                                    <TableBody empty={filteredContracts.unidade === "" || filteredContracts.unidade === undefined}>{filteredContracts.unidade}</TableBody>
+                                    <TableBody empty={filteredContracts.formato === "" || filteredContracts.formato === undefined}>{filteredContracts.formato}</TableBody>
+                                    <TableBody empty={filteredContracts.cargaHoraria === "" || filteredContracts.cargaHoraria === undefined}>{filteredContracts.cargaHoraria}</TableBody>
+                                    <TableBody empty={filteredContracts.paDATA === "" || filteredContracts.paDATA === undefined}>{filteredContracts.paDATA}</TableBody>
+                                    <TableBody empty={filteredContracts.tipoModalidade === "" || filteredContracts.tipoModalidade === undefined}>{filteredContracts.tipoModalidade}</TableBody>
+                                    <TableBody empty={filteredContracts.classe === "" || filteredContracts.classe === undefined}>{filteredContracts.classe}</TableBody>
+                                    <TableBody empty={filteredContracts.subclasse === "" || filteredContracts.subclasse === undefined}>{filteredContracts.subclasse}</TableBody>
                                 </tr>
 
                                 <tr>
@@ -228,15 +226,15 @@ export const ContractData = () => {
                                     <th>Background</th>
                                 </tr>
                                 <tr>
-                                    <TableBody empty={res.materialDidatico === "" || res.materialDidatico === undefined}>
-                                        {res.materialDidatico.map(res => (
+                                    <TableBody empty={filteredContracts.materialDidatico === "" || filteredContracts.materialDidatico === undefined}>
+                                        {filteredContracts.materialDidatico.map(res => (
                                             <p key={res}>
                                                 {res},
                                             </p>
                                         ))}</TableBody>
 
-                                    <TableBody empty={res.background === "" || res.background === undefined}>
-                                        {res.background}
+                                    <TableBody empty={filteredContracts.background === "" || filteredContracts.background === undefined}>
+                                        {filteredContracts.background}
                                     </TableBody>
 
 
@@ -257,13 +255,13 @@ export const ContractData = () => {
                                     <th>Valor da Mensalidade com Desconto</th>
                                 </tr>
                                 <tr>
-                                    <TableBody nonMandatory={res.observacaoRd === "" || res.observacaoRd === undefined}>{res.observacaoRd}</TableBody>
-                                    <TableBody empty={res.dataPrimeiraParcelaMensalidade === "" || res.dataPrimeiraParcelaMensalidade === undefined}>{res.dataPrimeiraParcelaMensalidade}</TableBody>
-                                    <TableBody empty={res.dataUltimaParcelaMensalidade === "" || res.dataUltimaParcelaMensalidade === undefined}>{res.dataUltimaParcelaMensalidade}</TableBody>
-                                    <TableBody empty={res.descontoTotal === "" || res.descontoTotal === undefined}>R$ {res.descontoTotal}</TableBody>
-                                    <TableBody empty={res.descontoPorParcela === "" || res.descontoPorParcela === undefined}>R$ {res.descontoPorParcela}</TableBody>
-                                    <TableBody empty={res.valorMensalidade === "" || res.valorMensalidade === undefined}>R$ {res.valorMensalidade}</TableBody>
-                                    <TableBody >R$ {parseFloat(parseFloat(res.valorMensalidade) - parseFloat(res.descontoPorParcela.includes(",") ? `${res.descontoPorParcela.split(",")[0]}.${res.descontoPorParcela.split(",")[1]}` : res.descontoPorParcela))}</TableBody>
+                                    <TableBody nonMandatory={filteredContracts.observacaoRd === "" || filteredContracts.observacaoRd === undefined}>{filteredContracts.observacaoRd}</TableBody>
+                                    <TableBody empty={filteredContracts.dataPrimeiraParcelaMensalidade === "" || filteredContracts.dataPrimeiraParcelaMensalidade === undefined}>{filteredContracts.dataPrimeiraParcelaMensalidade}</TableBody>
+                                    <TableBody empty={filteredContracts.dataUltimaParcelaMensalidade === "" || filteredContracts.dataUltimaParcelaMensalidade === undefined}>{filteredContracts.dataUltimaParcelaMensalidade}</TableBody>
+                                    <TableBody empty={filteredContracts.descontoTotal === "" || filteredContracts.descontoTotal === undefined}>R$ {filteredContracts.descontoTotal}</TableBody>
+                                    <TableBody empty={filteredContracts.descontoPorParcela === "" || filteredContracts.descontoPorParcela === undefined}>R$ {filteredContracts.descontoPorParcela}</TableBody>
+                                    <TableBody empty={filteredContracts.valorMensalidade === "" || filteredContracts.valorMensalidade === undefined}>R$ {filteredContracts.valorMensalidade}</TableBody>
+                                    <TableBody >R$ {parseFloat(parseFloat(filteredContracts.valorMensalidade) - parseFloat(filteredContracts.descontoPorParcela.includes(",") ? `${filteredContracts.descontoPorParcela.split(",")[0]}.${filteredContracts.descontoPorParcela.split(",")[1]}` : filteredContracts.descontoPorParcela))}</TableBody>
                                 </tr>
                                 <tr>
                                     <th>Valor do Curso</th>
@@ -277,16 +275,16 @@ export const ContractData = () => {
 
                                 </tr>
                                 <tr>
-                                    <TableBody empty={res?.valorCurso === "" || res.valorCurso === undefined} >R$ {res?.valorCurso}</TableBody>
+                                    <TableBody empty={filteredContracts.valorCurso === "" || filteredContracts.valorCurso === undefined} >R$ {filteredContracts.valorCurso}</TableBody>
 
-                                    <TableBody empty={res.numeroParcelas === "" || res.numeroParcelas === undefined}>{res.numeroParcelas}</TableBody>
-                                    <TableBody empty={res.diaVenvimento === "" || res.diaVenvimento === undefined}>{res.diaVenvimento}</TableBody>
-                                    <TableBody empty={res.tmValor === "" || res.tmValor === undefined}>R$ {res.tmValor}</TableBody>
-                                    <TableBody empty={res.mdValor === "" || res.mdValor === undefined}>R$ {res.mdValor}</TableBody>
+                                    <TableBody empty={filteredContracts.numeroParcelas === "" || filteredContracts.numeroParcelas === undefined}>{filteredContracts.numeroParcelas}</TableBody>
+                                    <TableBody empty={filteredContracts.diaVenvimento === "" || filteredContracts.diaVenvimento === undefined}>{filteredContracts.diaVenvimento}</TableBody>
+                                    <TableBody empty={filteredContracts.tmValor === "" || filteredContracts.tmValor === undefined}>R$ {filteredContracts.tmValor}</TableBody>
+                                    <TableBody empty={filteredContracts.mdValor === "" || filteredContracts.mdValor === undefined}>R$ {filteredContracts.mdValor}</TableBody>
 
-                                    <TableBody empty={isNaN(parseInt(res.mdDesconto)) || res.mdDesconto === undefined}>R$ {res.mdDesconto}</TableBody>
-                                    <TableBody empty={isNaN(parseInt(res.mdDesconto)) || res.mdDesconto === undefined}>
-                                        R$ {parsingFloats(res.mdValor, res.mdDesconto)}
+                                    <TableBody empty={isNaN(parseInt(filteredContracts.mdDesconto)) || filteredContracts.mdDesconto === undefined}>R$ {filteredContracts.mdDesconto}</TableBody>
+                                    <TableBody empty={isNaN(parseInt(filteredContracts.mdDesconto)) || filteredContracts.mdDesconto === undefined}>
+                                        R$ {parsingFloats(filteredContracts.mdValor, filteredContracts.mdDesconto)}
                                     </TableBody>
 
                                 </tr>
@@ -297,24 +295,25 @@ export const ContractData = () => {
                                     <th>Demais Parcelas</th>
                                     <th>Desconto nas Demais Parcelas</th>
                                     <th>Promoção</th>
+                                    <th>Tipo de assinatura</th>
                                 </tr>
                                 <tr>
-                                    <TableBody nonMandatory={res?.parcelasAfetadas === "" || res.parcelasAfetadas === undefined} > {res?.parcelasAfetadas}</TableBody>
-                                    <TableBody nonMandatory={res?.descontoPrimeirasParcelas === "" || res.descontoPrimeirasParcelas === undefined} >R$ {res?.descontoPrimeirasParcelas}</TableBody>
-                                    <TableBody nonMandatory={res?.demaisParcelas === "" || res.demaisParcelas === undefined} >R$ {res?.demaisParcelas}</TableBody>
-                                    <TableBody nonMandatory={res?.descontoDemaisParcelas === "" || res.descontoDemaisParcelas === undefined} >R$ {res?.descontoDemaisParcelas}</TableBody>
-                                    <TableBody promo={res?.promocao === "Sim"}> {res?.promocao}</TableBody>
+                                    <TableBody nonMandatory={filteredContracts.parcelasAfetadas === "" || filteredContracts.parcelasAfetadas === undefined} > {filteredContracts.parcelasAfetadas}</TableBody>
+                                    <TableBody nonMandatory={filteredContracts.descontoPrimeirasParcelas === "" || filteredContracts.descontoPrimeirasParcelas === undefined} >R$ {filteredContracts.descontoPrimeirasParcelas}</TableBody>
+                                    <TableBody nonMandatory={filteredContracts.demaisParcelas === "" || filteredContracts.demaisParcelas === undefined} >R$ {filteredContracts.demaisParcelas}</TableBody>
+                                    <TableBody nonMandatory={filteredContracts.descontoDemaisParcelas === "" || filteredContracts.descontoDemaisParcelas === undefined} >R$ {filteredContracts.descontoDemaisParcelas}</TableBody>
+                                    <TableBody promo={filteredContracts.promocao === "Sim"}> {filteredContracts.promocao}</TableBody>
+                                    <TableBody > {filteredContracts.acFormato}</TableBody>
                                 </tr>
                             </tbody>
                         </table>
                         :
-                        <div key={res.contrato} ref={content}>
+                        <div ref={content}>
                             {
                                 archives[filteredContracts !== undefined &&
-                                filteredContracts[0].subclasse]
+                                filteredContracts.subclasse]
                             }
                         </div>
-                ))
 
                     :
                     <div className='empty'>

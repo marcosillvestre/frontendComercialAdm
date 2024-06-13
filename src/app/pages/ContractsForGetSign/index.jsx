@@ -57,9 +57,10 @@ export const Contracts = () => {
 
 
     function filterData(e) {
+
         if (e !== "Não há ninguém na etapa de matrícula nesse funil!") {
             const data = contracts.filter(res => res.contrato === e)
-            setFilteredContracts(data)
+            setFilteredContracts(data[0])
         }
     }
 
@@ -97,11 +98,13 @@ export const Contracts = () => {
                         />
                         <datalist id='person'>
                             {
-                                contracts && contracts.map(res => (
+                                contracts && contracts.map((res, i) => (
                                     <option
-                                        key={res.contrato}
+                                        key={i}
                                         value={res.contrato}
-                                    >{res.name}</option>
+                                    >
+                                        {res.name}
+                                    </option>
 
                                 ))
                             }
@@ -113,7 +116,6 @@ export const Contracts = () => {
             </Header>
             {
                 filteredContracts !== undefined &&
-                filteredContracts[0] !== undefined &&
                 <span className='emmit' >
                     <Button
                         open={emmit && true}
