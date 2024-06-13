@@ -113,7 +113,7 @@ export function SureSendModal(data) {
     }
 
     const sales = async (body) => {
-        if (parseFloat(filteredContracts[0].mdValor) > 0) {
+        if (parseFloat(filteredContracts.mdValor) > 0) {
 
             await toast.promise(
                 // axios.post("http://localhost:7070/venda", body, { headers })
@@ -129,7 +129,7 @@ export function SureSendModal(data) {
     }
 
     const feeEnroll = async (body) => {
-        if (parseFloat(filteredContracts[0].tmValor) > 0) {
+        if (parseFloat(filteredContracts.tmValor) > 0) {
             await toast.promise(
                 // axios.post("http://localhost:7070/taxa", body, { headers })
                 URI.post("/taxa", body)
@@ -156,7 +156,7 @@ export function SureSendModal(data) {
         dataUltimaP, materialDidatico, mdValor, mdFormaPg,
         mdVencimento, tmValor, tmFormaPg, tmVencimento, valorCurso, service,
         observacaoRd, mdDesconto, parcelasAfetadas, descontoPrimeirasParcelas, demaisParcelas, descontoDemaisParcelas, promocao
-    } = filteredContracts === undefined || filteredContracts[0] === undefined ? {} : filteredContracts[0]
+    } = filteredContracts === undefined || filteredContracts === undefined ? {} : filteredContracts
 
     const body = {
         contrato, vendedor, parcelasAfetadas, descontoPrimeirasParcelas,
@@ -232,7 +232,7 @@ export function SureSendModal(data) {
         if (sendingList.length === 0) {
             return alert("Você precisa definir pelo menos um tipo de envio para o conta azul")
         }
-        if (filteredContracts === undefined || filteredContracts[0] === undefined) {
+        if (filteredContracts === undefined || filteredContracts === undefined) {
             return alert("Você precisa definir um contrato primeiro")
         }
 
@@ -264,7 +264,7 @@ export function SureSendModal(data) {
 
     const senderImpressContract = async () => {
         const options = {
-            filename: `adesao_${filteredContracts && filteredContracts[0].name}`,
+            filename: `adesao_${filteredContracts && filteredContracts.name}`,
             method: 'save',
             resolution: Resolution.NORMAL,
 
@@ -296,22 +296,22 @@ export function SureSendModal(data) {
     const SendViaAutentique = async body => {
 
         const data = new FormData()
-        data.append('name', filteredContracts[0].name)
+        data.append('name', filteredContracts.name)
 
-        const rawPhone = filteredContracts[0].CelularResponsavel
-        filteredContracts[0].number = rawPhone.includes("+") ? rawPhone : `+55${rawPhone}`
+        const rawPhone = filteredContracts.CelularResponsavel
+        filteredContracts.number = rawPhone.includes("+") ? rawPhone : `+55${rawPhone}`
 
-        filteredContracts[0].number = filteredContracts[0].number.includes(" ") ?
-            filteredContracts[0].number.replace(" ", "") :
-            filteredContracts[0].number
+        filteredContracts.number = filteredContracts.number.includes(" ") ?
+            filteredContracts.number.replace(" ", "") :
+            filteredContracts.number
 
-        filteredContracts[0].number = filteredContracts[0].number.includes("-") ?
-            filteredContracts[0].number.replace("-", "") :
-            filteredContracts[0].number
+        filteredContracts.number = filteredContracts.number.includes("-") ?
+            filteredContracts.number.replace("-", "") :
+            filteredContracts.number
 
 
 
-        data.append('number', filteredContracts[0].number)
+        data.append('number', filteredContracts.number)
 
         if (body.file && body.file[0]) {
             data.append('file', file);
