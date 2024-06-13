@@ -7,7 +7,7 @@ export const CloserClick = (data) => {
     return <Container
         open={data.open}
         onClick={() => {
-            setTypeSidebar(0)
+            !data.dontClose && setTypeSidebar(0)
             data.fn(false)
         }}
         style={{ opacity: data.opacity }}

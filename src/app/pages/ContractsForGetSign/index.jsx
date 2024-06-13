@@ -78,10 +78,10 @@ export const Contracts = () => {
                             label={""}
                             option={
                                 [
-                                    { name: "Funil-de-Vendas-PTB" },
-                                    { name: "Funil-de-Rematrícula-PTB" },
-                                    { name: "Funil-de-Vendas-Centro" },
-                                    { name: "Funil-de-Rematrículas-Centro" },
+                                    { name: "Funil de Vendas PTB", value: "Funil-de-Vendas-PTB" },
+                                    { name: "Funil de Rematrícula PTB", value: "Funil-de-Rematrícula-PTB" },
+                                    { name: "Funil de Vendas Centro", value: "Funil-de-Vendas-Centro" },
+                                    { name: "Funil de Rematrículas Centro", value: "Funil-de-Rematrículas-Centro" },
                                 ]
                             }
                             width="100%"

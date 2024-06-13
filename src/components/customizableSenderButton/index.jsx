@@ -109,9 +109,6 @@ export function CustomizableButton(data) {
         )
     }
 
-
-    console.log(data.able)
-
     return (
         <ButtonContainer>
 

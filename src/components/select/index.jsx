@@ -12,8 +12,6 @@ export const Select = (parameters) => {
 
     const handleCheck = async (label) => {
 
-        setLabel(label.value)
-
         parameters.where === 'create' ?
             engineFunctions(label.field, label.value, label.order || "") :
             engineFunctions(label.value)
@@ -29,8 +27,17 @@ export const Select = (parameters) => {
             })
         })
     }
+
+
+
     return (
         <>
+            <CloserClick
+                open={open}
+                fn={setOpen}
+                opacity={.01}
+                dontClose={true}
+            />
             <Container
                 style={{
                     minWidth: `${parameters.width}`,
@@ -69,11 +76,15 @@ export const Select = (parameters) => {
                                         data.customizable === undefined ?
                                             <span
                                                 className="label"
-                                                onClick={() => handleCheck({
-                                                    value: data?.name,
-                                                    field: parameters?.field ? parameters?.field : "",
-                                                    order: parameters?.order
-                                                })}>
+                                                onClick={() => {
+                                                    setLabel(data.name)
+                                                    handleCheck({
+                                                        value: data.value === undefined ? data?.name : data.value,
+                                                        field: parameters?.field ? parameters?.field : "",
+                                                        order: parameters?.order
+                                                    })
+                                                }
+                                                }>
 
                                                 <p>{data?.name}</p>
                                             </span>
@@ -86,10 +97,7 @@ export const Select = (parameters) => {
                 </ListOpt>
 
             </Container >
-            <CloserClick
-                open={open}
-                fn={setOpen} opacity={.01}
-            />
+
         </>
     )
 }

@@ -45,41 +45,6 @@ export const CreateUsersForm = () => {
                     }}
                 />
             </Label>
-            <Label >
-                <p>Email</p>
-                < Input
-                    type="text"
-                    onBlur={(e) => {
-                        e.target.value !== '' &&
-                            sender("email", e.target.value) &&
-                            toast.success("Gravado")
-
-                    }}
-                />
-            </Label>
-            <Label >
-                <p>Senha</p>
-                < Input
-                    type="text"
-                    onBlur={(e) => {
-                        e.target.value !== '' &&
-                            sender("password", e.target.value)
-
-                    }}
-                />
-            </Label>
-            <Label >
-                <p>Confirme a senha</p>
-                < Input
-                    type="text"
-                    onBlur={(e) => {
-                        e.target.value !== '' &&
-                            sender("confirmPassword", e.target.value)
-
-                    }}
-                />
-            </Label>
-
 
             <Label >
                 <p>Unidade</p>
@@ -110,6 +75,42 @@ export const CreateUsersForm = () => {
                     }
                 </div>
             </Label>
+            <Label >
+                <p>Email</p>
+                < Input
+                    type="text"
+                    onBlur={(e) => {
+                        e.target.value !== '' &&
+                            sender("email", e.target.value) &&
+                            toast.success("Gravado")
+
+                    }}
+                />
+            </Label>
+
+            <Label >
+                <p>Senha</p>
+                < Input
+                    type="text"
+                    onBlur={(e) => {
+                        e.target.value !== '' &&
+                            sender("password", e.target.value)
+
+                    }}
+                />
+            </Label>
+            <Label >
+                <p>Confirme a senha</p>
+                < Input
+                    type="text"
+                    onBlur={(e) => {
+                        e.target.value !== '' &&
+                            sender("confirmPassword", e.target.value)
+
+                    }}
+                />
+            </Label>
+
 
             <Label >
                 <p>Cargo</p>

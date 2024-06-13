@@ -18,7 +18,7 @@ letter-spacing: .0225rem;
 export const ListOpt = styled.ul`
     display:${props => props.open ? "" : "none"} ;
     position: absolute;
-    z-index: 10;
+    z-index: 13;
     margin-top: .25rem ;
     border-radius: .375rem;
     background-color:#dfe6f1;

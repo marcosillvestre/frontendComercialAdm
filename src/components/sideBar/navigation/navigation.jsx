@@ -15,6 +15,7 @@ import {
 export const Navigation = (openSidebar) => {
     const { userData } = useUser()
 
+
     const url = useLocation()
     const pages = [
         { name: 'Controle Comercial', url: paths.control, icon: <Home />, access: ['administrativo', 'direcao', 'comercial', 'gerencia', 'pedagogico'] },
