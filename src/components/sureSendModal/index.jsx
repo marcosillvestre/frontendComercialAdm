@@ -33,6 +33,7 @@ import { useData } from '../../hooks/dataContext';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import axios from 'axios';
 import * as Yup from 'yup';
 
 
@@ -323,8 +324,8 @@ export function SureSendModal(data) {
 
             // return
             await toast.promise(
-                // axios.post('http://localhost:7070/uploads',
-                URI.post("/uploads",
+                axios.post('http://localhost:7070/uploads',
+                    // URI.post("/uploads",
                     data, { headers: headers })
                     .then(res => {
                         const data = res.data.message

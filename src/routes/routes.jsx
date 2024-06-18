@@ -15,7 +15,6 @@ import ErrorPage from "../errorHandling/error-page.jsx";
 
 
 const user = localStorage.getItem('userData')
-const comissionalAcess = JSON.parse(user)?.role === 'direcao' || JSON.parse(user)?.role === 'administrativo' ? true : false
 const directory = JSON.parse(user)?.role === 'direcao' ? true : false
 
 
@@ -50,7 +49,7 @@ const Routes = createBrowserRouter([
     },
     {
         path: paths.comissionalControl,
-        element: comissionalAcess ? <><MiniDrawer /><ComissionControll /></> : <><MiniDrawer /><Control /></>,
+        element: <><MiniDrawer /><ComissionControll /></>,
         errorElement: <ErrorPage />,
     },
 
