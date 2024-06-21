@@ -103,6 +103,8 @@ export const ContractData = () => {
 
         })
     })
+
+
     return (
         <Container>
             {
@@ -261,7 +263,8 @@ export const ContractData = () => {
                                     <TableBody empty={filteredContracts.descontoTotal === "" || filteredContracts.descontoTotal === undefined}>R$ {filteredContracts.descontoTotal}</TableBody>
                                     <TableBody empty={filteredContracts.descontoPorParcela === "" || filteredContracts.descontoPorParcela === undefined}>R$ {filteredContracts.descontoPorParcela}</TableBody>
                                     <TableBody empty={filteredContracts.valorMensalidade === "" || filteredContracts.valorMensalidade === undefined}>R$ {filteredContracts.valorMensalidade}</TableBody>
-                                    <TableBody >R$ {parseFloat(parseFloat(filteredContracts.valorMensalidade) - parseFloat(filteredContracts.descontoPorParcela.includes(",") ? `${filteredContracts.descontoPorParcela.split(",")[0]}.${filteredContracts.descontoPorParcela.split(",")[1]}` : filteredContracts.descontoPorParcela))}</TableBody>
+                                    <TableBody >R$ {parsingFloats(filteredContracts.valorMensalidade, filteredContracts.descontoPorParcela)} </TableBody>
+
                                 </tr>
                                 <tr>
                                     <th>Valor do Curso</th>
