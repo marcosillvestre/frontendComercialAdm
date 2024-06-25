@@ -22,13 +22,11 @@ export const ComissionProvider = ({ children }) => {
 
 
 
-    console.log(bodyComission)
 
 
 
     const comissionData = async () => {
         if (selectedInitialDate !== null && selectedEndDate !== null) bodyComission['dates'] = `${selectedInitialDate}~${selectedEndDate}`
-        console.log(bodyComission)
 
         const response = await URI.get(`/comissao?range=${bodyComission.range}&dates=${bodyComission.dates}`).then(res => res.data.data)
         return response

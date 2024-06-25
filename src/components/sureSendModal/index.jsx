@@ -33,6 +33,7 @@ import { useData } from '../../hooks/dataContext';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import axios from 'axios';
 import * as Yup from 'yup';
 
 
@@ -280,8 +281,6 @@ export function SureSendModal(data) {
                 .then(res => {
                     if (res) {
                         setOpen(!open)
-                        send === true && contaAzulSender()
-
                     }
                 })
             , {
@@ -323,14 +322,14 @@ export function SureSendModal(data) {
 
             // return
             await toast.promise(
-                // axios.post('http://localhost:7070/uploads',
-                URI.post("/uploads",
+                axios.post('http://localhost:7070/uploads',
+                    // URI.post("/uploads",
 
                     data, { headers: headers })
                     .then(res => {
                         const data = res.data.message
                         data.customer && setLinks(data)
-                        send === true && contaAzulSender()
+                        send && contaAzulSender()
                     })
                 , {
                     pending: 'Enviando para o autentique',
@@ -404,15 +403,31 @@ export function SureSendModal(data) {
                                         data.data === 'Autentique' ?
                                             <>
                                                 <Boxes>
-                                                    <label htmlFor="not-send">
-                                                        <input
-                                                            id="not-send"
-                                                            type="checkbox"
-                                                            onClick={() => setSend(!send)}
-                                                            className='check'
-                                                        />
-                                                        <small>Não enviar este contrato ao Conta Azul</small>
-                                                    </label>
+                                                    <div className='container'>
+                                                        <small>Enviar esse contrato para o conta azul ?</small>
+                                                        <label>
+
+                                                            <input
+                                                                id="not-send"
+                                                                type="radio"
+                                                                onClick={() => setSend(false)}
+                                                                className='check'
+                                                                name="send-choose"
+                                                                value={false}
+                                                            />
+                                                            <small>Não </small>
+                                                            <input
+                                                                id="send"
+                                                                className='check'
+                                                                type="radio"
+                                                                onClick={() => setSend(true)}
+                                                                value={true}
+                                                                name="send-choose"
+
+                                                            />
+                                                            <small>Sim </small>
+                                                        </label>
+                                                    </div>
                                                 </Boxes>
 
                                                 <Boxes radio>
@@ -470,13 +485,41 @@ export function SureSendModal(data) {
                                                 </Boxes>
                                             </> :
                                             <>
-                                                <Boxes>
-                                                    <input type="checkbox" onClick={() => setSend(!send)} className='check' />
-                                                    <small>Não enviar este contrato ao Conta Azul</small>
-                                                </Boxes>
+                                                {
 
+                                                    <Boxes>
+                                                        <div className='container'>
+                                                            <small>Enviar esse contrato para o conta azul ?</small>
+                                                            <label>
+
+                                                                <input
+                                                                    id="not-send"
+                                                                    name="send-choose"
+                                                                    type="radio"
+                                                                    onClick={() => setSend(false)}
+                                                                    className='check'
+                                                                    value={false}
+
+                                                                />
+                                                                <small>Não </small>
+                                                                <input
+                                                                    name="send-choose"
+                                                                    id="send"
+                                                                    className='check'
+                                                                    type="radio"
+                                                                    onClick={() => setSend(true)}
+
+                                                                    value={true}
+
+                                                                />
+                                                                <small>Sim </small>
+                                                            </label>
+                                                        </div>
+                                                    </Boxes>
+                                                }
                                                 <Boxes radio>
-                                                    <ButtonDelete onClick={() => handleSender()}>Emitir contrato</ButtonDelete>
+                                                    <ButtonDelete
+                                                        onClick={() => handleSender()}>Emitir contrato</ButtonDelete>
                                                 </Boxes>
                                             </>
                                         :

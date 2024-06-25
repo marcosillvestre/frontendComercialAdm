@@ -19,6 +19,7 @@ export const DataProvider = ({ children }) => {
 
         const { name, checked, value } = e.target;
 
+
         if (name === "allSelect") {
             let tempContract = data.map((contract, position) => { return { contract, isChecked: checked, position }; });
             setCustomizableArray(tempContract);
@@ -34,7 +35,7 @@ export const DataProvider = ({ children }) => {
 
             if (thereIs.length !== 0) {
                 const newArr = [...customizableArray]
-
+                ////////////////////////////////////////////////////// the problem is here => 
                 newArr[parseInt(value)].isChecked = checked
 
                 setCustomizableArray(newArr)
@@ -43,7 +44,6 @@ export const DataProvider = ({ children }) => {
         }
 
     }
-
 
     const [qntAlet, setQntAlt] = useState([])
 

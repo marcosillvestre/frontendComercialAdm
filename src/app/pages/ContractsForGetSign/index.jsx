@@ -15,14 +15,8 @@ export const Contracts = () => {
         filteredContracts } = useUser()
 
     const personalText = {
-        PDF: "Ao emitir via PDF o arquivo será baixado logo em seguida, ele também será enviado ao Conta Azul!",
-        autentique: <p>
-            Ao enviar um contrato via Autentique você deve
-            selecionar um contrato já existente.
-            Ele será enviado via
-            whatsapp, após enviar você poderá copiar o link
-            para para o cliente!
-        </p>,
+        PDF: "Ao emitir via PDF o download comçará em instantes!",
+        autentique: "Ao enviar um contrato via Autentique você deve selecionar um contrato já existente. Ele será enviado via whatsapp, você também poderá copiar o link para enviar ao cliente!",
         contaAzul: "Ao enviar um contrato ao Conta Azul ele somente estará disponível no Conta Azul!"
     }
 

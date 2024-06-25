@@ -33,6 +33,22 @@ align-items: center;
 justify-content: ${props => props.radio ? "center" : "left"};
 gap: .1rem;
 
+.container{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    margin: .5rem auto;
+    border: 1px dashed;
+    padding: 1rem;
+    border-radius: calc(var(--border-radius));
+    background-color: #f9f9f9;
+    label{
+        display: flex;
+        align-items: center;
+    }
+}
+
 .check{
     width: 3rem;
     height: 1rem;
