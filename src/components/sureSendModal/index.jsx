@@ -281,6 +281,8 @@ export function SureSendModal(data) {
                 .then(res => {
                     if (res) {
                         setOpen(!open)
+                        send && contaAzulSender()
+
                     }
                 })
             , {
