@@ -43,6 +43,7 @@ gap: .1rem;
     padding: 1rem;
     border-radius: calc(var(--border-radius));
     background-color: #f9f9f9;
+    width: 100%;
     label{
         display: flex;
         align-items: center;

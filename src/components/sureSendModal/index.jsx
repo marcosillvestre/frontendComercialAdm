@@ -20,7 +20,7 @@ const style = {
     bgcolor: 'background.paper',
     // border: '1px solid #000',
     boxShadow: 24,
-    p: 4,
+    p: 6,
 };
 
 
@@ -352,6 +352,7 @@ export function SureSendModal(data) {
 
         if (data.data === 'PDF') {
             setView('template')
+
 
             setTimeout(() => {
                 senderImpressContract()
