@@ -94,7 +94,6 @@ export function SureSendModal(data) {
                 error: "Erro ao criar cadastro"
             }
         )
-            .catch(res => alert(res.response.data.message))
 
     }
 
@@ -107,7 +106,6 @@ export function SureSendModal(data) {
                 success: 'Enviado com sucesso',
                 error: "Erro ao criar o contrato"
             }
-                .catch(res => alert(res.response.data.message))
         )
 
     }
@@ -124,7 +122,6 @@ export function SureSendModal(data) {
                     error: "Erro ao enviar o material didático"
                 }
             )
-                .catch(res => alert(res.response.data.message))
         }
     }
 

@@ -80,7 +80,7 @@ const Routes = createBrowserRouter([
                 element: user === null || user === undefined ? <Login /> : <><MiniDrawer /><Control /></>,
             },
         ]
-    },
+    }
 
 ]);
 

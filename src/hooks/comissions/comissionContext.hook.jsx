@@ -18,22 +18,31 @@ export const ComissionProvider = ({ children }) => {
 
     const bodyComission = {
         range: label,
-        dates: label === "Período personalizado" ? `${selectedInitialDate}~${selectedEndDate}` : ""
     }
+
+
+
+    console.log(bodyComission)
 
 
 
     const comissionData = async () => {
+        if (selectedInitialDate !== null && selectedEndDate !== null) bodyComission['dates'] = `${selectedInitialDate}~${selectedEndDate}`
+        console.log(bodyComission)
 
         const response = await URI.get(`/comissao?range=${bodyComission.range}&dates=${bodyComission.dates}`).then(res => res.data.data)
         return response
     }
+
+
 
     const { isPending: comissionPending, isSuccess: comissionSuccess, data: comissionQueried } = useQuery({
         queryFn: () => comissionData(),
         queryKey: [bodyComission],
         enabled: !headers.Authorization.includes("undefined")
     })
+
+
 
     const admRoles = () => {
         if (userData.role !== 'comercial') return comissionQueried.deals
@@ -48,7 +57,8 @@ export const ComissionProvider = ({ children }) => {
             comissionQuery,
             comissionPending,
             comissionSuccess,
-            label
+            label,
+
         }}>
 
             {children}

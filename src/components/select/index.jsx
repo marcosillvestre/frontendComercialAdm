@@ -1,6 +1,7 @@
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useState } from 'react';
 import businessRules from '../../app/utils/Rules/options.jsx';
+import { useUser } from '../../hooks/userContext.jsx';
 import { CloserClick, PositionedMenu } from '../source.jsx';
 import { Container, Icon, ListOpt, Options, SelectButton } from './styles';
 
@@ -9,8 +10,14 @@ export const Select = (parameters) => {
     const { types } = businessRules
     const [label, setLabel] = useState(types[parameters.label] || parameters.label)
     const [open, setOpen] = useState(false)
+    const { setSelectedInitialDate, setSelectedEndDate } = useUser()
+
+
+
 
     const handleCheck = async (label) => {
+        setSelectedInitialDate(null)
+        setSelectedEndDate(null)
 
         parameters.where === 'create' ?
             engineFunctions(label.field, label.value, label.order || "") :
@@ -89,7 +96,9 @@ export const Select = (parameters) => {
                                                 <p>{data?.name}</p>
                                             </span>
                                             :
-                                            <PositionedMenu name={data?.name} />
+                                            <span onClick={() => setLabel("Período personalizado")}>
+                                                <PositionedMenu name={data?.name} />
+                                            </span>
                                     }
                                 </Options>
                         ))

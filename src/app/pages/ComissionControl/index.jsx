@@ -220,7 +220,7 @@ export function ComissionControll() {
                             <Select
                                 label={businessRules.predeterminedPeriods[0].name}
                                 option={predeterminedPeriods}
-                                width="10rem"
+                                width="5rem"
                                 fn={[handleInput]}
                             />
                             <p style={{ textAlign: "center" }}>

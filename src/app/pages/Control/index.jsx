@@ -38,7 +38,8 @@ export const ListFiltered = () => {
         //  setTypeSidebar, setOpenSidebar,
         setPeriodRange, setSelectedInitialDate, setSelectedEndDate,
 
-        setQueryParam
+        setQueryParam,
+        selectedInitialDate, selectedEndDate
     } = useUser()
 
 
@@ -141,6 +142,10 @@ export const ListFiltered = () => {
                             // where="customField"
                             fn={[handleCheck]}
                         />
+                        {
+                            selectedInitialDate &&
+                            `${selectedInitialDate !== null ? new Date(selectedInitialDate).toLocaleDateString() : ""} ~ ${selectedEndDate !== null ? new Date(selectedEndDate).toLocaleDateString() : ""}`
+                        }
                     </label>
 
                     <label >

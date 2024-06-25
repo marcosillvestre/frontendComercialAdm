@@ -92,7 +92,6 @@ export const UserProvider = ({ children }) => {
         "skip": skip,
     }
 
-    body["dates"] = `${selectedInitialDate}~${selectedEndDate}`
 
 
     const [allData, setAllData] = useState([])
@@ -100,9 +99,15 @@ export const UserProvider = ({ children }) => {
 
 
     const indexPeriod = async () => {
-        let url = queryParam.value !== '' ?
-            `/query?param=${queryParam.param}&value=${queryParam.value}` :
-            `/periodo?range=${periodRange}&role=${body.role}&name=${body.name}&unity=${body.unity}&dates=${body.dates}&types=${body.types}&skip=${body.skip}&take=${body.take}`
+        if (selectedInitialDate !== null && selectedEndDate !== null) {
+            body['range'] = "Personalizado"
+            body['dates'] = `${selectedInitialDate}~${selectedEndDate}`
+        }
+
+        let url =
+            queryParam.value !== '' ?
+                `/query?param=${queryParam.param}&value=${queryParam.value}` :
+                `/periodo?range=${body.range}&role=${body.role}&name=${body.name}&unity=${body.unity}&dates=${body.dates}&types=${body.types}&skip=${body.skip}&take=${body.take}`
         const response = await
             URI.get(url)
         return response?.data
@@ -112,18 +117,22 @@ export const UserProvider = ({ children }) => {
     const mutationControlData = useQuery({
         queryFn: () => indexPeriod(),
         queryKey: [body, queryParam.value],
-        staleTime: 0,
-        enabled: !headers.Authorization.includes("undefined")
+        enabled: !headers.Authorization.includes("undefined"),
+        retry: false
     })
 
-
+    if (mutationControlData.error && mutationControlData.error.response.data.error === 'token invalid') {
+        window.location.href = paths.home
+        alert("Faça login novamente, seu acesso expirou")
+        logOut()
+    }
 
     useEffect(() => {
         if (headers.Authorization.includes("undefined") === false
             && body.range !== "Período personalizado") {
             mutationControlData.refetch()
         }
-        if (body.range === "Período personalizado" && selectedInitialDate || selectedEndDate !== null) {
+        if (body.range === "Período personalizado" && selectedInitialDate !== null && selectedEndDate !== null) {
             mutationControlData.refetch()
         }
         if (mutationControlData.isSuccess) {
@@ -241,7 +250,8 @@ export const UserProvider = ({ children }) => {
             historic, refetchHistoric, isPendingHistoric, historicSuccess, setHistoricTake, historicTake,
             openSidebar, setOpenSidebar,
             typeSidebar, setTypeSidebar,
-            setQueryParam
+            setQueryParam,
+
         }}>
 
             {children}

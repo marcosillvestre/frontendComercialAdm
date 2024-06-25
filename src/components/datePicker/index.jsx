@@ -14,7 +14,13 @@ export const DatePickers = (parameters) => {
 
     const handleDate = (date) => {
         setSelectedDate(date)
-        parameters.text === 'Data inicial' ? setSelectedInitialDate(date) : setSelectedEndDate(date)
+
+        if (parameters.text === 'Data inicial') {
+            setSelectedInitialDate(date)
+            setSelectedEndDate(null)
+            return
+        }
+        setSelectedEndDate(date)
     }
 
     return (

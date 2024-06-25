@@ -28,7 +28,7 @@ export function PositionedMenu(data) {
     } = useUser()
 
     const { typeFilter, setTypeFilter } = useData()
-    const { comissionQuery } = useComission()
+    const { setLabel } = useComission()
 
 
     const handleFilter = (value, type) => {
@@ -58,21 +58,19 @@ export function PositionedMenu(data) {
 
     const url = useLocation()
 
-
     const handleFilterRangeDate = async () => {
 
-        const fn = {
-            "periodRange": setPeriodRange(data.name),
-        }
+
+        setPeriodRange(data.name)
 
         setTypeFilter([])
+
         url.pathname === paths.control && await mutationControlData.refetch()
-        url.pathname === paths.comissionalControl && await comissionQuery.refetch()
+        url.pathname === paths.comissionalControl && setLabel(data.name)
 
         close()
         setOpenPeriodRange(false)
 
-        data.fn[fn]
     }
 
     const open = Boolean(anchorEl);
