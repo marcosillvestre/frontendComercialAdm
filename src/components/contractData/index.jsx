@@ -66,7 +66,6 @@ export const ContractData = () => {
     }
 
 
-
     const parsingFloats = (number1, number2) => {
         if (number1 !== undefined && number2 !== undefined) {
             const first = number1.includes(",") ? number1.replace(",", ".") : parseFloat(number1)
@@ -106,7 +105,6 @@ export const ContractData = () => {
     })
 
 
-    console.log(filteredContracts.subclasse)
     return (
         <Container>
             {
