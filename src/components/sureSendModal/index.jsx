@@ -43,7 +43,7 @@ import * as Yup from 'yup';
 export function SureSendModal(data) {
 
 
-    const [send, setSend] = useState(true)
+    const [send, setSend] = useState(data.data === "PDF" ? false : true)
     const { filteredContracts, headers } = useUser()
     const { content, setView } = useData()
 
@@ -52,7 +52,6 @@ export function SureSendModal(data) {
     const [fileName, setFileName] = useState('')
     const [file, setFile] = useState('')
     const [Links, setLinks] = useState({})
-
 
 
 
@@ -68,8 +67,6 @@ export function SureSendModal(data) {
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     });
-
-
 
 
 
@@ -420,6 +417,7 @@ export function SureSendModal(data) {
                                                             />
                                                             <small>Não </small>
                                                             <input
+                                                                defaultChecked={true}
                                                                 id="send"
                                                                 className='check'
                                                                 type="radio"
@@ -502,6 +500,7 @@ export function SureSendModal(data) {
                                                                     onClick={() => setSend(false)}
                                                                     className='check'
                                                                     value={false}
+                                                                    defaultChecked={true}
 
                                                                 />
                                                                 <small>Não </small>
@@ -511,7 +510,6 @@ export function SureSendModal(data) {
                                                                     className='check'
                                                                     type="radio"
                                                                     onClick={() => setSend(true)}
-
                                                                     value={true}
 
                                                                 />

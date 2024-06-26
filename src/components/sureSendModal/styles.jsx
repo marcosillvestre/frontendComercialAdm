@@ -104,6 +104,7 @@ svg{
     width: 6rem;
     height: 4rem;
     color: rgb(25, 118, 210);
+    cursor: pointer;
 }
 `
 
