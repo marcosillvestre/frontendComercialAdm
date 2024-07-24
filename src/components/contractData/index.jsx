@@ -59,7 +59,7 @@ export const ContractData = () => {
         "Fluency Way Double -X": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} /> : <ParticularesPromo id='content' data={filteredContracts} /> : "",
         "Fluency Way Triple - X": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} /> : <ParticularesPromo id='content' data={filteredContracts} /> : "",
         "Español - X1": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} /> : <ParticularesPromo id='content' data={filteredContracts} /> : "",
-        "Español - X2": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} /> : <ParticularesPromo id='content' data={filteredContracts} /> : "",
+        "Español -  X2": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} /> : <ParticularesPromo id='content' data={filteredContracts} /> : "",
         "Español - X3": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} /> : <ParticularesPromo id='content' data={filteredContracts} /> : "",
         "Pacote Office Essentials": bool ? filteredContracts.promocao === "Não" ? <Office id='content' data={filteredContracts} /> : <OfficePromo id='content' data={filteredContracts} /> : "",
         "Excel Avaçado": bool ? filteredContracts.promocao === "Não" ? <Excel id='content' data={filteredContracts} /> : <ExcelPromo id='content' data={filteredContracts} /> : ""
