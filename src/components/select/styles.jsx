@@ -56,7 +56,7 @@ font-size: var(--fsLowest);
 
 export const SelectButton = styled.div`
 color: #222;
-    height: var(--boxHei);
+height: var(--boxHei);  
 
 margin-top: .5rem;
 display: flex;
@@ -70,8 +70,7 @@ background-color:#dfe6f1;
 
 #selected-value{
     color: #000;
-                font-size: var(--fsLowest) ;
-
+    font-size: var(--fsXLow) ;
     margin-right: 2rem;
 }
 `

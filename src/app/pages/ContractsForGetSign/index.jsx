@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { ContractData, Select, SureSendModal } from '../../../components/source.jsx'
 import { useUser } from '../../../hooks/userContext'
@@ -9,6 +9,7 @@ import { Box, Button, Container, Header, SendContract } from './styles'
 
 export const Contracts = () => {
     const [emmit, setEmmit] = React.useState(false)
+    const [search, setSearch] = useState(false)
 
     const { contracts, setContracts,
         userData, setFilteredContracts, logOut,
@@ -63,7 +64,10 @@ export const Contracts = () => {
 
         <Container>
 
-            <Header className='search'>
+            <Header className='search'
+                active={search && true}
+
+            >
                 <div className='inputs'>
                     <label htmlFor="">
 
@@ -89,6 +93,12 @@ export const Contracts = () => {
                         <input
                             onChange={(e) => filterData(e.target.value)}
                             list='person'
+                            onFocus={() => {
+                                setSearch(true)
+                            }}
+                            onBlur={() => {
+                                setSearch(false)
+                            }}
                         />
                         <datalist id='person'>
                             {
@@ -112,6 +122,7 @@ export const Contracts = () => {
                 filteredContracts !== undefined &&
                 <span className='emmit' >
                     <Button
+                        className='defaultButton'
                         open={emmit && true}
                         onClick={() => setEmmit(!emmit)}
                     >
@@ -119,17 +130,25 @@ export const Contracts = () => {
                     </Button>
 
                     <Box $emmit={emmit && true} >
-                        <SendContract $emmit={emmit && true}>
+                        <SendContract
+                            className='defaultButton'
+
+                            $emmit={emmit && true}>
                             <SureSendModal
                                 data={"PDF"}
                                 text={personalText.PDF} />
                         </SendContract>
-                        <SendContract $emmit={emmit && true}>
+                        <SendContract
+                            className='defaultButton'
+                            $emmit={emmit && true}>
                             <SureSendModal
                                 data={"Autentique"}
                                 text={personalText.autentique} />
                         </SendContract>
-                        <SendContract $emmit={emmit && true}>
+                        <SendContract
+                            className='defaultButton'
+
+                            $emmit={emmit && true}>
                             <SureSendModal
                                 data={"Conta Azul"}
                                 text={personalText.contaAzul} />

@@ -344,33 +344,11 @@ const Idioma = ({ data }) => {
                 <hr />
                 <br />
                 <strong> 6. DA FREQUÊNCIA, HORÁRIO E REPOSIÇÃO: </strong>
+                <br />
                 <p>
-                    <br />
-                    6.1 Haverá um prazo de tolerância de atraso de até 15
-                    (quinze) minutos contados a partir do início da aula, tanto
-                    na modalidade online ou presencial. Após este período, o
-                    ALUNO/CONTRATANTE poderá solicitar uma aula de reposição.
-                    <br />
-
-                    6.1.1 O CONTRATANTE terá o direito a 10 (dez) reposições
-                    gratuitas durante o período de cumprimento da carga horária
-                    contratada, sejam essas reposições motivadas e imotivadas,
-                    incluindo as da cláusula anterior e também os casos de
-                    apresentação de atestado médico, sem custo. Ultrapassando
-                    esse limite, a décima primeira aula de reposição e outras
-                    serão cobrados o valor de R$ 35,00 (trinta e cinco reais)
-                    por cada aula. Em caso de falta, o CONTRATANTE tem o direito
-                    à remarcação da aula sem custos adicionais, desde que a
-                    falta seja comunicada com o mínimo de 24 (vinte e quatro)
-                    horas de antecedência. <br />
-                    6.1.2: A remarcação da aula de
-                    reposição cancelada seguindo os critérios mencionados na
-                    cláusula <br />
-                    6.1.1 observará os horários disponíveis da
-                    CONTRATADA.Em caso de perda das avaliações periódicas o
-                    CONTRATANTE, submeterá aos critérios estabelecidos pela
-                    CONTRATADA para a reposição, tais como, agendamento prévio,
-                    horário disponível, entre outras.
+                    6.1 Haverá um prazo de tolerância de atraso de até 15 (quinze) minutos contados a partir do início da aula, tanto na modalidade online ou presencial. Após este período, o ALUNO/CONTRATANTE poderá solicitar uma aula de reposição.  <br />
+                    6.1.1 O CONTRATANTE terá o direito a 5 (cinco) reposições gratuitas durante o período de cumprimento da carga horária contratada, sejam essas reposições motivadas e imotivadas, incluindo as da cláusula anterior e também os casos de apresentação de atestado médico, sem custo. Ultrapassando esse limite, a sexta  aula de reposição e outras serão cobrados o valor de R$ 35,00 (trinta e cinco reais) por cada aula. Em caso de falta, o CONTRATANTE tem o direito à remarcação da aula sem custos adicionais, desde que a falta seja comunicada com o mínimo de 24 (vinte e quatro) horas de antecedência. <br />
+                    6.1.2: A remarcação da aula de reposição cancelada seguindo os critérios mencionados na cláusula 6.1.1 observará os horários disponíveis da CONTRATADA.Em caso de perda das avaliações periódicas o CONTRATANTE, submeterá aos critérios estabelecidos pela CONTRATADA para a reposição, tais como, agendamento prévio, horário disponível, entre outras. <br />
                 </p>
                 <br />
                 <hr />

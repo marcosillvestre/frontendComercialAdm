@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Container } from './styles.jsx';
 
 const Particulares = ({ data }) => {
+    console.log(data)
 
     return (
         <Container id="content">
@@ -33,58 +34,58 @@ const Particulares = ({ data }) => {
                     </tr>
                     <tr>
                         <td>
-                            <h3>RG: {data.rg}</h3>
+                            RG: {data.rg}
                         </td>
                         <td>
-                            <h3>E-mail: {data.email}</h3>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h3>Data de Nascimento: {data.DatadeNascdoResp}</h3>
-                        </td>
-                        <td>
-                            <h3>Telefone: {data.CelularResponsavel}</h3>
+                            E-mail: {data.email}
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <h3>RUA/AV: {data.EnderecoResponsavel}</h3>
+                            Data de Nascimento: {data.DatadeNascdoResp}
                         </td>
                         <td>
-                            <h3>Nº: {data.NumeroEnderecoResponsavel}</h3>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h3>COMPL: {data.complemento}</h3>
-                        </td>
-                        <td>
-                            <h3>BAIRRO: {data.bairro}</h3>
+                            Telefone: {data.CelularResponsavel}
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <h3>CIDADE: {data.cidade}</h3>
+                            RUA/AV: {data.EnderecoResponsavel}
                         </td>
                         <td>
-                            <h3>UF: {data.estado}</h3>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h3>CEP: {data.cep}</h3>
-                        </td>
-                        <td>
-                            <h3>Estado Civil: {data.estadoCivil}</h3>
+                            Nº: {data.NumeroEnderecoResponsavel}
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <h3>Profissão: {data.profissao}</h3>
+                            COMPL: {data.complemento}
                         </td>
                         <td>
-                            <h3>CPF: {data.cpf}</h3>
+                            BAIRRO: {data.bairro}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            CIDADE: {data.cidade}
+                        </td>
+                        <td>
+                            UF: {data.estado}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            CEP: {data.cep}
+                        </td>
+                        <td>
+                            Estado Civil: {data.estadoCivil}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Profissão: {data.profissao}
+                        </td>
+                        <td>
+                            CPF: {data.cpf}
                         </td>
                     </tr>
                 </table>

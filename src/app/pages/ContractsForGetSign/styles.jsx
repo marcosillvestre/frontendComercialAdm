@@ -59,6 +59,8 @@ width: 100%;
 margin-top: .5rem; 
 height: var(--boxHei);
 font-size: var(--fsLowest) ;
+border: ${props => props.active ? "1px solid #000000" : "none"};
+
 
 }
 @media(max-width:760px){
@@ -72,21 +74,16 @@ font-size: var(--fsLowest) ;
 
 
 export const Button = styled.button`
-border: none;
-background-color: #1976d2;
-font-family: "Roboto","Helvetica","Arial",sans-serif;
-font-weight: 500;
-font-size: var(--fsLowest);
-letter-spacing: 0.02857em;
-text-transform: uppercase;
-border-radius: var(--border-radius);
+
 color: #fff;
 cursor: pointer;
-height: var(--boxHei);
 margin: 5px 0;
 z-index: 10;    
 transition: transform 0.1s;
-padding: .5rem;
+padding: 0 .8rem;
+
+height: var(--boxHei);
+
 @media(max-width:760px){
     width: 100%;
 }
@@ -121,7 +118,6 @@ to {
 
 export const SendContract = styled.div`
 z-index: 0;
-background-color: #1976d2;
 color: #fff;
 margin: .4rem 0 ;
 border-radius: 5px;

@@ -247,6 +247,7 @@ export function MiniDrawer() {
                                     <hr />
                                     <Submit
                                         placeholder="Enviar"
+                                        className='defaultButton'
                                         onClick={() => submit(typeSidebar)}
                                     >
                                         Enviar

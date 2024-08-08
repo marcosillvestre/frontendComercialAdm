@@ -5,17 +5,37 @@ export default createGlobalStyle`
 :root{
     --border-radius: .35rem;
 
-    --fsLowest: .7rem;
-    --fsLow: .9rem;
-    --fsMid: 1.3rem;
-    --fsBig: 1.7rem;
-    --fsBigger: 2.3rem;
+    --fsXLow : 10px;
+
+    --fsLowest: 12px;
+    --fsLow: 14px;
+    --fsMid: 16px;
+    --fsBig: 18px;
+    --fsBigger: 20px;
 
     --boxHei: 2.4rem;
 }
 
 
 html{
+
+    .defaultButton{
+    border: none;
+    background-color: #1976d2;
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
+    font-weight: 500;
+    font-size: var(--fsLowest);
+    letter-spacing: 0.02857em;
+    text-transform: uppercase;
+    border-radius: var(--border-radius);
+    color: #fff;
+    cursor: pointer;
+    height: var(--boxHei);
+    
+&:hover{
+background-color: #1f5fba;
+}
+    }
     @media (max-width: 1255px){
         font-size: 80%;
         } 

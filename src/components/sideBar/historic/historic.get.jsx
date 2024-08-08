@@ -65,8 +65,10 @@ export const Historic = () => {
                             ))
 
                         }
-                        <Submit onClick={() => setHistoricTake(historicTake + 10)}>
-                            Carregar mais
+                        <Submit
+                            className="defaultButton"
+                            onClick={() => setHistoricTake(historicTake + 10)}>
+                            +10
                         </Submit>
 
                     </>

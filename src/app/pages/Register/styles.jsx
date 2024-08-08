@@ -20,18 +20,7 @@ display: flex;
 align-items: center;
 }
 .openDrawer{
-    border: none;
-    background-color: #1976d2;
-    font-family: "Roboto","Helvetica","Arial",sans-serif;
-    font-weight: 500;
-    font-size: var(--fsLowest);
-    letter-spacing: 0.02857em;
-    text-transform: uppercase;
-    border-radius: var(--border-radius);
-    color: #fff;
-    cursor: pointer;
-    height: var(--boxHei);
-    width: 10rem;
+    padding: 0 .8rem;
     position:absolute;
     right: 0;
     &:hover{

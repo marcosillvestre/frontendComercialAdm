@@ -72,7 +72,7 @@ margin: 15px 0;
         border-radius: .5rem;
         position: absolute;
         left: 0;
-        bottom: 0;
+        bottom: 1;
         z-index: 1;
     }
 }

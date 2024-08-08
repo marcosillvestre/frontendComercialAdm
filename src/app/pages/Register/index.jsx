@@ -49,7 +49,8 @@ export function Register() {
       <nav className='nav-drawer'>
 
         <button
-          className='openDrawer'
+          className='openDrawer defaultButton'
+
           onClick={() => handleDrawerOpen()}
         >
           Novo usuário
