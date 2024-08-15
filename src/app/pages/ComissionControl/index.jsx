@@ -23,7 +23,7 @@ export function ComissionControll() {
     gsap.registerPlugin(Flip)
 
     const {
-        predeterminedPeriods,
+        predeterminedPeriods, comissionStatusOpt,
         // comissionStatusOpt, 
     } = businessRules
 
@@ -197,6 +197,9 @@ export function ComissionControll() {
     })
 
 
+
+    console.log(relatory)
+
     return (
         <>
             <CloserClick
@@ -359,6 +362,36 @@ export function ComissionControll() {
                                                             onClick={() => list.find(r => r.value === res.name) ?
                                                                 setList(list.filter(r => r.value !== res.name))
                                                                 : setList([...list, { key: "unidade", value: res.name }])}
+                                                            open={list && list.some(r => r.value === res.name)}
+                                                        >
+                                                            {res.name}
+                                                        </SelectButton>
+                                                    </div>
+                                                ))
+                                            }
+                                        </span>
+
+                                        <span className='container '>
+                                            <p>Status de comissionamento</p>
+                                            <hr />
+                                            <SelectButton
+                                                className='paragraph'
+                                                onClick={() => setList(list.filter(res => res.key !== 'tipoMatricula'))}
+                                                open={list.filter(res => res.key === 'tipoMatricula').length === 0}
+                                            >
+                                                Todos
+                                            </SelectButton>
+                                            {
+                                                comissionStatusOpt.map((res, idx) => (
+                                                    <div
+                                                        key={idx}
+                                                        className='wrapper-container'>
+
+                                                        <SelectButton
+                                                            className='paragraph'
+                                                            onClick={() => list.find(r => r.value === res.name) ?
+                                                                setList(list.filter(r => r.value !== res.name))
+                                                                : setList([...list, { key: "tipoMatricula", value: res.name }])}
                                                             open={list && list.some(r => r.value === res.name)}
                                                         >
                                                             {res.name}

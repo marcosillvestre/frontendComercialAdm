@@ -129,13 +129,11 @@ min-height: 60vh;
     height: max-content;
     display: flex;
     flex-direction: column;
-    /* position: fixed; */
 .container{
     display: flex;
     flex-direction: column;
     gap: .3rem;
     padding: .2rem 1rem;
-    /* margin-bottom: 2rem; */
     p{
         font-weight: bold;
     }
