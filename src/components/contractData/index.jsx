@@ -19,6 +19,7 @@ import StandardRem from './templates/standard-rem.jsx'
 import { gsap } from 'gsap'
 import { Flip } from 'gsap/Flip'
 import noContract from '../../assets/noContract.svg'
+import OfficeIntensivo from './templates/office-intensivo.jsx'
 export const ContractData = () => {
     gsap.registerPlugin(Flip)
 
@@ -62,7 +63,8 @@ export const ContractData = () => {
         "Español -  X2": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} /> : <ParticularesPromo id='content' data={filteredContracts} /> : "",
         "Español - X3": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} /> : <ParticularesPromo id='content' data={filteredContracts} /> : "",
         "Pacote Office Essentials": bool ? filteredContracts.promocao === "Não" ? <Office id='content' data={filteredContracts} /> : <OfficePromo id='content' data={filteredContracts} /> : "",
-        "Excel Avaçado": bool ? filteredContracts.promocao === "Não" ? <Excel id='content' data={filteredContracts} /> : <ExcelPromo id='content' data={filteredContracts} /> : ""
+        "Excel Avaçado": bool ? filteredContracts.promocao === "Não" ? <Excel id='content' data={filteredContracts} /> : <ExcelPromo id='content' data={filteredContracts} /> : "",
+        "Office Essential Intensivo": <OfficeIntensivo id='content' data={filteredContracts} />
     }
 
 
