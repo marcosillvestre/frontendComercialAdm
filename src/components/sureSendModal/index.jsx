@@ -91,6 +91,7 @@ export function SureSendModal(data) {
                 error: "Erro ao criar cadastro"
             }
         )
+            .catch(err => alert(err.reponse.message))
 
     }
 
@@ -104,7 +105,7 @@ export function SureSendModal(data) {
                 error: "Erro ao criar o contrato"
             }
         )
-
+            .catch(err => alert(err.reponse.message))
     }
 
     const sales = async (body) => {
@@ -119,6 +120,8 @@ export function SureSendModal(data) {
                     error: "Erro ao enviar o material didático"
                 }
             )
+                .catch(err => alert(err.reponse.message))
+
         }
     }
 
@@ -133,6 +136,8 @@ export function SureSendModal(data) {
                     error: "Erro ao enviar a taxa de matrícula"
                 }
             )
+                .catch(err => alert(err.reponse.message))
+
         }
     }
 
