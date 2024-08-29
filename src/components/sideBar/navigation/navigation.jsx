@@ -1,4 +1,5 @@
 import SettingsIcon from '@mui/icons-material/Settings';
+import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
@@ -21,6 +22,7 @@ export const Navigation = (openSidebar) => {
         { name: 'Controle Comercial', url: paths.control, icon: <Home />, access: ['administrativo', 'direcao', 'comercial', 'gerencia', 'pedagogico'] },
         { name: 'Emitir Contratos', url: paths.signContracts, icon: <GetContracts />, access: ['administrativo', 'direcao', 'comercial', 'gerencia', 'pedagogico'] },
         { name: 'Relatórios', url: paths.comissionalControl, icon: <ComissionScreen />, access: ['administrativo', 'direcao', 'gerencia', 'comercial'] },
+        { name: 'Pedidos', url: paths.orders, icon: <ShoppingBasketIcon />, access: ['administrativo', 'direcao', 'comercial', 'gerencia', 'pedagogico'] },
         { name: 'Configurações', url: paths.config, icon: <SettingsIcon />, access: ['direcao'] },
     ]
 

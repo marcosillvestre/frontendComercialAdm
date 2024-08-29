@@ -17,6 +17,7 @@ import { FifthDrop, FirstDrop, FourthDrop, SeccDrop, SixthDrop, ThirdDrop } from
 
 import { SureModal } from '../source.jsx';
 
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import LoadingSpin from 'react-loading-spin';
 import colorsRules from '../../app/utils/Rules/colors.jsx';
@@ -223,6 +224,7 @@ export function FirstRow(props) {
 
 
                 <TableCell align="center">
+                    <MoreVertIcon />
                     {userData?.admin === true &&
 
                         <SureModal data={row?.contrato} name={row?.aluno} url="/controle" />

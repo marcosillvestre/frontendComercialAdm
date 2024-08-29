@@ -3,9 +3,10 @@ import { createBrowserRouter } from "react-router-dom";
 
 import { paths } from "../app/constants/paths.js";
 import {
-    AddNewRegister, ComissionControll, Contracts, Control,
+    ComissionControll, Contracts, Control,
     CustomFields,
     Home, Login,
+    Orders,
     RecoverPassword,
     Register,
     Settings
@@ -48,6 +49,11 @@ const Routes = createBrowserRouter([
         errorElement: <ErrorPage />,
     },
     {
+        path: paths.orders,
+        element: user === null || user === undefined ? <Login /> : <><MiniDrawer /><Orders /> </>,
+        errorElement: <ErrorPage />,
+    },
+    {
         path: paths.comissionalControl,
         element: <><MiniDrawer /><ComissionControll /></>,
         errorElement: <ErrorPage />,
@@ -59,15 +65,9 @@ const Routes = createBrowserRouter([
         errorElement: <ErrorPage />,
     },
 
-
     {
         path: paths.consfigRegisterList,
         element: directory ? <><MiniDrawer /><Register /></> : <Login />,
-        errorElement: <ErrorPage />,
-    },
-    {
-        path: paths.newRegister,
-        element: directory ? <><MiniDrawer /><AddNewRegister /></> : <Login />,
         errorElement: <ErrorPage />,
     },
     {

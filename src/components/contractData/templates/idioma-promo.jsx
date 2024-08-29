@@ -203,19 +203,8 @@ const IdiomaPromo = ({ data }) => {
                 <br />
 
                 <p>
-                    A carga horária contratada tem o total de  {
+                    A carga horária contratada tem o total de {data.cargaHoraria} horas-aulas que serão realizadas dentro do calendário didático estipulado para o cumprimento da carga horária.
 
-                        data.cargaHoraria
-
-                    } horas-aulas. Sendo o curso ministrado em
-                    2 módulos, sendo que o primeiro módulo contém 90 aulas e o
-                    módulo seguinte, 80 aulas, que serão realizadas dentro do
-                    calendário didático estipulado para o cumprimento da carga
-                    horária. De acordo com o planejamento didático, as aulas têm
-                    previsão para início no dia  {
-                        data.paDATA
-                    } , sujeito à
-                    alteração mediante aviso prévio.
                 </p>
 
                 <br />

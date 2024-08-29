@@ -42,7 +42,7 @@ span{
 
 }
 .mainbox{
-    background-color: #535175;
+    background-color: #fff;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -58,13 +58,14 @@ span{
 }
 
 form{
-    background-color: rgb(255, 255, 255);
+    background-color: #fafafa;
     padding: 2rem 1.5rem;
     display: grid;
     gap: 1rem;
     color: #031b4e;
 
-    box-shadow: -4px -7px 51px -16px rgba(0,0,0,0.62);
+    box-shadow: 4px 10px 25px -12px rgba(0,0,0,0.62);
+
     border-radius: var(--border-radius);
     font-size: var(--fsLow);
     justify-items: center;
