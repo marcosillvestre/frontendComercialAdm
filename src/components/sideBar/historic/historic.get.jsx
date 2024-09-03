@@ -12,8 +12,6 @@ export const Historic = () => {
     const { historic, isPendingHistoric, historicSuccess, setHistoricTake,
         historicTake, setQueryParam } = useUser()
     const { fields } = businessRules
-    // const [_, setSearchParams] = useSearchParams()
-
 
     return (
 
@@ -38,28 +36,53 @@ export const Historic = () => {
                         {
                             historic.map(res => (
                                 <HistoricCard key={res.id}>
-                                    <Card
-                                        to={`/controle-comercial`}
-                                        onClick={() => {
-                                            setQueryParam({ param: "contrato", value: res.information.from })
-                                        }}
-                                    >
+                                    {
+                                        fields[res.information.field] ?
 
-                                        <div >
-                                            o campo {fields[res.information.field]} do contrato
-                                            <u>
-                                                {res.information.from}
-                                            </u> foi
-                                            alterado para {res.information.to}
-                                        </div>
+                                            <Card
+                                                to={`/controle-comercial`}
+                                                onClick={() => {
+                                                    setQueryParam({ param: "contrato", value: res.information.from })
+                                                }}
+                                            >
+                                                <div >
+                                                    o campo {fields[res.information.field]} do contrato
+                                                    <u>
+                                                        {res.information.from}
+                                                    </u>
+                                                    foi alterado para {res.information.to}
+                                                </div>
 
-                                        <div>
-                                            <p>feito por {res.responsible}</p>
-                                            <p>às {new Date(res.date).toLocaleString()}</p>
-                                        </div>
+                                                <div>
+                                                    <p>feito por {res.responsible}</p>
+                                                    <p>às {new Date(res.date).toLocaleString()}</p>
+                                                </div>
+                                            </Card>
+                                            :
+                                            <Card
+                                                to={`/pedidos`}
+                                                onClick={() => {
+                                                    setQueryParam({ param: "id", value: res.information.from })
+                                                }}
+                                            >
+                                                <div >
+                                                    o {res.information.field === "arrived" ? "Campo Recebido" : res.information.field} do código
+                                                    <u>
+                                                        {res.information.from}
+                                                    </u>
+                                                    foi alterado para {res.information.to === true || res.information.to === false ?
+                                                        res.information.to ? "Sim" : "Não" : res.information.to}
+                                                </div>
 
+                                                <div>
+                                                    <p>feito por {res.responsible}</p>
+                                                    <p>às {new Date(res.date).toLocaleString()}</p>
+                                                </div>
 
-                                    </Card>
+                                            </Card>
+
+                                    }
+
 
                                 </HistoricCard>
                             ))

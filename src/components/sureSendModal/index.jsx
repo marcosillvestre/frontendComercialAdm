@@ -33,7 +33,6 @@ import { useData } from '../../hooks/dataContext';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import axios from 'axios';
 import * as Yup from 'yup';
 
 
@@ -98,8 +97,8 @@ export function SureSendModal(data) {
 
     const contract = async (body) => {
         await toast.promise(
-            axios.post("http://localhost:7070/registro-conta-azul", body, { headers })
-            // URI.post("/registro-conta-azul", body)
+            // axios.post("http://localhost:7070/registro-conta-azul", body, { headers })
+            URI.post("/registro-conta-azul", body)
             , {
                 pending: 'Enviando o contrato',
                 success: 'Enviado com sucesso',

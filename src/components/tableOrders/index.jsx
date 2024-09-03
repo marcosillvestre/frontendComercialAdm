@@ -16,11 +16,17 @@ import PropTypes from 'prop-types';
 import * as React from 'react';
 import LoadingSpin from 'react-loading-spin';
 import { useOrders } from '../../hooks/orders/ordersContext.hook';
+import { useUser } from '../../hooks/userContext';
 
 function Row(props) {
     const { row } = props;
     const [open, setOpen] = React.useState(false);
     const { updateOrders } = useOrders()
+    const { userData } = useUser()
+
+
+
+
 
     const sele = {
         border: "none",
@@ -57,13 +63,16 @@ function Row(props) {
 
                     <select style={sele} className='sele' name="" id="" defaultValue={row.arrived}
                         onChange={(e) => {
-                            updateOrders.mutateAsync({ id: row.id, value: e.target.value === 'true' ? true : false, where: "arrived" })
+                            updateOrders.mutateAsync({ id: row.id, value: e.target.value === 'true' ? true : false, where: "arrived", responsible: userData.name })
 
                         }}
                     >
                         <option value={true}>Sim</option>
                         <option value={false}>Não</option>
                     </select>
+                </TableCell>
+                <TableCell align="center" component="th" scope="row">
+                    {row.unity}
                 </TableCell>
                 <TableCell align="center" component="th" scope="row">
                     R$ {
@@ -95,7 +104,7 @@ function Row(props) {
                                 <TableBody>
                                     {row.orders.map((order, index) => (
                                         <TableRow key={index}>
-                                            <TableCell>{order.data}</TableCell>
+                                            <TableCell align="center">{order.data}</TableCell>
                                             <TableCell component="th" scope="row" align="center">
                                                 {order.sku}
                                             </TableCell>
@@ -103,8 +112,8 @@ function Row(props) {
                                             <TableCell align="center">{order.valor}</TableCell>
                                             <TableCell align="center">{order.materialDidatico}</TableCell>
                                             <TableCell align="center">
-                                                <div onClick={() => {
-                                                    updateOrders.mutateAsync({ id: row.id, value: order.sku, where: "sku" })
+                                                <div style={{ cursor: "pointer" }} onClick={() => {
+                                                    updateOrders.mutateAsync({ id: row.id, value: order, where: "sku", responsible: userData.name })
 
                                                 }}>
                                                     <CloseIcon />
@@ -126,16 +135,18 @@ Row.propTypes = {
     row: PropTypes.shape({
         id: PropTypes.string.isRequired,
         code: PropTypes.string.isRequired,
-        created_at: PropTypes.string.isRequired,
-        arrived: PropTypes.bool.isRequired,
         orders: PropTypes.arrayOf(
             PropTypes.shape({
                 valor: PropTypes.number.isRequired,
                 data: PropTypes.string.isRequired,
+                sku: PropTypes.string.isRequired,
                 nome: PropTypes.string.isRequired,
                 materialDidatico: PropTypes.string.isRequired,
             }),
         ).isRequired,
+        created_at: PropTypes.string.isRequired,
+        unity: PropTypes.string.isRequired,
+        arrived: PropTypes.bool.isRequired,
 
     }).isRequired,
 };
@@ -154,9 +165,8 @@ export default function TableOrders() {
         display: "flex",
         justifyContent: "center",
         boxShadow: "4px 10px 20px -12px rgba(0,0,0,0.62)"
-
-
     }
+
     return (
         <div style={style}>
             {
@@ -173,16 +183,20 @@ export default function TableOrders() {
                     />
                     :
                     <TableContainer component={Paper}>
+
+
+
                         <Table aria-label="collapsible table">
                             <TableHead>
                                 <TableRow>
                                     <TableCell />
                                     <TableCell align="center">
-                                        <Typography>Data do pedido</Typography>
+                                        <Typography>Data</Typography>
                                     </TableCell>
 
-                                    <TableCell align="center"><Typography>Código do pedido</Typography></TableCell>
+                                    <TableCell align="center"><Typography>Código</Typography></TableCell>
                                     <TableCell align="center"><Typography>Recebido</Typography></TableCell>
+                                    <TableCell align="center"><Typography>Unidade</Typography></TableCell>
                                     <TableCell align="center"><Typography>Valor total do pedido</Typography></TableCell>
                                     <TableCell align="center"></TableCell>
                                 </TableRow>
