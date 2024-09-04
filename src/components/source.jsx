@@ -19,3 +19,5 @@ export * from './select'
 
 export * from './customFieldsTable'
 
+export * from './sureSendContract'
+

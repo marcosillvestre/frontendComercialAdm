@@ -1,7 +1,7 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import Proptypes from 'prop-types'
-import { createContext, useContext, useState } from "react"
+import { createContext, useContext, useRef, useState } from "react"
 import { toast } from "react-toastify"
 import URI from "../../app/utils/utils"
 import { useUser } from "../userContext"
@@ -13,6 +13,7 @@ export const OrdersProvider = ({ children }) => {
     const queryClient = useQueryClient()
     const { headers } = useUser()
     const [orders, setOrders] = useState()
+    const recibo = useRef()
 
     const updateData = async (e) => {
 
@@ -54,7 +55,9 @@ export const OrdersProvider = ({ children }) => {
             updateOrders,
 
             orders, setOrders,
-            ordersQuery
+            ordersQuery,
+
+            recibo
         }}>
 
             {children}

@@ -23,6 +23,7 @@ export const paths = {
 
     newRegister: "/novo-cadastro",
 
-    orders: "/pedidos"
+    orders: "/pedidos",
+    nestedOrder: "/pedidos/invoice",
 
 }

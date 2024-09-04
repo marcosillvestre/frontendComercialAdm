@@ -2,6 +2,7 @@
 import { createBrowserRouter } from "react-router-dom";
 
 import { paths } from "../app/constants/paths.js";
+import Invoice from "../app/pages/Orders/template/invoice.jsx";
 import {
     ComissionControll, Contracts, Control,
     CustomFields,
@@ -13,7 +14,6 @@ import {
 } from '../app/pages/source.jsx';
 import { MiniDrawer } from '../components/source.jsx';
 import ErrorPage from "../errorHandling/error-page.jsx";
-
 
 const user = localStorage.getItem('userData')
 const directory = JSON.parse(user)?.role === 'direcao' ? true : false
@@ -51,6 +51,11 @@ const Routes = createBrowserRouter([
     {
         path: paths.orders,
         element: user === null || user === undefined ? <Login /> : <><MiniDrawer /><Orders /> </>,
+        errorElement: <ErrorPage />,
+    },
+    {
+        path: paths.nestedOrder,
+        element: user === null || user === undefined ? <Login /> : <><MiniDrawer /><Invoice /></>,
         errorElement: <ErrorPage />,
     },
     {

@@ -13,18 +13,18 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
-import * as React from 'react';
+import React, { useState } from 'react';
 import LoadingSpin from 'react-loading-spin';
+import { Link } from 'react-router-dom';
 import { useOrders } from '../../hooks/orders/ordersContext.hook';
 import { useUser } from '../../hooks/userContext';
+import { ButtonContainer } from './styles.jsx';
 
 function Row(props) {
     const { row } = props;
-    const [open, setOpen] = React.useState(false);
-    const { updateOrders } = useOrders()
+    const [open, setOpen] = useState(false);
+    const { updateOrders, setOrders } = useOrders()
     const { userData } = useUser()
-
-
 
 
 
@@ -37,6 +37,8 @@ function Row(props) {
         fontSize: "12px",
 
     }
+
+    const [fiscal, setFiscal] = useState([])
 
 
     return (
@@ -87,23 +89,73 @@ function Row(props) {
                 <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
                     <Collapse in={open} timeout="auto" unmountOnExit>
                         <Box sx={{ margin: 1 }}>
-                            <Typography variant="h6" gutterBottom component="div">
-                                Descrição do pedido
-                            </Typography>
+                            <div style={{ display: 'flex', justifyContent: "space-between" }}>
+
+                                <Typography variant="h6" gutterBottom component="div">
+                                    Descrição do pedido
+                                </Typography>
+
+                                <div style={{ display: 'flex', gap: "1rem" }}>
+                                    <ButtonContainer
+                                        onClick={() => setOrders({
+                                            "id": row.id,
+                                            "unity": row.unity,
+                                            "orders": fiscal
+                                        })}
+                                        to={`invoice`}
+                                        able={fiscal.length > 0}
+                                    >
+                                        Recibo
+
+                                    </ButtonContainer>
+                                </div>
+
+
+                            </div>
+
                             <Table size="small" aria-label="purchases">
                                 <TableHead>
                                     <TableRow>
+                                        <TableCell align="center"></TableCell>
                                         <TableCell align="center"><Typography>Data do pedido</Typography></TableCell>
                                         <TableCell align="center"><Typography>Código SKU</Typography></TableCell>
                                         <TableCell align="center"><Typography>Cliente</Typography></TableCell>
                                         <TableCell align="center"><Typography>Valor</Typography></TableCell>
                                         <TableCell align="center"><Typography>Livro</Typography></TableCell>
+                                        <TableCell align="center"><Typography>Link</Typography></TableCell>
                                         <TableCell align="center"></TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
                                     {row.orders.map((order, index) => (
                                         <TableRow key={index}>
+                                            <TableCell align="center">
+                                                <input type="checkbox"
+                                                    name="note"
+                                                    value={JSON.stringify(order)}
+                                                    onClick={(e) => {
+                                                        const { value, checked } = e.target
+                                                        const { sku, nome, materialDidatico } = JSON.parse(value)
+
+
+                                                        let filtering = fiscal.filter(res =>
+                                                            res.sku === sku &&
+                                                            res.nome === nome &&
+                                                            res.materialDidatico === materialDidatico
+                                                        )
+
+                                                        let filtered = fiscal.filter(res => res !== filtering[0])
+                                                        if (checked && !fiscal.every(res => res.nome === nome)) {
+                                                            alert("Você só pode emitir um recibo para o mesmo dono")
+                                                            e.preventDefault()
+                                                        }
+
+                                                        checked ? setFiscal([...fiscal, JSON.parse(value)]) : setFiscal(filtered)
+                                                        // }
+                                                    }}
+                                                />
+
+                                            </TableCell>
                                             <TableCell align="center">{order.data}</TableCell>
                                             <TableCell component="th" scope="row" align="center">
                                                 {order.sku}
@@ -111,6 +163,22 @@ function Row(props) {
                                             <TableCell align="center">{order.nome}</TableCell>
                                             <TableCell align="center">{order.valor}</TableCell>
                                             <TableCell align="center">{order.materialDidatico}</TableCell>
+
+                                            <TableCell align="center">
+                                                {
+                                                    order.link !== undefined ?
+                                                        <Link
+                                                            to={order.link}
+                                                            target='blank'
+                                                        >
+                                                            Autentique
+                                                        </Link>
+                                                        :
+                                                        "Não emitido"
+                                                }
+                                            </TableCell>
+
+
                                             <TableCell align="center">
                                                 <div style={{ cursor: "pointer" }} onClick={() => {
                                                     updateOrders.mutateAsync({ id: row.id, value: order, where: "sku", responsible: userData.name })
@@ -141,6 +209,7 @@ Row.propTypes = {
                 data: PropTypes.string.isRequired,
                 sku: PropTypes.string.isRequired,
                 nome: PropTypes.string.isRequired,
+                link: PropTypes.string.isRequired,
                 materialDidatico: PropTypes.string.isRequired,
             }),
         ).isRequired,
@@ -166,6 +235,7 @@ export default function TableOrders() {
         justifyContent: "center",
         boxShadow: "4px 10px 20px -12px rgba(0,0,0,0.62)"
     }
+
 
     return (
         <div style={style}>
