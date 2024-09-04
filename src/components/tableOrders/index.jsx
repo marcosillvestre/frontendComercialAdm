@@ -102,8 +102,9 @@ function Row(props) {
                                             "unity": row.unity,
                                             "orders": fiscal
                                         })}
-                                        to={`invoice`}
+                                        to={fiscal.length > 0 && `invoice`}
                                         able={fiscal.length > 0}
+
                                     >
                                         Recibo
 
