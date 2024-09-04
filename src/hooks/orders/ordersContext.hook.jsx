@@ -50,6 +50,31 @@ export const OrdersProvider = ({ children }) => {
     })
 
 
+
+
+    const storeLink = async (link) => {
+        const body = {
+            ...orders,
+            link
+        }
+        await toast.promise(
+            URI.put("/linkpedido", body),
+            {
+                pending: 'Enviando para o autentique',
+                success: 'Enviado com sucesso',
+                error: "Erro ao enviar, confira seus dados"
+            })
+
+    }
+
+    const updateLink = useMutation({
+        mutationFn: (e) => storeLink(e),
+        onSuccess: () => {
+            queryClient.invalidateQueries(["orders"])
+        }
+    })
+
+
     return (
         <OrdersContext.Provider value={{
             updateOrders,
@@ -57,7 +82,9 @@ export const OrdersProvider = ({ children }) => {
             orders, setOrders,
             ordersQuery,
 
-            recibo
+            recibo,
+
+            updateLink
         }}>
 
             {children}

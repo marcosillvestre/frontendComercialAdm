@@ -48,7 +48,7 @@ export function SureSendContract(data) {
     const [file, setFile] = useState('')
     const [Links, setLinks] = useState({})
 
-    const { orders } = useOrders()
+    const { orders, updateLink } = useOrders()
 
     const [phoneNumber, setPhoneNumber] = useState("")
 
@@ -77,19 +77,7 @@ export function SureSendContract(data) {
 
 
 
-    const storeLink = async (link) => {
-        const body = {
-            ...orders,
-            link
-        }
-        await toast.promise(
-            URI.put("/linkpedido", body),
-            {
-                pending: 'Enviando para o autentique',
-                success: 'Enviado com sucesso',
-                error: "Erro ao enviar, confira seus dados"
-            })
-    }
+
 
 
     const SendViaAutentique = async body => {
@@ -119,7 +107,7 @@ export function SureSendContract(data) {
                         const data = res.data.message
                         data.customer && setLinks(data)
 
-                        await storeLink(data.customer)
+                        await updateLink.mutateAsync(data.customer)
                         // send && contaAzulSender()
                     })
                 , {
