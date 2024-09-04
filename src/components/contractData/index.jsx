@@ -55,6 +55,10 @@ export const ContractData = () => {
         "Teens": bool ? filteredContracts.promocao === "Não" ? <Idioma id='content' data={filteredContracts} /> : <IdiomaPromo id='content' data={filteredContracts} /> : "",
         "Little Ones": bool ? filteredContracts.promocao === "Não" ? <Idioma id='content' data={filteredContracts} /> : <IdiomaPromo id='content' data={filteredContracts} /> : "",
         "Español - En grupo": bool ? filteredContracts.promocao === "Não" ? <Idioma id='content' data={filteredContracts} /> : <IdiomaPromo id='content' data={filteredContracts} /> : "",
+
+
+        "Fluency Way 4X - X": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} /> : <ParticularesPromo id='content' data={filteredContracts} /> : "",
+
         "Fluency Way One - X": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} /> : <ParticularesPromo id='content' data={filteredContracts} /> : "",
         "Fluency Way One -X": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} /> : <ParticularesPromo id='content' data={filteredContracts} /> : "",
         "Fluency Way Double -X": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} /> : <ParticularesPromo id='content' data={filteredContracts} /> : "",
