@@ -15,6 +15,7 @@ const Invoice = () => {
 
     const date = new Date().toLocaleDateString()
 
+    console.log(data)
 
     return (
 
@@ -47,7 +48,7 @@ const Invoice = () => {
                     <header>
                         <img src={aw} alt="" />
                         {
-                            data.unity === 'PTB' ?
+                            data && data.unity === 'PTB' ?
                                 <p>AMERICAN WAY - C.N.P.J. 18.953.641/0001-26 </p>
                                 :
                                 <p>AMERICAN WAY - C.N.P.J. 42.387.487/0001-57 </p>
@@ -63,7 +64,6 @@ const Invoice = () => {
                                 <th>Produto</th>
                                 <th>Ent.</th>
                                 <th>Data de pagamento</th>
-                                <th>Quantidade</th>
                                 <th>Valor Unitário</th>
                                 <th>Valor Total</th>
                             </tr>
@@ -76,7 +76,6 @@ const Invoice = () => {
                                         <td>{res.materialDidatico}</td>
                                         <td>Sim</td>
                                         <td>{res.data}</td>
-                                        <td>{data.orders.length}</td>
                                         <td>{res.valor}</td>
                                         <td>
                                             R$ {
@@ -117,11 +116,12 @@ const Invoice = () => {
                 </>
 
                 <div className='separation' />
+
                 <>
                     <header>
                         <img src={aw} alt="" />
                         {
-                            data.unity === 'PTB' ?
+                            data && data.unity === 'PTB' ?
                                 <p>AMERICAN WAY - C.N.P.J. 18.953.641/0001-26 </p>
                                 :
                                 <p>AMERICAN WAY - C.N.P.J. 42.387.487/0001-57 </p>
@@ -136,20 +136,19 @@ const Invoice = () => {
                             <tr>
                                 <th>Produto</th>
                                 <th>Ent.</th>
-                                <th>Data Entrega</th>
-                                <th>Quantidade</th>
+                                <th>Data de pagamento</th>
                                 <th>Valor Unitário</th>
                                 <th>Valor Total</th>
                             </tr>
                         </thead>
+
                         <tbody>
                             {
                                 data && data.orders.map((res, index) => (
                                     <tr key={index}>
                                         <td>{res.materialDidatico}</td>
                                         <td>Sim</td>
-                                        <td>{date}</td>
-                                        <td>{data.orders.length}</td>
+                                        <td>{res.data}</td>
                                         <td>{res.valor}</td>
                                         <td>
                                             R$ {
