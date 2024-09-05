@@ -15,9 +15,8 @@ import { useUser } from '../../hooks/userContext';
 
 import { FifthDrop, FirstDrop, FourthDrop, SeccDrop, SixthDrop, ThirdDrop } from './source.jsx';
 
-import { SureModal } from '../source.jsx';
+import { PopOver } from '../source.jsx';
 
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import LoadingSpin from 'react-loading-spin';
 import colorsRules from '../../app/utils/Rules/colors.jsx';
@@ -25,6 +24,8 @@ import businessRules from '../../app/utils/Rules/options.jsx';
 import URI from '../../app/utils/utils.jsx';
 import { useUnities } from '../../hooks/unities/unitiesContext.hook.jsx';
 import { SeventhDrop } from './seventhDrop/index.jsx';
+
+
 export function FirstRow(props) {
     const queryCache = useQueryClient();
 
@@ -224,12 +225,9 @@ export function FirstRow(props) {
 
 
                 <TableCell align="center">
-                    <MoreVertIcon />
-                    {userData?.admin === true &&
 
-                        <SureModal data={row?.contrato} name={row?.aluno} url="/controle" />
+                    <PopOver row={row} />
 
-                    }
                 </TableCell>
 
             </RowTable>
