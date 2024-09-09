@@ -21,4 +21,6 @@ export * from './customFieldsTable'
 
 export * from './sureSendContract'
 
-export * from './popOver'
+export * from './popovers/popOverControl'
+export * from './popovers/popOverOrders'
+

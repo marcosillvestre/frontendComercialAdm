@@ -15,7 +15,7 @@ import { useUser } from '../../hooks/userContext';
 
 import { FifthDrop, FirstDrop, FourthDrop, SeccDrop, SixthDrop, ThirdDrop } from './source.jsx';
 
-import { PopOver } from '../source.jsx';
+import { PopOverControl } from '../source.jsx';
 
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import LoadingSpin from 'react-loading-spin';
@@ -226,7 +226,7 @@ export function FirstRow(props) {
 
                 <TableCell align="center">
 
-                    <PopOver row={row} />
+                    <PopOverControl row={row} />
 
                 </TableCell>
 

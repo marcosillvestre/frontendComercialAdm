@@ -77,9 +77,6 @@ export function SureSendContract(data) {
 
 
 
-
-
-
     const SendViaAutentique = async body => {
 
         if (phoneNumber.length !== 11) return alert("Número de telefone inválido")
@@ -97,7 +94,6 @@ export function SureSendContract(data) {
         }
         headers['Content-Type'] = 'multipart/form-data',
 
-
             // return
             await toast.promise(
                 // axios.post('http://localhost:7070/uploads',
@@ -107,8 +103,12 @@ export function SureSendContract(data) {
                         const data = res.data.message
                         data.customer && setLinks(data)
 
-                        await updateLink.mutateAsync(data.customer)
-                        // send && contaAzulSender()
+                        await updateLink.mutateAsync({
+                            value: data.customer,
+                            where: 'link',
+                            id: orders.id,
+                            order: orders.orders.map(res => res.id)
+                        })
                     })
                 , {
                     pending: 'Enviando para o autentique',
@@ -117,7 +117,6 @@ export function SureSendContract(data) {
                 }
             )
     }
-
 
     const copy = () => {
         let copy = document.querySelector('.copied')

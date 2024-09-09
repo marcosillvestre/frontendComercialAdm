@@ -2,12 +2,12 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Box from '@mui/material/Box';
 import Popper from '@mui/material/Popper';
 import * as React from 'react';
-import { useUser } from '../../hooks/userContext.jsx';
-import { CloserClick } from '../closeClick';
-import { SureModal } from '../sureModal';
+import { useUser } from '../../../hooks/userContext.jsx';
+import { CloserClick } from '../../closeClick';
+import { SureModal } from '../../sureModal';
 import { Button, Container, Divider } from './styles.jsx';
 
-export function PopOver(data) {
+export function PopOverControl(data) {
     const [anchorEl, setAnchorEl] = React.useState(null);
 
     const handleClick = (event) => {

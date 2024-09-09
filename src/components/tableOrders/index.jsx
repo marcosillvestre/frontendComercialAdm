@@ -1,4 +1,6 @@
 import CloseIcon from '@mui/icons-material/Close';
+import DoneIcon from '@mui/icons-material/Done';
+import ElectricBoltIcon from '@mui/icons-material/ElectricBolt';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Box from '@mui/material/Box';
@@ -18,8 +20,8 @@ import LoadingSpin from 'react-loading-spin';
 import { Link } from 'react-router-dom';
 import { useOrders } from '../../hooks/orders/ordersContext.hook';
 import { useUser } from '../../hooks/userContext';
+import { PopOverOrder } from '../popovers/popOverOrders/index.jsx';
 import { ButtonContainer } from './styles.jsx';
-
 function Row(props) {
     const { row } = props;
     const [open, setOpen] = useState(false);
@@ -40,6 +42,9 @@ function Row(props) {
 
     const [fiscal, setFiscal] = useState([])
 
+    const date = new Date(row.created_at)
+    date.setDate(date.getDate() + 7);
+
 
     return (
         <React.Fragment>
@@ -51,21 +56,23 @@ function Row(props) {
                         onClick={() => setOpen(!open)}
                     >
                         {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                        {row.code.length === 8 &&
+                            <ElectricBoltIcon />
+                        }
                     </IconButton>
                 </TableCell>
-
-                <TableCell align="center" component="th" scope="row" >
-                    {new Date(row.created_at).toLocaleDateString()}
-                </TableCell>
-                <TableCell align="center" component="th" scope="row">
-                    {row.code}
-                </TableCell>
+                <TableCell align="center" component="th" scope="row" >{new Date(row.created_at).toLocaleDateString()} á {date.toLocaleDateString()}</TableCell>
+                <TableCell align="center" component="th" scope="row">{row.code}</TableCell>
 
                 <TableCell align="center">
 
                     <select style={sele} className='sele' name="" id="" defaultValue={row.arrived}
                         onChange={(e) => {
-                            updateOrders.mutateAsync({ id: row.id, value: e.target.value === 'true' ? true : false, where: "arrived", responsible: userData.name })
+                            updateOrders.mutateAsync({
+                                id: row.id,
+                                value: e.target.value === 'true' ? true : false,
+                                where: "arrived", responsible: userData.name
+                            })
 
                         }}
                     >
@@ -73,9 +80,7 @@ function Row(props) {
                         <option value={false}>Não</option>
                     </select>
                 </TableCell>
-                <TableCell align="center" component="th" scope="row">
-                    {row.unity}
-                </TableCell>
+                <TableCell align="center" component="th" scope="row">{row.unity} </TableCell>
                 <TableCell align="center" component="th" scope="row">
                     R$ {
                         row.orders.length > 0 &&
@@ -83,6 +88,8 @@ function Row(props) {
 
                     }
                 </TableCell>
+
+
 
             </TableRow>
             <TableRow>
@@ -119,11 +126,13 @@ function Row(props) {
                                     <TableRow>
                                         <TableCell align="center"></TableCell>
                                         <TableCell align="center"><Typography>Data do pedido</Typography></TableCell>
+                                        <TableCell align="center"><Typography>Data de retirada</Typography></TableCell>
                                         <TableCell align="center"><Typography>Código SKU</Typography></TableCell>
                                         <TableCell align="center"><Typography>Cliente</Typography></TableCell>
                                         <TableCell align="center"><Typography>Valor</Typography></TableCell>
                                         <TableCell align="center"><Typography>Livro</Typography></TableCell>
                                         <TableCell align="center"><Typography>Link</Typography></TableCell>
+                                        <TableCell align="center"><Typography>Entregue</Typography></TableCell>
                                         <TableCell align="center"></TableCell>
                                     </TableRow>
                                 </TableHead>
@@ -158,6 +167,7 @@ function Row(props) {
 
                                             </TableCell>
                                             <TableCell align="center">{order.data}</TableCell>
+                                            <TableCell align="center">{order.dataRetirada}</TableCell>
                                             <TableCell component="th" scope="row" align="center">
                                                 {order.sku}
                                             </TableCell>
@@ -167,7 +177,7 @@ function Row(props) {
 
                                             <TableCell align="center">
                                                 {
-                                                    order.link !== undefined ?
+                                                    order.link !== "" ?
                                                         <Link
                                                             to={order.link}
                                                             target='blank'
@@ -179,14 +189,22 @@ function Row(props) {
                                                 }
                                             </TableCell>
 
+                                            <TableCell align="center">
+                                                {
+                                                    order.dataRetirada === "" ?
+                                                        <CloseIcon /> :
+                                                        <DoneIcon />
+                                                }
+                                            </TableCell>
 
                                             <TableCell align="center">
-                                                <div style={{ cursor: "pointer" }} onClick={() => {
-                                                    updateOrders.mutateAsync({ id: row.id, value: order, where: "sku", responsible: userData.name })
+                                                <PopOverOrder row={{
+                                                    id: row.id,
+                                                    sku: order.sku,
+                                                    order: order
 
-                                                }}>
-                                                    <CloseIcon />
-                                                </div>
+                                                }} />
+
                                             </TableCell>
                                         </TableRow>
                                     ))}
@@ -260,16 +278,12 @@ export default function TableOrders() {
                         <Table aria-label="collapsible table">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell />
-                                    <TableCell align="center">
-                                        <Typography>Data</Typography>
-                                    </TableCell>
-
+                                    <TableCell align="center"></TableCell>
+                                    <TableCell align="center"><Typography>Período do pedido</Typography></TableCell>
                                     <TableCell align="center"><Typography>Código</Typography></TableCell>
                                     <TableCell align="center"><Typography>Recebido</Typography></TableCell>
                                     <TableCell align="center"><Typography>Unidade</Typography></TableCell>
                                     <TableCell align="center"><Typography>Valor total do pedido</Typography></TableCell>
-                                    <TableCell align="center"></TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>

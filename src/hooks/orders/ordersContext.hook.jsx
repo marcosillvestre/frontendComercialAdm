@@ -52,11 +52,8 @@ export const OrdersProvider = ({ children }) => {
 
 
 
-    const storeLink = async (link) => {
-        const body = {
-            ...orders,
-            link
-        }
+    const updateOrder = async (body) => {
+
         await toast.promise(
             URI.put("/linkpedido", body),
             {
@@ -68,7 +65,7 @@ export const OrdersProvider = ({ children }) => {
     }
 
     const updateLink = useMutation({
-        mutationFn: (e) => storeLink(e),
+        mutationFn: (e) => updateOrder(e),
         onSuccess: () => {
             queryClient.invalidateQueries(["orders"])
         }
