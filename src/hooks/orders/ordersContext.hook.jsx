@@ -57,9 +57,9 @@ export const OrdersProvider = ({ children }) => {
         await toast.promise(
             URI.put("/linkpedido", body),
             {
-                pending: 'Enviando para o autentique',
-                success: 'Enviado com sucesso',
-                error: "Erro ao enviar, confira seus dados"
+                pending: 'Editando o pedido',
+                success: 'Editado com sucesso',
+                error: "Erro ao editar, confira os dados"
             })
 
     }
