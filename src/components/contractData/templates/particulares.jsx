@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Container } from './styles.jsx';
 
 const Particulares = ({ data }) => {
-    console.log(data)
 
     return (
         <Container id="content">

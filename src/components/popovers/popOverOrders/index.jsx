@@ -25,7 +25,6 @@ export function PopOverOrder(data) {
 
 
     const { row } = data
-    console.log(row)
 
     return (
         <>

@@ -15,7 +15,6 @@ const Invoice = () => {
 
     const date = new Date().toLocaleDateString()
 
-    console.log(data)
 
     return (
 

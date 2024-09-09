@@ -198,7 +198,6 @@ export function ComissionControll() {
 
 
 
-    console.log(relatory)
 
     return (
         <>
