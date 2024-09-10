@@ -56,9 +56,6 @@ function Row(props) {
                         onClick={() => setOpen(!open)}
                     >
                         {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-                        {row.code.length === 8 &&
-                            <ElectricBoltIcon />
-                        }
                     </IconButton>
                 </TableCell>
                 <TableCell align="center" component="th" scope="row" >{new Date(row.created_at).toLocaleDateString()} á {date.toLocaleDateString()}</TableCell>
@@ -84,7 +81,7 @@ function Row(props) {
                 <TableCell align="center" component="th" scope="row">
                     R$ {
                         row.orders.length > 0 &&
-                        row.orders.reduce((acc, curr) => acc + curr.valor, 0)
+                        row.orders.reduce((acc, curr) => acc + curr.valor, 0).toFixed(2)
 
                     }
                 </TableCell>
@@ -139,31 +136,38 @@ function Row(props) {
                                 <TableBody>
                                     {row.orders.map((order, index) => (
                                         <TableRow key={index}>
-                                            <TableCell align="center">
-                                                <input type="checkbox"
-                                                    name="note"
-                                                    value={JSON.stringify(order)}
-                                                    onClick={(e) => {
-                                                        const { value, checked } = e.target
-                                                        const { sku, nome, materialDidatico } = JSON.parse(value)
+                                            <TableCell align="center" >
+                                                <label style={{ display: "flex" }} htmlFor='note'>
+
+                                                    <input type="checkbox"
+                                                        name="note"
+                                                        id='note'
+                                                        value={JSON.stringify(order)}
+                                                        onClick={(e) => {
+                                                            const { value, checked } = e.target
+                                                            const { sku, nome, materialDidatico } = JSON.parse(value)
 
 
-                                                        let filtering = fiscal.filter(res =>
-                                                            res.sku === sku &&
-                                                            res.nome === nome &&
-                                                            res.materialDidatico === materialDidatico
-                                                        )
+                                                            let filtering = fiscal.filter(res =>
+                                                                res.sku === sku &&
+                                                                res.nome === nome &&
+                                                                res.materialDidatico === materialDidatico
+                                                            )
 
-                                                        let filtered = fiscal.filter(res => res !== filtering[0])
-                                                        if (checked && !fiscal.every(res => res.nome === nome)) {
-                                                            alert("Você só pode emitir um recibo para o mesmo dono")
-                                                            e.preventDefault()
-                                                        }
+                                                            let filtered = fiscal.filter(res => res !== filtering[0])
+                                                            if (checked && !fiscal.every(res => res.nome === nome)) {
+                                                                alert("Você só pode emitir um recibo para o mesmo dono")
+                                                                e.preventDefault()
+                                                            }
 
-                                                        checked ? setFiscal([...fiscal, JSON.parse(value)]) : setFiscal(filtered)
-                                                        // }
-                                                    }}
-                                                />
+                                                            checked ? setFiscal([...fiscal, JSON.parse(value)]) : setFiscal(filtered)
+                                                            // }
+                                                        }}
+                                                    />
+                                                    {order.type !== "manual" &&
+                                                        <ElectricBoltIcon />
+                                                    }
+                                                </label>
 
                                             </TableCell>
                                             <TableCell align="center">{order.data}</TableCell>
