@@ -158,6 +158,7 @@ function Row(props) {
                                                             if (checked && !fiscal.every(res => res.nome === nome)) {
                                                                 alert("Você só pode emitir um recibo para o mesmo dono")
                                                                 e.preventDefault()
+                                                                return
                                                             }
 
                                                             checked ? setFiscal([...fiscal, JSON.parse(value)]) : setFiscal(filtered)
