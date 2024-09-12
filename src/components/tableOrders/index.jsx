@@ -43,7 +43,7 @@ function Row(props) {
     const [fiscal, setFiscal] = useState([])
 
     const date = new Date(row.created_at)
-    date.setDate(date.getDate() + 7);
+    date.setDate(date.getDate() + 6);
 
 
     return (
