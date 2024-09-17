@@ -58,6 +58,7 @@ function Row(props) {
                         {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                     </IconButton>
                 </TableCell>
+                <TableCell align="center" component="th" scope="row" >{new Date(date.setDate(date.getDate() + 7)).toLocaleDateString()}</TableCell>
                 <TableCell align="center" component="th" scope="row" >{new Date(row.created_at).toLocaleDateString()} á {date.toLocaleDateString()}</TableCell>
                 <TableCell align="center" component="th" scope="row">{row.code}</TableCell>
 
@@ -122,7 +123,7 @@ function Row(props) {
                                 <TableHead>
                                     <TableRow>
                                         <TableCell align="center"></TableCell>
-                                        <TableCell align="center"><Typography>Data do pedido</Typography></TableCell>
+                                        <TableCell align="center"><Typography>Data do pagamento</Typography></TableCell>
                                         <TableCell align="center"><Typography>Data de retirada</Typography></TableCell>
                                         <TableCell align="center"><Typography>Código SKU</Typography></TableCell>
                                         <TableCell align="center"><Typography>Cliente</Typography></TableCell>
@@ -173,9 +174,7 @@ function Row(props) {
                                             </TableCell>
                                             <TableCell align="center">{order.data}</TableCell>
                                             <TableCell align="center">{order.dataRetirada}</TableCell>
-                                            <TableCell component="th" scope="row" align="center">
-                                                {order.sku}
-                                            </TableCell>
+                                            <TableCell component="th" scope="row" align="center">{order.sku}</TableCell>
                                             <TableCell align="center">{order.nome}</TableCell>
                                             <TableCell align="center">{order.valor}</TableCell>
                                             <TableCell align="center">{order.materialDidatico}</TableCell>
@@ -284,6 +283,7 @@ export default function TableOrders() {
                             <TableHead>
                                 <TableRow>
                                     <TableCell align="center"></TableCell>
+                                    <TableCell align="center"><Typography>Data do pedido</Typography></TableCell>
                                     <TableCell align="center"><Typography>Período do pedido</Typography></TableCell>
                                     <TableCell align="center"><Typography>Código</Typography></TableCell>
                                     <TableCell align="center"><Typography>Recebido</Typography></TableCell>

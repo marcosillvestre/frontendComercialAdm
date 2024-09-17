@@ -24,10 +24,10 @@ import {
 
 import { useData } from '../../../hooks/dataContext';
 
+import SearchIcon from '@mui/icons-material/Search';
 import PropTypes from 'prop-types';
 import businessRules from '../../utils/Rules/options.jsx';
 import Pagination from './pagination';
-
 
 export const ListFiltered = () => {
 
@@ -43,11 +43,8 @@ export const ListFiltered = () => {
     } = useUser()
 
 
-
-    // const [searchParams, setSearchParams] = useSearchParams()
-
-
-
+    const [search, setSearch] = useState(false)
+    const [searcher, setSearcher] = useState('')
 
 
     const { typeFilter, setTypeFilter,
@@ -68,13 +65,21 @@ export const ListFiltered = () => {
 
     const { isPending, data } = mutationControlData
 
-
     const sender = (name) => {
 
         setPeriodFilter(false)
         setTypeFilter([])
 
-        const filteredByName = filtered?.filter(res => res.name.toLowerCase().includes(name.toLowerCase()))
+        const filteredByName = filtered?.filter(res => {
+            return res.name.toLowerCase().includes(name.toLowerCase()) ||
+                res.aluno.toLowerCase().includes(name.toLowerCase()) && res
+
+        })
+        if (filteredByName.length === 0) {
+            return setQueryParam({ param: "name", value: name })
+        }
+
+        console.log(filteredByName)
         name !== '' && setFiltered(filteredByName)
     }
 
@@ -94,8 +99,6 @@ export const ListFiltered = () => {
     const allContracts = filtered.map(res => res.contrato)
 
 
-
-    const [search, setSearch] = useState(false)
 
 
     // const openCreateContract = () => {
@@ -148,7 +151,7 @@ export const ListFiltered = () => {
                         }
                     </label>
 
-                    <label >
+                    <label className="box-search">
                         <p>Pesquisar no período</p>
                         <InputSearch
                             type="text"
@@ -164,13 +167,19 @@ export const ListFiltered = () => {
                                 setSearch(false)
                             }}
                             onChange={(e) => {
-                                sender(e.target.value)
+                                setSearcher(e.target.value)
                                 if (e.target.value === "") {
-                                    setTake(10)
-                                    setFiltered(allData)
+                                    // setTake(10)
+                                    // setFiltered(allData)
+                                    setQueryParam({ param: "", value: "" })
+
                                 }
                             }}
                         />
+
+                        <button onClick={() => sender(searcher)}>
+                            <SearchIcon />
+                        </button>
 
                         <datalist id='list' >
                             {

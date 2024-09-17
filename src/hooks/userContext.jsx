@@ -96,22 +96,51 @@ export const UserProvider = ({ children }) => {
 
     const [allData, setAllData] = useState([])
 
+    const getDate = (range) => {
+
+        const now = new Date();
+        const LastMonth = () => `${new Date(now.getFullYear(), now.getMonth() - 1, 1)}~${new Date(now.getFullYear(), now.getMonth(), 0)}`;
+        const TwoMonths = () => `${new Date(now.getFullYear(), now.getMonth() - 2, 1)}~${new Date(now.getFullYear(), now.getMonth() - 1, 0)}`;
+        const ThisMonth = () => `${new Date(now.getFullYear(), now.getMonth(), 1)}~${new Date(now.getFullYear(), now.getMonth() + 1, 0)}`;
+
+        const Custom = () => `${selectedInitialDate}~${selectedEndDate}`;
+        const SevenDays = () => {
+            const date = new Date()
+            date.setDate(date.getDate() - 7)
+            return `${date.toDateString()}~${now}`
+        }
+
+        const settledPeriod = {
+            "Mês passado": LastMonth(), //
+            "Mês retrasado": TwoMonths(), //
+            "Este mês": ThisMonth(),
+            "Personalizado": Custom(),//
+            "Últimos 7 dias": SevenDays(),
+            "Todo período": "all",
+        }
+
+        return settledPeriod[range]
+    }
+
+
+
 
 
     const indexPeriod = async () => {
+        body['dates'] = await getDate(body.range)
         if (selectedInitialDate !== null && selectedEndDate !== null) {
             body['range'] = "Personalizado"
-            body['dates'] = `${selectedInitialDate}~${selectedEndDate}`
         }
 
-        let url =
-            queryParam.value !== '' ?
-                `/query?param=${queryParam.param}&value=${queryParam.value}` :
-                `/periodo?range=${body.range}&role=${body.role}&name=${body.name}&unity=${body.unity}&dates=${body.dates}&types=${body.types}&skip=${body.skip}&take=${body.take}`
+
+        let query = `/query?param=${queryParam.param}&value=${queryParam.value}&range=${await getDate(body.range)}&name=${body.name}&role=${body.role}`
+        let period = `/periodo?range=${body.range}&role=${body.role}&name=${body.name}&unity=${body.unity}&dates=${body.dates}&skip=${body.skip}&take=${body.take}`
+
         const response = await
-            URI.get(url)
+            URI.get(queryParam.value !== '' ? query : period)
         return response?.data
     }
+
 
 
     const mutationControlData = useQuery({
@@ -136,11 +165,12 @@ export const UserProvider = ({ children }) => {
             mutationControlData.refetch()
         }
         if (mutationControlData.isSuccess) {
-            setFiltered(mutationControlData.data.deals)
-            setAllData(mutationControlData.data.deals)
+            const { data } = mutationControlData
+            setFiltered(data.deals)
+            setAllData(data.deals)
         }
 
-    }, [periodRange, skip, take, mutationControlData.isSuccess])
+    }, [periodRange, skip, take, mutationControlData.isSuccess, queryParam])
 
 
 
@@ -230,7 +260,6 @@ export const UserProvider = ({ children }) => {
             queryKey: ["historic", historicTake],
             onError: (err) => console.log(err)
         })
-
 
 
     const [openSidebar, setOpenSidebar] = useState(false);

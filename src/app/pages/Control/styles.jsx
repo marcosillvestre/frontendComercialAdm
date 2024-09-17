@@ -13,8 +13,26 @@ align-items: end;
 flex-wrap: wrap;
 gap: 1rem;
 margin-bottom: 10px;
-label{
-    min-width: min-content;
+.box-search{
+    display: grid;
+    gap: 5px;
+    align-items: flex-end;
+    p{
+        grid-column: 1 / span 2;
+    }
+    button{
+        all: unset;
+        cursor: pointer;
+        background-color:#dfe6f1;
+        width: fit-content;
+        height: var(--boxHei);
+        padding: 0 .8rem;
+        border-radius: 5px;
+
+    &:hover{
+    background-color:#d9d9d9;
+    }
+    }
 }
 }
 .nav-filter{
@@ -65,7 +83,7 @@ export const InputSearch = styled.input`
     background-color:#dfe6f1;
     border-radius: .35rem;
     padding: .7rem .5rem;
-    width: 100%;
+    /* width: 100%; */
     transition: all.7s;
     margin-top: .5rem;
     text-overflow: ellipsis;

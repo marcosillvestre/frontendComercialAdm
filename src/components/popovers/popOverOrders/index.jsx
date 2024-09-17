@@ -30,8 +30,9 @@ export function PopOverOrder(data) {
         <>
             <CloserClick
                 open={anchorEl}
-                fn={handleClick} opacity={0}
+                fn={handleClick} opacity={.2}
             />
+
             <Container style={{ zIndex: "11" }}>
                 {userData?.admin === true &&
                     <>
@@ -64,7 +65,7 @@ export function PopOverOrder(data) {
                                     row.order.dataRetirada === "" ?
                                         <Divider onClick={async () => {
                                             await updateLink.mutateAsync({
-                                                value: new Date().toLocaleDateString("pt-Br"),
+                                                value: new Date().toLocaleString(),
                                                 where: 'dataRetirada',
                                                 id: row.id,
                                                 order: [row.order.id]
