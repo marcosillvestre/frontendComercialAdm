@@ -40,12 +40,12 @@ export function PositionedMenu(data) {
         let data = typeFilter.filter(res => res.key === type)
         let bool = data.length < 1 && typeFilter.length <= 2
 
-        const filter = filtered.filter(data => data[type].toLowerCase().includes(value.toLowerCase()))
-
+        const filterBYname = filtered.filter(data => data[type].toLowerCase().includes(value.toLowerCase()))
+        const filterBYrest = filtered.filter(data => data[type].toLowerCase() === value.toLowerCase())
 
         if (bool) {
             setTypeFilter([...typeFilter, { "key": type, "value": value }])
-            setFiltered(filter)
+            type === "owner" ? setFiltered(filterBYname) : setFiltered(filterBYrest)
         }
 
         if (!bool) {
