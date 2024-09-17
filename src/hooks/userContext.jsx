@@ -110,19 +110,23 @@ export const UserProvider = ({ children }) => {
             return `${date.toDateString()}~${now}`
         }
 
+        const All = () => {
+            const date = new Date()
+            date.setDate(date.getDate() - 10000)
+            return `${date.toDateString()}~${now}`
+        }
+
         const settledPeriod = {
             "Mês passado": LastMonth(), //
             "Mês retrasado": TwoMonths(), //
             "Este mês": ThisMonth(),
             "Personalizado": Custom(),//
             "Últimos 7 dias": SevenDays(),
-            "Todo período": "all",
+            "Todo período": All(),
         }
 
         return settledPeriod[range]
     }
-
-
 
 
 

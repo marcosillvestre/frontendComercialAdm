@@ -79,7 +79,6 @@ export const ListFiltered = () => {
             return setQueryParam({ param: "name", value: name })
         }
 
-        console.log(filteredByName)
         name !== '' && setFiltered(filteredByName)
     }
 
