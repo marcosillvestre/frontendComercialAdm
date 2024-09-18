@@ -9,7 +9,7 @@ const comissionStatusOpt = [
 ]
 const coursesOpt = [
     "Inglês",
-    "Espanol",
+    "Espanhol",
     "Tecnologia",
 ]
 const backgroundOpt = [
