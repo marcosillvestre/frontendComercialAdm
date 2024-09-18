@@ -1,10 +1,13 @@
 import { Collapse, TableCell, TableRow } from '@mui/material'
-import { BodyTable, HeadTable, Signs, Td } from '../styles'
+import React from 'react'
+import { useUser } from '../../../hooks/userContext'
+import { BodyTable, HeadTable, Select, Signs, Td } from '../styles'
 
 export const ThirdDrop = (row) => {
 
     const start = row.data.inicioContrato.split("/")
     const end = row.data.fimContrato.split("/")
+    const { userData, SenderDirector, Sender } = useUser()
 
 
     var data2 = new Date(`${end[2]}-${end[1]}-${end[0]}`); // Usando o formato "YYYY-MM-DD"
@@ -12,6 +15,19 @@ export const ThirdDrop = (row) => {
 
     var diferenceInMonths = (data2.getFullYear() - data1.getFullYear()) * 12 + (data2.getMonth() - data1.getMonth());
 
+    const [value, setValue] = React.useState('')
+
+    const Changer = async (area, e, id) => {
+        setValue(e)
+
+
+        if (userData.role !== 'direcao') {
+            area !== 'observacao' && Sender(area, e, id, value)
+        }
+        if (userData.role === 'direcao') {
+            area !== 'observacao' && SenderDirector(area, e, id, value)
+        }
+    }
 
     return (
         <TableCell style={{
@@ -43,7 +59,16 @@ export const ThirdDrop = (row) => {
                             {row?.data.fimContrato}
                         </TableCell>
                         <TableCell align="center">
-                            {row?.data.acFormato}
+                            <Select
+
+                                defaultValue={row?.data.acFormato}
+                                onChange={(e) =>
+                                    Changer("acFormato", e.target.value, row?.data.contrato)}>
+
+                                <option value="Online">Online</option>
+                                <option value="Presencial">Presencial</option>
+
+                            </Select>
                         </TableCell>
                         <TableCell align="center" >
                             {
