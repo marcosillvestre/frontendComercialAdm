@@ -84,7 +84,6 @@ export function SureSendModal(data) {
         await toast.promise(
             // axios.post("http://localhost:7070/cliente", body, { headers })
             URI.post("/cliente", body)
-
             , {
                 pending: 'Criando o cadastro no CA',
                 success: 'Criado com sucesso',
@@ -186,9 +185,6 @@ export function SureSendModal(data) {
                     sales(body),
                     feeEnroll(body),
                 ])
-                // await contract(body)
-                // await sales(body)
-                // await feeEnroll(body)
             })
 
 
@@ -256,17 +252,12 @@ export function SureSendModal(data) {
                 promises.map(async res => {
                     await new Promise(() => res(body))
                 })
-
-            }).catch(() => {
-                alert("Erro ao cadastrar o cliente")
-
             })
     }
 
-
     const senderImpressContract = async () => {
         const options = {
-            filename: `adesao_${filteredContracts && filteredContracts.name}`,
+            filename: `adesao-${filteredContracts.name}_${filteredContracts.contrato}`,
             method: 'save',
             resolution: Resolution.NORMAL,
 
