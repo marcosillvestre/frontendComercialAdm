@@ -257,7 +257,7 @@ export function SureSendModal(data) {
 
     const senderImpressContract = async () => {
         const options = {
-            filename: `adesao-${filteredContracts.name}_${filteredContracts.contrato}`,
+            filename: `adesao-${filteredContracts.name}+${filteredContracts.contrato}`,
             method: 'save',
             resolution: Resolution.NORMAL,
 
