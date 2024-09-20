@@ -150,7 +150,7 @@ export function ComissionControll() {
 
     const exportToExcel = () => {
         setAnimation(true)
-        const worksheet = XLSX.utils.json_to_sheet(comissionQuery);
+        const worksheet = XLSX.utils.json_to_sheet(relatory);
         const workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
 
