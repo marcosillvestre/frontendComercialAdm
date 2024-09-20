@@ -16,12 +16,15 @@ export const Select = (parameters) => {
 
 
     const handleCheck = async (label) => {
-        setSelectedInitialDate(null)
-        setSelectedEndDate(null)
+
+        const { field, value, order } = label
+
+        !isNaN(value) && setSelectedInitialDate(null)
+        !isNaN(value) && setSelectedEndDate(null)
 
         parameters.where === 'create' ?
-            engineFunctions(label.field, label.value, label.order || "") :
-            engineFunctions(label.value)
+            engineFunctions(field, value, order || "") :
+            engineFunctions(value)
 
         setOpen(false)
     }
