@@ -26,7 +26,6 @@ const style = {
 
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
-import generatePDF, { Margin, Resolution } from 'react-to-pdf';
 import { toast } from 'react-toastify';
 import URI from '../../app/utils/utils';
 import { useData } from '../../hooks/dataContext';
@@ -34,6 +33,7 @@ import { useData } from '../../hooks/dataContext';
 import { yupResolver } from '@hookform/resolvers/yup';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import * as Yup from 'yup';
+import { senderImpressContract } from '../../app/utils/functions/makePdfs';
 
 
 
@@ -255,36 +255,6 @@ export function SureSendModal(data) {
             })
     }
 
-    const senderImpressContract = async () => {
-        const options = {
-            filename: `adesao-${filteredContracts.name}+${filteredContracts.contrato}`,
-            method: 'save',
-            resolution: Resolution.NORMAL,
-
-            page: {
-                margin: Margin.MEDIUM,
-                format: 'A4',
-                orientation: 'portrait'
-            }
-        };
-
-        await toast.promise(
-            generatePDF(content, options)
-                .then(res => {
-                    if (res) {
-                        setOpen(!open)
-                        send && contaAzulSender()
-
-                    }
-                })
-            , {
-                pending: 'Criando o documento',
-                success: 'Baixado com sucesso',
-                error: 'Alguma coisa deu errado'
-            }
-        )
-    }
-
 
     const SendViaAutentique = async body => {
 
@@ -348,7 +318,15 @@ export function SureSendModal(data) {
 
 
             setTimeout(() => {
-                senderImpressContract()
+                senderImpressContract(`adesao-${filteredContracts.name}+${filteredContracts.contrato}`, content)
+                    .then(res => {
+                        if (res) {
+                            setOpen(!open)
+                            send && contaAzulSender()
+
+                        }
+                    })
+                    .catch(res => console.log(res))
             }, 500);
         }
     }
