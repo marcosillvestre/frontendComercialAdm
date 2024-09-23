@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 
@@ -8,9 +9,13 @@ padding: 0 4rem;
 margin-left: 17px;
 
 .buttons-container{
-    display: flex;
-    width: max-content;
-    margin: auto;
+    width: 80%;
+    margin: auto ;
+    /* background-color: antiquewhite; */
+    div{
+        display: flex;
+        margin: auto;
+    }
 }
 header{
     display: flex;
@@ -20,6 +25,8 @@ header{
         height: 9rem;
     }
 }
+
+
 
 
 .plano{
@@ -79,26 +86,21 @@ text-align: left;
 `
 
 export const ButtonContainer = styled.button`
-    font-weight: 500;
-    font-size: var(--fsLowest);
-    line-height: 1.75;
-    letter-spacing: 0.02857em;
-    text-transform: uppercase;
-    user-select: none;
-    z-index: 3;
-    border: none;
-    color: #fff;
     background-color: ${props => props.able ? "#1976d2" : "#222"};
-    border-radius: 5px;
-    margin:  5px;
-    display: flex;
-    padding:  .3rem 1rem ;
-    font-size:var(--fsLow);
-    transition: transform 0.1s, box-shadow 0.1s ;
+    margin: 5px;
+    padding:  0 1rem ;
     display: flex;
     align-items: center;
     &:active{
         opacity: .8;
     }
 
+`
+
+
+export const Links = styled(Link)`
+text-decoration: none;
+color: #fff;
+margin: 5px;
+    padding:  0 1rem ;
 `

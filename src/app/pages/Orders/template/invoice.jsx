@@ -3,7 +3,7 @@ import { useOrders } from '../../../../hooks/orders/ordersContext.hook.jsx';
 import { useUser } from '../../../../hooks/userContext.jsx';
 import { paths } from '../../../constants/paths.js';
 import { senderImpressContract } from '../../../utils/functions/makePdfs.jsx';
-import { ButtonContainer, Container } from './styles.jsx';
+import { ButtonContainer, Container, Links } from './styles.jsx';
 
 const aw = "https://ik.imagekit.io/khqnnhktw/assets/copy.svg?updatedAt=1707937900692"
 const Invoice = () => {
@@ -15,30 +15,43 @@ const Invoice = () => {
 
     const date = new Date().toLocaleDateString()
 
-
     return (
 
         <Container>
             <div className='buttons-container'>
-
                 <ButtonContainer
-
-                    able={true}
-                    onClick={() => senderImpressContract(`Recibo de recebimento - ${data.orders[0].nome}`, recibo)}
+                    className="defaultButton"
                 >
-                    Gerar PDf
-
+                    <Links
+                        to="/pedidos"
+                    >
+                        Voltar
+                    </Links>
                 </ButtonContainer>
 
+                <div>
 
-                <ButtonContainer
-                    able={true}
-                >
-                    <SureSendContract
-                        data={"Enviar Online"}
-                        text={"Enviar o recibo via Autentique para o cliente"}
-                    />
-                </ButtonContainer>
+                    <ButtonContainer
+                        className="defaultButton"
+
+                        able={true}
+                        onClick={() => senderImpressContract(`reciboMd-${data.orders[0].nome}+${data.code}`, recibo)}
+                    >
+                        Gerar PDf
+
+                    </ButtonContainer>
+
+
+                    <ButtonContainer
+                        className="defaultButton"
+                        able={true}
+                    >
+                        <SureSendContract
+                            data={"Enviar Online"}
+                            text={"Enviar o recibo via Autentique para o cliente"}
+                        />
+                    </ButtonContainer>
+                </div>
             </div>
 
 
