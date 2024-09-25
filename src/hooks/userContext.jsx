@@ -177,7 +177,6 @@ export const UserProvider = ({ children }) => {
     }, [periodRange, skip, take, mutationControlData.isSuccess, queryParam])
 
 
-
     const decreaseFilters = (types) => {
 
         const twoFilters = () => {

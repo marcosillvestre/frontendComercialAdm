@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import { useOrders } from '../../../hooks/orders/ordersContext.hook.jsx';
 import { useUser } from '../../../hooks/userContext.jsx';
 import { CloserClick } from '../../closeClick';
+import { MoreData } from '../../source.jsx';
 import { Button, Container, Divider } from './styles.jsx';
 
 export function PopOverOrder(data) {
@@ -30,7 +31,7 @@ export function PopOverOrder(data) {
         <>
             <CloserClick
                 open={anchorEl}
-                fn={handleClick} opacity={.2}
+                fn={handleClick} opacity={0}
             />
 
             <Container style={{ zIndex: "11" }}>
@@ -61,30 +62,56 @@ export function PopOverOrder(data) {
                                 }}>
                                     Copiar link
                                 </Divider>
+
+
                                 {
-                                    row.order.dataRetirada === "" ?
+                                    row.order.dataRetirada === "" ||
+                                        !row.order.dataRetirada
+                                        ?
                                         <Divider onClick={async () => {
-                                            await updateLink.mutateAsync({
-                                                value: new Date().toLocaleString(),
-                                                where: 'dataRetirada',
-                                                id: row.id,
-                                                order: [row.order.id]
-                                            })
+                                            Promise.all([
+                                                updateLink.mutateAsync({
+                                                    value: new Date().toLocaleString(),
+                                                    where: 'dataRetirada',
+                                                    id: row.id,
+                                                    order: [row.order.id]
+                                                }),
+
+                                                updateLink.mutateAsync({
+                                                    value: userData.name,
+                                                    where: 'retiradoPor',
+                                                    id: row.id,
+                                                    order: [row.order.id]
+                                                })
+                                            ])
                                         }}>
                                             Marcar como entregue
                                         </Divider>
                                         :
                                         <Divider onClick={async () => {
-                                            await updateLink.mutateAsync({
-                                                value: "",
-                                                where: 'dataRetirada',
-                                                id: row.id,
-                                                order: [row.order.id]
-                                            })
+                                            Promise.all([
+                                                updateLink.mutateAsync({
+                                                    value: "",
+                                                    where: 'dataRetirada',
+                                                    id: row.id,
+                                                    order: [row.order.id]
+                                                }),
+
+                                                updateLink.mutateAsync({
+                                                    value: "",
+                                                    where: 'retiradoPor',
+                                                    id: row.id,
+                                                    order: [row.order.id]
+                                                })
+                                            ])
+
                                         }}>
                                             Marcar como não entregue
                                         </Divider>
                                 }
+                                <Divider >
+                                    <MoreData data={row} />
+                                </Divider>
 
 
                             </Box>

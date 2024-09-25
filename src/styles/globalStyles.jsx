@@ -20,16 +20,23 @@ export default createGlobalStyle`
 html{
 
     .defaultButton{
-    border: none;
-    background-color: #1976d2;
+    line-height: 1.75;
     font-family: "Roboto","Helvetica","Arial",sans-serif;
     font-weight: 500;
     font-size: var(--fsLowest);
     letter-spacing: 0.02857em;
     text-transform: uppercase;
-    border-radius: var(--border-radius);
     color: #fff;
+    user-select: none;
+    z-index: 3;
+
+
+    border: none;
+    border-radius: var(--border-radius);
+
+    background-color: #1976d2;
     cursor: pointer;
+    
     height: var(--boxHei);
     
 &:hover{

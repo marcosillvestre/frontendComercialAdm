@@ -164,6 +164,7 @@ export function ComissionControll() {
             saveAs(blob, `${label}.xlsx`)
         }, 3600);
     };
+
     const handleInput = (name) => {
         setOpen1(!open1)
         setLabel(name)

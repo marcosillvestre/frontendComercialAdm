@@ -24,3 +24,4 @@ export * from './sureSendContract'
 export * from './popovers/popOverControl'
 export * from './popovers/popOverOrders'
 
+export * from './popUps/moreData.orders'

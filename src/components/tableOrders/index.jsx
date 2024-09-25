@@ -1,5 +1,3 @@
-import CloseIcon from '@mui/icons-material/Close';
-import DoneIcon from '@mui/icons-material/Done';
 import ElectricBoltIcon from '@mui/icons-material/ElectricBolt';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
@@ -19,14 +17,12 @@ import React, { useState } from 'react';
 import LoadingSpin from 'react-loading-spin';
 import { Link } from 'react-router-dom';
 import { useOrders } from '../../hooks/orders/ordersContext.hook';
-import { useUser } from '../../hooks/userContext';
 import { PopOverOrder } from '../popovers/popOverOrders/index.jsx';
 import { ButtonContainer } from './styles.jsx';
 function Row(props) {
     const { row } = props;
     const [open, setOpen] = useState(false);
-    const { updateOrders, setOrders } = useOrders()
-    const { userData } = useUser()
+    const { updateLink, setOrders } = useOrders()
 
 
 
@@ -45,6 +41,8 @@ function Row(props) {
     const date = new Date(row.created_at)
     date.setDate(date.getDate() + 6);
 
+    let totalPrice = row.orders.length > 0 &&
+        row.orders.reduce((acc, curr) => acc + curr.valor, 0).toFixed(2)
 
     return (
         <React.Fragment>
@@ -58,40 +56,18 @@ function Row(props) {
                         {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                     </IconButton>
                 </TableCell>
-                <TableCell align="center" component="th" scope="row" >{new Date(date.setDate(date.getDate() + 7)).toLocaleDateString()}</TableCell>
+                <TableCell align="center" component="th" scope="row" >{new Date(date).toLocaleDateString()}</TableCell>
                 <TableCell align="center" component="th" scope="row" >{new Date(row.created_at).toLocaleDateString()} á {date.toLocaleDateString()}</TableCell>
                 <TableCell align="center" component="th" scope="row">{row.code}</TableCell>
 
-                <TableCell align="center">
 
-                    <select style={sele} className='sele' name="" id="" defaultValue={row.arrived}
-                        onChange={(e) => {
-                            updateOrders.mutateAsync({
-                                id: row.id,
-                                value: e.target.value === 'true' ? true : false,
-                                where: "arrived", responsible: userData.name
-                            })
-
-                        }}
-                    >
-                        <option value={true}>Sim</option>
-                        <option value={false}>Não</option>
-                    </select>
-                </TableCell>
                 <TableCell align="center" component="th" scope="row">{row.unity} </TableCell>
-                <TableCell align="center" component="th" scope="row">
-                    R$ {
-                        row.orders.length > 0 &&
-                        row.orders.reduce((acc, curr) => acc + curr.valor, 0).toFixed(2)
-
-                    }
-                </TableCell>
-
-
+                <TableCell align="center" component="th" scope="row">R$ {totalPrice}</TableCell>
 
             </TableRow>
+
             <TableRow>
-                <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+                <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
                     <Collapse in={open} timeout="auto" unmountOnExit>
                         <Box sx={{ margin: 1 }}>
                             <div style={{ display: 'flex', justifyContent: "space-between" }}>
@@ -105,6 +81,7 @@ function Row(props) {
                                         onClick={() => setOrders({
                                             "id": row.id,
                                             "unity": row.unity,
+                                            "code": row.code,
                                             "orders": fiscal
                                         })}
                                         to={fiscal.length > 0 && `invoice`}
@@ -125,18 +102,16 @@ function Row(props) {
                                         <TableCell align="center"></TableCell>
                                         <TableCell align="center"><Typography>Data do pagamento</Typography></TableCell>
                                         <TableCell align="center"><Typography>Data de retirada</Typography></TableCell>
-                                        <TableCell align="center"><Typography>Código SKU</Typography></TableCell>
                                         <TableCell align="center"><Typography>Cliente</Typography></TableCell>
-                                        <TableCell align="center"><Typography>Valor</Typography></TableCell>
                                         <TableCell align="center"><Typography>Livro</Typography></TableCell>
                                         <TableCell align="center"><Typography>Link</Typography></TableCell>
-                                        <TableCell align="center"><Typography>Entregue</Typography></TableCell>
+                                        <TableCell align="center"><Typography>Recebido</Typography></TableCell>
                                         <TableCell align="center"></TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
                                     {row.orders.map((order, index) => (
-                                        <TableRow key={index}>
+                                        <TableRow key={index} sx={{ backgroundColor: order.assinado === true ? "#eefff2" : "#fff8f8" }}>
                                             <TableCell align="center" >
                                                 <label style={{ display: "flex" }} htmlFor='note'>
 
@@ -174,9 +149,7 @@ function Row(props) {
                                             </TableCell>
                                             <TableCell align="center">{order.data}</TableCell>
                                             <TableCell align="center">{order.dataRetirada}</TableCell>
-                                            <TableCell component="th" scope="row" align="center">{order.sku}</TableCell>
                                             <TableCell align="center">{order.nome}</TableCell>
-                                            <TableCell align="center">{order.valor}</TableCell>
                                             <TableCell align="center">{order.materialDidatico}</TableCell>
 
                                             <TableCell align="center">
@@ -194,11 +167,24 @@ function Row(props) {
                                             </TableCell>
 
                                             <TableCell align="center">
-                                                {
-                                                    order.dataRetirada === "" ?
-                                                        <CloseIcon /> :
-                                                        <DoneIcon />
-                                                }
+                                                <select style={sele} className='sele' name="" id=""
+
+                                                    defaultValue={order.chegada ? order.chegada : false}
+                                                    onChange={async (e) => {
+
+                                                        let target = e.target.value
+                                                        await updateLink.mutateAsync({
+                                                            value: target === "true" ? true : false,
+                                                            where: 'chegada',
+                                                            id: row.id,
+                                                            order: [order.id]
+                                                        })
+
+                                                    }}
+                                                >
+                                                    <option value={true}>Sim</option>
+                                                    <option value={false}>Não</option>
+                                                </select>
                                             </TableCell>
 
                                             <TableCell align="center">
@@ -286,7 +272,6 @@ export default function TableOrders() {
                                     <TableCell align="center"><Typography>Data do pedido</Typography></TableCell>
                                     <TableCell align="center"><Typography>Período do pedido</Typography></TableCell>
                                     <TableCell align="center"><Typography>Código</Typography></TableCell>
-                                    <TableCell align="center"><Typography>Recebido</Typography></TableCell>
                                     <TableCell align="center"><Typography>Unidade</Typography></TableCell>
                                     <TableCell align="center"><Typography>Valor total do pedido</Typography></TableCell>
                                 </TableRow>
