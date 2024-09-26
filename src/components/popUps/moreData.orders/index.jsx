@@ -37,8 +37,6 @@ export function MoreData(info) {
 
     const { data } = info
 
-    console.log(data)
-
     return (
         <div>
             <Filter onClick={handleFuncs}> Mais informações</Filter>

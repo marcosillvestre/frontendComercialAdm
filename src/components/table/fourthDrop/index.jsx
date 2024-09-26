@@ -267,7 +267,12 @@ export const FourthDrop = (row) => {
                                     :
                                     <>
                                         <Td style={{ display: "flex", margin: ".5rem 0 " }}>
-                                            <Input defaultValue={row?.data.mdData} type="date" onChange={(e) => Changer("mdData", e.target.value, row?.data.contrato)} />
+                                            <Input
+                                                type="date"
+                                                defaultValue={row?.data.mdData}
+                                                onChange={(e) =>
+                                                    Changer("mdData", e.target.value, row?.data.contrato)}
+                                            />
 
                                         </Td>
                                         {row?.data.mdData ?
