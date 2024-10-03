@@ -43,7 +43,6 @@ export const ListFiltered = () => {
     } = useUser()
 
 
-    const [search, setSearch] = useState(false)
     const [searcher, setSearcher] = useState('')
 
 
@@ -157,14 +156,6 @@ export const ListFiltered = () => {
                             placeholder='Pesquisar..'
                             className='filter'
                             list='list'
-                            active={search && true}
-                            onFocus={() => {
-                                setSearch(true)
-                                // setTake("all")
-                            }}
-                            onBlur={() => {
-                                setSearch(false)
-                            }}
                             onChange={(e) => {
                                 setSearcher(e.target.value)
                                 if (e.target.value === "") {

@@ -5,7 +5,7 @@ import {
     Select
 } from '../../../components/source.jsx';
 import TableOrders from '../../../components/tableOrders/index.jsx';
-import { Container, Header } from "./styles.jsx";
+import { Container, Header, InputSearch } from "./styles.jsx";
 
 export const Orders = () => {
 
@@ -26,9 +26,19 @@ export const Orders = () => {
                             // fn={[handleInput]}
                             width="5rem"
                         />
-                        <p style={{ textAlign: "center" }}>
 
+                    </label>
+
+                    <label htmlFor="">
+                        <p>
+                            Pesquisar por nome:
                         </p>
+                        <InputSearch
+                        // label={businessRules.predeterminedPeriods[0].name}
+                        // option={predeterminedPeriods}
+                        // fn={[handleInput]}
+                        />
+
                     </label>
 
                 </nav>

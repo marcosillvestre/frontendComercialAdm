@@ -9,8 +9,13 @@ import PropTypes from 'prop-types';
 
 export const Historic = () => {
 
-    const { historic, isPendingHistoric, historicSuccess, setHistoricTake,
-        historicTake, setQueryParam } = useUser()
+    const {
+
+        historic, isPendingHistoric, historicSuccess,
+        setHistoricTake, historicTake, setQueryParam
+
+    } = useUser()
+
     const { fields } = businessRules
 
     return (
@@ -39,25 +44,28 @@ export const Historic = () => {
                                     {
                                         fields[res.information.field] ?
 
-                                            <Card
-                                                to={`/controle-comercial`}
-                                                onClick={() => {
-                                                    setQueryParam({ param: "contrato", value: res.information.from })
-                                                }}
-                                            >
-                                                <div >
-                                                    o campo {fields[res.information.field]} do contrato
-                                                    <u>
-                                                        {res.information.from}
-                                                    </u>
-                                                    foi alterado para {res.information.to}
-                                                </div>
+                                            res.information.from ?
+                                                <Card
+                                                    to={`/controle-comercial`}
+                                                    onClick={() => {
+                                                        setQueryParam({ param: "contrato", value: res.information.from })
+                                                    }}
+                                                >
+                                                    <div >
+                                                        o campo {fields[res.information.field]} do contrato
+                                                        <u>
+                                                            {res.information.from}
+                                                        </u>
+                                                        foi alterado para {res.information.to}
+                                                    </div>
 
-                                                <div>
-                                                    <p>feito por {res.responsible}</p>
-                                                    <p>às {new Date(res.date).toLocaleString()}</p>
-                                                </div>
-                                            </Card>
+                                                    <div>
+                                                        <p>feito por {res.responsible}</p>
+                                                        <p>às {new Date(res.date).toLocaleString()}</p>
+                                                    </div>
+                                                </Card>
+                                                :
+                                                `Assinatura de contrato : ${res.responsible}`
                                             :
                                             <Card
                                                 to={`/pedidos`}

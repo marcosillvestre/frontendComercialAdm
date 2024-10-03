@@ -25,3 +25,19 @@ nav{
     gap: 1rem;
 }
 `
+
+export const InputSearch = styled.input`
+    border: none;
+    background-color:#dfe6f1;
+    border-radius: .35rem;
+    padding: .7rem .5rem;
+    transition: all.7s;
+    margin-top: .5rem;
+    text-overflow: ellipsis;
+    height: var(--boxHei);
+    font-size: var(--fsLowest);
+
+    &:focus{
+    border: 1px solid;
+    }
+`

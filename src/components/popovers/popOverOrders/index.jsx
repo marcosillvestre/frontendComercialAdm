@@ -36,129 +36,125 @@ export function PopOverOrder(data) {
             />
 
             <Container style={{ zIndex: "11" }}>
-                {userData?.admin === true &&
-                    <>
-                        <Button aria-describedby={id} type="button" onClick={handleClick}>
-                            <MoreVertIcon />
-                        </Button>
-                        <Popper id={id} open={open} anchorEl={anchorEl} sx={{ zIndex: 12 }}>
-                            <Box sx={{ border: 0, p: 1, bgcolor: '#ddddddf4', borderRadius: 2 }}>
+                <Button aria-describedby={id} type="button" onClick={handleClick}>
+                    <MoreVertIcon />
+                </Button>
+                <Popper id={id} open={open} anchorEl={anchorEl} sx={{ zIndex: 12 }}>
+                    <Box sx={{ border: 0, p: 1, bgcolor: '#ddddddf4', borderRadius: 2 }}>
 
-                                <Divider onClick={() => {
-                                    updateOrders.mutateAsync({
-                                        id: row.id, value: row.order.id,
-                                        where: "sku", responsible: userData.name
-                                    })
+                        <Divider onClick={() => {
+                            updateOrders.mutateAsync({
+                                id: row.id, value: row.order.id,
+                                where: "sku", responsible: userData.name
+                            })
+
+                        }}>
+                            Deletar
+                        </Divider>
+
+                        <Divider onClick={() => {
+
+                            let copy = row.order.link
+                            navigator.clipboard.writeText(copy)
+                            copy !== "" ? toast.success("Copiado para área de transferência") : toast.error("O recibo ainda não foi emitido")
+
+                        }}>
+                            Copiar link
+                        </Divider>
+
+
+                        {
+                            row.order.dataRetirada === "" ||
+                                !row.order.dataRetirada
+                                ?
+                                row.order.assinado ?
+                                    <Divider onClick={async () => {
+                                        Promise.all([
+                                            updateLink.mutateAsync({
+                                                value: new Date().toLocaleString(),
+                                                where: 'dataRetirada',
+                                                id: row.id,
+                                                order: [row.order.id]
+                                            }),
+
+                                            updateLink.mutateAsync({
+                                                value: userData.name,
+                                                where: 'retiradoPor',
+                                                id: row.id,
+                                                order: [row.order.id]
+                                            })
+                                        ])
+                                    }}>
+                                        Marcar como entregue
+                                    </Divider>
+                                    :
+                                    <Divider >
+                                        <DeliverySure data={row} />
+                                    </Divider>
+
+                                :
+                                <Divider onClick={async () => {
+                                    Promise.all([
+                                        updateLink.mutateAsync({
+                                            value: "",
+                                            where: 'dataRetirada',
+                                            id: row.id,
+                                            order: [row.order.id]
+                                        }),
+
+                                        updateLink.mutateAsync({
+                                            value: "",
+                                            where: 'retiradoPor',
+                                            id: row.id,
+                                            order: [row.order.id]
+                                        })
+                                    ])
 
                                 }}>
-                                    Deletar
+                                    Marcar como não entregue
                                 </Divider>
+                        }
 
-                                <Divider onClick={() => {
-
-                                    let copy = row.order.link
-                                    navigator.clipboard.writeText(copy)
-                                    copy !== "" ? toast.success("Copiado para área de transferência") : toast.error("O recibo ainda não foi emitido")
+                        {
+                            row.order.assinado === "" ||
+                                !row.order.assinado
+                                ?
+                                <Divider onClick={async () => {
+                                    Promise.all([
+                                        updateLink.mutateAsync({
+                                            value: true,
+                                            where: 'assinado',
+                                            id: row.id,
+                                            order: [row.order.id]
+                                        })
+                                    ])
 
                                 }}>
-                                    Copiar link
+                                    Marcar assinatura
                                 </Divider>
+                                :
+                                <Divider onClick={async () => {
+                                    Promise.all([
+                                        updateLink.mutateAsync({
+                                            value: false,
+                                            where: 'assinado',
+                                            id: row.id,
+                                            order: [row.order.id]
+                                        })
+                                    ])
 
-
-                                {
-                                    row.order.dataRetirada === "" ||
-                                        !row.order.dataRetirada
-                                        ?
-                                        row.order.assinado ?
-                                            <Divider onClick={async () => {
-                                                Promise.all([
-                                                    updateLink.mutateAsync({
-                                                        value: new Date().toLocaleString(),
-                                                        where: 'dataRetirada',
-                                                        id: row.id,
-                                                        order: [row.order.id]
-                                                    }),
-
-                                                    updateLink.mutateAsync({
-                                                        value: userData.name,
-                                                        where: 'retiradoPor',
-                                                        id: row.id,
-                                                        order: [row.order.id]
-                                                    })
-                                                ])
-                                            }}>
-                                                Marcar como entregue
-                                            </Divider>
-                                            :
-                                            <Divider >
-                                                <DeliverySure data={row} />
-                                            </Divider>
-
-                                        :
-                                        <Divider onClick={async () => {
-                                            Promise.all([
-                                                updateLink.mutateAsync({
-                                                    value: "",
-                                                    where: 'dataRetirada',
-                                                    id: row.id,
-                                                    order: [row.order.id]
-                                                }),
-
-                                                updateLink.mutateAsync({
-                                                    value: "",
-                                                    where: 'retiradoPor',
-                                                    id: row.id,
-                                                    order: [row.order.id]
-                                                })
-                                            ])
-
-                                        }}>
-                                            Marcar como não entregue
-                                        </Divider>
-                                }
-
-                                {
-                                    row.order.assinado === "" ||
-                                        !row.order.assinado
-                                        ?
-                                        <Divider onClick={async () => {
-                                            Promise.all([
-                                                updateLink.mutateAsync({
-                                                    value: true,
-                                                    where: 'assinado',
-                                                    id: row.id,
-                                                    order: [row.order.id]
-                                                })
-                                            ])
-
-                                        }}>
-                                            Marcar assinatura
-                                        </Divider>
-                                        :
-                                        <Divider onClick={async () => {
-                                            Promise.all([
-                                                updateLink.mutateAsync({
-                                                    value: false,
-                                                    where: 'assinado',
-                                                    id: row.id,
-                                                    order: [row.order.id]
-                                                })
-                                            ])
-
-                                        }}>
-                                            Marcar como não assinado
-                                        </Divider>
-                                }
-
-                                <Divider >
-                                    <MoreData data={row} />
+                                }}>
+                                    Marcar como não assinado
                                 </Divider>
+                        }
+
+                        <Divider >
+                            <MoreData data={row} />
+                        </Divider>
 
 
-                            </Box>
-                        </Popper>
-                    </>
-                }
+                    </Box>
+                </Popper>
             </Container>
         </>
 
