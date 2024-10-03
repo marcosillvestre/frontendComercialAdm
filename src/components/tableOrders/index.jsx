@@ -41,6 +41,9 @@ function Row(props) {
     const date = new Date(row.created_at)
     date.setDate(date.getDate() + 6);
 
+    const orderDay = new Date(row.created_at)
+    orderDay.setDate(orderDay.getDate() + 7);
+
     let totalPrice = row.orders.length > 0 &&
         row.orders.reduce((acc, curr) => acc + curr.valor, 0).toFixed(2)
 
@@ -56,7 +59,7 @@ function Row(props) {
                         {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                     </IconButton>
                 </TableCell>
-                <TableCell align="center" component="th" scope="row" >{new Date(date).toLocaleDateString()}</TableCell>
+                <TableCell align="center" component="th" scope="row" >{new Date(orderDay).toLocaleDateString()}</TableCell>
                 <TableCell align="center" component="th" scope="row" >{new Date(row.created_at).toLocaleDateString()} á {date.toLocaleDateString()}</TableCell>
                 <TableCell align="center" component="th" scope="row">{row.code}</TableCell>
 
@@ -188,6 +191,7 @@ function Row(props) {
                                             </TableCell>
 
                                             <TableCell align="center">
+
                                                 <PopOverOrder row={{
                                                     id: row.id,
                                                     sku: order.sku,
