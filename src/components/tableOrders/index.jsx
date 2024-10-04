@@ -38,11 +38,23 @@ function Row(props) {
 
     const [fiscal, setFiscal] = useState([])
 
-    const date = new Date(row.created_at)
-    date.setDate(date.getDate() + 6);
 
-    const orderDay = new Date(row.created_at)
-    orderDay.setDate(orderDay.getDate() + 7);
+
+
+    const splited1 = row.code.slice(0, 2)
+    const splited2 = row.code.slice(2, 4)
+    const splited3 = row.code.slice(4, 8)
+
+    const startPeriod = new Date(`${splited3}-${splited2}-${splited1}`)
+    startPeriod.setDate(startPeriod.getDate() + 1)
+
+
+    const endPeriod = new Date(`${splited3}-${splited2}-${splited1}`)
+    endPeriod.setDate(endPeriod.getDate() + 7)
+
+    const orderDay = new Date(`${splited3}-${splited2}-${splited1}`)
+    orderDay.setDate(orderDay.getDate() + 8);
+
 
     let totalPrice = row.orders.length > 0 &&
         row.orders.reduce((acc, curr) => acc + curr.valor, 0).toFixed(2)
@@ -59,8 +71,8 @@ function Row(props) {
                         {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                     </IconButton>
                 </TableCell>
-                <TableCell align="center" component="th" scope="row" >{new Date(orderDay).toLocaleDateString()}</TableCell>
-                <TableCell align="center" component="th" scope="row" >{new Date(row.created_at).toLocaleDateString()} á {date.toLocaleDateString()}</TableCell>
+                <TableCell align="center" component="th" scope="row" >{orderDay.toLocaleDateString()} </TableCell>
+                <TableCell align="center" component="th" scope="row" >{startPeriod.toLocaleDateString()} á {endPeriod.toLocaleDateString()}</TableCell>
                 <TableCell align="center" component="th" scope="row">{row.code}</TableCell>
 
 
