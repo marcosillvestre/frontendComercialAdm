@@ -65,8 +65,8 @@ export function PositionedMenu(data) {
 
         setTypeFilter([])
 
-        url.pathname === paths.control && await mutationControlData.refetch()
-        url.pathname === paths.comissionalControl && setLabel(data.name)
+        url.pathname === paths.control.path && await mutationControlData.refetch()
+        url.pathname === paths.comissionalControl.path && setLabel(data.name)
 
         close()
         setOpenPeriodRange(false)

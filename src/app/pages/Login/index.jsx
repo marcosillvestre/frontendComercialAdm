@@ -41,7 +41,17 @@ export const Login = () => {
         ).then(async res => {
             if (res.status === 200) {
                 putInfo(res.data)
-                window.location.href = paths.control
+
+
+                const userData = res.data
+
+                const { role } = userData
+
+                role === 'recepcao' ?
+                    window.location.href = paths.orders.path :
+
+                    window.location.href = paths.control.path
+
             }
         })
     }
@@ -83,7 +93,7 @@ export const Login = () => {
                                 {errors.password && <ErrorMessage>Senha é obrigatória.</ErrorMessage>}
                                 <div onClick={() => setOpen(!open)} >{open ? <VisibilityIcon /> : <VisibilityOffIcon />}</div>
                             </div>
-                            <a href={paths.redefinePass}>Esqueceu a senha ? Clique aqui</a>
+                            <a href={paths.redefinePass.path}>Esqueceu a senha ? Clique aqui</a>
                         </Box>
 
                         <Submit type="submit" />

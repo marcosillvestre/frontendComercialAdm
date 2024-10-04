@@ -36,12 +36,12 @@ export function RecoverPassword() {
         }
 
         await toast.promise(
-            URI.post(recCode ? paths.newPass : paths.redefinePass,
+            URI.post(recCode ? paths.newPass.path : paths.redefinePass.path,
                 recCode ? newPassword : recover
             ).then(res => {
                 if (res.status === 200) {
                     setRecCode(true)
-                    recCode === true ? window.location.href = paths.home : ""
+                    recCode === true ? window.location.href = paths.home.path : ""
 
                 }
             }),

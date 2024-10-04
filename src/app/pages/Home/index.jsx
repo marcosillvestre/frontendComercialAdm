@@ -6,10 +6,19 @@ import { Control, Login } from '../source.jsx';
 export const Home = () => {
     const location = useLocation()
 
-    return (
-        <>
-            {location.pathname === paths.home && <Login />}
-            {location.pathname === paths.control && <Control />}
-        </>
-    )
+    const { home, control } = paths
+
+    if (location.pathname === home.path) {
+        return (
+            <Login />
+        )
+    }
+
+
+    if (location.pathname === control.path) {
+        return (
+            <Control />
+
+        )
+    }
 }

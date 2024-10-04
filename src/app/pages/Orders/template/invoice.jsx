@@ -11,7 +11,7 @@ const Invoice = () => {
     const { orders: data, recibo } = useOrders()
     const { userData } = useUser()
 
-    if (!data) window.location.href = paths.orders
+    if (!data) window.location.href = paths.orders.path
 
     const date = new Date().toLocaleDateString()
 

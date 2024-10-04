@@ -34,9 +34,9 @@ export const Header = (parsed) => {
 
 
     const links = [
-        { link: paths.configRegister, label: "Painel de usuários" },
+        { link: paths.configRegister.path, label: "Painel de usuários" },
         // { link: paths.configCustomFields, label: "Configurar campos" },
-        { link: paths.config, label: "Todas as configurações" },
+        { link: paths.config.path, label: "Todas as configurações" },
     ]
 
 
@@ -48,7 +48,7 @@ export const Header = (parsed) => {
             />
             <Container open={parsed.open} >
                 <nav>
-                    <a href={paths.control}>
+                    <a href={paths.control.path}>
                         <Image src={aw} alt="American way" /> :
                     </a>
                 </nav>
@@ -92,7 +92,7 @@ export const Header = (parsed) => {
                             </>
                         }
                         <p>Olá,</p><Name>{parsed?.data?.name}</Name>
-                        <LogOut to={paths.home} onClick={() => unLog()}> Sair
+                        <LogOut to={paths.home.path} onClick={() => unLog()}> Sair
                             <LogoutIcon style={{ color: "#f13434" }} />
                         </LogOut>
                     </nav>

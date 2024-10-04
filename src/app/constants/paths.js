@@ -1,29 +1,68 @@
+
+const general = ['administrativo', 'direcao', 'comercial', 'gerencia', 'pedagogico', 'recepcao']
+const high = ['direcao']
+const mid = ['administrativo', 'direcao', 'comercial', 'gerencia', 'pedagogico']
+const low = ['administrativo', 'direcao', 'gerencia', 'comercial']
+
+
 export const paths = {
-    home: "/",
-    control: "/controle-comercial/",
+    home: {
+        path: "/",
+        access: mid
+    },
 
 
-    nestedControl: "/controle-comercial/:query",
+    control: {
+        path: "/controle-comercial/",
+        access: mid
+    },
+
+
+    nestedControl: {
+        path: "/controle-comercial/:query",
+        access: mid
+    },
 
 
 
-    comissionalControl: "/controle-comissional",
-    newPass: "/nova-senha",
-    redefinePass: "/redefinir-senha",
+    comissionalControl: {
+        path: "/controle-comissional",
+        access: low
+    },
 
-    config: "/config",
-    configCustomFields: "/config/campos-customizados",
-    configRegister: "/config/cadastro",
+    newPass: {
+        path: "/nova-senha",
+        access: general
+    },
 
-    consfigRegisterList: "/config/cadastro/lista",
+    redefinePass: {
+        path: "/redefinir-senha",
+        access: general
+    },
 
-    signContracts: "/contratos-por-assinar",
+    config: {
+        path: "/config",
+        access: high
+    },
 
-    historic: "/historico",
+    configRegister: {
+        path: "/config/cadastro",
+        access: high
+    },
 
-    newRegister: "/novo-cadastro",
+    signContracts: {
+        path: "/contratos-por-assinar",
+        access: general
+    },
 
-    orders: "/pedidos",
-    nestedOrder: "/pedidos/invoice",
+    orders: {
+        path: "/pedidos",
+        access: general
+    },
+
+    nestedOrder: {
+        path: "/pedidos/invoice",
+        access: general
+    },
 
 }

@@ -19,11 +19,11 @@ export const Navigation = (openSidebar) => {
 
     const url = useLocation()
     const pages = [
-        { name: 'Controle Comercial', url: paths.control, icon: <Home />, access: ['administrativo', 'direcao', 'comercial', 'gerencia', 'pedagogico'] },
-        { name: 'Emitir Contratos', url: paths.signContracts, icon: <GetContracts />, access: ['administrativo', 'direcao', 'comercial', 'gerencia', 'pedagogico'] },
-        { name: 'Relatórios', url: paths.comissionalControl, icon: <ComissionScreen />, access: ['administrativo', 'direcao', 'gerencia', 'comercial'] },
-        { name: 'Pedidos', url: paths.orders, icon: <ShoppingBasketIcon />, access: ['administrativo', 'direcao', 'comercial', 'gerencia', 'pedagogico'] },
-        { name: 'Configurações', url: paths.config, icon: <SettingsIcon />, access: ['direcao'] },
+        { name: 'Controle Comercial', url: paths.control.path, icon: <Home />, access: paths.control.access },
+        { name: 'Emitir Contratos', url: paths.signContracts.path, icon: <GetContracts />, access: paths.signContracts.access },
+        { name: 'Relatórios', url: paths.comissionalControl.path, icon: <ComissionScreen />, access: paths.comissionalControl.access },
+        { name: 'Pedidos', url: paths.orders.path, icon: <ShoppingBasketIcon />, access: paths.orders.access },
+        { name: 'Configurações', url: paths.config.path, icon: <SettingsIcon />, access: paths.config.access },
     ]
 
     return (

@@ -29,7 +29,7 @@ export const Contracts = () => {
                     info.data && filteringBySeller(info.data)
                 }).catch(err => {
                     if (err.response.data.error === 'token invalid') {
-                        window.location.href = paths.home
+                        window.location.href = paths.home.path
                         alert("Faça login novamente, seu acesso expirou")
                         logOut()
                     }

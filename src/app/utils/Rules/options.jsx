@@ -76,9 +76,10 @@ const customizablePeriods = [
 const roles = [
     { name: "Direção", value: "direcao" },
     { name: "Comercial", value: "comercial" },
-    { name: "Gerencia", value: "gerencia" },
+    { name: "Gerência", value: "gerencia" },
     { name: "Administrativo", value: "administrativo" },
     { name: "Pedagógico", value: "pedagogico" },
+    { name: "Recepção", value: "recepcao" },
 ]
 
 const fields = {

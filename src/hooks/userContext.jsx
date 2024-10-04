@@ -44,7 +44,7 @@ export const UserProvider = ({ children }) => {
                 setUserData(JSON.parse(clientInfo))
             }
             if (!clientInfo) {
-                redirect(paths.home)
+                redirect(paths.home.path)
             }
         }
         loadUserData()
@@ -155,7 +155,7 @@ export const UserProvider = ({ children }) => {
     })
 
     if (mutationControlData.error && mutationControlData.error.response.data.error === 'token invalid') {
-        window.location.href = paths.home
+        window.location.href = paths.home.path
         alert("Faça login novamente, seu acesso expirou")
         logOut()
     }

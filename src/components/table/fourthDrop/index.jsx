@@ -105,7 +105,7 @@ export const FourthDrop = (row) => {
                                     <>
                                         <Td style={{ display: "flex", margin: ".5rem 0 " }}>
                                             <Input
-                                                defaultValue={row?.data.tmData}
+                                                defaultValue={row?.data.tmData.split("T")[0]}
                                                 type="date"
                                                 onChange={(e) =>
                                                     Changer("tmData", e.target.value, row?.data.contrato)} />
@@ -187,7 +187,7 @@ export const FourthDrop = (row) => {
                                     <>
                                         <Td style={{ display: "flex", margin: ".5rem 0 " }}>
                                             <Input
-                                                defaultValue={row?.data.ppData}
+                                                defaultValue={row?.data.ppData.split("T")[0]}
                                                 type="date"
                                                 onChange={(e) =>
                                                     Changer("ppData", e.target.value, row?.data.contrato)} />
@@ -269,7 +269,7 @@ export const FourthDrop = (row) => {
                                         <Td style={{ display: "flex", margin: ".5rem 0 " }}>
                                             <Input
                                                 type="date"
-                                                defaultValue={row?.data.mdData}
+                                                defaultValue={row?.data.mdData.split("T")[0]}
                                                 onChange={(e) =>
                                                     Changer("mdData", e.target.value, row?.data.contrato)}
                                             />

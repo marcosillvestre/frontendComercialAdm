@@ -1,5 +1,4 @@
 
-import settings from '../../../assets/settings.svg'
 import team from '../../../assets/team.svg'
 import unity from '../../../assets/unity.svg'
 
@@ -22,7 +21,7 @@ export const Settings = () => {
                         a fazer parte do time
                     </p>
                     <img src={team} alt="" />
-                    <Links to={paths.configRegister}>
+                    <Links to={paths.configRegister.path}>
                         Convidar usuários
                     </Links>
                 </div>
@@ -33,7 +32,7 @@ export const Settings = () => {
                     </p>
                     <img src={unity} alt="" />
                     <Links
-                        to={paths.configRegister}
+                        to={paths.configRegister.path}
                         style={{ pointerEvents: "none" }}
 
                     >
@@ -41,18 +40,18 @@ export const Settings = () => {
                     </Links>
                 </div>
 
-                <div className='boxes'>
+                {/* <div className='boxes'>
                     <p>
                         Crie novos campos personalizados
                     </p>
                     <img src={settings} alt="" />
                     <Links
-                        to={paths.configCustomFields}
+                        // to={paths.configCustomFields.path}
                         style={{ pointerEvents: "none" }}
                     >
                         Em breve..
                     </Links>
-                </div>
+                </div> */}
 
 
 

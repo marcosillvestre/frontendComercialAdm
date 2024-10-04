@@ -5,7 +5,6 @@ import { paths } from "../app/constants/paths.js";
 import Invoice from "../app/pages/Orders/template/invoice.jsx";
 import {
     ComissionControll, Contracts, Control,
-    CustomFields,
     Home, Login,
     Orders,
     RecoverPassword,
@@ -15,74 +14,70 @@ import {
 import { MiniDrawer } from '../components/source.jsx';
 import ErrorPage from "../errorHandling/error-page.jsx";
 
-const user = localStorage.getItem('userData')
-const directory = JSON.parse(user)?.role === 'direcao' ? true : false
+const user = JSON.parse(localStorage.getItem('userData'))
+
+
+const {
+    config, home, redefinePass,
+    signContracts, orders, nestedOrder, comissionalControl,
+    configRegister, control, nestedControl } = paths
+
 
 
 const Routes = createBrowserRouter([
 
     {
-        path: paths.config,
-        element: user === null || user === undefined ? <Login /> : <><MiniDrawer /> <Settings /> </>,
+        path: config.path,
+        element: config.access.find(res => res === user?.role) ? <><MiniDrawer /> <Settings /> </> : <Login />,
         errorElement: <ErrorPage />,
     },
     {
-        path: paths.configCustomFields,
-        element: user === null || user === undefined ? <Login /> : <><MiniDrawer /> <CustomFields /> </>,
-        errorElement: <ErrorPage />,
-    },
-    {
-        path: paths.home,
+        path: home.path,
         element: <Home />,
         errorElement: <ErrorPage />,
         exact: true,
     },
     {
-        path: paths.redefinePass,
+        path: redefinePass.path,
         element: <RecoverPassword />,
         errorElement: <ErrorPage />,
 
     },
     {
-        path: paths.signContracts,
-        element: user === null || user === undefined ? <Login /> : <><MiniDrawer /><Contracts /> </>,
+        path: signContracts.path,
+        element: signContracts.access.find(res => res === user?.role) ? <><MiniDrawer /><Contracts /> </> : <Login />,
         errorElement: <ErrorPage />,
     },
     {
-        path: paths.orders,
-        element: user === null || user === undefined ? <Login /> : <><MiniDrawer /><Orders /> </>,
+        path: orders.path,
+        element: orders.access.find(res => res === user?.role) ? <><MiniDrawer /><Orders /> </> : <Login />,
         errorElement: <ErrorPage />,
     },
     {
-        path: paths.nestedOrder,
-        element: user === null || user === undefined ? <Login /> : <><MiniDrawer /><Invoice /></>,
+        path: nestedOrder.path,
+        element: nestedOrder.access.find(res => res === user?.role) ? <><MiniDrawer /><Invoice /></> : <Login />,
         errorElement: <ErrorPage />,
     },
     {
-        path: paths.comissionalControl,
-        element: <><MiniDrawer /><ComissionControll /></>,
-        errorElement: <ErrorPage />,
-    },
-
-    {
-        path: paths.configRegister,
-        element: directory ? <><MiniDrawer /><Register /> </> : <Login />,
+        path: comissionalControl.path,
+        element: comissionalControl.access.find(res => res === user?.role) ? <><MiniDrawer /><ComissionControll /></> : <Login />,
         errorElement: <ErrorPage />,
     },
 
     {
-        path: paths.consfigRegisterList,
-        element: directory ? <><MiniDrawer /><Register /></> : <Login />,
+        path: configRegister.path,
+        element: configRegister.access.find(res => res === user?.role) ? <><MiniDrawer /><Register /> </> : <Login />,
         errorElement: <ErrorPage />,
     },
+
     {
-        path: paths.control,
-        element: user === null || user === undefined ? <Login /> : <><MiniDrawer /><Control /></>,
+        path: control.path,
+        element: control.access.find(res => res === user?.role) ? <><MiniDrawer /><Control /></> : <Login />,
         errorElement: <ErrorPage />,
         children: [
             {
-                path: paths.nestedControl,
-                element: user === null || user === undefined ? <Login /> : <><MiniDrawer /><Control /></>,
+                path: nestedControl.path,
+                element: nestedControl.access.find(res => res === user?.role) ? <><MiniDrawer /><Control /></> : <Login />,
             },
         ]
     }
