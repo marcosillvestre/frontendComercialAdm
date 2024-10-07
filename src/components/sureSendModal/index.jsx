@@ -153,7 +153,8 @@ export function SureSendModal(data) {
         descontoTotal, descontoPorParcela, curso, ppFormaPg, ppVencimento,
         dataUltimaP, materialDidatico, mdValor, mdFormaPg,
         mdVencimento, tmValor, tmFormaPg, tmVencimento, valorCurso, service,
-        observacaoRd, mdDesconto, parcelasAfetadas, descontoPrimeirasParcelas, demaisParcelas, descontoDemaisParcelas, promocao
+        observacaoRd, mdDesconto, parcelasAfetadas, descontoPrimeirasParcelas, demaisParcelas, descontoDemaisParcelas, promocao,
+        obsFinanceiro
     } = filteredContracts === undefined || filteredContracts === undefined ? {} : filteredContracts
 
     const body = {
@@ -168,11 +169,13 @@ export function SureSendModal(data) {
         materialDidatico, mdValor, mdFormaPg, mdVencimento,
         tmValor, tmFormaPg, tmVencimento, cep, estado, cidade,
         dataUltimaParcelaMensalidade, service,
-        observacaoRd, mdDesconto
+        observacaoRd, mdDesconto,
+        obsFinanceiro
     }
 
 
 
+    console.log(body)
 
 
 

@@ -82,6 +82,7 @@ export const UserProvider = ({ children }) => {
     const [skip, setSkip] = useState(0)
     const [queryParam, setQueryParam] = useState({ param: "", value: "" })
 
+
     const body = {
         "range": periodRange,
         "types": typeSearch[unHandleLabel],

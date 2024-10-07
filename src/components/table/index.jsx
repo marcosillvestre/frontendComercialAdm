@@ -82,7 +82,7 @@ export function FirstRow(props) {
         setOpen7(!open7)
 
         if (open7 === false && ctr !== contract) {
-            queryCache.invalidateQueries(contract)
+            queryCache.invalidateQueries([contract])
             refetch()
         }
         if (open7 === false && ctr === contract) {
