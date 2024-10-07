@@ -254,7 +254,7 @@ export const ContractData = () => {
 
                                 <tr>
 
-                                    <th>Observações do rd</th>
+                                    <th>Observações para o financeiro</th>
                                     <th>Primeira Parcela</th>
                                     <th>última Parcela</th>
                                     <th>Desconto Total</th>
@@ -263,7 +263,7 @@ export const ContractData = () => {
                                     <th>Valor da Mensalidade com Desconto</th>
                                 </tr>
                                 <tr>
-                                    <TableBody nonMandatory={filteredContracts.observacaoRd === "" || filteredContracts.observacaoRd === undefined}>{filteredContracts.observacaoRd}</TableBody>
+                                    <TableBody nonMandatory={filteredContracts.obsFinanceiro === "" || filteredContracts.obsFinanceiro === undefined}>{filteredContracts.obsFinanceiro}</TableBody>
                                     <TableBody empty={filteredContracts.dataPrimeiraParcelaMensalidade === "" || filteredContracts.dataPrimeiraParcelaMensalidade === undefined}>{filteredContracts.dataPrimeiraParcelaMensalidade}</TableBody>
                                     <TableBody empty={filteredContracts.dataUltimaParcelaMensalidade === "" || filteredContracts.dataUltimaParcelaMensalidade === undefined}>{filteredContracts.dataUltimaParcelaMensalidade}</TableBody>
                                     <TableBody empty={filteredContracts.descontoTotal === "" || filteredContracts.descontoTotal === undefined}>R$ {filteredContracts.descontoTotal}</TableBody>
