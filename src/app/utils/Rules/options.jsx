@@ -63,6 +63,7 @@ const predeterminedPeriods = [
     { name: "Últimos 7 dias" },
     { name: "Mês passado" },
     { name: "Mês retrasado" },
+    { name: "Este ano" },
     { name: "Todo período" },
     { name: "Personalizado", customizable: true },
 ]
