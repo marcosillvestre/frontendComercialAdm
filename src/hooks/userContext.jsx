@@ -100,6 +100,7 @@ export const UserProvider = ({ children }) => {
     const getDate = (range) => {
 
         const now = new Date();
+
         const LastMonth = () => `${new Date(now.getFullYear(), now.getMonth() - 1, 1)}~${new Date(now.getFullYear(), now.getMonth(), 0)}`;
         const TwoMonths = () => `${new Date(now.getFullYear(), now.getMonth() - 2, 1)}~${new Date(now.getFullYear(), now.getMonth() - 1, 0)}`;
         const ThisMonth = () => `${new Date(now.getFullYear(), now.getMonth(), 1)}~${new Date(now.getFullYear(), now.getMonth() + 1, 0)}`;
@@ -117,12 +118,21 @@ export const UserProvider = ({ children }) => {
             return `${date.toDateString()}~${now}`
         }
 
+        const ThisYear = () => {
+            const date = new Date();
+            const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
+            return `${firstDayOfYear.toDateString()}~${now}`
+        }
+
+
+
         const settledPeriod = {
-            "Mês passado": LastMonth(), //
-            "Mês retrasado": TwoMonths(), //
+            "Mês passado": LastMonth(),
+            "Mês retrasado": TwoMonths(),
             "Este mês": ThisMonth(),
-            "Personalizado": Custom(),//
+            "Personalizado": Custom(),
             "Últimos 7 dias": SevenDays(),
+            "Este ano": ThisYear(),
             "Todo período": All(),
         }
 
