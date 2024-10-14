@@ -18,9 +18,10 @@ import noData from '../../../assets/noData.svg';
 import {
     CustomizableButton,
     CustomizedMenus,
-    FirstRow,
     Select
 } from '../../../components/source.jsx';
+
+import { FirstRow } from '../../../components/tables/table/index.jsx';
 
 import { useData } from '../../../hooks/dataContext';
 

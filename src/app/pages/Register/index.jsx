@@ -8,7 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
 
-import { Row } from '../../../components/source.jsx';
+import { Row } from '../../../components/tables/tableUsers';
 import { useUser } from '../../../hooks/userContext';
 import { useUsers } from '../../../hooks/users/usersContext.hook.jsx';
 import { Container, Header, Tax, UserContainer } from './styles';

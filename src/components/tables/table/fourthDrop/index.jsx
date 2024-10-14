@@ -1,7 +1,7 @@
 import { Collapse, TableCell, TableRow } from '@mui/material'
 import React from 'react'
-import businnessRules from '../../../app/utils/Rules/options.jsx'
-import { useUser } from '../../../hooks/userContext'
+import businnessRules from '../../../../app/utils/Rules/options.jsx'
+import { useUser } from '../../../../hooks/userContext'
 import { BodyTable, HeadTable, Input, Select, Td } from '../styles'
 export const FourthDrop = (row) => {
     const { nonEspecificOpt } = businnessRules

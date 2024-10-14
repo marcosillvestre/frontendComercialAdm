@@ -5,7 +5,7 @@ import Switch from '@mui/material/Switch';
 import { useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useCustomFields } from '../../../hooks/customFields/customFIelds.hook';
-import { Select } from '../../select';
+import { Select } from '../../selects/select';
 import { ButtonIcon, Input, Label } from '../styles';
 
 export const CustomFields = () => {

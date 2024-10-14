@@ -18,6 +18,11 @@ export default createGlobalStyle`
 
 
 html{
+    .flexCenterContainer{
+        display: flex;
+        align-items: center;
+        padding: 10px;
+    }
 
     .defaultButton{
     line-height: 1.75;
@@ -42,6 +47,24 @@ html{
 &:hover{
 background-color: #1f5fba;
 }
+    }
+
+    .tooltip{
+            &:hover{
+        &::after{
+            content: attr(tool);
+            position: absolute;
+            left: 0px;
+            top: 20px;
+            color: #fff;
+            background-color: #222;
+            width: max-content;
+            z-index: 1;
+            padding: .1rem;
+            margin: 5px auto;
+            font-size: var(--fsLowest);
+        }
+    }
     }
     @media (max-width: 1255px){
         font-size: 80%;

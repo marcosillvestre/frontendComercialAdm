@@ -4,11 +4,12 @@ import {
     // CloserClick, 
     Select
 } from '../../../components/source.jsx';
-import TableOrders from '../../../components/tableOrders/index.jsx';
+import TableOrders from '../../../components/tables/tableOrders/index.jsx';
+import businessRules from '../../utils/Rules/options.jsx';
 import { Container, Header, InputSearch } from "./styles.jsx";
 
 export const Orders = () => {
-
+    const { predeterminedPeriods } = businessRules
 
     return (
         <Container>
@@ -21,8 +22,8 @@ export const Orders = () => {
                             Período personalizado:
                         </p>
                         <Select
-                            // label={businessRules.predeterminedPeriods[0].name}
-                            // option={predeterminedPeriods}
+                            label={businessRules.predeterminedPeriods[0].name}
+                            option={predeterminedPeriods}
                             // fn={[handleInput]}
                             width="5rem"
                         />
@@ -33,11 +34,7 @@ export const Orders = () => {
                         <p>
                             Pesquisar por nome:
                         </p>
-                        <InputSearch
-                        // label={businessRules.predeterminedPeriods[0].name}
-                        // option={predeterminedPeriods}
-                        // fn={[handleInput]}
-                        />
+                        <InputSearch />
 
                     </label>
 

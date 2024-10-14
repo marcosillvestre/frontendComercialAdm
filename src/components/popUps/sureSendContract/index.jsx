@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 
 
-import { useUser } from '../../hooks/userContext';
+import { useUser } from '../../../hooks/userContext';
 
 import { Boxes, ChooseArchive, Container, Fades, Filter, UploadIcon } from './styles';
 
@@ -26,13 +26,13 @@ const style = {
 
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import URI from '../../app/utils/utils';
+import URI from '../../../app/utils/utils';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import * as Yup from 'yup';
-import { maskPhone } from '../../app/utils/functions/maskNumber';
-import { useOrders } from '../../hooks/orders/ordersContext.hook';
+import { maskPhone } from '../../../app/utils/functions/maskNumber';
+import { useOrders } from '../../../hooks/orders/ordersContext.hook';
 
 
 

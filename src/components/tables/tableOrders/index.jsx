@@ -16,8 +16,8 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import LoadingSpin from 'react-loading-spin';
 import { Link } from 'react-router-dom';
-import { useOrders } from '../../hooks/orders/ordersContext.hook';
-import { PopOverOrder } from '../popovers/popOverOrders/index.jsx';
+import { useOrders } from '../../../hooks/orders/ordersContext.hook';
+import { PopOverOrder } from '../../popovers/popOverOrders/index.jsx';
 import { ButtonContainer } from './styles.jsx';
 function Row(props) {
     const { row } = props;

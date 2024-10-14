@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 
 
-import { useUser } from '../../hooks/userContext';
+import { useUser } from '../../../hooks/userContext';
 
 import { Boxes, ButtonDelete, ChooseArchive, Container, Fades, Filter, UploadIcon } from './styles';
 
@@ -27,13 +27,13 @@ const style = {
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import URI from '../../app/utils/utils';
-import { useData } from '../../hooks/dataContext';
+import URI from '../../../app/utils/utils';
+import { useData } from '../../../hooks/dataContext';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import * as Yup from 'yup';
-import { senderImpressContract } from '../../app/utils/functions/makePdfs';
+import { senderImpressContract } from '../../../app/utils/functions/makePdfs';
 
 
 
@@ -172,11 +172,6 @@ export function SureSendModal(data) {
         observacaoRd, mdDesconto,
         obsFinanceiro
     }
-
-
-
-    console.log(body)
-
 
 
     const sendEverything = async () => {

@@ -1,9 +1,9 @@
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useState } from 'react';
-import businessRules from '../../app/utils/Rules/options.jsx';
-import { useUser } from '../../hooks/userContext.jsx';
-import { CloserClick, PositionedMenu } from '../source.jsx';
-import { Container, Icon, ListOpt, Options, SelectButton } from './styles';
+import businessRules from '../../../app/utils/Rules/options.jsx';
+import { useUser } from '../../../hooks/userContext.jsx';
+import { CloserClick, PositionedMenu } from '../../source.jsx';
+import { Container, Icon, ListOpt, Options, SelectButton } from './styles.jsx';
 
 export const Select = (parameters) => {
 

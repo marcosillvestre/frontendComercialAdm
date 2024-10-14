@@ -8,8 +8,8 @@ import * as React from 'react';
 import { toast } from 'react-toastify';
 // import URI from '../../app/utils/utils';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import URI from '../../app/utils/utils';
-import { useUser } from '../../hooks/userContext';
+import URI from '../../../app/utils/utils';
+import { useUser } from '../../../hooks/userContext';
 import { Boxes, ButtonDelete, Filter, Trash } from './styles';
 
 const style = {

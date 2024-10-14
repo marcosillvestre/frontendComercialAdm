@@ -22,7 +22,6 @@ justify-content: center;
 `
 
 export const BodyTable = styled(TableBody)`
-/* border: .1rem solid #16207421; */
 
 `
 export const HeadTable = styled(TableHead)`
@@ -61,23 +60,106 @@ background: none;
 border: none;
 margin-left: .5rem;
 padding: .7rem;
-border-radius: 20%;
+border-radius: 5px;
 
-&:hover{
-    background:#e0e0e0;
-}
 &:active{
     opacity: 0.7;
 }
 
 `
-export const Text = styled.input`
-min-width: 4rem;
-width: 75%;
-height: 2rem;
-text-overflow: ellipsis;
+export const InputsBox = styled.div`
+
+gap: 1rem;
+min-height: 10rem;
+svg{
+    height: 1.4rem;
+}
+input[type="file"]{
+    width: 0;
+}
+
+
+button{
+width: 100%;
+border: none;
+color: #fff;
+background-color: #3458f5;
+padding: .8rem  ;
+border-radius: 5px;
+margin: 5px 0;
+&:hover{
+background-color:#526cdf;
+
+}
+&:active{
+opacity: .8;
+
+}
+}
+`
+
+
+export const FileContainer = styled.span`
+cursor: pointer;
+background-color: #d6d6d6;
+border-radius: 5px;
+width: 25rem;
+justify-content: space-between;
+margin-bottom: 2px;
+
+p{
+    text-decoration: underline;
+    color: #06115bd8;
+    position: relative;
+}
+&:hover{
+    background-color: #cdcdcd;
+}
+
+`
+export const ChooseArchive = styled.span`
+display: flex;
+flex-direction: column;
+gap: .5rem;
+justify-content: center;
+align-items: center;
+
+label {
+height: min-content;
+
+}
+input{
+width: 100%;
+border: none;
+color: #fff;
+background-color: #3458f5;
+padding: .8rem  ;
+border-radius: 5px;
+margin: 5px 0;
+&:hover{
+background-color:#526cdf;
+
+}
+&:active{
+opacity: .8;
+
+}
+}
+svg{
+    width: 6rem;
+    height: 4rem;
+    color: rgb(25, 118, 210);
+    cursor: pointer;
+}
+`
+
+
+
+export const Text = styled.textarea`
+width: 100%;
+height: 7.5rem;
 padding: .3rem;
-/* box-shadow: -2px 3px 9px 0px rgba(0,0,0,0.66); */
+min-width: 12rem;
 
 `
 

@@ -1,9 +1,10 @@
-import { SureSendContract } from '../../../../components/source.jsx';
+import { SureSendContract } from '../../../../components/popUps/sureSendContract';
 import { useOrders } from '../../../../hooks/orders/ordersContext.hook.jsx';
 import { useUser } from '../../../../hooks/userContext.jsx';
 import { paths } from '../../../constants/paths.js';
 import { senderImpressContract } from '../../../utils/functions/makePdfs.jsx';
 import { ButtonContainer, Container, Links } from './styles.jsx';
+
 
 const aw = "https://ik.imagekit.io/khqnnhktw/assets/copy.svg?updatedAt=1707937900692"
 const Invoice = () => {

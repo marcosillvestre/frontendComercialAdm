@@ -4,7 +4,7 @@ import { useContractsHook } from '../../../hooks/contracts/contracts.hook'
 import { useCustomFields } from '../../../hooks/customFields/customFIelds.hook'
 import { useUser } from '../../../hooks/userContext'
 import { useUsers } from '../../../hooks/users/usersContext.hook'
-import { Select } from '../../select'
+import { Select } from '../../selects/select'
 import { ButtonIcon, Input, Label } from '../styles'
 
 export const Contracts = () => {

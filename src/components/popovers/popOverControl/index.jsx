@@ -4,7 +4,7 @@ import Popper from '@mui/material/Popper';
 import * as React from 'react';
 import { useUser } from '../../../hooks/userContext.jsx';
 import { CloserClick } from '../../closeClick';
-import { SureModal } from '../../sureModal';
+import { SureModal } from '../../popUps/sureModal';
 import { Button, Container, Divider } from './styles.jsx';
 
 export function PopOverControl(data) {

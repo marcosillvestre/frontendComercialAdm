@@ -21,7 +21,6 @@ export const Filter = styled(Button)`
 `
 export const UploadIcon = styled(CloudUploadIcon)`
 
-/* background-color: #c8c8c8; */
 `
 
 export const Boxes = styled.div`

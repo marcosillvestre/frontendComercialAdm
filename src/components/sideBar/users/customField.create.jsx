@@ -4,7 +4,7 @@ import { toast } from 'react-toastify'
 import business from '../../../app/utils/Rules/options.jsx'
 import { useUnities } from '../../../hooks/unities/unitiesContext.hook'
 import { useUsers } from '../../../hooks/users/usersContext.hook.jsx'
-import { Select } from '../../select'
+import { Select } from '../../selects/select/index.jsx'
 import { Input, Label } from '../styles'
 
 

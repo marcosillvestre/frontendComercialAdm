@@ -10,19 +10,19 @@ import { Collapse } from '@mui/material';
 import { RowTable, Select, Td } from './styles';
 
 
-import { useData } from '../../hooks/dataContext';
-import { useUser } from '../../hooks/userContext';
+import { useData } from '../../../hooks/dataContext';
+import { useUser } from '../../../hooks/userContext';
 
 import { FifthDrop, FirstDrop, FourthDrop, SeccDrop, SixthDrop, ThirdDrop } from './source.jsx';
 
-import { PopOverControl } from '../source.jsx';
+import { PopOverControl } from '../../popovers/popOverControl/index.jsx';
 
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import LoadingSpin from 'react-loading-spin';
-import colorsRules from '../../app/utils/Rules/colors.jsx';
-import businessRules from '../../app/utils/Rules/options.jsx';
-import URI from '../../app/utils/utils.jsx';
-import { useUnities } from '../../hooks/unities/unitiesContext.hook.jsx';
+import colorsRules from '../../../app/utils/Rules/colors.jsx';
+import businessRules from '../../../app/utils/Rules/options.jsx';
+import URI from '../../../app/utils/utils.jsx';
+import { useUnities } from '../../../hooks/unities/unitiesContext.hook.jsx';
 import { SeventhDrop } from './seventhDrop/index.jsx';
 
 
@@ -48,8 +48,7 @@ export function FirstRow(props) {
     const [open6, setOpen6] = React.useState(false);
     const [open7, setOpen7] = React.useState(false);
 
-    const [contract, setContract] = React.useState("");
-
+    const [contract, setContract] = React.useState(row.contrato);
 
     const [value, setValue] = React.useState('')
     const [payStatus, setPayStatus] = React.useState(row.tipoMatricula)
@@ -73,9 +72,30 @@ export function FirstRow(props) {
                 return URI.get(`/pessoal?contract=${contract}`).then(res => res.data)
             }
         },
-        queryKey: [`${contract}`],
+        queryKey: [contract],
         onError: (err) => console.log(err)
     })
+
+    const { data: file, isPending: filePending, refetch: fileRefetch } = useQuery({
+        queryFn: () => {
+            return URI.get(`http://localhost:7070/files?contract=${contract}`).then(res => res.data)
+        },
+        queryKey: ["file" + contract],
+        onError: (err) => console.log(err)
+    })
+
+    async function GetFiles(ctr) {
+        setContract(ctr)
+
+        if (open2 === false && ctr !== contract) {
+            queryCache.invalidateQueries(["file" + contract])
+            fileRefetch()
+        }
+        if (open2 === false && ctr === contract) {
+            fileRefetch()
+        }
+    }
+
 
     async function GetHistoric(ctr) {
         setContract(ctr)
@@ -260,15 +280,34 @@ export function FirstRow(props) {
                                 <IconButton
                                     aria-label="expand row"
                                     size="small"
-                                    onClick={() => setOpen6(!open6)}
+                                    onClick={() => {
+                                        setOpen6(!open6)
+                                        GetFiles(row?.contrato)
+
+                                    }}
                                 >
                                     {open6 ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                                 </IconButton>
                             </TableCell>
-                            <TableCell style={{ width: "100%" }}>2 - Observaçôes</TableCell>
+                            <TableCell style={{ width: "100%" }}>2 - Observaçôes e anexos</TableCell>
                         </TableRow>
-
-                        <SeccDrop data={row} open={open6} />
+                        {
+                            filePending
+                                ?
+                                <LoadingSpin
+                                    duration="20s"
+                                    width="15px"
+                                    timingFunction="ease-in-out"
+                                    direction="alternate"
+                                    size="60px"
+                                    primaryColor="#1976d2"
+                                    secondaryColor="#333"
+                                    numberOfRotationsInAnimation={10}
+                                    margin='0 auto'
+                                />
+                                :
+                                <SeccDrop data={row} open={open6} files={file} />
+                        }
 
 
 

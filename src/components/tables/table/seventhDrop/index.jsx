@@ -1,6 +1,9 @@
 import { Collapse, TableCell, TableRow } from '@mui/material'
-import businesRules from '../../../app/utils/Rules/options.jsx'
+import businesRules from '../../../../app/utils/Rules/options.jsx'
 import { BodyTable, HeadTable } from '../styles'
+
+
+
 export const SeventhDrop = (row) => {
 
 
@@ -36,10 +39,10 @@ export const SeventhDrop = (row) => {
                                                 {new Date(response?.date).toLocaleString()}
                                             </TableCell>
                                             <TableCell align="center">
-                                                {businesRules.fields[response?.information.field]}
+                                                {businesRules.fields[response?.information?.field]}
                                             </TableCell>
                                             <TableCell align="center">
-                                                {response?.information.to}
+                                                {response?.information?.to}
                                             </TableCell>
 
                                         </TableRow>

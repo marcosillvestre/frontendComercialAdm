@@ -1,8 +1,8 @@
 import { Collapse, TableCell, TableRow } from '@mui/material'
 import React from 'react'
-import colorsRules from '../../../app/utils/Rules/colors.jsx'
-import businessRules from '../../../app/utils/Rules/options.jsx'
-import { useUser } from '../../../hooks/userContext'
+import colorsRules from '../../../../app/utils/Rules/colors.jsx'
+import businessRules from '../../../../app/utils/Rules/options.jsx'
+import { useUser } from '../../../../hooks/userContext'
 import { BodyTable, DataTable, HeadTable, Input, Select, Td } from '../styles'
 
 export const FirstDrop = (row) => {
