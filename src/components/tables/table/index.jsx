@@ -78,7 +78,7 @@ export function FirstRow(props) {
 
     const { data: file, isPending: filePending, refetch: fileRefetch } = useQuery({
         queryFn: () => {
-            return URI.get(`http://localhost:7070/files?contract=${contract}`).then(res => res.data)
+            return URI.get(`/files?contract=${contract}`).then(res => res.data)
         },
         queryKey: ["file" + contract],
         onError: (err) => console.log(err)

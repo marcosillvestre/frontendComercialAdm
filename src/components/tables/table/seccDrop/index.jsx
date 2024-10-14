@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
+import URI from '../../../../app/utils/utils';
 import { useUser } from '../../../../hooks/userContext';
 import { BodyTable, ChooseArchive, FileContainer, HeadTable, InputsBox, ObservationField, Text, Trash } from '../styles';
 
@@ -73,7 +74,7 @@ export const SeccDrop = (row) => {
         if (!file) return
         const { name, type, size } = file[0]
 
-        const { data: url } = await axios.post("http://localhost:7070/files",
+        const { data: url } = await URI.post("/files",
             { name, contentType: type, contrato: data.contrato, size, responsible: userData.name })
 
 
@@ -101,7 +102,7 @@ export const SeccDrop = (row) => {
     }
 
     async function GetDownloadUrl(key) {
-        await axios.get(`http://localhost:7070/file?key=${key}`)
+        await URI.get(`/file?key=${key}`)
             .then(async res => {
                 const { data } = res
 
@@ -115,7 +116,7 @@ export const SeccDrop = (row) => {
 
     async function DeleteFile(key) {
         await toast.promise(
-            axios.delete(`http://localhost:7070/file?key=${key}&contract=${data.contrato}&responsible=${userData.name}`),
+            URI.delete(`/file?key=${key}&contract=${data.contrato}&responsible=${userData.name}`),
             {
                 pending: 'Deletando o arquivo',
                 success: 'Arquivo deletado com sucesso',
