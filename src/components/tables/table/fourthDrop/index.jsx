@@ -265,19 +265,16 @@ export const FourthDrop = (row) => {
 
                                     <> {row?.data.mdData}</>
                                     :
-                                    <>
-                                        <Td style={{ display: "flex", margin: ".5rem 0 " }}>
-                                            <Input
-                                                type="date"
-                                                defaultValue={row?.data.mdData.split("T")[0]}
-                                                onChange={(e) =>
-                                                    Changer("mdData", e.target.value, row?.data.contrato)}
-                                            />
+                                    <Td style={{ display: "flex", margin: ".5rem 0 " }}>
+                                        <Input
+                                            type="date"
+                                            defaultValue={row?.data.mdData.split("T")[0]}
+                                            onChange={(e) =>
+                                                Changer("mdData", e.target.value, row?.data.contrato)}
+                                        />
 
-                                        </Td>
-                                        {row?.data.mdData ?
-                                            <Td> {row?.data.mdData}</Td> : ""}
-                                    </>
+                                    </Td>
+
                             }
                         </TableCell>
 

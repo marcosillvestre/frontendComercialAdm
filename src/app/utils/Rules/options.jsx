@@ -103,7 +103,8 @@ const fields = {
     "dataComissionamento": "Data de comissionamento",
     "dataMatricula": "Data de matrícula",
     "dataValidacao": "Data de validação",
-    "Contrato": "contrato"
+    "Contrato": "contrato",
+    "Anexos": "anexo"
 }
 
 
