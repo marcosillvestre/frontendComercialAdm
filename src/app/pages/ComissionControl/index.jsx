@@ -24,7 +24,7 @@ export function ComissionControll() {
 
     const {
         predeterminedPeriods, comissionStatusOpt,
-        // comissionStatusOpt, 
+        backgroundOpt
     } = businessRules
 
 
@@ -392,6 +392,36 @@ export function ComissionControll() {
                                                             onClick={() => list.find(r => r.value === res.name) ?
                                                                 setList(list.filter(r => r.value !== res.name))
                                                                 : setList([...list, { key: "tipoMatricula", value: res.name }])}
+                                                            open={list && list.some(r => r.value === res.name)}
+                                                        >
+                                                            {res.name}
+                                                        </SelectButton>
+                                                    </div>
+                                                ))
+                                            }
+                                        </span>
+
+                                        <span className='container '>
+                                            <p>Background</p>
+                                            <hr />
+                                            <SelectButton
+                                                className='paragraph'
+                                                onClick={() => setList(list.filter(res => res.key !== 'background'))}
+                                                open={list.filter(res => res.key === 'background').length === 0}
+                                            >
+                                                Todos
+                                            </SelectButton>
+                                            {
+                                                backgroundOpt.map((res, idx) => (
+                                                    <div
+                                                        key={idx}
+                                                        className='wrapper-container'>
+
+                                                        <SelectButton
+                                                            className='paragraph'
+                                                            onClick={() => list.find(r => r.value === res.name) ?
+                                                                setList(list.filter(r => r.value !== res.name))
+                                                                : setList([...list, { key: "background", value: res.name }])}
                                                             open={list && list.some(r => r.value === res.name)}
                                                         >
                                                             {res.name}
