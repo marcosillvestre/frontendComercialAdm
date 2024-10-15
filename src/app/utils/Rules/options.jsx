@@ -13,10 +13,10 @@ const coursesOpt = [
     "Tecnologia",
 ]
 const backgroundOpt = [
-    "Novo aluno",
-    "Ex-aluno",
-    "Aluno vigente",
-    "Rematrícula"
+    { name: "Novo aluno" },
+    { name: "Ex-aluno" },
+    { name: "Aluno vigente" },
+    { name: "Rematrícula" }
 ]
 const nonEspecificOpt = [
     "Pendente",
