@@ -20,7 +20,10 @@ export const UserProvider = ({ children }) => {
     const [fetchData, setFetchData] = useState()
     const [filtered, setFiltered] = useState([])
     const [contracts, setContracts] = useState([])
+
     const [filteredContracts, setFilteredContracts] = useState()
+
+
     const [periodRange, setPeriodRange] = useState(businessRules.predeterminedPeriods[0].name)
 
     const [anchorEl, setAnchorEl] = useState(null);
@@ -282,7 +285,10 @@ export const UserProvider = ({ children }) => {
     return (
         <UserContext.Provider value={{
             contracts, setContracts, periodRange, setPeriodRange, periodFilter, setPeriodFilter,
-            headers, putInfo, userData, anchorEl, setAnchorEl, handleClose,
+            headers, putInfo,
+            userData,
+
+            anchorEl, setAnchorEl, handleClose,
             logOut, fetchData, setFetchData, selectedInitialDate, setSelectedInitialDate,
             filtered, setFiltered, filteredContracts, setFilteredContracts,
             selectedEndDate, setSelectedEndDate, resetFilter, body,

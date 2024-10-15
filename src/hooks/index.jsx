@@ -5,6 +5,7 @@ import { Contracts } from './contracts/contracts.hook'
 import { CustomFields } from './customFields/customFIelds.hook'
 import { DataProvider } from './dataContext'
 import { OrdersProvider } from './orders/ordersContext.hook'
+import { SigningContracts } from './signContracts/sign.hook'
 import { UnitiesProvider } from './unities/unitiesContext.hook'
 import { UserProvider } from './userContext'
 import { UsersProvider } from './users/usersContext.hook'
@@ -18,9 +19,11 @@ const AppProvider = ({ children }) => (
                         <UnitiesProvider>
                             <ComissionProvider>
                                 <OrdersProvider>
+                                    <SigningContracts>
 
-                                    {children}
+                                        {children}
 
+                                    </SigningContracts>
                                 </OrdersProvider>
                             </ComissionProvider>
                         </UnitiesProvider>

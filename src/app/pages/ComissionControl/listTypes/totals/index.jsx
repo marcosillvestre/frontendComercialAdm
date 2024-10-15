@@ -4,7 +4,6 @@ import { Container, TableRow } from "./styles";
 export const Totals = (params) => {
     const { pending, data } = params
 
-    console.log(data)
     return (
         <Container>
             <table>

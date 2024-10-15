@@ -119,7 +119,7 @@ export function PositionedMenu(data) {
                             <option value="selec">Selecione</option>
                             {
                                 backgroundOpt.map(res => (
-                                    <option value={res} key={res}>{res}</option>
+                                    <option value={res.name} key={res.name}>{res.name}</option>
                                 ))
                             }
 

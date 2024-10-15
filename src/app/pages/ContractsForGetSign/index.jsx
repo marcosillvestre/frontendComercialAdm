@@ -1,61 +1,40 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 
-import { ContractData, Select, SureSendModal } from '../../../components/source.jsx'
+import SearchIcon from '@mui/icons-material/Search'
+import LoadingSpin from 'react-loading-spin'
+import { ContractData, Select } from '../../../components/source.jsx'
+import TableContracts from '../../../components/tables/tableContracts/index.jsx'
+import { useSignContracts } from '../../../hooks/signContracts/sign.hook.jsx'
 import { useUser } from '../../../hooks/userContext'
-import { paths } from '../../constants/paths.js'
-import URI from '../../utils/utils.jsx'
-import { Box, Button, Container, Header, SendContract } from './styles'
+import { Container, Header, } from './styles'
 
 
 export const Contracts = () => {
-    const [emmit, setEmmit] = React.useState(false)
-    const [search, setSearch] = useState(false)
+    const [search, setSearch] = useState("")
 
-    const { contracts, setContracts,
-        userData, setFilteredContracts, logOut,
-        filteredContracts } = useUser()
+    const { filteredContracts, setFilteredContracts } = useUser()
+    const { setSign, contractOptions, setContractOptions, allContracts, contractsForSign } = useSignContracts()
 
-    const personalText = {
-        PDF: "Ao emitir via PDF o download começará em instantes!",
-        autentique: "Ao enviar um contrato via Autentique você deve selecionar um arquivo PDF já existente. Ele será enviado via whatsapp, você também poderá copiar o link para enviar ao cliente!",
-        contaAzul: "Ao enviar um contrato ao Conta Azul ele somente estará disponível no Conta Azul!"
-    }
+    const { isFetching } = contractsForSign
 
     async function data(e) {
         if (e.value !== '') {
-            // await axios.get(`http://localhost:7070/contrato/${e}`, { headers })
-            await URI.get(`/contrato/${e}`)
-                .then(info => {
-                    info.data && filteringBySeller(info.data)
-                }).catch(err => {
-                    if (err.response.data.error === 'token invalid') {
-                        window.location.href = paths.home.path
-                        alert("Faça login novamente, seu acesso expirou")
-                        logOut()
-                    }
-                })
+
+            setSign(e)
         }
+        setFilteredContracts(undefined)
+        setSearch("")
     }
 
-    function filteringBySeller(info) {
-        if (info.length > 0) {
-            if (userData.role === 'comercial') {
-                const data = info.filter(res => res.vendedor.toLowerCase().includes(userData.name.toLowerCase()))
-                setContracts(data)
-            } else {
-                setContracts(info)
-            }
-        } else {
-            setContracts([{ "name": "Não há ninguém na etapa de matrícula nesse funil!", "contrato": "❌" }])
-        }
-    }
+
 
 
     function filterData(e) {
+        if (e !== "Não há ninguém na etapa de matrícula nesse funil!" || e !== "") {
+            const data = contractOptions.filter(res =>
+                res.contrato.includes(search) || res.name.toLowerCase().includes(search.toLowerCase()))
 
-        if (e !== "Não há ninguém na etapa de matrícula nesse funil!") {
-            const data = contracts.filter(res => res.contrato === e)
-            setFilteredContracts(data[0])
+            setContractOptions(data)
         }
     }
 
@@ -65,15 +44,13 @@ export const Contracts = () => {
         <Container>
 
             <Header className='search'
-                active={search && true}
-
             >
                 <div className='inputs'>
                     <label htmlFor="">
 
                         <p>Funil:</p>
                         <Select
-                            label={""}
+                            label={"Funil de Vendas PTB"}
                             option={
                                 [
                                     { name: "Funil de Vendas PTB", value: "Funil-de-Vendas-PTB" },
@@ -87,77 +64,75 @@ export const Contracts = () => {
                             fn={[data]}
                         />
                     </label>
+                    {
+                        filteredContracts === undefined &&
+                        <label >
+                            <p>Cliente: </p>
+                            <div className='searcher'>
+                                <input
+                                    onChange={(e) => {
+                                        if (e.target.value === "") return setContractOptions(allContracts)
+                                        setSearch(e.target.value)
+                                    }}
+                                    list='person'
+                                />
 
-                    <label htmlFor="">
-                        <p>Cliente: </p>
-                        <input
-                            onChange={(e) => filterData(e.target.value)}
-                            list='person'
-                            onFocus={() => {
-                                setSearch(true)
-                            }}
-                            onBlur={() => {
-                                setSearch(false)
-                            }}
-                        />
-                        <datalist id='person'>
-                            {
-                                contracts && contracts.map((res, i) => (
-                                    <option
-                                        key={i}
-                                        value={res.contrato}
-                                    >
-                                        {res.name}
-                                    </option>
+                                <button onClick={() => filterData()}>
+                                    <SearchIcon />
+                                </button>
+                            </div>
+                            <datalist id='person'
 
-                                ))
-                            }
-                        </datalist>
+                                onClick={() => console.log("first")}>
+                                {
+                                    contractOptions && contractOptions.map((res, i) => (
+                                        <option
+                                            key={i}
+                                            value={res.contrato}
+                                            onClick={() => console.log("first")}
+                                        >
+                                            {res.name}
+                                        </option>
 
-                    </label>
+                                    ))
+                                }
+                            </datalist>
+
+                        </label>
+                    }
                 </div>
-
+                {
+                    filteredContracts !== undefined &&
+                    <span
+                        className='comeback'
+                        onClick={() => {
+                            setFilteredContracts(undefined)
+                            setContractOptions(allContracts)
+                            setSearch("")
+                        }}>
+                        voltar
+                    </span>
+                }
             </Header>
             {
-                filteredContracts !== undefined &&
-                <span className='emmit' >
-                    <Button
-                        className='defaultButton'
-                        open={emmit && true}
-                        onClick={() => setEmmit(!emmit)}
-                    >
-                        Emitir Contrato
-                    </Button>
+                filteredContracts === undefined ?
 
-                    <Box $emmit={emmit && true} >
-                        <SendContract
-                            className='defaultButton'
-
-                            $emmit={emmit && true}>
-                            <SureSendModal
-                                data={"PDF"}
-                                text={personalText.PDF} />
-                        </SendContract>
-                        <SendContract
-                            className='defaultButton'
-                            $emmit={emmit && true}>
-                            <SureSendModal
-                                data={"Autentique"}
-                                text={personalText.autentique} />
-                        </SendContract>
-                        <SendContract
-                            className='defaultButton'
-
-                            $emmit={emmit && true}>
-                            <SureSendModal
-                                data={"Conta Azul"}
-                                text={personalText.contaAzul} />
-                        </SendContract>
-                    </Box>
-                </span>
+                    isFetching ?
+                        <LoadingSpin
+                            duration="4s"
+                            width="15px"
+                            timingFunction="ease-in-out"
+                            direction="alternate"
+                            size="60px"
+                            primaryColor="#1976d2"
+                            secondaryColor="#333"
+                            numberOfRotationsInAnimation={3}
+                        />
+                        :
+                        <TableContracts />
+                    :
+                    <ContractData />
             }
-
-            <ContractData />
 
 
         </Container>

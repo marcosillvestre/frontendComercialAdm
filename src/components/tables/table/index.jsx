@@ -201,7 +201,7 @@ export function FirstRow(props) {
                                 <Select defaultValue={row?.background} onChange={(e) => Changer("background", e.target.value, row?.contrato)}>
                                     {
                                         backgroundOpt.map(res => (
-                                            <option value={res} key={res}>{res}</option>
+                                            <option value={res.name} key={res.name}>{res.name}</option>
                                         ))
                                     }
                                 </Select>
