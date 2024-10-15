@@ -3,6 +3,8 @@ import { Container, TableRow } from "./styles";
 
 export const Totals = (params) => {
     const { pending, data } = params
+
+    console.log(data)
     return (
         <Container>
             <table>
@@ -26,6 +28,7 @@ export const Totals = (params) => {
                                     <th>Curso</th>
                                     <th>Status do comissionamento</th>
                                     <th>Consultor</th>
+                                    <th>Background</th>
                                     <th>Unidade</th>
                                 </tr>
                             </thead>
@@ -61,6 +64,9 @@ export const Totals = (params) => {
                                                 </td>
                                                 <td>
                                                     {res?.owner}
+                                                </td>
+                                                <td>
+                                                    {res?.background}
                                                 </td>
                                                 <td>
                                                     {res?.unidade}
