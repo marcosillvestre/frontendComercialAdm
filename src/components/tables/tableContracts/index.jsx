@@ -29,6 +29,7 @@ function Row(props) {
                 <TableCell align="center" component="th" scope="row" >{row.name} </TableCell>
                 <TableCell align="center" component="th" scope="row" >{row.nomeAluno}</TableCell>
                 <TableCell align="center" component="th" scope="row">{row.dataMatricula}</TableCell>
+                <TableCell align="center" component="th" scope="row">{row.contrato}</TableCell>
 
 
                 <TableCell align="center" component="th" scope="row">{row.CelularResponsavel} </TableCell>
@@ -47,6 +48,7 @@ Row.propTypes = {
         CelularResponsavel: PropTypes.string.isRequired,
         dataMatricula: PropTypes.string.isRequired,
         subclasse: PropTypes.string.isRequired,
+        contrato: PropTypes.string.isRequired,
 
     }).isRequired,
 };
@@ -94,6 +96,7 @@ export default function TableContracts() {
                                         <TableCell align="center"><Typography>Nome</Typography></TableCell>
                                         <TableCell align="center"><Typography>Aluno</Typography></TableCell>
                                         <TableCell align="center"><Typography>Data de matrícula</Typography></TableCell>
+                                        <TableCell align="center"><Typography>Número de contrato</Typography></TableCell>
                                         <TableCell align="center"><Typography>Celular</Typography></TableCell>
                                         <TableCell align="center"><Typography>Subclasse</Typography></TableCell>
                                     </TableRow>
