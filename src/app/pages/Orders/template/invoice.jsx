@@ -78,7 +78,6 @@ const Invoice = () => {
                                 <th>Ent.</th>
                                 <th>Data de pagamento</th>
                                 <th>Valor Unitário</th>
-                                <th>Valor Total</th>
                             </tr>
                         </thead>
 
@@ -90,13 +89,7 @@ const Invoice = () => {
                                         <td>Sim</td>
                                         <td>{res.data}</td>
                                         <td>{res.valor}</td>
-                                        <td>
-                                            R$ {
-                                                data.orders.length > 0 &&
-                                                data.orders.reduce((acc, curr) => acc + curr.valor, 0)
 
-                                            }
-                                        </td>
                                     </tr>
 
                                 ))
@@ -107,7 +100,7 @@ const Invoice = () => {
 
 
 
-                    <p>Valor Total: R$ {data.orders.length > 0 && data.orders.reduce((acc, curr) => acc + curr.valor, 0)}</p>
+                    <h3>Valor Total: R$ {data.orders.length > 0 && data.orders.reduce((acc, curr) => acc + curr.valor, 0).toFixed(2)}</h3>
                     <hr />
 
                     <div className="assinaturas">
@@ -151,7 +144,6 @@ const Invoice = () => {
                                 <th>Ent.</th>
                                 <th>Data de pagamento</th>
                                 <th>Valor Unitário</th>
-                                <th>Valor Total</th>
                             </tr>
                         </thead>
 
@@ -163,13 +155,6 @@ const Invoice = () => {
                                         <td>Sim</td>
                                         <td>{res.data}</td>
                                         <td>{res.valor}</td>
-                                        <td>
-                                            R$ {
-                                                data.orders.length > 0 &&
-                                                data.orders.reduce((acc, curr) => acc + curr.valor, 0)
-
-                                            }
-                                        </td>
                                     </tr>
 
                                 ))
@@ -180,7 +165,7 @@ const Invoice = () => {
 
 
 
-                    <p>Valor Total: R$ {data.orders.length > 0 && data.orders.reduce((acc, curr) => acc + curr.valor, 0)}</p>
+                    <h3>Valor Total: R$ {data.orders.length > 0 && data.orders.reduce((acc, curr) => acc + curr.valor, 0).toFixed(2)}</h3>
                     <hr />
 
                     <div className="assinaturas">
