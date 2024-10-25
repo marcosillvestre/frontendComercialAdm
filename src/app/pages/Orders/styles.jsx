@@ -15,15 +15,32 @@ border: 2px solid #dfe6f1;
 border-radius: var(--border-radius);
 padding: 1rem 3rem;
 margin-bottom: 1.5rem;
+font-size: var(--fsLowest);
 nav{
     width:100%;
     /* justify-content: space-between; */
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
     /* margin: 0 3rem; */
     gap: 1rem;
+    align-items: flex-end;
 }
+
+    .sender{
+
+        all: unset;
+        cursor: pointer;
+        background-color:#dfe6f1;
+        width: fit-content;
+        height: var(--boxHei);
+        padding: 0 .8rem;
+        border-radius: 5px;
+    &:hover{
+    background-color:#d9d9d9;
+    }
+    }
+
+
 `
 
 export const InputSearch = styled.input`

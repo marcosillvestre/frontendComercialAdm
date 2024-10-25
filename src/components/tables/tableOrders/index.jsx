@@ -248,10 +248,10 @@ Row.propTypes = {
 
 
 export default function TableOrders() {
-    const { ordersQuery } = useOrders()
+    const { ordersQuery, queryOrder } = useOrders()
+    const { isFetching } = ordersQuery
 
 
-    const { data, isLoading } = ordersQuery
 
     const style = {
         fontSize: "9px",
@@ -265,7 +265,7 @@ export default function TableOrders() {
     return (
         <div style={style}>
             {
-                isLoading ?
+                isFetching ?
                     <LoadingSpin
                         duration="4s"
                         width="15px"
@@ -293,7 +293,7 @@ export default function TableOrders() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {data && data.map((row) => (
+                                {queryOrder.length > 0 && queryOrder.map((row) => (
                                     <Row key={row.id} row={row} />
                                 ))}
                             </TableBody>

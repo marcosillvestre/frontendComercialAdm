@@ -168,7 +168,8 @@ export const UserProvider = ({ children }) => {
         retry: false
     })
 
-    if (mutationControlData.error && mutationControlData.error.response.data.error === 'token invalid') {
+    if (mutationControlData.error &&
+        mutationControlData.error.response.data.error === 'token invalid') {
         window.location.href = paths.home.path
         alert("Faça login novamente, seu acesso expirou")
         logOut()
@@ -179,7 +180,8 @@ export const UserProvider = ({ children }) => {
             && body.range !== "Período personalizado") {
             mutationControlData.refetch()
         }
-        if (body.range === "Período personalizado" && selectedInitialDate !== null && selectedEndDate !== null) {
+        if (body.range === "Período personalizado" &&
+            selectedInitialDate !== null && selectedEndDate !== null) {
             mutationControlData.refetch()
         }
         if (mutationControlData.isSuccess) {
