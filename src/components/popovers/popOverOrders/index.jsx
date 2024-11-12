@@ -44,8 +44,8 @@ export function PopOverOrder(data) {
 
                         <Divider onClick={() => {
                             updateOrders.mutateAsync({
-                                id: row.id, value: row.order.id,
-                                where: "sku", responsible: userData.name
+                                id: row.order.id,
+                                responsible: userData.name
                             })
 
                         }}>

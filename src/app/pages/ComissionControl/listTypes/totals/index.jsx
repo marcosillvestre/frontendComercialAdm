@@ -29,6 +29,8 @@ export const Totals = (params) => {
                                     <th>Consultor</th>
                                     <th>Background</th>
                                     <th>Unidade</th>
+                                    <th>Forma de pagamento</th>
+                                    <th>Funil</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -69,6 +71,12 @@ export const Totals = (params) => {
                                                 </td>
                                                 <td>
                                                     {res?.unidade}
+                                                </td>
+                                                <td>
+                                                    {res?.ppFormaPg}
+                                                </td>
+                                                <td>
+                                                    {res?.funnel}
                                                 </td>
                                             </TableRow>
 

@@ -81,15 +81,12 @@ export const Contracts = () => {
                                     <SearchIcon />
                                 </button>
                             </div>
-                            <datalist id='person'
-
-                                onClick={() => console.log("first")}>
+                            <datalist id='person' >
                                 {
                                     contractOptions && contractOptions.map((res, i) => (
                                         <option
                                             key={i}
                                             value={res.contrato}
-                                            onClick={() => console.log("first")}
                                         >
                                             {res.name}
                                         </option>

@@ -28,7 +28,7 @@ export const OrdersProvider = ({ children }) => {
     const updateData = async (e) => {
 
         const response = await toast.promise(
-            URI.put("/pedidos", e, { headers: headers }),
+            URI.put("/pedidos", e),
             {
                 pending: 'Conferindo os dados',
                 success: 'Pedido editado com sucesso',
@@ -95,7 +95,7 @@ export const OrdersProvider = ({ children }) => {
 
 
     const queryOrders = async () => {
-        const response = await URI.get(`/pedidos?dates=${await pickingDate(search)}`)
+        const response = await URI.get(`http://localhost:7070/pedidos?dates=${await pickingDate(search)}`)
 
         return response.data
     }
@@ -127,12 +127,13 @@ export const OrdersProvider = ({ children }) => {
 
 
     const updateOrder = async (body) => {
+
         await toast.promise(
             URI.put("/linkpedido", body),
             {
                 pending: 'Editando o pedido',
                 success: 'Editado com sucesso',
-                error: "Erro ao editar, confira os dados"
+                error: "Erro ao deletar, confira os dados"
             })
 
     }

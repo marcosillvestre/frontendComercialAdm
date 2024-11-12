@@ -107,7 +107,6 @@ export function CustomFieldTable(props) {
                         width="10rem"
                         field="type"
                         fn={fnArray}
-                    // onChange={(e) => console.log(e)}
                     />
 
                 </TableCell>
