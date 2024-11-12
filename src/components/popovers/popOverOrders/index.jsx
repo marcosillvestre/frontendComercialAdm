@@ -73,14 +73,12 @@ export function PopOverOrder(data) {
                                             updateLink.mutateAsync({
                                                 value: new Date().toLocaleString(),
                                                 where: 'dataRetirada',
-                                                id: row.id,
                                                 order: [row.order.id]
                                             }),
 
                                             updateLink.mutateAsync({
                                                 value: userData.name,
                                                 where: 'retiradoPor',
-                                                id: row.id,
                                                 order: [row.order.id]
                                             })
                                         ])
@@ -98,14 +96,12 @@ export function PopOverOrder(data) {
                                         updateLink.mutateAsync({
                                             value: "",
                                             where: 'dataRetirada',
-                                            id: row.id,
                                             order: [row.order.id]
                                         }),
 
                                         updateLink.mutateAsync({
                                             value: "",
                                             where: 'retiradoPor',
-                                            id: row.id,
                                             order: [row.order.id]
                                         })
                                     ])
@@ -124,7 +120,6 @@ export function PopOverOrder(data) {
                                         updateLink.mutateAsync({
                                             value: true,
                                             where: 'assinado',
-                                            id: row.id,
                                             order: [row.order.id]
                                         })
                                     ])
@@ -138,7 +133,6 @@ export function PopOverOrder(data) {
                                         updateLink.mutateAsync({
                                             value: false,
                                             where: 'assinado',
-                                            id: row.id,
                                             order: [row.order.id]
                                         })
                                     ])

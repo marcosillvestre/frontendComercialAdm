@@ -95,7 +95,7 @@ export const OrdersProvider = ({ children }) => {
 
 
     const queryOrders = async () => {
-        const response = await URI.get(`http://localhost:7070/pedidos?dates=${await pickingDate(search)}`)
+        const response = await URI.get(`/pedidos?dates=${await pickingDate(search)}`)
 
         return response.data
     }
@@ -127,6 +127,7 @@ export const OrdersProvider = ({ children }) => {
 
 
     const updateOrder = async (body) => {
+        console.log(body)
 
         await toast.promise(
             URI.put("/linkpedido", body),
