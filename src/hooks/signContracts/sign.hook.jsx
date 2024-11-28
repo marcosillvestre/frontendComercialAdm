@@ -14,23 +14,19 @@ export const SigningContracts = ({ children }) => {
     const [allContracts, setAllContracts] = useState()
 
     const { userData } = useUser()
-    // const queryClient = useQueryClient()
 
     const signData = async () => {
-        const response = await URI.get(`/contrato/${sign}`)
 
+        const { name, role } = await userData
+        const response = await URI.get(`/contrato/${sign}`)
         const responseData = response.data
 
-        if (userData.role === 'comercial') {
-            const filteredBySellers = responseData.filter(res => res.vendedor.toLowerCase()
-                .includes(userData.name.toLowerCase()))
 
-            setContractOptions(filteredBySellers)
-            setAllContracts(filteredBySellers)
+        if ("role" in userData) {
+            const filteredBySellers = responseData.filter(res => res.vendedor.toLowerCase().includes(name.toLowerCase()))
 
-        } else {
-            setContractOptions(responseData)
-            setAllContracts(responseData)
+            setContractOptions(role === "comercial" ? filteredBySellers : responseData)
+            setAllContracts(role === "comercial" ? filteredBySellers : responseData)
 
         }
 
@@ -42,6 +38,7 @@ export const SigningContracts = ({ children }) => {
     const contractsForSign = useQuery({
         queryFn: () => signData(),
         queryKey: [sign],
+        enabled: userData.role !== undefined
     })
 
 
