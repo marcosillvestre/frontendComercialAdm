@@ -32,6 +32,7 @@ import { useData } from '../../../hooks/dataContext';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import LoadingSpin from 'react-loading-spin';
 import * as Yup from 'yup';
 import { senderImpressContract } from '../../../app/utils/functions/makePdfs';
 
@@ -52,7 +53,7 @@ export function SureSendModal(data) {
     const [file, setFile] = useState('')
     const [Links, setLinks] = useState({})
 
-
+    const [loading, setLoading] = useState(false)
 
     const schema = Yup.object({
         file:
@@ -81,61 +82,76 @@ export function SureSendModal(data) {
 
 
     const client = async (body) => {
-        await toast.promise(
-            // axios.post("http://localhost:7070/cliente", body, { headers })
-            URI.post("/cliente", body)
-            , {
-                pending: 'Criando o cadastro no CA',
-                success: 'Criado com sucesso',
-                error: "Erro ao criar cadastro"
-            }
-        )
-            .catch(err => alert(err.reponse.message))
+        setLoading(true)
+        // axios.post("http://localhost:7070/cliente", body, { headers })
+        URI.post("/cliente", body)
+            .then(() => {
+                toast.success("Cliente cadastrado com sucesso")
+
+            })
+            .catch(async err => {
+                toast.error("Erro ao cadastrar o cliente")
+                const error = await err
+                if ("message" in error.response.data) alert(error.response.data.message)
+            })
+            .finally(() => {
+                setLoading(false)
+            })
+
+
 
     }
 
     const contract = async (body) => {
-        await toast.promise(
-            // axios.post("http://localhost:7070/registro-conta-azul", body, { headers })
-            URI.post("/registro-conta-azul", body)
-            , {
-                pending: 'Enviando o contrato',
-                success: 'Enviado com sucesso',
-                error: "Erro ao criar o contrato"
-            }
-        )
-            .catch(err => alert(err.reponse.message))
+        setLoading(true)
+        // axios.post("http://localhost:7070/registro-conta-azul", body, { headers })
+        URI.post("/registro-conta-azul", body)
+            .then(() => {
+                toast.success("Contrato criado com sucesso")
+
+            })
+            .catch(async err => {
+                toast.error("Erro ao criar o contrato")
+                const error = await err
+                if ("message" in error.response.data) alert(error.response.data.message)
+            })
+            .finally(() => {
+                setLoading(false)
+            })
     }
 
     const sales = async (body) => {
         if (parseFloat(filteredContracts.mdValor) > 0) {
-
-            await toast.promise(
-                // axios.post("http://localhost:7070/venda", body, { headers })
-                URI.post("/venda", body)
-                , {
-                    pending: 'Enviando o material didático',
-                    success: 'Enviado com sucesso',
-                    error: "Erro ao enviar o material didático"
-                }
-            )
-                .catch(err => alert(err.reponse.message))
+            setLoading(true)
+            // axios.post("http://localhost:7070/venda", body, { headers })
+            URI.post("/venda", body)
+                .then(() => toast.success("Venda criada com sucesso"))
+                .catch(async err => {
+                    toast.error("Erro ao criar a venda")
+                    const error = await err
+                    if ("message" in error.response.data) alert(error.response.data.message)
+                })
+                .finally(() => {
+                    setLoading(false)
+                })
 
         }
     }
 
     const feeEnroll = async (body) => {
         if (parseFloat(filteredContracts.tmValor) > 0) {
-            await toast.promise(
-                // axios.post("http://localhost:7070/taxa", body, { headers })
-                URI.post("/taxa", body)
-                , {
-                    pending: 'Enviando a taxa de matrícula',
-                    success: 'Enviado com sucesso',
-                    error: "Erro ao enviar a taxa de matrícula"
-                }
-            )
-                .catch(err => alert(err.reponse.message))
+            setLoading(true)
+            // axios.post("http://localhost:7070/taxa", body, { headers })
+            URI.post("/taxa", body)
+                .then(() => toast.success("Taxa de matrícula criada com sucesso"))
+                .catch(async err => {
+                    toast.error("Erro ao cadastrar a taxa de matrícula")
+                    const error = await err
+                    if ("message" in error.response.data) alert(error.response.data.message)
+                })
+                .finally(() => {
+                    setLoading(false)
+                })
 
         }
     }
@@ -361,104 +377,27 @@ export function SureSendModal(data) {
                 <Fades in={open}>
                     <Box sx={style}>
                         {
+                            loading ?
+                                <LoadingSpin
+                                    duration="4s"
+                                    width="15px"
+                                    timingFunction="ease-in-out"
+                                    direction="alternate"
+                                    size="60px"
+                                    primaryColor="#1976d2"
+                                    secondaryColor="#333"
+                                    numberOfRotationsInAnimation={3}
+                                /> :
+                                <div>
 
-                            <div>
+                                    <Typography id="transition-modal-title" variant="h6" component="h2">
+                                        {data.text}
+                                    </Typography>
 
-                                <Typography id="transition-modal-title" variant="h6" component="h2">
-                                    {data.text}
-                                </Typography>
-
-                                {
-                                    data.data !== 'Conta Azul' ?
-                                        data.data === 'Autentique' ?
-                                            <>
-                                                <Boxes>
-                                                    <div className='container'>
-                                                        <small>Enviar esse contrato para o conta azul ?</small>
-                                                        <label>
-
-                                                            <input
-                                                                id="not-send"
-                                                                type="radio"
-                                                                onClick={() => setSend(false)}
-                                                                className='check'
-                                                                name="send-choose"
-                                                                value={false}
-                                                            />
-                                                            <small>Não </small>
-                                                            <input
-                                                                defaultChecked={true}
-                                                                id="send"
-                                                                className='check'
-                                                                type="radio"
-                                                                onClick={() => setSend(true)}
-                                                                value={true}
-                                                                name="send-choose"
-
-                                                            />
-                                                            <small>Sim </small>
-                                                        </label>
-                                                    </div>
-                                                </Boxes>
-
-                                                <Boxes radio>
-
-                                                    <form
-                                                        onSubmit={handleSubmit(SendViaAutentique)}
-                                                    >
-                                                        <input
-                                                            type="file"
-                                                            id="fileUpload"
-                                                            accept=".pdf"
-                                                            {...register("file")}
-                                                            onChange={(e) => {
-                                                                setFile(e.target.files[0]);
-                                                                setFileName(e.target.files[0].name)
-                                                            }}
-                                                        />
-                                                        <ChooseArchive >
-                                                            <label
-                                                                htmlFor="fileUpload"
-                                                                onClick={
-                                                                    () => setLinks({})
-                                                                }
-                                                            >
-                                                                <UploadIcon />
-                                                            </label>
-
-                                                            {fileName !== '' &&
-                                                                fileName
-                                                            }
-                                                            <input type="submit" />
-                                                        </ChooseArchive>
-                                                        <p style={{ color: 'red' }}>
-                                                            {errors.file?.message &&
-                                                                errors.file?.message}
-                                                        </p>
-
-                                                        {
-                                                            Links.customer !== undefined &&
-                                                            <>
-                                                                <p>Link para assinatura </p>
-                                                                <div>
-                                                                    <span onClick={() => copy()}>
-                                                                        <p className='copied'>{Links.customer} </p>
-                                                                        <ContentCopyIcon />
-                                                                    </span>
-                                                                </div>
-                                                            </>
-
-                                                        }
-                                                    </form>
-
-
-
-                                                </Boxes>
-                                            </> :
-
-                                            <>
-                                                {
-                                                    //conta azul
+                                    {
+                                        data.data !== 'Conta Azul' ?
+                                            data.data === 'Autentique' ?
+                                                <>
                                                     <Boxes>
                                                         <div className='container'>
                                                             <small>Enviar esse contrato para o conta azul ?</small>
@@ -466,63 +405,150 @@ export function SureSendModal(data) {
 
                                                                 <input
                                                                     id="not-send"
-                                                                    name="send-choose"
                                                                     type="radio"
                                                                     onClick={() => setSend(false)}
                                                                     className='check'
+                                                                    name="send-choose"
                                                                     value={false}
-                                                                    defaultChecked={true}
-
                                                                 />
                                                                 <small>Não </small>
                                                                 <input
-                                                                    name="send-choose"
+                                                                    defaultChecked={true}
                                                                     id="send"
                                                                     className='check'
                                                                     type="radio"
                                                                     onClick={() => setSend(true)}
                                                                     value={true}
+                                                                    name="send-choose"
 
                                                                 />
                                                                 <small>Sim </small>
                                                             </label>
                                                         </div>
                                                     </Boxes>
-                                                }
+
+                                                    <Boxes radio>
+
+                                                        <form
+                                                            onSubmit={handleSubmit(SendViaAutentique)}
+                                                        >
+                                                            <input
+                                                                type="file"
+                                                                id="fileUpload"
+                                                                accept=".pdf"
+                                                                {...register("file")}
+                                                                onChange={(e) => {
+                                                                    setFile(e.target.files[0]);
+                                                                    setFileName(e.target.files[0].name)
+                                                                }}
+                                                            />
+                                                            <ChooseArchive >
+                                                                <label
+                                                                    htmlFor="fileUpload"
+                                                                    onClick={
+                                                                        () => setLinks({})
+                                                                    }
+                                                                >
+                                                                    <UploadIcon />
+                                                                </label>
+
+                                                                {fileName !== '' &&
+                                                                    fileName
+                                                                }
+                                                                <input type="submit" />
+                                                            </ChooseArchive>
+                                                            <p style={{ color: 'red' }}>
+                                                                {errors.file?.message &&
+                                                                    errors.file?.message}
+                                                            </p>
+
+                                                            {
+                                                                Links.customer !== undefined &&
+                                                                <>
+                                                                    <p>Link para assinatura </p>
+                                                                    <div>
+                                                                        <span onClick={() => copy()}>
+                                                                            <p className='copied'>{Links.customer} </p>
+                                                                            <ContentCopyIcon />
+                                                                        </span>
+                                                                    </div>
+                                                                </>
+
+                                                            }
+                                                        </form>
+
+
+
+                                                    </Boxes>
+                                                </> :
+
+                                                <>
+                                                    {
+                                                        //conta azul
+                                                        <Boxes>
+                                                            <div className='container'>
+                                                                <small>Enviar esse contrato para o conta azul ?</small>
+                                                                <label>
+
+                                                                    <input
+                                                                        id="not-send"
+                                                                        name="send-choose"
+                                                                        type="radio"
+                                                                        onClick={() => setSend(false)}
+                                                                        className='check'
+                                                                        value={false}
+                                                                        defaultChecked={true}
+
+                                                                    />
+                                                                    <small>Não </small>
+                                                                    <input
+                                                                        name="send-choose"
+                                                                        id="send"
+                                                                        className='check'
+                                                                        type="radio"
+                                                                        onClick={() => setSend(true)}
+                                                                        value={true}
+
+                                                                    />
+                                                                    <small>Sim </small>
+                                                                </label>
+                                                            </div>
+                                                        </Boxes>
+                                                    }
+                                                    <Boxes radio>
+                                                        <ButtonDelete
+                                                            onClick={() => handleSender()}>Emitir contrato</ButtonDelete>
+                                                    </Boxes>
+                                                </>
+                                            :
+                                            < >
+                                                <Boxes >
+                                                    <input type="checkbox"
+                                                        onClick={() => handleSendingList("contract")}
+                                                        className='check' />
+                                                    <small>Contrato</small>
+                                                </Boxes>
+                                                <Boxes >
+                                                    <input type="checkbox"
+                                                        onClick={() => handleSendingList("sales")}
+                                                        className='check' />
+                                                    <small>Material didático</small>
+                                                </Boxes>
+
+                                                <Boxes >
+                                                    <input type="checkbox"
+                                                        onClick={() => handleSendingList("feeEnroll")}
+                                                        className='check' />
+                                                    <small>Taxa de matrícula</small>
+                                                </Boxes>
+
                                                 <Boxes radio>
-                                                    <ButtonDelete
-                                                        onClick={() => handleSender()}>Emitir contrato</ButtonDelete>
+                                                    <ButtonDelete onClick={() => separated()}>Emitir contrato</ButtonDelete>
                                                 </Boxes>
                                             </>
-                                        :
-                                        < >
-                                            <Boxes >
-                                                <input type="checkbox"
-                                                    onClick={() => handleSendingList("contract")}
-                                                    className='check' />
-                                                <small>Contrato</small>
-                                            </Boxes>
-                                            <Boxes >
-                                                <input type="checkbox"
-                                                    onClick={() => handleSendingList("sales")}
-                                                    className='check' />
-                                                <small>Material didático</small>
-                                            </Boxes>
+                                    }
 
-                                            <Boxes >
-                                                <input type="checkbox"
-                                                    onClick={() => handleSendingList("feeEnroll")}
-                                                    className='check' />
-                                                <small>Taxa de matrícula</small>
-                                            </Boxes>
-
-                                            <Boxes radio>
-                                                <ButtonDelete onClick={() => separated()}>Emitir contrato</ButtonDelete>
-                                            </Boxes>
-                                        </>
-                                }
-
-                            </div>
+                                </div>
 
                         }
                     </Box>
