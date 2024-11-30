@@ -83,20 +83,38 @@ export function SureSendModal(data) {
 
     const client = async (body) => {
         setLoading(true)
-        // axios.post("http://localhost:7070/cliente", body, { headers })
-        URI.post("/cliente", body)
-            .then(() => {
-                toast.success("Cliente cadastrado com sucesso")
+        await toast.promise(
+            // axios.post("http://localhost:7070/cliente", body, { headers })
+            URI.post("/cliente", body)
+            , {
+                pending: 'Criando o cadastro no CA',
+                success: 'Criado com sucesso',
+                error: "Erro ao criar cadastro"
+            }
+        )
 
-            })
-            .catch(async err => {
-                toast.error("Erro ao cadastrar o cliente")
-                const error = await err
-                if ("message" in error.response.data) alert(error.response.data.message)
-            })
-            .finally(() => {
-                setLoading(false)
-            })
+        setLoading(false)
+
+        // new Promise((resolve, reject) => {
+        //     axios.post("http://localhost:7070/cliente", body, { headers })
+        //         // URI.post("/cliente", body)
+        //         .then((res) => {
+        //             resolve(res)
+        //             toast.success("Cliente cadastrado com sucesso")
+
+        //         })
+        //         .catch(async err => {
+        //             toast.error("Erro ao cadastrar o cliente")
+        //             const error = await err
+        //             if ("message" in error.response.data) alert(error.response.data.message)
+        //             reject(err)
+        //         })
+        //         .finally(() => {
+        //             setLoading(false)
+        //         })
+
+        //     })
+
 
 
 
@@ -104,55 +122,92 @@ export function SureSendModal(data) {
 
     const contract = async (body) => {
         setLoading(true)
-        // axios.post("http://localhost:7070/registro-conta-azul", body, { headers })
-        URI.post("/registro-conta-azul", body)
-            .then(() => {
-                toast.success("Contrato criado com sucesso")
+        await toast.promise(
+            // axios.post("http://localhost:7070/registro-conta-azul", body, { headers })
+            URI.post("/registro-conta-azul", body)
+            , {
+                pending: 'Enviando o contrato',
+                success: 'Enviado com sucesso',
+                error: "Erro ao criar o contrato"
+            }
+        )
+        // new Promise((resolve, reject) => {
 
-            })
-            .catch(async err => {
-                toast.error("Erro ao criar o contrato")
-                const error = await err
-                if ("message" in error.response.data) alert(error.response.data.message)
-            })
-            .finally(() => {
-                setLoading(false)
-            })
+        //     axios.post("http://localhost:7070/registro-conta-azul", body, { headers })
+        //         // URI.post("/registro-conta-azul", body)
+        //         .then((res) => {
+        //             resolve(res)
+        //             toast.success("Contrato criado com sucesso")
+
+        //         })
+        //         .catch(async err => {
+
+        //             toast.error("Erro ao criar o contrato")
+        //             const error = await err
+        //             if ("message" in error.response.data) alert(error.response.data.message)
+        //             reject(err)
+        //         })
+        //         .finally(() => {
+        //             setLoading(false)
+        //         })
+        //     })
+        setLoading(false)
     }
 
     const sales = async (body) => {
         if (parseFloat(filteredContracts.mdValor) > 0) {
             setLoading(true)
+            await toast.promise(
+                // axios.post("http://localhost:7070/registro-conta-azul", body, { headers })
+                URI.post("/registro-conta-azul", body)
+                , {
+                    pending: 'Enviando o contrato',
+                    success: 'Enviado com sucesso',
+                    error: "Erro ao criar o contrato"
+                }
+            )
             // axios.post("http://localhost:7070/venda", body, { headers })
-            URI.post("/venda", body)
-                .then(() => toast.success("Venda criada com sucesso"))
-                .catch(async err => {
-                    toast.error("Erro ao criar a venda")
-                    const error = await err
-                    if ("message" in error.response.data) alert(error.response.data.message)
-                })
-                .finally(() => {
-                    setLoading(false)
-                })
+            //     // URI.post("/venda", body)
+            //     .then(() => toast.success("Venda criada com sucesso"))
+            //     .catch(async err => {
+            //         toast.error("Erro ao criar a venda")
+            //         const error = await err
+            //         if ("message" in error.response.data) alert(error.response.data.message)
+            //     })
+            //     .finally(() => {
+            //         setLoading(false)
+            //     })
 
+            setLoading(false)
         }
     }
 
     const feeEnroll = async (body) => {
         if (parseFloat(filteredContracts.tmValor) > 0) {
             setLoading(true)
-            // axios.post("http://localhost:7070/taxa", body, { headers })
-            URI.post("/taxa", body)
-                .then(() => toast.success("Taxa de matrícula criada com sucesso"))
-                .catch(async err => {
-                    toast.error("Erro ao cadastrar a taxa de matrícula")
-                    const error = await err
-                    if ("message" in error.response.data) alert(error.response.data.message)
-                })
-                .finally(() => {
-                    setLoading(false)
-                })
 
+            await toast.promise(
+                // axios.post("http://localhost:7070/venda", body, { headers })
+                URI.post("/venda", body)
+                , {
+                    pending: 'Enviando o material didático',
+                    success: 'Enviado com sucesso',
+                    error: "Erro ao enviar o material didático"
+                }
+            )
+            // axios.post("http://localhost:7070/taxa", body, { headers })
+            //     // URI.post("/taxa", body)
+            //     .then(() => toast.success("Taxa de matrícula criada com sucesso"))
+            //     .catch(async err => {
+            //         toast.error("Erro ao cadastrar a taxa de matrícula")
+            //         const error = await err
+            //         if ("message" in error.response.data) alert(error.response.data.message)
+            //     })
+            //     .finally(() => {
+            //         setLoading(false)
+            //     })
+
+            setLoading(false)
         }
     }
 
