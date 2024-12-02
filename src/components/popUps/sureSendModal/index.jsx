@@ -158,8 +158,8 @@ export function SureSendModal(data) {
         if (parseFloat(filteredContracts.mdValor) > 0) {
             setLoading(true)
             await toast.promise(
-                // axios.post("http://localhost:7070/registro-conta-azul", body, { headers })
-                URI.post("/registro-conta-azul", body)
+                // axios.post("http://localhost:7070/venda", body, { headers })
+                URI.post("/venda", body)
                 , {
                     pending: 'Enviando o contrato',
                     success: 'Enviado com sucesso',
@@ -187,8 +187,8 @@ export function SureSendModal(data) {
             setLoading(true)
 
             await toast.promise(
-                // axios.post("http://localhost:7070/venda", body, { headers })
-                URI.post("/venda", body)
+                // axios.post("http://localhost:7070/taxa", body, { headers })
+                URI.post("/taxa", body)
                 , {
                     pending: 'Enviando o material didático',
                     success: 'Enviado com sucesso',
