@@ -445,10 +445,6 @@ export function SureSendModal(data) {
                                         numberOfRotationsInAnimation={3}
                                     />
 
-                                    <ButtonDelete
-                                        onClick={() => setLoading(false)}>
-                                        Interromper carregamento
-                                    </ButtonDelete>
                                 </div>
                                 :
                                 <div>
