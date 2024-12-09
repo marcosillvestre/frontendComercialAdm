@@ -32,6 +32,7 @@ import { useData } from '../../../hooks/dataContext';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import axios from 'axios';
 import LoadingSpin from 'react-loading-spin';
 import * as Yup from 'yup';
 import { senderImpressContract } from '../../../app/utils/functions/makePdfs';
@@ -155,26 +156,26 @@ export function SureSendModal(data) {
     const sales = async (body) => {
 
         if (parseFloat(filteredContracts.mdValor) > 0) {
-            await toast.promise(
-                // axios.post("http://localhost:7070/venda", body, { headers })
-                URI.post("/venda", body)
-                , {
-                    pending: 'Enviando o contrato',
-                    success: 'Enviado com sucesso',
-                    error: "Erro ao criar o contrato"
-                }
-            )
-            // axios.post("http://localhost:7070/venda", body, { headers })
-            //     // URI.post("/venda", body)
-            //     .then(() => toast.success("Venda criada com sucesso"))
-            //     .catch(async err => {
-            //         toast.error("Erro ao criar a venda")
-            //         const error = await err
-            //         if ("message" in error.response.data) alert(error.response.data.message)
-            //     })
-            //     .finally(() => {
-            //         setLoading(false)
-            //     })
+            // await toast.promise(
+            //     // axios.post("http://localhost:7070/venda", body, { headers })
+            //     URI.post("/venda", body)
+            //     , {
+            //         pending: 'Enviando o contrato',
+            //         success: 'Enviado com sucesso',
+            //         error: "Erro ao criar o contrato"
+            //     }
+            // )
+            await axios.post("http://localhost:7070/venda", body, { headers })
+                // URI.post("/venda", body)
+                .then(() => toast.success("Venda criada com sucesso"))
+                .catch(async err => {
+                    toast.error("Erro ao criar a venda")
+                    const error = await err
+                    if ("message" in error.response.data) alert(error.response.data.message)
+                })
+                .finally(() => {
+                    setLoading(false)
+                })
 
         }
     }
@@ -583,12 +584,14 @@ export function SureSendModal(data) {
                                             < >
                                                 <Boxes >
                                                     <input type="checkbox"
+                                                        defaultChecked={sendingList && sendingList.find(r => r === "contract")}
                                                         onClick={() => handleSendingList("contract")}
                                                         className='check' />
                                                     <small>Contrato</small>
                                                 </Boxes>
                                                 <Boxes >
                                                     <input type="checkbox"
+                                                        defaultChecked={sendingList && sendingList.find(r => r === "sales")}
                                                         onClick={() => handleSendingList("sales")}
                                                         className='check' />
                                                     <small>Material didático</small>
@@ -596,6 +599,7 @@ export function SureSendModal(data) {
 
                                                 <Boxes >
                                                     <input type="checkbox"
+                                                        defaultChecked={sendingList && sendingList.find(r => r === "feeEnroll")}
                                                         onClick={() => handleSendingList("feeEnroll")}
                                                         className='check' />
                                                     <small>Taxa de matrícula</small>
