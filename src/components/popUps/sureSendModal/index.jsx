@@ -32,7 +32,6 @@ import { useData } from '../../../hooks/dataContext';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import axios from 'axios';
 import LoadingSpin from 'react-loading-spin';
 import * as Yup from 'yup';
 import { senderImpressContract } from '../../../app/utils/functions/makePdfs';
@@ -165,8 +164,8 @@ export function SureSendModal(data) {
             //         error: "Erro ao criar o contrato"
             //     }
             // )
-            await axios.post("http://localhost:7070/venda", body, { headers })
-                // URI.post("/venda", body)
+            // await axios.post("http://localhost:7070/venda", body, { headers })
+            URI.post("/venda", body)
                 .then(() => toast.success("Venda criada com sucesso"))
                 .catch(async err => {
                     toast.error("Erro ao criar a venda")
