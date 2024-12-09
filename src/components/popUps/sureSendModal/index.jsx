@@ -76,52 +76,51 @@ export function SureSendModal(data) {
     const handleClose = () => {
         setOpen(false)
         setSendingList([])
+        setLoading(false)
+
     };
 
 
 
 
     const client = async (body) => {
-        setLoading(true)
-        await toast.promise(
+
+        // await toast.promise(
+        //     // axios.post("http://localhost:7070/cliente", body, { headers })
+        //     URI.post("/cliente", body)
+        //     , {
+        //         pending: 'Criando o cadastro no CA',
+        //         success: 'Criado com sucesso',
+        //         error: "Erro ao criar cadastro"
+        //     }
+        // )
+
+
+        const response = new Promise((resolve, reject) => {
             // axios.post("http://localhost:7070/cliente", body, { headers })
             URI.post("/cliente", body)
-            , {
-                pending: 'Criando o cadastro no CA',
-                success: 'Criado com sucesso',
-                error: "Erro ao criar cadastro"
-            }
-        )
+                .then((res) => {
+                    resolve(res)
+                    toast.success("Cliente cadastrado com sucesso")
 
-        setLoading(false)
-
-        // new Promise((resolve, reject) => {
-        //     axios.post("http://localhost:7070/cliente", body, { headers })
-        //         // URI.post("/cliente", body)
-        //         .then((res) => {
-        //             resolve(res)
-        //             toast.success("Cliente cadastrado com sucesso")
-
-        //         })
-        //         .catch(async err => {
-        //             toast.error("Erro ao cadastrar o cliente")
-        //             const error = await err
-        //             if ("message" in error.response.data) alert(error.response.data.message)
-        //             reject(err)
-        //         })
-        //         .finally(() => {
-        //             setLoading(false)
-        //         })
-
-        //     })
+                })
+                .catch(async err => {
+                    toast.error("Erro ao cadastrar o cliente")
+                    const error = await err
+                    if ("message" in error.response.data) alert(error.response.data.message)
+                    reject(err)
+                })
 
 
+        })
 
+
+        return await response
 
     }
 
     const contract = async (body) => {
-        setLoading(true)
+
         await toast.promise(
             // axios.post("http://localhost:7070/registro-conta-azul", body, { headers })
             URI.post("/registro-conta-azul", body)
@@ -151,12 +150,11 @@ export function SureSendModal(data) {
         //             setLoading(false)
         //         })
         //     })
-        setLoading(false)
     }
 
     const sales = async (body) => {
+
         if (parseFloat(filteredContracts.mdValor) > 0) {
-            setLoading(true)
             await toast.promise(
                 // axios.post("http://localhost:7070/venda", body, { headers })
                 URI.post("/venda", body)
@@ -178,13 +176,12 @@ export function SureSendModal(data) {
             //         setLoading(false)
             //     })
 
-            setLoading(false)
         }
     }
 
     const feeEnroll = async (body) => {
+
         if (parseFloat(filteredContracts.tmValor) > 0) {
-            setLoading(true)
 
             await toast.promise(
                 // axios.post("http://localhost:7070/taxa", body, { headers })
@@ -207,7 +204,6 @@ export function SureSendModal(data) {
             //         setLoading(false)
             //     })
 
-            setLoading(false)
         }
     }
 
@@ -315,12 +311,16 @@ export function SureSendModal(data) {
             promises[i] = funcs[sendingList[i]]
         }
 
+        setLoading(true)
 
         await client(body)
             .then(async () => {
                 promises.map(async res => {
                     await new Promise(() => res(body))
                 })
+            })
+            .finally(() => {
+                setLoading(false)
             })
     }
 
@@ -433,16 +433,24 @@ export function SureSendModal(data) {
                     <Box sx={style}>
                         {
                             loading ?
-                                <LoadingSpin
-                                    duration="4s"
-                                    width="15px"
-                                    timingFunction="ease-in-out"
-                                    direction="alternate"
-                                    size="60px"
-                                    primaryColor="#1976d2"
-                                    secondaryColor="#333"
-                                    numberOfRotationsInAnimation={3}
-                                /> :
+                                <div style={{ display: "grid", gap: "1rem", alignItems: "center" }}>
+                                    <LoadingSpin
+                                        duration="4s"
+                                        width="15px"
+                                        timingFunction="ease-in-out"
+                                        direction="alternate"
+                                        size="60px"
+                                        primaryColor="#1976d2"
+                                        secondaryColor="#333"
+                                        numberOfRotationsInAnimation={3}
+                                    />
+
+                                    <ButtonDelete
+                                        onClick={() => setLoading(false)}>
+                                        Interromper carregamento
+                                    </ButtonDelete>
+                                </div>
+                                :
                                 <div>
 
                                     <Typography id="transition-modal-title" variant="h6" component="h2">
