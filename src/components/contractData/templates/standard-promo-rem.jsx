@@ -173,9 +173,9 @@ const StandardPromoRem = ({ data }) => {
                     O valor total da carga horária contratada é de R${data.valorCurso}
                     , que será dividido e pago em {data.numeroParcelas}
                     parcelas cada qual com o vencimento para o dia
-                    {data.diaVenvimento} de cada mês, sendo o vencimento
-                    da primeira parcela na data {data.dataPrimeiraParcelaMensalidade}
-                    e, a última, no dia {data.dataUltimaParcelaMensalidade}.
+                    {data.diaVenvimento.split("/")[0]} de cada mês, sendo o vencimento
+                    da primeira parcela na data {data.dataPrimeiraParcelaMensalidade
+                    } e, a última, no dia {data.dataUltimaParcelaMensalidade}.
                 </p>
                 <p>
                     A CONTRATADA por iniciativa própria oferecerá ao CONTRATANTE,
