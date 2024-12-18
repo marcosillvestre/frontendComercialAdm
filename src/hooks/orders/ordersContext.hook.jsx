@@ -5,7 +5,6 @@ import { createContext, useContext, useEffect, useRef, useState } from "react"
 import { toast } from "react-toastify"
 import businessRules from '../../app/utils/Rules/options.jsx'
 import URI from "../../app/utils/utils"
-import { useUser } from "../userContext"
 
 const OrdersContext = createContext({})
 
@@ -13,7 +12,6 @@ export const OrdersProvider = ({ children }) => {
     const { predeterminedPeriods } = businessRules
 
     const queryClient = useQueryClient()
-    const { headers } = useUser()
     const [orders, setOrders] = useState()
     const [queryOrder, setQueryOrder] = useState([])
 
@@ -87,7 +85,6 @@ export const OrdersProvider = ({ children }) => {
             "Este ano": ThisYear(),
             "Todo período": All(),
         }
-
 
         return settledPeriod[range]
     }

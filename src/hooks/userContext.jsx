@@ -104,27 +104,27 @@ export const UserProvider = ({ children }) => {
 
         const now = new Date();
 
-        const LastMonth = () => `${new Date(now.getFullYear(), now.getMonth() - 1, 1)}~${new Date(now.getFullYear(), now.getMonth(), 0)}`;
-        const TwoMonths = () => `${new Date(now.getFullYear(), now.getMonth() - 2, 1)}~${new Date(now.getFullYear(), now.getMonth() - 1, 0)}`;
-        const ThisMonth = () => `${new Date(now.getFullYear(), now.getMonth(), 1)}~${new Date(now.getFullYear(), now.getMonth() + 1, 0)}`;
+        const LastMonth = () => `${new Date(now.getFullYear(), now.getMonth() - 1, 1, 0, 0, 0, 0)}~${new Date(now.getFullYear(), now.getMonth(), 0, 23, 59, 59, 999)}`;
+        const TwoMonths = () => `${new Date(now.getFullYear(), now.getMonth() - 2, 1, 0, 0, 0, 0)}~${new Date(now.getFullYear(), now.getMonth() - 1, 0, 23, 59, 59, 999)}`;
+        const ThisMonth = () => `${new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0, 0)}~${new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999)}`;
 
         const Custom = () => `${selectedInitialDate}~${selectedEndDate}`;
         const SevenDays = () => {
             const date = new Date()
             date.setDate(date.getDate() - 7)
-            return `${date.toDateString()}~${now}`
+            return `${date.toDateString()}~${new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999)}`
         }
 
         const All = () => {
             const date = new Date()
             date.setDate(date.getDate() - 10000)
-            return `${date.toDateString()}~${now}`
+            return `${date.toDateString()}~${new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999)}`
         }
 
         const ThisYear = () => {
             const date = new Date();
             const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
-            return `${firstDayOfYear.toDateString()}~${now}`
+            return `${firstDayOfYear.toDateString()}~${new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999)}`
         }
 
 
