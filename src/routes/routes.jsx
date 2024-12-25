@@ -5,6 +5,7 @@ import { paths } from "../app/constants/paths.js";
 import Invoice from "../app/pages/Orders/template/invoice.jsx";
 import {
     ComissionControll, Contracts, Control,
+    CustomFields,
     Home, Login,
     Orders,
     RecoverPassword,
@@ -20,7 +21,7 @@ const user = JSON.parse(localStorage.getItem('userData'))
 const {
     config, home, redefinePass,
     signContracts, orders, nestedOrder, comissionalControl,
-    configRegister, control, nestedControl } = paths
+    configRegister, control, nestedControl, configCustomFields } = paths
 
 
 
@@ -67,6 +68,11 @@ const Routes = createBrowserRouter([
     {
         path: configRegister.path,
         element: configRegister.access.find(res => res === user?.role) ? <><MiniDrawer /><Register /> </> : <Login />,
+        errorElement: <ErrorPage />,
+    },
+    {
+        path: configCustomFields.path,
+        element: configCustomFields.access.find(res => res === user?.role) ? <><MiniDrawer /><CustomFields /> </> : <Login />,
         errorElement: <ErrorPage />,
     },
 

@@ -3,7 +3,6 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import Switch from '@mui/material/Switch';
 import { useRef, useState } from 'react';
-import { toast } from 'react-toastify';
 import { useCustomFields } from '../../../hooks/customFields/customFIelds.hook';
 import { Select } from '../../selects/select';
 import { ButtonIcon, Input, Label } from '../styles';
@@ -31,8 +30,8 @@ export const CustomFields = () => {
                 <Input
                     type="text"
                     onBlur={(e) => {
-                        sender("label", e.target.value)
-                        toast.success("Gravado")
+                        sender("name", e.target.value)
+                        // toast.success("Gravado")
                     }} /// trocar
                 />
             </Label>
@@ -43,15 +42,35 @@ export const CustomFields = () => {
                     label={""}
                     option={
                         [
-                            { name: "Texto" },
-                            { name: "Número" },
-                            { name: "Data" },
-                            { name: "Seleção única" },
-                            { name: "Multi-Select" }
+                            { name: "text" },
+                            { name: "date" },
+                            { name: "option" },
+                            { name: "multiple_choice" }
                         ]
                     }
                     width="100%"
                     field="type"
+                    where="create"
+                    fn={[sender]} /// trocar 
+                />
+            </Label>
+            <Label htmlFor="">
+                <p>Categoria</p>
+                <Select
+                    label={""}
+                    option={
+                        [
+                            { name: "StatusMatricula" },
+                            { name: "Observacoes" },
+                            { name: "Contrato" },
+                            { name: "Financeiro" },
+                            { name: "InformacoesAlunoEResponsavel" },
+                            { name: "Pedagogico" },
+                            { name: "Outros" },
+                        ]
+                    }
+                    width="100%"
+                    field="category"
                     where="create"
                     fn={[sender]} /// trocar 
                 />
@@ -66,7 +85,7 @@ export const CustomFields = () => {
                         onClick={() => {
                             setRequired(!required)
                             sender("required", !required)  /// trocar
-                            toast.success("Gravado")
+                            // toast.success("Gravado")
 
                         }}
                     />
@@ -75,7 +94,7 @@ export const CustomFields = () => {
 
             {
                 customFields !== undefined &&
-                customFields.type.includes('Select') &&
+                customFields?.type?.includes('Select') &&
                 <Label htmlFor="">
                     <p>Opções</p>
                     <div

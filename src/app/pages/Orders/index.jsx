@@ -1,6 +1,5 @@
 // import React from 'react'
 
-import { useState } from 'react';
 import {
     // CloserClick, 
     Select
@@ -12,14 +11,9 @@ import { Container, Header } from "./styles.jsx";
 
 export const Orders = () => {
     const { predeterminedPeriods } = businessRules
-    const { search, handleInput, queryOrder, setQueryOrder } = useOrders()
+    const { search, handleInput } = useOrders()
 
-    const [name, setName] = useState()
 
-    const sender = () => {
-
-        console.log(queryOrder)
-    }
     const rest = predeterminedPeriods.filter(res => !res.name.includes("Personalizado"))
 
 
@@ -27,7 +21,6 @@ export const Orders = () => {
         <Container>
 
             <Header>
-
                 <nav>
                     <label htmlFor="">
                         <p>

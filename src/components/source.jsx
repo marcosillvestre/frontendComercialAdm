@@ -22,7 +22,7 @@ export * from './closeClick'
 
 export * from './selects/select'
 
-export * from './customFieldsTable'
+export * from './tables/customFieldsTable'
 
 // export * from './sureSendContract'
 

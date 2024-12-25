@@ -1,6 +1,6 @@
 
 import team from '../../../assets/team.svg'
-import unity from '../../../assets/unity.svg'
+import { default as settings, default as unity } from '../../../assets/unity.svg'
 
 import { paths } from '../../constants/paths.js'
 import { Container, Links, MainBox } from './styles.jsx'
@@ -40,18 +40,18 @@ export const Settings = () => {
                     </Links>
                 </div>
 
-                {/* <div className='boxes'>
+                <div className='boxes'>
                     <p>
                         Crie novos campos personalizados
                     </p>
                     <img src={settings} alt="" />
                     <Links
-                        // to={paths.configCustomFields.path}
-                        style={{ pointerEvents: "none" }}
+                        to={paths.configCustomFields.path}
+                    // style={{ pointerEvents: "none" }}
                     >
-                        Em breve..
+                        Campos personalizados
                     </Links>
-                </div> */}
+                </div>
 
 
 

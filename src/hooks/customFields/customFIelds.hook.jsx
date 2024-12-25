@@ -16,9 +16,12 @@ export const CustomFields = ({ children }) => {
     const [options, setOptions] = useState([])
 
 
+
+
     const sendData = async () => {
         const response = await toast.promise(
-            URI.post("http://localhost:7070/campos-personalizados", { "options": options, "for": "deal", ...customFields }),
+            URI.post("/campos-personalizados",
+                { "options": options, ...customFields }),
             {
                 pending: 'Conferindo os dados',
                 success: 'Campo criado com sucesso',
@@ -29,7 +32,7 @@ export const CustomFields = ({ children }) => {
     }
 
     const createCustomFIeld = useMutation({
-        // mutationFn: () => sendData(),
+        mutationFn: () => sendData(),
         onSuccess: () => {
             queryClient.invalidateQueries(["custom"])
             setTypeSidebar(0)
@@ -39,13 +42,14 @@ export const CustomFields = ({ children }) => {
 
 
 
+
     const queryCustomFields = async () => {
-        const response = await URI.get("http://localhost:7070/campos-personalizados")
+        const response = await URI.get("/campos-personalizados")
         return response.data
     }
 
     const customFieldsQuery = useQuery({
-        // queryFn: () => queryCustomFields(),
+        queryFn: () => queryCustomFields(),
         queryKey: ["custom"],
         enabled: !headers.Authorization.includes("undefined")
     })

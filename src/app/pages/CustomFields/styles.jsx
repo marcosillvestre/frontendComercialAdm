@@ -3,8 +3,11 @@ import styled from "styled-components";
 
 
 
-export const Container = styled.section`
-padding: 0 4rem;
+export const Container = styled.main`
+padding: 0rem 5rem ;
+font-size: var(--fsMid) ;
+margin-left: 17px;
+
 header{
     width: 100%;
     overflow: hidden;
@@ -14,22 +17,7 @@ header{
 
 
     button{
-        border: none;
-        background-color: #1976d2;
-        font-family: "Roboto","Helvetica","Arial",sans-serif;
-        font-weight: 500;
-        font-size: 0.75rem;
-        letter-spacing: 0.02857em;
-        text-transform: uppercase;
-        min-width: 64px;
-        padding: 16px;
-        border-radius: 4px;
-        color: #fff;
-        cursor: pointer;
-        height: 3rem;
-        &:hover{
-        background-color: #1f5fba;
-        }
+        padding: 0 .5rem;
     }
 }
 `
@@ -54,11 +42,9 @@ background-color: rgb(234, 235, 240);
 
 
 export const Header = styled.header`
-
-
 display: flex;
 width: 100%;
-font-size: small ;
+font-size: var(--fsMid) ;
 border: 2px solid #dfe6f1;
 border-radius: .35rem;
 padding: 1rem 3rem;

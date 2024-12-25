@@ -284,6 +284,27 @@ export const UserProvider = ({ children }) => {
     const [openSidebar, setOpenSidebar] = useState(false);
     const [typeSidebar, setTypeSidebar] = useState(0)
 
+
+
+
+    /*
+    
+        async function k() {
+            await URI.get(`http://localhost:7070/periodo?range=${body.range}&role=${body.role}&name=${body.name}&unity=${body.unity}&dates=Sun Dec 01 2024 00:00:00 GMT-0300 (Horário Padrão de Brasília)~Tue Dec 31 2024 23:59:59 GMT-0300 (Horário Padrão de Brasília)&skip=${body.skip}&take=${body.take}`)
+                .then(res => console.log(res))
+                .catch(res => console.log(res))
+    
+        }
+        k()
+    
+    
+        // console.log(body)
+    */
+
+
+
+
+
     return (
         <UserContext.Provider value={{
             contracts, setContracts, periodRange, setPeriodRange, periodFilter, setPeriodFilter,

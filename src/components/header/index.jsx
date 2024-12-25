@@ -1,6 +1,5 @@
 
 import LogoutIcon from '@mui/icons-material/Logout';
-import SettingsIcon from '@mui/icons-material/Settings';
 import React, { useEffect, useState } from 'react';
 import { paths } from '../../app/constants/paths';
 import aw from '../../assets/awbr.png';
@@ -10,7 +9,6 @@ import {
     Container,
     Image,
     LogOut, Name,
-    NavList,
     WithNotifications
 } from "./styles";
 
@@ -33,11 +31,7 @@ export const Header = (parsed) => {
     }, [parsed])
 
 
-    const links = [
-        { link: paths.configRegister.path, label: "Painel de usuários" },
-        // { link: paths.configCustomFields, label: "Configurar campos" },
-        { link: paths.config.path, label: "Todas as configurações" },
-    ]
+
 
 
     return (
@@ -58,27 +52,6 @@ export const Header = (parsed) => {
                         {
                             userData.role === "direcao" &&
                             <>
-                                <div className='anchor'>
-                                    <SettingsIcon
-                                        onMouseOver={() => setNav(true)}
-                                    />
-
-                                    <NavList
-                                        active={nav && true}
-                                    >
-                                        {
-                                            links.map(res => (
-                                                <ol key={res.link}>
-                                                    <a href={res.link}>
-                                                        {res.label}
-                                                    </a>
-                                                </ol>
-
-                                            ))
-                                        }
-                                    </NavList>
-
-                                </div>
 
                                 <button
                                     className='anchor'

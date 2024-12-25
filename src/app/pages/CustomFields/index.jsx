@@ -5,7 +5,7 @@ import LoadingSpin from 'react-loading-spin';
 import { CustomFieldTable } from '../../../components/source.jsx';
 import { useCustomFields } from '../../../hooks/customFields/customFIelds.hook.jsx';
 import { useUser } from '../../../hooks/userContext.jsx';
-import { Container, Header, MainBox, Tax } from './styles.jsx';
+import { Container, Header, MainBox } from './styles.jsx';
 
 
 
@@ -16,31 +16,26 @@ export const CustomFields = () => {
     } = useUser()
 
     const { cfSrted, customFieldsQuery } = useCustomFields()
+
     if (userData.name === "Marcos") {
         return (
             <Container>
-                <h1>Configurações</h1>
-                <h3>Campos personalizados</h3>
                 <Header>
                     <nav>
-
                         <div>
-                            <Tax>
-                                {
-                                    customFieldsQuery.data &&
-                                    customFieldsQuery.data.length
-                                }
-                            </Tax>
-                            campos
-
+                            <h1>Configurações</h1>
+                            <h3>Campos personalizados</h3>
                         </div>
 
 
-                        <button onClick={() => {
-                            setTypeSidebar(1)
-                            setOpenSidebar(!openSidebar)
-                        }
-                        }>
+
+                        <button
+                            className='defaultButton'
+                            onClick={() => {
+                                setTypeSidebar(1)
+                                setOpenSidebar(!openSidebar)
+                            }
+                            }>
                             Criar campo
                         </button>
                     </nav>
@@ -60,6 +55,13 @@ export const CustomFields = () => {
                                 numberOfRotationsInAnimation={3} />
                             :
                             <table className='tableContainer'>
+                                <div style={{ textAlign: 'right' }}>
+                                    {
+                                        customFieldsQuery.data &&
+                                        customFieldsQuery.data.length
+                                    } registros
+
+                                </div>
                                 <TableContainer component={Paper}>
                                     <Table aria-label="collapsible table">
                                         <TableHead>
@@ -68,6 +70,7 @@ export const CustomFields = () => {
                                                 <TableCell style={{ fontWeight: 'bold' }} align='center'>Nome do campo</TableCell>
                                                 <TableCell style={{ fontWeight: 'bold' }} align="center">Tipo</TableCell>
                                                 <TableCell style={{ fontWeight: 'bold' }} align="center">Obrigatório</TableCell>
+                                                <TableCell style={{ fontWeight: 'bold' }} align="center">Categoria</TableCell>
                                                 <TableCell style={{ fontWeight: 'bold' }} align="center">Opções</TableCell>
                                                 <TableCell align="right">  </TableCell>
                                             </TableRow>

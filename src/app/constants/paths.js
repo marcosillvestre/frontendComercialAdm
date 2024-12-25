@@ -1,6 +1,6 @@
 
 const general = ['administrativo', 'direcao', 'comercial', 'gerencia', 'pedagogico', 'recepcao']
-const high = ['direcao']
+const high = ['direcao', 'gerencia']
 const mid = ['administrativo', 'direcao', 'comercial', 'gerencia', 'pedagogico']
 const low = ['administrativo', 'direcao', 'gerencia', 'comercial']
 
@@ -9,6 +9,11 @@ export const paths = {
     home: {
         path: "/",
         access: mid
+    },
+
+    configCustomFields: {
+        path: "/campos-personalizados",
+        access: high
     },
 
 

@@ -54,6 +54,7 @@ export function SureModal(data) {
             const filtered = fetchData?.filter(res => res.id !== id)
             setFetchData(filtered)
         })
+            .catch(err => console.log(err))
     }
     const queryCache = useQueryClient();
 

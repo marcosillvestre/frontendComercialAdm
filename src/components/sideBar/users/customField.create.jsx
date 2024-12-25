@@ -1,6 +1,5 @@
 import { FormControlLabel, FormGroup, Switch } from '@mui/material'
 import { useState } from 'react'
-import { toast } from 'react-toastify'
 import business from '../../../app/utils/Rules/options.jsx'
 import { useUnities } from '../../../hooks/unities/unitiesContext.hook'
 import { useUsers } from '../../../hooks/users/usersContext.hook.jsx'
@@ -39,8 +38,8 @@ export const CreateUsersForm = () => {
                     type="text"
                     onBlur={(e) => {
                         e.target.value !== '' &&
-                            sender("name", e.target.value) &&
-                            toast.success("Gravado")
+                            sender("name", e.target.value)
+                        // && toast.success("Gravado")
 
                     }}
                 />
@@ -81,8 +80,8 @@ export const CreateUsersForm = () => {
                     type="text"
                     onBlur={(e) => {
                         e.target.value !== '' &&
-                            sender("email", e.target.value) &&
-                            toast.success("Gravado")
+                            sender("email", e.target.value)
+                        // && toast.success("Gravado")
 
                     }}
                 />

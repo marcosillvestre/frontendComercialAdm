@@ -129,7 +129,7 @@ export function MiniDrawer() {
 
     const submit = (type) => {
         const submitCustomField = () => {
-            if (!customFields.label) {
+            if (!customFields.name) {
                 return alert("O 'nome do campo' é obrigatório!")
             }
             createCustomFIeld.mutateAsync()

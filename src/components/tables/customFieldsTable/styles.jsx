@@ -24,19 +24,13 @@ border: none;
 export const OptionsGroup = styled.div`
 display: flex;
 flex-wrap: wrap;
-gap: 5px;
+gap: 2px;
 margin: .7rem 0 ;
     .options-group{
     border: 1px dashed;
-    border-radius: 10px;
-    padding: 7px;
-    cursor: pointer;
-    font-size:.6rem;
-    p{
-        &::after{
-            content:' ✖️';
-        }
-    }
+    border-radius: 8px;
+    padding: 5px;
+  
     }
 
 `
