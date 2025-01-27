@@ -20,7 +20,7 @@ import { useUser } from '../../../hooks/userContext';
 import { UniqueSelect } from '../../selects/UniqueSelect/index.jsx';
 import { PopOverControl } from '../../source';
 import { ContractInfo } from './contractInfo';
-import { FinancialInfo } from './financialInfo/index.jsx';
+import { FinancialInfo } from './financialData/index.jsx';
 import { Historic } from './historic/index.jsx';
 import { Observations } from './observations';
 import { Pedagogic } from './pedagogic/index.jsx';
