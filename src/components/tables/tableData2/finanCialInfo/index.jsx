@@ -10,7 +10,7 @@ import { DateSelect } from '../../../selects/DateSelect/index.jsx';
 import { UniqueSelect } from '../../../selects/UniqueSelect/index.jsx';
 import { RowTableCustomFields, RowTableSection } from '../styles.jsx';
 
-export const FinanCialInfo = (props) => {
+export const FinancialInfo = (props) => {
 
     const { row } = props
 
@@ -370,7 +370,7 @@ export const FinanCialInfo = (props) => {
         </React.Fragment>
     )
 }
-FinanCialInfo.propTypes = {
+FinancialInfo.propTypes = {
     row: PropTypes.shape({
         id: PropTypes.string.isRequired,
         taxaMatriculaStatus: PropTypes.string.isRequired,
@@ -396,18 +396,18 @@ FinanCialInfo.propTypes = {
             })
         ),
         customFields: PropTypes.shape({
-            "Data de pagamento TM": PropTypes.string.isRequired,
-            "Forma de pagamento TM": PropTypes.string.isRequired,
-            "Valor total da parcela": PropTypes.string.isRequired,
-            "Valor do desconto de pontualidade por parcela": PropTypes.string.isRequired,
-            "Data de vencimento da primeira parcela": PropTypes.string.isRequired,
-            "Forma de pagamento da parcela": PropTypes.string.isRequired,
-            "Número de parcelas": PropTypes.string.isRequired,
-            "Valor total do material didático": PropTypes.string.isRequired,
-            "Valor do desconto material didático": PropTypes.string.isRequired,
-            "Data de pagamento MD": PropTypes.string.isRequired,
-            "Forma de pagamento do MD": PropTypes.string.isRequired,
-            "Valor de taxa de matrícula": PropTypes.string.isRequired,
+            "Data de pagamento TM": PropTypes.string,
+            "Forma de pagamento TM": PropTypes.string,
+            "Valor total da parcela": PropTypes.string,
+            "Valor do desconto de pontualidade por parcela": PropTypes.string,
+            "Data de vencimento da primeira parcela": PropTypes.string,
+            "Forma de pagamento da parcela": PropTypes.string,
+            "Número de parcelas": PropTypes.string,
+            "Valor total do material didático": PropTypes.string,
+            "Valor do desconto material didático": PropTypes.string,
+            "Data de pagamento MD": PropTypes.string,
+            "Forma de pagamento do MD": PropTypes.string,
+            "Valor de taxa de matrícula": PropTypes.string,
         }).isRequired,
     }).isRequired,
 }

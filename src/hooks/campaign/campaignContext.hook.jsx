@@ -67,7 +67,6 @@ export const CampaignProvider = ({ children }) => {
     })
     ///////////////////////// get
 
-    console.log(editCampaign)
 
 
     return (

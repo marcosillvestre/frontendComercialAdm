@@ -18,7 +18,6 @@ export const Insume = () => {
     }
 
 
-    console.log(editInsume)
     const submit = () => {
 
         editInsume !== null ?
