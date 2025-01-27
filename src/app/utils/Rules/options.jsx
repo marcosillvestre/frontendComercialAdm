@@ -1,16 +1,21 @@
 
 
 const comissionStatusOpt = [
-    { name: "Pendente" },
-    { name: "Não aprovado" },
-    { name: "Pré-aprovado" },
-    { name: "Comissionado" },
-    { name: "Aprovado" }
+    { name: "pendente" },
+    { name: "não aprovado" },
+    { name: "pré-aprovado" },
+    { name: "comissionado" },
+    { name: "aprovado" }
 ]
 const coursesOpt = [
     "Inglês",
     "Espanhol",
     "Tecnologia",
+]
+const courseOpt = [
+    { name: "Inglês" },
+    { name: "Espanhol" },
+    { name: "Tecnologia" },
 ]
 const backgroundOpt = [
     { name: "Novo aluno" },
@@ -19,9 +24,9 @@ const backgroundOpt = [
     { name: "Rematrícula" }
 ]
 const nonEspecificOpt = [
-    "Pendente",
-    "Ok",
-    "Não"
+    { name: "Pendente" },
+    { name: "Ok" },
+    { name: "Não" },
 ]
 
 const arrayQuantityChanges = [
@@ -65,7 +70,7 @@ const predeterminedPeriods = [
     { name: "Mês retrasado" },
     { name: "Este ano" },
     { name: "Todo período" },
-    { name: "Personalizado", customizable: true },
+    { name: "Personalizado", customizable: true, label: "Personalizado" },
 ]
 
 const customizablePeriods = [
@@ -131,5 +136,5 @@ export default {
     types,
     arrayQuantityChanges, predeterminedPeriods, customizablePeriods,
     comissionStatusOpt, coursesOpt, backgroundOpt, nonEspecificOpt,
-    roles, fields
+    roles, fields, courseOpt
 }

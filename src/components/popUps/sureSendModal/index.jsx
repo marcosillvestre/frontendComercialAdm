@@ -44,7 +44,7 @@ export function SureSendModal(data) {
 
 
     const [send, setSend] = useState(data.data === "PDF" ? false : true)
-    const { filteredContracts, headers } = useUser()
+    const { filteredContracts, headers, material, tax } = useUser()
     const { content, setView } = useData()
 
     const [open, setOpen] = useState(false);
@@ -85,19 +85,9 @@ export function SureSendModal(data) {
 
     const client = async (body) => {
 
-        // await toast.promise(
-        //     // axios.post("http://localhost:7070/cliente", body, { headers })
-        //     URI.post("/cliente", body)
-        //     , {
-        //         pending: 'Criando o cadastro no CA',
-        //         success: 'Criado com sucesso',
-        //         error: "Erro ao criar cadastro"
-        //     }
-        // )
-
 
         const response = new Promise((resolve, reject) => {
-            // axios.post("http://localhost:7070/cliente", body, { headers })
+            // axios.post("https://stagetests-684hi.ondigitalocean.app/cliente", body, { headers })
             URI.post("/cliente", body)
                 .then((res) => {
                     resolve(res)
@@ -122,7 +112,7 @@ export function SureSendModal(data) {
     const contract = async (body) => {
 
         await toast.promise(
-            // axios.post("http://localhost:7070/registro-conta-azul", body, { headers })
+            // axios.post("https://stagetests-684hi.ondigitalocean.app/registro-conta-azul", body, { headers })
             URI.post("/registro-conta-azul", body)
             , {
                 pending: 'Enviando o contrato',
@@ -130,45 +120,17 @@ export function SureSendModal(data) {
                 error: "Erro ao criar o contrato"
             }
         )
-        // new Promise((resolve, reject) => {
 
-        //     axios.post("http://localhost:7070/registro-conta-azul", body, { headers })
-        //         // URI.post("/registro-conta-azul", body)
-        //         .then((res) => {
-        //             resolve(res)
-        //             toast.success("Contrato criado com sucesso")
-
-        //         })
-        //         .catch(async err => {
-
-        //             toast.error("Erro ao criar o contrato")
-        //             const error = await err
-        //             if ("message" in error.response.data) alert(error.response.data.message)
-        //             reject(err)
-        //         })
-        //         .finally(() => {
-        //             setLoading(false)
-        //         })
-        //     })
     }
 
     const sales = async (body) => {
 
         if (parseFloat(filteredContracts.mdValor) > 0) {
-            // await toast.promise(
-            //     // axios.post("http://localhost:7070/venda", body, { headers })
-            //     URI.post("/venda", body)
-            //     , {
-            //         pending: 'Enviando o contrato',
-            //         success: 'Enviado com sucesso',
-            //         error: "Erro ao criar o contrato"
-            //     }
-            // )
-            // await axios.post("http://localhost:7070/venda", body, { headers })
+
             URI.post("/venda", body)
                 .then(() => toast.success("Venda criada com sucesso"))
                 .catch(async err => {
-                    toast.error("Erro ao criar a venda")
+                    toast.error("Erro ao enviar o material")
                     const error = await err
                     if ("message" in error.response.data) alert(error.response.data.message)
                 })
@@ -181,28 +143,18 @@ export function SureSendModal(data) {
 
     const feeEnroll = async (body) => {
 
-        if (parseFloat(filteredContracts.tmValor) > 0) {
+        if (parseFloat(filteredContracts.tmDesconto) !== 350) {
 
             await toast.promise(
-                // axios.post("http://localhost:7070/taxa", body, { headers })
+                // axios.post("https://stagetests-684hi.ondigitalocean.app/taxa", body, { headers })
                 URI.post("/taxa", body)
                 , {
-                    pending: 'Enviando o material didático',
+                    pending: 'Enviando a taxa de matrícula',
                     success: 'Enviado com sucesso',
-                    error: "Erro ao enviar o material didático"
+                    error: "Erro ao enviar a taxa de matrícula"
                 }
             )
-            // axios.post("http://localhost:7070/taxa", body, { headers })
-            //     // URI.post("/taxa", body)
-            //     .then(() => toast.success("Taxa de matrícula criada com sucesso"))
-            //     .catch(async err => {
-            //         toast.error("Erro ao cadastrar a taxa de matrícula")
-            //         const error = await err
-            //         if ("message" in error.response.data) alert(error.response.data.message)
-            //     })
-            //     .finally(() => {
-            //         setLoading(false)
-            //     })
+
 
         }
     }
@@ -218,11 +170,14 @@ export function SureSendModal(data) {
         estado, cep, profissao,
         email, nomeAluno, cargaHoraria, numeroParcelas, dataUltimaParcelaMensalidade,
         descontoTotal, descontoPorParcela, curso, ppFormaPg, ppVencimento,
-        dataUltimaP, materialDidatico, mdValor, mdFormaPg,
-        mdVencimento, tmValor, tmFormaPg, tmVencimento, valorCurso, service,
+        dataUltimaP, materialDidatico, mdFormaPg,
+        mdVencimento, tmFormaPg, tmVencimento, valorCurso, service,
         observacaoRd, mdDesconto, parcelasAfetadas, descontoPrimeirasParcelas, demaisParcelas, descontoDemaisParcelas, promocao,
-        obsFinanceiro
+        obsFinanceiro,
     } = filteredContracts === undefined || filteredContracts === undefined ? {} : filteredContracts
+
+    const tmValor = tax?.total
+    const mdValor = material?.total
 
     const body = {
         contrato, vendedor, parcelasAfetadas, descontoPrimeirasParcelas,
@@ -355,7 +310,7 @@ export function SureSendModal(data) {
 
             // return
             await toast.promise(
-                // axios.post('http://localhost:7070/uploads',
+                // axios.post('https://stagetests-684hi.ondigitalocean.app/uploads',
                 URI.post("/uploads",
                     data, { headers: headers })
                     .then(res => {
@@ -387,7 +342,7 @@ export function SureSendModal(data) {
 
 
             setTimeout(() => {
-                senderImpressContract(`adesao-${filteredContracts.name}+${filteredContracts.contrato}`, content)
+                senderImpressContract(`adesao-${filteredContracts.name}+${filteredContracts.id}`, content)
                     .then(res => {
                         if (res) {
                             setOpen(!open)

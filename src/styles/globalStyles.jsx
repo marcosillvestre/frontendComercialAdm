@@ -23,6 +23,9 @@ html{
         align-items: center;
         padding: 10px;
     }
+    .flex{
+        display: flex;
+    }
 
     .defaultButton{
     line-height: 1.75;

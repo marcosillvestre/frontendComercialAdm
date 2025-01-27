@@ -41,20 +41,17 @@ border-radius: .35rem;
 padding: 1rem 3rem;
 margin-bottom: 1.5rem;
 position: relative;
-
+justify-content: space-between;
 .comeback{
-    background-color: #1976d2;
-    border-radius: .5rem;
-    color: #fff;
     padding: .3rem 1rem;
-    margin: auto;
     cursor: pointer;
+    display: flex;
+    align-items: center;
 }
 .inputs{
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
-    width: 100%;
     label{
         min-width: 30%;
         .searcher{

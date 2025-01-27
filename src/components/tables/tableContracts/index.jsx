@@ -66,30 +66,29 @@ export default function TableContracts() {
         width: "100%",
         display: "flex",
         justifyContent: "center",
+        alignItems: "center",
+        minHeight: "12rem",
         boxShadow: "4px 10px 20px -12px rgba(0,0,0,0.62)"
     }
 
 
     return (
         <>
-            {
-                isPending || isLoading || isFetching ?
-                    <LoadingSpin
-                        duration="4s"
-                        width="15px"
-                        timingFunction="ease-in-out"
-                        direction="alternate"
-                        size="60px"
-                        primaryColor="#1976d2"
-                        secondaryColor="#333"
-                        numberOfRotationsInAnimation={3}
-                    />
-                    :
-                    <div style={style}>
+            <div style={style}>
+                {
+                    isPending || isLoading || isFetching ?
+                        <LoadingSpin
+                            duration="4s"
+                            width="15px"
+                            timingFunction="ease-in-out"
+                            direction="alternate"
+                            size="60px"
+                            primaryColor="#1976d2"
+                            secondaryColor="#333"
+                            numberOfRotationsInAnimation={3}
+                        />
+                        :
                         <TableContainer component={Paper}>
-
-
-
                             <Table aria-label="collapsible table">
                                 <TableHead>
                                     <TableRow>
@@ -113,8 +112,8 @@ export default function TableContracts() {
                                 </TableBody>
                             </Table>
                         </TableContainer>
-                    </div>
-            }
+                }
+            </div>
         </>
 
     );

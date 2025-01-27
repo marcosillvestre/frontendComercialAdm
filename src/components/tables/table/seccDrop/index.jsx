@@ -74,8 +74,12 @@ export const SeccDrop = (row) => {
         if (!file) return
         const { name, type, size } = file[0]
 
-        const { data: url } = await URI.post("/files",
-            { name, contentType: type, contrato: data.contrato, size, responsible: userData.name })
+        const { data: url } = await URI.post("https://stagetests-684hi.ondigitalocean.app/files",
+            {
+                name, contentType: type, contrato: data.contrato,
+                size, responsible: userData.name
+            }
+        )
 
 
         if (!url) return toast.error('Erro ao gerar URL')

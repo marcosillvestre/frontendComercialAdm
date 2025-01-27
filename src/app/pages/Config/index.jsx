@@ -1,6 +1,10 @@
 
+import camp from '../../../assets/campaign.svg'
+import products from '../../../assets/pdts.svg'
+import pdeserv from '../../../assets/prods.svg'
 import team from '../../../assets/team.svg'
-import { default as settings, default as unity } from '../../../assets/unity.svg'
+
+import { default as settings } from '../../../assets/unity.svg'
 
 import { paths } from '../../constants/paths.js'
 import { Container, Links, MainBox } from './styles.jsx'
@@ -26,19 +30,6 @@ export const Settings = () => {
                     </Links>
                 </div>
 
-                <div className='boxes'>
-                    <p>
-                        Cadastre todas as unidades da sua operação
-                    </p>
-                    <img src={unity} alt="" />
-                    <Links
-                        to={paths.configRegister.path}
-                        style={{ pointerEvents: "none" }}
-
-                    >
-                        Em breve..
-                    </Links>
-                </div>
 
                 <div className='boxes'>
                     <p>
@@ -49,9 +40,75 @@ export const Settings = () => {
                         to={paths.configCustomFields.path}
                     // style={{ pointerEvents: "none" }}
                     >
-                        Campos personalizados
+                        Campos
                     </Links>
                 </div>
+
+                <div className='boxes'>
+                    <p>
+                        Crie novas campanhas
+                    </p>
+                    <img src={camp} alt="" />
+                    <Links
+                        to={paths.campaign.path}
+                    // style={{ pointerEvents: "none" }}
+                    >
+                        Campanha
+                    </Links>
+                </div>
+
+
+                {/* <div className='boxes'>
+                    <p>
+                        Cadastre todas as unidades da sua operação
+                    </p>
+                    <img src={unityUnd} alt="" />
+                    <Links
+                        to={paths.configRegister.path}
+                        style={{ pointerEvents: "none" }}
+
+                    >
+                        Unidades
+                    </Links>
+                </div> */}
+
+                {/* ///////////////////////// */}
+
+                <div className='boxes'>
+                    <p>
+                        Controle os seus produtos
+                    </p>
+                    <img src={pdeserv} alt="" />
+                    <Links
+                        to={paths.products.path}
+                    >
+                        Produtos
+                    </Links>
+                </div>
+                <div className='boxes'>
+                    <p>
+                        Controle os seus serviços
+                    </p>
+                    <img src={products} alt="" />
+                    <Links
+                        to={paths.services.path}
+                    >
+                        Serviços
+                    </Links>
+                </div>
+
+                {/* <div className='boxes'>
+                    <p>
+                        Gerencie seus contratos
+                    </p>
+                    <img src={contract} alt="" />
+                    <Links
+                        to={paths.configCustomFields.path}
+                        style={{ pointerEvents: "none" }}
+                    >
+                        Em breve..
+                    </Links>
+                </div> */}
 
 
 

@@ -7,7 +7,6 @@ import styled from "styled-components";
 export const RowTable = styled(TableRow)`
 
 background-color: ${props => props.validated ? "" : "#90d5995a"};
-background-color: ${props => props.openned ? "#f5f5f5" : ""};
 
 border-left: .2rem solid #4648da;
 border-right: .2rem solid #4648da;
@@ -206,10 +205,6 @@ span:nth-child(2n){
     font-weight: lighter;
 
     font-size: calc(var(--fsLowest) - 1px);
-
-    h5{
-        /* width: 40%; */
-    }
 }
 
 `

@@ -27,8 +27,8 @@ padding: 20px 0;
 
 .boxes{
     background-color: #dbe1fc;
-    padding: 2rem 1rem;
-    border-radius: .9rem;
+    padding: 2rem;
+    border-radius: var(--border-radius);
     display: flex;
     flex-direction: column;
     align-items: center;

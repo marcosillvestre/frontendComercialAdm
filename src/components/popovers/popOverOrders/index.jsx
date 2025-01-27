@@ -53,7 +53,6 @@ export function PopOverOrder(data) {
                         </Divider>
 
                         <Divider onClick={() => {
-
                             let copy = row.order.link
                             navigator.clipboard.writeText(copy)
                             copy !== "" ? toast.success("Copiado para área de transferência") : toast.error("O recibo ainda não foi emitido")

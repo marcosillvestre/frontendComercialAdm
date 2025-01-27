@@ -18,7 +18,7 @@ export const SigningContracts = ({ children }) => {
     const signData = async () => {
 
         const { name, role } = await userData
-        const response = await URI.get(`/contrato/${sign}`)
+        const response = await URI.get(`https://stagetests-684hi.ondigitalocean.app/contrato/${sign}`)
         const responseData = response.data
 
 

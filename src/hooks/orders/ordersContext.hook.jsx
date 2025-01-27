@@ -124,7 +124,6 @@ export const OrdersProvider = ({ children }) => {
 
 
     const updateOrder = async (body) => {
-        console.log(body)
 
         await toast.promise(
             URI.put("/linkpedido", body),

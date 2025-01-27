@@ -7,7 +7,7 @@ font-size: var(--fsLowest) ;
 
 
 #category-select {
-            font-size: var(--fsLowest) ;
+font-size: var(--fsLowest) ;
 letter-spacing: .0225rem;
 }
 

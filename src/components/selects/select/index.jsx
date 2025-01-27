@@ -100,7 +100,7 @@ export const Select = (parameters) => {
                                             </span>
                                             :
                                             <span onClick={() => setLabel("Período personalizado")}>
-                                                <PositionedMenu name={data?.name} />
+                                                <PositionedMenu label={data.name} />
                                             </span>
                                     }
                                 </Options>

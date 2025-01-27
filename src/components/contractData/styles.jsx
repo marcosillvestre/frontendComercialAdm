@@ -1,17 +1,20 @@
 import styled, { keyframes } from "styled-components";
 
-export const Container = styled.section`
+export const Container = styled.main`
 
 font-size: var(--fsLowest);
 width: 100%;
-
-table, th, tr, thead{
+display: flex;
+flex-direction: column;
+gap: 1rem;
+ th, tr, thead{
     border: 1px solid #222;
-    /* padding: .1rem ; */
-
+    padding: .1rem ;
+    
 }
 table{
-    border-radius: .5rem;
+    border-radius: var(--border-radius);
+    width: 100%;
 }
 
 th{
@@ -21,7 +24,66 @@ th{
     }
 }
 
+
+
+
+    .box {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem; 
+
+}
+.container{
+    flex: 1 1 100%;
+    border: 1px solid #222;
+    border-radius: var(--border-radius);
+    width: 90dvw;
+
+    padding: 1rem ;
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem; 
+
+    .campaigns{
+        display: flex;
+        gap: 3rem; 
+
+    }
+}
+
+.container:nth-child(1),
+.container:nth-child(2) {
+    flex: 1 1 40%;
+}
+
 `
+
+export const ContainerData = styled.section`
+
+    nav{
+        display: flex;
+        justify-content: space-between;
+    }
+    .divider{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); 
+    gap: .5rem;  
+    text-align: start;
+
+    input{
+        padding: .4rem;
+    }
+    }
+
+    @media (max-width: 1445px){
+        .divider{
+        display: flex;
+        flex-wrap: wrap;
+        }
+        } 
+
+`
+
 
 
 export const NavBar = styled.nav`

@@ -166,21 +166,15 @@ export const Filters = styled.div`
     gap: 5px;
     div{
         display: flex;
-        gap: 5px;
         justify-content: center;
         align-items: center;
+        font-size: var(--fsLow) ;
+
         button{
             border: none;
-            color: #fff;
             background-color: #e63946;
-            font-family: "Roboto","Helvetica","Arial",sans-serif;
-            font-weight: 500;
-                font-size: var(--fsLow) ;
-
-            letter-spacing: 0.02857em;
-            text-transform: uppercase;
             padding: .5rem;
-            border-radius: 5px;
+            border-radius: var(--border-radius);
             margin: 5px;
         &:hover{
             background-color: #ac4047;
@@ -192,21 +186,24 @@ export const Filters = styled.div`
 
         }
 
-    }
-    span{
-    border: 1px dashed;
-    border-radius: 10px;
-    padding: 7px;
-    cursor: pointer;
-   .header{
-            font-size: var(--fsMid) ;
-
-    }
-    .body{
-        &::after{
-            content:' ✖️';
+        span{
+        border: 1px dashed;
+        border-radius: var(--border-radius);
+        padding: .5rem;
+        cursor: pointer;
+    
+        display: flex;
+        gap: .5rem;
+         &::after{
+                content:' ✖️';
+            }
+       .header{
+    
         }
-    }
+        .body{
+    
+        }
+        }
     }
 
 `

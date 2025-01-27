@@ -10,10 +10,27 @@ export const paths = {
         path: "/",
         access: mid
     },
+    campaign: {
+        path: "/campanhas",
+        access: low
+    },
+    products: {
+        path: "/produtos",
+        access: low
+    },
+    services: {
+        path: "/servicos",
+        access: low
+    },
+
+    taskManager: {
+        path: "/tarefas",
+        access: high
+    },
 
     configCustomFields: {
         path: "/campos-personalizados",
-        access: high
+        access: mid
     },
 
 

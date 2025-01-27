@@ -1,14 +1,17 @@
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import Divider from '@mui/material/Divider';
+import { Divider } from '@mui/material';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { alpha, styled } from '@mui/material/styles';
+import rules from '../../app/utils/Rules/options.jsx';
+import { useCustomFields } from '../../hooks/customFields/customFIelds.hook.jsx';
 import { useUser } from '../../hooks/userContext';
 import { PositionedMenu } from '../source.jsx';
 import { Buttonn, Container } from './styles.jsx';
 
 const StyledMenu = styled((props) => (
     <Menu
+
         elevation={0}
         anchorOrigin={{
             vertical: 'bottom',
@@ -49,14 +52,20 @@ const StyledMenu = styled((props) => (
     },
 }));
 
+
 export function CustomizedMenus() {
 
     const { anchorEl, handleClose, setAnchorEl, userData, setTake } = useUser()
+    const { comissionStatusOpt, coursesOpt, backgroundOpt } = rules
 
     const open = Boolean(anchorEl);
 
+    const { cfSrted } = useCustomFields()
+    const customFieldsFiltered = cfSrted && cfSrted.filter(res => res.type === "option")
+
+
     const handleClick = (event) => {
-        setTake('all')
+        // setTake('all')
 
         setAnchorEl(event.currentTarget);
     };
@@ -90,11 +99,44 @@ export function CustomizedMenus() {
                 onClose={handleClose}
 
             >
-                <MenuItem disableRipple>
-                    <PositionedMenu name={"Background"} />
-                </MenuItem>
+
 
                 <MenuItem disableRipple>
+                    <PositionedMenu
+                        label={"Status do comissionamento"}
+                        name={"comissaoStatus"}
+                        where={"comissaoStatus"}
+                        options={comissionStatusOpt}
+                    />
+                </MenuItem>
+
+                <Divider sx={{ my: 0.5 }} />
+
+                {
+                    customFieldsFiltered &&
+                    customFieldsFiltered.map(res => (
+
+                        <MenuItem disableRipple key={res.id}>
+                            <PositionedMenu
+                                where="customFields"
+                                label={res.name}
+                                name={res.name}
+                                options={
+                                    res.options.map(o => {
+                                        return {
+                                            name: o
+                                        }
+                                    })
+                                }
+                            />
+                        </MenuItem>
+
+                    ))
+                }
+
+
+
+                {/* <MenuItem disableRipple>
                     <PositionedMenu name={"Unidade"} />
                 </MenuItem>
 
@@ -102,18 +144,14 @@ export function CustomizedMenus() {
                     <PositionedMenu name={"Curso"} />
                 </MenuItem>
 
-                <Divider sx={{ my: 0.5 }} />
-
+                
                 <MenuItem disableRipple>
-                    {
-                        userData.role !== 'comercial' &&
-                        <PositionedMenu name={"Consultor"} />
+                {
+                    userData.role !== 'comercial' &&
+                    <PositionedMenu name={"Consultor"} />
                     }
-                </MenuItem>
-
-                <MenuItem disableRipple>
-                    <PositionedMenu name={"Status do comissionamento"} />
-                </MenuItem>
+                    </MenuItem>
+                    */}
 
 
             </StyledMenu>

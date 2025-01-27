@@ -15,12 +15,15 @@ import { useUser } from '../../hooks/userContext';
 import { CloserClick, Header } from '../source.jsx';
 
 import { toast } from 'react-toastify';
+import { useCampaign } from '../../hooks/campaign/campaignContext.hook.jsx';
 import { useContractsHook } from '../../hooks/contracts/contracts.hook.jsx';
 import { useCustomFields } from '../../hooks/customFields/customFIelds.hook.jsx';
 import { useUsers } from '../../hooks/users/usersContext.hook.jsx';
+import { Campaign } from './campaign/campaign.create.jsx';
 import { Contracts } from './contracts/contract.create.jsx';
 import { CustomFields } from './customFields/customField.create.jsx';
 import { Historic } from './historic/historic.get.jsx';
+import { Insume } from './insumes/insume.create.jsx';
 import { Navigation } from './navigation/navigation.jsx';
 import {
     Form,
@@ -111,6 +114,7 @@ export function MiniDrawer() {
 
     const { createContracts, contractData } = useContractsHook()
 
+    const { setEditCampaign } = useCampaign()
 
 
     const handleDrawerOpen = () => {
@@ -123,6 +127,8 @@ export function MiniDrawer() {
     const handleDrawerClose = () => {
         setTypeSidebar(0)
         setOpenSidebar(false);
+        setEditCampaign(null)
+
     };
 
 
@@ -158,6 +164,7 @@ export function MiniDrawer() {
 
 
         }
+
 
         type === 1 && submitCustomField()
         type === 2 && submitContracts()
@@ -238,11 +245,21 @@ export function MiniDrawer() {
                                 typeSidebar === 4 &&
                                 <Historic />
                             }
+                            {
+                                typeSidebar === 5 &&
+                                <Campaign />
+                            }
+                            {
+                                typeSidebar === 6 &&
+                                <Insume />
+                            }
 
 
                             {
                                 typeSidebar !== 0 &&
                                 typeSidebar !== 4 &&
+                                typeSidebar !== 5 &&
+                                typeSidebar !== 6 &&
                                 <>
                                     <hr />
                                     <Submit

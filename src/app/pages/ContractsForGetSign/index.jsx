@@ -1,9 +1,9 @@
 import { useState } from 'react'
 
 import SearchIcon from '@mui/icons-material/Search'
-import LoadingSpin from 'react-loading-spin'
 import { ContractData, Select } from '../../../components/source.jsx'
 import TableContracts from '../../../components/tables/tableContracts/index.jsx'
+import { useInsume } from '../../../hooks/insumes/insumesContext.hook.jsx'
 import { useSignContracts } from '../../../hooks/signContracts/sign.hook.jsx'
 import { useUser } from '../../../hooks/userContext'
 import { Container, Header, } from './styles'
@@ -13,9 +13,9 @@ export const Contracts = () => {
     const [search, setSearch] = useState("")
 
     const { filteredContracts, setFilteredContracts } = useUser()
-    const { setSign, contractOptions, setContractOptions, allContracts, contractsForSign } = useSignContracts()
+    const { setSign, contractOptions, setContractOptions, allContracts } = useSignContracts()
+    const { setTake } = useInsume()
 
-    const { isFetching } = contractsForSign
 
     async function data(e) {
         if (e.value !== '') {
@@ -59,7 +59,7 @@ export const Contracts = () => {
                                     { name: "Funil de Rematrículas Centro", value: "Funil-de-Rematrículas-Centro" },
                                 ]
                             }
-                            width="100%"
+                            width="5rem"
                             field="type"
                             fn={[data]}
                         />
@@ -101,11 +101,13 @@ export const Contracts = () => {
                 {
                     filteredContracts !== undefined &&
                     <span
-                        className='comeback'
+                        className='comeback defaultButton'
                         onClick={() => {
                             setFilteredContracts(undefined)
                             setContractOptions(allContracts)
                             setSearch("")
+                            setTake(10)
+
                         }}>
                         voltar
                     </span>
@@ -113,21 +115,7 @@ export const Contracts = () => {
             </Header>
             {
                 filteredContracts === undefined ?
-
-                    isFetching ?
-                        <LoadingSpin
-                            duration="4s"
-                            width="15px"
-                            timingFunction="ease-in-out"
-                            direction="alternate"
-                            size="60px"
-                            primaryColor="#1976d2"
-                            secondaryColor="#333"
-                            numberOfRotationsInAnimation={3}
-                        />
-                        :
-                        <TableContracts />
-                    :
+                    <TableContracts /> :
                     <ContractData />
             }
 

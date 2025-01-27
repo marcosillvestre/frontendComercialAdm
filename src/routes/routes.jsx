@@ -2,7 +2,10 @@
 import { createBrowserRouter } from "react-router-dom";
 
 import { paths } from "../app/constants/paths.js";
+import { Campaigns } from "../app/pages/campaigns/index.jsx";
 import Invoice from "../app/pages/Orders/template/invoice.jsx";
+import { Products } from "../app/pages/products/index.jsx";
+import { Services } from "../app/pages/Services/index.jsx";
 import {
     ComissionControll, Contracts, Control,
     CustomFields,
@@ -21,7 +24,9 @@ const user = JSON.parse(localStorage.getItem('userData'))
 const {
     config, home, redefinePass,
     signContracts, orders, nestedOrder, comissionalControl,
-    configRegister, control, nestedControl, configCustomFields } = paths
+    configRegister, control, nestedControl, configCustomFields,
+    campaign, products, services
+} = paths
 
 
 
@@ -43,6 +48,21 @@ const Routes = createBrowserRouter([
         element: <RecoverPassword />,
         errorElement: <ErrorPage />,
 
+    },
+    {
+        path: campaign.path,
+        element: campaign.access.find(res => res === user?.role) ? <><MiniDrawer /><Campaigns /> </> : <Login />,
+        errorElement: <ErrorPage />,
+    },
+    {
+        path: products.path,
+        element: products.access.find(res => res === user?.role) ? <><MiniDrawer /><Products /> </> : <Login />,
+        errorElement: <ErrorPage />,
+    },
+    {
+        path: services.path,
+        element: services.access.find(res => res === user?.role) ? <><MiniDrawer /><Services /> </> : <Login />,
+        errorElement: <ErrorPage />,
     },
     {
         path: signContracts.path,

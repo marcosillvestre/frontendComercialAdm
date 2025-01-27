@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import URI from '../../../app/utils/utils';
 import { useUser } from '../../../hooks/userContext';
-import { Boxes, ButtonDelete, Filter, Trash } from './styles';
+import { Boxes, ButtonDelete } from './styles';
 
 const style = {
     position: 'absolute',
@@ -44,7 +44,7 @@ export function SureModal(data) {
 
         await toast.promise(
             // axios.delete(`http://localhost:7070${data.url}/${id}?responsible=${responsible}`, { headers }),
-            URI.delete(`${data.url}/${id}?responsible=${responsible}`),
+            URI.delete(`http://localhost:7070${data.url}/${id}?responsible=${responsible}`),
             {
                 pending: 'Conferindo os dados',
                 success: 'Deletado com sucesso',
@@ -69,7 +69,7 @@ export function SureModal(data) {
 
     return (
         <div>
-            <Filter onClick={handleFuncs}> <Trash /></Filter>
+            <p onClick={handleFuncs}> Deletar</p>
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
@@ -90,6 +90,11 @@ export function SureModal(data) {
                         </Typography>
 
                         <Boxes>
+                            <span>
+                                Ao deletar esse item ele será excluido
+                                de maneira permanente do sistema!
+                            </span>
+
                             <ButtonDelete onClick={() => mutationDeleteData.mutateAsync()}>
                                 Apagar
                             </ButtonDelete>

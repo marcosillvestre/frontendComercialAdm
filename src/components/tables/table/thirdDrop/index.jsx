@@ -5,9 +5,11 @@ import { BodyTable, HeadTable, Select, Signs, Td } from '../styles'
 
 export const ThirdDrop = (row) => {
 
+    const { userData, SenderDirector, Sender } = useUser()
+
+
     const start = row.data.inicioContrato.split("/")
     const end = row.data.fimContrato.split("/")
-    const { userData, SenderDirector, Sender } = useUser()
 
 
     var data2 = new Date(`${end[2]}-${end[1]}-${end[0]}`); // Usando o formato "YYYY-MM-DD"
@@ -104,8 +106,8 @@ export const ThirdDrop = (row) => {
 
                 <HeadTable>
                     <TableRow>
-                        <TableCell style={{ fontWeight: "bold" }}>Status do Contrato</TableCell>
-                        <TableCell style={{ fontWeight: "bold" }}>Carga Horária</TableCell>
+                        <TableCell align="center" style={{ fontWeight: "bold" }}>Status do Contrato</TableCell>
+                        <TableCell align="center" style={{ fontWeight: "bold" }}>Carga Horária</TableCell>
                         <TableCell align="center" style={{ fontWeight: "bold" }}>Tempo de Contrato</TableCell>
                     </TableRow>
                 </HeadTable>

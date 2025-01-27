@@ -2,6 +2,7 @@
 import { useQuery } from "@tanstack/react-query"
 import Proptypes from 'prop-types'
 import { createContext, useContext, useState } from "react"
+import { getDate } from "../../app/utils/functions/getDates.jsx"
 import businessRules from '../../app/utils/Rules/options.jsx'
 import URI from "../../app/utils/utils.jsx"
 import { useUser } from "../userContext.jsx"
@@ -24,11 +25,16 @@ export const ComissionProvider = ({ children }) => {
 
 
 
-
     const comissionData = async () => {
-        if (selectedInitialDate !== null && selectedEndDate !== null) bodyComission['dates'] = `${selectedInitialDate}~${selectedEndDate}`
 
-        const response = await URI.get(`/comissao?range=${bodyComission.range}&dates=${bodyComission.dates}`).then(res => res.data.data)
+        bodyComission['dates'] = await getDate(bodyComission.range)
+
+        if (selectedInitialDate !== null && selectedEndDate !== null) {
+            bodyComission['range'] = "Personalizado"
+            bodyComission['dates'] = `${selectedInitialDate}~${selectedEndDate}`
+        }
+
+        const response = await URI.get(`https://stagetests-684hi.ondigitalocean.app/comissao?range=${bodyComission.range}&dates=${bodyComission.dates}`).then(res => res.data.data)
         return response
     }
 
@@ -43,8 +49,9 @@ export const ComissionProvider = ({ children }) => {
 
 
     const admRoles = () => {
-        if (userData.role !== 'comercial') return comissionQueried.deals
-        return comissionQueried.deals.filter(res => res.owner.toLowerCase().includes(userData.name.toLowerCase()))
+        return userData.role !== 'comercial' ?
+            comissionQueried.deals :
+            comissionQueried.deals.filter(res => res.owner.toLowerCase().includes(userData.name.toLowerCase()))
     }
 
     const comissionQuery = comissionSuccess && admRoles()

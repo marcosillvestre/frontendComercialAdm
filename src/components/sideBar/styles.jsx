@@ -85,6 +85,24 @@ border: none;
 font-size: .67rem;
 
 `
+export const TextArea = styled.textarea`
+min-width: 100%;
+max-width: 100%;
+
+color: #222;
+min-height: 5rem;
+max-height: 9rem;
+display: flex;
+padding: .75rem;
+align-items: center;
+justify-content: space-between;
+
+border-radius: .375rem;
+background-color:#dfe6f1;
+border: none;
+font-size: .67rem;
+
+`
 export const Container = styled(Box)`
 /* &::-webkit-scrollbar{
     width: 3rem;

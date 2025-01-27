@@ -5,12 +5,13 @@ import { redirect } from "react-router-dom"
 import URI from "../app/utils/utils.jsx"
 import { useData } from "./dataContext.jsx"
 
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { toast } from "react-toastify"
 import { paths } from '../app/constants/paths.js'
 import businessRules from '../app/utils/Rules/options.jsx'
 
-import { createContext, useContext, useEffect, useMemo, useState } from "react"
+import { createContext, useContext, useEffect, useLayoutEffect, useMemo, useState } from "react"
+import { getDate } from '../app/utils/functions/getDates.jsx'
 
 const UserContext = createContext({})
 export const UserProvider = ({ children }) => {
@@ -36,6 +37,7 @@ export const UserProvider = ({ children }) => {
 
     const { typeFilter } = useData()
 
+    const queryCache = useQueryClient();
 
 
     const handleClose = () => setAnchorEl(null);
@@ -83,7 +85,7 @@ export const UserProvider = ({ children }) => {
 
     const [take, setTake] = useState(10)
     const [skip, setSkip] = useState(0)
-    const [queryParam, setQueryParam] = useState({ param: "", value: "" })
+    const [queryParam, setQueryParam] = useState({ param: "", value: "", path: "" })
 
 
     const body = {
@@ -94,65 +96,26 @@ export const UserProvider = ({ children }) => {
         "unity": userData.unity,
         "take": take,
         "skip": skip,
+        "orderBy": "created_at"
     }
 
 
 
     const [allData, setAllData] = useState([])
 
-    const getDate = (range) => {
-
-        const now = new Date();
-
-        const LastMonth = () => `${new Date(now.getFullYear(), now.getMonth() - 1, 1, 0, 0, 0, 0)}~${new Date(now.getFullYear(), now.getMonth(), 0, 23, 59, 59, 999)}`;
-        const TwoMonths = () => `${new Date(now.getFullYear(), now.getMonth() - 2, 1, 0, 0, 0, 0)}~${new Date(now.getFullYear(), now.getMonth() - 1, 0, 23, 59, 59, 999)}`;
-        const ThisMonth = () => `${new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0, 0)}~${new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999)}`;
-
-        const Custom = () => `${selectedInitialDate}~${selectedEndDate}`;
-        const SevenDays = () => {
-            const date = new Date()
-            date.setDate(date.getDate() - 7)
-            return `${date.toDateString()}~${new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999)}`
-        }
-
-        const All = () => {
-            const date = new Date()
-            date.setDate(date.getDate() - 10000)
-            return `${date.toDateString()}~${new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999)}`
-        }
-
-        const ThisYear = () => {
-            const date = new Date();
-            const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
-            return `${firstDayOfYear.toDateString()}~${new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999)}`
-        }
-
-
-
-        const settledPeriod = {
-            "Mês passado": LastMonth(),
-            "Mês retrasado": TwoMonths(),
-            "Este mês": ThisMonth(),
-            "Personalizado": Custom(),
-            "Últimos 7 dias": SevenDays(),
-            "Este ano": ThisYear(),
-            "Todo período": All(),
-        }
-
-        return settledPeriod[range]
-    }
-
-
 
     const indexPeriod = async () => {
         body['dates'] = await getDate(body.range)
+
         if (selectedInitialDate !== null && selectedEndDate !== null) {
             body['range'] = "Personalizado"
+            body['dates'] = `${selectedInitialDate && selectedInitialDate}~${selectedEndDate && selectedEndDate}`
+
         }
 
 
-        let query = `/query?param=${queryParam.param}&value=${queryParam.value}&range=${await getDate(body.range)}&name=${body.name}&role=${body.role}`
-        let period = `/periodo?range=${body.range}&role=${body.role}&name=${body.name}&unity=${body.unity}&dates=${body.dates}&skip=${body.skip}&take=${body.take}`
+        let query = `https://stagetests-684hi.ondigitalocean.app/query?param=${queryParam.param}&value=${queryParam.value}&dates=${await getDate(body.range)}&name=${body.name}&role=${body.role}&orderBy=${body.orderBy}&path=${queryParam.path}`
+        let period = `https://stagetests-684hi.ondigitalocean.app/registro?range=${body.range}&role=${body.role}&name=${body.name}&unity=${body.unity}&dates=${body.dates}&skip=${body.skip}&take=${body.take}&orderBy=${body.orderBy}`
 
         const response = await
             URI.get(queryParam.value !== '' ? query : period)
@@ -163,7 +126,7 @@ export const UserProvider = ({ children }) => {
 
     const mutationControlData = useQuery({
         queryFn: () => indexPeriod(),
-        queryKey: [body, queryParam.value],
+        queryKey: [body, queryParam],
         enabled: !headers.Authorization.includes("undefined"),
         retry: false
     })
@@ -175,22 +138,21 @@ export const UserProvider = ({ children }) => {
         logOut()
     }
 
-    useEffect(() => {
-        if (headers.Authorization.includes("undefined") === false
-            && body.range !== "Período personalizado") {
-            mutationControlData.refetch()
-        }
-        if (body.range === "Período personalizado" &&
-            selectedInitialDate !== null && selectedEndDate !== null) {
-            mutationControlData.refetch()
-        }
+    useLayoutEffect(() => {
+
+        queryCache.invalidateQueries([body, queryParam])
         if (mutationControlData.isSuccess) {
             const { data } = mutationControlData
             setFiltered(data.deals)
             setAllData(data.deals)
         }
 
-    }, [periodRange, skip, take, mutationControlData.isSuccess, queryParam])
+    }, [
+        periodRange, skip, take,
+        mutationControlData.isSuccess, queryParam,
+        typeFilter.length
+    ])
+
 
 
     const decreaseFilters = (types) => {
@@ -222,40 +184,22 @@ export const UserProvider = ({ children }) => {
     const [periodFilter, setPeriodFilter] = useState(false)
 
 
-    async function SenderDirector(area, target, id, value) {
-        const day = new Date()
-        const currentDay = day.toLocaleDateString()
 
-        await toast.promise(
-            // axios.put(`http://localhost:7070/controle/${id}`,
-            URI.put(`/controle/${id}`,
-                {
-                    "area": area,
-                    "value": area !== 'observacao' ? target : value,
-                    "day": target !== "Ok" ? "" : currentDay,
-                    "responsible": { "name": userData.name, "role": userData.role }
-                }
-            ),
-            {
-                success: 'Atualizado com sucesso',
-                pending: 'Conferindo os dados',
-                error: 'Alguma coisa deu errado'
-            }
-        )
+    async function UpdateCustomFields(key, id, area, value, cf) {
+        cf[area] = value
+        Sender(key, id, cf, area)
     }
 
-    async function Sender(area, target, id, value) {
-        const day = new Date()
-        const currentDay = day.toLocaleDateString()
-
+    async function Sender(area, id, value, key) {
         await toast.promise(
-            URI.put(`/controle/${id}`,
+            // axios.put(`https://stagetests-684hi.ondigitalocean.app/controle/${id}`,
+            URI.put(`https://stagetests-684hi.ondigitalocean.app/registro/${id}`,
                 {
+                    key,
                     "area": area,
-                    "value": area !== 'observacao' ? target : value,
-                    "day": target !== "Ok" ? "" : currentDay,
+                    "value": value,
                     "responsible": { "name": userData.name, "role": userData.role }
-                },),
+                }),
             {
                 pending: 'Conferindo os dados',
                 success: 'Atualizado com sucesso',
@@ -285,23 +229,8 @@ export const UserProvider = ({ children }) => {
     const [typeSidebar, setTypeSidebar] = useState(0)
 
 
-
-
-    /*
-    
-        async function k() {
-            await URI.get(`http://localhost:7070/periodo?range=${body.range}&role=${body.role}&name=${body.name}&unity=${body.unity}&dates=Sun Dec 01 2024 00:00:00 GMT-0300 (Horário Padrão de Brasília)~Tue Dec 31 2024 23:59:59 GMT-0300 (Horário Padrão de Brasília)&skip=${body.skip}&take=${body.take}`)
-                .then(res => console.log(res))
-                .catch(res => console.log(res))
-    
-        }
-        k()
-    
-    
-        // console.log(body)
-    */
-
-
+    const [material, setmaterial] = useState()
+    const [tax, settax] = useState()
 
 
 
@@ -318,12 +247,16 @@ export const UserProvider = ({ children }) => {
             openPeriodRange, setOpenPeriodRange, unHandleLabel, setUnHandleLabel,
             mutationControlData, take, skip, setTake,
             setSkip, allData,
-            SenderDirector, Sender,
+            // SenderDirector, 
+            Sender,
+            UpdateCustomFields,
             historic, refetchHistoric, isPendingHistoric, historicSuccess, setHistoricTake, historicTake,
             openSidebar, setOpenSidebar,
             typeSidebar, setTypeSidebar,
             setQueryParam,
 
+            material, setmaterial,
+            tax, settax
         }}>
 
             {children}

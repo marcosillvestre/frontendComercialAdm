@@ -10,8 +10,15 @@ export const Filter = styled(Button)`
 
 export const Boxes = styled.div`
 display: flex;
+flex-direction: column;
 margin-top: .8rem ;
 justify-content: center;
+span{
+    margin: 2rem auto ;
+    border: 1px dashed;
+    border-radius: var(--border-radius);
+    padding: 1rem;
+}
 `
 
 export const ButtonDelete = styled.button`
