@@ -20,7 +20,7 @@ import { useUser } from '../../../hooks/userContext';
 import { UniqueSelect } from '../../selects/UniqueSelect/index.jsx';
 import { PopOverControl } from '../../source';
 import { ContractInfo } from './contractInfo';
-import { FinanCialInfo } from './financialInfo/index.jsx';
+import { FinancialInfo } from './financialInfo/index.jsx';
 import { Historic } from './historic/index.jsx';
 import { Observations } from './observations';
 import { Pedagogic } from './pedagogic/index.jsx';
@@ -222,7 +222,7 @@ function TableMainData(props) {
             <TableRow>
                 <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
                     <Collapse in={Registration} timeout="auto" unmountOnExit sx={{ width: "100%" }}>
-                        <FinanCialInfo row={row} />
+                        <FinancialInfo row={row} />
                     </Collapse>
                 </TableCell>
             </TableRow>
