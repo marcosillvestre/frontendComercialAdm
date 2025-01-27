@@ -27,7 +27,7 @@ import OfficeIntensivo from './templates/office-intensivo.jsx'
 export const ContractData = () => {
     gsap.registerPlugin(Flip)
 
-    const { filteredContracts, material, setmaterial, tax, settax } = useUser()
+    const { filteredContracts, } = useUser()
     const { content, view, setView } = useData()
     const [emmit, setEmmit] = useState(false)
     const [camp, setcamp] = useState({})
@@ -128,10 +128,10 @@ export const ContractData = () => {
 
 
 
-    console.log(InsumeQuery)
 
     const [paymentParcels, setPaymentParcels] = useState([])
-
+    const [material, setmaterial] = useState()
+    const [tax, settax] = useState()
 
 
     const possibi = {

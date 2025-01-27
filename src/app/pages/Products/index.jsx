@@ -1,4 +1,3 @@
-import React from 'react'
 import { InsumeTable } from '../../../components/tables/insumesTable'
 import { useInsume } from '../../../hooks/insumes/insumesContext.hook'
 import { useUser } from '../../../hooks/userContext'

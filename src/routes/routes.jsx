@@ -4,7 +4,7 @@ import { createBrowserRouter } from "react-router-dom";
 import { paths } from "../app/constants/paths.js";
 import { Campaigns } from "../app/pages/campaigns/index.jsx";
 import Invoice from "../app/pages/Orders/template/invoice.jsx";
-import { Products } from "../app/pages/products/index.jsx";
+import { Products } from "../app/pages/Products/index.jsx";
 import { Services } from "../app/pages/Services/index.jsx";
 import {
     ComissionControll, Contracts, Control,
