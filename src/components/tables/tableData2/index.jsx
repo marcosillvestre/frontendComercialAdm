@@ -17,7 +17,7 @@ import colorsRules from '../../../app/utils/Rules/colors.jsx';
 import businessRules from '../../../app/utils/Rules/options.jsx';
 import { useUnities } from '../../../hooks/unities/unitiesContext.hook.jsx';
 import { useUser } from '../../../hooks/userContext';
-import { UniqueSelect } from '../../selects/uniqueSelect/index.jsx';
+import { UniqueSelect } from '../../selects/UniqueSelect/index.jsx';
 import { PopOverControl } from '../../source';
 import { ContractInfo } from './contractInfo';
 import { FinanCialInfo } from './financialInfo/index.jsx';
