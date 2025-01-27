@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { useCustomFields } from '../../../../hooks/customFields/customFIelds.hook';
 import { useUser } from '../../../../hooks/userContext';
-import { UniqueSelect } from '../../../selects/uniqueSelect';
+import { UniqueSelect } from '../../../selects/UniqueSelect';
 import { RowTableCustomFields } from '../styles';
 
 

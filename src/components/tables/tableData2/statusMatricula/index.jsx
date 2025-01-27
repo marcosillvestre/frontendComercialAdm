@@ -10,7 +10,7 @@ import businessRules from '../../../../app/utils/Rules/options.jsx'
 import { useCustomFields } from '../../../../hooks/customFields/customFIelds.hook.jsx'
 import { useUser } from '../../../../hooks/userContext'
 import { DateSelect } from '../../../selects/DateSelect/index.jsx'
-import { UniqueSelect } from '../../../selects/uniqueSelect/index.jsx'
+import { UniqueSelect } from '../../../selects/UniqueSelect/index.jsx'
 import { RowTableCustomFields } from '../styles.jsx'
 
 export const StatusMatricula = (props) => {

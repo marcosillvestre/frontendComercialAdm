@@ -16,7 +16,7 @@ import * as Yup from 'yup';
 import URI from '../../../../app/utils/utils';
 import { useCustomFields } from '../../../../hooks/customFields/customFIelds.hook';
 import { useUser } from '../../../../hooks/userContext';
-import { UniqueSelect } from '../../../selects/uniqueSelect';
+import { UniqueSelect } from '../../../selects/UniqueSelect';
 import { BodyTable, ChooseArchive, FileContainer, HeadTable, InputsBox, ObservationField, RowTableCustomFields, Text, Trash } from '../styles';
 
 

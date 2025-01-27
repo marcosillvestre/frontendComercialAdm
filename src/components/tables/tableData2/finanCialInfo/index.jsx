@@ -4,11 +4,11 @@ import { Box, Collapse, IconButton, Table, TableBody, TableCell, TableHead, Tabl
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import businessRules from '../../../../app/utils/Rules/options.jsx';
-import { useCustomFields } from '../../../../hooks/customFields/customFIelds.hook';
+import { useCustomFields } from '../../../../hooks/customFields/customFIelds.hook.jsx';
 import { useUser } from '../../../../hooks/userContext.jsx';
 import { DateSelect } from '../../../selects/DateSelect/index.jsx';
-import { UniqueSelect } from '../../../selects/uniqueSelect';
-import { RowTableCustomFields, RowTableSection } from '../styles';
+import { UniqueSelect } from '../../../selects/UniqueSelect/index.jsx';
+import { RowTableCustomFields, RowTableSection } from '../styles.jsx';
 
 export const FinanCialInfo = (props) => {
 
