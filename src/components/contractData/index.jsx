@@ -770,7 +770,7 @@ export const ContractData = () => {
                                                 >
                                                     <label htmlFor="">
 
-                                                        <p>parcela n° {index}:</p>
+                                                        <p>parcela n° {index + 1}:</p>
                                                         <input type="number"
                                                             defaultValue={res.valor}
                                                             disabled
