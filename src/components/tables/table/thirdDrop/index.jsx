@@ -126,7 +126,7 @@ export const ThirdDrop = (row) => {
 
                         </TableCell>
                         <TableCell align="center">
-                            {row?.data.cargaHoraria}
+                            {row?.data["Carga horário do curso"]}
                         </TableCell>
                         <TableCell align="center">
                             {diferenceInMonths} meses

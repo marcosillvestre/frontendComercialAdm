@@ -86,7 +86,7 @@ export function SureModal(data) {
                 <Fade in={open} style={{ border: "none", borderRadius: ".9rem", width: "40%" }}>
                     <Box sx={style}>
                         <Typography id="transition-modal-title" variant="h6" component="h2">
-                            Quer mesmo apagar <q>{data.name}</q> ?
+                            Quer mesmo apagar <q>{data.name} </q> ?
                         </Typography>
 
                         <Boxes>

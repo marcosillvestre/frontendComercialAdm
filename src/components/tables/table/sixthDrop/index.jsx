@@ -25,10 +25,10 @@ export const SixthDrop = (row) => {
                             {row?.data.paDATA}
                         </TableCell>
                         <TableCell >
-                            {row?.data.classe}
+                            {row?.data["Classe"]}
                         </TableCell>
                         <TableCell align="center">
-                            {row?.data.subclasse}
+                            {row?.data["Subclasse"]}
                         </TableCell>
                         <TableCell align="center" >
                             {row?.data.materialDidatico.map(res => (<Td key={res}>{res}</Td>))}
@@ -68,10 +68,10 @@ export const SixthDrop = (row) => {
                             {row?.data.professor[2]}
                         </TableCell>
                         <TableCell align="center">
-                            {row?.data.tipoModalidade}
+                            {row?.data["Tipo/ modalidade"]}
                         </TableCell>
                         <TableCell align="center">
-                            {row?.data.formatoAula}
+                            {row?.data["Formato de Aula"]Aula}
                         </TableCell>
                         <TableCell align="center">
 

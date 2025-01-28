@@ -292,7 +292,7 @@ export const FirstDrop = (row) => {
                                     </Td>}
                         </TableCell>
                         <TableCell align="center"> {row?.data.owner}</TableCell>
-                        <TableCell align="center">{row?.data.dataMatricula}</TableCell>
+                        <TableCell align="center">{row?.data.dataMatricula} </TableCell>
 
 
 

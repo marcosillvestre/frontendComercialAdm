@@ -1,3 +1,4 @@
+import { TablePagination } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -26,14 +27,14 @@ function Row(props) {
                 onClick={() => setFilteredContracts(row)}
             >
 
-                <TableCell align="center" component="th" scope="row" >{row.name} </TableCell>
-                <TableCell align="center" component="th" scope="row" >{row.nomeAluno}</TableCell>
-                <TableCell align="center" component="th" scope="row">{row.dataMatricula}</TableCell>
-                <TableCell align="center" component="th" scope="row">{row.contrato}</TableCell>
+                <TableCell align="center" component="th" scope="row" >{row["Nome do responsável"]}</TableCell>
+                <TableCell align="center" component="th" scope="row" >{row["Nome do aluno"]}</TableCell>
+                <TableCell align="center" component="th" scope="row">{row["Data de emissão da venda"]}</TableCell>
+                <TableCell align="center" component="th" scope="row">{row["Nº do contrato"]}</TableCell>
 
 
                 <TableCell align="center" component="th" scope="row">{row.CelularResponsavel} </TableCell>
-                <TableCell align="center" component="th" scope="row">{row.subclasse}</TableCell>
+                <TableCell align="center" component="th" scope="row">{row["Subclasse"]}</TableCell>
 
             </RowTable>
 
@@ -43,13 +44,12 @@ function Row(props) {
 
 Row.propTypes = {
     row: PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        nomeAluno: PropTypes.string.isRequired,
         CelularResponsavel: PropTypes.string.isRequired,
-        dataMatricula: PropTypes.string.isRequired,
-        subclasse: PropTypes.string.isRequired,
-        contrato: PropTypes.string.isRequired,
-
+        "Data de emissão da venda": PropTypes.string.isRequired,
+        "Subclasse": PropTypes.string.isRequired,
+        "Nº do contrato": PropTypes.string.isRequired,
+        "Nome do aluno": PropTypes.string.isRequired,
+        "Nome do responsável": PropTypes.string.isRequired,
     }).isRequired,
 };
 
@@ -57,10 +57,10 @@ Row.propTypes = {
 
 export default function TableContracts() {
 
-    const { contractsForSign, contractOptions } = useSignContracts()
+    const { contractsForSign, contractOptions, setTake, setSkip } = useSignContracts()
+    const [rowsPerPage, setRowsPerPage] = React.useState(20);
 
-    const { isLoading, isPending, isFetching } = contractsForSign
-
+    const { isPending, data } = contractsForSign
     const style = {
         fontSize: "9px",
         width: "100%",
@@ -71,12 +71,30 @@ export default function TableContracts() {
         boxShadow: "4px 10px 20px -12px rgba(0,0,0,0.62)"
     }
 
+    const [page, setPage] = React.useState(0);
+
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage)
+        if (newPage === 0) return setSkip(1)
+
+        setSkip(newPage + 1)
+
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+
+        setRowsPerPage(parseInt(event.target.value));
+        setSkip(1);
+        setTake(+event.target.value);
+    };
+
 
     return (
         <>
             <div style={style}>
                 {
-                    isPending || isLoading || isFetching ?
+                    isPending ?
                         <LoadingSpin
                             duration="4s"
                             width="15px"
@@ -111,6 +129,15 @@ export default function TableContracts() {
                                     }
                                 </TableBody>
                             </Table>
+                            <TablePagination
+                                rowsPerPageOptions={[20, 40, 100]}
+                                component="div"
+                                count={data && data.total}
+                                rowsPerPage={rowsPerPage}
+                                page={page}
+                                onPageChange={handleChangePage}
+                                onRowsPerPageChange={handleChangeRowsPerPage}
+                            />
                         </TableContainer>
                 }
             </div>

@@ -2,7 +2,7 @@
 import PropTypes from 'prop-types';
 import { Container } from './styles.jsx';
 
-const Standard = ({ data }) => {
+const Standard = ({ data, parcel, campaign }) => {
     return (
         <Container id="content">
             <div>
@@ -11,11 +11,11 @@ const Standard = ({ data }) => {
                 </h4>
 
                 <h4>CURSO DE IDIOMAS E TECNOLOGIA</h4>
-                <h5>CONTRATO Nº: {data.contrato}</h5>
-                <h5>DATA DA MATRÍCULA: {data.dataMatricula}</h5>
-                <h5>TIPO DE CONTRATO: {data.tipoModalidade}</h5>
-                <h5>UNIDADE: {data.unidade}</h5>
-                <h5>TIPO DE ASSINATURA: {data.acFormato}</h5>
+                <h5>CONTRATO Nº: {data["Nº do contrato"]}</h5>
+                <h5>DATA DA MATRÍCULA: {data["Data de emissão da venda"]}</h5>
+                <h5>TIPO DE CONTRATO: {data["Tipo/ modalidade"]}</h5>
+                <h5>UNIDADE: {data["Unidade"]}</h5>
+                <h5>TIPO DE ASSINATURA: {data["Tipo de assinatura"]}</h5>
                 <h5>DA QUALIFICAÇÃO DAS PARTES</h5>
 
                 <p>
@@ -28,12 +28,12 @@ const Standard = ({ data }) => {
 
                 <table>
                     <tr>
-                        <h3>Nome: {data.name}</h3>
+                        <h3>Nome: {data["Nome do responsável"]}</h3>
 
                     </tr>
                     <tr>
                         <td>
-                            <h3>RG: {data.rg}</h3>
+                            <h3>RG: {data["RG responsável"]}</h3>
                         </td>
                         <td>
                             <h3>E-mail: {data.email}</h3>
@@ -41,7 +41,7 @@ const Standard = ({ data }) => {
                     </tr>
                     <tr>
                         <td>
-                            <h3>Data de Nascimento: {data.DatadeNascdoResp}</h3>
+                            <h3>Data de Nascimento: {data["Data de nascimento do  responsável"]}</h3>
                         </td>
                         <td>
                             <h3>Telefone: {data.CelularResponsavel}</h3>
@@ -49,42 +49,42 @@ const Standard = ({ data }) => {
                     </tr>
                     <tr>
                         <td>
-                            <h3>RUA/AV: {data.EnderecoResponsavel}</h3>
+                            <h3>RUA/AV: {data["Endereço"]}</h3>
                         </td>
                         <td>
-                            <h3>Nº: {data.NumeroEnderecoResponsavel}</h3>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h3>COMPL: {data.complemento}</h3>
-                        </td>
-                        <td>
-                            <h3>BAIRRO: {data.bairro}</h3>
+                            <h3>Nº: {data["Número"]}</h3>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <h3>CIDADE: {data.cidade}</h3>
+                            <h3>COMPL: {data["Complemento"]}</h3>
                         </td>
                         <td>
-                            <h3>UF: {data.estado}</h3>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h3>CEP: {data.cep}</h3>
-                        </td>
-                        <td>
-                            <h3>Estado Civil: {data.estadoCivil}</h3>
+                            <h3>BAIRRO: {data["Bairro"]}</h3>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <h3>Profissão: {data.profissao}</h3>
+                            <h3>CIDADE: {data["Cidade"]}</h3>
                         </td>
                         <td>
-                            <h3>CPF: {data.cpf}</h3>
+                            <h3>UF: {data["UF"]}</h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h3>CEP: {data["CEP"]}</h3>
+                        </td>
+                        <td>
+                            <h3>Estado Civil: {data["Estado civil responsável"]}</h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h3>Profissão: {data["Profissão"]}</h3>
+                        </td>
+                        <td>
+                            <h3>CPF: {data["CPF"]}</h3>
                         </td>
                     </tr>
                 </table>
@@ -117,9 +117,9 @@ const Standard = ({ data }) => {
 
                 <p>
                     O presente contrato terá como
-                    <strong> ALUNO: {data.nomeAluno}</strong>
+                    <strong> ALUNO: {data["Nome do aluno"]}</strong>
                 </p>
-                <h3>DATA DE NASCIMENTO: {data.nascimentoAluno}</h3>
+                <h3>DATA DE NASCIMENTO: {data["Data de nascimento do aluno"]}</h3>
 
                 <p>
                     Dessa forma, já qualificados, aceitam e os seguintes termos e
@@ -129,23 +129,23 @@ const Standard = ({ data }) => {
                 <table>
                     <tr>
                         <td>
-                            <h3>Curso: {data.curso}</h3>
+                            <h3>Curso: {data["Curso"]}</h3>
                         </td>
                         <td>
-                            <h3>Formato: {data.formato}</h3>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h3>Tipo: {data.tipoModalidade}</h3>
-                        </td>
-                        <td>
-                            <h3>Classe de curso: {data.classe}</h3>
+                            <h3>Formato: {data["Formato de Aula"]}</h3>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <h3>Subclasse de curso: {data.subclasse}</h3>
+                            <h3>Tipo: {data["Tipo/ modalidade"]}</h3>
+                        </td>
+                        <td>
+                            <h3>Classe de curso: {data["Classe"]}</h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h3>Subclasse de curso: {data["Subclasse"]}</h3>
                         </td>
                     </tr>
                 </table>
@@ -154,12 +154,12 @@ const Standard = ({ data }) => {
                 <br />
 
                 <p>
-                    A carga horária contratada tem o total de {data.cargaHoraria}
+                    A carga horária contratada tem o total de {data["Carga horário do curso"]}
                     horas-aulas. O curso Standard One - Standard é ministrado em
                     1 módulo que será realizado dentro do calendário didático
                     estipulado para o cumprimento da carga horária. De acordo
                     com o planejamento didático, as aulas têm previsão para
-                    início no dia {data.paDATA}, sujeito à alteração mediante aviso prévio.
+                    início no dia {data["Data da primeira aula"]}, sujeito à alteração mediante aviso prévio.
                 </p>
                 <br />
                 <hr />
@@ -168,15 +168,15 @@ const Standard = ({ data }) => {
                 <strong> SOBRE VALOR E DESCONTOS </strong>
                 <p>
                     O valor total da carga horária contratada é de R${data.valorCurso},
-                    que será dividido e pago em {data.numeroParcelas}
-                    parcelas cada qual com o vencimento para o dia {data.diaVenvimento.split("/")[0]}
-                    de cada mês, sendo o vencimento da primeira parcela na data {data.dataPrimeiraParcelaMensalidade
-                    } e, a última, no dia{data.dataUltimaParcelaMensalidade}.
+                    que será dividido e pago em {data["Número de parcelas"]}
+                    parcelas cada qual com o vencimento para o dia {data["Data de vencimento da primeira parcela"].split("/")[0]}
+                    de cada mês, sendo o vencimento da primeira parcela na data {data["Data de vencimento da primeira parcela"]
+                    } e, a última, no dia{data["Data de vencimento da última parcela"]}.
                 </p>
                 <p>
                     A CONTRATADA por iniciativa própria oferecerá ao
                     CONTRATANTE, descontos nas mensalidades totalizando o valor
-                    de R${data.descontoTotal}
+                    de R${data["Desconto total"]}
                     . Observando que o valor de cada parcela será de R${data.valorParcela},
                     cada parcela receberá o desconto de {data.descontoPorParcela}
                     caso o pagamento seja realizado até a data de vencimento
@@ -718,43 +718,94 @@ export default Standard
 
 Standard.propTypes = {
     data: PropTypes.shape({
-        acFormato: PropTypes.string,
-
-        valorCurso: PropTypes.number,
-        contrato: PropTypes.string,
-        dataMatricula: PropTypes.string,
-        formato: PropTypes.string,
-        unidade: PropTypes.string,
-        tipoModalidade: PropTypes.string,
-        name: PropTypes.string,
-        cpf: PropTypes.string,
-        rg: PropTypes.string,
-        email: PropTypes.string,
-        DatadeNascdoResp: PropTypes.string,
+        "Nº do contrato": PropTypes.string,
+        "Data de emissão da venda": PropTypes.string,
+        "Tipo/ modalidade": PropTypes.string,
+        id: PropTypes.string,
+        promocao: PropTypes.string,
+        vendedor: PropTypes.string,
         CelularResponsavel: PropTypes.string,
-        EnderecoResponsavel: PropTypes.string,
-        NumeroEnderecoResponsavel: PropTypes.string,
-        complemento: PropTypes.string,
-        bairro: PropTypes.string,
-        cidade: PropTypes.string,
-        estado: PropTypes.string,
-        cep: PropTypes.string,
-        estadoCivil: PropTypes.string,
-        profissao: PropTypes.string,
-        nomeAluno: PropTypes.string,
-        nascimentoAluno: PropTypes.string,
-        curso: PropTypes.string,
-        cargaHoraria: PropTypes.string,
-        paDATA: PropTypes.string,
-        valorParcela: PropTypes.string,
-        numeroParcelas: PropTypes.string,
-        diaVenvimento: PropTypes.string,
-        dataPrimeiraParcelaMensalidade: PropTypes.string,
-        dataUltimaParcelaMensalidade: PropTypes.string,
-        descontoTotal: PropTypes.string,
-        descontoPorParcela: PropTypes.string,
-        classe: PropTypes.string,
-        subclasse: PropTypes.string,
-        cargahoraria: PropTypes.string,
+        email: PropTypes.string,
+        valorCurso: PropTypes.number,
+        service: PropTypes.string,
+        'Nome do responsável': PropTypes.string,
+        CPF: PropTypes.string,
+        'RG responsável': PropTypes.string,
+        'Data de nascimento do  responsável': PropTypes.string,
+        'Estado civil responsável': PropTypes.string,
+        'Profissão': PropTypes.string,
+        CEP: PropTypes.string,
+        'País': PropTypes.string,
+        UF: PropTypes.string,
+        Cidade: PropTypes.string,
+        Bairro: PropTypes.string,
+        'Endereço': PropTypes.string,
+        'Número': PropTypes.string,
+        'Onde o voucher será aplicado?': PropTypes.string,
+        'Valor de taxa de matrícula': PropTypes.string,
+        'Valor de desconto na taxa de matrícula': PropTypes.string,
+        'Tipo de Campanha / Convênio': PropTypes.array,
+        Complemento: PropTypes.string,
+        'Valor do Desconto na Taxa de Matrícula': PropTypes.string,
+        'Data de pagamento TM': PropTypes.string,
+        'Quantidade de parcelas TM ': PropTypes.string,
+        'Número de parcelas': PropTypes.string,
+        'Forma de pagamento da parcela': PropTypes.string,
+        'Valor total da parcela': PropTypes.string,
+        'Valor do desconto de pontualidade por parcela': PropTypes.string,
+        'Tipo de pagamento': PropTypes.string,
+        'Forma de pagamento TM': PropTypes.string,
+        'Valor do desconto primeiras parcelas': PropTypes.string,
+        ' Quantidade de demais parcelas': PropTypes.string,
+        'Quantidade de primeiras parcelas com desconto': PropTypes.string,
+        'Desconto total': PropTypes.string,
+        'Valor do desconto demais parcelas': PropTypes.string,
+        'Data de vencimento da última parcela': PropTypes.string,
+        'Data de vencimento da primeira parcela': PropTypes.string,
+        'Valor total do material didático': PropTypes.string,
+        'Material didático': PropTypes.array,
+        'Quantidade de parcelas MD': PropTypes.string,
+        'Valor do desconto material didático': PropTypes.string,
+        'Data de pagamento MD': PropTypes.string,
+        'Forma de pagamento do MD': PropTypes.string,
+        'Data de início do contrato': PropTypes.string,
+        'Data de fim do contrato': PropTypes.string,
+        'Nome do aluno': PropTypes.string,
+        'Data de nascimento do aluno': PropTypes.string,
+        'Background do Aluno': PropTypes.string,
+        'Idade do Aluno': PropTypes.string,
+        'Possui conhecimento no idioma?': PropTypes.string,
+        'Precisa de nivelamento?': PropTypes.string,
+        'Dia de aula': PropTypes.array,
+        'Data da primeira aula': PropTypes.string,
+        Professor: PropTypes.string,
+        'Horário de Inicio': PropTypes.string,
+        'Formato de Aula': PropTypes.string,
+        'Horário de fim': PropTypes.string,
+        'Tipo de plano': PropTypes.string,
+        Curso: PropTypes.string,
+        Unidade: PropTypes.string,
+        Subclasse: PropTypes.string,
+        Classe: PropTypes.string,
+        'Carga horário do curso': PropTypes.string,
+        'Tipo de assinatura': PropTypes.string,
+        'Observações importantes para o financeiro:': PropTypes.string,
+        Vendedor: PropTypes.string,
+    }),
+    parcel: PropTypes.arrayOf({
+        valor: PropTypes.string
+    }),
+    campaign: PropTypes.shape({
+
+        id: PropTypes.string,
+        name: PropTypes.string,
+        description: PropTypes.string,
+        affectedParcels: PropTypes.number,
+        value: PropTypes.number,
+        descountType: PropTypes.string,
+        for: PropTypes.string,
+        status: true,
+        created_at: PropTypes.string,
+        updated_at: PropTypes.string
     })
 }

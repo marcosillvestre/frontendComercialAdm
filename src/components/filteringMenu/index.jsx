@@ -101,7 +101,7 @@ export function PositionedMenu(data) {
                             <span className='label'>
 
                                 <button onClick={() => setAnchorEl(null)}><ArrowBackIcon /></button>
-                                <h3>Período {data.name}</h3>
+                                <h3>Período {data.name} </h3>
                                 <div></div>
 
                             </span>

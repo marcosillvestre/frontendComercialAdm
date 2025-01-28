@@ -1,8 +1,8 @@
 
 import PropTypes from 'prop-types';
-import { Container } from './styles.jsx';
+import { Container } from '../styles.jsx';
 
-const StandardPromo = ({ data }) => {
+const StandardPromoRem = ({ data, parcel, campaign }) => {
     return (
         <Container id="content">
             <div>
@@ -11,11 +11,11 @@ const StandardPromo = ({ data }) => {
                 </h4>
 
                 <h4>CURSO DE IDIOMAS E TECNOLOGIA</h4>
-                <h5>CONTRATO Nº: {data.contrato}</h5>
-                <h5>DATA DA MATRÍCULA: {data.dataMatricula}</h5>
-                <h5>TIPO DE CONTRATO: {data.tipoModalidade}</h5>
-                <h5>UNIDADE: {data.unidade}</h5>
-                <h5>TIPO DE ASSINATURA: {data.acFormato}</h5>
+                <h5>CONTRATO Nº: {data["Nº do contrato"]}</h5>
+                <h5>DATA DA MATRÍCULA: {data["Data de emissão da venda"]}</h5>
+                <h5>TIPO DE CONTRATO: {data["Tipo/ modalidade"]}</h5>
+                <h5>UNIDADE: {data["Unidade"]}</h5>
+                <h5>TIPO DE ASSINATURA: {data["Tipo de assinatura"]}</h5>
                 <h5>DA QUALIFICAÇÃO DAS PARTES</h5>
 
                 <p>
@@ -28,12 +28,13 @@ const StandardPromo = ({ data }) => {
 
                 <table>
                     <tr>
-                        <h3>Nome: {data.name}</h3>
+                        <h3>Nome: {data["Nome do responsável"]}</h3>
+
 
                     </tr>
                     <tr>
                         <td>
-                            <h3>RG: {data.rg}</h3>
+                            <h3>RG: {data["RG responsável"]}</h3>
                         </td>
                         <td>
                             <h3>E-mail: {data.email}</h3>
@@ -41,7 +42,7 @@ const StandardPromo = ({ data }) => {
                     </tr>
                     <tr>
                         <td>
-                            <h3>Data de Nascimento: {data.DatadeNascdoResp}</h3>
+                            <h3>Data de Nascimento: {data["Data de nascimento do  responsável"]}</h3>
                         </td>
                         <td>
                             <h3>Telefone: {data.CelularResponsavel}</h3>
@@ -49,48 +50,50 @@ const StandardPromo = ({ data }) => {
                     </tr>
                     <tr>
                         <td>
-                            <h3>RUA/AV: {data.EnderecoResponsavel}</h3>
+                            <h3>RUA/AV: {data["Endereço"]}</h3>
                         </td>
                         <td>
-                            <h3>Nº: {data.NumeroEnderecoResponsavel}</h3>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h3>COMPL: {data.complemento}</h3>
-                        </td>
-                        <td>
-                            <h3>BAIRRO: {data.bairro}</h3>
+                            <h3>Nº: {data["Número"]}</h3>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <h3>CIDADE: {data.cidade}</h3>
+                            <h3>COMPL: {data["Complemento"]}</h3>
                         </td>
                         <td>
-                            <h3>UF: {data.estado}</h3>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h3>CEP: {data.cep}</h3>
-                        </td>
-                        <td>
-                            <h3>Estado Civil: {data.estadoCivil}</h3>
+                            <h3>BAIRRO: {data["Bairro"]}</h3>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <h3>Profissão: {data.profissao}</h3>
+                            <h3>CIDADE: {data["Cidade"]}</h3>
                         </td>
                         <td>
-                            <h3>CPF: {data.cpf}</h3>
+                            <h3>UF: {data["UF"]}</h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h3>CEP: {data["CEP"]}</h3>
+                        </td>
+                        <td>
+                            <h3>Estado Civil: {data["Estado civil responsável"]}</h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h3>Profissão: {data["Profissão"]}</h3>
+                        </td>
+                        <td>
+                            <h3>CPF: {data["CPF"]}</h3>
                         </td>
                     </tr>
                 </table>
+
                 <br />
                 <hr />
                 <br />
+
 
                 <p>
                     E do outro lado como <strong>“CONTRATADA”</strong> a pessoa
@@ -111,15 +114,15 @@ const StandardPromo = ({ data }) => {
                     </strong>
                     inscrita no CNPJ: 42.387.487/0001-57, com sede no endereço:
                     Avenida Amazonas, 1209, Centro, Betim/MG, CEP: 32600-325,
-                    responsável pela(s) unidade(s) abreviadas por “Centro” e “IBAE”.
+                    responsável pela(s) unidade(s) abreviadas por “Centro” e“IBAE”.
                 </p>
                 <br />
 
                 <p>
                     O presente contrato terá como
-                    <strong> ALUNO: {data.nomeAluno}</strong>
+                    <strong> ALUNO: {data["Nome do aluno"]}</strong>
                 </p>
-                <h3>DATA DE NASCIMENTO: {data.nascimentoAluno}</h3>
+                <h3>DATA DE NASCIMENTO: {data["Data de nascimento do aluno"]}</h3>
 
                 <p>
                     Dessa forma, já qualificados, aceitam e os seguintes termos e
@@ -129,23 +132,23 @@ const StandardPromo = ({ data }) => {
                 <table>
                     <tr>
                         <td>
-                            <h3>Curso: {data.curso}</h3>
+                            <h3>Curso: {data["Curso"]}</h3>
                         </td>
                         <td>
-                            <h3>Formato: {data.formato}</h3>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h3>Tipo: {data.tipoModalidade}</h3>
-                        </td>
-                        <td>
-                            <h3>Classe de curso: {data.classe}</h3>
+                            <h3>Formato: {data["Formato de Aula"]}</h3>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <h3>Subclasse de curso: {data.subclasse}</h3>
+                            <h3>Tipo: {data["Tipo/ modalidade"]}</h3>
+                        </td>
+                        <td>
+                            <h3>Classe de curso: {data["Classe"]}</h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h3>Subclasse de curso: {data["Subclasse"]}</h3>
                         </td>
                     </tr>
                 </table>
@@ -154,12 +157,12 @@ const StandardPromo = ({ data }) => {
                 <br />
 
                 <p>
-                    A carga horária contratada tem o total de {data.cargaHoraria}
+                    A carga horária contratada tem o total de {data["Carga horário do curso"]}
                     horas-aulas. O curso Standard One - Standard é ministrado em
                     1 módulo que será realizado dentro do calendário didático
                     estipulado para o cumprimento da carga horária. De acordo
                     com o planejamento didático, as aulas têm previsão para
-                    início no dia {data.paDATA}, sujeito à alteração mediante aviso prévio.
+                    início no dia {data["Data da primeira aula"]}, sujeito à alteração mediante aviso prévio.
                 </p>
                 <br />
                 <hr />
@@ -168,30 +171,53 @@ const StandardPromo = ({ data }) => {
                 <strong> SOBRE VALOR E DESCONTOS </strong>
                 <p>
                     O valor total da carga horária contratada é de R${data.valorCurso}
-                    , que será dividido e pago em {data.numeroParcelas}
+                    , que será dividido e pago em {data["Número de parcelas"]}
                     parcelas cada qual com o vencimento para o dia
-                    {data.diaVenvimento.split("/")[0]} de cada mês, sendo o vencimento
-                    da primeira parcela na data {data.dataPrimeiraParcelaMensalidade
-                    } e, a última, no dia {data.dataUltimaParcelaMensalidade}.
+                    {data["Data de vencimento da primeira parcela"].split("/")[0]} de cada mês, sendo o vencimento
+                    da primeira parcela na data {data["Data de vencimento da primeira parcela"]
+                    } e, a última, no dia {data["Data de vencimento da última parcela"]}.
                 </p>
                 <p>
                     A CONTRATADA por iniciativa própria oferecerá ao CONTRATANTE,
                     descontos nas mensalidades totalizando o valor de
-                    R${data.descontoTotal}. Observando que o valor de
-                    cada parcela será de R${data.valorParcela}, a(s)
-                    {data.parcelasAfetadas} primeira(s)
-                    parcela(s) receberá(aõ) o desconto de
-                    R${data.descontoPrimeirasParcelas} e as
-                    {data.demaisParcelas}  demais parcelas
-                    (caso houver) receberão  o desconto de
-                    R${data.descontoDemaisParcelas} caso o pagamento seja
+                    R$ {data["Desconto total"]}. Observando que o valor de
+                    cada parcela será de R${parseInt(parcel[parcel.length - 1].valor) + parseInt(data["Valor do desconto de pontualidade por parcela"])
+                    }, a(s) {campaign?.affectedParcels}  primeira(s)
+                    parcela(s) receberá(aõ) o desconto de R${campaign?.value
+                    } e as demais parcelas (caso houver) receberão  o desconto de R${
+                        data["Valor do desconto de pontualidade por parcela"]}  caso o pagamento seja
                     realizado até a data de vencimento optado pelo CONTRATANTE.
                     Aos pagamentos efetuados após a data de vencimento,
                     o CONTRATANTE perderá o desconto por pontualidade
                     no mês de atraso do desconto aplicado, somado aos
                     itens da cláusula 7.9.
-
                 </p>
+
+                <span
+                    className='flex'
+                    style={{
+                        flexWrap: "wrap",
+                        gap: ".5rem",
+                        margin: "1rem auto"
+                    }}
+                >
+
+                    {
+                        parcel.map((res, index) => (
+
+
+                            <div key={index}
+                            >
+                                <p>parcela n° {index + 1} :</p>
+                                <input type="number"
+                                    defaultValue={res.valor}
+                                    disabled
+                                />
+                            </div>
+                        ))
+                    }
+
+                </span>
                 <br />
                 <hr />
                 <br />
@@ -280,7 +306,8 @@ const StandardPromo = ({ data }) => {
                     inexistência de débitos em aberto por parte do CONTRATANTE.
 
                     <br />
-                    4.4. As cláusulas <strong  > 4.5 a 4.10 trata-se exclusivamente de serviços prestados
+                    4.4. As cláusulas <strong >
+                        4.5 a 4.10 trata-se exclusivamente de serviços prestados
                         por meio de PARCEIROS.
                     </strong>
 
@@ -499,6 +526,7 @@ const StandardPromo = ({ data }) => {
                 <strong>9. DESISTÊNCIA, RESCISÃO E TÉRMINO DO CONTRATO:
                 </strong>
 
+
                 <p>
                     <br />9.1: É de entendimento mútuo entre as partes que o término do CONTRATO será efetuado, de fato, na INEXISTÊNCIA de débitos EM ABERTO por parte do CONTRATANTE, mediante o RECIBO DE QUITAÇÃO. Sendo assim, a) vencimento do prazo contratual, b) cumprimento de carga horária e/ou c) abandono de curso não são critérios válidos para o término de contrato, por si só.
                     <br />9.2: A titularidade deste contrato é intransferível e insubstituível, e só poderá ser feita, como caso de EXCEÇÃO, em comum acordo entre as partes, devidamente assinado por ambos, através de um aditamento a este.
@@ -507,14 +535,13 @@ const StandardPromo = ({ data }) => {
                     <br />9.3.2: Em caso de assinatura presencial na sede da contratada seja para a modalidade presencial, online ou híbrida o prazo de desistência é de 48 (quarenta e oito) horas antes do início das aulas.
                     <br />9.3.3: Em caso de desistência após os prazos estipulados acima, não haverá devolução de valores de pagamentos já efetuados.
                     <br />9.4: O pedido de cancelamento/desistência/rescisão da matrícula deverá ser formalizado por escrito durante reunião presencial em uma das unidades com a Coordenação Pedagógica, a ser marcada pelo CONTRATANTE com antecedência mínima de 30 (trinta) dias, contados a partir do vencimento da última parcela paga, observadas as disposições legais. Em caso de aluno que faça o curso exclusivamente online, a reunião poderá ser realizada via videochamada.
-                    <br />9.5: Caso o cancelamento/desistência/rescisão da matrícula ocorra em até 90 dias após o início das aulas do módulo contratado, fica o CONTRATANTE obrigado a indenizar a CONTRATADA em multa correspondente a 10% (dez por cento) sobre o valor equivalente a carga horária restante. Em caso de cancelamento/desistência/rescisão ocorridas após 90 dias do início das aulas fica o CONTRATANTE isento da cobrança de multa  rescisória.
-                    <br />9.6: O pedido de cancelamento/desistência/rescisão da matrícula deverá ser formalizado por escrito durante reunião presencial em uma das unidades com a Coordenação Pedagógica, a ser marcada pelo CONTRATANTE com antecedência mínima de 30 (trinta) dias da data de vencimento da parcela referente ao mês de saída do curso. Em caso de aluno que faça o curso exclusivamente online, a reunião poderá ser realizada via videochamada.
-                    <br />9.7: Caso o aviso de cancelamento ocorra antes do prazo de 30 dias citados na cláusula anterior, serão devidos pelo CONTRATANTE a parcela referente ao mês de saída do aluno, além de multa rescisória caso o cancelamento ocorra dentro do prazo de 90 dias contados a partir do início das aulas mencionados na cláusula 9.3.
-                    <br />9.8: A ausência do aviso de cancelamento/desistência/rescisão obrigará o CONTRATANTE ao pagamento de 01 parcela correspondente ao período de 30 dias da comunicação que deveria ter sido efetuada ao CONTRATANTE.
-                    <br />9.9: Em se tratando de abandono das aulas da carga horária contratada, a CONTRATADA é autorizada a tomar quaisquer medidas cabíveis para recebimento dos devidos valores acrescidos de juros e correção monetária, e, medidas judiciais em prol do recebimento de eventuais valores. Os honorários e despesas processuais ficarão sob a responsabilidade do CONTRATANTE.
-                    <br />9.10: A CONTRATADA pode de imediato, rescindir o presente instrumento, independente de aviso ou notificação, em caso de descumprimento de qualquer dos itens expostos neste contrato, por parte do CONTRATANTE, ou por indisciplina do mesmo.
-                    <br />9.11: O não pagamento da mensalidade no vencimento dará permissão à CONTRATADA impedir a renovação da matrícula para o módulo seguinte, não isentando o CONTRATANTE da obrigação de quitação dos débitos existentes.
-                    <br />9.12: O contrato se consumará após a conclusão de todas as aulas contratadas e a confirmação de quitação de quaisquer débitos pendentes pelas partes envolvidas.
+                    <br />9.5: O pedido de cancelamento/desistência/rescisão da matrícula deverá ser formalizado por escrito durante reunião presencial em uma das unidades com a Coordenação Pedagógica, a ser marcada pelo CONTRATANTE com antecedência mínima de 30 (trinta) dias da data de vencimento da parcela referente ao mês de saída do curso. Em caso de aluno que faça o curso exclusivamente online, a reunião poderá ser realizada via videochamada.
+                    <br />9.6: Caso o aviso de cancelamento ocorra antes do prazo de 30 dias citados na cláusula anterior, serão devidos pelo CONTRATANTE a parcela referente ao mês de saída do aluno.
+                    <br />9.7: A ausência do aviso de cancelamento/desistência/rescisão obrigará o CONTRATANTE ao pagamento de 01 parcela correspondente ao período de 30 dias da comunicação que deveria ter sido efetuada ao CONTRATANTE.
+                    <br />9.8: Em se tratando de abandono das aulas da carga horária contratada, a CONTRATADA é autorizada a tomar quaisquer medidas cabíveis para recebimento dos devidos valores acrescidos de juros e correção monetária, e, medidas judiciais em prol do recebimento de eventuais valores. Os honorários e despesas processuais ficarão sob a responsabilidade do CONTRATANTE.
+                    <br />9.9: A CONTRATADA pode de imediato, rescindir o presente instrumento, independente de aviso ou notificação, em caso de descumprimento de qualquer dos itens expostos neste contrato, por parte do CONTRATANTE, ou por indisciplina do mesmo.
+                    <br />9.10: O não pagamento da mensalidade no vencimento dará permissão à CONTRATADA impedir a renovação da matrícula para o módulo seguinte, não isentando o CONTRATANTE da obrigação de quitação dos débitos existentes.
+                    <br />9.11: O contrato se consumará após a conclusão de todas as aulas contratadas e a confirmação de quitação de quaisquer débitos pendentes pelas partes envolvidas.
 
                 </p>
 
@@ -559,7 +586,7 @@ const StandardPromo = ({ data }) => {
                 <hr />
                 <br />
 
-                <strong>11. DA CONCORD NCIA E ASSINATURA DO CONTRATO </strong>
+                <strong> 11. DA CONCORD NCIA E ASSINATURA DO CONTRATO </strong>
 
                 <p>
 
@@ -711,53 +738,99 @@ const StandardPromo = ({ data }) => {
     )
 }
 
-export default StandardPromo
+export default StandardPromoRem
 
 
-StandardPromo.propTypes = {
+StandardPromoRem.propTypes = {
     data: PropTypes.shape({
-        acFormato: PropTypes.string,
-
-        valorCurso: PropTypes.number,
-        contrato: PropTypes.string,
-        dataMatricula: PropTypes.string,
-        formato: PropTypes.string,
-        unidade: PropTypes.string,
-        tipoModalidade: PropTypes.string,
-        name: PropTypes.string,
-        cpf: PropTypes.string,
-        rg: PropTypes.string,
-        email: PropTypes.string,
-        DatadeNascdoResp: PropTypes.string,
+        "Nº do contrato": PropTypes.string,
+        "Data de emissão da venda": PropTypes.string,
+        "Tipo/ modalidade": PropTypes.string,
+        id: PropTypes.string,
+        promocao: PropTypes.string,
+        vendedor: PropTypes.string,
         CelularResponsavel: PropTypes.string,
-        EnderecoResponsavel: PropTypes.string,
-        NumeroEnderecoResponsavel: PropTypes.string,
-        complemento: PropTypes.string,
-        bairro: PropTypes.string,
-        cidade: PropTypes.string,
-        estado: PropTypes.string,
-        cep: PropTypes.string,
-        estadoCivil: PropTypes.string,
-        profissao: PropTypes.string,
-        nomeAluno: PropTypes.string,
-        nascimentoAluno: PropTypes.string,
-        curso: PropTypes.string,
-        cargaHoraria: PropTypes.string,
-        paDATA: PropTypes.string,
-        valorParcela: PropTypes.string,
-        numeroParcelas: PropTypes.string,
-        diaVenvimento: PropTypes.string,
-        dataPrimeiraParcelaMensalidade: PropTypes.string,
-        dataUltimaParcelaMensalidade: PropTypes.string,
-        descontoTotal: PropTypes.string,
-        descontoPorParcela: PropTypes.string,
-        classe: PropTypes.string,
-        subclasse: PropTypes.string,
-        cargahoraria: PropTypes.string,
+        email: PropTypes.string,
+        valorCurso: PropTypes.number,
+        service: PropTypes.string,
+        'Nome do responsável': PropTypes.string,
+        CPF: PropTypes.string,
+        'RG responsável': PropTypes.string,
+        'Data de nascimento do  responsável': PropTypes.string,
+        'Estado civil responsável': PropTypes.string,
+        'Profissão': PropTypes.string,
+        CEP: PropTypes.string,
+        'País': PropTypes.string,
+        UF: PropTypes.string,
+        Cidade: PropTypes.string,
+        Bairro: PropTypes.string,
+        'Endereço': PropTypes.string,
+        'Número': PropTypes.string,
+        'Onde o voucher será aplicado?': PropTypes.string,
+        'Valor de taxa de matrícula': PropTypes.string,
+        'Valor de desconto na taxa de matrícula': PropTypes.string,
+        'Tipo de Campanha / Convênio': PropTypes.array,
+        Complemento: PropTypes.string,
+        'Valor do Desconto na Taxa de Matrícula': PropTypes.string,
+        'Data de pagamento TM': PropTypes.string,
+        'Quantidade de parcelas TM ': PropTypes.string,
+        'Número de parcelas': PropTypes.string,
+        'Forma de pagamento da parcela': PropTypes.string,
+        'Valor total da parcela': PropTypes.string,
+        'Valor do desconto de pontualidade por parcela': PropTypes.string,
+        'Tipo de pagamento': PropTypes.string,
+        'Forma de pagamento TM': PropTypes.string,
+        'Valor do desconto primeiras parcelas': PropTypes.string,
+        ' Quantidade de demais parcelas': PropTypes.string,
+        'Quantidade de primeiras parcelas com desconto': PropTypes.string,
+        'Desconto total': PropTypes.string,
+        'Valor do desconto demais parcelas': PropTypes.string,
+        'Data de vencimento da última parcela': PropTypes.string,
+        'Data de vencimento da primeira parcela': PropTypes.string,
+        'Valor total do material didático': PropTypes.string,
+        'Material didático': PropTypes.array,
+        'Quantidade de parcelas MD': PropTypes.string,
+        'Valor do desconto material didático': PropTypes.string,
+        'Data de pagamento MD': PropTypes.string,
+        'Forma de pagamento do MD': PropTypes.string,
+        'Data de início do contrato': PropTypes.string,
+        'Data de fim do contrato': PropTypes.string,
+        'Nome do aluno': PropTypes.string,
+        'Data de nascimento do aluno': PropTypes.string,
+        'Background do Aluno': PropTypes.string,
+        'Idade do Aluno': PropTypes.string,
+        'Possui conhecimento no idioma?': PropTypes.string,
+        'Precisa de nivelamento?': PropTypes.string,
+        'Dia de aula': PropTypes.array,
+        'Data da primeira aula': PropTypes.string,
+        Professor: PropTypes.string,
+        'Horário de Inicio': PropTypes.string,
+        'Formato de Aula': PropTypes.string,
+        'Horário de fim': PropTypes.string,
+        'Tipo de plano': PropTypes.string,
+        Curso: PropTypes.string,
+        Unidade: PropTypes.string,
+        Subclasse: PropTypes.string,
+        Classe: PropTypes.string,
+        'Carga horário do curso': PropTypes.string,
+        'Tipo de assinatura': PropTypes.string,
+        'Observações importantes para o financeiro:': PropTypes.string,
+        Vendedor: PropTypes.string,
+    }),
+    parcel: PropTypes.arrayOf({
+        valor: PropTypes.string
+    }),
+    campaign: PropTypes.shape({
 
-        parcelasAfetadas: PropTypes.string,
-        descontoPrimeirasParcelas: PropTypes.string,
-        demaisParcelas: PropTypes.string,
-        descontoDemaisParcelas: PropTypes.string,
+        id: PropTypes.string,
+        name: PropTypes.string,
+        description: PropTypes.string,
+        affectedParcels: PropTypes.number,
+        value: PropTypes.number,
+        descountType: PropTypes.string,
+        for: PropTypes.string,
+        status: true,
+        created_at: PropTypes.string,
+        updated_at: PropTypes.string
     })
 }

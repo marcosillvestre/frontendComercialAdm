@@ -97,6 +97,7 @@ export function SureSendModal(data) {
                 .catch(async err => {
                     toast.error("Erro ao cadastrar o cliente")
                     const error = await err
+                    console.log(err)
                     if ("message" in error.response.data) alert(error.response.data.message)
                     reject(err)
                 })

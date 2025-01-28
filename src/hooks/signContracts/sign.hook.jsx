@@ -1,7 +1,7 @@
 
-import { useQuery } from "@tanstack/react-query"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
 import Proptypes from 'prop-types'
-import { createContext, useContext, useState } from "react"
+import { createContext, useContext, useLayoutEffect, useState } from "react"
 import URI from "../../app/utils/utils"
 import { useUser } from "../userContext.jsx"
 
@@ -12,35 +12,40 @@ export const SigningContracts = ({ children }) => {
     const [sign, setSign] = useState("Funil-de-Vendas-PTB")
     const [contractOptions, setContractOptions] = useState([])
     const [allContracts, setAllContracts] = useState()
+    const [take, setTake] = useState(20)
+    const [skip, setSkip] = useState(1)
 
     const { userData } = useUser()
+    const queryCache = useQueryClient();
 
     const signData = async () => {
-
-        const { name, role } = await userData
-        const response = await URI.get(`https://stagetests-684hi.ondigitalocean.app/contrato/${sign}`)
-        const responseData = response.data
-
-
-        if ("role" in userData) {
-            const filteredBySellers = responseData.filter(res => res.vendedor.toLowerCase().includes(name.toLowerCase()))
-
-            setContractOptions(role === "comercial" ? filteredBySellers : responseData)
-            setAllContracts(role === "comercial" ? filteredBySellers : responseData)
-
-        }
+        const response = await URI.get(`http://localhost:7070/contrato/${sign}?take=${take}&skip=${skip}`)
 
         return response.data
     }
 
 
-
     const contractsForSign = useQuery({
         queryFn: () => signData(),
-        queryKey: [sign],
-        enabled: userData.role !== undefined
+        queryKey: [sign, skip, take],
+        enabled: userData.role !== undefined,
+        // retry: false
     })
 
+    useLayoutEffect(() => {
+        queryCache.invalidateQueries([sign, skip, take])
+
+        if (contractsForSign.isSuccess) {
+            const { data } = contractsForSign
+
+            const filteredBySellers = data.contracts.filter(res => res.vendedor.toLowerCase()
+                .includes(userData.name.toLowerCase()))
+
+            setContractOptions(userData.role === "comercial" ? filteredBySellers : data.contracts)
+            setAllContracts(userData.role === "comercial" ? filteredBySellers : data.contracts)
+        }
+
+    }, [take, skip, contractsForSign.isSuccess])
 
 
     return (
@@ -50,7 +55,10 @@ export const SigningContracts = ({ children }) => {
             setContractOptions,
             setSign,
             sign,
-            allContracts
+            allContracts,
+
+            take, setTake,
+            skip, setSkip
 
         }}>
 
