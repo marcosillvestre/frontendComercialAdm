@@ -17,7 +17,7 @@ export const CampaignProvider = ({ children }) => {
 
     const sendData = async () => {
         const response = await toast.promise(
-            URI.post("https://stagetests-684hi.ondigitalocean.app/campanha", campaign),
+            URI.post("/campanha", campaign),
             {
                 pending: 'Conferindo os dados',
                 success: 'Campanha criada com sucesso',
@@ -37,7 +37,7 @@ export const CampaignProvider = ({ children }) => {
 
     const editData = async () => {
         const response = await toast.promise(
-            URI.put(`https://stagetests-684hi.ondigitalocean.app/campanha/${editCampaign.id}`, editCampaign),
+            URI.put(`/campanha/${editCampaign.id}`, editCampaign),
             {
                 pending: 'Conferindo os dados',
                 success: 'Campanha criada com sucesso',
@@ -56,7 +56,7 @@ export const CampaignProvider = ({ children }) => {
     ///////////////////////// edit
 
     const queryCampaign = async () => {
-        const response = await URI.get("https://stagetests-684hi.ondigitalocean.app/campanha")
+        const response = await URI.get("/campanha")
         return response.data
     }
 

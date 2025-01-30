@@ -19,7 +19,7 @@ export const InsumeProvider = ({ children }) => {
 
     const sendData = async () => {
         const response = await toast.promise(
-            URI.post(`https://stagetests-684hi.ondigitalocean.app/insumo`, Insume),
+            URI.post(`/insumo`, Insume),
             {
                 pending: 'Conferindo os dados',
                 success: 'insumo criado com sucesso',
@@ -38,7 +38,7 @@ export const InsumeProvider = ({ children }) => {
     ///////////////////////// create
     const editData = async () => {
         const response = await toast.promise(
-            URI.put(`https://stagetests-684hi.ondigitalocean.app/insumo/${editInsume.id}`, editInsume),
+            URI.put(`/insumo/${editInsume.id}`, editInsume),
             {
                 pending: 'Conferindo os dados',
                 success: 'insumo criado com sucesso',
@@ -57,7 +57,7 @@ export const InsumeProvider = ({ children }) => {
     ///////////////////////// edit
 
     const productInsume = async () => {
-        const response = await URI.get(`https://stagetests-684hi.ondigitalocean.app/insumo?take=${take}&skip=${skip}&category=Product`)
+        const response = await URI.get(`/insumo?take=${take}&skip=${skip}&category=Product`)
         return response.data
     }
 
@@ -74,7 +74,7 @@ export const InsumeProvider = ({ children }) => {
     }, [take, skip])
 
     const serviceInsume = async () => {
-        const response = await URI.get(`https://stagetests-684hi.ondigitalocean.app/insumo?take=${take}&skip=${skip}&category=Service`)
+        const response = await URI.get(`/insumo?take=${take}&skip=${skip}&category=Service`)
         return response.data
     }
 
@@ -92,7 +92,7 @@ export const InsumeProvider = ({ children }) => {
 
 
     const queryInsume = async () => {
-        const response = await URI.get(`https://stagetests-684hi.ondigitalocean.app/insumos`)
+        const response = await URI.get(`/insumos`)
         return response.data
     }
 

@@ -96,7 +96,6 @@ export function SureSendContract(data) {
 
             // return
             await toast.promise(
-                // axios.post('https://stagetests-684hi.ondigitalocean.app/uploads',
                 URI.post("/uploads",
                     data, { headers: headers })
                     .then(async res => {

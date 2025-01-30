@@ -18,7 +18,6 @@ export const Contracts = ({ children }) => {
     const sendData = async () => {
 
         const response = await toast.promise(
-            // https://stagetests-684hi.ondigitalocean.app:7070
             URI.post("/novos-contratos", contractData),
             {
                 pending: 'Conferindo os dados',

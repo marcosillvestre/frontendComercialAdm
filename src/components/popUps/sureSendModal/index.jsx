@@ -87,8 +87,8 @@ export function SureSendModal(data) {
 
 
         const response = new Promise((resolve, reject) => {
-            // axios.post("https://stagetests-684hi.ondigitalocean.app/cliente", body, { headers })
-            URI.post("https://stagetests-684hi.ondigitalocean.app:7070/cliente", body)
+            // axios.post("/cliente", body, { headers })
+            URI.post("/cliente", body)
                 .then((res) => {
                     resolve(res)
                     toast.success("Cliente cadastrado com sucesso")
@@ -112,8 +112,8 @@ export function SureSendModal(data) {
     const contract = async (body) => {
 
         await toast.promise(
-            // axios.post("https://stagetests-684hi.ondigitalocean.app/registro-conta-azul", body, { headers })
-            URI.post("https://stagetests-684hi.ondigitalocean.app:7070/registro-conta-azul", body)
+            // axios.post("/registro-conta-azul", body, { headers })
+            URI.post("/registro-conta-azul", body)
             , {
                 pending: 'Enviando o contrato',
                 success: 'Enviado com sucesso',
@@ -127,7 +127,7 @@ export function SureSendModal(data) {
 
         if (filteredContracts.material.total > 0) {
 
-            URI.post("https://stagetests-684hi.ondigitalocean.app:7070/venda", body)
+            URI.post("/venda", body)
                 .then(() => toast.success("Venda criada com sucesso"))
                 .catch(async err => {
                     toast.error("Erro ao enviar o material")
@@ -144,8 +144,8 @@ export function SureSendModal(data) {
     const feeEnroll = async (body) => {
 
         if (filteredContracts.tax.total > 0) {
-            // axios.post("https://stagetests-684hi.ondigitalocean.app/taxa", body, { headers })
-            URI.post("https://stagetests-684hi.ondigitalocean.app:7070/taxa", body)
+            // axios.post("/taxa", body, { headers })
+            URI.post("/taxa", body)
                 .then(() => toast.success("Venda criada com sucesso"))
                 .catch(async err => {
                     toast.error("Erro ao enviar a taxa de matrícula")
@@ -262,8 +262,8 @@ export function SureSendModal(data) {
 
             // return
             await toast.promise(
-                // axios.post('https://stagetests-684hi.ondigitalocean.app/uploads',
-                URI.post("https://stagetests-684hi.ondigitalocean.app:7070/uploads",
+                // axios.post('/uploads',
+                URI.post("/uploads",
                     data, { headers: headers })
                     .then(res => {
                         const data = res.data.message

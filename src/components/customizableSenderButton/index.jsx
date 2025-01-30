@@ -99,7 +99,6 @@ export function CustomizableButton(data) {
         }
 
         await toast.promise(
-            // axios.put(`https://stagetests-684hi.ondigitalocean.app/multi-update`, obj, { headers }),
             URI.put(`/multi-update`, obj),
             {
                 pending: 'Conferindo os dados',

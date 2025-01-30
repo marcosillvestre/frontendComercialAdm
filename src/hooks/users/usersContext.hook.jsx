@@ -18,7 +18,6 @@ export const UsersProvider = ({ children }) => {
     const sendData = async () => {
         if (multiUnities.unity === undefined) return
         const response = await toast.promise(
-            // https://stagetests-684hi.ondigitalocean.app:7070
             URI.post("/cadastro", { ...person, unity: multiUnities.unity, responsible: userData.name }),
             {
                 pending: 'Conferindo os dados',

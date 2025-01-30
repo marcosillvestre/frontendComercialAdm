@@ -92,7 +92,7 @@ export const Observations = (props) => {
         if (!file) return
         const { name, type, size } = file[0]
 
-        const { data: url } = await URI.post("https://stagetests-684hi.ondigitalocean.app/files",
+        const { data: url } = await URI.post("/files",
             {
                 name, contentType: type, id: row.id,
                 size, responsible: userData.name
@@ -137,7 +137,7 @@ export const Observations = (props) => {
 
     async function DeleteFile(key) {
         await toast.promise(
-            URI.delete(`https://stagetests-684hi.ondigitalocean.app/file?key=${key}&idRegister=${row.id}&responsible=${userData.name}`),
+            URI.delete(`/file?key=${key}&idRegister=${row.id}&responsible=${userData.name}`),
             {
                 pending: 'Deletando o arquivo',
                 success: 'Arquivo deletado com sucesso',

@@ -19,7 +19,7 @@ export const SigningContracts = ({ children }) => {
     const queryCache = useQueryClient();
 
     const signData = async () => {
-        const response = await URI.get(`https://stagetests-684hi.ondigitalocean.app/contrato/${sign}?take=${take}&skip=${skip}`)
+        const response = await URI.get(`/contrato/${sign}?take=${take}&skip=${skip}`)
 
         return response.data
     }

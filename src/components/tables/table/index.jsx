@@ -68,7 +68,7 @@ export function FirstRow(props) {
     const { data, isPending, refetch, } = useQuery({
         queryFn: () => {
             if (headers.Authorization.includes("undefined") === false && contract !== "") {
-                // return axios.get(`https://stagetests-684hi.ondigitalocean.app/pessoal?contract=${contract}`, { headers }).then(res => res.data)
+                // return axios.get(`/pessoal?contract=${contract}`, { headers }).then(res => res.data)
                 return URI.get(`/pessoal?contract=${contract}`).then(res => res.data)
             }
         },

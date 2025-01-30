@@ -114,8 +114,8 @@ export const UserProvider = ({ children }) => {
         }
 
 
-        let query = `https://stagetests-684hi.ondigitalocean.app/query?param=${queryParam.param}&value=${queryParam.value}&dates=${await getDate(body.range)}&name=${body.name}&role=${body.role}&orderBy=${body.orderBy}&path=${queryParam.path}`
-        let period = `https://stagetests-684hi.ondigitalocean.app/registro?range=${body.range}&role=${body.role}&name=${body.name}&unity=${body.unity}&dates=${body.dates}&skip=${body.skip}&take=${body.take}&orderBy=${body.orderBy}`
+        let query = `/query?param=${queryParam.param}&value=${queryParam.value}&dates=${await getDate(body.range)}&name=${body.name}&role=${body.role}&orderBy=${body.orderBy}&path=${queryParam.path}`
+        let period = `/registro?range=${body.range}&role=${body.role}&name=${body.name}&unity=${body.unity}&dates=${body.dates}&skip=${body.skip}&take=${body.take}&orderBy=${body.orderBy}`
 
         const response = await
             URI.get(queryParam.value !== '' ? query : period)
@@ -192,8 +192,8 @@ export const UserProvider = ({ children }) => {
 
     async function Sender(area, id, value, key) {
         await toast.promise(
-            // axios.put(`https://stagetests-684hi.ondigitalocean.app/controle/${id}`,
-            URI.put(`https://stagetests-684hi.ondigitalocean.app/registro/${id}`,
+            // axios.put(`/controle/${id}`,
+            URI.put(`/registro/${id}`,
                 {
                     key,
                     "area": area,

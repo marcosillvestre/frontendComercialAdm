@@ -34,7 +34,7 @@ export const ComissionProvider = ({ children }) => {
             bodyComission['dates'] = `${selectedInitialDate}~${selectedEndDate}`
         }
 
-        const response = await URI.get(`https://stagetests-684hi.ondigitalocean.app/comissao?range=${bodyComission.range}&dates=${bodyComission.dates}`).then(res => res.data.data)
+        const response = await URI.get(`/comissao?range=${bodyComission.range}&dates=${bodyComission.dates}`).then(res => res.data.data)
         return response
     }
 
