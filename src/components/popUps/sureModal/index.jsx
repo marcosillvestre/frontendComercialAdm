@@ -43,8 +43,8 @@ export function SureModal(data) {
         const responsible = userData.name
 
         await toast.promise(
-            // axios.delete(`http://localhost:7070${data.url}/${id}?responsible=${responsible}`, { headers }),
-            URI.delete(`http://localhost:7070${data.url}/${id}?responsible=${responsible}`),
+            // axios.delete(`https://stagetests-684hi.ondigitalocean.app:7070${data.url}/${id}?responsible=${responsible}`, { headers }),
+            URI.delete(`https://stagetests-684hi.ondigitalocean.app${data.url}/${id}?responsible=${responsible}`),
             {
                 pending: 'Conferindo os dados',
                 success: 'Deletado com sucesso',

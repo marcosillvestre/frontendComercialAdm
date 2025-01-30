@@ -92,7 +92,7 @@ export const InsumeProvider = ({ children }) => {
 
 
     const queryInsume = async () => {
-        const response = await URI.get(`http://localhost:7070/insumos`)
+        const response = await URI.get(`https://stagetests-684hi.ondigitalocean.app/insumos`)
         return response.data
     }
 

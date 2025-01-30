@@ -405,6 +405,9 @@ export const ContractData = () => {
                                 if (freeToGo.find(res => res === "CPF")) return alert("CPF não cadastrado")
                                 if (freeToGo.find(res => res === "Valor do desconto material didático")) return alert("Valor do desconto material didático não cadastrado")
                                 if (freeToGo.find(res => res === "Nome do responsável")) return alert("Nome do responsável não cadastrado")
+                                if (freeToGo.find(res => res === "Número de parcelas")) return alert("Parcelas do curso não cadastradas")
+                                if (freeToGo.find(res => res === "Quantidade de parcelas MD")) return alert("Parcelas do Material Didático não cadastradas")
+                                if (freeToGo.find(res => res === "Quantidade de parcelas TM ")) return alert("Parcelas da Taxa de matrícula não cadastradas")
 
 
                                 setEmmit(!emmit)
@@ -599,16 +602,16 @@ export const ContractData = () => {
                                             <tr>
                                                 <th>Primeira parcela</th>
                                                 <th>Última parcela</th>
-                                                <th>Número de parcelas</th>
-                                                <th>valor cheio da Mensalidade</th>
+                                                <th>valor da Mensalidade</th>
+                                                <th>Parcelas</th>
 
                                             </tr>
 
                                             <tr>
                                                 <TableBody empty={filteredContracts["Data de vencimento da primeira parcela"] === "" || filteredContracts["Data de vencimento da primeira parcela"] === undefined}>{filteredContracts["Data de vencimento da primeira parcela"]}</TableBody>
                                                 <TableBody empty={filteredContracts["Data de vencimento da última parcela"] === "" || filteredContracts["Data de vencimento da última parcela"] === undefined}>{filteredContracts["Data de vencimento da última parcela"]}</TableBody>
-                                                <TableBody empty={filteredContracts["Número de parcelas"] === "" || filteredContracts["Número de parcelas"] === undefined}>{filteredContracts["Número de parcelas"]}</TableBody>
                                                 <TableBody empty={filteredContracts["Valor total da parcela"] === "" || filteredContracts["Valor total da parcela"] === undefined}>R$ {filteredContracts["Valor total da parcela"]}</TableBody>
+                                                <TableBody empty={filteredContracts["Número de parcelas"] === "" || filteredContracts["Número de parcelas"] === undefined}>{filteredContracts["Número de parcelas"]}</TableBody>
 
                                             </tr>
                                             <tr>
