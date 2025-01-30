@@ -67,7 +67,7 @@ export const ContractData = () => {
     }
 
     const { campaignQuery } = useCampaign()
-    const { InsumeQuery, setTake } = useInsume()
+    const { InsumeQuery, } = useInsume()
 
 
 
@@ -77,21 +77,10 @@ export const ContractData = () => {
     const [tax, settax] = useState()
 
 
-    const possibi = {
-        'PIX - Pagamento Instantâneo': "price_cash",
-        'Cartão de Crédito': "price_card",
-        'Cartão de Débito': "price_cash",
-        'Dinheiro': "price_cash",
-        'Cartão de Crédito via Link': "price_card",
-        'PIX Cobrança': "price_cash",
-        'Transferência Bancária': "price_cash",
-        'Boleto Bancário': "price_ticket",
 
-        'Sem pagamento': undefined,
-        'Isenção': undefined,
-    }
 
-    const defineValue = (array, search) => {
+    const defineValue = async (array, search) => {
+
         let value = []
 
         for (let index = 0; index < array.length; index++) {
@@ -102,9 +91,13 @@ export const ContractData = () => {
             const material = search.find(f => f.sku === splited[1])
 
             material !== undefined &&
-                value.push(material[possibi[filteredContracts["Forma de pagamento do MD"]]])
+                value.push({
+                    total: material["price_ticket"],
+                })
         }
-        return value.reduce((acc, curr) => acc + curr, 0)
+        const response = value.reduce((acc, curr) => acc + curr.total, 0)
+
+        return response
     }
 
     async function filterCampaigns() {
@@ -117,6 +110,7 @@ export const ContractData = () => {
         let parcel;
         let material;
         let tax;
+
         for (const element of settedCampaign) {
             const campaignFiltered = campaignQuery.data.find(res => res.name === element && res.status === true)
 
@@ -148,8 +142,6 @@ export const ContractData = () => {
     const activeCampaignForParcel = (campaignParcel) => {
 
         let array = []
-
-
         for (let index = 0; index < parseInt(filteredContracts["Número de parcelas"]); index++) {
 
             const campaignDescount = campaignParcel.descountType === "Percentage" ?
@@ -171,19 +163,21 @@ export const ContractData = () => {
                 })
         }
         setPaymentParcels(array)
+
+        filteredContracts["parcel"] = {
+            campaign: campaignParcel
+        }
+
     }
-
-
 
     const activeCampaignForMaterial = async (campaignMaterial, insumes) => {
 
-
-        const mdValor = await defineValue(filteredContracts["Material didático"], insumes) - parseNumber(filteredContracts["Valor do desconto material didático"])
+        const total = await defineValue(filteredContracts["Material didático"], insumes)
+        const mdValor = total - parseNumber(filteredContracts["Valor do desconto material didático"])
 
         const campaignDescount = campaignMaterial.descountType === "Percentage" ?
             (mdValor * campaignMaterial.value / 100) :
             campaignMaterial.value
-
 
 
         const materials = []
@@ -194,48 +188,74 @@ export const ContractData = () => {
         }
         setmaterial({
             materials,
-            total: mdValor - campaignDescount
+            total: total
         })
 
+        filteredContracts["material"] = {
+            materials,
+            total: total,
+            campaign: campaignMaterial
+        }
 
     }
 
     const activeCampaignForTax = async (campaignTax) => {
-        const taxValue = 350 - parseNumber(filteredContracts["Valor do Desconto na Taxa de Matrícula"])
+        const value = 350 - parseNumber(filteredContracts["Valor do Desconto na Taxa de Matrícula"])
 
         const campaignDescount = campaignTax.descountType === "Percentage" ?
-            (350 * campaignTax.value / 100) :
+            (value * campaignTax.value / 100) :
             campaignTax.value
 
+        const taxValue = value - campaignDescount
 
         const tx = []
         for (let index = 0; index < filteredContracts["Quantidade de parcelas TM "]; index++) {
 
-            tx.push({ valor: ((taxValue - campaignDescount) / filteredContracts["Quantidade de parcelas TM "]) })
+            tx.push({ valor: (taxValue / filteredContracts["Quantidade de parcelas TM "]).toFixed(2) })
         }
         settax({
             taxes: tx,
             total: taxValue
         })
 
+        filteredContracts["tax"] = {
+            taxes: tx,
+            total: taxValue,
+            campaign: campaignTax
+        }
     }
+    ///////////////////////////////
+
+
+
+
+
+
+
 
     //////////////Serão ativados caso não haja campanha ativa no contrato
     const sincValueForMaterial = async (campaignMaterial) => {
 
-        const mdValor = await defineValue(filteredContracts["Material didático"], campaignMaterial) - parseNumber(filteredContracts["Valor do desconto material didático"])
+        const total = await defineValue(filteredContracts["Material didático"], campaignMaterial)
 
-        let mat = []
+        const mdValor = total - parseNumber(filteredContracts["Valor do desconto material didático"])
+
+        let materials = []
         for (let index = 0; index < parseNumber(filteredContracts["Quantidade de parcelas MD"]); index++) {
-            mat.push({ valor: (mdValor / parseNumber(filteredContracts["Quantidade de parcelas MD"])).toFixed(2) })
+            materials.push({ valor: (mdValor / parseNumber(filteredContracts["Quantidade de parcelas MD"])).toFixed(2) })
 
         }
         setmaterial({
-            materials: mat,
-            total: mdValor
+            materials,
+            total: total
 
         })
 
+
+        filteredContracts["material"] = {
+            materials,
+            total: total
+        }
     }
 
 
@@ -253,20 +273,29 @@ export const ContractData = () => {
         }
 
         setPaymentParcels(array)
+
     }
+
+
     const sincValueForTax = async () => {
+
         const taxValue = 350 - parseNumber(filteredContracts["Valor do Desconto na Taxa de Matrícula"])
         const tx = []
         for (let index = 0; index < filteredContracts["Quantidade de parcelas TM "]; index++) {
 
-            tx.push({ valor: (taxValue / filteredContracts["Quantidade de parcelas TM "]) })
+            tx.push({ valor: (taxValue / filteredContracts["Quantidade de parcelas TM "]).toFixed(2) })
         }
         settax({
             taxes: tx,
             total: taxValue
         })
-    }
 
+        filteredContracts["tax"] = {
+            taxes: tx,
+            total: taxValue
+        }
+    }
+    /////////////////////////////////////
 
     useEffect(() => {
         if (
@@ -275,21 +304,18 @@ export const ContractData = () => {
         ) {
             const isThereActive = async () => await filterCampaigns()
 
-
             isThereActive()
                 .then(res => {
 
                     const { material, parcel, tax } = res
                     setcamp(res)
-                    setTake(300)
-
 
                     material ? activeCampaignForMaterial(material, InsumeQuery.data.insumes) : sincValueForMaterial(InsumeQuery.data.insumes)
                     parcel ? activeCampaignForParcel(parcel) : sincValueForParcel()
                     tax ? activeCampaignForTax(tax) : sincValueForTax(tax)
                 })
         }
-    }, [filteredContracts, InsumeQuery?.data])
+    }, [filteredContracts, InsumeQuery.isSuccess])
 
 
 
@@ -332,7 +358,10 @@ export const ContractData = () => {
         "Office Essential Intensivo": <OfficeIntensivo id='content' data={filteredContracts} parcel={paymentParcels} campaign={camp?.parcel} />
     }
 
+    const keys = Object.keys(filteredContracts)
+    const freeToGo = keys.filter(key => !filteredContracts[key])
 
+    console.log(freeToGo)
     return (
         <Container>
             {
@@ -368,7 +397,18 @@ export const ContractData = () => {
                         <Button
                             className='defaultButton'
                             open={emmit && true}
-                            onClick={() => setEmmit(!emmit)}
+                            onClick={() => {
+                                const keys = Object.keys(filteredContracts)
+                                const freeToGo = keys.filter(key => !filteredContracts[key])
+
+
+                                if (freeToGo.find(res => res === "CPF")) return alert("CPF não cadastrado")
+                                if (freeToGo.find(res => res === "Valor do desconto material didático")) return alert("Valor do desconto material didático não cadastrado")
+                                if (freeToGo.find(res => res === "Nome do responsável")) return alert("Nome do responsável não cadastrado")
+
+
+                                setEmmit(!emmit)
+                            }}
                         >
                             Emitir Contrato
                         </Button>

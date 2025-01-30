@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Container } from '../styles.jsx';
 
 const StandardPromo = ({ data, parcel, campaign }) => {
+
     return (
         <Container id="content">
             <div>
@@ -178,7 +179,7 @@ const StandardPromo = ({ data, parcel, campaign }) => {
                     A CONTRATADA por iniciativa própria oferecerá ao CONTRATANTE,
                     descontos nas mensalidades totalizando o valor de
                     R$ {data["Desconto total"]}. Observando que o valor de
-                    cada parcela será de R${parseInt(parcel[parcel.length - 1].valor) + parseInt(data["Valor do desconto de pontualidade por parcela"])
+                    cada parcela será de R${parseInt(parcel[parcel.length - 1]?.valor) + parseInt(data["Valor do desconto de pontualidade por parcela"])
                     }, a(s) {campaign?.affectedParcels}  primeira(s)
                     parcela(s) receberá(aõ) o desconto de R${campaign?.value
                     } e as demais parcelas (caso houver) receberão  o desconto de R${
@@ -824,7 +825,7 @@ StandardPromo.propTypes = {
         value: PropTypes.number,
         descountType: PropTypes.string,
         for: PropTypes.string,
-        status: true,
+        status: PropTypes.bool,
         created_at: PropTypes.string,
         updated_at: PropTypes.string
     })

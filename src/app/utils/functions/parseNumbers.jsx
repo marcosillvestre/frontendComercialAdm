@@ -6,7 +6,6 @@ export const parseNumber = (number) => {
             parseFloat(number.replace(",", ".")) :
             parseInt(number)
 
-
         return parsed
     }
 

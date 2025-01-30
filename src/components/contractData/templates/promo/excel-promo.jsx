@@ -170,8 +170,7 @@ const ExcelPromo = ({ data, parcel, campaign }) => {
                 <strong> SOBRE VALOR E DESCONTOS </strong>
                 <p>
                     O valor total da carga horária contratada é de R${data.valorCurso}
-                    , que será dividido e pago em {
-                        data["Número de parcelas"]
+                    , que será dividido e pago em {data["Número de parcelas"]
                     } parcelas cada qual com o vencimento para o dia {
                         data["Data de vencimento da primeira parcela"].split("/")[0]} de cada mês, sendo o vencimento
                     da primeira parcela na data {
@@ -182,7 +181,7 @@ const ExcelPromo = ({ data, parcel, campaign }) => {
                     A CONTRATADA por iniciativa própria oferecerá ao CONTRATANTE,
                     descontos nas mensalidades totalizando o valor de
                     R$ {data["Desconto total"]}. Observando que o valor de
-                    cada parcela será de R${parseInt(parcel[parcel.length - 1].valor) + parseInt(data["Valor do desconto de pontualidade por parcela"])
+                    cada parcela será de R${parseInt(parcel[parcel.length - 1]?.valor) + parseInt(data["Valor do desconto de pontualidade por parcela"])
                     }, a(s) {campaign?.affectedParcels}  primeira(s)
                     parcela(s) receberá(aõ) o desconto de R${campaign?.value
                     } e as demais parcelas (caso houver) receberão  o desconto de R${
@@ -761,7 +760,7 @@ ExcelPromo.propTypes = {
         value: PropTypes.number,
         descountType: PropTypes.string,
         for: PropTypes.string,
-        status: true,
+        status: PropTypes.bool,
         created_at: PropTypes.string,
         updated_at: PropTypes.string
     })

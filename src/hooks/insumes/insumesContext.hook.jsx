@@ -90,14 +90,15 @@ export const InsumeProvider = ({ children }) => {
 
     }, [take, skip])
 
+
     const queryInsume = async () => {
-        const response = await URI.get(`https://stagetests-684hi.ondigitalocean.app/insumos`)
+        const response = await URI.get(`http://localhost:7070/insumos`)
         return response.data
     }
 
     const InsumeQuery = useQuery({
         queryFn: () => queryInsume(),
-        queryKey: ["service"],
+        queryKey: ["serviceAll"],
         enabled: !headers.Authorization.includes("undefined")
     })
 

@@ -185,7 +185,7 @@ const Office = ({ data, parcel }) => {
                     A CONTRATADA por iniciativa própria oferecerá ao
                     CONTRATANTE, descontos nas mensalidades totalizando o valor
                     de R${data["Desconto total"]} . Observando que o valor de cada
-                    parcela será de R${parseInt(parcel[parcel.length - 1].valor) + parseInt(data["Valor do desconto de pontualidade por parcela"])}, cada parcela
+                    parcela será de R${parseInt(parcel[parcel.length - 1]?.valor) + parseInt(data["Valor do desconto de pontualidade por parcela"])}, cada parcela
                     receberá o desconto de R${data["Valor do desconto de pontualidade por parcela"]} caso o
                     pagamento seja realizado até a data de vencimento optado
                     pelo CONTRATANTE. Aos pagamentos efetuados após a data de
@@ -806,7 +806,7 @@ Office.propTypes = {
         value: PropTypes.number,
         descountType: PropTypes.string,
         for: PropTypes.string,
-        status: true,
+        status: PropTypes.bool,
         created_at: PropTypes.string,
         updated_at: PropTypes.string
     })

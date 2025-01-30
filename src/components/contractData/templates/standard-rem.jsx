@@ -2,7 +2,7 @@
 import PropTypes from 'prop-types';
 import { Container } from './styles.jsx';
 
-const StandardRem = ({ data, parcel, campaign }) => {
+const StandardRem = ({ data, parcel }) => {
     return (
         <Container id="content">
             <div>
@@ -174,17 +174,17 @@ const StandardRem = ({ data, parcel, campaign }) => {
                     que será dividido e pago em {data["Número de parcelas"]}
                     parcelas cada qual com o vencimento para o dia {data["Data de vencimento da primeira parcela"].split("/")[0]}
                     de cada mês, sendo o vencimento da primeira parcela na data {data["Data de vencimento da primeira parcela"]
-                    } e, a última, no dia{data["Data de vencimento da última parcela"]}.
+                    } e, a última, no dia {data["Data de vencimento da última parcela"]}.
                 </p>
                 <p>
                     A CONTRATADA por iniciativa própria oferecerá ao
                     CONTRATANTE, descontos nas mensalidades totalizando o valor
-                    de R${data["Desconto total"]}
-                    . Observando que o valor de cada parcela será de R${data.valorParcela},
-                    cada parcela receberá o desconto de {data.descontoPorParcela}
-                    caso o pagamento seja realizado até a data de vencimento
-                    optado pelo CONTRATANTE. Aos pagamentos efetuados após a
-                    data de vencimento, o CONTRATANTE perderá o desconto por
+                    de R${data["Desconto total"]} . Observando que o valor de cada
+                    parcela será de R${parseInt(parcel[parcel.length - 1]?.valor) + parseInt(data["Valor do desconto de pontualidade por parcela"])}, cada parcela
+                    receberá o desconto de R${data["Valor do desconto de pontualidade por parcela"]} caso o
+                    pagamento seja realizado até a data de vencimento optado
+                    pelo CONTRATANTE. Aos pagamentos efetuados após a data de
+                    vencimento, o CONTRATANTE perderá o desconto por
                     pontualidade no mês de atraso do desconto aplicado, somado
                     aos itens da cláusula 7.9.
                 </p>
@@ -802,7 +802,7 @@ StandardRem.propTypes = {
         value: PropTypes.number,
         descountType: PropTypes.string,
         for: PropTypes.string,
-        status: true,
+        status: PropTypes.bool,
         created_at: PropTypes.string,
         updated_at: PropTypes.string
     })

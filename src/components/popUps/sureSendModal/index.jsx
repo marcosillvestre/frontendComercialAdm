@@ -44,7 +44,7 @@ export function SureSendModal(data) {
 
 
     const [send, setSend] = useState(data.data === "PDF" ? false : true)
-    const { filteredContracts, headers, material, tax } = useUser()
+    const { filteredContracts, headers } = useUser()
     const { content, setView } = useData()
 
     const [open, setOpen] = useState(false);
@@ -88,7 +88,7 @@ export function SureSendModal(data) {
 
         const response = new Promise((resolve, reject) => {
             // axios.post("https://stagetests-684hi.ondigitalocean.app/cliente", body, { headers })
-            URI.post("/cliente", body)
+            URI.post("http://localhost:7070/cliente", body)
                 .then((res) => {
                     resolve(res)
                     toast.success("Cliente cadastrado com sucesso")
@@ -97,7 +97,6 @@ export function SureSendModal(data) {
                 .catch(async err => {
                     toast.error("Erro ao cadastrar o cliente")
                     const error = await err
-                    console.log(err)
                     if ("message" in error.response.data) alert(error.response.data.message)
                     reject(err)
                 })
@@ -114,7 +113,7 @@ export function SureSendModal(data) {
 
         await toast.promise(
             // axios.post("https://stagetests-684hi.ondigitalocean.app/registro-conta-azul", body, { headers })
-            URI.post("/registro-conta-azul", body)
+            URI.post("http://localhost:7070/registro-conta-azul", body)
             , {
                 pending: 'Enviando o contrato',
                 success: 'Enviado com sucesso',
@@ -126,9 +125,9 @@ export function SureSendModal(data) {
 
     const sales = async (body) => {
 
-        if (parseFloat(filteredContracts.mdValor) > 0) {
+        if (filteredContracts.material.total > 0) {
 
-            URI.post("/venda", body)
+            URI.post("http://localhost:7070/venda", body)
                 .then(() => toast.success("Venda criada com sucesso"))
                 .catch(async err => {
                     toast.error("Erro ao enviar o material")
@@ -144,70 +143,33 @@ export function SureSendModal(data) {
 
     const feeEnroll = async (body) => {
 
-        if (parseFloat(filteredContracts.tmDesconto) !== 350) {
-
-            await toast.promise(
-                // axios.post("https://stagetests-684hi.ondigitalocean.app/taxa", body, { headers })
-                URI.post("/taxa", body)
-                , {
-                    pending: 'Enviando a taxa de matrícula',
-                    success: 'Enviado com sucesso',
-                    error: "Erro ao enviar a taxa de matrícula"
-                }
-            )
-
-
+        if (filteredContracts.tax.total > 0) {
+            // axios.post("https://stagetests-684hi.ondigitalocean.app/taxa", body, { headers })
+            URI.post("http://localhost:7070/taxa", body)
+                .then(() => toast.success("Venda criada com sucesso"))
+                .catch(async err => {
+                    toast.error("Erro ao enviar a taxa de matrícula")
+                    const error = await err
+                    if ("message" in error.response.data) alert(error.response.data.message)
+                })
+                .finally(() => {
+                    setLoading(false)
+                })
         }
     }
 
 
 
 
-    const {
-        vendedor, contrato,
-        unidade, name, rg,
-        cpf, DatadeNascdoResp, CelularResponsavel, EnderecoResponsavel,
-        NumeroEnderecoResponsavel, complemento, bairro, cidade,
-        estado, cep, profissao,
-        email, nomeAluno, cargaHoraria, numeroParcelas, dataUltimaParcelaMensalidade,
-        descontoTotal, descontoPorParcela, curso, ppFormaPg, ppVencimento,
-        dataUltimaP, materialDidatico, mdFormaPg,
-        mdVencimento, tmFormaPg, tmVencimento, valorCurso, service,
-        observacaoRd, mdDesconto, parcelasAfetadas, descontoPrimeirasParcelas, demaisParcelas, descontoDemaisParcelas, promocao,
-        obsFinanceiro,
-    } = filteredContracts === undefined || filteredContracts === undefined ? {} : filteredContracts
-
-    const tmValor = tax?.total
-    const mdValor = material?.total
-
-    const body = {
-        contrato, vendedor, parcelasAfetadas, descontoPrimeirasParcelas,
-        demaisParcelas, descontoDemaisParcelas, promocao,
-        unidade, name, rg, cpf,
-        DatadeNascdoResp, CelularResponsavel, EnderecoResponsavel,
-        NumeroEnderecoResponsavel, complemento,
-        bairro, profissao, email, nomeAluno, cargaHoraria,
-        numeroParcelas, descontoTotal, descontoPorParcela, curso,
-        valorCurso, ppFormaPg, ppVencimento, dataUltimaP,
-        materialDidatico, mdValor, mdFormaPg, mdVencimento,
-        tmValor, tmFormaPg, tmVencimento, cep, estado, cidade,
-        dataUltimaParcelaMensalidade, service,
-        observacaoRd, mdDesconto,
-        obsFinanceiro
-    }
-
-
     const sendEverything = async () => {
-
-        client(body)
+        client(filteredContracts)
             .then(async () => {
                 await Promise.all([
-                    contract(body),
-                    sales(body),
-                    feeEnroll(body),
+                    contract(filteredContracts),
+                    sales(filteredContracts),
+                    feeEnroll(filteredContracts),
                 ])
             })
-
 
     }
 
@@ -218,19 +180,8 @@ export function SureSendModal(data) {
     })
 
 
-    async function contaAzulSender() {
-        if (body.email === undefined || body.cpf === undefined ||
-            body.name === undefined || body.CelularResponsavel === undefined ||
-            body.DatadeNascdoResp === undefined ||
-            body.cep === undefined ||
-            body.estado === undefined ||
-            body.cidade === undefined ||
-            body.NumeroEnderecoResponsavel === undefined ||
-            body.EnderecoResponsavel === undefined ||
-            isNaN(parseInt(mdDesconto)) === true) {
-            return alert("Contrato não enviado ao Conta Azul, confira os dados do responsável financeiro")
-        }
 
+    async function contaAzulSender() {
 
         mutateEverything.mutateAsync()
     }
@@ -269,10 +220,10 @@ export function SureSendModal(data) {
 
         setLoading(true)
 
-        await client(body)
+        await client(filteredContracts)
             .then(async () => {
                 promises.map(async res => {
-                    await new Promise(() => res(body))
+                    await new Promise(() => res(filteredContracts))
                 })
             })
             .finally(() => {
@@ -312,7 +263,7 @@ export function SureSendModal(data) {
             // return
             await toast.promise(
                 // axios.post('https://stagetests-684hi.ondigitalocean.app/uploads',
-                URI.post("/uploads",
+                URI.post("http://localhost:7070/uploads",
                     data, { headers: headers })
                     .then(res => {
                         const data = res.data.message
