@@ -235,7 +235,7 @@ export function SureSendModal(data) {
     const SendViaAutentique = async body => {
 
         const data = new FormData()
-        data.append('name', filteredContracts.name)
+        data.append('name', filteredContracts["Nome do responsável"])
 
         const rawPhone = filteredContracts.CelularResponsavel
         filteredContracts.number = rawPhone.includes("+") ? rawPhone : `+55${rawPhone}`
@@ -294,7 +294,7 @@ export function SureSendModal(data) {
 
 
             setTimeout(() => {
-                senderImpressContract(`adesao-${filteredContracts.name}+${filteredContracts.id}`, content)
+                senderImpressContract(`adesao-${filteredContracts["Nome do responsável"]}+${filteredContracts.id}`, content)
                     .then(res => {
                         if (res) {
                             setOpen(!open)

@@ -138,6 +138,16 @@ export const UserProvider = ({ children }) => {
         logOut()
     }
 
+    const invalidateYourQuery = (query) => {
+        const querys = {
+            "register": queryCache.invalidateQueries([body, queryParam]),
+            "custom": queryCache.invalidateQueries(["custom"])
+
+        }
+
+        querys[query]
+    }
+
     useLayoutEffect(() => {
 
         queryCache.invalidateQueries([body, queryParam])
@@ -256,7 +266,8 @@ export const UserProvider = ({ children }) => {
             setQueryParam,
 
             material, setmaterial,
-            tax, settax
+            tax, settax,
+            invalidateYourQuery
         }}>
 
             {children}

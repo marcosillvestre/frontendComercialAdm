@@ -7,7 +7,8 @@ import * as React from 'react';
 
 import { toast } from 'react-toastify';
 // import URI from '../../app/utils/utils';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
+import { useLocation } from 'react-router-dom';
 import URI from '../../../app/utils/utils';
 import { useUser } from '../../../hooks/userContext';
 import { Boxes, ButtonDelete } from './styles';
@@ -27,7 +28,7 @@ const style = {
 
 
 export function SureModal(data) {
-    const { fetchData, setFetchData, userData } = useUser()
+    const { fetchData, setFetchData, userData, invalidateYourQuery } = useUser()
 
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
@@ -55,13 +56,15 @@ export function SureModal(data) {
         })
             .catch(err => console.log(err))
     }
-    const queryCache = useQueryClient();
+    const url = useLocation()
 
 
     const mutationDeleteData = useMutation({
         mutationFn: () => DeleteData(data.data),
         onSuccess: () => {
-            queryCache.invalidateQueries(["custom"])
+            url.pathname === '/controle-comercial' && invalidateYourQuery("register");
+            url.pathname === '/campos-personalizados' && invalidateYourQuery("custom");
+
 
         }
     })

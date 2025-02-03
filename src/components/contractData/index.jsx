@@ -358,10 +358,6 @@ export const ContractData = () => {
         "Office Essential Intensivo": <OfficeIntensivo id='content' data={filteredContracts} parcel={paymentParcels} campaign={camp?.parcel} />
     }
 
-    const keys = Object.keys(filteredContracts)
-    const freeToGo = keys.filter(key => !filteredContracts[key])
-
-    console.log(freeToGo)
     return (
         <Container>
             {

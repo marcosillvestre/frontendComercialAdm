@@ -96,7 +96,7 @@ export function SureSendContract(data) {
 
             // return
             await toast.promise(
-                URI.post("/uploads",
+                URI.post("/uploads-recibos",
                     data, { headers: headers })
                     .then(async res => {
                         const data = res.data.message
