@@ -1,3 +1,4 @@
+import SwapVertIcon from '@mui/icons-material/SwapVert';
 import { TablePagination, Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -10,10 +11,9 @@ import PropTypes from 'prop-types';
 import * as React from 'react';
 import LoadingSpin from 'react-loading-spin';
 import noData from '../../../assets/noData.svg';
-import { useInsume } from '../../../hooks/insumes/insumesContext.hook';
-import { PopOverInsume } from '../../popovers/popOverInsume';
-
-
+import { useService } from '../../../hooks/services/servicesContext.hook';
+import { PopOverService } from '../../popovers/popOverService';
+import { HeaderTable } from './styles';
 function Row(props) {
 
     const { row } = props
@@ -34,9 +34,10 @@ function Row(props) {
             <TableCell align="center">R${row.price_ticket}</TableCell>
             <TableCell align="center">R${row.price_card}</TableCell>
             <TableCell align="center">R${row.price_cash}</TableCell>
+            <TableCell align="center">R${row.price_link}</TableCell>
             <TableCell align="center">{row.category}</TableCell>
             <TableCell align="center">
-                <PopOverInsume row={row} />
+                <PopOverService row={row} />
 
             </TableCell>
         </TableRow>
@@ -57,14 +58,14 @@ Row.propTypes = {
         price_ticket: PropTypes.number.isRequired,
         price_card: PropTypes.number.isRequired,
         price_cash: PropTypes.number.isRequired,
+        price_link: PropTypes.number.isRequired,
 
     }).isRequired,
 };
 
-export function InsumeTable(props) {
+export function ServicesTable(props) {
     const { data, loading, total } = props
-    const { take, setTake, setSkip } = useInsume()
-
+    const { take, setTake, setSkip, setOrderBy } = useService()
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -138,14 +139,66 @@ export function InsumeTable(props) {
                                     <TableHead>
                                         <TableRow>
                                             <TableCell align="center"></TableCell>
-                                            <TableCell align="left"><Typography>Nome</Typography></TableCell>
-                                            <TableCell align="center"><Typography>SKU</Typography></TableCell>
-                                            <TableCell align="center"><Typography>Preço de vitrine</Typography></TableCell>
-                                            <TableCell align="center"><Typography>Preço de boleto</Typography></TableCell>
-                                            <TableCell align="center"><Typography>Preço de cartão</Typography></TableCell>
-                                            <TableCell align="center"><Typography>Preço á vista</Typography></TableCell>
-                                            <TableCell align="center"><Typography>Categoria</Typography></TableCell>
-                                            <TableCell align="center"></TableCell>
+                                            <TableCell align="left">
+                                                <HeaderTable
+                                                    className='flex'
+                                                    onClick={() => setOrderBy("name")}
+                                                >Nome <SwapVertIcon /></HeaderTable>
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                <Typography>SKU</Typography>
+
+                                            </TableCell>
+                                            <TableCell align="center">
+
+                                                <HeaderTable
+                                                    className='flex'
+                                                    onClick={() => setOrderBy("price_selling")}
+
+                                                > Vitrine <SwapVertIcon /></HeaderTable>
+
+                                            </TableCell>
+                                            <TableCell align="center">
+
+                                                <HeaderTable
+                                                    className='flex'
+                                                >
+                                                    Boleto
+                                                </HeaderTable>
+
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                <HeaderTable
+                                                    className='flex'
+                                                >
+                                                    Cartão
+                                                </HeaderTable>
+
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                <HeaderTable
+                                                    className='flex'
+                                                >
+                                                    À vista
+                                                </HeaderTable>
+
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                <HeaderTable
+                                                    className='flex'
+                                                >
+                                                    Link
+                                                </HeaderTable>
+
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                <Typography>Categoria</Typography>
+
+                                            </TableCell>
+                                            <TableCell align="cent
+                                            er">
+
+                                            </TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -170,7 +223,7 @@ export function InsumeTable(props) {
     );
 }
 
-InsumeTable.propTypes = {
+ServicesTable.propTypes = {
     data: PropTypes.array.isRequired,
     loading: PropTypes.bool.isRequired,
     total: PropTypes.number.isRequired

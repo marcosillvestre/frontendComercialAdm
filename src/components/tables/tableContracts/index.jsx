@@ -58,9 +58,10 @@ Row.propTypes = {
 export default function TableContracts() {
 
     const { contractsForSign, contractOptions, setTake, setSkip } = useSignContracts()
-    const [rowsPerPage, setRowsPerPage] = React.useState(20);
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
     const { isPending, data } = contractsForSign
+
     const style = {
         fontSize: "9px",
         width: "100%",
@@ -130,7 +131,7 @@ export default function TableContracts() {
                                 </TableBody>
                             </Table>
                             <TablePagination
-                                rowsPerPageOptions={[20, 40, 100]}
+                                rowsPerPageOptions={[10, 20, 40]}
                                 component="div"
                                 count={data && data.total}
                                 rowsPerPage={rowsPerPage}

@@ -1,38 +1,36 @@
 
 
 import PropTypes from 'prop-types';
-import { useInsume } from '../../../hooks/insumes/insumesContext.hook.jsx';
-import { Select } from "../../source.jsx";
+import { useProduct } from '../../../hooks/products/productsContext.hook.jsx';
 import { Input, Label, Submit } from "../styles.jsx";
 
 
-export const Insume = () => {
-
-    const { editInsume, setEditInsume, Insume, setInsume,
-        createInsume, mutateInsume } = useInsume()
+export const ProductsSidebar = () => {
+    const { editProduct, setEditProduct, Product, setProduct,
+        createProduct, mutateProduct } = useProduct()
     const sender = (key, value) => {
 
-        editInsume !== null ?
-            setEditInsume({ ...editInsume, [key]: value }) :
-            setInsume({ ...Insume, [key]: value })
+        editProduct !== null ?
+            setEditProduct({ ...editProduct, [key]: value }) :
+            setProduct({ ...Product, [key]: value })
     }
 
 
     const submit = () => {
 
-        editInsume !== null ?
-            mutateInsume.mutateAsync() :
-            createInsume.mutateAsync()
+        editProduct !== null ?
+            mutateProduct.mutateAsync() :
+            createProduct.mutateAsync()
     }
 
     return (
 
         <div style={{ whiteSpace: "normal", display: "grid", gap: "1rem" }}>
             <Label >
-                <p>Nome do insumo</p>
+                <p>Nome do produto</p>
                 < Input
                     type="text"
-                    defaultValue={editInsume && editInsume.name}
+                    defaultValue={editProduct && editProduct.name}
                     onChange={(e) => {
                         e.target.value !== '' &&
                             sender("name", e.target.value)
@@ -43,7 +41,7 @@ export const Insume = () => {
                 <p>Sku</p>
                 < Input
                     type="text"
-                    defaultValue={editInsume && editInsume.sku}
+                    defaultValue={editProduct && editProduct.sku}
                     onChange={(e) => {
                         e.target.value !== '' &&
                             sender("sku", e.target.value)
@@ -54,7 +52,7 @@ export const Insume = () => {
                 <p>Preço de vitríne</p>
                 < Input
                     type="number"
-                    defaultValue={editInsume && editInsume.price_selling}
+                    defaultValue={editProduct && editProduct.price_selling}
                     onChange={(e) => {
                         e.target.value !== '' &&
                             sender("price_selling", parseInt(e.target.value))
@@ -62,24 +60,10 @@ export const Insume = () => {
                 />
             </Label>
             <Label >
-                <p>Categoria</p>
-                < Select
-                    where="create"
-                    label={editInsume && editInsume.category}
-                    width="11.5rem"
-                    option={[
-                        { name: "Produto", value: "Product" },
-                        { name: "Serviço", value: "Service" },
-                    ]}
-                    field="category"
-                    fn={[sender]}
-                />
-            </Label>
-            <Label >
                 <p>Cor</p>
                 < Input
                     type="color"
-                    defaultValue={editInsume && editInsume.color}
+                    defaultValue={editProduct && editProduct.color}
                     onChange={(e) => {
                         e.target.value !== '' &&
                             sender("color", e.target.value)
@@ -102,6 +86,6 @@ export const Insume = () => {
 }
 
 
-Insume.propTypes = {
+ProductsSidebar.propTypes = {
     location: PropTypes.object
 }

@@ -29,7 +29,23 @@ nav{
     margin: 0 3rem;
     gap: 1rem;
 }
-button{
+.create-button{
     padding: 0 1rem;
+
 }
+
+form{
+    gap: 10px;
+    align-items: end;
+    button{  
+        all: unset;
+        cursor: pointer;
+        background-color:#dfe6f1;
+        width: fit-content;
+        height: var(--boxHei);
+        padding: 0 .8rem;
+        border-radius: 5px;
+    }
+}
+
 `

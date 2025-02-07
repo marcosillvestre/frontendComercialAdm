@@ -53,3 +53,17 @@ position: absolute;
 overflow: hidden;
 z-index: 10;
 `
+export const HeaderTable = styled.div`
+align-items: center;
+cursor: pointer;
+gap: 2px;
+svg{
+    opacity: .4;
+}
+
+&:hover{
+svg{
+    opacity:1;
+    }
+}
+`

@@ -3,12 +3,13 @@ import Box from '@mui/material/Box';
 import Popper from '@mui/material/Popper';
 import PropTypes from 'prop-types';
 import * as React from 'react';
-import { useInsume } from '../../../hooks/insumes/insumesContext.hook.jsx';
+import { useService } from '../../../hooks/services/servicesContext.hook.jsx';
 import { useUser } from '../../../hooks/userContext.jsx';
 import { CloserClick } from '../../closeClick/index.jsx';
 import { SureModal } from '../../popUps/sureModal/index.jsx';
 import { Button, Container, Divider } from './styles.jsx';
-export function PopOverInsume(data) {
+
+export function PopOverService(data) {
     const [anchorEl, setAnchorEl] = React.useState(null);
 
     const handleClick = (event) => {
@@ -17,17 +18,19 @@ export function PopOverInsume(data) {
 
 
     const { setTypeSidebar, userData, setOpenSidebar, } = useUser()
-    const { setEditInsume } = useInsume()
+
+    const { setEditService } = useService()
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popper' : undefined;
 
     const { row } = data
 
     const handleEdit = () => {
-        setTypeSidebar(6)
+        setTypeSidebar(7)
         setOpenSidebar(true);
-        setEditInsume(row)
+        setEditService(row)
     }
+
     return (
         <>
             <CloserClick
@@ -47,7 +50,7 @@ export function PopOverInsume(data) {
                                     <SureModal
                                         data={row?.id}
                                         name={row?.name}
-                                        url="/insumos"
+                                        url="/servicos"
                                     />
                                 </Divider>
 
@@ -64,7 +67,7 @@ export function PopOverInsume(data) {
     );
 }
 
-PopOverInsume.propTypes = {
+PopOverService.propTypes = {
     row: PropTypes.shape({
         name: PropTypes.string.isRequired,
         id: PropTypes.string.isRequired,

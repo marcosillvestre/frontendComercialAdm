@@ -23,8 +23,9 @@ import { Campaign } from './campaign/campaign.create.jsx';
 import { Contracts } from './contracts/contract.create.jsx';
 import { CustomFields } from './customFields/customField.create.jsx';
 import { Historic } from './historic/historic.get.jsx';
-import { Insume } from './insumes/insume.create.jsx';
 import { Navigation } from './navigation/navigation.jsx';
+import { ProductsSidebar } from './products/products.create.jsx';
+import { ServicesSidebar } from './services/services.create.jsx';
 import {
     Form,
     Submit
@@ -251,7 +252,11 @@ export function MiniDrawer() {
                             }
                             {
                                 typeSidebar === 6 &&
-                                <Insume />
+                                <ProductsSidebar />
+                            }
+                            {
+                                typeSidebar === 7 &&
+                                <ServicesSidebar />
                             }
 
 
@@ -260,6 +265,7 @@ export function MiniDrawer() {
                                 typeSidebar !== 4 &&
                                 typeSidebar !== 5 &&
                                 typeSidebar !== 6 &&
+                                typeSidebar !== 7 &&
                                 <>
                                     <hr />
                                     <Submit

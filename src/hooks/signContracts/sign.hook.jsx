@@ -1,7 +1,7 @@
 
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import Proptypes from 'prop-types'
-import { createContext, useContext, useLayoutEffect, useState } from "react"
+import { createContext, useContext, useEffect, useState } from "react"
 import URI from "../../app/utils/utils"
 import { useUser } from "../userContext.jsx"
 
@@ -12,7 +12,7 @@ export const SigningContracts = ({ children }) => {
     const [sign, setSign] = useState("Funil-de-Vendas-PTB")
     const [contractOptions, setContractOptions] = useState([])
     const [allContracts, setAllContracts] = useState()
-    const [take, setTake] = useState(20)
+    const [take, setTake] = useState(10)
     const [skip, setSkip] = useState(1)
 
     const { userData } = useUser()
@@ -31,11 +31,13 @@ export const SigningContracts = ({ children }) => {
         queryFn: () => signData(),
         queryKey: [sign, skip, take],
         enabled: userData.role !== undefined,
+        retry: false
+
 
     })
 
-    useLayoutEffect(() => {
-        queryCache.invalidateQueries([sign, skip, take])
+    useEffect(() => {
+        contractsForSign.refetch()
 
         if (contractsForSign.isSuccess) {
             const { data } = contractsForSign
@@ -46,6 +48,8 @@ export const SigningContracts = ({ children }) => {
             setContractOptions(userData.role === "comercial" ? filteredBySellers : data.contracts)
             setAllContracts(userData.role === "comercial" ? filteredBySellers : data.contracts)
         }
+
+        queryCache.invalidateQueries([sign, skip, take])
 
     }, [take, skip, contractsForSign.isSuccess])
 
@@ -60,7 +64,9 @@ export const SigningContracts = ({ children }) => {
             allContracts,
 
             take, setTake,
-            skip, setSkip
+            skip, setSkip,
+
+
 
         }}>
 

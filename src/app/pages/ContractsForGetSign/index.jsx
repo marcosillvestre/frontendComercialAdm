@@ -1,20 +1,20 @@
-import { useState } from 'react'
+import { useRef } from 'react'
 
 import SearchIcon from '@mui/icons-material/Search'
 import { ContractData, Select } from '../../../components/source.jsx'
 import TableContracts from '../../../components/tables/tableContracts/index.jsx'
-import { useInsume } from '../../../hooks/insumes/insumesContext.hook.jsx'
+import { useProduct } from '../../../hooks/products/productsContext.hook.jsx'
 import { useSignContracts } from '../../../hooks/signContracts/sign.hook.jsx'
 import { useUser } from '../../../hooks/userContext'
-import { Container, Header, } from './styles'
+import { Container, Header } from './styles'
 
 
 export const Contracts = () => {
-    const [search, setSearch] = useState("")
+    const forQuery = useRef()
 
     const { filteredContracts, setFilteredContracts } = useUser()
-    const { setSign, contractOptions, setContractOptions, allContracts } = useSignContracts()
-    const { setTake } = useInsume()
+    const { setSign, contractOptions, setContractOptions, allContracts, } = useSignContracts()
+    const { setSearchData } = useProduct()
 
 
     async function data(e) {
@@ -23,19 +23,16 @@ export const Contracts = () => {
             setSign(e)
         }
         setFilteredContracts(undefined)
-        setSearch("")
+
     }
 
+    function filterData(search) {
+        const data = contractOptions.filter(res =>
+            res["Nome do aluno"].includes(search) || res["Nome do responsável"].toLowerCase()
+                .includes(search.toLowerCase()))
 
+        setContractOptions(data)
 
-
-    function filterData(e) {
-        if (e !== "Não há ninguém na etapa de matrícula nesse funil!" || e !== "") {
-            const data = contractOptions.filter(res =>
-                res.contrato.includes(search) || res.name.toLowerCase().includes(search.toLowerCase()))
-
-            setContractOptions(data)
-        }
     }
 
 
@@ -68,27 +65,33 @@ export const Contracts = () => {
                         filteredContracts === undefined &&
                         <label >
                             <p>Cliente: </p>
-                            <div className='searcher'>
+                            <form action=""
+                                className='searcher'
+                            >
+
                                 <input
-                                    onChange={(e) => {
-                                        if (e.target.value === "") return setContractOptions(allContracts)
-                                        setSearch(e.target.value)
-                                    }}
+                                    ref={forQuery}
+                                    onChange={(e) => e.target.value === "" && setContractOptions(allContracts)}
                                     list='person'
                                 />
 
-                                <button onClick={() => filterData()}>
+                                <button
+                                    type='submit'
+                                    onClick={(e) => {
+                                        filterData(forQuery.current.value)
+                                        e.preventDefault()
+                                    }}>
                                     <SearchIcon />
                                 </button>
-                            </div>
+                            </form>
                             <datalist id='person' >
                                 {
                                     contractOptions && contractOptions.map((res, i) => (
                                         <option
                                             key={i}
-                                            value={res.contrato}
+                                            value={res["Nome do responsável"]}
                                         >
-                                            {res.name}
+                                            Aluno: {res["Nome do aluno"]}
                                         </option>
 
                                     ))
@@ -105,8 +108,8 @@ export const Contracts = () => {
                         onClick={() => {
                             setFilteredContracts(undefined)
                             setContractOptions(allContracts)
-                            setSearch("")
-                            setTake(10)
+                            // setSearch("")
+                            setSearchData("")
 
                         }}>
                         voltar

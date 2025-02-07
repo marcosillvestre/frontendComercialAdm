@@ -1,14 +1,16 @@
-import React from 'react'
-import { InsumeTable } from '../../../components/tables/insumesTable'
-import { useInsume } from '../../../hooks/insumes/insumesContext.hook'
+import SearchIcon from '@mui/icons-material/Search'
+import { useRef } from 'react'
+import { ServicesTable } from '../../../components/tables/servicesTable'
+import { useService } from '../../../hooks/services/servicesContext.hook'
 import { useUser } from '../../../hooks/userContext'
 import { Container, Header } from './styles'
 
 export function Services() {
+    const forQuery = useRef()
     const { setTypeSidebar, setOpenSidebar, } = useUser()
+    const { serviceQuery, setEditService, setQuery } = useService()
 
-    const { setEditInsume, serviceQuery } = useInsume()
-    const { isFetching, data } = serviceQuery
+    const { data, isFetching } = serviceQuery
 
     return (
         <Container>
@@ -17,19 +19,40 @@ export function Services() {
                 <nav>
                     <div>
                         <h1>Serviços</h1>
-                        <h3></h3>
+                        <form action=""
+                            className='flex'
+                        >
+
+                            <input
+                                type="text"
+                                className='inputSearch'
+                                placeholder="Nome ou Sku"
+                                ref={forQuery}
+                                onChange={(e) => e.target.value === "" && setQuery('')}
+                            />
+
+                            <button type="submit"
+                                onClick={(e) => {
+                                    setQuery(forQuery.current.value)
+                                    e.preventDefault()
+
+                                }}
+                            >
+                                <SearchIcon />
+                            </button>
+                        </form>
                     </div>
                     <span>
 
                         <button
-                            className='defaultButton'
+                            className='defaultButton create-button'
                             onClick={() => {
-                                setTypeSidebar(6)
+                                setTypeSidebar(7)
                                 setOpenSidebar(true);
-                                setEditInsume(null)
+                                setEditService(null)
                             }
                             }>
-                            Criar novo produto
+                            Criar novo serviço
                         </button>
 
                     </span>
@@ -37,10 +60,11 @@ export function Services() {
             </Header>
             {
                 data &&
-                <InsumeTable
-                    data={data.insumes}
+                <ServicesTable
+                    data={data.services}
                     total={data.total}
-                    loading={isFetching} />
+                    loading={isFetching}
+                />
             }
 
         </Container>

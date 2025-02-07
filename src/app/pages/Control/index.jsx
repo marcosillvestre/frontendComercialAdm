@@ -122,7 +122,7 @@ export const ListFiltered = () => {
                         <InputSearch
                             type="text"
                             placeholder='Pesquisar..'
-                            className='filter'
+                            className='filter inputSearch'
                             list='list'
                             onChange={(e) => {
                                 setSearcher(e.target.value)

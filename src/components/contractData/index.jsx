@@ -18,10 +18,9 @@ import StandardRem from './templates/standard-rem.jsx'
 
 import { gsap } from 'gsap'
 import { Flip } from 'gsap/Flip'
-import { useEffect, useState } from 'react'
+import { useLayoutEffect, useState } from 'react'
 import { parseNumber } from '../../app/utils/functions/parseNumbers.jsx'
 import { useCampaign } from '../../hooks/campaign/campaignContext.hook.jsx'
-import { useInsume } from '../../hooks/insumes/insumesContext.hook.jsx'
 import { SureSendModal } from '../source.jsx'
 import OfficeIntensivo from './templates/promo/office-intensivo.jsx'
 
@@ -67,7 +66,7 @@ export const ContractData = () => {
     }
 
     const { campaignQuery } = useCampaign()
-    const { InsumeQuery, } = useInsume()
+
 
 
 
@@ -80,7 +79,6 @@ export const ContractData = () => {
 
 
     const defineValue = async (array, search) => {
-
         let value = []
 
         for (let index = 0; index < array.length; index++) {
@@ -135,7 +133,6 @@ export const ContractData = () => {
             tax
         }
     }
-
 
 
     ////////////// Só serao ativados se houver uma campanha nesse contrato
@@ -297,25 +294,26 @@ export const ContractData = () => {
     }
     /////////////////////////////////////
 
-    useEffect(() => {
+
+    useLayoutEffect(() => {
         if (
-            paymentParcels.length === 0 ||
-            InsumeQuery.isSuccess
+            paymentParcels.length === 0
         ) {
+
+
             const isThereActive = async () => await filterCampaigns()
-
             isThereActive()
-                .then(res => {
-
-                    const { material, parcel, tax } = res
+                .then(async res => {
                     setcamp(res)
+                    const { material, parcel, tax } = res
+                    material ? activeCampaignForMaterial(material, filteredContracts['products']) : sincValueForMaterial(filteredContracts['products'])
 
-                    material ? activeCampaignForMaterial(material, InsumeQuery.data.insumes) : sincValueForMaterial(InsumeQuery.data.insumes)
+
                     parcel ? activeCampaignForParcel(parcel) : sincValueForParcel()
                     tax ? activeCampaignForTax(tax) : sincValueForTax(tax)
                 })
         }
-    }, [filteredContracts, InsumeQuery.isSuccess])
+    }, [filteredContracts])
 
 
 

@@ -1,12 +1,15 @@
-import { InsumeTable } from '../../../components/tables/insumesTable'
-import { useInsume } from '../../../hooks/insumes/insumesContext.hook'
-import { useUser } from '../../../hooks/userContext'
-import { Container, Header } from './styles'
+import SearchIcon from '@mui/icons-material/Search';
+import { useRef } from 'react';
+import { InsumeTable } from '../../../components/tables/productsTable';
+import { useProduct } from '../../../hooks/products/productsContext.hook';
+import { useUser } from '../../../hooks/userContext';
+import { Container, Header } from './styles';
 
 export function Products() {
+    const forQuery = useRef()
     const { setTypeSidebar, setOpenSidebar, } = useUser()
+    const { productQuery, setEditProduct, setQuery } = useProduct()
 
-    const { setEditInsume, productQuery } = useInsume()
 
     const { data, isFetching } = productQuery
 
@@ -17,15 +20,38 @@ export function Products() {
                 <nav>
                     <div>
                         <h1>Produtos</h1>
-                    </div>
-                    <span>
 
+                        <form action=""
+                            className='flex'
+                        >
+
+                            <input
+                                type="text"
+                                className='inputSearch'
+                                placeholder="Nome ou Sku"
+                                ref={forQuery}
+                                onChange={(e) => e.target.value === "" && setQuery('')}
+                            />
+
+                            <button type="submit"
+                                onClick={(e) => {
+                                    setQuery(forQuery.current.value)
+                                    e.preventDefault()
+
+                                }}
+                            >
+                                <SearchIcon />
+                            </button>
+                        </form>
+                    </div>
+
+                    <span>
                         <button
-                            className='defaultButton'
+                            className='defaultButton create-button'
                             onClick={() => {
                                 setTypeSidebar(6)
                                 setOpenSidebar(true);
-                                setEditInsume(null)
+                                setEditProduct(null)
                             }
                             }>
                             Criar novo produto
@@ -37,9 +63,10 @@ export function Products() {
             {
                 data &&
                 <InsumeTable
-                    data={data.insumes}
+                    data={data.products}
                     total={data.total}
-                    loading={isFetching} />
+                    loading={isFetching}
+                />
             }
 
         </Container>
