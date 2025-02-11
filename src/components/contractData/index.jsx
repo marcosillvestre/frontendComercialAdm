@@ -308,13 +308,11 @@ export const ContractData = () => {
                     const { material, parcel, tax } = res
                     material ? activeCampaignForMaterial(material, filteredContracts['products']) : sincValueForMaterial(filteredContracts['products'])
 
-
                     parcel ? activeCampaignForParcel(parcel) : sincValueForParcel()
                     tax ? activeCampaignForTax(tax) : sincValueForTax(tax)
                 })
         }
     }, [filteredContracts])
-
 
 
     let bool = filteredContracts !== undefined
@@ -397,7 +395,6 @@ export const ContractData = () => {
 
 
                                 if (freeToGo.find(res => res === "CPF")) return alert("CPF não cadastrado")
-                                if (freeToGo.find(res => res === "Valor do desconto material didático")) return alert("Valor do desconto material didático não cadastrado")
                                 if (freeToGo.find(res => res === "Nome do responsável")) return alert("Nome do responsável não cadastrado")
                                 if (freeToGo.find(res => res === "Número de parcelas")) return alert("Parcelas do curso não cadastradas")
                                 if (freeToGo.find(res => res === "Quantidade de parcelas MD")) return alert("Parcelas do Material Didático não cadastradas")
@@ -604,7 +601,7 @@ export const ContractData = () => {
                                             <tr>
                                                 <TableBody empty={filteredContracts["Data de vencimento da primeira parcela"] === "" || filteredContracts["Data de vencimento da primeira parcela"] === undefined}>{filteredContracts["Data de vencimento da primeira parcela"]}</TableBody>
                                                 <TableBody empty={filteredContracts["Data de vencimento da última parcela"] === "" || filteredContracts["Data de vencimento da última parcela"] === undefined}>{filteredContracts["Data de vencimento da última parcela"]}</TableBody>
-                                                <TableBody empty={filteredContracts["Valor total da parcela"] === "" || filteredContracts["Valor total da parcela"] === undefined}>R$ {filteredContracts["Valor total da parcela"]}</TableBody>
+                                                <TableBody empty={paymentParcels.length === 0}>R$ {paymentParcels[paymentParcels?.length - 1]?.valor}</TableBody>
                                                 <TableBody empty={filteredContracts["Número de parcelas"] === "" || filteredContracts["Número de parcelas"] === undefined}>{filteredContracts["Número de parcelas"]}</TableBody>
 
                                             </tr>
@@ -628,7 +625,7 @@ export const ContractData = () => {
                                                 </TableBody>
                                                 <TableBody nonMandatory={filteredContracts["valorCurso"] === "" || filteredContracts["valorCurso"] === undefined} > {filteredContracts["valorCurso"]}</TableBody>
                                                 <TableBody empty={filteredContracts["Forma de pagamento da parcela"] === "" || filteredContracts["Forma de pagamento da parcela"] === undefined}> {filteredContracts["Forma de pagamento da parcela"]}</TableBody>
-                                                <TableBody empty={filteredContracts["Valor do desconto de pontualidade por parcela"] === "" || filteredContracts["Valor do desconto de pontualidade por parcela"] === undefined}>R$ {filteredContracts["Valor do desconto de pontualidade por parcela"]}</TableBody>
+                                                <TableBody empty={filteredContracts["Valor do desconto de pontualidade por parcela"] === undefined}>R$ {parseNumber(filteredContracts["Valor do desconto de pontualidade por parcela"])}</TableBody>
 
                                             </tr>
 
@@ -701,7 +698,7 @@ export const ContractData = () => {
                                                     ))}</TableBody>
 
 
-                                                <TableBody empty={filteredContracts["Valor do desconto material didático"] === "" || filteredContracts["Valor do desconto material didático"] === undefined}> R${material && material.total}</TableBody>
+                                                <TableBody empty={filteredContracts["Valor do desconto material didático"] === undefined}> R${material && material.total}</TableBody>
                                                 <TableBody empty={filteredContracts["Quantidade de parcelas MD"] === "" || filteredContracts["Quantidade de parcelas MD"] === undefined}>{filteredContracts["Quantidade de parcelas MD"]}</TableBody>
 
                                             </tr>
@@ -714,7 +711,7 @@ export const ContractData = () => {
                                             <tr>
 
                                                 <TableBody empty={filteredContracts["Forma de pagamento do MD"] === "" || filteredContracts["Forma de pagamento do MD"] === undefined}>{filteredContracts["Forma de pagamento do MD"]}</TableBody>
-                                                <TableBody empty={filteredContracts["Valor do desconto material didático"] === "" || filteredContracts["Valor do desconto material didático"] === undefined}> R${filteredContracts["Valor do desconto material didático"]}</TableBody>
+                                                <TableBody empty={filteredContracts["Valor do desconto material didático"] === undefined}> R${parseNumber(filteredContracts["Valor do desconto material didático"])}</TableBody>
 
                                             </tr>
 
@@ -781,7 +778,7 @@ export const ContractData = () => {
                                             <tr>
                                                 <TableBody empty={filteredContracts["Data de pagamento TM"] === "" || filteredContracts["Data de pagamento TM"] === undefined}>{filteredContracts["Data de pagamento TM"]}</TableBody>
                                                 <TableBody empty={filteredContracts["Forma de pagamento TM"] === "" || filteredContracts["Forma de pagamento TM"] === undefined}> {filteredContracts["Forma de pagamento TM"]}</TableBody>
-                                                <TableBody empty={filteredContracts["Valor do Desconto na Taxa de Matrícula"] === "" || filteredContracts["Valor do Desconto na Taxa de Matrícula"] === undefined}>R${filteredContracts["Valor do Desconto na Taxa de Matrícula"]}</TableBody>
+                                                <TableBody empty={filteredContracts["Valor do Desconto na Taxa de Matrícula"] === undefined}>R${parseNumber(filteredContracts["Valor do Desconto na Taxa de Matrícula"])}</TableBody>
                                                 <TableBody empty={filteredContracts["Quantidade de parcelas TM "] === "" || filteredContracts["Quantidade de parcelas TM "] === undefined}>{filteredContracts["Quantidade de parcelas TM "]}</TableBody>
 
                                             </tr>

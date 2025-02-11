@@ -1,4 +1,5 @@
 export const parseNumber = (number) => {
+    if (number === '' || number === undefined) return 0
 
     if (typeof number === 'string') {
 
@@ -9,6 +10,5 @@ export const parseNumber = (number) => {
         return parsed
     }
 
-    if (number === '' || number === undefined) return 0
 
 }
