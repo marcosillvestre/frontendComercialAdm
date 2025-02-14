@@ -77,8 +77,43 @@ export const ContractData = () => {
 
 
 
+    const paymentMethodsForMaterials = {
+        "Boleto": "price_ticket",
+        "Cartão de crédito via link": "price_link",
+        "Cartão de crédito via outro bancos": "price_card",
+        "Cartão de débito via outros bancos": "price_cash",
+        "Dinheiro": "price_ticket",
+        "PIX - Pagamento Instantâneo": "price_cash",
+        "Pix": "price_cash",
+        "Pix cobrança": "price_cash",
+        "Sem pagamento": "price_selling",
+        "Isenção": "price_selling",
+        "Transferência bancária": "price_cash",
+        "Outros": "price_ticket",
+    }
 
-    const defineValue = async (array, search) => {
+    const paymentMethodsForParcels = {
+        "Boleto": 0,
+        "Cartão de débito via outros bancos": 0,
+        "Dinheiro": 0,
+        "Pix": 0,
+        "Pix cobrança": 0,
+        "Sem pagamento": 0,
+        "Isenção": 0,
+        "Transferência bancária": 0,
+        "Outros": 0,
+        "Débito automático": 0.15,
+        "Cartão de crédito via link": 0.15,
+
+        "Cartão de crédito via outro bancos": 0.2,
+
+        "PIX - Pagamento Instantâneo": 0.3,
+    }
+
+    const defineValueForParcels = (cursoValor, typePayment) => cursoValor - (cursoValor * paymentMethodsForParcels[typePayment])
+
+
+    const defineValueForMaterials = async (array, search) => {
         let value = []
 
         for (let index = 0; index < array.length; index++) {
@@ -90,13 +125,21 @@ export const ContractData = () => {
 
             material !== undefined &&
                 value.push({
-                    total: material["price_ticket"],
+                    fullValue: material["price_ticket"],
+                    total: material[paymentMethodsForMaterials[filteredContracts["Forma de pagamento do MD"]]],
                 })
         }
-        const response = value.reduce((acc, curr) => acc + curr.total, 0)
 
-        return response
+
+        const total = value.reduce((acc, curr) => acc + curr.total, 0).toFixed(2)
+        const descount = (value.reduce((acc, curr) => acc + curr.fullValue, 0) - total).toFixed()
+
+
+        return { total, descount }
     }
+
+
+
 
     async function filterCampaigns() {
         if (!filteredContracts["Tipo de Campanha / Convênio"]) return {
@@ -136,27 +179,28 @@ export const ContractData = () => {
 
 
     ////////////// Só serao ativados se houver uma campanha nesse contrato
-    const activeCampaignForParcel = (campaignParcel) => {
+    const activeCampaignForParcel = async (campaignParcel) => {
+
+        const valorCurso = await defineValueForParcels(filteredContracts["valorCurso"], filteredContracts["Forma de pagamento da parcela"])
 
         let array = []
+
         for (let index = 0; index < parseInt(filteredContracts["Número de parcelas"]); index++) {
 
             const campaignDescount = campaignParcel.descountType === "Percentage" ?
-                (filteredContracts["valorCurso"] / parseNumber(filteredContracts["Número de parcelas"]) -
+                (valorCurso / parseNumber(filteredContracts["Número de parcelas"]) -
                     parseNumber(filteredContracts["Valor do desconto de pontualidade por parcela"])) * campaignParcel.value / 100 :
                 campaignParcel.value
 
             index + 1 <= campaignParcel.affectedParcels ?
                 array.push({
                     valor:
-                        ((filteredContracts["valorCurso"] / parseNumber(filteredContracts["Número de parcelas"]) -
-                            parseNumber(filteredContracts["Valor do desconto de pontualidade por parcela"])) -
+                        ((valorCurso / parseNumber(filteredContracts["Número de parcelas"])) -
                             campaignDescount).toFixed(2)
                 }) :
                 array.push({
                     valor:
-                        (filteredContracts["valorCurso"] / parseNumber(filteredContracts["Número de parcelas"]) -
-                            parseNumber(filteredContracts["Valor do desconto de pontualidade por parcela"])).toFixed(2)
+                        (valorCurso / parseNumber(filteredContracts["Número de parcelas"])).toFixed(2)
                 })
         }
         setPaymentParcels(array)
@@ -169,7 +213,7 @@ export const ContractData = () => {
 
     const activeCampaignForMaterial = async (campaignMaterial, insumes) => {
 
-        const total = await defineValue(filteredContracts["Material didático"], insumes)
+        const { total, descount } = await defineValueForMaterials(filteredContracts["Material didático"], insumes)
         const mdValor = total - parseNumber(filteredContracts["Valor do desconto material didático"])
 
         const campaignDescount = campaignMaterial.descountType === "Percentage" ?
@@ -185,13 +229,16 @@ export const ContractData = () => {
         }
         setmaterial({
             materials,
-            total: total
+            total: total,
+            descount
         })
 
         filteredContracts["material"] = {
             materials,
             total: total,
-            campaign: campaignMaterial
+            campaign: campaignMaterial,
+            descount
+
         }
 
     }
@@ -233,7 +280,7 @@ export const ContractData = () => {
     //////////////Serão ativados caso não haja campanha ativa no contrato
     const sincValueForMaterial = async (campaignMaterial) => {
 
-        const total = await defineValue(filteredContracts["Material didático"], campaignMaterial)
+        const { total, descount } = await defineValueForMaterials(filteredContracts["Material didático"], campaignMaterial)
 
         const mdValor = total - parseNumber(filteredContracts["Valor do desconto material didático"])
 
@@ -244,19 +291,23 @@ export const ContractData = () => {
         }
         setmaterial({
             materials,
-            total: total
+            total: total,
+            descount
 
         })
 
 
         filteredContracts["material"] = {
             materials,
-            total: total
+            total: total,
+            descount
         }
     }
 
 
     const sincValueForParcel = async () => {
+
+        const valorCurso = await defineValueForParcels(filteredContracts["valorCurso"], filteredContracts["Forma de pagamento da parcela"])
 
         let array = []
 
@@ -264,8 +315,7 @@ export const ContractData = () => {
 
             array.push({
                 valor:
-                    (filteredContracts["valorCurso"] / parseNumber(filteredContracts["Número de parcelas"]) -
-                        parseNumber(filteredContracts["Valor do desconto de pontualidade por parcela"])).toFixed(2)
+                    (valorCurso / parseNumber(filteredContracts["Número de parcelas"])).toFixed(2)
             })
         }
 
@@ -294,6 +344,9 @@ export const ContractData = () => {
     }
     /////////////////////////////////////
 
+    console.log(paymentParcels)
+    console.log(tax)
+    console.log(material)
 
     useLayoutEffect(() => {
         if (
@@ -393,12 +446,12 @@ export const ContractData = () => {
                                 const keys = Object.keys(filteredContracts)
                                 const freeToGo = keys.filter(key => !filteredContracts[key])
 
-
                                 if (freeToGo.find(res => res === "CPF")) return alert("CPF não cadastrado")
                                 if (freeToGo.find(res => res === "Nome do responsável")) return alert("Nome do responsável não cadastrado")
                                 if (freeToGo.find(res => res === "Número de parcelas")) return alert("Parcelas do curso não cadastradas")
                                 if (freeToGo.find(res => res === "Quantidade de parcelas MD")) return alert("Parcelas do Material Didático não cadastradas")
                                 if (freeToGo.find(res => res === "Quantidade de parcelas TM ")) return alert("Parcelas da Taxa de matrícula não cadastradas")
+                                if (freeToGo.find(res => res === "valorCurso")) return alert("Valor do curso não preenchido")
 
 
                                 setEmmit(!emmit)
@@ -610,7 +663,7 @@ export const ContractData = () => {
                                                 <th>Parcelas Afetadas</th>
                                                 <th>Valor do curso</th>
                                                 <th>Forma de pagamento</th>
-                                                <th>Desconto por Parcela</th>
+                                                <th>Desconto por pontualidade</th>
 
                                             </tr>
 
@@ -625,7 +678,7 @@ export const ContractData = () => {
                                                 </TableBody>
                                                 <TableBody nonMandatory={filteredContracts["valorCurso"] === "" || filteredContracts["valorCurso"] === undefined} > {filteredContracts["valorCurso"]}</TableBody>
                                                 <TableBody empty={filteredContracts["Forma de pagamento da parcela"] === "" || filteredContracts["Forma de pagamento da parcela"] === undefined}> {filteredContracts["Forma de pagamento da parcela"]}</TableBody>
-                                                <TableBody empty={filteredContracts["Valor do desconto de pontualidade por parcela"] === undefined}>R$ {parseNumber(filteredContracts["Valor do desconto de pontualidade por parcela"])}</TableBody>
+                                                <TableBody empty={paymentParcels === undefined}>R$ {Math.ceil(paymentParcels[paymentParcels.length - 1]?.valor * 0.1)}</TableBody>
 
                                             </tr>
 
@@ -711,7 +764,7 @@ export const ContractData = () => {
                                             <tr>
 
                                                 <TableBody empty={filteredContracts["Forma de pagamento do MD"] === "" || filteredContracts["Forma de pagamento do MD"] === undefined}>{filteredContracts["Forma de pagamento do MD"]}</TableBody>
-                                                <TableBody empty={filteredContracts["Valor do desconto material didático"] === undefined}> R${parseNumber(filteredContracts["Valor do desconto material didático"])}</TableBody>
+                                                <TableBody empty={material === undefined}> R${material?.descount}</TableBody>
 
                                             </tr>
 
