@@ -56,7 +56,7 @@ const Excel = ({ data, parcel }) => {
                     <tr>
                         <td>
                             <h5>RUA/AV: {
-                                data["Endereço"]}</h5>
+                                data.endereco["logradouro"]}</h5>
                         </td>
                         <td>
                             <h5>Nº: {
@@ -70,23 +70,23 @@ const Excel = ({ data, parcel }) => {
                         </td>
                         <td>
                             <h5>BAIRRO: {
-                                data["Bairro"]}</h5>
+                                data.endereco["bairro"]}</h5>
                         </td>
                     </tr>
                     <tr>
                         <td>
                             <h5>CIDADE: {
-                                data["Cidade"]}</h5>
+                                data.endereco["localidade"]}</h5>
                         </td>
                         <td>
                             <h5>UF: {
-                                data["UF"]}</h5>
+                                data.endereco["uf"]}</h5>
                         </td>
                     </tr>
                     <tr>
                         <td>
                             <h5>CEP: {
-                                data["CEP"]}</h5>
+                                data.endereco["cep"]}</h5>
                         </td>
                         <td>
                             <h5>Estado Civil: {
@@ -685,6 +685,17 @@ Excel.propTypes = {
         "Data de emissão da venda": PropTypes.string,
         "Tipo/ modalidade": PropTypes.string,
         id: PropTypes.string,
+        endereco: PropTypes.shape({
+            cep: PropTypes.string,
+            logradouro: PropTypes.string,
+            complemento: PropTypes.string,
+            unidade: PropTypes.string,
+            bairro: PropTypes.string,
+            localidade: PropTypes.string,
+            uf: PropTypes.string,
+            estado: PropTypes.string
+        }),
+
         promocao: PropTypes.string,
         vendedor: PropTypes.string,
         CelularResponsavel: PropTypes.string,

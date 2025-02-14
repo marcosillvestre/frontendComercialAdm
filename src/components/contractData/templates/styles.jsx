@@ -15,7 +15,7 @@ border-collapse: collapse;
 border-spacing: 0;
 }
 tr,td {
-    padding: 0 10px;
+    padding: .3rem 0;
 
 }
 td{
@@ -33,7 +33,7 @@ width: 100%;
 justify-content: space-around;
 }
 .sign-marker {
-/* width: 50%; */
+width: 50%;
 border-top: 1px solid #222;
 margin: 2rem 0;
 text-align: center;

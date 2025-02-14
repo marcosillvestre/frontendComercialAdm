@@ -11,30 +11,29 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import LoadingSpin from 'react-loading-spin';
 import { useSignContracts } from '../../../hooks/signContracts/sign.hook.jsx';
-import { useUser } from '../../../hooks/userContext.jsx';
 import { RowTable } from './styles.jsx';
 
 
 function Row(props) {
 
     const { row } = props;
-    const { setFilteredContracts } = useUser()
+
+    const { setContract } = useSignContracts()
 
     return (
         <React.Fragment>
             <RowTable
                 sx={{ '& > *': { borderBottom: 'unset' } }}
-                onClick={() => setFilteredContracts(row)}
+                onClick={() => setContract(row.id)}
             >
 
-                <TableCell align="center" component="th" scope="row" >{row["Nome do responsável"]}</TableCell>
-                <TableCell align="center" component="th" scope="row" >{row["Nome do aluno"]}</TableCell>
-                <TableCell align="center" component="th" scope="row">{row["Data de emissão da venda"]}</TableCell>
-                <TableCell align="center" component="th" scope="row">{row["Nº do contrato"]}</TableCell>
 
-
-                <TableCell align="center" component="th" scope="row">{row.CelularResponsavel} </TableCell>
-                <TableCell align="center" component="th" scope="row">{row["Subclasse"]}</TableCell>
+                <TableCell align="center" component="th" scope="row">{row.name}</TableCell>
+                <TableCell align="center" component="th" scope="row">{row.student}</TableCell>
+                <TableCell align="center" component="th" scope="row">{row.createdDate}</TableCell>
+                <TableCell align="center" component="th" scope="row">{row.contract}</TableCell>
+                <TableCell align="center" component="th" scope="row">{row.phone}</TableCell>
+                <TableCell align="center" component="th" scope="row">{row.subclass}</TableCell>
 
             </RowTable>
 
@@ -44,6 +43,14 @@ function Row(props) {
 
 Row.propTypes = {
     row: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        student: PropTypes.string.isRequired,
+        createdDate: PropTypes.string.isRequired,
+        contract: PropTypes.string.isRequired,
+        phone: PropTypes.string.isRequired,
+        subclass: PropTypes.string.isRequired,
+
         CelularResponsavel: PropTypes.string.isRequired,
         "Data de emissão da venda": PropTypes.string.isRequired,
         "Subclasse": PropTypes.string.isRequired,
@@ -57,10 +64,11 @@ Row.propTypes = {
 
 export default function TableContracts() {
 
-    const { contractsForSign, contractOptions, setTake, setSkip } = useSignContracts()
+    const { contractsForSign, contractOptions, setTake, setSkip, queryContract } = useSignContracts()
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
     const { isPending, data } = contractsForSign
+    const { isFetching } = queryContract
 
     const style = {
         fontSize: "9px",
@@ -95,7 +103,7 @@ export default function TableContracts() {
         <>
             <div style={style}>
                 {
-                    isPending ?
+                    isPending || isFetching ?
                         <LoadingSpin
                             duration="4s"
                             width="15px"

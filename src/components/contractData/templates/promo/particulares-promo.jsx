@@ -51,7 +51,7 @@ const ParticularesPromo = ({ data, parcel, campaign }) => {
                     </tr>
                     <tr>
                         <td>
-                            <h3>RUA/AV: {data["Endereço"]}</h3>
+                            <h3>RUA/AV: {data.endereco["logradouro"]}</h3>
                         </td>
                         <td>
                             <h3>Nº: {data["Número"]}</h3>
@@ -62,20 +62,20 @@ const ParticularesPromo = ({ data, parcel, campaign }) => {
                             <h3>COMPL: {data["Complemento"]}</h3>
                         </td>
                         <td>
-                            <h3>BAIRRO: {data["Bairro"]}</h3>
+                            <h3>BAIRRO: {data.endereco["bairro"]}</h3>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <h3>CIDADE: {data["Cidade"]}</h3>
+                            <h3>CIDADE: {data.endereco["localidade"]}</h3>
                         </td>
                         <td>
-                            <h3>UF: {data["UF"]}</h3>
+                            <h3>UF: {data.endereco["uf"]}</h3>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <h3>CEP: {data["CEP"]}</h3>
+                            <h3>CEP: {data.endereco["cep"]}</h3>
                         </td>
                         <td>
                             <h3>Estado Civil: {data["Estado civil responsável"]}</h3>
@@ -778,6 +778,16 @@ export default ParticularesPromo
 
 ParticularesPromo.propTypes = {
     data: PropTypes.shape({
+        endereco: PropTypes.shape({
+            cep: PropTypes.string,
+            logradouro: PropTypes.string,
+            complemento: PropTypes.string,
+            unidade: PropTypes.string,
+            bairro: PropTypes.string,
+            localidade: PropTypes.string,
+            uf: PropTypes.string,
+            estado: PropTypes.string
+        }),
         "Nº do contrato": PropTypes.string,
         "Data de emissão da venda": PropTypes.string,
         "Tipo/ modalidade": PropTypes.string,

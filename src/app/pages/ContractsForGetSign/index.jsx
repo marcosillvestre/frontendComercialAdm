@@ -3,7 +3,6 @@ import { useRef } from 'react'
 import SearchIcon from '@mui/icons-material/Search'
 import { ContractData, Select } from '../../../components/source.jsx'
 import TableContracts from '../../../components/tables/tableContracts/index.jsx'
-import { useProduct } from '../../../hooks/products/productsContext.hook.jsx'
 import { useSignContracts } from '../../../hooks/signContracts/sign.hook.jsx'
 import { useUser } from '../../../hooks/userContext'
 import { Container, Header } from './styles'
@@ -14,7 +13,6 @@ export const Contracts = () => {
 
     const { filteredContracts, setFilteredContracts } = useUser()
     const { setSign, contractOptions, setContractOptions, allContracts, } = useSignContracts()
-    const { setSearchData } = useProduct()
 
 
     async function data(e) {
@@ -108,8 +106,6 @@ export const Contracts = () => {
                         onClick={() => {
                             setFilteredContracts(undefined)
                             setContractOptions(allContracts)
-                            // setSearch("")
-                            setSearchData("")
 
                         }}>
                         voltar

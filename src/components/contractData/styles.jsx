@@ -9,8 +9,9 @@ flex-direction: column;
 gap: 1rem;
  th, tr, thead{
     border: 1px solid #222;
-    padding: .1rem ;
-    
+    padding: .1rem .6rem ;
+    width: max-content;
+    text-align: center;
 }
 table{
     border-radius: var(--border-radius);

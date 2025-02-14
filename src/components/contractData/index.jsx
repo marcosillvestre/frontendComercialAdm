@@ -110,11 +110,18 @@ export const ContractData = () => {
         "PIX - Pagamento Instantâneo": 0.3,
     }
 
-    const defineValueForParcels = (cursoValor, typePayment) => cursoValor - (cursoValor * paymentMethodsForParcels[typePayment])
+    const defineValueForParcels = (cursoValor, typePayment) => {
+
+        if (!paymentMethodsForParcels[typePayment]) return alert("Método de pagamento para parcelas impróprio!")
+        return cursoValor - (cursoValor * paymentMethodsForParcels[typePayment])
+    }
 
 
     const defineValueForMaterials = async (array, search) => {
         let value = []
+
+        if (!paymentMethodsForMaterials[filteredContracts["Forma de pagamento do MD"]]) return alert("Método de pagamento para os materiais didáticos impróprio!")
+
 
         for (let index = 0; index < array.length; index++) {
             const element = array[index];
@@ -344,10 +351,6 @@ export const ContractData = () => {
     }
     /////////////////////////////////////
 
-    console.log(paymentParcels)
-    console.log(tax)
-    console.log(material)
-
     useLayoutEffect(() => {
         if (
             paymentParcels.length === 0
@@ -407,6 +410,8 @@ export const ContractData = () => {
         "Office Essential Intensivo": <OfficeIntensivo id='content' data={filteredContracts} parcel={paymentParcels} campaign={camp?.parcel} />
     }
 
+
+
     return (
         <Container>
             {
@@ -446,6 +451,7 @@ export const ContractData = () => {
                                 const keys = Object.keys(filteredContracts)
                                 const freeToGo = keys.filter(key => !filteredContracts[key])
 
+                                if (filteredContracts["endereco"]?.erro === "true") return alert("CEP não encontrado, corrija-o para poder emitir o contrato")
                                 if (freeToGo.find(res => res === "CPF")) return alert("CPF não cadastrado")
                                 if (freeToGo.find(res => res === "Nome do responsável")) return alert("Nome do responsável não cadastrado")
                                 if (freeToGo.find(res => res === "Número de parcelas")) return alert("Parcelas do curso não cadastradas")
@@ -506,19 +512,29 @@ export const ContractData = () => {
                                     <table >
                                         <tbody >
                                             <tr>
-                                                <th>Nome</th>
+                                                <th>Nome completo</th>
                                                 <th>Email</th>
                                                 <th>Contrato</th>
                                                 <th>Data Matrícula</th>
-                                                <th>CPF</th>
-                                                <th>nascimento resp</th>
-                                                <th>Celular</th>
+                                                <th>profissão</th>
+                                                <th>Responsável</th>
                                             </tr>
                                             <tr >
                                                 <TableBody empty={filteredContracts["Nome do responsável"] === "" || filteredContracts["Nome do responsável"] === undefined}>{filteredContracts["Nome do responsável"]}</TableBody>
                                                 <TableBody empty={filteredContracts.email === "" || filteredContracts.email === undefined}>{filteredContracts.email}</TableBody>
                                                 <TableBody empty={filteredContracts["Nº do contrato"] === "" || filteredContracts["Nº do contrato"] === undefined}>{filteredContracts["Nº do contrato"]}</TableBody>
                                                 <TableBody empty={filteredContracts["Data de emissão da venda"] === "" || filteredContracts["Data de emissão da venda"] === undefined}>{filteredContracts["Data de emissão da venda"]}</TableBody>
+                                                <TableBody nonMandatory={filteredContracts["Profissão"] === "" || filteredContracts["Profissão"] === undefined}>{filteredContracts["Profissão"]}</TableBody>
+                                                <TableBody empty={filteredContracts.vendedor === "" || filteredContracts.vendedor === undefined}>{filteredContracts.vendedor}</TableBody>
+
+                                            </tr>
+                                            <tr>
+                                                <th>CPF</th>
+                                                <th>nascimento resp</th>
+                                                <th>Celular</th>
+
+                                            </tr>
+                                            <tr>
                                                 <TableBody empty={filteredContracts["CPF"] === "" || filteredContracts["CPF"] === undefined}>{filteredContracts["CPF"]}</TableBody>
                                                 <TableBody empty={filteredContracts["Data de nascimento do  responsável"] === "" || filteredContracts["Data de nascimento do  responsável"] === undefined}>{filteredContracts["Data de nascimento do  responsável"]}</TableBody>
                                                 <TableBody empty={
@@ -527,42 +543,52 @@ export const ContractData = () => {
                                                     {filteredContracts.CelularResponsavel}</TableBody>
                                             </tr>
 
+                                            <tr> <h3>Endereço via CEP</h3></tr>
 
                                             <tr>
-                                                <th>Endereço</th>
+                                                <th>cep</th>
                                                 <th>Número</th>
                                                 <th>complemento</th>
+
+                                                <th>Endereço</th>
                                                 <th>bairro</th>
                                                 <th>cidade</th>
-                                                <th>estado </th>
-                                                <th>cep</th>
+
 
                                             </tr>
 
                                             <tr >
-                                                <TableBody empty={filteredContracts["Endereço"] === "" || filteredContracts["Endereço"] === undefined}>{filteredContracts["Endereço"]}</TableBody>
-                                                <TableBody empty={filteredContracts["Número"] === "" || filteredContracts["Número"] === undefined}>{filteredContracts["Número"]}</TableBody>
-                                                <TableBody empty={filteredContracts["Complemento"] === "" || filteredContracts["Complemento"] === undefined}>{filteredContracts["Complemento"]}</TableBody>
-                                                <TableBody empty={filteredContracts["Bairro"] === "" || filteredContracts["Bairro"] === undefined}>{filteredContracts["Bairro"]}</TableBody>
-                                                <TableBody empty={filteredContracts["Cidade"] === "" || filteredContracts["Cidade"] === undefined}>{filteredContracts["Cidade"]}</TableBody>
-                                                <TableBody empty={filteredContracts["UF"] === "" || filteredContracts["UF"] === undefined}>{filteredContracts["UF"]}</TableBody>
-                                                <TableBody empty={filteredContracts["CEP"] === "" || filteredContracts["CEP"] === undefined}>{filteredContracts["CEP"]}</TableBody>
-                                            </tr>
-                                            <tr>
-                                                <th>estado Cívil</th>
-                                                <th>profissão</th>
-                                                <th>nome Aluno</th>
-                                                <th>nascimento Aluno</th>
-                                                <th>Responsável</th>
-                                            </tr>
-                                            <tr>
-                                                <TableBody empty={filteredContracts["Estado civil responsável"] === "" || filteredContracts["Estado civil responsável"] === undefined}>{filteredContracts["Estado civil responsável"]}</TableBody>
-                                                <TableBody nonMandatory={filteredContracts["Profissão"] === "" || filteredContracts["Profissão"] === undefined}>{filteredContracts["Profissão"]}</TableBody>
-                                                <TableBody empty={filteredContracts["Nome do aluno"] === "" || filteredContracts["Nome do aluno"] === undefined}>{filteredContracts["Nome do aluno"]}</TableBody>
-                                                <TableBody empty={filteredContracts["Data de nascimento do aluno"] === "" || filteredContracts["Data de nascimento do aluno"] === undefined}>{filteredContracts["Data de nascimento do aluno"]}</TableBody>
-                                                <TableBody empty={filteredContracts.vendedor === "" || filteredContracts.vendedor === undefined}>{filteredContracts.vendedor}</TableBody>
+                                                <TableBody empty={"erro" in filteredContracts["endereco"]}>{filteredContracts?.endereco["cep"]}</TableBody>
+                                                <TableBody empty={filteredContracts["Número"] === undefined}>{filteredContracts["Número"]}</TableBody>
+                                                <TableBody empty={filteredContracts["Complemento"] === undefined}>{filteredContracts["Complemento"]}</TableBody>
+                                                <TableBody empty={"erro" in filteredContracts["endereco"]}>{filteredContracts?.endereco["logradouro"]}</TableBody>
+                                                <TableBody empty={"erro" in filteredContracts["endereco"]}>{filteredContracts?.endereco["bairro"]}</TableBody>
+                                                <TableBody empty={"erro" in filteredContracts["endereco"]}>{filteredContracts?.endereco["localidade"]}</TableBody>
 
                                             </tr>
+                                            <tr>
+
+                                                <th>estado </th>
+
+                                            </tr>
+                                            <tr >
+
+                                                <TableBody empty={"erro" in filteredContracts["endereco"]}>{filteredContracts?.endereco["uf"]}</TableBody>
+                                            </tr>
+
+                                            <tr> <h3>Aluno</h3></tr>
+                                            <tr>
+                                                <th>nome Aluno</th>
+                                                <th>nascimento Aluno</th>
+
+                                            </tr>
+                                            <tr>
+                                                <TableBody empty={filteredContracts["Nome do aluno"] === "" || filteredContracts["Nome do aluno"] === undefined}>{filteredContracts["Nome do aluno"]}</TableBody>
+                                                <TableBody empty={filteredContracts["Data de nascimento do aluno"] === "" || filteredContracts["Data de nascimento do aluno"] === undefined}>{filteredContracts["Data de nascimento do aluno"]}</TableBody>
+
+                                            </tr>
+
+
                                         </tbody>
                                     </table>
 

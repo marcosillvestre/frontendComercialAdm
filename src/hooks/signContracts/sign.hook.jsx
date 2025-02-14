@@ -15,16 +15,17 @@ export const SigningContracts = ({ children }) => {
     const [take, setTake] = useState(10)
     const [skip, setSkip] = useState(1)
 
-    const { userData } = useUser()
+    const [contract, setContract] = useState()
+
+
+    const { userData, setFilteredContracts } = useUser()
     const queryCache = useQueryClient();
 
     const signData = async () => {
-        const response = await URI.get(`/contrato/${sign}?take=${take}&skip=${skip}`)
+        const response = await URI.get(`http://localhost:7070/contrato/${sign}?take=${take}&skip=${skip}`)
 
         return response.data
     }
-
-
 
 
     const contractsForSign = useQuery({
@@ -32,9 +33,33 @@ export const SigningContracts = ({ children }) => {
         queryKey: [sign, skip, take],
         enabled: userData.role !== undefined,
         retry: false
+    })
 
+
+    const signAContract = async () => {
+        if (!contract) return ""
+        const response = await URI.get(`http://localhost:7070/matricula/${contract}`,)
+        return response.data
+    }
+
+    const queryContract = useQuery({
+        queryFn: () => signAContract(),
+        queryKey: [contract],
+        enabled: contract !== undefined,
 
     })
+
+    const { isSuccess, data } = queryContract
+
+
+    useEffect(() => {
+        queryContract.refetch()
+
+        if (isSuccess) {
+            setFilteredContracts(data.contract)
+        }
+    }, [contract, isSuccess])
+
 
     useEffect(() => {
         contractsForSign.refetch()
@@ -42,13 +67,12 @@ export const SigningContracts = ({ children }) => {
         if (contractsForSign.isSuccess) {
             const { data } = contractsForSign
 
-            const filteredBySellers = data.contracts.filter(res => res.vendedor.toLowerCase()
+            const filteredBySellers = data.contracts.filter(res => res.seller.toLowerCase()
                 .includes(userData.name.toLowerCase()))
 
             setContractOptions(userData.role === "comercial" ? filteredBySellers : data.contracts)
             setAllContracts(userData.role === "comercial" ? filteredBySellers : data.contracts)
         }
-
         queryCache.invalidateQueries([sign, skip, take])
 
     }, [take, skip, contractsForSign.isSuccess])
@@ -66,7 +90,8 @@ export const SigningContracts = ({ children }) => {
             take, setTake,
             skip, setSkip,
 
-
+            contract, setContract,
+            queryContract
 
         }}>
 

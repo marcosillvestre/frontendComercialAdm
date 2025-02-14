@@ -49,7 +49,7 @@ const Particulares = ({ data, parcel }) => {
                     </tr>
                     <tr>
                         <td>
-                            RUA/AV: {data["Endereço"]}
+                            RUA/AV: {data.endereco["logradouro"]}
                         </td>
                         <td>
                             Nº: {data["Número"]}
@@ -60,20 +60,20 @@ const Particulares = ({ data, parcel }) => {
                             COMPL: {data["Complemento"]}
                         </td>
                         <td>
-                            BAIRRO: {data["Bairro"]}
+                            BAIRRO: {data.endereco["bairro"]}
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            CIDADE: {data["Cidade"]}
+                            CIDADE: {data.endereco["localidade"]}
                         </td>
                         <td>
-                            UF: {data["UF"]}
+                            UF: {data.endereco["uf"]}
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            CEP: {data["CEP"]}
+                            CEP: {data.endereco["cep"]}
                         </td>
                         <td>
                             Estado Civil: {data["Estado civil responsável"]}
@@ -730,6 +730,16 @@ export default Particulares
 
 Particulares.propTypes = {
     data: PropTypes.shape({
+        endereco: PropTypes.shape({
+            cep: PropTypes.string,
+            logradouro: PropTypes.string,
+            complemento: PropTypes.string,
+            unidade: PropTypes.string,
+            bairro: PropTypes.string,
+            localidade: PropTypes.string,
+            uf: PropTypes.string,
+            estado: PropTypes.string
+        }),
         "Nº do contrato": PropTypes.string,
         "Data de emissão da venda": PropTypes.string,
         "Tipo/ modalidade": PropTypes.string,
