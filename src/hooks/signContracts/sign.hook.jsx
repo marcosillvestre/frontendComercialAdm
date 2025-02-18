@@ -38,7 +38,7 @@ export const SigningContracts = ({ children }) => {
 
     const signAContract = async () => {
         if (!contract) return ""
-        const response = await URI.get(`http://localhost:7070/matricula/${contract}`,)
+        const response = await URI.get(`/matricula/${contract}`,)
         return response.data
     }
 
