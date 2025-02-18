@@ -113,7 +113,7 @@ export function SureSendModal(data) {
 
         await toast.promise(
             // axios.post("/registro-conta-azul", body, { headers })
-            URI.post("/registro-conta-azul", body)
+            URI.post("http://localhost:7070/registro-conta-azul", body)
             , {
                 pending: 'Enviando o contrato',
                 success: 'Enviado com sucesso',
@@ -185,9 +185,6 @@ export function SureSendModal(data) {
 
         mutateEverything.mutateAsync()
     }
-
-
-
 
 
 

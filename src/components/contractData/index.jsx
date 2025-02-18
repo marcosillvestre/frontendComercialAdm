@@ -71,7 +71,11 @@ export const ContractData = () => {
 
 
 
-    const [paymentParcels, setPaymentParcels] = useState([])
+    const [paymentParcels, setPaymentParcels] = useState({
+        parcels: [],
+        total: 0,
+        descount: 0
+    })
     const [material, setmaterial] = useState()
     const [tax, settax] = useState()
 
@@ -110,17 +114,24 @@ export const ContractData = () => {
         "PIX - Pagamento Instantâneo": 0.3,
     }
 
-    const defineValueForParcels = (cursoValor, typePayment) => {
+    const defineValueForParcels = (cursoValor, typePayment, parcelsNumber) => {
 
-        if (!paymentMethodsForParcels[typePayment]) return alert("Método de pagamento para parcelas impróprio!")
-        return cursoValor - (cursoValor * paymentMethodsForParcels[typePayment])
+        if (paymentMethodsForParcels[typePayment] === undefined) return alert("Forma de pagamento para parcelas impróprio! Corrija no RD")
+
+        const valorCurso = cursoValor - (cursoValor * paymentMethodsForParcels[typePayment])
+
+        return {
+            fullValue: valorCurso,
+            descount: (cursoValor * paymentMethodsForParcels[typePayment]).toFixed(2),
+            descountForPontuality: paymentMethodsForParcels[typePayment] === 0 ? ((valorCurso / parcelsNumber) * 0.1).toFixed(2) : 0
+        }
     }
 
 
     const defineValueForMaterials = async (array, search) => {
         let value = []
 
-        if (!paymentMethodsForMaterials[filteredContracts["Forma de pagamento do MD"]]) return alert("Método de pagamento para os materiais didáticos impróprio!")
+        if (!paymentMethodsForMaterials[filteredContracts["Forma de pagamento do MD"]]) return alert("Forma de pagamento para os materiais didáticos impróprio! Corrija no RD")
 
 
         for (let index = 0; index < array.length; index++) {
@@ -188,32 +199,47 @@ export const ContractData = () => {
     ////////////// Só serao ativados se houver uma campanha nesse contrato
     const activeCampaignForParcel = async (campaignParcel) => {
 
-        const valorCurso = await defineValueForParcels(filteredContracts["valorCurso"], filteredContracts["Forma de pagamento da parcela"])
+        const { fullValue, descount, descountForPontuality } = await defineValueForParcels(
+            filteredContracts["valorCurso"],
+            filteredContracts["Forma de pagamento da parcela"],
+            parseNumber(filteredContracts["Número de parcelas"])
+        )
 
         let array = []
 
         for (let index = 0; index < parseInt(filteredContracts["Número de parcelas"]); index++) {
 
             const campaignDescount = campaignParcel.descountType === "Percentage" ?
-                (valorCurso / parseNumber(filteredContracts["Número de parcelas"]) -
+                (fullValue / parseNumber(filteredContracts["Número de parcelas"]) -
                     parseNumber(filteredContracts["Valor do desconto de pontualidade por parcela"])) * campaignParcel.value / 100 :
                 campaignParcel.value
 
             index + 1 <= campaignParcel.affectedParcels ?
                 array.push({
                     valor:
-                        ((valorCurso / parseNumber(filteredContracts["Número de parcelas"])) -
+                        ((fullValue / parseNumber(filteredContracts["Número de parcelas"])) -
                             campaignDescount).toFixed(2)
                 }) :
                 array.push({
                     valor:
-                        (valorCurso / parseNumber(filteredContracts["Número de parcelas"])).toFixed(2)
+                        (fullValue / parseNumber(filteredContracts["Número de parcelas"])).toFixed(2)
                 })
         }
-        setPaymentParcels(array)
+
+
+        setPaymentParcels({
+            parcels: array,
+            total: array.reduce((acc, curr) => acc + curr.valor, 0),
+            descount,
+            descountForPontuality
+        })
 
         filteredContracts["parcel"] = {
-            campaign: campaignParcel
+            parcels: array,
+            descount,
+            campaign: campaignParcel,
+            descountForPontuality
+
         }
 
     }
@@ -314,20 +340,34 @@ export const ContractData = () => {
 
     const sincValueForParcel = async () => {
 
-        const valorCurso = await defineValueForParcels(filteredContracts["valorCurso"], filteredContracts["Forma de pagamento da parcela"])
-
+        const { fullValue, descount, descountForPontuality } = await defineValueForParcels(
+            filteredContracts["valorCurso"],
+            filteredContracts["Forma de pagamento da parcela"],
+            parseNumber(filteredContracts["Número de parcelas"])
+        )
         let array = []
 
         for (let index = 0; index < parseInt(filteredContracts["Número de parcelas"]); index++) {
 
             array.push({
-                valor:
-                    (valorCurso / parseNumber(filteredContracts["Número de parcelas"])).toFixed(2)
+                valor: (fullValue / parseNumber(filteredContracts["Número de parcelas"])).toFixed(2)
             })
         }
 
-        setPaymentParcels(array)
 
+        setPaymentParcels({
+            parcels: array,
+            total: array.reduce((acc, curr) => acc + parseNumber(curr.valor), 0),
+            descount,
+            descountForPontuality
+        })
+
+        filteredContracts["parcel"] = {
+            parcels: array,
+            total: array.reduce((acc, curr) => acc + parseNumber(curr.valor), 0),
+            descount,
+            descountForPontuality
+        }
     }
 
 
@@ -352,9 +392,7 @@ export const ContractData = () => {
     /////////////////////////////////////
 
     useLayoutEffect(() => {
-        if (
-            paymentParcels.length === 0
-        ) {
+        if (paymentParcels.parcels.length === 0) {
 
 
             const isThereActive = async () => await filterCampaigns()
@@ -362,6 +400,7 @@ export const ContractData = () => {
                 .then(async res => {
                     setcamp(res)
                     const { material, parcel, tax } = res
+
                     material ? activeCampaignForMaterial(material, filteredContracts['products']) : sincValueForMaterial(filteredContracts['products'])
 
                     parcel ? activeCampaignForParcel(parcel) : sincValueForParcel()
@@ -377,39 +416,38 @@ export const ContractData = () => {
 
     if (bool) {
         if (filteredContracts.promocao === "Não" && filteredContracts["Background do Aluno"] !== "Rematrícula") {
-            standard = <Standard id='content' data={filteredContracts} parcel={paymentParcels} campaign={camp?.parcel} />
+            standard = <Standard id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} />
         }
         if (filteredContracts.promocao !== "Não" && filteredContracts["Background do Aluno"] !== "Rematrícula") {
-            standard = <StandardPromo id='content' data={filteredContracts} parcel={paymentParcels} campaign={camp?.parcel} />
+            standard = <StandardPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} />
         }
         if (filteredContracts.promocao !== "Não" && filteredContracts["Background do Aluno"] === "Rematrícula") {
-            standard = <StandardPromoRem id='content' data={filteredContracts} parcel={paymentParcels} campaign={camp?.parcel} />
+            standard = <StandardPromoRem id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} />
         }
         if (filteredContracts.promocao === "Não" && filteredContracts["Background do Aluno"] === "Rematrícula") {
-            standard = <StandardRem id='content' data={filteredContracts} parcel={paymentParcels} campaign={camp?.parcel} />
+            standard = <StandardRem id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} />
         }
     }
 
     const archives = {
         "Standard One": standard,
-        "Adults and YA": bool ? filteredContracts.promocao === "Não" ? <Idioma id='content' data={filteredContracts} parcel={paymentParcels} campaign={camp?.parcel} /> : <IdiomaPromo id='content' data={filteredContracts} parcel={paymentParcels} campaign={camp?.parcel} /> : "",
-        "Kids": bool ? filteredContracts.promocao === "Não" ? <Idioma id='content' data={filteredContracts} parcel={paymentParcels} campaign={camp?.parcel} /> : <IdiomaPromo id='content' data={filteredContracts} parcel={paymentParcels} campaign={camp?.parcel} /> : "",
-        "Teens": bool ? filteredContracts.promocao === "Não" ? <Idioma id='content' data={filteredContracts} parcel={paymentParcels} campaign={camp?.parcel} /> : <IdiomaPromo id='content' data={filteredContracts} parcel={paymentParcels} campaign={camp?.parcel} /> : "",
-        "Little Ones": bool ? filteredContracts.promocao === "Não" ? <Idioma id='content' data={filteredContracts} parcel={paymentParcels} campaign={camp?.parcel} /> : <IdiomaPromo id='content' data={filteredContracts} parcel={paymentParcels} campaign={camp?.parcel} /> : "",
-        "Español - En grupo": bool ? filteredContracts.promocao === "Não" ? <Idioma id='content' data={filteredContracts} parcel={paymentParcels} campaign={camp?.parcel} /> : <IdiomaPromo id='content' data={filteredContracts} parcel={paymentParcels} campaign={camp?.parcel} /> : "",
-        "Fluency Way 4X - X": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} parcel={paymentParcels} campaign={camp?.parcel} /> : <ParticularesPromo id='content' data={filteredContracts} parcel={paymentParcels} campaign={camp?.parcel} /> : "",
-        "Fluency Way One - X": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} parcel={paymentParcels} campaign={camp?.parcel} /> : <ParticularesPromo id='content' data={filteredContracts} parcel={paymentParcels} campaign={camp?.parcel} /> : "",
-        "Fluency Way One -X": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} parcel={paymentParcels} campaign={camp?.parcel} /> : <ParticularesPromo id='content' data={filteredContracts} parcel={paymentParcels} campaign={camp?.parcel} /> : "",
-        "Fluency Way Double -X": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} parcel={paymentParcels} campaign={camp?.parcel} /> : <ParticularesPromo id='content' data={filteredContracts} parcel={paymentParcels} campaign={camp?.parcel} /> : "",
-        "Fluency Way Triple - X": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} parcel={paymentParcels} campaign={camp?.parcel} /> : <ParticularesPromo id='content' data={filteredContracts} parcel={paymentParcels} campaign={camp?.parcel} /> : "",
-        "Español - X1": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} parcel={paymentParcels} campaign={camp?.parcel} /> : <ParticularesPromo id='content' data={filteredContracts} parcel={paymentParcels} campaign={camp?.parcel} /> : "",
-        "Español -  X2": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} parcel={paymentParcels} campaign={camp?.parcel} /> : <ParticularesPromo id='content' data={filteredContracts} parcel={paymentParcels} campaign={camp?.parcel} /> : "",
-        "Español - X3": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} parcel={paymentParcels} campaign={camp?.parcel} /> : <ParticularesPromo id='content' data={filteredContracts} parcel={paymentParcels} campaign={camp?.parcel} /> : "",
-        "Pacote Office Essentials": bool ? filteredContracts.promocao === "Não" ? <Office id='content' data={filteredContracts} parcel={paymentParcels} campaign={camp?.parcel} /> : <OfficePromo id='content' data={filteredContracts} parcel={paymentParcels} campaign={camp?.parcel} /> : "",
-        "Excel Avaçado": bool ? filteredContracts.promocao === "Não" ? <Excel id='content' data={filteredContracts} parcel={paymentParcels} campaign={camp?.parcel} /> : <ExcelPromo id='content' data={filteredContracts} parcel={paymentParcels} campaign={camp?.parcel} /> : "",
-        "Office Essential Intensivo": <OfficeIntensivo id='content' data={filteredContracts} parcel={paymentParcels} campaign={camp?.parcel} />
+        "Adults and YA": bool ? filteredContracts.promocao === "Não" ? <Idioma id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <IdiomaPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
+        "Kids": bool ? filteredContracts.promocao === "Não" ? <Idioma id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <IdiomaPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
+        "Teens": bool ? filteredContracts.promocao === "Não" ? <Idioma id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <IdiomaPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
+        "Little Ones": bool ? filteredContracts.promocao === "Não" ? <Idioma id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <IdiomaPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
+        "Español - En grupo": bool ? filteredContracts.promocao === "Não" ? <Idioma id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <IdiomaPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
+        "Fluency Way 4X - X": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <ParticularesPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
+        "Fluency Way One - X": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <ParticularesPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
+        "Fluency Way One -X": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <ParticularesPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
+        "Fluency Way Double -X": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <ParticularesPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
+        "Fluency Way Triple - X": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <ParticularesPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
+        "Español - X1": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <ParticularesPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
+        "Español -  X2": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <ParticularesPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
+        "Español - X3": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <ParticularesPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
+        "Pacote Office Essentials": bool ? filteredContracts.promocao === "Não" ? <Office id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <OfficePromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
+        "Excel Avaçado": bool ? filteredContracts.promocao === "Não" ? <Excel id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <ExcelPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
+        "Office Essential Intensivo": <OfficeIntensivo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} />
     }
-
 
 
     return (
@@ -451,7 +489,7 @@ export const ContractData = () => {
                                 const keys = Object.keys(filteredContracts)
                                 const freeToGo = keys.filter(key => !filteredContracts[key])
 
-                                if (filteredContracts["endereco"]?.erro === "true") return alert("CEP não encontrado, corrija-o para poder emitir o contrato")
+                                if (freeToGo.find(res => res === "CEP")) return alert("CEP não encontrado, corrija-o para poder emitir o contrato")
                                 if (freeToGo.find(res => res === "CPF")) return alert("CPF não cadastrado")
                                 if (freeToGo.find(res => res === "Nome do responsável")) return alert("Nome do responsável não cadastrado")
                                 if (freeToGo.find(res => res === "Número de parcelas")) return alert("Parcelas do curso não cadastradas")
@@ -521,7 +559,7 @@ export const ContractData = () => {
                                             </tr>
                                             <tr >
                                                 <TableBody empty={filteredContracts["Nome do responsável"] === "" || filteredContracts["Nome do responsável"] === undefined}>{filteredContracts["Nome do responsável"]}</TableBody>
-                                                <TableBody empty={filteredContracts.email === "" || filteredContracts.email === undefined}>{filteredContracts.email}</TableBody>
+                                                <TableBody empty={filteredContracts.email === "" || filteredContracts.Email === undefined}>{filteredContracts.Email}</TableBody>
                                                 <TableBody empty={filteredContracts["Nº do contrato"] === "" || filteredContracts["Nº do contrato"] === undefined}>{filteredContracts["Nº do contrato"]}</TableBody>
                                                 <TableBody empty={filteredContracts["Data de emissão da venda"] === "" || filteredContracts["Data de emissão da venda"] === undefined}>{filteredContracts["Data de emissão da venda"]}</TableBody>
                                                 <TableBody nonMandatory={filteredContracts["Profissão"] === "" || filteredContracts["Profissão"] === undefined}>{filteredContracts["Profissão"]}</TableBody>
@@ -549,7 +587,6 @@ export const ContractData = () => {
                                                 <th>cep</th>
                                                 <th>Número</th>
                                                 <th>complemento</th>
-
                                                 <th>Endereço</th>
                                                 <th>bairro</th>
                                                 <th>cidade</th>
@@ -558,12 +595,12 @@ export const ContractData = () => {
                                             </tr>
 
                                             <tr >
-                                                <TableBody empty={"erro" in filteredContracts["endereco"]}>{filteredContracts?.endereco["cep"]}</TableBody>
+                                                <TableBody empty={filteredContracts["CEP"] === undefined}>{filteredContracts["CEP"]}</TableBody>
                                                 <TableBody empty={filteredContracts["Número"] === undefined}>{filteredContracts["Número"]}</TableBody>
                                                 <TableBody empty={filteredContracts["Complemento"] === undefined}>{filteredContracts["Complemento"]}</TableBody>
-                                                <TableBody empty={"erro" in filteredContracts["endereco"]}>{filteredContracts?.endereco["logradouro"]}</TableBody>
-                                                <TableBody empty={"erro" in filteredContracts["endereco"]}>{filteredContracts?.endereco["bairro"]}</TableBody>
-                                                <TableBody empty={"erro" in filteredContracts["endereco"]}>{filteredContracts?.endereco["localidade"]}</TableBody>
+                                                <TableBody empty={filteredContracts["Endereco"] === undefined}>{filteredContracts["Endereco"]}</TableBody>
+                                                <TableBody empty={filteredContracts["Bairro"] === undefined}>{filteredContracts["Bairro"]}</TableBody>
+                                                <TableBody empty={filteredContracts["Cidade"] === undefined}>{filteredContracts["Cidade"]}</TableBody>
 
                                             </tr>
                                             <tr>
@@ -573,7 +610,7 @@ export const ContractData = () => {
                                             </tr>
                                             <tr >
 
-                                                <TableBody empty={"erro" in filteredContracts["endereco"]}>{filteredContracts?.endereco["uf"]}</TableBody>
+                                                <TableBody empty={filteredContracts["Uf"] === undefined}>{filteredContracts["Uf"]}</TableBody>
                                             </tr>
 
                                             <tr> <h3>Aluno</h3></tr>
@@ -674,14 +711,16 @@ export const ContractData = () => {
                                                 <th>Última parcela</th>
                                                 <th>valor da Mensalidade</th>
                                                 <th>Parcelas</th>
+                                                <th>Curso</th>
 
                                             </tr>
 
                                             <tr>
                                                 <TableBody empty={filteredContracts["Data de vencimento da primeira parcela"] === "" || filteredContracts["Data de vencimento da primeira parcela"] === undefined}>{filteredContracts["Data de vencimento da primeira parcela"]}</TableBody>
                                                 <TableBody empty={filteredContracts["Data de vencimento da última parcela"] === "" || filteredContracts["Data de vencimento da última parcela"] === undefined}>{filteredContracts["Data de vencimento da última parcela"]}</TableBody>
-                                                <TableBody empty={paymentParcels.length === 0}>R$ {paymentParcels[paymentParcels?.length - 1]?.valor}</TableBody>
+                                                <TableBody empty={paymentParcels.parcels.length === 0}>R$ {paymentParcels.parcels[paymentParcels?.parcels.length - 1]?.valor}</TableBody>
                                                 <TableBody empty={filteredContracts["Número de parcelas"] === "" || filteredContracts["Número de parcelas"] === undefined}>{filteredContracts["Número de parcelas"]}</TableBody>
+                                                <TableBody nonMandatory={filteredContracts["service"] === "" || filteredContracts["service"] === undefined} > {filteredContracts["service"]}</TableBody>
 
                                             </tr>
                                             <tr>
@@ -695,16 +734,10 @@ export const ContractData = () => {
 
                                             <tr>
 
-                                                <TableBody >
-                                                    {
-                                                        camp.parcel !== undefined ?
-                                                            camp.parcel.affectedParcels :
-                                                            0
-                                                    }
-                                                </TableBody>
+                                                <TableBody >{camp.parcel !== undefined ? camp.parcel.affectedParcels : 0}</TableBody>
                                                 <TableBody nonMandatory={filteredContracts["valorCurso"] === "" || filteredContracts["valorCurso"] === undefined} > {filteredContracts["valorCurso"]}</TableBody>
                                                 <TableBody empty={filteredContracts["Forma de pagamento da parcela"] === "" || filteredContracts["Forma de pagamento da parcela"] === undefined}> {filteredContracts["Forma de pagamento da parcela"]}</TableBody>
-                                                <TableBody empty={paymentParcels === undefined}>R$ {Math.ceil(paymentParcels[paymentParcels.length - 1]?.valor * 0.1)}</TableBody>
+                                                <TableBody empty={paymentParcels === undefined}>R$ {paymentParcels?.descountForPontuality}</TableBody>
 
                                             </tr>
 
@@ -724,7 +757,7 @@ export const ContractData = () => {
                                     >
 
                                         {
-                                            paymentParcels.map((res, index) => (
+                                            paymentParcels.parcels.map((res, index) => (
 
 
                                                 <div key={index}
@@ -783,7 +816,8 @@ export const ContractData = () => {
                                             </tr>
                                             <tr>
                                                 <th>Forma de pagamento </th>
-                                                <th>Desconto</th>
+                                                <th>Desconto por método de pagamento</th>
+                                                <th>Desconto concedido</th>
 
                                             </tr>
 
@@ -791,6 +825,7 @@ export const ContractData = () => {
 
                                                 <TableBody empty={filteredContracts["Forma de pagamento do MD"] === "" || filteredContracts["Forma de pagamento do MD"] === undefined}>{filteredContracts["Forma de pagamento do MD"]}</TableBody>
                                                 <TableBody empty={material === undefined}> R${material?.descount}</TableBody>
+                                                <TableBody empty={filteredContracts["Valor do desconto material didático"] === "" || filteredContracts["Valor do desconto material didático"] === undefined}>{filteredContracts["Valor do desconto material didático"]}</TableBody>
 
                                             </tr>
 
