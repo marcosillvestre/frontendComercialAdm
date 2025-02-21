@@ -471,11 +471,6 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                     <div>
 
                         <strong>1.8 - Cobrança e Inscrição em Órgãos de Proteção ao Crédito</strong>
-                        <p>
-                            Caso o débito permaneça em aberto por <strong>
-                                30 (trinta) dias corridos, sem comprovação de quitação integral, a CONTRATADA terá o direito, sem necessidade de aviso prévio, de adotar as medidas legais cabíveis para cobrança, incluindo a inscrição do nome do CONTRATANTE em cadastros de proteção ao crédito, como SERASA EXPERIAN
-                            </strong> e entidades similares.
-                        </p>
 
                         <br />
                         {
@@ -509,19 +504,31 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                                 <tbody>
                                     {
                                         data["products"] &&
-                                        data["products"].map(res => (
+                                        data["products"].map((res) => (
                                             <tr key={res.id}>
                                                 <td>{res.name}</td>
                                                 <td>{(res.price_ticket).toFixed(2)}</td>
                                                 <td>{(res.price_ticket - res[paymentMethodsForMaterials[data["Forma de pagamento do MD"]]]).toFixed(2)}</td>
                                                 <td>{data["Quantidade de parcelas MD"]}</td>
                                                 <td>{data["Forma de pagamento do MD"]}</td>
-                                                <td>{res[paymentMethodsForMaterials[data["Forma de pagamento do MD"]]]}</td>
+                                                <td>{(res[paymentMethodsForMaterials[data["Forma de pagamento do MD"]]].toFixed(2))}</td>
                                             </tr>
                                         ))
                                     }
-
                                 </tbody>
+                                {
+                                    data["products"].length > 0 &&
+                                    <tfoot className='contrast'>
+                                        <tr>
+                                            <td>TOTAL</td>
+                                            <td>{data['products'].reduce((acc, curr) => acc + curr.price_ticket, 0).toFixed(2)}</td>
+                                            <td>{data['products'].reduce((acc, curr) => acc + curr.price_ticket - curr[paymentMethodsForMaterials[data["Forma de pagamento do MD"]]], 0).toFixed(2)}</td>
+                                            <td>{data["Quantidade de parcelas MD"]}</td>
+                                            <td>{data["Forma de pagamento do MD"]}</td>
+                                            <td>{data['products'].reduce((acc, curr) => acc + curr[paymentMethodsForMaterials[data["Forma de pagamento do MD"]]], 0).toFixed(2)}</td>
+                                        </tr>
+                                    </tfoot>
+                                }
 
                             </table>
                         </section>
@@ -548,8 +555,8 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                                             <tr key={idx}>
                                                 <td>{idx + 1}</td>
                                                 <td>{dateCalculator(idx)}</td>
+                                                <td>{data['products'].reduce((acc, curr) => acc + curr.price_ticket, 0).toFixed(2)}</td>
                                                 <td>{parseFloat(data["material"].total).toFixed(2)}</td>
-                                                <td>{parseFloat(res.valor).toFixed(2)}</td>
                                             </tr>
                                         ))
                                     }
