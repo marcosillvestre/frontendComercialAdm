@@ -12,7 +12,7 @@ export const Contracts = () => {
     const forQuery = useRef()
 
     const { filteredContracts, setFilteredContracts } = useUser()
-    const { setSign, contractOptions, setContractOptions, allContracts, } = useSignContracts()
+    const { setSign, contractOptions, setContractOptions, allContracts, setContract } = useSignContracts()
 
 
     async function data(e) {
@@ -106,7 +106,7 @@ export const Contracts = () => {
                         onClick={() => {
                             setFilteredContracts(undefined)
                             setContractOptions(allContracts)
-
+                            setContract(null)
                         }}>
                         voltar
                     </span>

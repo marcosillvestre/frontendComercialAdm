@@ -9,9 +9,6 @@ export const PDFFile = ({ data, parcel, campaign }) => {
 
     const [loading, setLoading] = useState(false)
 
-    const filteredCampaigns = Object.keys(campaign).filter(res => campaign[res] !== undefined)
-
-
     const dateCalculator = (index) => {
         const dateFormated = new Date(data["Data de vencimento da primeira parcela"].split('/').reverse().join('-'));
 
@@ -479,10 +476,13 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                                 30 (trinta) dias corridos, sem comprovação de quitação integral, a CONTRATADA terá o direito, sem necessidade de aviso prévio, de adotar as medidas legais cabíveis para cobrança, incluindo a inscrição do nome do CONTRATANTE em cadastros de proteção ao crédito, como SERASA EXPERIAN
                             </strong> e entidades similares.
                         </p>
+
                         <br />
                         {
-                            campaign.material && <>
-                                <strong>1.9 - O CONTRATANTE é beneficiário da Campanha/Convênio &quot;{campaign.material.name}&quot;, a qual determina que &quot;{campaign.material.description}&quot;.</strong>
+                            campaign.parcel &&
+                            <>
+                                <br />
+                                <strong>1.9 - O CONTRATANTE é beneficiário da Campanha/Convênio &quot;{campaign.parcel.name}&quot;, a qual determina que &quot;{campaign.parcel.description}&quot;.</strong>
                             </>
                         }
                         <p>
@@ -664,14 +664,18 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                             A CONTRATADA reserva-se o direito de cobrar uma taxa de adesão, denominada &quot;TAXA DE MATRÍCULA&quot;, no valor de até R$350,00, a ser paga no ato da matrícula. Tal valor destina-se à cobertura de custos operacionais e administrativos relacionados ao processo de adesão. A CONTRATADA poderá conceder um desconto condicional de R${data["Valor do Desconto na Taxa de Matrícula"]},
                             resultando em um valor líquido final a ser pago
                             de R${taxValue}, desde que atendidas as condições estabelecidas no contrato, incluindo a forma de pagamento escolhida e o cumprimento do prazo de quitação.
-                            <br />
 
                         </strong>
+                        <br />
                         {
                             campaign.tax &&
-                            <strong>
-                                &quot;O CONTRATANTE é beneficiário da Campanha/Convênio &quot;{campaign.tax.name}&quot;, a qual determina que &quot;{campaign.tax.description}&quot;.&quot;
-                            </strong>
+                            <>
+                                <br />
+                                <strong>
+                                    &quot;O CONTRATANTE é beneficiário da Campanha/Convênio &quot;{campaign.tax.name}&quot;, a qual determina que &quot;{campaign.tax.description}&quot;.&quot;
+                                </strong>
+                                <br />
+                            </>
                         }
                         <br />
                         <strong>4. OBRIGAÇÕES DA CONTRATADA</strong>

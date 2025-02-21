@@ -35,7 +35,6 @@ export const senderImpressContract = async (fileName, file) => {
     };
 
 
-    console.log(file)
 
     try {
 

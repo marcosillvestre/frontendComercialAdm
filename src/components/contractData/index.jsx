@@ -6,7 +6,7 @@ import { Box, Button, Container, ContainerData, NavBar, SendContract, TableBody 
 
 import { gsap } from 'gsap'
 import { Flip } from 'gsap/Flip'
-import { useLayoutEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useState } from 'react'
 import { parseNumber } from '../../app/utils/functions/parseNumbers.jsx'
 import { useCampaign } from '../../hooks/campaign/campaignContext.hook.jsx'
 import { SureSendModal } from '../source.jsx'
@@ -422,56 +422,25 @@ export const ContractData = () => {
         }
     }, [filteredContracts])
 
+    const [activeNavbar, setActiveNavbar] = useState(false)
 
-    // let bool = filteredContracts !== undefined
+    useEffect(() => {
+        const handleScroll = () => {
+            setActiveNavbar(window.scrollY > 100); // Altera para `true` quando passa de 100px
+        };
 
-    // let standard;
-
-    // if (bool) {
-    //     if (filteredContracts.promocao === "Não" && filteredContracts["Background do Aluno"] !== "Rematrícula") {
-    //         standard = <Standard id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} />
-    //     }
-    //     if (filteredContracts.promocao !== "Não" && filteredContracts["Background do Aluno"] !== "Rematrícula") {
-    //         standard = <StandardPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} />
-    //     }
-    //     if (filteredContracts.promocao !== "Não" && filteredContracts["Background do Aluno"] === "Rematrícula") {
-    //         standard = <StandardPromoRem id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} />
-    //     }
-    //     if (filteredContracts.promocao === "Não" && filteredContracts["Background do Aluno"] === "Rematrícula") {
-    //         standard = <StandardRem id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} />
-    //     }
-    // }
-
-
-    // const archives = {
-    //     "Standard One": standard,
-    //     "Adults and YA": bool ? filteredContracts.promocao === "Não" ? <Idioma id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <IdiomaPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
-    //     "Kids": bool ? filteredContracts.promocao === "Não" ? <Idioma id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <IdiomaPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
-    //     "Teens": bool ? filteredContracts.promocao === "Não" ? <Idioma id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <IdiomaPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
-    //     "Little Ones": bool ? filteredContracts.promocao === "Não" ? <Idioma id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <IdiomaPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
-    //     "Español - En grupo": bool ? filteredContracts.promocao === "Não" ? <Idioma id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <IdiomaPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
-    //     "Fluency Way 4X - X": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <ParticularesPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
-    //     "Fluency Way One - X": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <ParticularesPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
-    //     "Fluency Way One -X": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <ParticularesPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
-    //     "Fluency Way Double -X": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <ParticularesPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
-    //     "Fluency Way Triple - X": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <ParticularesPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
-    //     "Español - X1": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <ParticularesPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
-    //     "Español -  X2": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <ParticularesPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
-    //     "Español - X3": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <ParticularesPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
-    //     "Pacote Office Essentials": bool ? filteredContracts.promocao === "Não" ? <Office id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <OfficePromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
-    //     "Excel Avaçado": bool ? filteredContracts.promocao === "Não" ? <Excel id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <ExcelPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
-    //     "Office Essential Intensivo": <OfficeIntensivo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} />
-    // }
-
-
-    console.log(filteredContracts)
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
     return (
         <Container>
             {
                 filteredContracts !== undefined &&
 
-                <NavBar>
-                    <span>
+                <NavBar active={activeNavbar} >
+                    <span
+                        className='view emmit'
+                    >
                         <p>Visualização em</p>
                         <div className='buttons'>
                             <div
@@ -497,6 +466,7 @@ export const ContractData = () => {
                     </span>
 
                     <span className='emmit' >
+
                         <Button
                             className='defaultButton'
                             open={emmit && true}
@@ -520,14 +490,14 @@ export const ContractData = () => {
                         </Button>
 
                         <Box $emmit={emmit && true} >
-                            <SendContract
+                            {/* <SendContract
                                 className='defaultButton'
 
                                 $emmit={emmit && true}>
                                 <SureSendModal
                                     data={"PDF"}
                                     text={personalText.PDF} />
-                            </SendContract>
+                            </SendContract> */}
                             <SendContract
                                 className='defaultButton'
                                 $emmit={emmit && true}>
@@ -958,8 +928,6 @@ export const ContractData = () => {
                             <div style={{ display: 'grid', gap: "2rem" }}>
                                 <PDFFile id='content' data={filteredContracts} parcel={paymentParcels} campaign={camp} />
                             </div>
-                            // archives[filteredContracts !== undefined &&
-                            // filteredContracts["Subclasse"]]
                         }
                     </div>
 

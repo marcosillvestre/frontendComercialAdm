@@ -89,19 +89,33 @@ export const ContainerData = styled.section`
 
 export const NavBar = styled.nav`
 text-align: center;
-width: 100%;
 margin: 15px 0;
+padding: 1rem;
+
 display: flex;
-justify-content: space-between;
-position: relative;
+flex-direction: ${props => props.active ? 'column' : 'row'};
+align-items: center;
+justify-content: ${props => props.active ? '' : 'space-between'};
+gap: .5rem;
+animation-duration: .5s;
+
+border-radius: var(--border-radius);
+position: ${props => props.active ? 'sticky' : 'static'};
+background-color: #e0e0e0;
+top: 90px;
+margin-left: ${props => props.active ? 'calc(100% - 220px)' : '0'};
+box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1),0px 10px 15px -3px rgba(0,0,0,0.1);
 .emmit{
-text-align: center;
-font-weight: lighter;
 user-select:none;
-position: absolute;
-right: 0;
+width: 12rem;
 
 }
+.view {
+    border: 1px dashed;
+    padding: .5rem;
+    border-radius: var(--border-radius);
+}
+
 .buttons{
     display: flex;
     gap: 6px;
@@ -173,7 +187,7 @@ cursor: pointer;
 margin: 5px 0;
 z-index: 10;    
 transition: transform 0.1s;
-padding: 0 .8rem;
+padding: 0 2.5rem;
 
 height: var(--boxHei);
 
@@ -184,13 +198,9 @@ height: var(--boxHei);
 
 
 export const Box = styled.div`
-display: flex;
-align-items: center;
-justify-content: center;
-flex-direction: column;
 z-index: 1;
 display: ${({ $emmit }) => ($emmit ? "block" : "none")};
-gap: 1rem;
+position: absolute;
 `
 
 const up = keyframes`
@@ -213,12 +223,14 @@ to {
 export const SendContract = styled.div`
 z-index: 0;
 color: #fff;
-margin: .4rem 0 ;
+margin: .2rem 0 ;
 border-radius: 5px;
 border: none;
 cursor: pointer;
 transition: all.8s;
 width: 100%;
+padding: 0 2.5rem;
+
 :first-child{
     animation: ${({ $emmit }) => ($emmit ? down : up)} .3s ease-in-out forwards ;
 }

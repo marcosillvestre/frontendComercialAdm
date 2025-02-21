@@ -46,6 +46,7 @@ export const SigningContracts = ({ children }) => {
         queryFn: () => signAContract(),
         queryKey: [contract],
         enabled: contract !== undefined,
+        staleTime: 0
 
     })
 
