@@ -8,6 +8,10 @@ import { Container, File } from './contract.styles';
 export const PDFFile = ({ data, parcel, campaign }) => {
 
     const [loading, setLoading] = useState(false)
+
+    const filteredCampaigns = Object.keys(campaign).filter(res => campaign[res] !== undefined)
+
+
     const dateCalculator = (index) => {
         const dateFormated = new Date(data["Data de vencimento da primeira parcela"].split('/').reverse().join('-'));
 
@@ -54,6 +58,16 @@ export const PDFFile = ({ data, parcel, campaign }) => {
         }, 3000);
 
     }
+
+
+    const campaignTaxDescount = () => {
+        if (!campaign.tax) return 0
+        const value = campaign.tax.descountType === 'Percentage' ?
+            350 - (350 * campaign.tax.value) : 350 - campaign.tax.value
+
+        return value
+    }
+    const taxValue = 350 - campaignTaxDescount() - parseFloat(data["Valor do Desconto na Taxa de Matrícula"])
 
 
     return (
@@ -330,7 +344,7 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                                         <td >{data["service"]}</td>
                                         <td >{(data["valorCurso"]).toFixed(2)}</td>
                                         <td >{parcel["descount"]}</td>
-                                        <td >{data["Número de parcelas"]}</td>
+                                        <td >{data["Número de parcelas do curso"]}</td>
                                         <td >{data["Forma de pagamento da parcela"]}</td>
                                         <td >{(parcel["total"] - parcel["descount"]).toFixed(2)}</td>
                                     </tr>
@@ -466,7 +480,11 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                             </strong> e entidades similares.
                         </p>
                         <br />
-                        <strong>1.9 - O CONTRATANTE é beneficiário da Campanha/Convênio &quot;Nome da Campanha&quot;, a qual determina que &quot;Descrição da campanha&quot;.</strong>
+                        {
+                            campaign.material && <>
+                                <strong>1.9 - O CONTRATANTE é beneficiário da Campanha/Convênio &quot;{campaign.material.name}&quot;, a qual determina que &quot;{campaign.material.description}&quot;.</strong>
+                            </>
+                        }
                         <p>
                             Caso o débito permaneça em aberto por <strong>
                                 30 (trinta) dias corridos, sem comprovação de quitação integral, a CONTRATADA terá o direito, sem necessidade de aviso prévio, de adotar as medidas legais cabíveis para cobrança, incluindo a inscrição do nome do CONTRATANTE em cadastros de proteção ao crédito, como SERASA EXPERIAN
@@ -643,11 +661,19 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                         <strong>3.0 - Taxa de Adesão</strong>
                         <br />
                         <strong>
-                            A CONTRATADA reserva-se o direito de cobrar uma taxa de adesão, denominada &quot;TAXA DE MATRÍCULA&quot;, no valor de até R$350,00, a ser paga no ato da matrícula. Tal valor destina-se à cobertura de custos operacionais e administrativos relacionados ao processo de adesão. A CONTRATADA poderá conceder um desconto condicional de R${data["Valor do Desconto na Taxa de Matrícula"]}, resultando em um valor líquido final a ser pago de R${350 - parseFloat(data["Valor do Desconto na Taxa de Matrícula"]) - campaign ? campaign.tax?.value : 0}, desde que atendidas as condições estabelecidas no contrato, incluindo a forma de pagamento escolhida e o cumprimento do prazo de quitação.
+                            A CONTRATADA reserva-se o direito de cobrar uma taxa de adesão, denominada &quot;TAXA DE MATRÍCULA&quot;, no valor de até R$350,00, a ser paga no ato da matrícula. Tal valor destina-se à cobertura de custos operacionais e administrativos relacionados ao processo de adesão. A CONTRATADA poderá conceder um desconto condicional de R${data["Valor do Desconto na Taxa de Matrícula"]},
+                            resultando em um valor líquido final a ser pago
+                            de R${taxValue}, desde que atendidas as condições estabelecidas no contrato, incluindo a forma de pagamento escolhida e o cumprimento do prazo de quitação.
                             <br />
-                            &quot;O CONTRATANTE é beneficiário da Campanha/Convênio &quot;Nome da Campanha&quot;, a qual determina que &quot;Descrição da campanha&quot;.&quot;
-                        </strong>
 
+                        </strong>
+                        {
+                            campaign.tax &&
+                            <strong>
+                                &quot;O CONTRATANTE é beneficiário da Campanha/Convênio &quot;{campaign.tax.name}&quot;, a qual determina que &quot;{campaign.tax.description}&quot;.&quot;
+                            </strong>
+                        }
+                        <br />
                         <strong>4. OBRIGAÇÕES DA CONTRATADA</strong>
                         <br />
                         <strong>4.1 A CONTRATADA compromete-se a prestar serviços educacionais para o curso selecionado no QUADRO DE RESUMO deste contrato, por meio de aulas presenciais, online ou híbridas, conforme a metodologia adotada e necessidades do ensino.</strong>
@@ -848,7 +874,7 @@ PDFFile.propTypes = {
         'Valor do Desconto na Taxa de Matrícula': PropTypes.string,
         'Data de pagamento TM': PropTypes.string,
         'Quantidade de parcelas TM ': PropTypes.string,
-        'Número de parcelas': PropTypes.string,
+        'Número de parcelas do curso': PropTypes.string,
         'Forma de pagamento da parcela': PropTypes.string,
         'Valor total da parcela': PropTypes.string,
         'Valor do desconto de pontualidade por parcela': PropTypes.string,
@@ -899,16 +925,43 @@ PDFFile.propTypes = {
     }),
     campaign: PropTypes.shape({
 
-        id: PropTypes.string,
-        name: PropTypes.string,
-        description: PropTypes.string,
-        affectedParcels: PropTypes.number,
-        value: PropTypes.number,
-        descountType: PropTypes.string,
-        for: PropTypes.string,
-        status: PropTypes.bool,
-        created_at: PropTypes.string,
-        updated_at: PropTypes.string
+        tax: PropTypes.shape({
+            id: PropTypes.string,
+            name: PropTypes.string,
+            description: PropTypes.string,
+            affectedParcels: PropTypes.number,
+            value: PropTypes.number,
+            descountType: PropTypes.string,
+            for: PropTypes.string,
+            status: PropTypes.bool,
+            created_at: PropTypes.string,
+            updated_at: PropTypes.string
+        }),
+        parcel: PropTypes.shape({
+            id: PropTypes.string,
+            name: PropTypes.string,
+            description: PropTypes.string,
+            affectedParcels: PropTypes.number,
+            value: PropTypes.number,
+            descountType: PropTypes.string,
+            for: PropTypes.string,
+            status: PropTypes.bool,
+            created_at: PropTypes.string,
+            updated_at: PropTypes.string
+        }),
+        material: PropTypes.shape({
+            id: PropTypes.string,
+            name: PropTypes.string,
+            description: PropTypes.string,
+            affectedParcels: PropTypes.number,
+            value: PropTypes.number,
+            descountType: PropTypes.string,
+            for: PropTypes.string,
+            status: PropTypes.bool,
+            created_at: PropTypes.string,
+            updated_at: PropTypes.string
+        }),
+
     })
 }
 // Contract.propTypes = {

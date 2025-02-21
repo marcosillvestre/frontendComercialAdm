@@ -214,27 +214,27 @@ export const ContractData = () => {
         const { fullValue, descount, descountForPontuality } = await defineValueForParcels(
             filteredContracts["valorCurso"],
             filteredContracts["Forma de pagamento da parcela"],
-            parseNumber(filteredContracts["Número de parcelas"])
+            parseNumber(filteredContracts["Número de parcelas do curso"])
         )
 
         let array = []
 
-        for (let index = 0; index < parseInt(filteredContracts["Número de parcelas"]); index++) {
+        for (let index = 0; index < parseInt(filteredContracts["Número de parcelas do curso"]); index++) {
 
             const campaignDescount = campaignParcel.descountType === "Percentage" ?
-                (fullValue / parseNumber(filteredContracts["Número de parcelas"]) -
+                (fullValue / parseNumber(filteredContracts["Número de parcelas do curso"]) -
                     parseNumber(filteredContracts["Valor do desconto de pontualidade por parcela"])) * campaignParcel.value / 100 :
                 campaignParcel.value
 
             index + 1 <= campaignParcel.affectedParcels ?
                 array.push({
                     valor:
-                        ((fullValue / parseNumber(filteredContracts["Número de parcelas"])) -
+                        ((fullValue / parseNumber(filteredContracts["Número de parcelas do curso"])) -
                             campaignDescount).toFixed(2)
                 }) :
                 array.push({
                     valor:
-                        (fullValue / parseNumber(filteredContracts["Número de parcelas"])).toFixed(2)
+                        (fullValue / parseNumber(filteredContracts["Número de parcelas do curso"])).toFixed(2)
                 })
         }
 
@@ -356,14 +356,14 @@ export const ContractData = () => {
         const { fullValue, descount, descountForPontuality } = await defineValueForParcels(
             filteredContracts["valorCurso"],
             filteredContracts["Forma de pagamento da parcela"],
-            parseNumber(filteredContracts["Número de parcelas"])
+            parseNumber(filteredContracts["Número de parcelas do curso"])
         )
         let array = []
 
-        for (let index = 0; index < parseInt(filteredContracts["Número de parcelas"]); index++) {
+        for (let index = 0; index < parseInt(filteredContracts["Número de parcelas do curso"]); index++) {
 
             array.push({
-                valor: (fullValue / parseNumber(filteredContracts["Número de parcelas"])).toFixed(2)
+                valor: (fullValue / parseNumber(filteredContracts["Número de parcelas do curso"])).toFixed(2)
             })
         }
 
@@ -507,7 +507,7 @@ export const ContractData = () => {
                                 if (freeToGo.find(res => res === "CEP")) return alert("CEP não encontrado, corrija-o para poder emitir o contrato")
                                 if (freeToGo.find(res => res === "CPF")) return alert("CPF não cadastrado")
                                 if (freeToGo.find(res => res === "Nome do responsável")) return alert("Nome do responsável não cadastrado")
-                                if (freeToGo.find(res => res === "Número de parcelas")) return alert("Parcelas do curso não cadastradas")
+                                if (freeToGo.find(res => res === "Número de parcelas do curso")) return alert("Parcelas do curso não cadastradas")
                                 if (freeToGo.find(res => res === "Quantidade de parcelas MD")) return alert("Parcelas do Material Didático não cadastradas")
                                 if (freeToGo.find(res => res === "Quantidade de parcelas TM ")) return alert("Parcelas da Taxa de matrícula não cadastradas")
                                 if (freeToGo.find(res => res === "valorCurso")) return alert("Valor do curso não preenchido")
@@ -734,7 +734,7 @@ export const ContractData = () => {
                                                 <TableBody empty={filteredContracts["Data de vencimento da primeira parcela"] === "" || filteredContracts["Data de vencimento da primeira parcela"] === undefined}>{filteredContracts["Data de vencimento da primeira parcela"]}</TableBody>
                                                 <TableBody empty={filteredContracts["Data de vencimento da última parcela"] === "" || filteredContracts["Data de vencimento da última parcela"] === undefined}>{filteredContracts["Data de vencimento da última parcela"]}</TableBody>
                                                 <TableBody empty={paymentParcels.parcels.length === 0}>R$ {paymentParcels.parcels[paymentParcels?.parcels.length - 1]?.valor}</TableBody>
-                                                <TableBody empty={filteredContracts["Número de parcelas"] === "" || filteredContracts["Número de parcelas"] === undefined}>{filteredContracts["Número de parcelas"]}</TableBody>
+                                                <TableBody empty={filteredContracts["Número de parcelas do curso"] === "" || filteredContracts["Número de parcelas do curso"] === undefined}>{filteredContracts["Número de parcelas do curso"]}</TableBody>
                                                 <TableBody nonMandatory={filteredContracts["service"] === "" || filteredContracts["service"] === undefined} > {filteredContracts["service"]}</TableBody>
 
                                             </tr>
