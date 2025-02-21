@@ -24,7 +24,10 @@ function Row(props) {
         <React.Fragment>
             <RowTable
                 sx={{ '& > *': { borderBottom: 'unset' } }}
-                onClick={() => setContract(row.id)}
+                onClick={() => {
+                    if (!row.subclass) return alert("Nenhum produto/serviço cadastrado no RD!")
+                    setContract(row.id)
+                }}
             >
 
 
@@ -51,12 +54,6 @@ Row.propTypes = {
         phone: PropTypes.string.isRequired,
         subclass: PropTypes.string.isRequired,
 
-        CelularResponsavel: PropTypes.string.isRequired,
-        "Data de emissão da venda": PropTypes.string.isRequired,
-        "Subclasse": PropTypes.string.isRequired,
-        "Nº do contrato": PropTypes.string.isRequired,
-        "Nome do aluno": PropTypes.string.isRequired,
-        "Nome do responsável": PropTypes.string.isRequired,
     }).isRequired,
 };
 

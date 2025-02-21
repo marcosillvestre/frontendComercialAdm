@@ -1,20 +1,8 @@
 import { useData } from '../../hooks/dataContext.jsx'
 import { useUser } from '../../hooks/userContext'
 import { Box, Button, Container, ContainerData, NavBar, SendContract, TableBody } from './styles'
-import Excel from './templates/excel.jsx'
-import Idioma from './templates/idioma.jsx'
-import Office from './templates/office.jsx'
-import Particulares from './templates/particulares.jsx'
-import Standard from './templates/standard.jsx'
 
-import ExcelPromo from './templates/promo/excel-promo.jsx'
-import IdiomaPromo from './templates/promo/idioma-promo.jsx'
-import OfficePromo from './templates/promo/office-promo.jsx'
-import ParticularesPromo from './templates/promo/particulares-promo.jsx'
-import StandardPromo from './templates/promo/standard-promo.jsx'
 
-import StandardPromoRem from './templates/promo/standard-promo-rem.jsx'
-import StandardRem from './templates/standard-rem.jsx'
 
 import { gsap } from 'gsap'
 import { Flip } from 'gsap/Flip'
@@ -22,7 +10,7 @@ import { useLayoutEffect, useState } from 'react'
 import { parseNumber } from '../../app/utils/functions/parseNumbers.jsx'
 import { useCampaign } from '../../hooks/campaign/campaignContext.hook.jsx'
 import { SureSendModal } from '../source.jsx'
-import OfficeIntensivo from './templates/promo/office-intensivo.jsx'
+import { PDFFile } from './templates/contract.jsx'
 
 export const ContractData = () => {
     gsap.registerPlugin(Flip)
@@ -97,33 +85,57 @@ export const ContractData = () => {
     }
 
     const paymentMethodsForParcels = {
-        "Boleto": 0,
-        "Cartão de débito via outros bancos": 0,
-        "Dinheiro": 0,
-        "Pix": 0,
-        "Pix cobrança": 0,
+        "Boleto": 0.1,
+        "Cartão de débito via outros bancos": 0.1,
+        "Dinheiro": 0.1,
+        "Pix cobrança": 0.1,
+        "Transferência bancária": 0.1,
+
         "Sem pagamento": 0,
         "Isenção": 0,
-        "Transferência bancária": 0,
         "Outros": 0,
+
         "Débito automático": 0.15,
         "Cartão de crédito via link": 0.15,
 
         "Cartão de crédito via outro bancos": 0.2,
 
-        "PIX - Pagamento Instantâneo": 0.3,
+        "Pix": 0.3,
     }
+    // const paymentMethodsForParcels = {
+    //     "Boleto": 0,
+    //     "Cartão de débito via outros bancos": 0,
+    //     "Dinheiro": 0,
+    //     "Pix": 0,
+    //     "Pix cobrança": 0,
+    //     "Sem pagamento": 0,
+    //     "Isenção": 0,
+    //     "Transferência bancária": 0,
+    //     "Outros": 0,
+    //     "Débito automático": 0.15,
+    //     "Cartão de crédito via link": 0.15,
+
+    //     "Cartão de crédito via outro bancos": 0.2,
+
+    //     "PIX - Pagamento Instantâneo": 0.3,
+    // }
 
     const defineValueForParcels = (cursoValor, typePayment, parcelsNumber) => {
 
         if (paymentMethodsForParcels[typePayment] === undefined) return alert("Forma de pagamento para parcelas impróprio! Corrija no RD")
 
-        const valorCurso = cursoValor - (cursoValor * paymentMethodsForParcels[typePayment])
+        // const valorCurso = cursoValor - (cursoValor * paymentMethodsForParcels[typePayment])
+
+
+        const descountForPontuality =
+            (cursoValor / parcelsNumber) * paymentMethodsForParcels[typePayment]
 
         return {
-            fullValue: valorCurso,
-            descount: (cursoValor * paymentMethodsForParcels[typePayment]).toFixed(2),
-            descountForPontuality: paymentMethodsForParcels[typePayment] === 0 ? ((valorCurso / parcelsNumber) * 0.1).toFixed(2) : 0
+            fullValue: cursoValor,
+            descount: paymentMethodsForParcels[typePayment] === 0.1 ?
+                Math.ceil(descountForPontuality) * parcelsNumber : (descountForPontuality * parcelsNumber).toFixed(2),
+            descountForPontuality: paymentMethodsForParcels[typePayment] === 0.1 ?
+                Math.ceil(descountForPontuality) : descountForPontuality.toFixed(2)
         }
     }
 
@@ -338,6 +350,7 @@ export const ContractData = () => {
     }
 
 
+
     const sincValueForParcel = async () => {
 
         const { fullValue, descount, descountForPontuality } = await defineValueForParcels(
@@ -410,46 +423,48 @@ export const ContractData = () => {
     }, [filteredContracts])
 
 
-    let bool = filteredContracts !== undefined
+    // let bool = filteredContracts !== undefined
 
-    let standard;
+    // let standard;
 
-    if (bool) {
-        if (filteredContracts.promocao === "Não" && filteredContracts["Background do Aluno"] !== "Rematrícula") {
-            standard = <Standard id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} />
-        }
-        if (filteredContracts.promocao !== "Não" && filteredContracts["Background do Aluno"] !== "Rematrícula") {
-            standard = <StandardPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} />
-        }
-        if (filteredContracts.promocao !== "Não" && filteredContracts["Background do Aluno"] === "Rematrícula") {
-            standard = <StandardPromoRem id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} />
-        }
-        if (filteredContracts.promocao === "Não" && filteredContracts["Background do Aluno"] === "Rematrícula") {
-            standard = <StandardRem id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} />
-        }
-    }
-
-    const archives = {
-        "Standard One": standard,
-        "Adults and YA": bool ? filteredContracts.promocao === "Não" ? <Idioma id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <IdiomaPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
-        "Kids": bool ? filteredContracts.promocao === "Não" ? <Idioma id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <IdiomaPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
-        "Teens": bool ? filteredContracts.promocao === "Não" ? <Idioma id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <IdiomaPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
-        "Little Ones": bool ? filteredContracts.promocao === "Não" ? <Idioma id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <IdiomaPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
-        "Español - En grupo": bool ? filteredContracts.promocao === "Não" ? <Idioma id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <IdiomaPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
-        "Fluency Way 4X - X": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <ParticularesPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
-        "Fluency Way One - X": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <ParticularesPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
-        "Fluency Way One -X": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <ParticularesPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
-        "Fluency Way Double -X": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <ParticularesPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
-        "Fluency Way Triple - X": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <ParticularesPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
-        "Español - X1": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <ParticularesPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
-        "Español -  X2": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <ParticularesPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
-        "Español - X3": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <ParticularesPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
-        "Pacote Office Essentials": bool ? filteredContracts.promocao === "Não" ? <Office id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <OfficePromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
-        "Excel Avaçado": bool ? filteredContracts.promocao === "Não" ? <Excel id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <ExcelPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
-        "Office Essential Intensivo": <OfficeIntensivo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} />
-    }
+    // if (bool) {
+    //     if (filteredContracts.promocao === "Não" && filteredContracts["Background do Aluno"] !== "Rematrícula") {
+    //         standard = <Standard id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} />
+    //     }
+    //     if (filteredContracts.promocao !== "Não" && filteredContracts["Background do Aluno"] !== "Rematrícula") {
+    //         standard = <StandardPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} />
+    //     }
+    //     if (filteredContracts.promocao !== "Não" && filteredContracts["Background do Aluno"] === "Rematrícula") {
+    //         standard = <StandardPromoRem id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} />
+    //     }
+    //     if (filteredContracts.promocao === "Não" && filteredContracts["Background do Aluno"] === "Rematrícula") {
+    //         standard = <StandardRem id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} />
+    //     }
+    // }
 
 
+    // const archives = {
+    //     "Standard One": standard,
+    //     "Adults and YA": bool ? filteredContracts.promocao === "Não" ? <Idioma id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <IdiomaPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
+    //     "Kids": bool ? filteredContracts.promocao === "Não" ? <Idioma id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <IdiomaPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
+    //     "Teens": bool ? filteredContracts.promocao === "Não" ? <Idioma id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <IdiomaPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
+    //     "Little Ones": bool ? filteredContracts.promocao === "Não" ? <Idioma id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <IdiomaPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
+    //     "Español - En grupo": bool ? filteredContracts.promocao === "Não" ? <Idioma id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <IdiomaPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
+    //     "Fluency Way 4X - X": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <ParticularesPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
+    //     "Fluency Way One - X": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <ParticularesPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
+    //     "Fluency Way One -X": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <ParticularesPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
+    //     "Fluency Way Double -X": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <ParticularesPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
+    //     "Fluency Way Triple - X": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <ParticularesPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
+    //     "Español - X1": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <ParticularesPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
+    //     "Español -  X2": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <ParticularesPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
+    //     "Español - X3": bool ? filteredContracts.promocao === "Não" ? <Particulares id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <ParticularesPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
+    //     "Pacote Office Essentials": bool ? filteredContracts.promocao === "Não" ? <Office id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <OfficePromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
+    //     "Excel Avaçado": bool ? filteredContracts.promocao === "Não" ? <Excel id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : <ExcelPromo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} /> : "",
+    //     "Office Essential Intensivo": <OfficeIntensivo id='content' data={filteredContracts} parcel={paymentParcels.parcels} campaign={camp?.parcel} />
+    // }
+
+
+    console.log(filteredContracts)
     return (
         <Container>
             {
@@ -825,7 +840,7 @@ export const ContractData = () => {
 
                                                 <TableBody empty={filteredContracts["Forma de pagamento do MD"] === "" || filteredContracts["Forma de pagamento do MD"] === undefined}>{filteredContracts["Forma de pagamento do MD"]}</TableBody>
                                                 <TableBody empty={material === undefined}> R${material?.descount}</TableBody>
-                                                <TableBody empty={filteredContracts["Valor do desconto material didático"] === "" || filteredContracts["Valor do desconto material didático"] === undefined}>{filteredContracts["Valor do desconto material didático"]}</TableBody>
+                                                <TableBody >{parseNumber(filteredContracts["Valor do desconto material didático"])}</TableBody>
 
                                             </tr>
 
@@ -937,10 +952,14 @@ export const ContractData = () => {
                         </div>
                     </section>
                     :
-                    <div ref={content}>
+                    <div ref={content} >
                         {
-                            archives[filteredContracts !== undefined &&
-                            filteredContracts["Subclasse"]]
+                            filteredContracts !== undefined &&
+                            <div style={{ display: 'grid', gap: "2rem" }}>
+                                <PDFFile id='content' data={filteredContracts} parcel={paymentParcels} campaign={camp} />
+                            </div>
+                            // archives[filteredContracts !== undefined &&
+                            // filteredContracts["Subclasse"]]
                         }
                     </div>
 
