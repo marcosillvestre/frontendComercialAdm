@@ -149,6 +149,10 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                                         <td> {data["Endereco"]}</td>
                                     </tr>
                                     <tr>
+                                        <td>Número</td>
+                                        <td> {data["Número"]}</td>
+                                    </tr>
+                                    <tr>
                                         <td>Complemento</td>
                                         <td> {data["Complemento"]}</td>
                                     </tr>
