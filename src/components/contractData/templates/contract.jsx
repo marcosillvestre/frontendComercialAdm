@@ -220,7 +220,7 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                 </Container>
 
                 <Container
-                    // className='beforeClass'
+                    className='beforeClass'
                     title='Página 2 do contrato'
                 >
                     <div
@@ -337,7 +337,7 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                                     <tr>
                                         <td >{data["service"]}</td>
                                         <td >{(data["valorCurso"]).toFixed(2)}</td>
-                                        <td >{parcel["descount"]}</td>
+                                        <td >{parseFloat(parcel["descount"]).toFixed(2)}</td>
                                         <td >{data["Número de parcelas do curso"]}</td>
                                         <td >{data["Forma de pagamento da parcela"]}</td>
                                         <td >{(parcel["total"] - parcel["descount"]).toFixed(2)}</td>
@@ -371,7 +371,7 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                                                 <td>{idx + 1}</td>
                                                 <td>{dateCalculator(data["Data de vencimento da primeira parcela"], idx)}</td>
                                                 <td>{(parcel.total / parcel.parcels.length).toFixed(2)}</td>
-                                                <td>{parcel.descountForPontuality}</td>
+                                                <td>{parseFloat(parcel.descountForPontuality).toFixed(2)}</td>
                                                 <td>{(res.valor - parcel.descountForPontuality).toFixed(2)}</td>
                                             </tr>
                                         ))
@@ -440,9 +440,9 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                         </p>
                         <h4>1.6 - Aplicação de Descontos em Boleto Bancário</h4>
 
-                        <strong>
+                        <h4>
                             Caso o CONTRATANTE opte pelo pagamento via Boleto bancário, Pix cobrança ou Crédito via link, será de sua exclusiva responsabilidade comunicar à instituição bancária sobre a aplicação de descontos concedidos. A CONTRATADA não se responsabiliza por eventuais cobranças integrais devido à ausência dessa comunicação, nem será obrigada a realizar o ressarcimento.
-                        </strong>
+                        </h4>
 
                     </div>
                 </Container>
@@ -453,8 +453,7 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                 >
                     <div>
 
-                        <br />
-                        <strong>1.7 - Recesso Remunerado</strong>
+                        <h4>1.7 - Recesso Remunerado</h4>
                         <p>
                             <strong>
                                 O CONTRATANTE está ciente de que nos meses de janeiro, julho e dezembro haverá recesso remunerado para a CONTRATADA, totalizando até seis (06) semanas
