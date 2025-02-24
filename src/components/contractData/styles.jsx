@@ -120,6 +120,7 @@ box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1),0px 10px 15px -3px rgba(0,0,0,0.1
 user-select:none;
 width: 12rem;
 justify-content: center;
+flex-direction: column;
 }
 .view {
     border: 1px dashed;
@@ -208,7 +209,8 @@ min-width: 50% ;
 export const Box = styled.div`
 z-index: 1;
 display: ${({ $emmit }) => ($emmit ? "block" : "none")};
-position: absolute;
+/* position: absolute; */
+
 `
 
 const up = keyframes`
