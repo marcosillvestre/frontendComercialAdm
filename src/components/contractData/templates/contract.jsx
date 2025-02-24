@@ -1,19 +1,18 @@
-
 import html2pdf from 'html2pdf.js';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { Container, File } from './contract.styles';
 
-
 export const PDFFile = ({ data, parcel, campaign }) => {
 
     const [loading, setLoading] = useState(false)
 
-    const dateCalculator = (index) => {
-        const dateFormated = new Date(data["Data de vencimento da primeira parcela"].split('/').reverse().join('-'));
+    const dateCalculator = (date, index) => {
+        const dateFormated = new Date(date.split('/').reverse().join('-'));
+        dateFormated.setUTCHours(12)
 
-        const dateNow = dateFormated.setMonth(dateFormated.getMonth() + index)
-        return new Date(dateNow).toLocaleDateString('pt-br')
+        return index === 0 ? dateFormated.toLocaleDateString() :
+            new Date(dateFormated.setMonth(dateFormated.getMonth() + index)).toLocaleDateString()
     }
 
     const paymentMethodsForMaterials = {
@@ -31,23 +30,29 @@ export const PDFFile = ({ data, parcel, campaign }) => {
         "Outros": "price_ticket",
     }
 
-
     const render = () => {
-        setLoading(true)
-        const element = document.getElementById("container1")
+        setLoading(true);
+        const element = document.getElementById("container1");
+
         var opt = {
-            margin: .4,
+            margin: [0, 0.5, 0, 0],
             filename: `adesao-${data["Nome do responsável"]}+${data["id"]}`,
+
             image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 1 },
-            jsPDF: { unit: 'em', format: 'a4', orientation: 'portrait' },
+            html2canvas: { scale: 2, letterRendering: true },
+            jsPDF: {
+                unit: 'mm', format: 'a4', orientation: 'portrait',
+                compressPDF: true,
+            },
             pagebreak: {
+                mode: '',
                 before: '.beforeClass',
                 after: ['#after1', '#after2'],
                 avoid: '.avoid'
             }
         };
-        html2pdf().set(opt).from(element).save()
+
+        html2pdf().set(opt).from(element).save();
 
         setTimeout(() => {
 
@@ -84,15 +89,14 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                         onClick={() => render()}
                     >
 
-                        Emitir documento
+                        Criar documento
                     </button>
 
             }
 
-            <div id="container1">
+            <div id="container1" >
 
                 < Container
-                    id="content1"
                     title='Página 1 do contrato'
 
                 >
@@ -216,14 +220,11 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                 </Container>
 
                 <Container
-                    className='beforeClass'
-                    id="content5"
+                    // className='beforeClass'
                     title='Página 2 do contrato'
                 >
                     <div
-
                     >
-
                         <p >
                             Neste ato, representadas pelo REPRESENTANTE LEGAL: Victor Henrique Manhaes de Souza, CPF: 09160852607.
                             Este documento estabelece os termos e condições do contrato de prestação de serviços educacionais e aquisição de material didático,
@@ -304,18 +305,14 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                             </table>
                         </section>
 
-
-
                     </div>
                 </Container>
 
                 <Container
                     className='beforeClass'
-                    id="content5"
                     title='Página 3 do contrato'
                 >
                     <div>
-
 
                         <strong> SOBRE VALOR E DESCONTOS </strong>
                         <br />
@@ -372,7 +369,7 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                                         parcel.parcels.map((res, idx) => (
                                             <tr key={idx}>
                                                 <td>{idx + 1}</td>
-                                                <td>{dateCalculator(idx)}</td>
+                                                <td>{dateCalculator(data["Data de vencimento da primeira parcela"], idx)}</td>
                                                 <td>{(parcel.total / parcel.parcels.length).toFixed(2)}</td>
                                                 <td>{parcel.descountForPontuality}</td>
                                                 <td>{(res.valor - parcel.descountForPontuality).toFixed(2)}</td>
@@ -396,15 +393,13 @@ export const PDFFile = ({ data, parcel, campaign }) => {
 
                 <Container
                     className='beforeClass'
-                    id="content5"
                     title='Página 4 do contrato'
                 >
                     <div
 
                     >
 
-
-                        <strong>1.1 - Condições de Pagamento</strong>
+                        <h4>1.1 - Condições de Pagamento</h4>
                         <p>
                             O valor total do curso está descrito na <strong>Tabela 1</strong>, na coluna <strong>&quot;Valor Bruto&quot;</strong>, e será pago em parcelas conforme indicado na coluna <strong>&quot;Número de Parcelas&quot;</strong>. Para pagamentos efetuados dentro do prazo de vencimento descrito na <strong>Tabela 2</strong>, coluna <strong>&quot;Vencimento&quot;</strong>, ou realizados através da forma de pagamento especificada na <strong>Tabela 1</strong>, coluna <strong>&quot;Forma de Pagamento&quot;</strong>, será concedido o desconto indicado na <strong>Tabela 2</strong>, coluna <strong>&quot;Desconto por Parcela&quot;</strong>. Dessa forma, o valor final a ser pago por parcela corresponderá ao valor descrito na <strong>Tabela 2</strong>, coluna <strong>&quot;Valor Líquido&quot;</strong>, desde que atendidas as seguintes condições:
                         </p>
@@ -443,33 +438,28 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                                 A ausência ou infrequência do ALUNO/CONTRATANTE nas atividades contratadas não o exime do pagamento das parcelas mensais, mantendo-se a obrigação de quitação integral do valor contratado.
                             </strong>
                         </p>
-                        <strong>1.6 - Aplicação de Descontos em Boleto Bancário</strong>
-                        <p>
-                            <strong>
-                                Caso o CONTRATANTE opte pelo pagamento via Boleto bancário, Pix cobrança ou Crédito via link, será de sua exclusiva responsabilidade comunicar à instituição bancária sobre a aplicação de descontos concedidos. A CONTRATADA não se responsabiliza por eventuais cobranças integrais devido à ausência dessa comunicação, nem será obrigada a realizar o ressarcimento.
-                            </strong>
-                        </p>
+                        <h4>1.6 - Aplicação de Descontos em Boleto Bancário</h4>
 
-
-                        <strong>1.7 - Recesso Remunerado</strong>
-                        <p>
-                            <strong>
-                                O CONTRATANTE está ciente de que nos meses de janeiro, julho e dezembro haverá recesso remunerado para a CONTRATADA, totalizando até seis (06) semanas
-                            </strong> anualmente, sem prejuízo da obrigação de pagamento das mensalidades.
-                        </p>
-
-
+                        <strong>
+                            Caso o CONTRATANTE opte pelo pagamento via Boleto bancário, Pix cobrança ou Crédito via link, será de sua exclusiva responsabilidade comunicar à instituição bancária sobre a aplicação de descontos concedidos. A CONTRATADA não se responsabiliza por eventuais cobranças integrais devido à ausência dessa comunicação, nem será obrigada a realizar o ressarcimento.
+                        </strong>
 
                     </div>
                 </Container>
 
                 <Container
                     className='beforeClass'
-                    id="content5"
-                    title='Multipage - page 5'
+                    title='Página 5 do contrato'
                 >
                     <div>
 
+                        <br />
+                        <strong>1.7 - Recesso Remunerado</strong>
+                        <p>
+                            <strong>
+                                O CONTRATANTE está ciente de que nos meses de janeiro, julho e dezembro haverá recesso remunerado para a CONTRATADA, totalizando até seis (06) semanas
+                            </strong> anualmente, sem prejuízo da obrigação de pagamento das mensalidades.
+                        </p>
                         <strong>1.8 - Cobrança e Inscrição em Órgãos de Proteção ao Crédito</strong>
 
                         <br />
@@ -554,16 +544,16 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                                         data["material"].materials.map((res, idx) => (
                                             <tr key={idx}>
                                                 <td>{idx + 1}</td>
-                                                <td>{dateCalculator(idx)}</td>
-                                                <td>{data['products'].reduce((acc, curr) => acc + curr.price_ticket, 0).toFixed(2)}</td>
-                                                <td>{parseFloat(data["material"].total).toFixed(2)}</td>
+                                                <td>{dateCalculator(data["Data de pagamento MD"], idx)}</td>
+                                                <td>{(data['products'].reduce((acc, curr) => acc + curr.price_ticket, 0) / data['material'].materials.length).toFixed(2)}</td>
+                                                <td>{((data['products'].reduce((acc, curr) => acc + curr[paymentMethodsForMaterials[data["Forma de pagamento do MD"]]], 0))
+                                                    / data['material'].materials.length).toFixed(2)}</td>
                                             </tr>
                                         ))
                                     }
                                     <tr>
 
                                     </tr>
-
 
                                 </tbody>
 
@@ -577,7 +567,6 @@ export const PDFFile = ({ data, parcel, campaign }) => {
 
                 <Container
                     className='beforeClass'
-                    id="content5"
                     title='Página 5 do contrato'
                 >
                     <div
@@ -607,28 +596,21 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                             <li><strong>A quitação pontual das parcelas dentro das datas de vencimento;</strong></li>
                             <li><strong>A forma de pagamento previamente acordada no ato da contratação.</strong></li>
                         </ul>
-                        <br />
-                        <br />
-
-                        <strong> Caso o pagamento não seja realizado dentro do prazo estipulado ou seja efetuado por meio de uma forma de pagamento diversa da acordada, o desconto não será aplicado, e o CONTRATANTE será obrigado a quitar o valor integral de cada parcela, conforme o montante bruto estabelecido na Tabela 2.</strong>
-                        <br />
+                        <h4> Caso o pagamento não seja realizado dentro do prazo estipulado ou seja efetuado por meio de uma forma de pagamento diversa da acordada, o desconto não será aplicado, e o CONTRATANTE será obrigado a quitar o valor integral de cada parcela, conforme o montante bruto estabelecido na Tabela 2.</h4>
                         <strong>2.5 - Alteração da Forma de Pagamento</strong>
                         <br />
-                        <strong>O CONTRATANTE declara-se ciente de que qualquer alteração na forma de pagamento poderá implicar ajustes nos valores totais e nas parcelas, de acordo com a nova modalidade escolhida.</strong>
-
+                        <h4>O CONTRATANTE declara-se ciente de que qualquer alteração na forma de pagamento poderá implicar ajustes nos valores totais e nas parcelas, de acordo com a nova modalidade escolhida.</h4>
 
                     </div>
                 </Container>
 
                 <Container
                     className='beforeClass'
-                    id="content5"
                     title='Página 6 do contrato'
                 >
                     <div
-
                     >
-                        <strong>2.6 - Penalidades por Atraso no Pagamento</strong>
+                        <h4>2.6 - Penalidades por Atraso no Pagamento</h4>
                         <br />
                         <strong>Caso o pagamento seja realizado após a data de vencimento estipulada, o CONTRATANTE perderá o direito ao desconto condicional e deverá arcar com o valor bruto da(s) parcela(s), acrescido de multa moratória de 2% sobre o valor em atraso e juros de mora de 0,33% ao dia sobre o saldo devedor.</strong>
                         <br />
@@ -638,18 +620,18 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                         <br />
                         <strong>2.8 - Inadimplência e Negativação</strong>
                         <br />
-                        <strong>O não pagamento integral ou parcial do material didático até a data de vencimento acarretará a inclusão do CPF do CONTRATANTE nos órgãos de proteção ao crédito, tais como SERASA EXPERIAN, após 10 (dez) dias de inadimplência.</strong>
+                        <strong>O não pagamento integral ou parcial do material didático até a data de vencimento acarretará a inclusão do CPF do CONTRATANTE nos órgãos de proteção ao crédito, tais como SERASA EXPERIAN, após trinta (30) dias de inadimplência.</strong>
                         <br />
                         <strong>2.9 - Cobrança Extrajudicial</strong>
                         <br />
-                        <strong>Após cinco (5) dias de atraso, a empresa terceirizada AMAIS Cobrança, contratada pela CONTRATADA, assumirá a cobrança e realizará contatos diretos com o CONTRATANTE para a recuperação do crédito devido. Dessa forma, a referida empresa terá direito de acesso aos dados pessoais do cliente e às informações da negociação realizada junto à CONTRATADA</strong>
-                        <br />
-                        <strong>2.10 - Cancelamento da Compra e Reembolso</strong>
-                        <br />
-                        <strong>O CONTRATANTE poderá cancelar a compra e solicitar reembolso apenas se o material didático ainda não tiver sido retirado. Após a retirada, não será possível solicitar cancelamento ou estorno de valores.</strong>
-                        <br />
-                        <strong>2.11 - Reajuste de Preços</strong>
-                        <br />
+                        <h4>Após cinco (5) dias de atraso, a empresa terceirizada AMAIS Cobrança, contratada pela CONTRATADA, assumirá a cobrança e realizará contatos diretos com o CONTRATANTE para a recuperação do crédito devido. Dessa forma, a referida empresa terá direito de acesso aos dados pessoais do cliente e às informações da negociação realizada junto à CONTRATADA</h4>
+
+                        <h4>2.10 - Cancelamento da Compra e Reembolso</h4>
+                        <h4
+                        >O CONTRATANTE poderá cancelar a compra e solicitar reembolso apenas se o material didático ainda não tiver sido retirado. Após a retirada, não será possível solicitar cancelamento ou estorno de valores.
+                        </h4>
+                        <h4>2.11 - Reajuste de Preços</h4>
+
                         A <strong>CONTRATADA </strong>reserva-se o direito de reajustar os valores dos materiais didáticos apenas em caso de inadimplência do
                         <strong>CONTRATANTE,</strong> conforme as condições estabelecidas neste contrato.
 
@@ -658,14 +640,12 @@ export const PDFFile = ({ data, parcel, campaign }) => {
 
                 <Container
                     className='beforeClass'
-                    id="content5"
                     title='Página 7 do contrato'
                 >
                     <div
-
                     >
 
-                        <strong>3.0 - Taxa de Adesão</strong>
+                        <h4>3.0 - Taxa de Adesão</h4>
                         <br />
                         <strong>
                             A CONTRATADA reserva-se o direito de cobrar uma taxa de adesão, denominada &quot;TAXA DE MATRÍCULA&quot;, no valor de até R$350,00, a ser paga no ato da matrícula. Tal valor destina-se à cobertura de custos operacionais e administrativos relacionados ao processo de adesão. A CONTRATADA poderá conceder um desconto condicional de R${data["Valor do Desconto na Taxa de Matrícula"]},
@@ -697,7 +677,14 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                         <br />
                         <strong>4.4 Os cursos na modalidade em turma deverão ter um mínimo de 6 (seis) alunos matriculados para o início das aulas.</strong>
                         <br />
-                        <strong>4.5 Caso não haja quórum mínimo de alunos matriculados para o início do curso na data prevista, a CONTRATADA poderá prorrogar o início das aulas, independentemente do formato, modalidade ou classe, quantas vezes forem necessárias, por um período máximo de 2 (dois) meses, contados a partir da data originalmente prevista. Se, ao final desse prazo, o quórum mínimo não for atingido, a CONTRATADA ou o CONTRATANTE poderá cancelar unilateralmente o contrato, sem ônus e não iniciar as aulas.</strong>
+                        <strong
+                        >4.5 Caso não haja quórum mínimo de alunos matriculados para o início do curso na data prevista, a CONTRATADA poderá prorrogar o início das aulas, independentemente do formato, modalidade ou classe, quantas vezes forem necessárias, por um período máximo de 2 (dois) meses, contados a partir da data originalmente prevista. Se, ao final desse prazo, o quórum mínimo não for atingido, a CONTRATADA ou o CONTRATANTE poderá cancelar unilateralmente o contrato, sem ônus e não iniciar as aulas.
+                        </strong>
+                        <h4>5. GESTÃO DO CURSO</h4>
+                        <h4>5.1 O planejamento pedagógico, calendário acadêmico, definição de carga horária, designação de professores e organização das turmas são de competência exclusiva da CONTRATADA, sem ingerência do CONTRATANTE.</h4>
+
+                        <h4>5.2 A CONTRATADA poderá, a seu critério, remanejar ou fundir turmas, bem como transferir o CONTRATANTE para outra turma sem custos adicionais, caso a sua classe original seja descontinuada.</h4>
+                        <h4>5.3 A CONTRATADA poderá solicitar a mudança de horário e/ou turma do CONTRATANTE para garantir a adequação à proposta pedagógica, sem obrigatoriedade de cobrança adicional ou concessão de descontos.</h4>
 
                     </div>
 
@@ -706,21 +693,14 @@ export const PDFFile = ({ data, parcel, campaign }) => {
 
 
                 <Container
-                    className='beforeClass'
-                    id="content8"
+                    className='avoid'
+
                     title='Página 8 do contrato'
                 >
                     <div
 
                     >
-                        <strong>5. GESTÃO DO CURSO</strong>
-                        <br />
-                        <strong>5.1 O planejamento pedagógico, calendário acadêmico, definição de carga horária, designação de professores e organização das turmas são de competência exclusiva da CONTRATADA, sem ingerência do CONTRATANTE.</strong>
 
-                        <strong>5.2 A CONTRATADA poderá, a seu critério, remanejar ou fundir turmas, bem como transferir o CONTRATANTE para outra turma sem custos adicionais, caso a sua classe original seja descontinuada.</strong>
-                        <br />
-                        <strong>5.3 A CONTRATADA poderá solicitar a mudança de horário e/ou turma do CONTRATANTE para garantir a adequação à proposta pedagógica, sem obrigatoriedade de cobrança adicional ou concessão de descontos.</strong>
-                        <br />
                         <strong>5.4 O CONTRATANTE poderá solicitar monitoria durante a carga horária contratada, sujeita à avaliação e aprovação da Coordenação Pedagógica, que determinará a duração e frequência.</strong>
                         <br />
                         <strong>6. FREQUÊNCIA, HORÁRIO E REPOSIÇÃO</strong>
@@ -739,25 +719,26 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                         <br />
                         <strong>6.2.1 O ALUNO/CONTRATANTE poderá remarcar até 2 (duas) aulas mensais sem custo, desde que informe a ausência com pelo menos 5 (cinco) horas de antecedência. Caso contrário, perderá o direito à remarcação.</strong>
                         <br />
-                        <strong>6.2.2 A aula perdida poderá ser remarcada dentro de 3 (três) dias. Após esse prazo, não será possível reagendá-la.</strong>
+                        <h4>6.2.2 A aula perdida poderá ser remarcada dentro de 3 (três) dias. Após esse prazo, não será possível reagendá-la.</h4>
+                        <h4>6.2.3 Para aulas não preestabelecidas ou remarcadas, o ALUNO/CONTRATANTE estará sujeito à disponibilidade de horários, profissionais e estrutura da CONTRATADA.</h4>
+                        <h4>6.2.4 Caso o ALUNO/CONTRATANTE cancele uma aula já remarcada, não terá direito a novo agendamento.</h4>
+                        <h4>7. RENOVAÇÃO E CONCLUSÃO DO CONTRATO</h4>
+
+                        <h4> 7.1. O presente contrato firmado entre as partes, terá prazo determinado de doze meses iniciando da data da assinatura do presente instrumento observando carga horária especificada no preambulo do contrato, e uma vez cumprida a carga horário e cumprido o prazo contratual o presente contrato sem manifestação do CONTRATANTE será automaticamente transformado em contrato por tempo indeterminado, com início da vigência a partir da data de conclusão da carga horária estabelecida no contrato</h4>
+
+                        <h4>7.2. Vencido o período de vigência contratual sem a expressa manifestação do CONTRATANTE para efetuar a rescisão do vínculo contratual ocorrerá a conversão do presente contrato para tempo indeterminado, para isso será necessário que o aluno tenha cumprido integralmente a carga horária acordada, conforme especificado no preambulo do presente contrato, não esteja em mora com as mensalidades e demais pagamentos como material didático, e cumpra as normas internas e regulamentos da escola.</h4>
+
                     </div>
                 </Container >
 
                 <Container
                     className='beforeClass'
-                    id="content8"
                     title='Página 9 do contrato'
                 >
                     <div>
-                        <strong>6.2.3 Para aulas não preestabelecidas ou remarcadas, o ALUNO/CONTRATANTE estará sujeito à disponibilidade de horários, profissionais e estrutura da CONTRATADA.</strong>
-                        <br />
-                        <strong>6.2.4 Caso o ALUNO/CONTRATANTE cancele uma aula já remarcada, não terá direito a novo agendamento.</strong>
-                        <strong>7. RENOVAÇÃO E CONCLUSÃO DO CONTRATO</strong>
-                        <br />
+                        <h4>7.3. Com a conversão, o aluno terá direito a continuar os estudos no curso contratado sem a necessidade de renovação contratual e sem limitação de tempo para a conclusão, obedecendo às condições e termos gerais estabelecidos pela instituição para alunos de curso contínuo incluindo reajustes nas mensalidades de até 10% anualmente.</h4>
 
-                        <strong>7.1 O contrato será considerado concluído após o cumprimento da CARGA HORÁRIA CONTRATADA, sendo este o critério determinante para o encerramento do vínculo.</strong>
-                        <br />
-                        <strong>7.2 Caso o CONTRATANTE continue frequentando as aulas após o fim da carga horária contratada, sem manifestação formal de cancelamento, a CONTRATADA poderá cobrar mensalidades reajustadas em até 10% (dez por cento) sobre o valor bruto da parcela, sendo necessário aviso prévio mínimo de 30 (trinta) dias para a rescisão.</strong>
+                        <strong>7.4. Após a conversão, a rescisão do contrato poderá ser solicitada por qualquer das partes, respeitando o prazo de aviso prévio de 30 (trinta) dias.</strong>
                         <br />
                         <strong>8. DESISTÊNCIA, RESCISÃO E TÉRMINO DO CONTRATO</strong>
                         <br />
@@ -765,6 +746,83 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                         <br />
                         <strong>8.2 A titularidade deste contrato é intransferível, salvo exceções acordadas entre as partes por meio de aditivo contratual assinado.</strong>
                         <br />
+                        <strong>
+                            8.3 O direito de desistência segue as diretrizes do Código de Defesa do Consumidor:
+                            Assinatura online: prazo de 7 (sete) dias a partir da assinatura digital;
+                            Assinatura presencial: prazo de 48 (quarenta e oito) horas antes do início das aulas;
+                            Após esses prazos, não haverá devolução de valores pagos.
+                        </strong>
+                        <br />
+                        <strong>
+                            8.4 O cancelamento deve ser solicitado por escrito e formalizado por reunião presencial na sede da CONTRATADA ou, no caso de cursos online, via reunião por videoconferência, com aviso prévio mínimo de 30 (trinta) dias.
+                        </strong>
+                        <br />
+                        <strong>
+                            8.5 Caso o cancelamento ocorra após o início das aulas, o CONTRATANTE deverá pagar multa de 10% (dez por cento) sobre o valor proporcional da carga horária restante,  não havendo o CONTRATANTE direito de reembolso.
+                        </strong>
+                        <br />
+                        <strong>
+                            8.6 Em caso de abandono do curso, a CONTRATADA poderá adotar medidas legais para cobrança dos valores devidos, incluindo juros e correção monetária.
+                        </strong>
+                        <br />
+                        <strong>
+                            8.9 A CONTRATADA poderá rescindir o contrato imediatamente em caso de inadimplência ou força maior que impeça a prestação dos serviços.
+                        </strong>
+                        <br />
+                        <strong>
+                            8.10 O não pagamento da mensalidade permitirá à CONTRATADA negar a renovação da matrícula.
+                        </strong>
+                        <br />
+                        <strong>
+                            8.11 Ocorrendo a manifestação escrita e expressa de desistência do contrato antes do início das aulas, nos prazos descrito acima o CONTRATANTE terá direito a reembolso dos valores pagos de matrícula, eventuais mensalidades adiantadas e material didático, observando a retenção de 20% do valor integral da matrícula por parte da CONTRATADA a título de custos administrativos.
+                        </strong>
+                        <br />
+                        <strong>
+                            9. TRATAMENTO DE DADOS PESSOAIS E LGPD
+                        </strong>
+                        <br />
+                        <strong>
+                            9.1 A CONTRATADA obriga-se a proteger os dados pessoais de que terão acesso em função deste contrato, bem como a cumprir todas as determinações da Lei 13.709/2018 (Lei Geral de Proteção de Dados Pessoais - LGPD) e dos órgãos reguladores/fiscalizadores da matéria, atuando em perfeita conformidade com as políticas de proteção de dados pessoais existentes.
+                        </strong>
+                        <br />
+
+                    </div>
+                </Container >
+
+                <Container
+                    className='beforeClass'
+                    title='Página 9 do contrato'
+                >
+                    <div>
+                        <h4>
+                            9.2 – Quando for o caso, deverá a CONTRATADA possibilitar o exercício dos direitos do titular dos dados pessoais, conforme legislação brasileira vigente, comprometendo-se a informá-lo sobre as regras, diretrizes e finalidades de tratamento de seus dados pessoais no âmbito da realização das atividades decorrentes deste contrato.
+                        </h4>
+                        <h4>
+                            9.3 - A CONTRATADA deverá manter sigilo em relação aos dados pessoais tratados em virtude deste instrumento, garantindo que todos os seus empregados estejam comprometidos e sujeitos ao dever de confidencialidade, bem como devidamente instruídos e capacitados para o tratamento de dados pessoais.
+                        </h4>
+                        <br />
+                        <strong>
+                            9.3.1 - O dever de confidencialidade mantém-se ainda que a relação entre as partes venha a ser extinta, independentemente dos motivos que derem causa à sua extinção.
+                        </strong>
+                        <br />
+                        <strong>
+                            9.4 - Qualquer ocorrência de violação do sigilo dos dados deve ser imediatamente comunicada à outra parte, sendo que todas as apurações e medidas de contenção, incluindo aquelas especificadas na legislação competente acerca da matéria, devem ser tomadas, de forma imediata, a fim de minimizar danos.
+                        </strong>
+                        <br />
+                        <strong>
+                            9.5 - Os dados pessoais do CONTRATANTE, assim como das demais pessoas vinculadas à execução deste contrato, passarão a constar nas interfaces da CONTRATADA como forma de permitir o perfeito cumprimento deste objeto.
+                        </strong>
+                        <br />
+                        <strong>
+                            9.6 - A CONTRATANTE atuará em perfeita sintonia à proteção dos dados pessoais, sendo que todos os procedimentos necessários ao fiel cumprimento da Lei 13.709/2018 (Lei Geral de Proteção de Dados Pessoais - LGPD) estão dispostos na Deliberação da Mesa n° 2.766/2021.
+                        </strong>
+                        <br />
+
+                        <strong>
+                            10. CONCORDÂNCIA E ASSINATURA DO CONTRATO
+                        </strong>
+                        <br />
+
                         <strong>11.1 O CONTRATANTE e a CONTRATADA reconhecem a validade da assinatura eletrônica via Aautentique, meio similar ou física e seus mecanismos de autenticação.</strong>
                         <br />
                         <strong>10.2 O CONTRATANTE concorda em utilizar a plataforma indicada pela CONTRATADA, como Autentique ou similar, cuja autenticidade é garantida por chave criptográfica.</strong>
@@ -776,14 +834,18 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                         <strong>11. DISPOSIÇÕES GERAIS</strong>
                         <br />
                         <strong>11.2 A CONTRATADA não se responsabiliza pela obtenção de equipamentos necessários para aulas online, como internet, fones de ouvido e dispositivos eletrônicos.</strong>
-                        <br />
-                        <strong
-                            className='beforeClass'
+                        <h4>11.3 O CONTRATANTE autoriza neste ato, de forma vitalícia, a veiculação de imagens, vídeos e materiais acadêmicos produzidos durante o curso para fins institucionais e publicitários, observando-se sempre a moral e os bons costumes, a fim de preservar o uso positivo da imagem do cedente.</h4>
 
-                        >11.3 O CONTRATANTE autoriza neste ato, de forma vitalícia, a veiculação de imagens, vídeos e materiais acadêmicos produzidos durante o curso para fins institucionais e publicitários, observando-se sempre a moral e os bons costumes, a fim de preservar o uso positivo da imagem do cedente.</strong>
-                        <br />
-                        <strong>11.4 Os casos omissos serão regidos pelo Código Civil Brasileiro.</strong>
-                        <br />
+                    </div>
+                </Container >
+
+                <Container
+                    className='beforeClass'
+                    title='Página 9 do contrato'
+                >
+                    <div>
+
+                        <h4>11.4 Os casos omissos serão regidos pelo Código Civil Brasileiro.</h4>
                         <strong>12. FORO</strong>
                         <br />
                         <strong>12.1 Fica eleito o foro da comarca de Betim/MG para a resolução de quaisquer litígios oriundos deste contrato, com renúncia expressa a qualquer outro, por mais privilegiado que seja.</strong>

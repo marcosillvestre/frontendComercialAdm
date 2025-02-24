@@ -87,7 +87,6 @@ export const SigningContracts = ({ children }) => {
             setSign,
             sign,
             allContracts,
-
             take, setTake,
             skip, setSkip,
 

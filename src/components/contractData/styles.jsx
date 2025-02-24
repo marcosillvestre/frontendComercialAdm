@@ -25,9 +25,6 @@ th{
     }
 }
 
-
-
-
     .box {
   display: flex;
   flex-wrap: wrap;
@@ -94,7 +91,7 @@ padding: 1rem;
 
 display: flex;
 flex-direction: ${props => props.active ? 'column' : 'row'};
-align-items: center;
+align-items: ${props => props.active ? '' : 'center'};
 justify-content: ${props => props.active ? '' : 'space-between'};
 gap: .5rem;
 animation-duration: .5s;
@@ -105,10 +102,24 @@ background-color: #e0e0e0;
 top: 90px;
 margin-left: ${props => props.active ? 'calc(100% - 220px)' : '0'};
 box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1),0px 10px 15px -3px rgba(0,0,0,0.1);
+.button{
+    color: #fff;
+    cursor: pointer;
+    margin: 5px 0;
+    z-index: 10;    
+    transition: transform 0.1s;
+    padding: 0 .5rem;
+    height: var(--boxHei);
+
+
+@media(max-width:760px){
+    width: 100%;
+}
+}
 .emmit{
 user-select:none;
 width: 12rem;
-
+justify-content: center;
 }
 .view {
     border: 1px dashed;
@@ -118,8 +129,8 @@ width: 12rem;
 
 .buttons{
     display: flex;
-    gap: 6px;
     align-items: center;
+    gap: 6px;
     user-select: none;
 
     .button-link{
@@ -181,20 +192,17 @@ p{
 
 
 export const Button = styled.button`
+width: 100% ;
 
-color: #fff;
-cursor: pointer;
-margin: 5px 0;
-z-index: 10;    
-transition: transform 0.1s;
-padding: 0 2.5rem;
-
-height: var(--boxHei);
-
-@media(max-width:760px){
-    width: 100%;
-}
 `
+
+export const ComeBackButton = styled.button`
+display: ${props => props.active ? 'block' : 'none'};
+min-width: 50% ;
+
+`
+
+
 
 
 export const Box = styled.div`

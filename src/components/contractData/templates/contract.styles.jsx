@@ -10,7 +10,6 @@ gap: 1rem;
 #container1{
     border: 1px solid;
     padding: 1rem 3rem;
-    page-break-before: always;
 }
 button{
 width: 30%;
@@ -21,9 +20,10 @@ export const Container = styled.section`
 font: var(--fsMid) 'Open Sans', sans-serif;
 text-align: justify;
 padding: 3rem 5rem;
-
+min-height: 90dvh;
 display: flex;
 align-items: center;
+/* border: 1px solid; */
 div{
     width: 100%;
 }
@@ -80,6 +80,14 @@ padding: 1rem;
     padding: 3px;
     border: 1px solid #222;
 }
+
+/* .avoid{
+page-break-inside: avoid;
+}
+.beforeClass {
+page-break-before: always;
+} */
+
 `
 
 

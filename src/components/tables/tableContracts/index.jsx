@@ -30,11 +30,9 @@ function Row(props) {
                 }}
             >
 
-
                 <TableCell align="center" component="th" scope="row">{row.name}</TableCell>
                 <TableCell align="center" component="th" scope="row">{row.student}</TableCell>
                 <TableCell align="center" component="th" scope="row">{row.createdDate}</TableCell>
-                <TableCell align="center" component="th" scope="row">{row.contract}</TableCell>
                 <TableCell align="center" component="th" scope="row">{row.phone}</TableCell>
                 <TableCell align="center" component="th" scope="row">{row.subclass}</TableCell>
 
@@ -50,7 +48,6 @@ Row.propTypes = {
         name: PropTypes.string.isRequired,
         student: PropTypes.string.isRequired,
         createdDate: PropTypes.string.isRequired,
-        contract: PropTypes.string.isRequired,
         phone: PropTypes.string.isRequired,
         subclass: PropTypes.string.isRequired,
 
@@ -119,7 +116,6 @@ export default function TableContracts() {
                                         <TableCell align="center"><Typography>Nome</Typography></TableCell>
                                         <TableCell align="center"><Typography>Aluno</Typography></TableCell>
                                         <TableCell align="center"><Typography>Data de matrícula</Typography></TableCell>
-                                        <TableCell align="center"><Typography>Número de contrato</Typography></TableCell>
                                         <TableCell align="center"><Typography>Celular</Typography></TableCell>
                                         <TableCell align="center"><Typography>Subclasse</Typography></TableCell>
                                     </TableRow>

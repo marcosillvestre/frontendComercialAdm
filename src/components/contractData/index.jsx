@@ -1,24 +1,27 @@
 import { useData } from '../../hooks/dataContext.jsx'
 import { useUser } from '../../hooks/userContext'
-import { Box, Button, Container, ContainerData, NavBar, SendContract, TableBody } from './styles'
+import { Box, Button, ComeBackButton, Container, ContainerData, NavBar, SendContract, TableBody } from './styles'
 
 
 
+import ReplyIcon from '@mui/icons-material/Reply'
 import { gsap } from 'gsap'
 import { Flip } from 'gsap/Flip'
 import { useEffect, useLayoutEffect, useState } from 'react'
 import { parseNumber } from '../../app/utils/functions/parseNumbers.jsx'
 import { useCampaign } from '../../hooks/campaign/campaignContext.hook.jsx'
+import { useSignContracts } from '../../hooks/signContracts/sign.hook.jsx'
 import { SureSendModal } from '../source.jsx'
 import { PDFFile } from './templates/contract.jsx'
-
 export const ContractData = () => {
     gsap.registerPlugin(Flip)
 
-    const { filteredContracts, } = useUser()
+    const { filteredContracts, setFilteredContracts } = useUser()
     const { content, view, setView } = useData()
     const [emmit, setEmmit] = useState(false)
     const [camp, setcamp] = useState({})
+    const { setContractOptions, allContracts, setContract } = useSignContracts()
+
 
 
     const buttonsLinks = document.querySelectorAll(".button-link")
@@ -102,23 +105,7 @@ export const ContractData = () => {
 
         "Pix": 0.3,
     }
-    // const paymentMethodsForParcels = {
-    //     "Boleto": 0,
-    //     "Cartão de débito via outros bancos": 0,
-    //     "Dinheiro": 0,
-    //     "Pix": 0,
-    //     "Pix cobrança": 0,
-    //     "Sem pagamento": 0,
-    //     "Isenção": 0,
-    //     "Transferência bancária": 0,
-    //     "Outros": 0,
-    //     "Débito automático": 0.15,
-    //     "Cartão de crédito via link": 0.15,
 
-    //     "Cartão de crédito via outro bancos": 0.2,
-
-    //     "PIX - Pagamento Instantâneo": 0.3,
-    // }
 
     const defineValueForParcels = (cursoValor, typePayment, parcelsNumber) => {
 
@@ -332,8 +319,8 @@ export const ContractData = () => {
         let materials = []
         for (let index = 0; index < parseNumber(filteredContracts["Quantidade de parcelas MD"]); index++) {
             materials.push({ valor: (mdValor / parseNumber(filteredContracts["Quantidade de parcelas MD"])).toFixed(2) })
-
         }
+
         setmaterial({
             materials,
             total: total,
@@ -438,6 +425,17 @@ export const ContractData = () => {
                 filteredContracts !== undefined &&
 
                 <NavBar active={activeNavbar} >
+                    <ComeBackButton
+                        active={activeNavbar}
+                        className='defaultButton button'
+                        onClick={() => {
+                            setFilteredContracts(undefined)
+                            setContractOptions(allContracts)
+                            setContract(null)
+                        }}>
+                        <ReplyIcon />
+                    </ComeBackButton>
+
                     <span
                         className='view emmit'
                     >
@@ -465,10 +463,10 @@ export const ContractData = () => {
                         </div>
                     </span>
 
-                    <span className='emmit' >
+                    <span className='emmit flex' >
 
                         <Button
-                            className='defaultButton'
+                            className='defaultButton button'
                             open={emmit && true}
                             onClick={() => {
                                 const keys = Object.keys(filteredContracts)
@@ -540,30 +538,32 @@ export const ContractData = () => {
                                                 <th>Contrato</th>
                                                 <th>Data Matrícula</th>
                                                 <th>profissão</th>
-                                                <th>Responsável</th>
+                                                <th>CPF</th>
+
                                             </tr>
                                             <tr >
-                                                <TableBody empty={filteredContracts["Nome do responsável"] === "" || filteredContracts["Nome do responsável"] === undefined}>{filteredContracts["Nome do responsável"]}</TableBody>
                                                 <TableBody empty={filteredContracts.email === "" || filteredContracts.Email === undefined}>{filteredContracts.Email}</TableBody>
                                                 <TableBody empty={filteredContracts["Nº do contrato"] === "" || filteredContracts["Nº do contrato"] === undefined}>{filteredContracts["Nº do contrato"]}</TableBody>
                                                 <TableBody empty={filteredContracts["Data de emissão da venda"] === "" || filteredContracts["Data de emissão da venda"] === undefined}>{filteredContracts["Data de emissão da venda"]}</TableBody>
                                                 <TableBody nonMandatory={filteredContracts["Profissão"] === "" || filteredContracts["Profissão"] === undefined}>{filteredContracts["Profissão"]}</TableBody>
                                                 <TableBody empty={filteredContracts.vendedor === "" || filteredContracts.vendedor === undefined}>{filteredContracts.vendedor}</TableBody>
+                                                <TableBody empty={filteredContracts["CPF"] === "" || filteredContracts["CPF"] === undefined}>{filteredContracts["CPF"]}</TableBody>
 
                                             </tr>
                                             <tr>
-                                                <th>CPF</th>
+                                                <th>Responsável</th>
+
                                                 <th>nascimento resp</th>
                                                 <th>Celular</th>
+                                                <th>Código do contrato</th>
 
                                             </tr>
                                             <tr>
-                                                <TableBody empty={filteredContracts["CPF"] === "" || filteredContracts["CPF"] === undefined}>{filteredContracts["CPF"]}</TableBody>
+                                                <TableBody empty={filteredContracts["Nome do responsável"] === "" || filteredContracts["Nome do responsável"] === undefined}>{filteredContracts["Nome do responsável"]}</TableBody>
+
                                                 <TableBody empty={filteredContracts["Data de nascimento do  responsável"] === "" || filteredContracts["Data de nascimento do  responsável"] === undefined}>{filteredContracts["Data de nascimento do  responsável"]}</TableBody>
-                                                <TableBody empty={
-                                                    filteredContracts.CelularResponsavel === "" ||
-                                                    filteredContracts.CelularResponsavel === undefined}>
-                                                    {filteredContracts.CelularResponsavel}</TableBody>
+                                                <TableBody empty={filteredContracts.CelularResponsavel === "" || filteredContracts.CelularResponsavel === undefined}>{filteredContracts.CelularResponsavel}</TableBody>
+                                                <TableBody empty={filteredContracts["Nº do contrato"] === "" || filteredContracts["Nº do contrato"] === undefined}>{filteredContracts["Nº do contrato"]}</TableBody>
                                             </tr>
 
                                             <tr> <h3>Endereço via CEP</h3></tr>
