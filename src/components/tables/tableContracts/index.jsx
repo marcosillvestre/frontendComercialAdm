@@ -31,7 +31,10 @@ function Row(props) {
             >
 
                 <TableCell align="center" component="th" scope="row">{row.name}</TableCell>
-                <TableCell align="center" component="th" scope="row">{row.student}</TableCell>
+                <TableCell align="center" component="th" scope="row">{
+                    row.student !== !row.student ?
+                        row.student : row.name
+                }</TableCell>
                 <TableCell align="center" component="th" scope="row">{row.createdDate}</TableCell>
                 <TableCell align="center" component="th" scope="row">{row.phone}</TableCell>
                 <TableCell align="center" component="th" scope="row">{row.subclass}</TableCell>
