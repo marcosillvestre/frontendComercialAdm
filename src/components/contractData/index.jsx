@@ -386,7 +386,8 @@ export const ContractData = () => {
 
         filteredContracts["tax"] = {
             taxes: tx,
-            total: taxValue
+            total: taxValue,
+            descount: parseNumber(filteredContracts["Valor do Desconto na Taxa de Matrícula"])
         }
     }
     /////////////////////////////////////
@@ -477,7 +478,7 @@ export const ContractData = () => {
                                 if (freeToGo.find(res => res === "Nome do responsável")) return alert("Nome do responsável não cadastrado")
                                 if (freeToGo.find(res => res === "Número de parcelas do curso")) return alert("Parcelas do curso não cadastradas")
                                 if (freeToGo.find(res => res === "Quantidade de parcelas MD")) return alert("Parcelas do Material Didático não cadastradas")
-                                if (freeToGo.find(res => res === "Quantidade de parcelas TM ")) return alert("Parcelas da Taxa de matrícula não cadastradas")
+                                // if (freeToGo.find(res => res === "Quantidade de parcelas TM ")) return alert("Parcelas da Taxa de matrícula não cadastradas")
                                 if (freeToGo.find(res => res === "valorCurso")) return alert("Valor do curso não preenchido")
 
 

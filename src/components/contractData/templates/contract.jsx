@@ -916,6 +916,12 @@ PDFFile.propTypes = {
             descount: PropTypes.string,
 
         }),
+        tax: PropTypes.arrayOf({
+            materials: PropTypes.array,
+            total: PropTypes.string,
+            descount: PropTypes.string,
+
+        }),
         CEP: PropTypes.string,
         Endereco: PropTypes.string,
         Complemento: PropTypes.string,
