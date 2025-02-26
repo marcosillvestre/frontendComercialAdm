@@ -18,6 +18,14 @@ span{
     border: 1px dashed;
     border-radius: var(--border-radius);
     padding: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    div{
+        align-items: center;
+        gap: .1rem;
+    }
 }
 `
 
@@ -31,11 +39,14 @@ padding: 1rem;
 border-radius: 0.5rem;
 text-transform: uppercase;
 &:hover{
-    /* text-decoration: none; */
-    background-color: rgb(16, 87, 158);
+    background-color: rgb(65, 139, 212);
     color: #f1f1f1;
 }
 
+&:disabled{
+    background-color: rgb(2, 37, 71);
+
+}
 `
 export const Trash = styled(DeleteIcon)`
 

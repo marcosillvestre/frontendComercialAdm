@@ -31,6 +31,7 @@ export function SureModal(data) {
     const { fetchData, setFetchData, userData, invalidateYourQuery } = useUser()
 
     const [open, setOpen] = React.useState(false);
+    const [disable, setDisable] = React.useState(true);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
@@ -69,6 +70,8 @@ export function SureModal(data) {
         }
     })
 
+
+    console.log(disable)
     return (
         <div>
             <p onClick={handleFuncs}> Deletar</p>
@@ -93,12 +96,42 @@ export function SureModal(data) {
 
                         <Boxes>
                             <span>
-                                Ao deletar esse item ele será excluido
+                                Este item será excluido
                                 de maneira permanente do sistema!
+
+                                Tem certeza que deseja deleta-lo ?
+                                <div className='flex'>
+
+                                    <input
+                                        type="radio"
+                                        id='able'
+                                        name='able'
+                                        value={true}
+                                        onClick={() => setDisable(true)}
+                                        defaultChecked={true}
+                                    />
+                                    <label htmlFor="able">Não</label>
+                                </div>
+                                <div className='flex'>
+                                    src/components/popUps/sureModal
+                                    <input
+                                        type="radio"
+                                        id='able'
+                                        name='able'
+                                        value={false}
+                                        onClick={() => setDisable(false)}
+
+                                    />
+                                    <label htmlFor="able"> Sim</label>
+                                </div>
+
                             </span>
 
-                            <ButtonDelete onClick={() => mutationDeleteData.mutateAsync()}>
-                                Apagar
+                            <ButtonDelete
+                                disabled={disable}
+                                onClick={() => mutationDeleteData.mutateAsync()}
+                            >
+                                DELETAR
                             </ButtonDelete>
                         </Boxes>
                     </Box>
