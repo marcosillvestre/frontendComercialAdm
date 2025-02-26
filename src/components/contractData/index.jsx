@@ -309,7 +309,6 @@ export const ContractData = () => {
 
 
 
-    console.log(filteredContracts["Quantidade de parcelas MD"])
 
     //////////////Serão ativados caso não haja campanha ativa no contrato
     const sincValueForMaterial = async (campaignMaterial) => {
@@ -422,6 +421,9 @@ export const ContractData = () => {
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
+
+
+    console.log(filteredContracts)
     return (
         <Container>
             {
@@ -524,18 +526,14 @@ export const ContractData = () => {
                                             <tr>
                                                 <th>Nome completo</th>
                                                 <th>Email</th>
-                                                <th>Contrato</th>
-                                                <th>Data Matrícula</th>
                                                 <th>profissão</th>
                                                 <th>CPF</th>
 
                                             </tr>
                                             <tr >
+                                                <TableBody empty={filteredContracts["Nome do responsável"] === "" || filteredContracts["Nome do responsável"] === undefined}>{filteredContracts["Nome do responsável"]}</TableBody>
                                                 <TableBody empty={filteredContracts.email === "" || filteredContracts.Email === undefined}>{filteredContracts.Email}</TableBody>
-                                                <TableBody empty={filteredContracts["Nº do contrato"] === "" || filteredContracts["Nº do contrato"] === undefined}>{filteredContracts["Nº do contrato"]}</TableBody>
-                                                <TableBody empty={filteredContracts["Data de emissão da venda"] === "" || filteredContracts["Data de emissão da venda"] === undefined}>{filteredContracts["Data de emissão da venda"]}</TableBody>
                                                 <TableBody nonMandatory={filteredContracts["Profissão"] === "" || filteredContracts["Profissão"] === undefined}>{filteredContracts["Profissão"]}</TableBody>
-                                                <TableBody empty={filteredContracts.vendedor === "" || filteredContracts.vendedor === undefined}>{filteredContracts.vendedor}</TableBody>
                                                 <TableBody empty={filteredContracts["CPF"] === "" || filteredContracts["CPF"] === undefined}>{filteredContracts["CPF"]}</TableBody>
 
                                             </tr>
@@ -548,11 +546,13 @@ export const ContractData = () => {
 
                                             </tr>
                                             <tr>
-                                                <TableBody empty={filteredContracts["Nome do responsável"] === "" || filteredContracts["Nome do responsável"] === undefined}>{filteredContracts["Nome do responsável"]}</TableBody>
+                                                <TableBody empty={filteredContracts.vendedor === "" || filteredContracts.vendedor === undefined}>{filteredContracts.vendedor}</TableBody>
+
 
                                                 <TableBody empty={filteredContracts["Data de nascimento do  responsável"] === "" || filteredContracts["Data de nascimento do  responsável"] === undefined}>{filteredContracts["Data de nascimento do  responsável"]}</TableBody>
                                                 <TableBody empty={filteredContracts.CelularResponsavel === "" || filteredContracts.CelularResponsavel === undefined}>{filteredContracts.CelularResponsavel}</TableBody>
                                                 <TableBody empty={filteredContracts["Nº do contrato"] === "" || filteredContracts["Nº do contrato"] === undefined}>{filteredContracts["Nº do contrato"]}</TableBody>
+
                                             </tr>
 
                                             <tr> <h3>Endereço via CEP</h3></tr>
@@ -562,8 +562,7 @@ export const ContractData = () => {
                                                 <th>Número</th>
                                                 <th>complemento</th>
                                                 <th>Endereço</th>
-                                                <th>bairro</th>
-                                                <th>cidade</th>
+
 
 
                                             </tr>
@@ -573,18 +572,20 @@ export const ContractData = () => {
                                                 <TableBody empty={filteredContracts["Número"] === undefined}>{filteredContracts["Número"]}</TableBody>
                                                 <TableBody empty={filteredContracts["Complemento"] === undefined}>{filteredContracts["Complemento"]}</TableBody>
                                                 <TableBody empty={filteredContracts["Endereco"] === undefined}>{filteredContracts["Endereco"]}</TableBody>
-                                                <TableBody empty={filteredContracts["Bairro"] === undefined}>{filteredContracts["Bairro"]}</TableBody>
-                                                <TableBody empty={filteredContracts["Cidade"] === undefined}>{filteredContracts["Cidade"]}</TableBody>
+
 
                                             </tr>
                                             <tr>
 
                                                 <th>estado </th>
-
+                                                <th>bairro</th>
+                                                <th>cidade</th>
                                             </tr>
                                             <tr >
 
                                                 <TableBody empty={filteredContracts["Uf"] === undefined}>{filteredContracts["Uf"]}</TableBody>
+                                                <TableBody empty={filteredContracts["Bairro"] === undefined}>{filteredContracts["Bairro"]}</TableBody>
+                                                <TableBody empty={filteredContracts["Cidade"] === undefined}>{filteredContracts["Cidade"]}</TableBody>
                                             </tr>
 
                                             <tr> <h3>Aluno</h3></tr>
@@ -595,7 +596,7 @@ export const ContractData = () => {
                                             </tr>
                                             <tr>
                                                 <TableBody empty={filteredContracts["Nome do aluno"] === "" || filteredContracts["Nome do aluno"] === undefined}>{filteredContracts["Nome do aluno"]}</TableBody>
-                                                <TableBody empty={filteredContracts["Data de nascimento do aluno"]["day"] === "" || filteredContracts["Data de nascimento do aluno"]["day"] === undefined}>{`${filteredContracts["Data de nascimento do aluno"]["day"]}/${filteredContracts["Data de nascimento do aluno"]["month"]}/${filteredContracts["Data de nascimento do aluno"]["year"]}`}</TableBody>
+                                                <TableBody empty={filteredContracts["Data de nascimento do aluno"] === "" || filteredContracts["Data de nascimento do aluno"] === undefined}>{filteredContracts["Data de nascimento do aluno"]}</TableBody>
 
                                             </tr>
 
