@@ -13,6 +13,8 @@ import { useCampaign } from '../../hooks/campaign/campaignContext.hook.jsx'
 import { useSignContracts } from '../../hooks/signContracts/sign.hook.jsx'
 import { SureSendModal } from '../source.jsx'
 import { PDFFile } from './templates/contract.jsx'
+
+
 export const ContractData = () => {
     gsap.registerPlugin(Flip)
 
@@ -21,7 +23,6 @@ export const ContractData = () => {
     const [emmit, setEmmit] = useState(false)
     const [camp, setcamp] = useState({})
     const { setContractOptions, allContracts, setContract } = useSignContracts()
-
 
 
     const buttonsLinks = document.querySelectorAll(".button-link")
@@ -88,30 +89,30 @@ export const ContractData = () => {
     }
 
     const paymentMethodsForParcels = {
-        "Boleto": 0.1,
-        "Cartão de débito via outros bancos": 0.1,
-        "Dinheiro": 0.1,
-        "Pix cobrança": 0.1,
-        "Transferência bancária": 0.1,
+        "boleto": 0.1,
+        "cartão de débito via outros bancos": 0.1,
+        "dinheiro": 0.1,
+        "pix cobrança": 0.1,
+        "transferência bancária": 0.1,
 
-        "Sem pagamento": 0,
-        "Isenção": 0,
-        "Outros": 0,
+        "sem pagamento": 0,
+        "isenção": 0,
+        "outros": 0,
 
-        "Débito automático": 0.15,
-        "Cartão de crédito via link": 0.15,
+        "débito automático": 0.15,
+        "cartão de crédito via link": 0.15,
 
-        "Cartão de crédito via outro bancos": 0.2,
+        "cartão de crédito via outro bancos": 0.2,
 
-        "Pix": 0.3,
+        "pix": 0.3,
     }
 
 
-    const defineValueForParcels = (cursoValor, typePayment, parcelsNumber) => {
+    const defineValueForParcels = (cursoValor, type, parcelsNumber) => {
 
-        if (paymentMethodsForParcels[typePayment] === undefined) return alert("Forma de pagamento para parcelas impróprio! Corrija no RD")
 
-        // const valorCurso = cursoValor - (cursoValor * paymentMethodsForParcels[typePayment])
+        const typePayment = type.toLowerCase()
+        if (paymentMethodsForParcels[typePayment.toLowerCase()] === undefined) return alert("Forma de pagamento para parcelas impróprio! Corrija no RD")
 
 
         const descountForPontuality =
@@ -245,15 +246,16 @@ export const ContractData = () => {
 
     const activeCampaignForMaterial = async (campaignMaterial, insumes) => {
 
-        const { total, descount } = await defineValueForMaterials(filteredContracts["Material didático"], insumes)
+        const { total, descount } = await defineValueForMaterials(filteredContracts["Material didático"], insumes);
         const mdValor = total - parseNumber(filteredContracts["Valor do desconto material didático"])
+
 
         const campaignDescount = campaignMaterial.descountType === "Percentage" ?
             (mdValor * campaignMaterial.value / 100) :
             campaignMaterial.value
 
-
         const materials = []
+
         for (let index = 0; index < parseNumber(filteredContracts["Quantidade de parcelas MD"]); index++) {
             materials.push({
                 valor: ((mdValor - campaignDescount) / parseNumber(filteredContracts["Quantidade de parcelas MD"])).toFixed(2)
@@ -307,7 +309,7 @@ export const ContractData = () => {
 
 
 
-
+    console.log(filteredContracts["Quantidade de parcelas MD"])
 
     //////////////Serão ativados caso não haja campanha ativa no contrato
     const sincValueForMaterial = async (campaignMaterial) => {
@@ -469,21 +471,7 @@ export const ContractData = () => {
                         <Button
                             className='defaultButton button'
                             open={emmit && true}
-                            onClick={() => {
-                                const keys = Object.keys(filteredContracts)
-                                const freeToGo = keys.filter(key => !filteredContracts[key])
-
-                                if (freeToGo.find(res => res === "CEP")) return alert("CEP não encontrado, corrija-o para poder emitir o contrato")
-                                if (freeToGo.find(res => res === "CPF")) return alert("CPF não cadastrado")
-                                if (freeToGo.find(res => res === "Nome do responsável")) return alert("Nome do responsável não cadastrado")
-                                if (freeToGo.find(res => res === "Número de parcelas do curso")) return alert("Parcelas do curso não cadastradas")
-                                if (freeToGo.find(res => res === "Quantidade de parcelas MD")) return alert("Parcelas do Material Didático não cadastradas")
-                                // if (freeToGo.find(res => res === "Quantidade de parcelas TM ")) return alert("Parcelas da Taxa de matrícula não cadastradas")
-                                if (freeToGo.find(res => res === "valorCurso")) return alert("Valor do curso não preenchido")
-
-
-                                setEmmit(!emmit)
-                            }}
+                            onClick={() => setEmmit(!emmit)}
                         >
                             Emitir Contrato
                         </Button>
@@ -607,7 +595,7 @@ export const ContractData = () => {
                                             </tr>
                                             <tr>
                                                 <TableBody empty={filteredContracts["Nome do aluno"] === "" || filteredContracts["Nome do aluno"] === undefined}>{filteredContracts["Nome do aluno"]}</TableBody>
-                                                <TableBody empty={filteredContracts["Data de nascimento do aluno"] === "" || filteredContracts["Data de nascimento do aluno"] === undefined}>{filteredContracts["Data de nascimento do aluno"]}</TableBody>
+                                                <TableBody empty={filteredContracts["Data de nascimento do aluno"]["day"] === "" || filteredContracts["Data de nascimento do aluno"]["day"] === undefined}>{`${filteredContracts["Data de nascimento do aluno"]["day"]}/${filteredContracts["Data de nascimento do aluno"]["month"]}/${filteredContracts["Data de nascimento do aluno"]["year"]}`}</TableBody>
 
                                             </tr>
 
@@ -908,7 +896,6 @@ export const ContractData = () => {
                                                         <input type="number"
                                                             defaultValue={res.valor}
                                                             disabled
-                                                        // onChange={ }
                                                         />
                                                     </label>
                                                 </div>
