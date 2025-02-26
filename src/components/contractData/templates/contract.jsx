@@ -285,7 +285,7 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                                     </tr>
                                     <tr>
                                         <td >Data da matrícula</td>
-                                        <td >{data["Data de emissão da venda"]}</td>
+                                        <td >{new Date().toLocaleDateString('pt-BR')}</td>
                                     </tr>
                                     <tr>
                                         <td >Tipo de contrato</td>
@@ -298,7 +298,7 @@ export const PDFFile = ({ data, parcel, campaign }) => {
 
                                     <tr>
                                         <td >Tipo de assinatura</td>
-                                        <td >{data["Tipo de assinatura"]}</td>
+                                        <td >Online</td>
                                     </tr>
                                     <tr>
                                         <td >Unidade</td>
