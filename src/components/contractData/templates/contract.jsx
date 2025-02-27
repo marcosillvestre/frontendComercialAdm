@@ -61,17 +61,6 @@ export const PDFFile = ({ data, parcel, campaign }) => {
 
     }
 
-
-    const campaignTaxDescount = () => {
-        if (!campaign.tax) return 0
-        const value = campaign.tax.descountType === 'Percentage' ?
-            350 - (350 * campaign.tax.value) : 350 - campaign.tax.value
-
-        return value
-    }
-    const taxValue = 350 - campaignTaxDescount() - parseFloat(data["Valor do Desconto na Taxa de Matrícula"])
-
-
     return (
         <File>
             {
@@ -653,7 +642,7 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                         <strong>
                             A CONTRATADA reserva-se o direito de cobrar uma taxa de adesão, denominada &quot;TAXA DE MATRÍCULA&quot;, no valor de até R$350,00, a ser paga no ato da matrícula. Tal valor destina-se à cobertura de custos operacionais e administrativos relacionados ao processo de adesão. A CONTRATADA poderá conceder um desconto condicional de R${data["Valor do Desconto na Taxa de Matrícula"]},
                             resultando em um valor líquido final a ser pago
-                            de R${taxValue}, desde que atendidas as condições estabelecidas no contrato, incluindo a forma de pagamento escolhida e o cumprimento do prazo de quitação.
+                            de R${data['tax']?.total}, desde que atendidas as condições estabelecidas no contrato, incluindo a forma de pagamento escolhida e o cumprimento do prazo de quitação.
 
                         </strong>
                         <br />
@@ -1046,121 +1035,3 @@ PDFFile.propTypes = {
 
     })
 }
-// Contract.propTypes = {
-//     data: PropTypes.shape({
-//         Email: PropTypes.string,
-//         products: PropTypes.arrayOf({
-//             id: PropTypes.string,
-//             name: PropTypes.string,
-//             sku: PropTypes.string,
-//             color: PropTypes.string,
-//             status: PropTypes.bool,
-//             price_selling: PropTypes.number,
-//             price_ticket: PropTypes.number,
-//             price_card: PropTypes.number,
-//             price_cash: PropTypes.number,
-//             price_link: PropTypes.number,
-//             category: PropTypes.string,
-//             created_at: PropTypes.string,
-//             updated_at: PropTypes.string
-//         }),
-//         material: PropTypes.arrayOf({
-//             materials: PropTypes.array,
-//             total: PropTypes.string,
-//             descount: PropTypes.string,
-
-//         }),
-//         CEP: PropTypes.string,
-//         Endereco: PropTypes.string,
-//         Complemento: PropTypes.string,
-//         Bairro: PropTypes.string,
-//         Cidade: PropTypes.string,
-//         Uf: PropTypes.string,
-
-//         "Nº do contrato": PropTypes.string,
-//         "Data de emissão da venda": PropTypes.string,
-//         "Tipo/ modalidade": PropTypes.string,
-//         id: PropTypes.string,
-//         promocao: PropTypes.string,
-//         vendedor: PropTypes.string,
-//         CelularResponsavel: PropTypes.string,
-//         email: PropTypes.string,
-//         valorCurso: PropTypes.number,
-//         service: PropTypes.string,
-//         'Nome do responsável': PropTypes.string,
-//         CPF: PropTypes.string,
-//         'RG responsável': PropTypes.string,
-//         'Data de nascimento do  responsável': PropTypes.string,
-//         'Estado civil responsável': PropTypes.string,
-//         'Profissão': PropTypes.string,
-//         'País': PropTypes.string,
-
-//         'Endereço': PropTypes.string,
-//         'Número': PropTypes.string,
-//         'Onde o voucher será aplicado?': PropTypes.string,
-//         'Valor de taxa de matrícula': PropTypes.string,
-//         'Valor de desconto na taxa de matrícula': PropTypes.string,
-//         'Tipo de Campanha / Convênio': PropTypes.array,
-//         'Valor do Desconto na Taxa de Matrícula': PropTypes.string,
-//         'Data de pagamento TM': PropTypes.string,
-//         'Quantidade de parcelas TM ': PropTypes.string,
-//         'Número de parcelas': PropTypes.string,
-//         'Forma de pagamento da parcela': PropTypes.string,
-//         'Valor total da parcela': PropTypes.string,
-//         'Valor do desconto de pontualidade por parcela': PropTypes.string,
-//         'Tipo de pagamento': PropTypes.string,
-//         'Forma de pagamento TM': PropTypes.string,
-//         'Valor do desconto primeiras parcelas': PropTypes.string,
-//         ' Quantidade de demais parcelas': PropTypes.string,
-//         'Quantidade de primeiras parcelas com desconto': PropTypes.string,
-//         'Desconto total': PropTypes.string,
-//         'Valor do desconto demais parcelas': PropTypes.string,
-//         'Data de vencimento da última parcela': PropTypes.string,
-//         'Data de vencimento da primeira parcela': PropTypes.string,
-//         'Valor total do material didático': PropTypes.string,
-//         'Material didático': PropTypes.array,
-//         'Quantidade de parcelas MD': PropTypes.string,
-//         'Valor do desconto material didático': PropTypes.string,
-//         'Data de pagamento MD': PropTypes.string,
-//         'Forma de pagamento do MD': PropTypes.string,
-//         'Data de início do contrato': PropTypes.string,
-//         'Data de fim do contrato': PropTypes.string,
-//         'Nome do aluno': PropTypes.string,
-//         'Data de nascimento do aluno': PropTypes.string,
-//         'Background do Aluno': PropTypes.string,
-//         'Idade do Aluno': PropTypes.string,
-//         'Possui conhecimento no idioma?': PropTypes.string,
-//         'Precisa de nivelamento?': PropTypes.string,
-//         'Dia de aula': PropTypes.array,
-//         'Data da primeira aula': PropTypes.string,
-//         Professor: PropTypes.string,
-//         'Horário de Inicio': PropTypes.string,
-//         'Formato de Aula': PropTypes.string,
-//         'Horário de fim': PropTypes.string,
-//         'Tipo de plano': PropTypes.string,
-//         Curso: PropTypes.string,
-//         Unidade: PropTypes.string,
-//         Subclasse: PropTypes.string,
-//         Classe: PropTypes.string,
-//         'Carga horário do curso': PropTypes.string,
-//         'Tipo de assinatura': PropTypes.string,
-//         'Observações importantes para o financeiro:': PropTypes.string,
-//         Vendedor: PropTypes.string,
-//     }),
-//     parcel: PropTypes.arrayOf({
-//         valor: PropTypes.string
-//     }),
-//     campaign: PropTypes.shape({
-
-//         id: PropTypes.string,
-//         name: PropTypes.string,
-//         description: PropTypes.string,
-//         affectedParcels: PropTypes.number,
-//         value: PropTypes.number,
-//         descountType: PropTypes.string,
-//         for: PropTypes.string,
-//         status: PropTypes.bool,
-//         created_at: PropTypes.string,
-//         updated_at: PropTypes.string
-//     })
-// }

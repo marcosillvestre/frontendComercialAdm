@@ -109,8 +109,6 @@ export const ContractData = () => {
 
 
     const defineValueForParcels = (cursoValor, type, parcelsNumber) => {
-
-
         const typePayment = type.toLowerCase()
         if (paymentMethodsForParcels[typePayment.toLowerCase()] === undefined) return alert("Forma de pagamento para parcelas impróprio! Corrija no RD")
 
@@ -157,6 +155,16 @@ export const ContractData = () => {
     }
 
 
+    const defineDescountValueForType = (value, descount, descountType) => {
+
+        const types = {
+            Percentage: (value * descount) / 100,
+            Exchange: value - descount,
+            Value: descount
+        }
+
+        return types[descountType]
+    }
 
 
     async function filterCampaigns() {
@@ -207,12 +215,14 @@ export const ContractData = () => {
 
         let array = []
 
+
         for (let index = 0; index < parseInt(filteredContracts["Número de parcelas do curso"]); index++) {
 
-            const campaignDescount = campaignParcel.descountType === "Percentage" ?
-                (fullValue / parseNumber(filteredContracts["Número de parcelas do curso"]) -
-                    parseNumber(filteredContracts["Valor do desconto de pontualidade por parcela"])) * campaignParcel.value / 100 :
-                campaignParcel.value
+            const campaignDescount = await defineDescountValueForType(
+                (fullValue / parseNumber(filteredContracts["Número de parcelas do curso"])),
+                campaignParcel.value,
+                campaignParcel.descountType
+            )
 
             index + 1 <= campaignParcel.affectedParcels ?
                 array.push({
@@ -226,10 +236,11 @@ export const ContractData = () => {
                 })
         }
 
+        console.log(fullValue)
 
         setPaymentParcels({
             parcels: array,
-            total: array.reduce((acc, curr) => acc + curr.valor, 0),
+            total: fullValue,
             descount,
             descountForPontuality
         })
@@ -238,7 +249,8 @@ export const ContractData = () => {
             parcels: array,
             descount,
             campaign: campaignParcel,
-            descountForPontuality
+            total: fullValue,
+            descountForPontuality,
 
         }
 
@@ -250,9 +262,11 @@ export const ContractData = () => {
         const mdValor = total - parseNumber(filteredContracts["Valor do desconto material didático"])
 
 
-        const campaignDescount = campaignMaterial.descountType === "Percentage" ?
-            (mdValor * campaignMaterial.value / 100) :
-            campaignMaterial.value
+        const campaignDescount = await defineDescountValueForType(
+            mdValor,
+            campaignMaterial.value,
+            campaignMaterial.descountType
+        )
 
         const materials = []
 
@@ -280,9 +294,11 @@ export const ContractData = () => {
     const activeCampaignForTax = async (campaignTax) => {
         const value = 350 - parseNumber(filteredContracts["Valor do Desconto na Taxa de Matrícula"])
 
-        const campaignDescount = campaignTax.descountType === "Percentage" ?
-            (value * campaignTax.value / 100) :
-            campaignTax.value
+        const campaignDescount = await defineDescountValueForType(
+            value,
+            campaignTax.value,
+            campaignTax.descountType
+        )
 
         const taxValue = value - campaignDescount
 
@@ -423,7 +439,6 @@ export const ContractData = () => {
     }, []);
 
 
-    console.log(filteredContracts)
     return (
         <Container>
             {
@@ -531,7 +546,7 @@ export const ContractData = () => {
 
                                             </tr>
                                             <tr >
-                                                <TableBody empty={filteredContracts["Nome do responsável"] === "" || filteredContracts["Nome do responsável"] === undefined}>{filteredContracts["Nome do responsável"]}</TableBody>
+                                                <TableBody empty={filteredContracts["Nome do  "] === "" || filteredContracts["Nome do responsável"] === undefined}>{filteredContracts["Nome do responsável"]}</TableBody>
                                                 <TableBody empty={filteredContracts.email === "" || filteredContracts.Email === undefined}>{filteredContracts.Email}</TableBody>
                                                 <TableBody nonMandatory={filteredContracts["Profissão"] === "" || filteredContracts["Profissão"] === undefined}>{filteredContracts["Profissão"]}</TableBody>
                                                 <TableBody empty={filteredContracts["CPF"] === "" || filteredContracts["CPF"] === undefined}>{filteredContracts["CPF"]}</TableBody>
