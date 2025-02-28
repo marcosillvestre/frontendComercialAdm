@@ -1,3 +1,5 @@
+import DoneIcon from '@mui/icons-material/Done';
+import DoNotDisturbAltIcon from '@mui/icons-material/DoNotDisturbAlt';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
 import { TablePagination, Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
@@ -32,10 +34,11 @@ function Row(props) {
             <TableCell align="center">{row.sku}</TableCell>
             <TableCell align="center">R${row.price_selling}</TableCell>
             <TableCell align="center">R${row.price_ticket}</TableCell>
+            <TableCell align="center">R${row.price_link}</TableCell>
             <TableCell align="center">R${row.price_card}</TableCell>
             <TableCell align="center">R${row.price_cash}</TableCell>
-            <TableCell align="center">R${row.price_link}</TableCell>
             <TableCell align="center">{row.category}</TableCell>
+            <TableCell align="center">{row.status === true ? <DoneIcon /> : <DoNotDisturbAltIcon />}</TableCell>
             <TableCell align="center">
                 <PopOverProduct row={row} />
 
@@ -54,6 +57,7 @@ Row.propTypes = {
         category: PropTypes.string.isRequired,
         sku: PropTypes.string.isRequired,
         color: PropTypes.string.isRequired,
+        status: PropTypes.bool.isRequired,
         price_selling: PropTypes.number.isRequired,
         price_ticket: PropTypes.number.isRequired,
         price_card: PropTypes.number.isRequired,
@@ -171,6 +175,14 @@ export function InsumeTable(props) {
                                                 <HeaderTable
                                                     className='flex'
                                                 >
+                                                    Link
+                                                </HeaderTable>
+
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                <HeaderTable
+                                                    className='flex'
+                                                >
                                                     Cartão
                                                 </HeaderTable>
 
@@ -183,16 +195,13 @@ export function InsumeTable(props) {
                                                 </HeaderTable>
 
                                             </TableCell>
+
                                             <TableCell align="center">
-                                                <HeaderTable
-                                                    className='flex'
-                                                >
-                                                    Link
-                                                </HeaderTable>
+                                                <Typography>Categoria</Typography>
 
                                             </TableCell>
                                             <TableCell align="center">
-                                                <Typography>Categoria</Typography>
+                                                <Typography>Status</Typography>
 
                                             </TableCell>
                                             <TableCell align="cent

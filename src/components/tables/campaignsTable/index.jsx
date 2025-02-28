@@ -1,3 +1,5 @@
+import DoneIcon from '@mui/icons-material/Done';
+import DoNotDisturbAltIcon from '@mui/icons-material/DoNotDisturbAlt';
 import { Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -7,15 +9,19 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import PropTypes from 'prop-types';
-import * as React from 'react';
 import LoadingSpin from 'react-loading-spin';
 import { useCampaign } from '../../../hooks/campaign/campaignContext.hook';
 import { PopOverCampaign } from '../../popovers/popOverCampaign';
 
-
 function Row(props) {
 
     const { row } = props
+
+    const descountTypes = {
+        "Exchange": "Alteração",
+        "Value": "Valor Cheio",
+        "Percentage": "Porcentagem",
+    }
     return (
 
         <TableRow
@@ -29,8 +35,8 @@ function Row(props) {
             <TableCell align="center">{row.affectedParcels}</TableCell>
             <TableCell align="center">{row.value}</TableCell>
             <TableCell align="center">{row.for}</TableCell>
-            <TableCell align="center">{row.status}</TableCell>
-            <TableCell align="center">{row.descountType}</TableCell>
+            <TableCell align="center">{row.status === true ? <DoneIcon /> : <DoNotDisturbAltIcon />}</TableCell>
+            <TableCell align="center">{descountTypes[row.descountType]}</TableCell>
             <TableCell align="center">
                 <PopOverCampaign row={row} />
 
@@ -101,7 +107,7 @@ export function CampaignTable() {
                                     <TableCell align="center"><Typography>Valor</Typography></TableCell>
                                     <TableCell align="center"><Typography>Objetivo</Typography></TableCell>
                                     <TableCell align="center"><Typography>Status</Typography></TableCell>
-                                    <TableCell align="center"><Typography>Tipo de desconto</Typography></TableCell>
+                                    <TableCell align="center"><Typography>Tipo</Typography></TableCell>
                                     <TableCell align="center"></TableCell>
                                 </TableRow>
                             </TableHead>

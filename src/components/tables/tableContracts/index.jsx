@@ -19,23 +19,25 @@ function Row(props) {
     const { row } = props;
 
     const { setContract } = useSignContracts()
-
     return (
         <React.Fragment>
             <RowTable
                 sx={{ '& > *': { borderBottom: 'unset' } }}
                 onClick={() => {
                     if (!row.subclass) return alert("Nenhum produto/serviço cadastrado no RD!")
+
+                    const regex = /^\d+$/;
+                    if (!regex.test(row.phone)) return alert("Número de telefone em um formato impróprio, use apenas números")
+
+                    if (row.phone.length !== 11) return alert(`Este número de celular possui ${row.phone.length} dígitos, o correto é 11. Como por exemplo: 31900000000`)
+
                     setContract(row.id)
                 }}
             >
 
                 <TableCell align="center" component="th" scope="row">{row.name}</TableCell>
-                <TableCell align="center" component="th" scope="row">{
-                    row.student !== !row.student ?
-                        row.student : row.name
-                }</TableCell>
-                <TableCell align="center" component="th" scope="row">{row.createdDate}</TableCell>
+                <TableCell align="center" component="th" scope="row">{row.student !== !row.student ? row.student : row.name}</TableCell>
+                <TableCell align="center" component="th" scope="row">{row.seller}</TableCell>
                 <TableCell align="center" component="th" scope="row">{row.phone}</TableCell>
                 <TableCell align="center" component="th" scope="row">{row.subclass}</TableCell>
 
@@ -50,7 +52,7 @@ Row.propTypes = {
         id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
         student: PropTypes.string.isRequired,
-        createdDate: PropTypes.string.isRequired,
+        seller: PropTypes.string.isRequired,
         phone: PropTypes.string.isRequired,
         subclass: PropTypes.string.isRequired,
 
@@ -118,7 +120,7 @@ export default function TableContracts() {
                                     <TableRow>
                                         <TableCell align="center"><Typography>Nome</Typography></TableCell>
                                         <TableCell align="center"><Typography>Aluno</Typography></TableCell>
-                                        <TableCell align="center"><Typography>Data de matrícula</Typography></TableCell>
+                                        <TableCell align="center"><Typography>Vendedor</Typography></TableCell>
                                         <TableCell align="center"><Typography>Celular</Typography></TableCell>
                                         <TableCell align="center"><Typography>Subclasse</Typography></TableCell>
                                     </TableRow>
