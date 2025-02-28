@@ -236,8 +236,6 @@ export const ContractData = () => {
                 })
         }
 
-        console.log(fullValue)
-
         setPaymentParcels({
             parcels: array,
             total: fullValue,
@@ -315,7 +313,8 @@ export const ContractData = () => {
         filteredContracts["tax"] = {
             taxes: tx,
             total: taxValue,
-            campaign: campaignTax
+            campaign: campaignTax,
+            descount: campaignDescount
         }
     }
     ///////////////////////////////
@@ -578,8 +577,6 @@ export const ContractData = () => {
                                                 <th>complemento</th>
                                                 <th>Endereço</th>
 
-
-
                                             </tr>
 
                                             <tr >
@@ -607,11 +604,13 @@ export const ContractData = () => {
                                             <tr>
                                                 <th>nome Aluno</th>
                                                 <th>nascimento Aluno</th>
+                                                <th>Idade</th>
 
                                             </tr>
                                             <tr>
                                                 <TableBody empty={filteredContracts["Nome do aluno"] === "" || filteredContracts["Nome do aluno"] === undefined}>{filteredContracts["Nome do aluno"]}</TableBody>
                                                 <TableBody empty={filteredContracts["Data de nascimento do aluno"] === "" || filteredContracts["Data de nascimento do aluno"] === undefined}>{filteredContracts["Data de nascimento do aluno"]}</TableBody>
+                                                <TableBody empty={filteredContracts["Idade do Aluno"] === "" || filteredContracts["Idade do Aluno"] === undefined}>{filteredContracts["Idade do Aluno"]}</TableBody>
 
                                             </tr>
 
@@ -800,7 +799,7 @@ export const ContractData = () => {
                                                     ))}</TableBody>
 
 
-                                                <TableBody empty={filteredContracts["Valor do desconto material didático"] === undefined}> R${material && material.total}</TableBody>
+                                                <TableBody> R${material && material.total}</TableBody>
                                                 <TableBody empty={filteredContracts["Quantidade de parcelas MD"] === "" || filteredContracts["Quantidade de parcelas MD"] === undefined}>{filteredContracts["Quantidade de parcelas MD"]}</TableBody>
 
                                             </tr>
