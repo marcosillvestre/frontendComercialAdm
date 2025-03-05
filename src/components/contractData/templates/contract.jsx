@@ -1,19 +1,14 @@
 import html2pdf from 'html2pdf.js';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
+import { dateCalculator } from '../../../app/utils/functions/getDates';
 import { Container, File } from './contract.styles';
 
 export const PDFFile = ({ data, parcel, campaign }) => {
 
     const [loading, setLoading] = useState(false)
 
-    const dateCalculator = (date, index) => {
-        const dateFormated = new Date(date.split('/').reverse().join('-'));
-        dateFormated.setUTCHours(12)
 
-        return index === 0 ? dateFormated.toLocaleDateString() :
-            new Date(dateFormated.setMonth(dateFormated.getMonth() + index)).toLocaleDateString()
-    }
 
     const paymentMethodsForMaterials = {
         "Boleto": "price_ticket",

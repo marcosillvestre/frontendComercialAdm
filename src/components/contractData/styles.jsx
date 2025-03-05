@@ -7,7 +7,10 @@ width: 100%;
 display: flex;
 flex-direction: column;
 gap: 1rem;
- th, tr, thead{
+.contrast{
+    background-color: #d1d1d1;
+}
+tbody, th, tr,td, thead{
     border: 1px solid #222;
     padding: .1rem .6rem ;
     width: max-content;
@@ -33,14 +36,14 @@ th{
 }
 .container{
     flex: 1 1 100%;
+
     border: 1px solid #222;
     border-radius: var(--border-radius);
     width: 90dvw;
 
     padding: 1rem ;
-    flex-direction: column;
-    text-align: center;
-    gap: 1rem; 
+    justify-content: center;
+
 
     .campaigns{
         display: flex;
@@ -49,15 +52,16 @@ th{
     }
 }
 
-.container:nth-child(1),
-.container:nth-child(2) {
-    flex: 1 1 40%;
+.container:nth-child(2){
+margin-top: 2rem;
+
 }
 
 `
 
 export const ContainerData = styled.section`
-
+width: 100%;
+margin-bottom: 2rem;
     nav{
         display: flex;
         justify-content: space-between;
@@ -85,6 +89,7 @@ export const ContainerData = styled.section`
 
 
 export const NavBar = styled.nav`
+/* div */
 text-align: center;
 margin: 15px 0;
 padding: 1rem;

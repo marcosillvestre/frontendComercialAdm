@@ -47,3 +47,13 @@ export const getDate = async (range) => {
 
     return settledPeriod[range]
 }
+
+
+
+export const dateCalculator = (date, index) => {
+    const dateFormated = new Date(date.split('/').reverse().join('-'));
+    dateFormated.setUTCHours(12)
+
+    return index === 0 ? dateFormated.toLocaleDateString() :
+        new Date(dateFormated.setMonth(dateFormated.getMonth() + index)).toLocaleDateString()
+}
