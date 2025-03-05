@@ -32,6 +32,8 @@ import { useData } from '../../../hooks/dataContext';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import DoneIcon from '@mui/icons-material/Done';
+
 import LoadingSpin from 'react-loading-spin';
 import * as Yup from 'yup';
 import { senderImpressContract } from '../../../app/utils/functions/makePdfs';
@@ -44,7 +46,7 @@ export function SureSendModal(data) {
 
 
     const [send, setSend] = useState(data.data === "PDF" ? false : true)
-    const { filteredContracts, headers } = useUser()
+    const { filteredContracts, headers, userData } = useUser()
     const { content, setView } = useData()
 
     const [open, setOpen] = useState(false);
@@ -82,7 +84,6 @@ export function SureSendModal(data) {
 
 
 
-
     const client = async (body) => {
 
 
@@ -97,6 +98,9 @@ export function SureSendModal(data) {
                 .catch(async err => {
                     toast.error("Erro ao cadastrar o cliente")
                     const error = await err
+
+                    console.log(error.response.data)
+
                     if ("message" in error.response.data) alert(error.response.data.message)
                     reject(err)
                 })
@@ -143,19 +147,22 @@ export function SureSendModal(data) {
 
     const feeEnroll = async (body) => {
 
-        if (filteredContracts.tax.total > 0) {
-            // axios.post("/taxa", body, { headers })
-            URI.post("/taxa", body)
-                .then(() => toast.success("Venda criada com sucesso"))
-                .catch(async err => {
-                    toast.error("Erro ao enviar a taxa de matrícula")
-                    const error = await err
-                    if ("message" in error.response.data) alert(error.response.data.message)
-                })
-                .finally(() => {
-                    setLoading(false)
-                })
-        }
+        // if (filteredContracts.tax.total > 0) {
+        // axios.post("/taxa", body, { headers })
+
+
+        URI.post("/taxa", body)
+            .then(() => toast.success("Venda criada com sucesso"))
+            .catch(async err => {
+                toast.error("Erro ao enviar a taxa de matrícula")
+                const error = await err
+                console.log(error.response)
+                if ("message" in error.response.data) alert(error.response.data.message)
+            })
+            .finally(() => {
+                setLoading(false)
+            })
+        // }
     }
 
 
@@ -314,6 +321,13 @@ export function SureSendModal(data) {
     }
 
 
+    const keys = Object.keys(filteredContracts)
+    const freeToGo = keys.filter(key => !filteredContracts[key])
+
+    document.querySelectorAll('.copied').forEach(el => {
+        let length = el.textContent.length
+        el.textContent = "*".repeat(length);
+    });
 
     return (
         <Container>
@@ -428,17 +442,26 @@ export function SureSendModal(data) {
                                                             </p>
 
                                                             {
-                                                                Links.customer !== undefined &&
-                                                                <>
-                                                                    <p>Link para assinatura </p>
-                                                                    <div>
-                                                                        <span onClick={() => copy()}>
-                                                                            <p className='copied'>{Links.customer} </p>
-                                                                            <ContentCopyIcon />
-                                                                        </span>
-                                                                    </div>
-                                                                </>
-
+                                                                Links.customer !== undefined ?
+                                                                    userData.role === 'direcao' ?
+                                                                        <>
+                                                                            <p>Link para assinatura </p>
+                                                                            <div>
+                                                                                <span onClick={() => copy()}>
+                                                                                    <p className='copied'>{Links.customer} </p>
+                                                                                    <ContentCopyIcon />
+                                                                                </span>
+                                                                            </div>
+                                                                        </>
+                                                                        :
+                                                                        <div>
+                                                                            <span>
+                                                                                <p className='copied'>Enviado com sucesso </p>
+                                                                                <DoneIcon />
+                                                                            </span>
+                                                                        </div>
+                                                                    :
+                                                                    ""
                                                             }
                                                         </form>
 
@@ -487,29 +510,86 @@ export function SureSendModal(data) {
                                                 </>
                                             :
                                             < >
-                                                <Boxes >
-                                                    <input type="checkbox"
-                                                        defaultChecked={sendingList && sendingList.find(r => r === "contract")}
-                                                        onClick={() => handleSendingList("contract")}
-                                                        className='check' />
-                                                    <small>Contrato</small>
-                                                </Boxes>
-                                                <Boxes >
-                                                    <input type="checkbox"
-                                                        defaultChecked={sendingList && sendingList.find(r => r === "sales")}
-                                                        onClick={() => handleSendingList("sales")}
-                                                        className='check' />
-                                                    <small>Material didático</small>
-                                                </Boxes>
 
-                                                <Boxes >
-                                                    <input type="checkbox"
-                                                        defaultChecked={sendingList && sendingList.find(r => r === "feeEnroll")}
-                                                        onClick={() => handleSendingList("feeEnroll")}
-                                                        className='check' />
-                                                    <small>Taxa de matrícula</small>
-                                                </Boxes>
+                                                {
+                                                    filteredContracts['parcel']?.total > 0 &&
+                                                    <Boxes >
+                                                        <input type="checkbox"
+                                                            defaultChecked={sendingList && sendingList.find(r => r === "contract")}
+                                                            onClick={(e) => {
+                                                                const msgs = {
+                                                                    "Data de vencimento da primeira parcela": "A data de vencimento da primeira parcela não foi preenchida.",
+                                                                    "Número de parcelas do curso": "O número de parcelas do curso não foi preenchido",
+                                                                    "Forma de pagamento da parcela": "A forma de pagamento do curso não foi preenchido",
+                                                                }
 
+                                                                const blocks = freeToGo.filter(res => msgs[res])
+                                                                if (blocks.length > 0) {
+                                                                    if (blocks.length > 0) alert(blocks.map(res => msgs[res]))
+
+                                                                    e.preventDefault()
+                                                                }
+                                                                handleSendingList("contract")
+                                                            }
+                                                            }
+                                                            className='check' />
+                                                        <small>Contrato</small>
+                                                    </Boxes>
+                                                }
+                                                {
+                                                    filteredContracts['material']?.total > 0 &&
+
+                                                    <Boxes >
+                                                        <input type="checkbox"
+                                                            defaultChecked={sendingList && sendingList.find(r => r === "sales")}
+                                                            onClick={(e) => {
+
+                                                                const msgs = {
+                                                                    "Material didático": "Material didático não foi preenchido.",
+                                                                    "Quantidade de parcelas MD": "O número de parcelas do Material não foi preenchido",
+                                                                    "Forma de pagamento do MD": "A forma de pagamento do curso não foi preenchido",
+                                                                }
+
+                                                                const blocks = freeToGo.filter(res => msgs[res])
+                                                                if (blocks.length > 0) {
+                                                                    if (blocks.length > 0) alert(blocks.map(res => msgs[res]))
+
+                                                                    e.preventDefault()
+                                                                }
+                                                                handleSendingList("sales")
+                                                            }
+                                                            }
+                                                            className='check' />
+                                                        <small>Material didático</small>
+                                                    </Boxes>
+                                                }
+                                                {
+                                                    // filteredContracts['tax']?.total > 0 &&
+
+                                                    <Boxes >
+                                                        <input type="checkbox"
+                                                            defaultChecked={sendingList && sendingList.find(r => r === "feeEnroll")}
+                                                            onClick={(e) => {
+                                                                const msgs = {
+                                                                    "Material didático": "Material didático não foi preenchido.",
+                                                                    "Quantidade de parcelas MD": "O número de parcelas do Material não foi preenchido",
+                                                                    "Forma de pagamento do MD": "A forma de pagamento do curso não foi preenchido",
+                                                                }
+
+                                                                const blocks = freeToGo.filter(res => msgs[res])
+                                                                if (blocks.length > 0) {
+                                                                    if (blocks.length > 0) alert(blocks.map(res => msgs[res]))
+
+                                                                    e.preventDefault()
+                                                                }
+
+                                                                handleSendingList("feeEnroll")
+                                                            }
+                                                            }
+                                                            className='check' />
+                                                        <small>Taxa de matrícula</small>
+                                                    </Boxes>
+                                                }
                                                 <Boxes radio>
                                                     <ButtonDelete onClick={() => separated()}>Emitir contrato</ButtonDelete>
                                                 </Boxes>

@@ -10,7 +10,9 @@ export function Services() {
     const { setTypeSidebar, setOpenSidebar, } = useUser()
     const { serviceQuery, setEditService, setQuery } = useService()
 
-    const { data, isFetching } = serviceQuery
+    const { data, isPeding } = serviceQuery
+
+    console.log(data)
 
     return (
         <Container>
@@ -61,9 +63,9 @@ export function Services() {
             {
                 data &&
                 <ServicesTable
-                    data={data.services}
-                    total={data.total}
-                    loading={isFetching}
+                    data={data?.services}
+                    total={data?.total}
+                    loading={isPeding}
                 />
             }
 

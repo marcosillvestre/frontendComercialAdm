@@ -47,7 +47,6 @@ export const SigningContracts = ({ children }) => {
         queryKey: [contract],
         enabled: contract !== undefined,
         staleTime: 0
-
     })
 
     const { isSuccess, data } = queryContract
@@ -65,14 +64,13 @@ export const SigningContracts = ({ children }) => {
     useEffect(() => {
         contractsForSign.refetch()
 
-        if (contractsForSign.isSuccess) {
-            const { data } = contractsForSign
+        if (contractsForSign.data) {
+            const { data: { contracts } } = contractsForSign
 
-            const filteredBySellers = data.contracts.filter(res => res.seller.toLowerCase()
-                .includes(userData.name.toLowerCase()))
+            const filteredBySellers = contracts.filter(res => res?.seller.toLowerCase().includes(userData.name.toLowerCase()))
 
-            setContractOptions(userData.role === "comercial" ? filteredBySellers : data.contracts)
-            setAllContracts(userData.role === "comercial" ? filteredBySellers : data.contracts)
+            setContractOptions(userData.role === "comercial" ? filteredBySellers : contracts)
+            setAllContracts(userData.role === "comercial" ? filteredBySellers : contracts)
         }
         queryCache.invalidateQueries([sign, skip, take])
 

@@ -1,6 +1,7 @@
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Box from '@mui/material/Box';
 import Popper from '@mui/material/Popper';
+import { useQueryClient } from '@tanstack/react-query';
 import PropTypes from 'prop-types';
 import * as React from 'react';
 import { useService } from '../../../hooks/services/servicesContext.hook.jsx';
@@ -15,6 +16,7 @@ export function PopOverService(data) {
     const handleClick = (event) => {
         setAnchorEl(anchorEl ? null : event.currentTarget);
     };
+    const queryClient = useQueryClient()
 
 
     const { setTypeSidebar, userData, setOpenSidebar, } = useUser()
@@ -31,6 +33,9 @@ export function PopOverService(data) {
         setEditService(row)
     }
 
+    const reset = () => {
+        queryClient.invalidateQueries(["service"])
+    }
     return (
         <>
             <CloserClick
@@ -46,17 +51,20 @@ export function PopOverService(data) {
                         <Popper id={id} open={open} anchorEl={anchorEl} sx={{ zIndex: 12 }}>
                             <Box sx={{ border: 0, p: 1, bgcolor: '#ddddddf4', borderRadius: 2 }}>
 
+                                <Divider onClick={() => handleEdit()} >
+                                    Editar
+                                </Divider>
+
                                 <Divider>
                                     <SureModal
                                         data={row?.id}
                                         name={row?.name}
                                         url="/servicos"
+                                        fn={reset}
+
                                     />
                                 </Divider>
 
-                                <Divider onClick={() => handleEdit()} >
-                                    Editar
-                                </Divider>
                             </Box>
                         </Popper>
                     </>

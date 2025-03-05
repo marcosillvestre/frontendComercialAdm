@@ -11,7 +11,7 @@ export function Products() {
     const { productQuery, setEditProduct, setQuery } = useProduct()
 
 
-    const { data, isFetching } = productQuery
+    const { data, isPending } = productQuery
 
     return (
         <Container>
@@ -63,9 +63,9 @@ export function Products() {
             {
                 data &&
                 <InsumeTable
-                    data={data.products}
-                    total={data.total}
-                    loading={isFetching}
+                    data={data?.products}
+                    total={data?.total}
+                    loading={isPending}
                 />
             }
 

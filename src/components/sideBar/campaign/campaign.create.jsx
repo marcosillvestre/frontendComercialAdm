@@ -3,7 +3,7 @@
 import PropTypes from 'prop-types';
 import { useCampaign } from "../../../hooks/campaign/campaignContext.hook.jsx";
 import { Select } from "../../source.jsx";
-import { Input, Label, Submit, TextArea } from "../styles.jsx";
+import { Input, InputCheckbox, Label, Submit, TextArea } from "../styles.jsx";
 
 
 export const Campaign = () => {
@@ -68,6 +68,7 @@ export const Campaign = () => {
                     option={[
                         { name: "Porcentagem", value: "Percentage" },
                         { name: "Valor cheio", value: "Value" },
+                        { name: "Alteração", value: "Exchange" },
                     ]}
                     field="descountType"
                     fn={[sender]}
@@ -98,6 +99,39 @@ export const Campaign = () => {
                     field="destiny"
                     fn={[sender]}
                 />
+            </Label>
+
+            <Label >
+                <fieldset>
+
+                    <legend>Status</legend>
+                    <div>
+                        < InputCheckbox
+                            type="radio"
+                            id='positive'
+                            name='status'
+                            defaultChecked={editCampaign ? editCampaign.status === true : true}
+                            value={true}
+                            onChange={() => sender("status", true)}
+                        />
+                        <label htmlFor="positive">Ativo</label>
+
+                    </div>
+
+                    <div>
+                        < InputCheckbox
+                            type="radio"
+                            id='negative'
+                            name='status'
+                            defaultChecked={editCampaign && editCampaign.status === false}
+                            value={false}
+                            onChange={() => sender("status", false)}
+
+                        />
+                        <label htmlFor="negative">Inativo</label>
+                    </div>
+                </fieldset>
+
             </Label>
 
 

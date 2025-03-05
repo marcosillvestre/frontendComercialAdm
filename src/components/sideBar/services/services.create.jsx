@@ -2,7 +2,8 @@
 
 import PropTypes from 'prop-types';
 import { useService } from '../../../hooks/services/servicesContext.hook.jsx';
-import { Input, Label, Submit } from "../styles.jsx";
+import { Select } from "../../source.jsx";
+import { Input, InputCheckbox, Label, Submit } from "../styles.jsx";
 
 
 export const ServicesSidebar = () => {
@@ -51,7 +52,7 @@ export const ServicesSidebar = () => {
                 />
             </Label>
             <Label >
-                <p>Preço de vitríne</p>
+                <p>Preço de vitríne(parcela)</p>
                 < Input
                     type="number"
                     defaultValue={editService && editService.price_selling}
@@ -72,6 +73,94 @@ export const ServicesSidebar = () => {
                     }}
                 />
             </Label>
+            <Label >
+                <p>Carga horária(em horas)</p>
+                < Input
+                    type="number"
+                    defaultValue={editService && editService.workLoad}
+                    onChange={(e) => {
+                        e.target.value !== '' &&
+                            sender("workLoad", e.target.value)
+                    }}
+                />
+            </Label>
+            <Label >
+                <p>Duração(em meses)</p>
+                < Input
+                    type="number"
+                    defaultValue={editService && editService.duration}
+                    onChange={(e) => {
+                        e.target.value !== '' &&
+                            sender("color", e.target.value)
+                    }}
+                />
+            </Label>
+
+            <Label >
+                <p>Curso</p>
+                < Select
+                    where="create"
+                    label={editService && editService.course}
+                    width="11.5rem"
+                    option={[
+                        { name: "Inglês" },
+                        { name: "Tecnologia" },
+                        { name: "Espanhol" },
+                    ]}
+                    field="destiny"
+                    fn={[sender]}
+                />
+            </Label>
+
+            <Label >
+                <p>Modalidade</p>
+                < Select
+                    where="create"
+                    label={editService && editService.modality}
+                    width="11.5rem"
+                    option={[
+                        { name: "Em grupo" },
+                        { name: "Em dupla" },
+                        { name: "Trio" },
+                        { name: "Individual" },
+                    ]}
+                    field="destiny"
+                    fn={[sender]}
+                />
+            </Label>
+
+            <Label >
+                <fieldset>
+
+                    <legend>Status</legend>
+                    <div>
+                        < InputCheckbox
+                            type="radio"
+                            id='positive'
+                            name='status'
+                            defaultChecked={editService ? editService.status === true : true}
+                            value={true}
+                            onChange={() => sender("status", true)}
+                        />
+                        <label htmlFor="positive">Ativo</label>
+
+                    </div>
+
+                    <div>
+                        < InputCheckbox
+                            type="radio"
+                            id='negative'
+                            name='status'
+                            defaultChecked={editService && editService.status === false}
+                            value={false}
+                            onChange={() => sender("status", false)}
+
+                        />
+                        <label htmlFor="negative">Inativo</label>
+                    </div>
+                </fieldset>
+            </Label>
+
 
 
             <hr />

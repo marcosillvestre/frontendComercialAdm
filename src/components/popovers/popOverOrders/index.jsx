@@ -12,12 +12,16 @@ import { Button, Container, Divider } from './styles.jsx';
 
 export function PopOverOrder(data) {
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const { updateOrders, updateLink } = useOrders()
+    const { updateOrders, updateLink,
+
+        // search
+    } = useOrders()
 
     const handleClick = (event) => {
         setAnchorEl(anchorEl ? null : event.currentTarget);
     };
 
+    // const queryClient = useQueryClient()
 
 
     const { userData } = useUser()
@@ -27,6 +31,10 @@ export function PopOverOrder(data) {
 
 
     const { row } = data
+
+    // const reset = () => {
+    //     queryClient.invalidateQueries([search, "orders"])
+    // }
 
     return (
         <>
@@ -42,15 +50,7 @@ export function PopOverOrder(data) {
                 <Popper id={id} open={open} anchorEl={anchorEl} sx={{ zIndex: 12 }}>
                     <Box sx={{ border: 0, p: 1, bgcolor: '#ddddddf4', borderRadius: 2 }}>
 
-                        <Divider onClick={() => {
-                            updateOrders.mutateAsync({
-                                id: row.order.id,
-                                responsible: userData.name
-                            })
 
-                        }}>
-                            Deletar
-                        </Divider>
 
                         <Divider onClick={() => {
                             let copy = row.order.link
@@ -141,11 +141,30 @@ export function PopOverOrder(data) {
                                 </Divider>
                         }
 
+
+
                         <Divider >
                             <MoreData data={row} />
                         </Divider>
 
+                        <Divider onClick={() => {
+                            updateOrders.mutateAsync({
+                                id: row.order.id,
+                                responsible: userData.name
+                            })
 
+
+                        }}>
+                            Deletar
+                        </Divider>
+
+                        {/* <SureModal
+                            data={row?.id}
+                            name={row?.name}
+                            url="/controle"
+                            fn={reset}
+                        
+                            /> */}
                     </Box>
                 </Popper>
             </Container>

@@ -39,6 +39,7 @@ export function SureModal(data) {
         handleOpen()
     }
 
+
     async function DeleteData(id) {
         setOpen(!open)
 
@@ -71,7 +72,6 @@ export function SureModal(data) {
     })
 
 
-    console.log(disable)
     return (
         <div>
             <p onClick={handleFuncs}> Deletar</p>
@@ -91,7 +91,7 @@ export function SureModal(data) {
                 <Fade in={open} style={{ border: "none", borderRadius: ".9rem", width: "40%" }}>
                     <Box sx={style}>
                         <Typography id="transition-modal-title" variant="h6" component="h2">
-                            Quer mesmo apagar <q>{data.name} </q> ?
+                            Quer mesmo apagar <q>{data.name}</q> ?
                         </Typography>
 
                         <Boxes>
@@ -113,7 +113,6 @@ export function SureModal(data) {
                                     <label htmlFor="able">Não</label>
                                 </div>
                                 <div className='flex'>
-                                    src/components/popUps/sureModal
                                     <input
                                         type="radio"
                                         id='able'
@@ -129,7 +128,13 @@ export function SureModal(data) {
 
                             <ButtonDelete
                                 disabled={disable}
-                                onClick={() => mutationDeleteData.mutateAsync()}
+                                onClick={() => {
+                                    mutationDeleteData.mutateAsync()
+                                    setTimeout(() => {
+                                        data.fn()
+                                    }, 3000);
+
+                                }}
                             >
                                 DELETAR
                             </ButtonDelete>

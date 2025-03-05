@@ -2,12 +2,13 @@
 
 import PropTypes from 'prop-types';
 import { useProduct } from '../../../hooks/products/productsContext.hook.jsx';
-import { Input, Label, Submit } from "../styles.jsx";
+import { Input, InputCheckbox, Label, Submit } from "../styles.jsx";
 
 
 export const ProductsSidebar = () => {
     const { editProduct, setEditProduct, Product, setProduct,
         createProduct, mutateProduct } = useProduct()
+
     const sender = (key, value) => {
 
         editProduct !== null ?
@@ -17,7 +18,6 @@ export const ProductsSidebar = () => {
 
 
     const submit = () => {
-
         editProduct !== null ?
             mutateProduct.mutateAsync() :
             createProduct.mutateAsync()
@@ -69,6 +69,38 @@ export const ProductsSidebar = () => {
                             sender("color", e.target.value)
                     }}
                 />
+            </Label>
+            <Label >
+                <fieldset>
+
+                    <legend>Status</legend>
+                    <div>
+                        < InputCheckbox
+                            type="radio"
+                            id='positive'
+                            name='status'
+                            defaultChecked={editProduct ? editProduct.status === true : true}
+                            value={true}
+                            onChange={() => sender("status", true)}
+                        />
+                        <label htmlFor="positive">Ativo</label>
+
+                    </div>
+
+                    <div>
+                        < InputCheckbox
+                            type="radio"
+                            id='negative'
+                            name='status'
+                            defaultChecked={editProduct && editProduct.status === false}
+                            value={false}
+                            onChange={() => sender("status", false)}
+
+                        />
+                        <label htmlFor="negative">Inativo</label>
+                    </div>
+                </fieldset>
+
             </Label>
 
 

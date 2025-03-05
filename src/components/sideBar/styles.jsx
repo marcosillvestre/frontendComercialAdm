@@ -39,6 +39,18 @@ margin: .7rem 0 ;
     }
     }
 }
+fieldset{
+    display: flex;
+    align-items: end;
+    padding: .5rem;
+    border-radius: .375rem;
+    gap: .5rem;
+    div{
+        display: flex;
+        align-items: center;
+
+    }
+}
 `
 
 export const ButtonIcon = styled.button`
@@ -85,6 +97,10 @@ border: none;
 font-size: .67rem;
 
 `
+export const InputCheckbox = styled.input`
+
+`
+
 export const TextArea = styled.textarea`
 min-width: 100%;
 max-width: 100%;

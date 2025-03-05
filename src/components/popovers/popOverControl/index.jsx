@@ -10,11 +10,11 @@ import { Button, Container, Divider } from './styles.jsx';
 
 export function PopOverControl(props) {
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const { invalidateYourQuery } = useUser()
 
     const handleClick = (event) => {
         setAnchorEl(anchorEl ? null : event.currentTarget);
     };
-
 
     const { userData } = useUser()
     const open = Boolean(anchorEl);
@@ -22,7 +22,9 @@ export function PopOverControl(props) {
 
     const { row } = props
 
-
+    const reset = async () => {
+        await invalidateYourQuery("register")
+    }
     return (
         <>
             <CloserClick
@@ -48,12 +50,13 @@ export function PopOverControl(props) {
                                 }}
 
                             >
-
                                 <Divider>
                                     <SureModal
                                         data={row?.id}
                                         name={row?.name}
                                         url="/controle"
+                                        fn={reset}
+
                                     />
 
                                 </Divider>
