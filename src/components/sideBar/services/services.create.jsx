@@ -91,7 +91,7 @@ export const ServicesSidebar = () => {
                     defaultValue={editService && editService.duration}
                     onChange={(e) => {
                         e.target.value !== '' &&
-                            sender("color", e.target.value)
+                            sender("duration", e.target.value)
                     }}
                 />
             </Label>
@@ -107,7 +107,7 @@ export const ServicesSidebar = () => {
                         { name: "Tecnologia" },
                         { name: "Espanhol" },
                     ]}
-                    field="destiny"
+                    field="course"
                     fn={[sender]}
                 />
             </Label>
@@ -124,7 +124,7 @@ export const ServicesSidebar = () => {
                         { name: "Trio" },
                         { name: "Individual" },
                     ]}
-                    field="destiny"
+                    field="modality"
                     fn={[sender]}
                 />
             </Label>
