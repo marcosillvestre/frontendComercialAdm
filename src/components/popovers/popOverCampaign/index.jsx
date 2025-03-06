@@ -57,7 +57,6 @@ export function PopOverCampaign(data) {
                                 </Divider>
 
                                 <Divider
-                                    onClick={() => console.log("first")}
 
                                 >
                                     <SureModal

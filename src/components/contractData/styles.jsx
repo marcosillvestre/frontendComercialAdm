@@ -89,7 +89,6 @@ margin-bottom: 2rem;
 
 
 export const NavBar = styled.nav`
-/* div */
 text-align: center;
 margin: 15px 0;
 padding: 1rem;
@@ -98,7 +97,6 @@ display: flex;
 flex-direction: ${props => props.active ? 'column' : 'row'};
 align-items: ${props => props.active ? '' : 'center'};
 justify-content: ${props => props.active ? '' : 'space-between'};
-gap: .5rem;
 animation-duration: .5s;
 
 border-radius: var(--border-radius);
@@ -107,15 +105,16 @@ background-color: #e0e0e0;
 top: 90px;
 margin-left: ${props => props.active ? 'calc(100% - 220px)' : '0'};
 box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1),0px 10px 15px -3px rgba(0,0,0,0.1);
+
 .button{
     color: #fff;
     cursor: pointer;
-    margin: 5px 0;
     z-index: 10;    
     transition: transform 0.1s;
     padding: 0 .5rem;
     height: var(--boxHei);
-
+    height: ${props => props.active ? 'calc(var(--boxHei) - 10px)' : 'var(--boxHei)'};;
+    max-width: fit-content;
 
 @media(max-width:760px){
     width: 100%;
@@ -123,13 +122,14 @@ box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1),0px 10px 15px -3px rgba(0,0,0,0.1
 }
 .emmit{
 user-select:none;
-width: 12rem;
 justify-content: center;
 flex-direction: column;
+margin: 5px 0;
+
 }
 .view {
     border: 1px dashed;
-    padding: .5rem;
+    padding: .1rem .5rem;
     border-radius: var(--border-radius);
 }
 
@@ -145,7 +145,7 @@ flex-direction: column;
         justify-content: center;
         padding: .7rem 0 ;
         width: 5rem ;
-        font-size: var(--fsLow);
+        font-size: var(--fsLowest);
         border: none;
         border-radius: .4rem;
         cursor: pointer;
@@ -162,7 +162,7 @@ flex-direction: column;
     }
     .active{
         width: 100%;
-        height: var(--boxHei);
+        height: calc(var(--boxHei) - 5px);
         background-color: #1976d2;
         border-radius: .5rem;
         position: absolute;
@@ -182,39 +182,23 @@ right:0px
 }
 `
 
-export const TableBody = styled.td`
-background-color: ${props => props.empty && "#f13434"};
-background-color: ${props => props.nonMandatory && "#f8e3e3"};
-background-color: ${props => props.promo && "#bce9b8"};
-
-border: 1px solid #222;
-padding: .5rem .2rem;
-font-weight: lighter;
-text-align: center;
-p{
-    margin: 0 3px;
-}
-`
-
 
 export const Button = styled.button`
 width: 100% ;
+padding: 0 2rem;
 
 `
 
 export const ComeBackButton = styled.button`
-display: ${props => props.active ? 'block' : 'none'};
 min-width: 50% ;
-
 `
-
-
-
+export const ComeBackDiv = styled.span`
+display: ${props => props.active ? 'none' : 'block'};
+`
 
 export const Box = styled.div`
 z-index: 1;
 display: ${({ $emmit }) => ($emmit ? "block" : "none")};
-/* position: absolute; */
 
 `
 

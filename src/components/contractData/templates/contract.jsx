@@ -557,7 +557,6 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                     title='Página 5 do contrato'
                 >
                     <div
-
                     >
 
                         <strong>2.1 - O CONTRATANTE poderá adquirir o material didático diretamente da CONTRATADA ou em um revendedor autorizado pela Editora/Fabricante, devendo respeitar todos os direitos de propriedade intelectual aplicáveis, incluindo, mas não se limitando, aos direitos autorais, conforme previsto na legislação vigente. A CONTRATADA não poderá ser responsabilizada por fraudes, erros ou golpes oriundos de compras realizadas fora de seus canais oficiais.</strong>
@@ -619,8 +618,7 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                         </h4>
                         <h4>2.11 - Reajuste de Preços</h4>
 
-                        A <strong>CONTRATADA </strong>reserva-se o direito de reajustar os valores dos materiais didáticos apenas em caso de inadimplência do
-                        <strong>CONTRATANTE,</strong> conforme as condições estabelecidas neste contrato.
+                        A <strong>CONTRATADA </strong>reserva-se o direito de reajustar os valores dos materiais didáticos apenas em caso de inadimplência do <strong>CONTRATANTE,</strong> conforme as condições estabelecidas neste contrato.
 
                     </div>
                 </Container>
@@ -634,12 +632,16 @@ export const PDFFile = ({ data, parcel, campaign }) => {
 
                         <h4>3.0 - Taxa de Adesão</h4>
                         <br />
-                        <strong>
-                            A CONTRATADA reserva-se o direito de cobrar uma taxa de adesão, denominada &quot;TAXA DE MATRÍCULA&quot;, no valor de até R$350,00, a ser paga no ato da matrícula. Tal valor destina-se à cobertura de custos operacionais e administrativos relacionados ao processo de adesão. A CONTRATADA poderá conceder um desconto condicional de R${data["Valor do Desconto na Taxa de Matrícula"]},
-                            resultando em um valor líquido final a ser pago
-                            de R${data['tax']?.total}, desde que atendidas as condições estabelecidas no contrato, incluindo a forma de pagamento escolhida e o cumprimento do prazo de quitação.
+                        <p>
 
-                        </strong>
+                            A CONTRATADA reserva-se o direito de cobrar uma taxa de adesão, denominada &quot;TAXA DE MATRÍCULA&quot;,
+                            no valor de até R$350,00, a ser paga no ato da matrícula.
+                            Tal valor destina-se à cobertura de custos operacionais e administrativos relacionados ao processo de adesão.
+                            A CONTRATADA poderá conceder um desconto condicional de R${(data['tax'].descount).toFixed(2)} <strong>somados aos demais descontos</strong>,
+
+                            resultando em um valor líquido final a ser pago de R${(data['tax'].total).toFixed(2)}, desde que atendidas as condições estabelecidas no contrato,
+                            incluindo a forma de pagamento escolhida e o cumprimento do prazo de quitação.
+                        </p>
                         <br />
                         {
                             campaign.tax &&

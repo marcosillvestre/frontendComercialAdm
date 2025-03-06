@@ -41,6 +41,7 @@ html{
     }
     .flex{
         display: flex;
+        gap: 5px;
     }
 
     .defaultButton{

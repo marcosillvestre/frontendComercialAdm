@@ -1,20 +1,20 @@
-import { useData } from '../../hooks/dataContext.jsx'
-import { useUser } from '../../hooks/userContext'
-import { Box, Button, ComeBackButton, Container, ContainerData, NavBar, SendContract } from './styles'
+import { useData } from '../../hooks/dataContext.jsx';
+import { useUser } from '../../hooks/userContext';
+import { Box, Button, ComeBackButton, ComeBackDiv, Container, ContainerData, NavBar, SendContract } from './styles';
 
 // import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import SubdirectoryArrowLeftIcon from '@mui/icons-material/SubdirectoryArrowLeft';
 
-
-import ReplyIcon from '@mui/icons-material/Reply'
-import { gsap } from 'gsap'
-import { Flip } from 'gsap/Flip'
-import { useEffect, useLayoutEffect, useState } from 'react'
-import { dateCalculator } from '../../app/utils/functions/getDates.jsx'
-import { parseNumber } from '../../app/utils/functions/parseNumbers.jsx'
-import { useCampaign } from '../../hooks/campaign/campaignContext.hook.jsx'
-import { useSignContracts } from '../../hooks/signContracts/sign.hook.jsx'
-import { SureSendModal } from '../source.jsx'
-import { PDFFile } from './templates/contract.jsx'
+import { gsap } from 'gsap';
+import { Flip } from 'gsap/Flip';
+import { useEffect, useLayoutEffect, useState } from 'react';
+import { dateCalculator } from '../../app/utils/functions/getDates.jsx';
+import { parseNumber } from '../../app/utils/functions/parseNumbers.jsx';
+import { useCampaign } from '../../hooks/campaign/campaignContext.hook.jsx';
+import { useSignContracts } from '../../hooks/signContracts/sign.hook.jsx';
+import { SureSendModal } from '../source.jsx';
+import { PDFFile } from './templates/contract.jsx';
 
 
 export const ContractData = () => {
@@ -431,7 +431,7 @@ export const ContractData = () => {
 
     useEffect(() => {
         const handleScroll = () => {
-            setActiveNavbar(window.scrollY > 100); // Altera para `true` quando passa de 100px
+            setActiveNavbar(window.scrollY > 250); // Altera para `true` quando passa de 100px
         };
 
         window.addEventListener("scroll", handleScroll);
@@ -445,16 +445,31 @@ export const ContractData = () => {
                 filteredContracts !== undefined &&
 
                 <NavBar active={activeNavbar} >
-                    <ComeBackButton
+                    <ComeBackDiv
+                        className='flex'
                         active={activeNavbar}
-                        className='defaultButton button'
-                        onClick={() => {
-                            setFilteredContracts(undefined)
-                            setContractOptions(allContracts)
-                            setContract(null)
-                        }}>
-                        <ReplyIcon />
-                    </ComeBackButton>
+                    >
+                        <ComeBackButton
+                            active={activeNavbar}
+                            className='defaultButton button'
+                            onClick={() => {
+                                setFilteredContracts(undefined)
+                                setContractOptions(allContracts)
+                                setContract(null)
+                                setView('table')
+                            }}>
+                            <SubdirectoryArrowLeftIcon />
+                        </ComeBackButton>
+
+                        <ComeBackButton
+                            active={activeNavbar}
+                            className='defaultButton button'
+                            onClick={() => {
+                                window.scrollTo({ top: 0, behavior: "smooth" });
+                            }}>
+                            <ArrowUpwardIcon />
+                        </ComeBackButton>
+                    </ComeBackDiv>
 
                     <span
                         className='view emmit'
@@ -486,7 +501,7 @@ export const ContractData = () => {
                     <span className='emmit flex' >
 
                         <Button
-                            className='defaultButton button'
+                            className='defaultButton'
                             open={emmit && true}
                             onClick={() => setEmmit(!emmit)}
                         >
@@ -1013,6 +1028,6 @@ export const ContractData = () => {
 
 
             }
-        </Container>
+        </Container >
     )
 }

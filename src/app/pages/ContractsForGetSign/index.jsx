@@ -12,7 +12,7 @@ export const Contracts = () => {
     const forQuery = useRef()
 
     const { filteredContracts, setFilteredContracts } = useUser()
-    const { setSign, contractOptions, setContractOptions, allContracts, setContract } = useSignContracts()
+    const { setSign, contractOptions, setContractOptions, allContracts } = useSignContracts()
 
 
     async function data(e) {
@@ -99,18 +99,6 @@ export const Contracts = () => {
                         </label>
                     }
                 </div>
-                {
-                    filteredContracts !== undefined &&
-                    <span
-                        className='comeback defaultButton'
-                        onClick={() => {
-                            setFilteredContracts(undefined)
-                            setContractOptions(allContracts)
-                            setContract(null)
-                        }}>
-                        voltar
-                    </span>
-                }
             </Header>
             {
                 filteredContracts === undefined ?

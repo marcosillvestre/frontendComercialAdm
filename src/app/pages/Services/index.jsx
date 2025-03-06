@@ -12,7 +12,6 @@ export function Services() {
 
     const { data, isPeding } = serviceQuery
 
-    console.log(data)
 
     return (
         <Container>
