@@ -827,8 +827,9 @@ export const ContractData = () => {
                                         filteredContracts["products"].length > 0 &&
                                         <tfoot className='contrast'>
                                             <tr>
+
                                                 <td>TOTAL</td>
-                                                <td>{material?.total}</td>
+                                                <td>{parseFloat(material?.total) + parseFloat(material?.descount)}</td>
                                                 <td>{material?.descount}</td>
                                                 <td>{filteredContracts["Quantidade de parcelas MD"]}</td>
                                                 <td>{filteredContracts["Forma de pagamento do MD"]}</td>
