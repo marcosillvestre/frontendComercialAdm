@@ -7,6 +7,7 @@ import { ButtonContainer, Container, Links } from './styles.jsx';
 
 
 const aw = "https://ik.imagekit.io/khqnnhktw/assets/copy.svg?updatedAt=1707937900692"
+
 const Invoice = () => {
 
     const { orders: data, recibo } = useOrders()
@@ -15,6 +16,23 @@ const Invoice = () => {
     if (!data) window.location.href = paths.orders.path
 
     const date = new Date().toLocaleDateString()
+
+    const cropIds = (id) => {
+        let len = id.length
+        return id.slice(len - 12, len)
+    }
+
+    const nameCreatorForPdf = () => {
+        const ids = data.orders.map((r, index) => {
+            let croppedId = cropIds(r.id)
+
+            return index + 1 < data.orders.length ? croppedId.concat("_") : croppedId
+        })
+
+        return `reciboMd-${data.orders[0].nome}+${cropIds(data.id)}_`.concat(ids).replace(/,/g, '');
+    }
+
+    const pdfName = nameCreatorForPdf()
 
     return (
 
@@ -36,7 +54,7 @@ const Invoice = () => {
                         className="defaultButton"
 
                         able={true}
-                        onClick={() => senderImpressContract(`reciboMd-${data.orders[0].nome}+${data.code}`, recibo)}
+                        onClick={() => senderImpressContract(pdfName, recibo)}
                     >
                         Gerar PDf
 
