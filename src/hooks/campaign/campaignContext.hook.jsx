@@ -12,7 +12,10 @@ export const CampaignProvider = ({ children }) => {
 
     const queryClient = useQueryClient()
     const { headers } = useUser()
-    const [campaign, setCampaign] = useState()
+    const [campaign, setCampaign] = useState({
+        status: true
+    })
+
     const [editCampaign, setEditCampaign] = useState(null)
 
     const sendData = async () => {
