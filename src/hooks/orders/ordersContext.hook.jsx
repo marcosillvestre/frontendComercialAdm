@@ -119,7 +119,7 @@ export const OrdersProvider = ({ children }) => {
 
     const queryOrders = async () => {
         const { take, skip, orderBy, query, dates, orderFor, dateType, where, what } = state
-        const response = await URI.get(`http://localhost:7070/pedidos?dates=${dates}&take=${take}&skip=${skip}&orderBy=${orderBy}&query=${query}&orderFor=${orderFor}&dateType=${dateType}&where=${where}&what=${what}`)
+        const response = await URI.get(`/pedidos?dates=${dates}&take=${take}&skip=${skip}&orderBy=${orderBy}&query=${query}&orderFor=${orderFor}&dateType=${dateType}&where=${where}&what=${what}`)
 
         return response.data
     }
