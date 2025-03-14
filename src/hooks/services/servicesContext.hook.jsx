@@ -13,7 +13,9 @@ export const ServicesProvider = ({ children }) => {
     const queryClient = useQueryClient()
     const { headers } = useUser()
 
-    const [Service, setService] = useState()
+    const [Service, setService] = useState({
+        status: true
+    })
     const [editService, setEditService] = useState()
     const [take, setTake] = useState(10)
     const [skip, setSkip] = useState(0)

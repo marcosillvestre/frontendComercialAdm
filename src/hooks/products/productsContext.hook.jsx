@@ -13,7 +13,9 @@ export const ProductsProvider = ({ children }) => {
     const queryClient = useQueryClient()
     const { headers } = useUser()
 
-    const [Product, setProduct] = useState()
+    const [Product, setProduct] = useState({
+        status: true
+    })
     const [editProduct, setEditProduct] = useState()
     const [take, setTake] = useState(10)
     const [skip, setSkip] = useState(0)

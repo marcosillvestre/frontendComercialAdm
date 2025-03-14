@@ -1,7 +1,7 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import Proptypes from 'prop-types'
-import { createContext, useContext, useEffect, useRef, useState } from "react"
+import { createContext, useContext, useEffect, useReducer, useRef, useState } from "react"
 import { toast } from "react-toastify"
 import businessRules from '../../app/utils/Rules/options.jsx'
 import URI from "../../app/utils/utils"
@@ -20,8 +20,13 @@ export const OrdersProvider = ({ children }) => {
 
     const [search, setSearch] = useState(predeterminedPeriods[0].name)
 
-
     const recibo = useRef()
+
+
+
+
+
+
 
     const updateData = async (e) => {
 
@@ -91,8 +96,30 @@ export const OrdersProvider = ({ children }) => {
 
 
 
+
+
+
+    const reducer = (where, what) => {
+
+    }
+
+    const [state, dispatch] = useReducer(reducer, {
+        take: 10,
+        skip: 0,
+        dates: pickingDate(search),
+        orderBy: "created_at",
+        orderFor: "asc",
+        dateType: "created_at",
+        query: "",
+        where: "phone",
+        what: ""
+    })
+
+
+
     const queryOrders = async () => {
-        const response = await URI.get(`/pedidos?dates=${await pickingDate(search)}`)
+        const { take, skip, orderBy, query, dates, orderFor, dateType, where, what } = state
+        const response = await URI.get(`http://localhost:7070/pedidos?dates=${dates}&take=${take}&skip=${skip}&orderBy=${orderBy}&query=${query}&orderFor=${orderFor}&dateType=${dateType}&where=${where}&what=${what}`)
 
         return response.data
     }
@@ -103,6 +130,7 @@ export const OrdersProvider = ({ children }) => {
         retry: false
 
     })
+
 
     useEffect(() => {
 
