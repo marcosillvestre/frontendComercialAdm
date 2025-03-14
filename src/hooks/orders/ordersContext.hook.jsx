@@ -1,7 +1,7 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import Proptypes from 'prop-types'
-import { createContext, useContext, useEffect, useReducer, useRef, useState } from "react"
+import { createContext, useContext, useEffect, useRef, useState } from "react"
 import { toast } from "react-toastify"
 import businessRules from '../../app/utils/Rules/options.jsx'
 import URI from "../../app/utils/utils"
@@ -21,12 +21,6 @@ export const OrdersProvider = ({ children }) => {
     const [search, setSearch] = useState(predeterminedPeriods[0].name)
 
     const recibo = useRef()
-
-
-
-
-
-
 
     const updateData = async (e) => {
 
@@ -95,34 +89,17 @@ export const OrdersProvider = ({ children }) => {
     }
 
 
-
-
-
-
-    const reducer = (where, what) => {
-
-    }
-
-    const [state, dispatch] = useReducer(reducer, {
-        take: 10,
-        skip: 0,
-        dates: pickingDate(search),
-        orderBy: "created_at",
-        orderFor: "asc",
-        dateType: "created_at",
-        query: "",
-        where: "phone",
-        what: ""
-    })
-
+    const [take, setTake] = useState(10)
+    const [skip, setSkip] = useState(0)
 
 
     const queryOrders = async () => {
-        const { take, skip, orderBy, query, dates, orderFor, dateType, where, what } = state
-        const response = await URI.get(`/pedidos?dates=${dates}&take=${take}&skip=${skip}&orderBy=${orderBy}&query=${query}&orderFor=${orderFor}&dateType=${dateType}&where=${where}&what=${what}`)
+        const response = await URI.get(`/pedidos?dates=${await pickingDate(search)}`)
 
         return response.data
     }
+
+
 
     const ordersQuery = useQuery({
         queryFn: () => queryOrders(),
@@ -133,13 +110,12 @@ export const OrdersProvider = ({ children }) => {
 
 
     useEffect(() => {
-
         if (ordersQuery.isSuccess) {
             const { data } = ordersQuery
             setQueryOrder(data)
         }
 
-    }, [search, ordersQuery])
+    }, [search, ordersQuery, take, skip])
 
 
     async function handleInput(params) {
@@ -189,7 +165,9 @@ export const OrdersProvider = ({ children }) => {
             setEndDate,
             queryClient,
             handleInput,
-            queryOrder, setQueryOrder
+            queryOrder, setQueryOrder,
+
+            setTake, setSkip, take
         }}>
 
             {children}
