@@ -70,6 +70,7 @@ background-color: #1f5fba;
     }
 
     .tooltip{
+        cursor: pointer;
             &:hover{
         &::after{
             content: attr(tool);

@@ -1,11 +1,11 @@
 
 
 const comissionStatusOpt = [
-    { name: "pendente" },
-    { name: "não aprovado" },
-    { name: "pré-aprovado" },
-    { name: "comissionado" },
-    { name: "aprovado" }
+    { name: "Pendente" },
+    { name: "Não aprovado" },
+    { name: "Pré-aprovado" },
+    { name: "Comissionado" },
+    { name: "Aprovado" }
 ]
 const coursesOpt = [
     "Inglês",
@@ -132,8 +132,60 @@ const types = {
     false: "Não",
 }
 
+const ordersFilters = [
+    {
+        label: "SITUAÇÃO",
+        name: "status",
+        options: [
+            { name: "REVISAR" },
+            { name: "REVISADO" },
+            { name: "ENVIADO" },
+            { name: "CHEGOU" },
+            { name: "DISPONIVEL" },
+            { name: "ENTREGUE" },
+            { name: "CANCELADO" },
+        ]
+    },
+    {
+        label: "ASSINATURA",
+        name: "signed",
+        options: [
+            { name: "Sim" },
+            { name: "Não" },
+        ]
+    },
+    {
+        label: "TIPO",
+        name: "type",
+        options: [
+            { name: "ENCOMENDA" },
+            { name: "REPOSICAO" },
+        ]
+    },
+    {
+        label: "CHEGADA",
+        name: "arrived",
+        options: [
+            { name: "Sim" },
+            { name: "Não" },
+        ]
+    },
+    {
+        label: "DATA DA CHEGADA",
+        name: "arrivingDate",
+        options: [],
+        date: true
+    },
+    {
+        label: "DATA DE RETIRADA",
+        name: "withdraw",
+        options: [],
+        date: true
+    },
+]
+
 export default {
-    types,
+    types, ordersFilters,
     arrayQuantityChanges, predeterminedPeriods, customizablePeriods,
     comissionStatusOpt, coursesOpt, backgroundOpt, nonEspecificOpt,
     roles, fields, courseOpt

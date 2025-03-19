@@ -130,8 +130,7 @@ function TableMainData(props) {
 
             <RowTable style={{
                 '& > *': { borderBottom: 'unset' },
-                backgroundColor: payStatus !== row.comissaoStatus
-                    ? setClearColor[payStatus] : setClearColor[row.comissaoStatus]
+                backgroundColor: setClearColor[payStatus]
             }}>
                 <TableCell>
                     <IconButton
@@ -155,6 +154,8 @@ function TableMainData(props) {
                         width="6rem"
                         field="Curso"
                         where="customField"
+                        color={setColor[payStatus]}
+                        border={borderColor[payStatus]}
                         fn={[ChangerCustomFields]}
                     />
                 </TableCell>
@@ -165,6 +166,8 @@ function TableMainData(props) {
                         width="6rem"
                         field="Unidade"
                         where="customField"
+                        color={setColor[payStatus]}
+                        border={borderColor[payStatus]}
                         fn={[ChangerCustomFields]}
                     />
 
@@ -177,6 +180,8 @@ function TableMainData(props) {
                         width="6rem"
                         field="Background do Aluno"
                         where="customField"
+                        color={setColor[payStatus]}
+                        border={borderColor[payStatus]}
                         fn={[ChangerCustomFields]}
                     />
                 </TableCell>

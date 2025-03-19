@@ -83,13 +83,13 @@ export function SureSendModal(data) {
     };
 
 
-
+    console.log(filteredContracts["CPF"])
     const client = async (body) => {
 
 
         const response = new Promise((resolve, reject) => {
             // axios.post("/cliente", body, { headers })
-            URI.post("/cliente", body)
+            URI.post("http://localhost:7070/cliente", body)
                 .then((res) => {
                     resolve(res)
                     toast.success("Cliente cadastrado com sucesso")

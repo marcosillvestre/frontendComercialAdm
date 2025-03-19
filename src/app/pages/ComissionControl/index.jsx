@@ -18,7 +18,7 @@ import { saveAs } from 'file-saver';
 import { toast } from 'react-toastify';
 import * as XLSX from 'xlsx';
 import excel from '../../../assets/excel.svg';
-
+import { filtrarArray } from '../../utils/functions/multiFilter.jsx';
 export function ComissionControll() {
     gsap.registerPlugin(Flip)
 
@@ -53,30 +53,6 @@ export function ComissionControll() {
     const [sellersRelatories, setSellersRelatories] = useState([])
 
     useLayoutEffect(() => {
-
-        function agruparFiltros(filtros) {
-            return filtros.reduce((agrupados, filtro) => {
-                if (!agrupados[filtro.key]) {
-                    agrupados[filtro.key] = [];
-                }
-                agrupados[filtro.key].push(filtro.value);
-                return agrupados;
-            }, {});
-        }
-
-        function filtrarArray(array, filtros, arrayPadrao) {
-            if (filtros.length === 0) {
-                return arrayPadrao;
-            }
-
-            const filtrosAgrupados = agruparFiltros(filtros);
-
-            return array.filter(item => {
-                return Object.keys(filtrosAgrupados).every(key => {
-                    return filtrosAgrupados[key].includes(item[key]);
-                });
-            });
-        }
 
         if (comissionSuccess) {
 

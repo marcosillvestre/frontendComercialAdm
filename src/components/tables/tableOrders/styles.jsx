@@ -25,3 +25,27 @@ export const ButtonContainer = styled(Link)`
     }
 
 `
+
+export const Tag = styled.span`
+font-size: var(--fsLowest);
+padding: .5rem;
+color: #494949;
+border-radius: var(--border-radius);
+`
+
+export const Container = styled.main`
+nav{
+    align-items: center;
+    gap: 1rem;
+}
+`
+
+export const ContainerOrder = styled.span`
+display: flex;
+align-items: center;
+justify-content: center;
+svg{
+    width: 20px;
+    cursor: pointer;
+}
+`

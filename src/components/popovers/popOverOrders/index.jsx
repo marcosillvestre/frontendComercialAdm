@@ -7,21 +7,19 @@ import { useOrders } from '../../../hooks/orders/ordersContext.hook.jsx';
 import { useUser } from '../../../hooks/userContext.jsx';
 import { CloserClick } from '../../closeClick';
 import { DeliverySure } from '../../popUps/haveYouSure.deliver.orders/index.jsx';
-import { MoreData } from '../../source.jsx';
+import { ObservationsOrders } from '../../popUps/observations.orders/index.jsx';
+import { MoreData, SureModal } from '../../source.jsx';
 import { Button, Container, Divider } from './styles.jsx';
 
 export function PopOverOrder(data) {
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const { updateOrders, updateLink,
+    let { row } = data
 
-        // search
-    } = useOrders()
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const { updateLink, } = useOrders()
 
     const handleClick = (event) => {
         setAnchorEl(anchorEl ? null : event.currentTarget);
     };
-
-    // const queryClient = useQueryClient()
 
 
     const { userData } = useUser()
@@ -29,12 +27,21 @@ export function PopOverOrder(data) {
     const id = open ? 'simple-popper' : undefined;
 
 
+    const reset = async (where, what) => {
+        row[where] = what
+    }
 
-    const { row } = data
+    const handleUpdate = async (data) => {
 
-    // const reset = () => {
-    //     queryClient.invalidateQueries([search, "orders"])
-    // }
+        const newData = { ...row, ...data, responsible: userData.name }
+
+        await updateLink.mutateAsync(newData)
+
+        for (const key in data) {
+            reset(key, data[key])
+        }
+
+    }
 
     return (
         <>
@@ -50,60 +57,53 @@ export function PopOverOrder(data) {
                 <Popper id={id} open={open} anchorEl={anchorEl} sx={{ zIndex: 12 }}>
                     <Box sx={{ border: 0, p: 1, bgcolor: '#ddddddf4', borderRadius: 2 }}>
 
-
-
-                        <Divider onClick={() => {
-                            let copy = row.order.link
-                            navigator.clipboard.writeText(copy)
-                            copy !== "" ? toast.success("Copiado para área de transferência") : toast.error("O recibo ainda não foi emitido")
-
-                        }}>
-                            Copiar link
+                        <Divider >
+                            <MoreData data={row} />
                         </Divider>
 
+                        <Divider >
+                            <ObservationsOrders data={row} />
+                        </Divider>
 
                         {
-                            row.order.dataRetirada === "" ||
-                                !row.order.dataRetirada
-                                ?
-                                row.order.assinado ?
-                                    <Divider onClick={async () => {
-                                        Promise.all([
-                                            updateLink.mutateAsync({
-                                                value: new Date().toLocaleString(),
-                                                where: 'dataRetirada',
-                                                order: [row.order.id]
-                                            }),
+                            row.link &&
+                            <Divider onClick={() => {
+                                let copy = row.link
+                                navigator.clipboard.writeText(copy)
+                                toast.success("Copiado para área de transferências")
 
-                                            updateLink.mutateAsync({
-                                                value: userData.name,
-                                                where: 'retiradoPor',
-                                                order: [row.order.id]
-                                            })
-                                        ])
-                                    }}>
+                            }}>
+                                Copiar link do contrato
+                            </Divider>
+                        }
+
+                        {
+                            !row.withdraw ?
+                                row.signed ?
+                                    <Divider onClick={async () => {
+                                        await handleUpdate({
+                                            withdraw: new Date().toLocaleString("pt-Br"),
+                                            removedBy: userData.name,
+                                            status: "REVISADO"
+
+                                        })
+                                    }}
+                                    >
                                         Marcar como entregue
                                     </Divider>
                                     :
                                     <Divider >
-                                        <DeliverySure data={row} />
+                                        <DeliverySure data={row} fn={reset} />
                                     </Divider>
 
                                 :
                                 <Divider onClick={async () => {
-                                    Promise.all([
-                                        updateLink.mutateAsync({
-                                            value: "",
-                                            where: 'dataRetirada',
-                                            order: [row.order.id]
-                                        }),
 
-                                        updateLink.mutateAsync({
-                                            value: "",
-                                            where: 'retiradoPor',
-                                            order: [row.order.id]
-                                        })
-                                    ])
+                                    await handleUpdate({
+                                        withdraw: null,
+                                        removedBy: "",
+                                        status: "REVISAR",
+                                    })
 
                                 }}>
                                     Marcar como não entregue
@@ -111,31 +111,21 @@ export function PopOverOrder(data) {
                         }
 
                         {
-                            row.order.assinado === "" ||
-                                !row.order.assinado
-                                ?
+                            !row.signed ?
                                 <Divider onClick={async () => {
-                                    Promise.all([
-                                        updateLink.mutateAsync({
-                                            value: true,
-                                            where: 'assinado',
-                                            order: [row.order.id]
-                                        })
-                                    ])
+
+                                    await handleUpdate({
+                                        signed: true,
+                                    })
 
                                 }}>
-                                    Marcar assinatura
+                                    Marcar como assinado
                                 </Divider>
                                 :
                                 <Divider onClick={async () => {
-                                    Promise.all([
-                                        updateLink.mutateAsync({
-                                            value: false,
-                                            where: 'assinado',
-                                            order: [row.order.id]
-                                        })
-                                    ])
-
+                                    await handleUpdate({
+                                        signed: false,
+                                    })
                                 }}>
                                     Marcar como não assinado
                                 </Divider>
@@ -143,28 +133,49 @@ export function PopOverOrder(data) {
 
 
 
-                        <Divider >
-                            <MoreData data={row} />
-                        </Divider>
+                        {
+                            row.available ?
+                                <Divider onClick={async () => {
+                                    await handleUpdate({
+                                        available: false,
+                                        status: 'CANCELADO'
+                                    })
+                                }}>
+                                    Cancelar pedido
+                                </Divider>
+                                :
+                                <Divider onClick={async () => {
+                                    await handleUpdate({
+                                        available: true,
+                                        status: 'REVISAR'
+                                    })
+                                }}>
+                                    Reaver pedido
+                                </Divider>
+                        }
 
                         <Divider onClick={() => {
+                        }}>
+                            <SureModal
+                                data={row?.id}
+                                name={row?.name}
+                                url="/pedidos"
+                                fn={reset}
+
+                            />
+                        </Divider>
+                        {/* <Divider onClick={() => {
                             updateOrders.mutateAsync({
-                                id: row.order.id,
+                                id: row.id,
                                 responsible: userData.name
                             })
 
 
                         }}>
                             Deletar
-                        </Divider>
+                        </Divider> */}
 
-                        {/* <SureModal
-                            data={row?.id}
-                            name={row?.name}
-                            url="/controle"
-                            fn={reset}
-                        
-                            /> */}
+
                     </Box>
                 </Popper>
             </Container>

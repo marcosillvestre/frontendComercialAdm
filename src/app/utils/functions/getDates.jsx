@@ -57,3 +57,12 @@ export const dateCalculator = (date, index) => {
     return index === 0 ? dateFormated.toLocaleDateString() :
         new Date(dateFormated.setMonth(dateFormated.getMonth() + index)).toLocaleDateString()
 }
+
+export const parseDates = (date) => {
+
+    if (date === null) return new Date()
+
+    let newDate = new Date(date).setUTCHours(0)
+
+    return new Date(newDate)
+}

@@ -18,12 +18,13 @@ margin-bottom: 1.5rem;
 font-size: var(--fsLowest);
 nav{
     width:100%;
-    /* justify-content: space-between; */
-    display: flex;
     flex-wrap: wrap;
-    /* margin: 0 3rem; */
     gap: 1rem;
     align-items: flex-end;
+    form{
+        align-items: flex-end;
+        
+    }
 }
 
     .sender{
@@ -53,6 +54,7 @@ export const InputSearch = styled.input`
     text-overflow: ellipsis;
     height: var(--boxHei);
     font-size: var(--fsLowest);
+    width:100%;
 
     &:focus{
     border: 1px solid;

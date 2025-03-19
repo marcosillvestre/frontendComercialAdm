@@ -1,9 +1,7 @@
-import ElectricBoltIcon from '@mui/icons-material/ElectricBolt';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import Box from '@mui/material/Box';
-import Collapse from '@mui/material/Collapse';
-import IconButton from '@mui/material/IconButton';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import SwapVertIcon from '@mui/icons-material/SwapVert';
+import { TablePagination } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -11,215 +9,84 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React from 'react';
 import LoadingSpin from 'react-loading-spin';
-import { Link } from 'react-router-dom';
 import { useOrders } from '../../../hooks/orders/ordersContext.hook';
-import { PopOverOrder } from '../../popovers/popOverOrders/index.jsx';
-import { ButtonContainer } from './styles.jsx';
+import { MultiAlterationOrders } from '../../multiAlteration.Orders';
+import { MultiFiltersOrders } from '../../multiFilters.Orders';
+import { PopOverOrder } from '../../popovers/popOverOrders';
+import { Container, ContainerOrder, Tag } from './styles';
+
 function Row(props) {
     const { row } = props;
-    const [open, setOpen] = useState(false);
-    const { updateLink, setOrders } = useOrders()
+    const { checked, setChecked, checkData, setCheckData, } = useOrders()
 
-
-
-    const sele = {
-        border: "none",
-        padding: ".4rem",
-        borderRadius: ".6rem",
-        boxShadow: "-2px 2px 9px 0px rgba(0,0,0,0.66)",
-        textOverflow: "ellipsis",
-        fontSize: "12px",
-
+    const statusTrail = {
+        'REVISAR': "#f2d1d1",
+        'REVISADO': "#f2eed1",
+        'ENVIADO': "#dff2d1",
+        'CHEGOU': "#d1f2f0",
+        'DISPONIVEL': "#d1d5f2",
+        'ENTREGUE': "#edd1f2",
+        'CANCELADO': "#f09393",
     }
 
-    const [fiscal, setFiscal] = useState([])
+    const tenDaysAhead = `Data de entrega: ${new Date(new Date(row.created_at).setDate(new Date(row.created_at).getDate() + 10)).toLocaleDateString("pt-br")}`
+    const created = new Date(row.created_at).setUTCHours(10)
 
+    const bgColor = () => {
 
+        if (!row.available) return statusTrail["REVISAR"]
 
-
-    const splited1 = row.code.slice(0, 2)
-    const splited2 = row.code.slice(2, 4)
-    const splited3 = row.code.slice(4, 8)
-
-    const startPeriod = new Date(`${splited3}-${splited2}-${splited1}`)
-    startPeriod.setDate(startPeriod.getDate() + 1)
-
-
-    const endPeriod = new Date(`${splited3}-${splited2}-${splited1}`)
-    endPeriod.setDate(endPeriod.getDate() + 7)
-
-    const orderDay = new Date(`${splited3}-${splited2}-${splited1}`)
-    orderDay.setDate(orderDay.getDate() + 8);
-
-
-    let totalPrice = row.orders.length > 0 &&
-        row.orders.reduce((acc, curr) => acc + curr.valor, 0).toFixed(2)
+        if (row.signed) return statusTrail["ENVIADO"]
+    }
 
     return (
         <React.Fragment>
-            <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
-                <TableCell>
-                    <IconButton
-                        aria-label="expand row"
-                        size="small"
-                        onClick={() => setOpen(!open)}
+            <TableRow sx={{
+                '& > *': {
+                    borderBottom: 'unset', fontSize: ".7rem",
+
+                    backgroundColor: bgColor()
+                }
+            }}>
+                <TableCell align="center" component="th" scope="row">
+                    <input
+                        type="checkbox"
+                        name="" id=""
+                        onClick={() => {
+                            setChecked(false)
+                            setCheckData(checkData.find(c => c.id === row.id) ?
+                                [...checkData.filter(c => c.id !== row.id)] :
+                                [...checkData, row]
+                            )
+                        }
+                        }
+                        value={checked}
+                    />
+                </TableCell>
+                <TableCell align="center" component="th" scope="row"
+                >
+                    <p
+                        title={tenDaysAhead}
                     >
-                        {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-                    </IconButton>
+
+                        {new Date(created).toLocaleDateString("pt-BR")}
+                    </p>
                 </TableCell>
-                <TableCell align="center" component="th" scope="row" >{orderDay.toLocaleDateString()} </TableCell>
-                <TableCell align="center" component="th" scope="row" >{startPeriod.toLocaleDateString()} á {endPeriod.toLocaleDateString()}</TableCell>
-                <TableCell align="center" component="th" scope="row">{row.code}</TableCell>
-
-
-                <TableCell align="center" component="th" scope="row">{row.unity} </TableCell>
-                <TableCell align="center" component="th" scope="row">R$ {totalPrice}</TableCell>
+                <TableCell align="center" component="th" scope="row">{row.withdraw}</TableCell>
+                <TableCell align="center" component="th" scope="row">{row.name} </TableCell>
+                <TableCell align="center" component="th" scope="row">{row.student.split(" ")[0]} </TableCell>
+                <TableCell align="center" component="th" scope="row">{row.book} </TableCell>
+                <TableCell align="center" component="th" scope="row"><Tag style={{ backgroundColor: statusTrail[row.status] }}>{row.status}</Tag> </TableCell>
+                <TableCell align="center" component="th" scope="row">
+                    <PopOverOrder row={row} />
+                </TableCell>
 
             </TableRow>
 
-            <TableRow>
-                <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
-                    <Collapse in={open} timeout="auto" unmountOnExit>
-                        <Box sx={{ margin: 1 }}>
-                            <div style={{ display: 'flex', justifyContent: "space-between" }}>
 
-                                <Typography variant="h6" gutterBottom component="div">
-                                    Descrição do pedido
-                                </Typography>
-
-                                <div style={{ display: 'flex', gap: "1rem" }}>
-                                    <ButtonContainer
-                                        onClick={() => setOrders({
-                                            "id": row.id,
-                                            "unity": row.unity,
-                                            "code": row.code,
-                                            "orders": fiscal
-                                        })}
-                                        to={fiscal.length > 0 && `invoice`}
-                                        able={fiscal.length > 0}
-
-                                    >
-                                        Recibo
-
-                                    </ButtonContainer>
-                                </div>
-
-
-                            </div>
-
-                            <Table size="small" aria-label="purchases">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell align="center"></TableCell>
-                                        <TableCell align="center"><Typography>Data do pagamento</Typography></TableCell>
-                                        <TableCell align="center"><Typography>Data de retirada</Typography></TableCell>
-                                        <TableCell align="center"><Typography>Cliente</Typography></TableCell>
-                                        <TableCell align="center"><Typography>Livro</Typography></TableCell>
-                                        <TableCell align="center"><Typography>Link</Typography></TableCell>
-                                        <TableCell align="center"><Typography>Recebido</Typography></TableCell>
-                                        <TableCell align="center"></TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {row.orders.map((order, index) => (
-                                        <TableRow key={index} sx={{ backgroundColor: order.assinado === true ? "#eefff2" : "#fff8f8" }}>
-                                            <TableCell align="center" >
-                                                <label style={{ display: "flex" }} htmlFor='note'>
-
-                                                    <input type="checkbox"
-                                                        name="note"
-                                                        id='note'
-                                                        value={JSON.stringify(order)}
-                                                        onClick={(e) => {
-                                                            const { value, checked } = e.target
-                                                            const { sku, nome, materialDidatico } = JSON.parse(value)
-
-
-                                                            let filtering = fiscal.filter(res =>
-                                                                res.sku === sku &&
-                                                                res.nome === nome &&
-                                                                res.materialDidatico === materialDidatico
-                                                            )
-
-                                                            let filtered = fiscal.filter(res => res !== filtering[0])
-                                                            if (checked && !fiscal.every(res => res.nome === nome)) {
-                                                                alert("Você só pode emitir um recibo para o mesmo dono")
-                                                                e.preventDefault()
-                                                                return
-                                                            }
-
-                                                            checked ? setFiscal([...fiscal, JSON.parse(value)]) : setFiscal(filtered)
-                                                            // }
-                                                        }}
-                                                    />
-                                                    {order.type !== "manual" &&
-                                                        <ElectricBoltIcon />
-                                                    }
-                                                </label>
-
-                                            </TableCell>
-                                            <TableCell align="center">{order.data}</TableCell>
-                                            <TableCell align="center">{order.dataRetirada}</TableCell>
-                                            <TableCell align="center">{order.nome}</TableCell>
-                                            <TableCell align="center">{order.materialDidatico}</TableCell>
-
-                                            <TableCell align="center">
-                                                {
-                                                    order.link !== "" ?
-                                                        <Link
-                                                            to={order.link}
-                                                            target='blank'
-                                                        >
-                                                            Autentique
-                                                        </Link>
-                                                        :
-                                                        "Não emitido"
-                                                }
-                                            </TableCell>
-
-                                            <TableCell align="center">
-                                                <select style={sele} className='sele' name="" id=""
-
-                                                    defaultValue={order.chegada ? order.chegada : false}
-                                                    onChange={async (e) => {
-
-                                                        let target = e.target.value
-                                                        await updateLink.mutateAsync({
-                                                            value: target === "true" ? true : false,
-                                                            where: 'chegada',
-                                                            id: row.id,
-                                                            order: [order.id]
-                                                        })
-
-                                                    }}
-                                                >
-                                                    <option value={true}>Sim</option>
-                                                    <option value={false}>Não</option>
-                                                </select>
-                                            </TableCell>
-
-                                            <TableCell align="center">
-
-                                                <PopOverOrder row={{
-                                                    id: row.id,
-                                                    sku: order.sku,
-                                                    order: order
-
-                                                }} />
-
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </Box>
-                    </Collapse>
-                </TableCell>
-            </TableRow>
         </React.Fragment >
     );
 }
@@ -227,20 +94,21 @@ function Row(props) {
 Row.propTypes = {
     row: PropTypes.shape({
         id: PropTypes.string.isRequired,
-        code: PropTypes.string.isRequired,
-        orders: PropTypes.arrayOf(
-            PropTypes.shape({
-                valor: PropTypes.number.isRequired,
-                data: PropTypes.string.isRequired,
-                sku: PropTypes.string.isRequired,
-                nome: PropTypes.string.isRequired,
-                link: PropTypes.string.isRequired,
-                materialDidatico: PropTypes.string.isRequired,
-            }),
-        ).isRequired,
-        created_at: PropTypes.string.isRequired,
-        unity: PropTypes.string.isRequired,
+        phone: PropTypes.string.isRequired,
+        student: PropTypes.string.isRequired,
+        sku: PropTypes.string.isRequired,
+        link: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        value: PropTypes.number.isRequired,
         arrived: PropTypes.bool.isRequired,
+        available: PropTypes.bool.isRequired,
+        signed: PropTypes.bool.isRequired,
+        status: PropTypes.string.isRequired,
+        removedBy: PropTypes.string.isRequired,
+        withdraw: PropTypes.string.isRequired,
+        book: PropTypes.string.isRequired,
+        created_at: PropTypes.string.isRequired,
+        updated_at: PropTypes.string.isRequired,
 
     }).isRequired,
 };
@@ -248,24 +116,50 @@ Row.propTypes = {
 
 
 export default function TableOrders() {
-    const { ordersQuery, queryOrder } = useOrders()
-    const { isFetching } = ordersQuery
+    const { setOrderBy, setOrderFor, checkData, setCheckData, ordersQuery, queryOrder, setTake, setSkip, take, checked, setChecked, orderBy, orderFor, } = useOrders()
+    const { isPending } = ordersQuery
 
 
+    const { count, order } = queryOrder
+
+    const [page, setPage] = React.useState(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+
+    const handleChangePage = (event, newPage) => {
+
+        setPage(newPage)
+        if (newPage === 0) return setSkip(0)
+
+        setSkip(newPage * take)
+
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+
+        setRowsPerPage(parseInt(event.target.value));
+        setSkip(0);
+        setTake(+event.target.value);
+    };
 
     const style = {
         fontSize: "9px",
         width: "100%",
-        display: "flex",
-        justifyContent: "center",
         boxShadow: "4px 10px 20px -12px rgba(0,0,0,0.62)"
     }
 
 
+    const checkAll = (bool) => {
+        document.querySelectorAll("input[type='checkbox']").forEach((checkbox) => {
+            setChecked(bool)
+            checkbox.checked = bool;
+        });
+    };
+
     return (
         <div style={style}>
             {
-                isFetching ?
+                isPending ?
                     <LoadingSpin
                         duration="4s"
                         width="15px"
@@ -277,28 +171,110 @@ export default function TableOrders() {
                         numberOfRotationsInAnimation={3}
                     />
                     :
-                    <TableContainer component={Paper}>
+                    <Container>
+                        <nav>
+                            <MultiFiltersOrders
+                            />
 
+                            <MultiAlterationOrders
+                                element={1}
+                                able={checkData.length > 0}
+                                label={"Alterar em lote"}
+                                flex={false}
+                            />
 
+                        </nav>
+                        <TableContainer component={Paper}>
+                            <Paper >
+                                <Table aria-label="collapsible table">
+                                    <TableHead>
+                                        <TableRow sx={{ borderBottom: 'unset', fontSize: ".4rem" }}>
+                                            <TableCell align="center">
+                                                <input
+                                                    type="checkbox"
+                                                    name="" id=""
+                                                    checked={checked}
+                                                    onClick={() => {
+                                                        checkAll(!checked)
+                                                        setCheckData(!checked ? order : [])
+                                                    }} />
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                <ContainerOrder>
+                                                    Data de criação
 
-                        <Table aria-label="collapsible table">
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell align="center"></TableCell>
-                                    <TableCell align="center"><Typography>Data do pedido</Typography></TableCell>
-                                    <TableCell align="center"><Typography>Período do pedido</Typography></TableCell>
-                                    <TableCell align="center"><Typography>Código</Typography></TableCell>
-                                    <TableCell align="center"><Typography>Unidade</Typography></TableCell>
-                                    <TableCell align="center"><Typography>Valor total do pedido</Typography></TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {queryOrder.length > 0 && queryOrder.map((row) => (
-                                    <Row key={row.id} row={row} />
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
+                                                    {
+                                                        orderBy !== "created_at" &&
+                                                        <SwapVertIcon onClick={() => setOrderBy("created_at")} />
+                                                    }
+                                                    {
+                                                        orderBy === "created_at" && orderFor === "asc" &&
+                                                        <ArrowDownwardIcon onClick={() => setOrderFor("desc")} />
+                                                    }
+                                                    {
+                                                        orderBy === "created_at" && orderFor === "desc" &&
+                                                        <ArrowUpwardIcon onClick={() => setOrderFor("asc")} />
+                                                    }
+                                                </ContainerOrder>
+                                            </TableCell>
+                                            <TableCell align="center">Data de retirada</TableCell>
+                                            <TableCell align="center">
+                                                <ContainerOrder>
+                                                    Cliente
+                                                    {
+                                                        orderBy !== "name" &&
+                                                        <SwapVertIcon onClick={() => setOrderBy("name")} />
+                                                    }
+                                                    {
+                                                        orderBy === "name" && orderFor === "asc" &&
+                                                        <ArrowDownwardIcon onClick={() => setOrderFor("desc")} />
+                                                    }
+                                                    {
+                                                        orderBy === "name" && orderFor === "desc" &&
+                                                        <ArrowUpwardIcon onClick={() => setOrderFor("asc")} />
+                                                    }
+                                                </ContainerOrder>
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                <ContainerOrder>
+                                                    Aluno
+                                                    {
+                                                        orderBy !== "student" &&
+                                                        <SwapVertIcon onClick={() => setOrderBy("student")} />
+                                                    }
+                                                    {
+                                                        orderBy === "student" && orderFor === "asc" &&
+                                                        <ArrowDownwardIcon onClick={() => setOrderFor("desc")} />
+                                                    }
+                                                    {
+                                                        orderBy === "student" && orderFor === "desc" &&
+                                                        <ArrowUpwardIcon onClick={() => setOrderFor("asc")} />
+                                                    }
+                                                </ContainerOrder>
+                                            </TableCell>
+                                            <TableCell align="center">Livro</TableCell>
+                                            <TableCell align="center">Situação</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {count > 0 && order.map((row) => (
+                                            <Row key={row.id} row={row} />
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                                <TablePagination
+
+                                    rowsPerPageOptions={[10, 20, 50]}
+                                    component="div"
+                                    count={count}
+                                    rowsPerPage={rowsPerPage}
+                                    page={page}
+                                    onPageChange={handleChangePage}
+                                    onRowsPerPageChange={handleChangeRowsPerPage}
+                                />
+                            </Paper>
+                        </TableContainer>
+                    </Container>
             }
         </div>
     );

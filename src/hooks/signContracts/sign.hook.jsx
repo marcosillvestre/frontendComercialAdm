@@ -19,10 +19,11 @@ export const SigningContracts = ({ children }) => {
 
 
     const { userData, setFilteredContracts } = useUser()
-    const queryCache = useQueryClient();
+    const queryClient = useQueryClient();
 
     const signData = async () => {
-        const response = await URI.get(`/contrato/${sign}?take=${take}&skip=${skip}`)
+        const response = await URI.
+            get(`http://localhost:7070/contrato/${sign}?take=${take}&skip=${skip}`)
 
         return response.data
     }
@@ -32,7 +33,7 @@ export const SigningContracts = ({ children }) => {
         queryFn: () => signData(),
         queryKey: [sign, skip, take],
         enabled: userData.role !== undefined,
-        retry: false
+
     })
 
 
@@ -64,15 +65,16 @@ export const SigningContracts = ({ children }) => {
     useEffect(() => {
         contractsForSign.refetch()
 
-        if (contractsForSign.data) {
+        if (contractsForSign.isSuccess) {
             const { data: { contracts } } = contractsForSign
-
-            const filteredBySellers = contracts.filter(res => res?.seller.toLowerCase().includes(userData.name.toLowerCase()))
+            const filteredBySellers = contracts.filter(res => {
+                if (res?.seller) return res?.seller.toLowerCase().includes(userData.name.toLowerCase())
+            })
 
             setContractOptions(userData.role === "comercial" ? filteredBySellers : contracts)
             setAllContracts(userData.role === "comercial" ? filteredBySellers : contracts)
         }
-        queryCache.invalidateQueries([sign, skip, take])
+        queryClient.invalidateQueries([sign, skip, take])
 
     }, [take, skip, contractsForSign.isSuccess])
 

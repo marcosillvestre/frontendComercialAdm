@@ -13,6 +13,7 @@ display: grid;
 gap:1rem 3rem;
 
 border: 1px dashed;
+background-color: #ffe7e7;
 border-radius: 10px;
 padding: 15px;
 margin-bottom: 20px ;

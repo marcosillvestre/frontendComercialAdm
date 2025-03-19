@@ -1,3 +1,4 @@
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Fade from '@mui/material/Fade';
@@ -7,20 +8,19 @@ import * as React from 'react';
 
 // import URI from '../../app/utils/utils';
 import CloseIcon from '@mui/icons-material/Close';
-import { Boxes, Filter } from './styles';
+import { toast } from 'react-toastify';
+import { Ball, Boxes, ContainerTread, Filter, Header, Stick, Treadmill } from './styles';
+
 const style = {
     position: 'absolute',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 500,
-    height: 360,
     bgcolor: 'background.paper',
     border: '1px solid #000',
     boxShadow: 24,
-    p: 4,
-    fontSize: 15,
-    // textAlign: 'center'
+    p: 3,
+    fontSize: 10,
 
 };
 
@@ -37,6 +37,39 @@ export function MoreData(info) {
 
     const { data } = info
 
+
+    const subtitle = {
+        'id': "Id",
+        'name': "Nome",
+        'status': "Status",
+        'phone': "Telefone de contato",
+        'book': "Material",
+        'student': "Aluno",
+        'sku': "SKU",
+        'unity': "Unidade",
+        'value': "Valor",
+        'link': "Link",
+        'created_at': "Data de criação",
+
+        'withdraw': "Data de retirada",
+
+        'arrived': "Chegou",
+        'signed': "Assinado",
+        'removedBy': "Retirado por",
+    }
+    const statusTrail = {
+        'REVISAR': 0,
+        'REVISADO': 1,
+        'ENVIADO': 2,
+        'CHEGOU': 3,
+        'DISPONIVEL': 4,
+        'ENTREGUE': 5,
+        'CANCELADO': 6,
+    }
+
+    const keys = Object.keys(subtitle)
+    const statusTrailKeys = Object.keys(statusTrail)
+
     return (
         <div>
             <Filter onClick={handleFuncs}> Mais informações</Filter>
@@ -50,6 +83,7 @@ export function MoreData(info) {
                 slotProps={{
                     backdrop: {
                         timeout: 500,
+
                     },
                 }}
             >
@@ -57,23 +91,85 @@ export function MoreData(info) {
                     data &&
                     <Fade in={open} style={{ border: "none", borderRadius: ".9rem", width: "40%" }}>
                         <Box sx={style}>
-                            <div style={{
-                                display: "flex",
-                                justifyContent: "space-between"
-                            }}>
+                            <Header >
 
                                 <Typography id="transition-modal-title" variant="h6" component="h2">
-                                    {data.order.nome}
+                                    {data.name}
                                 </Typography>
 
-
-                                <div onClick={() => handleClose()}>
+                                <button onClick={() => handleClose()}>
                                     <CloseIcon />
-                                </div>
-                            </div>
+                                </button>
 
+                                {data.book}
+                            </Header>
                             <Boxes>
-                                <label htmlFor="">
+                                <Treadmill>
+
+                                    {
+                                        statusTrailKeys.map((res, index) => (
+                                            <ContainerTread
+                                                key={index}
+                                            >
+                                                <div>
+
+                                                    <Ball
+                                                        active={statusTrail[data['status']] >= statusTrail[res]}
+                                                    />
+                                                    {
+                                                        index + 1 < statusTrailKeys.length &&
+                                                        <Stick
+                                                            active={statusTrail[data['status']] >= statusTrail[res]}
+                                                        />
+                                                    }
+                                                </div>
+                                                <p>{res}</p>
+
+                                            </ContainerTread>
+                                        ))
+                                    }
+
+                                </Treadmill>
+
+                                {
+                                    keys.map((key, index) => (
+
+                                        subtitle[key] &&
+                                            typeof data[key] === 'boolean' ?
+                                            <label htmlFor="" key={index}>
+                                                <Typography variant="h7" component="h3">
+                                                    {subtitle[key]}:
+                                                </Typography>
+                                                <input type="text"
+                                                    disabled
+                                                    defaultValue={data[key] ? "SIM" : "NÃO"}
+                                                    style={{ backgroundColor: data[key] ? "#e0e0e0" : "#ffcaca" }}
+                                                />
+                                            </label>
+                                            :
+                                            <label htmlFor="" key={index}>
+                                                <Typography variant="h7" component="h3">
+                                                    {subtitle[key]}:
+                                                </Typography>
+                                                <div
+                                                    className='input'
+                                                    style={{
+                                                        backgroundColor: data[key] !== ''
+                                                            ? "#e0e0e0" : "#ffcaca"
+                                                    }}
+                                                >
+                                                    <p>{data[key]}</p>
+                                                    <ContentCopyIcon onClick={() => {
+                                                        navigator.clipboard.writeText(data[key])
+                                                        toast.success(`${subtitle[key]} copiado para área de transferência!`)
+                                                    }} />
+                                                </div>
+                                            </label>
+                                    ))
+                                }
+
+
+                                {/* <label htmlFor="">
                                     <Typography variant="h7" component="h3">
                                         SkU
                                     </Typography>
@@ -84,7 +180,7 @@ export function MoreData(info) {
                                     <Typography variant="h7" component="h3">
                                         Data de pagamento
                                     </Typography>
-                                    {data.order.data}
+                                    {data.created_at}
                                 </label>
 
                                 <label htmlFor="">
@@ -92,8 +188,8 @@ export function MoreData(info) {
                                         Link
                                     </Typography>
                                     {
-                                        data.order.link !== "" &&
-                                        <a href={data.order.link}>Link do autentique</a>
+                                        data.link !== "" &&
+                                        <a href={data.link}>Link do autentique</a>
                                     }
                                 </label>
 
@@ -101,42 +197,22 @@ export function MoreData(info) {
                                     <Typography variant="h7" component="h3">
                                         Assinado
                                     </Typography>
-                                    {data.order.assinado ? "Sim" : "Não"}
+                                    {data.signed ? "Sim" : "Não"}
                                 </label>
 
                                 <label htmlFor="">
                                     <Typography variant="h7" component="h3">
                                         Valor
                                     </Typography>
-                                    R$ {data.order.valor}
+                                    R$ {data.value}
                                 </label>
 
                                 <label htmlFor="">
                                     <Typography variant="h7" component="h3">
                                         Número de telefone
                                     </Typography>
-                                    {data.order.tel}
-                                </label>
-
-                                {
-                                    data.order.dataRetirada !== "" &&
-                                    <>
-                                        <label htmlFor="">
-                                            <Typography variant="h7" component="h3">
-                                                Retirado por
-                                            </Typography>
-
-                                            {data.order.retiradoPor}
-                                        </label>
-
-                                        <label htmlFor="">
-                                            <Typography variant="h7" component="h3">
-                                                Data de retirada
-                                            </Typography>
-                                            {data.order.dataRetirada}
-                                        </label>
-                                    </>
-                                }
+                                    {data.phone}
+                                </label> */}
 
 
 

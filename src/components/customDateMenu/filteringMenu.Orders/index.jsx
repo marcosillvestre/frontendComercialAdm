@@ -1,60 +1,34 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Button, Menu } from '@mui/material';
 import * as React from 'react';
-import { useLocation } from 'react-router-dom';
-import { useData } from '../../hooks/dataContext';
-import { useUser } from '../../hooks/userContext';
-import { DatePickers } from '../source.jsx';
-import { Container, Label, RangeDate, Select } from './styles';
+import { Container, Label, RangeDate, Select } from './styles.jsx';
 
-import { paths } from '../../app/constants/paths.js';
-import { useComission } from '../../hooks/comissions/comissionContext.hook.jsx';
+import { useOrders } from '../../../hooks/orders/ordersContext.hook.jsx';
+import { DatePickerOrders } from '../../datePickers/datePicker.Orders/index.jsx';
 
-export function PositionedMenu(data) {
+import PropTypes from 'prop-types';
 
 
+export function CustomDateMenuOrders({ props, fn, where }) {
+
+    const { label, date, options, name, } = props
 
     const [anchorEl, setAnchorEl] = React.useState(null);
 
-    const {
-        filtered, setFiltered, mutationControlData,
-        setOpenPeriodRange, setPeriodRange,
-        setQueryParam
-        // allData
-    } = useUser()
+    const { typeFilter, setTypeFilter } = useOrders()
 
-    const { typeFilter, setTypeFilter } = useData()
-    const { setLabel } = useComission()
 
-    const url = useLocation()
+    const handleFilter = (value, type, label, options) => {
 
-    const handleFilter = (value, type) => {
-
-        if (filtered.length < 1) {
-            return alert("Este período de tempo não há matrículas")
-        }
-
-        setTypeFilter([...typeFilter, { "key": type, "value": value }])
-        data.name === data.where ?
-            setQueryParam({ param: type, value }) :
-            setQueryParam({ param: "id", value, path: type })
-
+        setTypeFilter([...typeFilter, {
+            id: new Date().setUTCHours(0),
+            "key": type,
+            value,
+            label,
+            options
+        }])
     }
 
-
-
-    const handleFilterRangeDate = async () => {
-        setPeriodRange(data.name)
-
-        setTypeFilter([])
-
-        url.pathname === paths.control.path && await mutationControlData.refetch()
-        url.pathname === paths.comissionalControl.path && setLabel(data.name)
-
-        close()
-        setOpenPeriodRange(false)
-
-    }
 
     const open = Boolean(anchorEl);
 
@@ -65,8 +39,13 @@ export function PositionedMenu(data) {
 
     const close = () => {
         setAnchorEl(null);
-        // handleClose()
     };
+
+
+    const handleFunctions = () => {
+        fn(name, label)
+        close()
+    }
 
     return (
         <Container >
@@ -78,7 +57,7 @@ export function PositionedMenu(data) {
                 onClick={handleClick}
                 style={{ width: "100%", height: "100%" }}
             >
-                {data.label}
+                {label}
             </Button>
             <Menu
                 id="demo-positioned-menu"
@@ -96,32 +75,34 @@ export function PositionedMenu(data) {
                 }}
             >
                 {
-                    data.label === "Personalizado" ?
+                    date ?
                         <RangeDate>
                             <span className='label'>
 
                                 <button onClick={() => setAnchorEl(null)}><ArrowBackIcon /></button>
-                                <h3>Período {data.name} </h3>
+                                <h3>Período {label} </h3>
                                 <div></div>
 
                             </span>
                             <span className='span-container'>
-                                <DatePickers text="Data inicial" />
+                                <DatePickerOrders text="Data inicial" where={where} />
                                 <p>até</p>
-                                <DatePickers text="Data final" />
+                                <DatePickerOrders text="Data final" where={where} />
                             </span>
                             <hr />
                             <button
                                 className='button-filter'
                                 onClick={() =>
-                                    handleFilterRangeDate()}>Aplicar filtro</button>
+                                    handleFunctions()}>
+                                Aplicar filtro
+                            </button>
                         </RangeDate>
                         :
                         <Label >
-                            <Select onChange={(e) => handleFilter(e.target.value, data.name, data.where)} >
+                            <Select onChange={(e) => handleFilter(e.target.value, name, label, options)} >
                                 <option value="selec">Selecione</option>
                                 {
-                                    data.options && data.options.map((res, idx) => (
+                                    options && options.map((res, idx) => (
                                         <option
                                             key={idx}
                                             value={res.name}
@@ -142,3 +123,17 @@ export function PositionedMenu(data) {
         </Container>
     );
 }
+
+CustomDateMenuOrders.propTypes = {
+    props: PropTypes.shape({
+    }).isRequired,
+    label: PropTypes.string,
+    date: PropTypes.bool,
+    option: PropTypes.string,
+    options: PropTypes.arrayOf(PropTypes.shape({
+        name: PropTypes.string
+    })),
+    name: PropTypes.string,
+    where: PropTypes.string,
+    fn: PropTypes.node
+};
