@@ -77,7 +77,7 @@ function Row(props) {
                 </TableCell>
                 <TableCell align="center" component="th" scope="row">{row.withdraw}</TableCell>
                 <TableCell align="center" component="th" scope="row">{row.name} </TableCell>
-                <TableCell align="center" component="th" scope="row">{row.student.split(" ")[0]} </TableCell>
+                <TableCell align="center" component="th" scope="row">{row.student ? row.student.split(" ")[0] : ""} </TableCell>
                 <TableCell align="center" component="th" scope="row">{row.book} </TableCell>
                 <TableCell align="center" component="th" scope="row"><Tag style={{ backgroundColor: statusTrail[row.status] }}>{row.status}</Tag> </TableCell>
                 <TableCell align="center" component="th" scope="row">
