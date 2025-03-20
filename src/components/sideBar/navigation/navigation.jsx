@@ -29,6 +29,7 @@ export const Navigation = (openSidebar) => {
     return (
         <div>
             {
+                userData.name === "Marco" &&
                 pages.map((text) => (
                     text.access.some(res => res === userData.role) &&
                     <label htmlFor="link"
