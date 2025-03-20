@@ -98,8 +98,7 @@ export const OrdersProvider = ({ children }) => {
         const dates = search !== "Período personalizado" ? await pickingDate(search) :
             `${initialDate}~${endDate}`
 
-        const url = query ? `http://localhost:7070/pedidos-query` :
-            `http://localhost:7070/pedidos`
+        const url = query ? `/pedidos-query` : `/pedidos`
 
         const response = await URI.post(url, {
             dates,
@@ -142,7 +141,7 @@ export const OrdersProvider = ({ children }) => {
     const multiUpdate = async () => {
 
         await toast.promise(
-            URI.put("http://localhost:7070/multi-pedidos", body),
+            URI.put("/multi-pedidos", body),
             {
                 pending: 'Editando o pedido',
                 success: 'Editado com sucesso',
@@ -171,7 +170,7 @@ export const OrdersProvider = ({ children }) => {
 
     const updateOrder = async (body) => {
         const response = await toast.promise(
-            URI.put("http://localhost:7070/pedidos", body),
+            URI.put("/pedidos", body),
             {
                 pending: 'Editando o pedido',
                 success: 'Editado com sucesso',

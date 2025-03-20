@@ -23,7 +23,7 @@ export const SigningContracts = ({ children }) => {
 
     const signData = async () => {
         const response = await URI.
-            get(`http://localhost:7070/contrato/${sign}?take=${take}&skip=${skip}`)
+            get(`/contrato/${sign}?take=${take}&skip=${skip}`)
 
         return response.data
     }

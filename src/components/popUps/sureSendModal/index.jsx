@@ -89,7 +89,7 @@ export function SureSendModal(data) {
 
         const response = new Promise((resolve, reject) => {
             // axios.post("/cliente", body, { headers })
-            URI.post("http://localhost:7070/cliente", body)
+            URI.post("/cliente", body)
                 .then((res) => {
                     resolve(res)
                     toast.success("Cliente cadastrado com sucesso")
