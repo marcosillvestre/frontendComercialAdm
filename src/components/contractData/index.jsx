@@ -61,10 +61,6 @@ export const ContractData = () => {
 
     const { campaignQuery } = useCampaign()
 
-
-
-
-
     const [paymentParcels, setPaymentParcels] = useState({
         parcels: [],
         total: 0,
@@ -118,6 +114,7 @@ export const ContractData = () => {
             (cursoValor / parcelsNumber) * paymentMethodsForParcels[typePayment]
 
         return {
+
             fullValue: cursoValor,
             descount: paymentMethodsForParcels[typePayment] === 0.1 ?
                 Math.ceil(descountForPontuality) * parcelsNumber : (descountForPontuality * parcelsNumber).toFixed(2),
@@ -204,7 +201,6 @@ export const ContractData = () => {
         }
     }
 
-
     ////////////// Só serao ativados se houver uma campanha nesse contrato
     const activeCampaignForParcel = async (campaignParcel) => {
 
@@ -217,18 +213,19 @@ export const ContractData = () => {
         let array = []
 
 
-        for (let index = 0; index < parseInt(filteredContracts["Número de parcelas do curso"]); index++) {
+        const campaignDescount = await defineDescountValueForType(
+            (fullValue / parseNumber(filteredContracts["Número de parcelas do curso"])),
+            campaignParcel.value,
+            campaignParcel.descountType
+        )
 
-            const campaignDescount = await defineDescountValueForType(
-                (fullValue / parseNumber(filteredContracts["Número de parcelas do curso"])),
-                campaignParcel.value,
-                campaignParcel.descountType
-            )
+
+        for (let index = 0; index < parseInt(filteredContracts["Número de parcelas do curso"]); index++) {
 
             index + 1 <= campaignParcel.affectedParcels ?
                 array.push({
                     valor:
-                        ((fullValue / parseNumber(filteredContracts["Número de parcelas do curso"])) -
+                        (fullValue / parseNumber(filteredContracts["Número de parcelas do curso"]) -
                             campaignDescount).toFixed(2)
                 }) :
                 array.push({
@@ -352,7 +349,6 @@ export const ContractData = () => {
             descount
         }
     }
-
 
 
     const sincValueForParcel = async () => {
@@ -768,24 +764,44 @@ export const ContractData = () => {
                                             <td>Valor líquido (R$)</td>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        {
-                                            paymentParcels.parcels.map((res, idx) => (
-                                                <tr key={idx}>
-                                                    <td>{idx + 1}</td>
-                                                    <td>{dateCalculator(filteredContracts["Data de vencimento da primeira parcela"], idx)}</td>
-                                                    <td>{(paymentParcels.total / paymentParcels.parcels.length).toFixed(2)}</td>
-                                                    <td>{parseFloat(paymentParcels.descountForPontuality).toFixed(2)}</td>
-                                                    <td>{(res.valor - paymentParcels.descountForPontuality).toFixed(2)}</td>
+                                    {
+                                        camp.parcel ?
+                                            <tbody>
+                                                {
+                                                    paymentParcels.parcels.map((res, idx) => (
+                                                        <tr key={idx}>
+                                                            <td>{idx + 1}</td>
+                                                            <td>{dateCalculator(filteredContracts["Data de vencimento da primeira parcela"], idx)}</td>
+                                                            <td>{(paymentParcels.total / paymentParcels.parcels.length).toFixed(2)}</td>
+                                                            <td>{parseFloat(paymentParcels.descountForPontuality).toFixed(2)}</td>
+
+                                                            {
+                                                                idx + 1 > camp.parcel.affectedParcels ?
+                                                                    <td>{(res.valor - paymentParcels.descountForPontuality).toFixed(2)}</td> :
+                                                                    <td>{res.valor}</td>
+                                                            }
+                                                        </tr>
+                                                    ))
+                                                }
+                                                <tr>
                                                 </tr>
-                                            ))
-                                        }
-                                        <tr>
-
-                                        </tr>
-
-
-                                    </tbody>
+                                            </tbody> :
+                                            <tbody>
+                                                {
+                                                    paymentParcels.parcels.map((res, idx) => (
+                                                        <tr key={idx}>
+                                                            <td>{idx + 1}</td>
+                                                            <td>{dateCalculator(filteredContracts["Data de vencimento da primeira parcela"], idx)}</td>
+                                                            <td>{(paymentParcels.total / paymentParcels.parcels.length).toFixed(2)}</td>
+                                                            <td>{parseFloat(paymentParcels.descountForPontuality).toFixed(2)}</td>
+                                                            <td>{(res.valor - paymentParcels.descountForPontuality).toFixed(2)}</td> :
+                                                        </tr>
+                                                    ))
+                                                }
+                                                <tr>
+                                                </tr>
+                                            </tbody>
+                                    }
 
                                 </table>
                             </ContainerData>
