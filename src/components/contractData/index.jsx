@@ -61,10 +61,6 @@ export const ContractData = () => {
 
     const { campaignQuery } = useCampaign()
 
-
-
-
-
     const [paymentParcels, setPaymentParcels] = useState({
         parcels: [],
         total: 0,
@@ -118,6 +114,7 @@ export const ContractData = () => {
             (cursoValor / parcelsNumber) * paymentMethodsForParcels[typePayment]
 
         return {
+
             fullValue: cursoValor,
             descount: paymentMethodsForParcels[typePayment] === 0.1 ?
                 Math.ceil(descountForPontuality) * parcelsNumber : (descountForPontuality * parcelsNumber).toFixed(2),
@@ -204,11 +201,10 @@ export const ContractData = () => {
         }
     }
 
-
     ////////////// Só serao ativados se houver uma campanha nesse contrato
     const activeCampaignForParcel = async (campaignParcel) => {
 
-        const { fullValue, descount, descountForPontuality } = await defineValueForParcels(
+        const { fullValue, descountForPontuality } = await defineValueForParcels(
             filteredContracts["valorCurso"],
             filteredContracts["Forma de pagamento da parcela"],
             parseNumber(filteredContracts["Número de parcelas do curso"])
@@ -217,36 +213,46 @@ export const ContractData = () => {
         let array = []
 
 
-        for (let index = 0; index < parseInt(filteredContracts["Número de parcelas do curso"]); index++) {
+        const campaignDescount = await defineDescountValueForType(
+            (fullValue / parseNumber(filteredContracts["Número de parcelas do curso"])),
+            campaignParcel.value,
+            campaignParcel.descountType
+        )
 
-            const campaignDescount = await defineDescountValueForType(
-                (fullValue / parseNumber(filteredContracts["Número de parcelas do curso"])),
-                campaignParcel.value,
-                campaignParcel.descountType
-            )
+
+        for (let index = 0; index < parseInt(filteredContracts["Número de parcelas do curso"]); index++) {
 
             index + 1 <= campaignParcel.affectedParcels ?
                 array.push({
                     valor:
+                        (fullValue / parseNumber(filteredContracts["Número de parcelas do curso"]) -
+                            campaignDescount).toFixed(2),
+                    descount:
                         ((fullValue / parseNumber(filteredContracts["Número de parcelas do curso"])) -
-                            campaignDescount).toFixed(2)
+                            (fullValue / parseNumber(filteredContracts["Número de parcelas do curso"]) - campaignDescount)).toFixed(2)
                 }) :
                 array.push({
                     valor:
-                        (fullValue / parseNumber(filteredContracts["Número de parcelas do curso"])).toFixed(2)
+                        (fullValue / parseNumber(filteredContracts["Número de parcelas do curso"])).toFixed(2),
+                    descount:
+                        (
+                            (fullValue / parseNumber(filteredContracts["Número de parcelas do curso"])) -
+                            (fullValue / parseNumber(filteredContracts["Número de parcelas do curso"]) - descountForPontuality)
+
+                        ).toFixed(2)
                 })
         }
 
         setPaymentParcels({
             parcels: array,
             total: fullValue,
-            descount,
+            descount: array.reduce((acc, curr) => parseFloat(curr.descount) + acc, 0),
             descountForPontuality
         })
 
         filteredContracts["parcel"] = {
             parcels: array,
-            descount,
+            descount: array.reduce((acc, curr) => curr.descount + acc, 0),
             campaign: campaignParcel,
             total: fullValue,
             descountForPontuality,
@@ -323,9 +329,6 @@ export const ContractData = () => {
 
 
 
-
-
-
     //////////////Serão ativados caso não haja campanha ativa no contrato
     const sincValueForMaterial = async (campaignMaterial) => {
 
@@ -354,10 +357,9 @@ export const ContractData = () => {
     }
 
 
-
     const sincValueForParcel = async () => {
 
-        const { fullValue, descount, descountForPontuality } = await defineValueForParcels(
+        const { fullValue, descountForPontuality } = await defineValueForParcels(
             filteredContracts["valorCurso"],
             filteredContracts["Forma de pagamento da parcela"],
             parseNumber(filteredContracts["Número de parcelas do curso"])
@@ -367,7 +369,13 @@ export const ContractData = () => {
         for (let index = 0; index < parseInt(filteredContracts["Número de parcelas do curso"]); index++) {
 
             array.push({
-                valor: (fullValue / parseNumber(filteredContracts["Número de parcelas do curso"])).toFixed(2)
+                valor: (fullValue / parseNumber(filteredContracts["Número de parcelas do curso"])).toFixed(2),
+                descount:
+                    (
+                        (fullValue / parseNumber(filteredContracts["Número de parcelas do curso"])) -
+                        (fullValue / parseNumber(filteredContracts["Número de parcelas do curso"]) - descountForPontuality)
+
+                    ).toFixed(2)
             })
         }
 
@@ -375,14 +383,14 @@ export const ContractData = () => {
         setPaymentParcels({
             parcels: array,
             total: array.reduce((acc, curr) => acc + parseNumber(curr.valor), 0),
-            descount,
+            descount: array.reduce((acc, curr) => parseFloat(curr.descount) + acc, 0),
             descountForPontuality
         })
 
         filteredContracts["parcel"] = {
             parcels: array,
             total: array.reduce((acc, curr) => acc + parseNumber(curr.valor), 0),
-            descount,
+            descount: array.reduce((acc, curr) => parseFloat(curr.descount) + acc, 0),
             descountForPontuality
         }
     }
@@ -768,24 +776,45 @@ export const ContractData = () => {
                                             <td>Valor líquido (R$)</td>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        {
-                                            paymentParcels.parcels.map((res, idx) => (
-                                                <tr key={idx}>
-                                                    <td>{idx + 1}</td>
-                                                    <td>{dateCalculator(filteredContracts["Data de vencimento da primeira parcela"], idx)}</td>
-                                                    <td>{(paymentParcels.total / paymentParcels.parcels.length).toFixed(2)}</td>
-                                                    <td>{parseFloat(paymentParcels.descountForPontuality).toFixed(2)}</td>
-                                                    <td>{(res.valor - paymentParcels.descountForPontuality).toFixed(2)}</td>
+                                    {
+                                        camp.parcel ?
+                                            <tbody>
+                                                {
+                                                    paymentParcels.parcels.map((res, idx) => (
+                                                        <tr key={idx}>
+                                                            <td>{idx + 1}</td>
+                                                            <td>{dateCalculator(filteredContracts["Data de vencimento da primeira parcela"], idx)}</td>
+                                                            <td>{(paymentParcels.total / paymentParcels.parcels.length).toFixed(2)}</td>
+
+                                                            <td>{res.descount}</td>
+
+                                                            {
+                                                                idx + 1 > camp.parcel.affectedParcels ?
+                                                                    <td>{(res.valor - res.descount).toFixed(2)}</td> :
+                                                                    <td>{res.valor}</td>
+                                                            }
+                                                        </tr>
+                                                    ))
+                                                }
+                                                <tr>
                                                 </tr>
-                                            ))
-                                        }
-                                        <tr>
-
-                                        </tr>
-
-
-                                    </tbody>
+                                            </tbody> :
+                                            <tbody>
+                                                {
+                                                    paymentParcels.parcels.map((res, idx) => (
+                                                        <tr key={idx}>
+                                                            <td>{idx + 1}</td>
+                                                            <td>{dateCalculator(filteredContracts["Data de vencimento da primeira parcela"], idx)}</td>
+                                                            <td>{(paymentParcels.total / paymentParcels.parcels.length).toFixed(2)}</td>
+                                                            <td>{parseFloat(paymentParcels.descountForPontuality).toFixed(2)}</td>
+                                                            <td>{(res.valor - paymentParcels.descountForPontuality).toFixed(2)}</td> :
+                                                        </tr>
+                                                    ))
+                                                }
+                                                <tr>
+                                                </tr>
+                                            </tbody>
+                                    }
 
                                 </table>
                             </ContainerData>

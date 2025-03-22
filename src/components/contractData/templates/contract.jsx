@@ -56,6 +56,8 @@ export const PDFFile = ({ data, parcel, campaign }) => {
 
     }
 
+
+    console.log(parcel)
     return (
         <File>
             {
@@ -325,7 +327,7 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                                     <tr>
                                         <td >{data["service"]}</td>
                                         <td >{(data["valorCurso"]).toFixed(2)}</td>
-                                        <td >{parseFloat(parcel["descount"]).toFixed(2)}</td>
+                                        <td >{parseFloat(parcel.parcels.reduce((acc, curr) => parseFloat(curr.descount) + acc, 0)).toFixed(2)}</td>
                                         <td >{data["Número de parcelas do curso"]}</td>
                                         <td >{data["Forma de pagamento da parcela"]}</td>
                                         <td >{(parcel["total"] - parcel["descount"]).toFixed(2)}</td>
@@ -359,8 +361,12 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                                                 <td>{idx + 1}</td>
                                                 <td>{dateCalculator(data["Data de vencimento da primeira parcela"], idx)}</td>
                                                 <td>{(parcel.total / parcel.parcels.length).toFixed(2)}</td>
-                                                <td>{parseFloat(parcel.descountForPontuality).toFixed(2)}</td>
-                                                <td>{(res.valor - parcel.descountForPontuality).toFixed(2)}</td>
+
+                                                <td>{res.descount}</td>
+
+                                                <td>{(res.valor - res.descount).toFixed(2)}</td> :
+
+
                                             </tr>
                                         ))
                                     }
