@@ -82,8 +82,6 @@ export function SureSendModal(data) {
 
     };
 
-
-    console.log(filteredContracts["CPF"])
     const client = async (body) => {
 
 
@@ -99,13 +97,12 @@ export function SureSendModal(data) {
                     toast.error("Erro ao cadastrar o cliente")
                     const error = await err
 
-                    console.log(error.response.data)
+                    console.log(error)
 
                     if ("message" in error.response.data) alert(error.response.data.message)
                     reject(err)
                 })
-
-
+                .finally(() => setLoading(false))
         })
 
 

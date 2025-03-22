@@ -75,7 +75,7 @@ function Row(props) {
                         {new Date(created).toLocaleDateString("pt-BR")}
                     </p>
                 </TableCell>
-                <TableCell align="center" component="th" scope="row">{row.withdraw}</TableCell>
+                <TableCell align="center" component="th" scope="row">{row.withdraw && new Date(row.withdraw).toLocaleString()}</TableCell>
                 <TableCell align="center" component="th" scope="row">{row.name} </TableCell>
                 <TableCell align="center" component="th" scope="row">{row.student ? row.student.split(" ")[0] : ""} </TableCell>
                 <TableCell align="center" component="th" scope="row">{row.book} </TableCell>

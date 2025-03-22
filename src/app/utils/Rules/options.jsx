@@ -147,6 +147,31 @@ const ordersFilters = [
         ]
     },
     {
+        label: "UNIDADE",
+        name: "unity",
+        options: [
+            { name: "PTB" },
+            { name: "Centro" },
+        ]
+    },
+    {
+        label: "RETIRADA",
+        name: "delivery",
+        options: [
+            { name: "Sim" },
+            { name: "Não" },
+        ]
+    },
+    {
+        label: "TAG",
+        name: "book",
+        options: [
+            { name: "AP" },
+            { name: "BK" },
+            { name: "Kit" },
+        ]
+    },
+    {
         label: "ASSINATURA",
         name: "signed",
         options: [

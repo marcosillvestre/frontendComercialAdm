@@ -10,7 +10,6 @@ const OrdersContext = createContext({})
 
 export const OrdersProvider = ({ children }) => {
     const { predeterminedPeriods } = businessRules
-    const queryCache = useQueryClient();
 
     const queryClient = useQueryClient()
     const [orders, setOrders] = useState()
@@ -27,6 +26,18 @@ export const OrdersProvider = ({ children }) => {
     const [filterEndDate, setFilteringEndDate] = useState(null)
 
     const [search, setSearch] = useState(predeterminedPeriods[0].name)
+    const [take, setTake] = useState(10)
+    const [skip, setSkip] = useState(0)
+
+
+    const [orderFor, setOrderFor] = useState("desc")
+    const [orderBy, setOrderBy] = useState("created_at")
+    const [dateType, setDateType] = useState("created_at")
+    const [query, setQuery] = useState(undefined)
+
+    const [body, setBody] = useState()
+    const [checked, setChecked] = useState(false)
+
 
     const recibo = useRef()
 
@@ -73,20 +84,6 @@ export const OrdersProvider = ({ children }) => {
         return settledPeriod[range]
     }
 
-
-
-    const [take, setTake] = useState(10)
-    const [skip, setSkip] = useState(0)
-
-
-    const [orderFor, setOrderFor] = useState("asc")
-    const [orderBy, setOrderBy] = useState("created_at")
-    const [dateType, setDateType] = useState("created_at")
-    const [query, setQuery] = useState(undefined)
-
-    const [body, setBody] = useState()
-
-
     const removeFilter = (data) => {
         const filtered = typeFilter.filter(res => res.id !== data.id)
 
@@ -98,7 +95,8 @@ export const OrdersProvider = ({ children }) => {
         const dates = search !== "Período personalizado" ? await pickingDate(search) :
             `${initialDate}~${endDate}`
 
-        const url = query ? `/pedidos-query` : `/pedidos`
+        const url = query ?
+            `:7070/pedidos-query` : `:7070/pedidos`
 
         const response = await URI.post(url, {
             dates,
@@ -116,11 +114,22 @@ export const OrdersProvider = ({ children }) => {
 
     const ordersQuery = useQuery({
         queryFn: () => queryOrders(),
-        queryKey: [search, "orders", skip, take, query, JSON.stringify(typeFilter), orderBy, orderFor],
+        queryKey: [
+            search, "orders", skip, take, query,
+            JSON.stringify(typeFilter), orderBy, orderFor
+        ],
         // staleTime: 1000 * 60 * 5, // 5 minutos sem refazer a requisição
         // cacheTime: 1000 * 60 * 10
     })
 
+    const invalidateOrderQuery = () => {
+
+        queryClient.invalidateQueries([
+            search, "orders", skip, take, query,
+            JSON.stringify(typeFilter), orderBy, orderFor
+        ])
+        ordersQuery.refetch()
+    }
 
     useLayoutEffect(() => {
         const gatherData = async () => {
@@ -132,10 +141,13 @@ export const OrdersProvider = ({ children }) => {
             setQueryOrder({ order, count })
         }
 
-        queryCache.invalidateQueries([search, "orders", skip, take, query, JSON.stringify(typeFilter), orderBy, orderFor])
+        invalidateOrderQuery()
         if (ordersQuery.isSuccess) gatherData()
 
-    }, [search, take, skip, ordersQuery.isSuccess, query, typeFilter.length, orderFor, orderBy])
+    }, [
+        search, take, skip, ordersQuery.isSuccess, query,
+        typeFilter.length, orderFor, orderBy
+    ])
 
 
     const multiUpdate = async () => {
@@ -156,16 +168,17 @@ export const OrdersProvider = ({ children }) => {
 
 
 
+
     async function handleInput(params) {
         if (search === params) return ordersQuery.refetch()
-        if (params !== "Personalizado") {
+        if (params !== "Período personalizado") {
             setInitialDate(null)
             setEndDate(null)
         }
 
         setSearch(params)
 
-        queryClient.invalidateQueries([search, "orders", skip, take, query, JSON.stringify(typeFilter), orderBy, orderFor])
+        invalidateOrderQuery()
     }
 
     const updateOrder = async (body) => {
@@ -184,17 +197,17 @@ export const OrdersProvider = ({ children }) => {
         mutationFn: (e) => updateOrder(e),
         onSuccess: () => {
             // console.log(e)
-            queryClient.invalidateQueries([search, "orders", skip, take, query, JSON.stringify(typeFilter), orderBy, orderFor])
+            invalidateOrderQuery()
         }
     })
 
-    const [checked, setChecked] = useState(false)
+
+
 
 
     return (
         <OrdersContext.Provider value={{
             orders, setOrders,
-
             ordersQuery,
 
             recibo,
@@ -230,7 +243,9 @@ export const OrdersProvider = ({ children }) => {
 
             body, setBody,
 
-            mutationMultiUpdate
+            mutationMultiUpdate,
+            invalidateOrderQuery,
+
         }}>
 
             {children}

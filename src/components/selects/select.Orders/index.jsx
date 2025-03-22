@@ -12,7 +12,9 @@ export const SelectOrders = (parameters) => {
     const [label, setLabel] = useState(types[parameters.label] || parameters.label)
     const [open, setOpen] = useState(false)
 
-    const { setInitialDate, setEndDate, setTypeFilter, handleInput } = useOrders()
+    const {
+        setInitialDate, setEndDate, setTypeFilter, handleInput
+    } = useOrders()
 
 
     const handleCheck = async (label) => {
@@ -38,7 +40,6 @@ export const SelectOrders = (parameters) => {
     }
 
     const handleFilterRangeDate = async () => {
-
         setTypeFilter([])
 
         await handleInput(label)

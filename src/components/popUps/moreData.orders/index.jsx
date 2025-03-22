@@ -158,7 +158,11 @@ export function MoreData(info) {
                                                             ? "#e0e0e0" : "#ffcaca"
                                                     }}
                                                 >
-                                                    <p>{data[key]}</p>
+                                                    {
+                                                        subtitle[key].includes("Data") ?
+                                                            <p>{new Date(data[key]).toLocaleString()}</p> :
+                                                            <p>{data[key]}</p>
+                                                    }
                                                     <ContentCopyIcon onClick={() => {
                                                         navigator.clipboard.writeText(data[key])
                                                         toast.success(`${subtitle[key]} copiado para área de transferência!`)
