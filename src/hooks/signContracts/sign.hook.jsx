@@ -9,7 +9,6 @@ const SignContracts = createContext({})
 
 export const SigningContracts = ({ children }) => {
 
-    const [sign, setSign] = useState("Funil-de-Vendas-PTB")
     const [contractOptions, setContractOptions] = useState([])
     const [allContracts, setAllContracts] = useState()
     const [take, setTake] = useState(10)
@@ -21,17 +20,34 @@ export const SigningContracts = ({ children }) => {
     const { userData, setFilteredContracts } = useUser()
     const queryCache = useQueryClient();
 
-    const signData = async () => {
-        const response = await URI.get(`/contrato/${sign}?take=${take}&skip=${skip}`)
+    const [sign, setSign] = useState()
+
+    const funnelsData = async () => {
+        const response = await URI.get(`/funis`)
 
         return response.data
     }
 
 
+    const funnelsQuery = useQuery({
+        queryFn: () => funnelsData(),
+        queryKey: ['funnel'],
+        enabled: userData.role !== undefined,
+        retry: false
+    })
+
+    const signData = async () => {
+        const id = sign ? sign : funnelsQuery.data[0].value
+
+        const response = await URI.get(`/contrato/${id}?take=${take}&skip=${skip}`)
+
+        return response.data
+    }
+
     const contractsForSign = useQuery({
         queryFn: () => signData(),
         queryKey: [sign, skip, take],
-        enabled: userData.role !== undefined,
+        enabled: funnelsQuery.isSuccess,
         retry: false
     })
 
@@ -66,8 +82,8 @@ export const SigningContracts = ({ children }) => {
 
         if (contractsForSign.data) {
             const { data: { contracts } } = contractsForSign
-
-            const filteredBySellers = contracts.filter(res => res?.seller.toLowerCase().includes(userData.name.toLowerCase()))
+            const filteredBySellers = contracts.filter(res => res?.seller.toLowerCase()
+                .includes(userData.name.toLowerCase()))
 
             setContractOptions(userData.role === "comercial" ? filteredBySellers : contracts)
             setAllContracts(userData.role === "comercial" ? filteredBySellers : contracts)
@@ -89,7 +105,8 @@ export const SigningContracts = ({ children }) => {
             skip, setSkip,
 
             contract, setContract,
-            queryContract
+            queryContract,
+            funnelsQuery
 
         }}>
 

@@ -12,16 +12,13 @@ export const Contracts = () => {
     const forQuery = useRef()
 
     const { filteredContracts, setFilteredContracts } = useUser()
-    const { setSign, contractOptions, setContractOptions, allContracts } = useSignContracts()
+    const { setSign, contractOptions, setContractOptions, allContracts, funnelsQuery } = useSignContracts()
 
+    const { data, isPending } = funnelsQuery
 
-    async function data(e) {
-        if (e.value !== '') {
-
-            setSign(e)
-        }
+    async function dataFilter(e) {
+        setSign(e)
         setFilteredContracts(undefined)
-
     }
 
     function filterData(search) {
@@ -33,7 +30,6 @@ export const Contracts = () => {
 
     }
 
-
     return (
 
         <Container>
@@ -44,20 +40,19 @@ export const Contracts = () => {
                     <label htmlFor="">
 
                         <p>Funil:</p>
-                        <Select
-                            label={"Funil de Vendas PTB"}
-                            option={
-                                [
-                                    { name: "Funil de Vendas PTB", value: "Funil-de-Vendas-PTB" },
-                                    { name: "Funil de Rematrícula PTB", value: "Funil-de-Rematrícula-PTB" },
-                                    { name: "Funil de Vendas Centro", value: "Funil-de-Vendas-Centro" },
-                                    { name: "Funil de Rematrículas Centro", value: "Funil-de-Rematrículas-Centro" },
-                                ]
-                            }
-                            width="5rem"
-                            field="type"
-                            fn={[data]}
-                        />
+
+                        {
+                            isPending ?
+                                "carregando"
+                                :
+                                <Select
+                                    label={data && data[0].name}
+                                    option={data && data}
+                                    width="5rem"
+                                    field="type"
+                                    fn={[dataFilter]}
+                                />
+                        }
                     </label>
                     {
                         filteredContracts === undefined &&
@@ -99,6 +94,7 @@ export const Contracts = () => {
                         </label>
                     }
                 </div>
+
             </Header>
             {
                 filteredContracts === undefined ?

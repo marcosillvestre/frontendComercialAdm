@@ -57,7 +57,6 @@ export const PDFFile = ({ data, parcel, campaign }) => {
     }
 
 
-    console.log(parcel)
     return (
         <File>
             {

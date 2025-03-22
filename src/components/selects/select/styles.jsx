@@ -38,6 +38,7 @@ cursor: pointer;
 height: var(--boxHei);
 font-size: var(--fsLowest);
 z-index: 10;
+font-size: calc(var(--fsLowest) - 2px) ;
 
     span{
     /* width: 100%; */
