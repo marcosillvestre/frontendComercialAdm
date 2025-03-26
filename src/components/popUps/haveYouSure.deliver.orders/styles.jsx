@@ -5,6 +5,7 @@ import styled from "styled-components";
 
 export const Filter = styled.button`
 all: unset;
+
 `
 
 export const Boxes = styled.div`

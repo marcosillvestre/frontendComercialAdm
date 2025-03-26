@@ -44,7 +44,7 @@ export function DeliverySure(info) {
     }
 
     const { data, fn } = info
-    console.log(data)
+
     async function Send() {
         Promise.all([
             updateLink.mutateAsync({
@@ -57,9 +57,13 @@ export function DeliverySure(info) {
         ])
     }
 
+
     return (
         <div>
-            <Filter onClick={handleFuncs}> Marcar como entregue</Filter>
+            <Filter
+                onClick={handleFuncs}
+            >
+                Marcar como entregue</Filter>
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"

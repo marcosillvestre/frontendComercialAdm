@@ -16,7 +16,7 @@ justify-content: center;
 span{
     margin: 2rem auto ;
     border: 1px dashed;
-    border-radius: var(--border-radius);
+    border-radius: var(--br);
     padding: 1rem;
     display: flex;
     flex-wrap: wrap;

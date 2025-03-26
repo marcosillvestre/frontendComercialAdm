@@ -162,7 +162,7 @@ export const Filters = styled.div`
             border: none;
             background-color: #e63946;
             padding: .5rem;
-            border-radius: var(--border-radius);
+            border-radius: var(--br);
             margin: 5px;
         &:hover{
             background-color: #ac4047;
@@ -176,7 +176,7 @@ export const Filters = styled.div`
 
         span{
         border: 1px dashed;
-        border-radius: var(--border-radius);
+        border-radius: var(--br);
         padding: .5rem;
         cursor: pointer;
     

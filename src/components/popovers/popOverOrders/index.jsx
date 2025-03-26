@@ -80,19 +80,26 @@ export function PopOverOrder(data) {
                         {
                             !row.withdraw ?
                                 row.signed ?
-                                    <Divider onClick={async () => {
-                                        await handleUpdate({
-                                            withdraw: new Date().toLocaleString("pt-Br"),
-                                            removedBy: userData.name,
-                                            status: "REVISADO"
+                                    <Divider
+                                        inative={
+                                            !row.logistic.find(res => res.stage === 'REVISADO')
+                                        }
+                                        onClick={async () => {
+                                            await handleUpdate({
+                                                withdraw: new Date().toLocaleString("pt-Br"),
+                                                removedBy: userData.name,
+                                                status: "REVISADO"
 
-                                        })
-                                    }}
+                                            })
+                                        }}
                                     >
                                         Marcar como entregue
                                     </Divider>
                                     :
-                                    <Divider >
+                                    <Divider
+                                        inative={
+                                            !row.logistic.find(res => res.stage === 'REVISADO')
+                                        }>
                                         <DeliverySure data={row} fn={reset} />
                                     </Divider>
 
@@ -112,13 +119,16 @@ export function PopOverOrder(data) {
 
                         {
                             !row.signed ?
-                                <Divider onClick={async () => {
+                                <Divider
+                                    inative={
+                                        !row.logistic.find(res => res.stage === 'REVISADO')
+                                    }
+                                    onClick={async () => {
+                                        await handleUpdate({
+                                            signed: true,
+                                        })
 
-                                    await handleUpdate({
-                                        signed: true,
-                                    })
-
-                                }}>
+                                    }}>
                                     Marcar como assinado
                                 </Divider>
                                 :
@@ -135,27 +145,43 @@ export function PopOverOrder(data) {
 
                         {
                             row.available ?
-                                <Divider onClick={async () => {
-                                    await handleUpdate({
-                                        available: false,
-                                        status: 'CANCELADO'
-                                    })
-                                }}>
+                                <Divider
+                                    inative={
+                                        !row.logistic.find(res => res.stage === 'REVISADO')
+                                    }
+                                    onClick={async () => {
+                                        await handleUpdate({
+                                            available: false,
+                                            status: 'CANCELADO',
+
+                                        })
+                                    }}>
                                     Cancelar pedido
                                 </Divider>
                                 :
                                 <Divider onClick={async () => {
                                     await handleUpdate({
                                         available: true,
-                                        status: 'REVISAR'
+                                        status: 'REVISAR',
+                                        logistic: [
+                                            {
+                                                stage: "REVISAR",
+                                                active: true
+                                            }
+                                        ]
                                     })
                                 }}>
                                     Reaver pedido
                                 </Divider>
                         }
 
-                        <Divider onClick={() => {
-                        }}>
+                        <Divider
+                            inative={
+                                row.signed === true ||
+                                row.status !== 'REVISAR' &&
+                                row.status !== 'REVISADO'
+                            }
+                        >
                             <SureModal
                                 data={row?.id}
                                 name={row?.name}

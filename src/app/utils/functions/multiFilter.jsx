@@ -16,7 +16,6 @@ export const filtrarArray = (array, filtros, arrayPadrao) => {
 
     const filtrosAgrupados = agruparFiltros(filtros);
 
-    console.log(filtrosAgrupados)
 
     return array.filter(item => {
         return Object.keys(filtrosAgrupados).every(key => {

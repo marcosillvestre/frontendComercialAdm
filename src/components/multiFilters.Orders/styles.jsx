@@ -13,7 +13,7 @@ color: #090933;
 background-color: #2e308e1e;
 width: 10rem;
 padding: 5px;
-border-radius: var(--border-radius);
+border-radius: var(--br);
 div{
     display: flex;
     justify-content: space-between;

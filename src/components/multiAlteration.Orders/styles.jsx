@@ -88,8 +88,9 @@ align-items: center;
 height: var(--boxHei);
 
 background-color: ${props => props.able ? "#1976d2" : "#222"};
+pointer-events: ${props => props.able ? "all" : "none"};
 color: #fff;
-border-radius: var(--border-radius) ;
+border-radius: var(--br) ;
 
 border: none;
 cursor: pointer;

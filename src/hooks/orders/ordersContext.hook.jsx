@@ -12,7 +12,7 @@ export const OrdersProvider = ({ children }) => {
     const { predeterminedPeriods } = businessRules
 
     const queryClient = useQueryClient()
-    const [orders, setOrders] = useState()
+    const [orders, setOrders] = useState([])
     const [queryOrder, setQueryOrder] = useState([])
     const [typeFilter, setTypeFilter] = useState([])
 
@@ -37,6 +37,7 @@ export const OrdersProvider = ({ children }) => {
 
     const [body, setBody] = useState()
     const [checked, setChecked] = useState(false)
+
 
 
     const recibo = useRef()
@@ -96,7 +97,7 @@ export const OrdersProvider = ({ children }) => {
             `${initialDate}~${endDate}`
 
         const url = query ?
-            `:7070/pedidos-query` : `:7070/pedidos`
+            `/pedidos-query` : `/pedidos`
 
         const response = await URI.post(url, {
             dates,
@@ -196,8 +197,8 @@ export const OrdersProvider = ({ children }) => {
     const updateLink = useMutation({
         mutationFn: (e) => updateOrder(e),
         onSuccess: () => {
-            // console.log(e)
             invalidateOrderQuery()
+
         }
     })
 

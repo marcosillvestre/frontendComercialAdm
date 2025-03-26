@@ -12,7 +12,7 @@ align-items: center;
 justify-content: space-between;
 font-size: var(--fsLow) ;
 border: 2px solid #dfe6f1;
-border-radius: var(--border-radius);
+border-radius: var(--br);
 padding: 1rem 3rem;
 margin-bottom: 1.5rem;
 font-size: var(--fsLowest);

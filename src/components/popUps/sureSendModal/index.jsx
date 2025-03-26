@@ -97,7 +97,6 @@ export function SureSendModal(data) {
                     toast.error("Erro ao cadastrar o cliente")
                     const error = await err
 
-                    console.log(error)
 
                     if ("message" in error.response.data) alert(error.response.data.message)
                     reject(err)
@@ -153,7 +152,6 @@ export function SureSendModal(data) {
             .catch(async err => {
                 toast.error("Erro ao enviar a taxa de matrícula")
                 const error = await err
-                console.log(error.response)
                 if ("message" in error.response.data) alert(error.response.data.message)
             })
             .finally(() => {

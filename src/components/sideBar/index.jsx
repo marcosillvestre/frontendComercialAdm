@@ -15,7 +15,6 @@ import { useUser } from '../../hooks/userContext';
 import { CloserClick, Header } from '../source.jsx';
 
 import { toast } from 'react-toastify';
-import { useCampaign } from '../../hooks/campaign/campaignContext.hook.jsx';
 import { useContractsHook } from '../../hooks/contracts/contracts.hook.jsx';
 import { useCustomFields } from '../../hooks/customFields/customFIelds.hook.jsx';
 import { useUsers } from '../../hooks/users/usersContext.hook.jsx';
@@ -30,6 +29,7 @@ import {
     Form,
     Submit
 } from './styles';
+import { SupliersSidebar } from './supliers/supliers.create.jsx';
 import { CreateUsersForm } from './users/customField.create.jsx';
 
 const drawerWidth = 250;
@@ -88,7 +88,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     ({ theme, open }) => ({
         width: drawerWidth,
         flexShrink: 0,
-        whiteSpace: 'nowrap',
+        whiteSpace: 'wrap',
         boxSizing: 'border-box',
         ...(open && {
             ...openedMixin(theme),
@@ -115,8 +115,6 @@ export function MiniDrawer() {
 
     const { createContracts, contractData } = useContractsHook()
 
-    const { setEditCampaign } = useCampaign()
-
 
     const handleDrawerOpen = () => {
         setOpenSidebar(true);
@@ -128,8 +126,6 @@ export function MiniDrawer() {
     const handleDrawerClose = () => {
         setTypeSidebar(0)
         setOpenSidebar(false);
-        setEditCampaign(null)
-
     };
 
 
@@ -174,12 +170,6 @@ export function MiniDrawer() {
     }
 
 
-
-
-
-
-
-
     return (
         <>
             <CloserClick
@@ -201,7 +191,7 @@ export function MiniDrawer() {
                             edge="start"
                             sx={{
                                 marginRight: 4,
-                                ...(openSidebar && { display: 'none' }),
+                                // ...(openSidebar && { display: 'none' }),
                             }}
                         >
                             <MenuIcon />
@@ -215,7 +205,8 @@ export function MiniDrawer() {
                 </AppBar>
                 <Drawer variant="permanent" open={openSidebar}>
                     <DrawerHeader >
-                        <IconButton onClick={handleDrawerClose} style={{ marginTop: "1rem" }} >
+                        <IconButton onClick={handleDrawerClose}
+                            style={{ marginTop: "1rem" }} >
                             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
                         </IconButton>
                     </DrawerHeader>
@@ -258,7 +249,10 @@ export function MiniDrawer() {
                                 typeSidebar === 7 &&
                                 <ServicesSidebar />
                             }
-
+                            {
+                                typeSidebar === 8 &&
+                                <SupliersSidebar />
+                            }
 
                             {
                                 typeSidebar !== 0 &&
@@ -266,6 +260,7 @@ export function MiniDrawer() {
                                 typeSidebar !== 5 &&
                                 typeSidebar !== 6 &&
                                 typeSidebar !== 7 &&
+                                typeSidebar !== 8 &&
                                 <>
                                     <hr />
                                     <Submit

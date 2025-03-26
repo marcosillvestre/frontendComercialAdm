@@ -16,7 +16,7 @@ import { useOrders } from '../../../hooks/orders/ordersContext.hook';
 import { MultiAlterationOrders } from '../../multiAlteration.Orders';
 import { MultiFiltersOrders } from '../../multiFilters.Orders';
 import { PopOverOrder } from '../../popovers/popOverOrders';
-import { Container, ContainerOrder, Tag } from './styles';
+import { ButtonContainer, Container, ContainerOrder, Tag } from './styles';
 
 function Row(props) {
     const { row } = props;
@@ -116,7 +116,9 @@ Row.propTypes = {
 
 
 export default function TableOrders() {
-    const { setOrderBy, setOrderFor, checkData, setCheckData, ordersQuery, queryOrder, setTake, setSkip, take, checked, setChecked, orderBy, orderFor, } = useOrders()
+    const { setOrderBy, setOrderFor, checkData, setCheckData,
+        ordersQuery, queryOrder, setTake, setSkip, take,
+        checked, setChecked, orderBy, orderFor, setOrders } = useOrders()
     const { isPending } = ordersQuery
 
 
@@ -175,13 +177,35 @@ export default function TableOrders() {
                         <nav>
                             <MultiFiltersOrders
                             />
+                            <span
+                                className='flex'
+                            >
+                                <MultiAlterationOrders
+                                    element={1}
+                                    able={checkData.length > 0}
+                                    label={"Alterar em lote"}
+                                />
+                                <ButtonContainer
+                                    able={checkData.length > 0}
+                                    onClick={() => {
+                                        if (checkData.some(res => res.name !== checkData[0].name))
+                                            return alert("Você só pode emitir um recibo para o mesmo dono")
 
-                            <MultiAlterationOrders
-                                element={1}
-                                able={checkData.length > 0}
-                                label={"Alterar em lote"}
-                                flex={false}
-                            />
+                                        setOrders(checkData)
+                                    }}
+
+                                    to={
+                                        !checkData.some(res => res.name !== checkData[0].name)
+                                        && `invoice`
+                                    }
+                                >
+
+                                    recibo
+                                </ButtonContainer>
+
+
+                            </span>
+
 
                         </nav>
                         <TableContainer component={Paper}>

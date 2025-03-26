@@ -132,7 +132,7 @@ export const UserProvider = ({ children }) => {
     })
 
     if (mutationControlData.error &&
-        mutationControlData.error.response.data.error === 'token invalid') {
+        mutationControlData.error?.response?.data.error === 'token invalid') {
         window.location.href = paths.home.path
         alert("Faça login novamente, seu acesso expirou")
         logOut()

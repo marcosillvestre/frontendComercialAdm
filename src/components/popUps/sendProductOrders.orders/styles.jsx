@@ -5,6 +5,25 @@ import styled from "styled-components";
 export const Filter = styled.button`
 all: unset;
 `
+export const PrevisionContainer = styled.span`
+gap: 5rem;
+`
+export const TableProducts = styled.table`
+
+tr,th, tbody{
+  border-collapse: collapse;
+  padding: .5rem;
+  border: 1px solid #222;
+
+}
+td{
+  cursor: pointer;
+svg{
+  width: 18px;
+}
+}
+
+`
 
 
 export const Header = styled.header`
@@ -34,8 +53,10 @@ button{
 export const Boxes = styled.div`
 margin-top: .8rem ;
 display: flex;
+flex-direction: column;
 gap: 1rem;
-max-height: 40dvh;
+max-height: 70dvh;
+overflow-y: scroll;
 form{
 font-size: var(--fsLowest);
 min-width: 60%;
@@ -45,8 +66,8 @@ textarea{
   min-width: 100%;
   max-width: 102%;
   padding: .5rem; 
-  min-height: 8rem;
-  max-height: 10rem;
+  min-height: 7rem;
+  max-height: 8rem;
 
 }
 button{
@@ -65,7 +86,11 @@ header{
 }
 
 }
-
+.input-suplier{
+  width: 100%;
+  height: calc(var(--boxHei) - 10px);
+  padding-left: .5rem;
+}
 
 `
 

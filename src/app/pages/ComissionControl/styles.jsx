@@ -8,7 +8,7 @@ font-size: var(--fsLowest) ;
 
 
 table{
-    border-radius: var(--border-radius); 
+    border-radius: var(--br); 
     padding: 20px;
     box-shadow: 0.2rem 0.2rem 0rem rgb(39,39,39);
     border: 1.85px solid rgb(39,39,39);
@@ -36,7 +36,7 @@ align-items: center;
 justify-content: space-between;
 font-size: var(--fsLow) ;
 border: 2px solid #dfe6f1;
-border-radius: var(--border-radius);
+border-radius: var(--br);
 padding: 1rem 3rem;
 margin-bottom: 1.5rem;
 nav{
@@ -62,7 +62,7 @@ align-items: center;
 justify-content: center;
 width: 3rem;
 height: 2rem;
-border-radius: var(--border-radius);
+border-radius: var(--br);
 background-color: #fff;
 font-size: var(--fsLow) ;
 
@@ -80,7 +80,7 @@ export const ListOpt = styled.ul`
     position: absolute;
     z-index: 10;
     margin-top: .3rem ;
-    border-radius: var(--border-radius);
+    border-radius: var(--br);
     background-color:#dfe6f1;
     max-width: 15rem;
 
@@ -124,7 +124,7 @@ min-height: 60vh;
 .subtitle{
     box-shadow: 0.2rem 0.2rem 0rem rgb(39,39,39);
     border: 1.85px solid rgb(39,39,39);;
-    border-radius: var(--border-radius); 
+    border-radius: var(--br); 
     padding: 20px;
     height: max-content;
     display: flex;
@@ -204,7 +204,7 @@ gap: 35px;
         padding: .7rem 0 ;
         width: 5rem ;
         border: none;
-        border-radius: var(--border-radius);
+        border-radius: var(--br);
         cursor: pointer;
         background-color: transparent;
         position: relative;
@@ -232,7 +232,7 @@ gap: 35px;
     padding: 7px;
     color: #fff;
     height: var(--boxHei);
-    border-radius: var(--border-radius);
+    border-radius: var(--br);
     transition: transform 0.2s ease;
     &::after,
     &::before{
@@ -323,7 +323,7 @@ display: none;
 export const SelectButton = styled.button`
 font-size: var(--fsLow) ;
 text-align: center;
-border-radius: var(--border-radius);
+border-radius: var(--br);
 background-color:${props => props.open ? "#1976d2" : "#dfe6f1"} ;
 color:${props => props.open ? "#fff" : "#222"} ;
 cursor: pointer;

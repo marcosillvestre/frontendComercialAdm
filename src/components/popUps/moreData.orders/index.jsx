@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import * as React from 'react';
 
 // import URI from '../../app/utils/utils';
+import CancelIcon from '@mui/icons-material/Cancel';
 import CloseIcon from '@mui/icons-material/Close';
 import { toast } from 'react-toastify';
 import { Ball, Boxes, ContainerTread, Filter, Header, Stick, Treadmill } from './styles';
@@ -21,7 +22,6 @@ const style = {
     boxShadow: 24,
     p: 3,
     fontSize: 10,
-
 };
 
 
@@ -68,7 +68,6 @@ export function MoreData(info) {
     }
 
     const keys = Object.keys(subtitle)
-    const statusTrailKeys = Object.keys(statusTrail)
 
     return (
         <div>
@@ -107,23 +106,32 @@ export function MoreData(info) {
                                 <Treadmill>
 
                                     {
-                                        statusTrailKeys.map((res, index) => (
+                                        data &&
+                                        data.logistic.map((res, index) => (
                                             <ContainerTread
                                                 key={index}
                                             >
                                                 <div>
-
-                                                    <Ball
-                                                        active={statusTrail[data['status']] >= statusTrail[res]}
-                                                    />
                                                     {
-                                                        index + 1 < statusTrailKeys.length &&
-                                                        <Stick
-                                                            active={statusTrail[data['status']] >= statusTrail[res]}
-                                                        />
+                                                        res.active ?
+                                                            <>
+                                                                <Ball
+                                                                    active
+                                                                />
+                                                                {
+                                                                    index + 1 < data.logistic.length &&
+                                                                    <Stick
+                                                                        active={statusTrail[data['status']] >= statusTrail[res.stage]}
+                                                                    />
+                                                                }
+                                                            </> :
+                                                            <>
+                                                                <CancelIcon active />
+                                                            </>
                                                     }
+
                                                 </div>
-                                                <p>{res}</p>
+                                                <p>{res.stage}</p>
 
                                             </ContainerTread>
                                         ))

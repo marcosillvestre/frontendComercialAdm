@@ -23,7 +23,6 @@ width: 4rem;
 height: 5rem;
 
 display: grid;
-justify-content: space-between;
 align-items: center;
 justify-content: center;
 
@@ -32,6 +31,13 @@ div{
     align-items: center;
     justify-content: center;
     position: relative;
+
+    svg{
+      width: 1.5rem;
+      height: 1.5rem;
+      color: #ee2727;
+      background-color: #fff;
+    }
 }
 `
 export const Stick = styled.span`
@@ -39,7 +45,7 @@ background-color: ${props => props.active ? "#1efd40aa" : "#ffb9b9"};
 
 position: absolute;
 width: 5.8rem;
-right: -65px;
+right: -60px;
 height: 8px;
 border-radius: 10px;
 `
@@ -47,7 +53,7 @@ border-radius: 10px;
 export const Treadmill = styled.span`
 width: 100%;
 display: flex;
-justify-content: space-around;
+/* justify-content: space-around; */
 
 `
 export const Ball = styled.span`
@@ -69,7 +75,7 @@ justify-items: stretch;
 width: 100%;
 padding: 1rem ;
 border: 1px dashed;
-border-radius: var(--border-radius);
+border-radius: var(--br);
 position: relative;
 button{
     cursor: pointer;
@@ -100,7 +106,7 @@ border: none;
 width: 100%;
 padding: .5rem; 
 height: var(--boxHei);
-border-radius: var(--border-radius);
+border-radius: var(--br);
 
 display: flex;
 justify-content: space-between;

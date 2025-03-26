@@ -14,6 +14,10 @@ export const paths = {
         path: "/campanhas",
         access: low
     },
+    supliers: {
+        path: "/fornecedores",
+        access: low
+    },
     products: {
         path: "/produtos",
         access: low

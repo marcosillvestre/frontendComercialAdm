@@ -11,6 +11,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useLocation } from 'react-router-dom';
 import URI from '../../../app/utils/utils';
 import { useOrders } from '../../../hooks/orders/ordersContext.hook';
+import { useSupliers } from '../../../hooks/supliers/supliersContext.hook';
 import { useUser } from '../../../hooks/userContext';
 import { Boxes, ButtonDelete } from './styles';
 const style = {
@@ -30,6 +31,9 @@ const style = {
 export function SureModal(data) {
     const { fetchData, setFetchData, userData, invalidateYourQuery } = useUser()
     const { invalidateOrderQuery } = useOrders()
+
+    const { updateCacheData } = useSupliers()
+
     const [open, setOpen] = React.useState(false);
     const [disable, setDisable] = React.useState(true);
     const handleOpen = () => setOpen(true);
@@ -53,6 +57,9 @@ export function SureModal(data) {
                 error: 'Alguma coisa deu errado'
             }
         ).then(() => {
+            // alert("deletado com suceeso")
+
+
             const filtered = fetchData?.filter(res => res.id !== id)
             setFetchData(filtered)
         })
@@ -60,19 +67,17 @@ export function SureModal(data) {
     }
     const url = useLocation()
 
-
     const mutationDeleteData = useMutation({
         mutationFn: () => DeleteData(data.data),
         onSuccess: () => {
             url.pathname === '/controle-comercial' && invalidateYourQuery("register");
             url.pathname === '/campos-personalizados' && invalidateYourQuery("custom");
             url.pathname === '/pedidos' && invalidateOrderQuery()
+            url.pathname === '/fornecedores' && updateCacheData(data.data)
 
 
         }
     })
-
-    console.log(url.pathname)
 
     return (
         <div>

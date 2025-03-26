@@ -260,7 +260,7 @@ justify-content: center;
 span{
     margin: 2rem auto ;
     border: 1px dashed;
-    border-radius: var(--border-radius);
+    border-radius: var(--br);
     padding: 1rem;
 }
 `, $Ee = Ie.button`
@@ -1114,7 +1114,7 @@ gap: 1rem;
     
 }
 table{
-    border-radius: var(--border-radius);
+    border-radius: var(--br);
     width: 100%;
 }
 
@@ -1137,7 +1137,7 @@ th{
 .container{
     flex: 1 1 100%;
     border: 1px solid #222;
-    border-radius: var(--border-radius);
+    border-radius: var(--br);
     width: 90dvw;
 
     padding: 1rem ;
@@ -1878,7 +1878,7 @@ display: flex;
 flex-direction: column;
 border: 2px solid rgb(223, 230, 241);
 
-border-radius: var(--border-radius);
+border-radius: var(--br);
 font-size: calc(var(--fsLowest) - 1px );
 
 margin: .6rem 0;
@@ -2005,7 +2005,7 @@ gap: .1rem;
     margin: .5rem auto;
     border: 1px dashed;
     padding: 1rem;
-    border-radius: calc(var(--border-radius));
+    border-radius: calc(var(--br));
     background-color: #f9f9f9;
     width: 100%;
     label{
@@ -2258,7 +2258,7 @@ font-size: var(--fsLowest) ;
 
 
 table{
-    border-radius: var(--border-radius); 
+    border-radius: var(--br); 
     padding: 20px;
     box-shadow: 0.2rem 0.2rem 0rem rgb(39,39,39);
     border: 1.85px solid rgb(39,39,39);
@@ -2284,7 +2284,7 @@ align-items: center;
 justify-content: space-between;
 font-size: var(--fsLow) ;
 border: 2px solid #dfe6f1;
-border-radius: var(--border-radius);
+border-radius: var(--br);
 padding: 1rem 3rem;
 margin-bottom: 1.5rem;
 nav{
@@ -2305,7 +2305,7 @@ align-items: center;
 justify-content: center;
 width: 3rem;
 height: 2rem;
-border-radius: var(--border-radius);
+border-radius: var(--br);
 background-color: #fff;
 font-size: var(--fsLow) ;
 
@@ -2320,7 +2320,7 @@ background-color: #e9e9e9;
     position: absolute;
     z-index: 10;
     margin-top: .3rem ;
-    border-radius: var(--border-radius);
+    border-radius: var(--br);
     background-color:#dfe6f1;
     max-width: 15rem;
 
@@ -2360,7 +2360,7 @@ min-height: 60vh;
 .subtitle{
     box-shadow: 0.2rem 0.2rem 0rem rgb(39,39,39);
     border: 1.85px solid rgb(39,39,39);;
-    border-radius: var(--border-radius); 
+    border-radius: var(--br); 
     padding: 20px;
     height: max-content;
     display: flex;
@@ -2438,7 +2438,7 @@ gap: 35px;
         padding: .7rem 0 ;
         width: 5rem ;
         border: none;
-        border-radius: var(--border-radius);
+        border-radius: var(--br);
         cursor: pointer;
         background-color: transparent;
         position: relative;
@@ -2466,7 +2466,7 @@ gap: 35px;
     padding: 7px;
     color: #fff;
     height: var(--boxHei);
-    border-radius: var(--border-radius);
+    border-radius: var(--br);
     transition: transform 0.2s ease;
     &::after,
     &::before{
@@ -2553,7 +2553,7 @@ display: none;
 `; const WA = Ie.button`
 font-size: var(--fsLow) ;
 text-align: center;
-border-radius: var(--border-radius);
+border-radius: var(--br);
 background-color:${e => e.open ? "#1976d2" : "#dfe6f1"} ;
 color:${e => e.open ? "#fff" : "#222"} ;
 cursor: pointer;
@@ -2573,7 +2573,7 @@ cursor: pointer;
     margin-bottom: 20px;
 
 table{
-    border-radius: var(--border-radius); 
+    border-radius: var(--br); 
     padding: 20px;
 }
 
@@ -2709,20 +2709,20 @@ thead, tr, tbody, td {
     var e = function (i) { return bn(i).replace(/  +/g, function (o) { return '<text:s text:c="' + o.length + '"/>' }).replace(/\t/g, "<text:tab/>").replace(/\n/g, "</text:p><text:p>").replace(/^ /, "<text:s/>").replace(/ $/, "<text:s/>") }, t = `          <table:table-cell />
 `, r = `          <table:covered-table-cell/>
 `, n = function (i, o, s) {
-        var c = []; c.push('      <table:table table:name="' + bn(o.SheetNames[s]) + `" table:style-name="ta1">
+            var c = []; c.push('      <table:table table:name="' + bn(o.SheetNames[s]) + `" table:style-name="ta1">
 `); var u = 0, d = 0, A = sl(i["!ref"] || "A1"), f = i["!merges"] || [], p = 0, m = Array.isArray(i); if (i["!cols"]) for (d = 0; d <= A.e.c; ++d)c.push("        <table:table-column" + (i["!cols"][d] ? ' table:style-name="co' + i["!cols"][d].ods + '"' : "") + `></table:table-column>
 `); var h = "", g = i["!rows"] || []; for (u = 0; u < A.s.r; ++u)h = g[u] ? ' table:style-name="ro' + g[u].ods + '"' : "", c.push("        <table:table-row" + h + `></table:table-row>
 `); for (; u <= A.e.r; ++u) {
-            for (h = g[u] ? ' table:style-name="ro' + g[u].ods + '"' : "", c.push("        <table:table-row" + h + `>
+                for (h = g[u] ? ' table:style-name="ro' + g[u].ods + '"' : "", c.push("        <table:table-row" + h + `>
 `), d = 0; d < A.s.c; ++d)c.push(t); for (; d <= A.e.c; ++d) {
-                var v = !1, y = {}, x = ""; for (p = 0; p != f.length; ++p)if (!(f[p].s.c > d) && !(f[p].s.r > u) && !(f[p].e.c < d) && !(f[p].e.r < u)) { (f[p].s.c != d || f[p].s.r != u) && (v = !0), y["table:number-columns-spanned"] = f[p].e.c - f[p].s.c + 1, y["table:number-rows-spanned"] = f[p].e.r - f[p].s.r + 1; break } if (v) { c.push(r); continue } var b = Cn({ r: u, c: d }), C = m ? (i[u] || [])[d] : i[b]; if (C && C.f && (y["table:formula"] = bn(cAt(C.f)), C.F && C.F.slice(0, b.length) == b)) { var E = sl(C.F); y["table:number-matrix-columns-spanned"] = E.e.c - E.s.c + 1, y["table:number-matrix-rows-spanned"] = E.e.r - E.s.r + 1 } if (!C) { c.push(t); continue } switch (C.t) { case "b": x = C.v ? "TRUE" : "FALSE", y["office:value-type"] = "boolean", y["office:boolean-value"] = C.v ? "true" : "false"; break; case "n": x = C.w || String(C.v || 0), y["office:value-type"] = "float", y["office:value"] = C.v || 0; break; case "s": case "str": x = C.v == null ? "" : C.v, y["office:value-type"] = "string"; break; case "d": x = C.w || Xo(C.v).toISOString(), y["office:value-type"] = "date", y["office:date-value"] = Xo(C.v).toISOString(), y["table:style-name"] = "ce1"; break; default: c.push(t); continue }var T = e(x); if (C.l && C.l.Target) { var B = C.l.Target; B = B.charAt(0) == "#" ? "#" + uAt(B.slice(1)) : B, B.charAt(0) != "#" && !B.match(/^\w+:/) && (B = "../" + B), T = wt("text:a", T, { "xlink:href": B.replace(/&/g, "&amp;") }) } c.push("          " + wt("table:table-cell", wt("text:p", T, {}), y) + `
+                    var v = !1, y = {}, x = ""; for (p = 0; p != f.length; ++p)if (!(f[p].s.c > d) && !(f[p].s.r > u) && !(f[p].e.c < d) && !(f[p].e.r < u)) { (f[p].s.c != d || f[p].s.r != u) && (v = !0), y["table:number-columns-spanned"] = f[p].e.c - f[p].s.c + 1, y["table:number-rows-spanned"] = f[p].e.r - f[p].s.r + 1; break } if (v) { c.push(r); continue } var b = Cn({ r: u, c: d }), C = m ? (i[u] || [])[d] : i[b]; if (C && C.f && (y["table:formula"] = bn(cAt(C.f)), C.F && C.F.slice(0, b.length) == b)) { var E = sl(C.F); y["table:number-matrix-columns-spanned"] = E.e.c - E.s.c + 1, y["table:number-matrix-rows-spanned"] = E.e.r - E.s.r + 1 } if (!C) { c.push(t); continue } switch (C.t) { case "b": x = C.v ? "TRUE" : "FALSE", y["office:value-type"] = "boolean", y["office:boolean-value"] = C.v ? "true" : "false"; break; case "n": x = C.w || String(C.v || 0), y["office:value-type"] = "float", y["office:value"] = C.v || 0; break; case "s": case "str": x = C.v == null ? "" : C.v, y["office:value-type"] = "string"; break; case "d": x = C.w || Xo(C.v).toISOString(), y["office:value-type"] = "date", y["office:date-value"] = Xo(C.v).toISOString(), y["table:style-name"] = "ce1"; break; default: c.push(t); continue }var T = e(x); if (C.l && C.l.Target) { var B = C.l.Target; B = B.charAt(0) == "#" ? "#" + uAt(B.slice(1)) : B, B.charAt(0) != "#" && !B.match(/^\w+:/) && (B = "../" + B), T = wt("text:a", T, { "xlink:href": B.replace(/&/g, "&amp;") }) } c.push("          " + wt("table:table-cell", wt("text:p", T, {}), y) + `
 `)
-            } c.push(`        </table:table-row>
+                } c.push(`        </table:table-row>
 `)
-        } return c.push(`      </table:table>
+            } return c.push(`      </table:table>
 `), c.join("")
-    }, a = function (i, o) {
-        i.push(` <office:automatic-styles>
+        }, a = function (i, o) {
+            i.push(` <office:automatic-styles>
 `), i.push(`  <number:date-style style:name="N37" number:automatic-order="true">
 `), i.push(`   <number:month number:style="long"/>
 `), i.push(`   <number:text>/</number:text>
@@ -2731,38 +2731,38 @@ thead, tr, tbody, td {
 `), i.push(`   <number:year/>
 `), i.push(`  </number:date-style>
 `); var s = 0; o.SheetNames.map(function (u) { return o.Sheets[u] }).forEach(function (u) {
-            if (u && u["!cols"]) {
-                for (var d = 0; d < u["!cols"].length; ++d)if (u["!cols"][d]) {
-                    var A = u["!cols"][d]; if (A.width == null && A.wpx == null && A.wch == null) continue; f6(A), A.ods = s; var f = u["!cols"][d].wpx + "px"; i.push('  <style:style style:name="co' + s + `" style:family="table-column">
+                if (u && u["!cols"]) {
+                    for (var d = 0; d < u["!cols"].length; ++d)if (u["!cols"][d]) {
+                        var A = u["!cols"][d]; if (A.width == null && A.wpx == null && A.wch == null) continue; f6(A), A.ods = s; var f = u["!cols"][d].wpx + "px"; i.push('  <style:style style:name="co' + s + `" style:family="table-column">
 `), i.push('   <style:table-column-properties fo:break-before="auto" style:column-width="' + f + `"/>
 `), i.push(`  </style:style>
 `), ++s
+                    }
                 }
-            }
-        }); var c = 0; o.SheetNames.map(function (u) { return o.Sheets[u] }).forEach(function (u) {
-            if (u && u["!rows"]) {
-                for (var d = 0; d < u["!rows"].length; ++d)if (u["!rows"][d]) {
-                    u["!rows"][d].ods = c; var A = u["!rows"][d].hpx + "px"; i.push('  <style:style style:name="ro' + c + `" style:family="table-row">
+            }); var c = 0; o.SheetNames.map(function (u) { return o.Sheets[u] }).forEach(function (u) {
+                if (u && u["!rows"]) {
+                    for (var d = 0; d < u["!rows"].length; ++d)if (u["!rows"][d]) {
+                        u["!rows"][d].ods = c; var A = u["!rows"][d].hpx + "px"; i.push('  <style:style style:name="ro' + c + `" style:family="table-row">
 `), i.push('   <style:table-row-properties fo:break-before="auto" style:row-height="' + A + `"/>
 `), i.push(`  </style:style>
 `), ++c
+                    }
                 }
-            }
-        }), i.push(`  <style:style style:name="ta1" style:family="table" style:master-page-name="mp1">
+            }), i.push(`  <style:style style:name="ta1" style:family="table" style:master-page-name="mp1">
 `), i.push(`   <style:table-properties table:display="true" style:writing-mode="lr-tb"/>
 `), i.push(`  </style:style>
 `), i.push(`  <style:style style:name="ce1" style:family="table-cell" style:parent-style-name="Default" style:data-style-name="N37"/>
 `), i.push(` </office:automatic-styles>
 `)
-    }; return function (o, s) {
-        var c = [si], u = Zw({ "xmlns:office": "urn:oasis:names:tc:opendocument:xmlns:office:1.0", "xmlns:table": "urn:oasis:names:tc:opendocument:xmlns:table:1.0", "xmlns:style": "urn:oasis:names:tc:opendocument:xmlns:style:1.0", "xmlns:text": "urn:oasis:names:tc:opendocument:xmlns:text:1.0", "xmlns:draw": "urn:oasis:names:tc:opendocument:xmlns:drawing:1.0", "xmlns:fo": "urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0", "xmlns:xlink": "http://www.w3.org/1999/xlink", "xmlns:dc": "http://purl.org/dc/elements/1.1/", "xmlns:meta": "urn:oasis:names:tc:opendocument:xmlns:meta:1.0", "xmlns:number": "urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0", "xmlns:presentation": "urn:oasis:names:tc:opendocument:xmlns:presentation:1.0", "xmlns:svg": "urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0", "xmlns:chart": "urn:oasis:names:tc:opendocument:xmlns:chart:1.0", "xmlns:dr3d": "urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0", "xmlns:math": "http://www.w3.org/1998/Math/MathML", "xmlns:form": "urn:oasis:names:tc:opendocument:xmlns:form:1.0", "xmlns:script": "urn:oasis:names:tc:opendocument:xmlns:script:1.0", "xmlns:ooo": "http://openoffice.org/2004/office", "xmlns:ooow": "http://openoffice.org/2004/writer", "xmlns:oooc": "http://openoffice.org/2004/calc", "xmlns:dom": "http://www.w3.org/2001/xml-events", "xmlns:xforms": "http://www.w3.org/2002/xforms", "xmlns:xsd": "http://www.w3.org/2001/XMLSchema", "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance", "xmlns:sheet": "urn:oasis:names:tc:opendocument:sh33tjs:1.0", "xmlns:rpt": "http://openoffice.org/2005/report", "xmlns:of": "urn:oasis:names:tc:opendocument:xmlns:of:1.2", "xmlns:xhtml": "http://www.w3.org/1999/xhtml", "xmlns:grddl": "http://www.w3.org/2003/g/data-view#", "xmlns:tableooo": "http://openoffice.org/2009/table", "xmlns:drawooo": "http://openoffice.org/2010/draw", "xmlns:calcext": "urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0", "xmlns:loext": "urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0", "xmlns:field": "urn:openoffice:names:experimental:ooo-ms-interop:xmlns:field:1.0", "xmlns:formx": "urn:openoffice:names:experimental:ooxml-odf-interop:xmlns:form:1.0", "xmlns:css3t": "http://www.w3.org/TR/css3-text/", "office:version": "1.2" }), d = Zw({ "xmlns:config": "urn:oasis:names:tc:opendocument:xmlns:config:1.0", "office:mimetype": "application/vnd.oasis.opendocument.spreadsheet" }); s.bookType == "fods" ? (c.push("<office:document" + u + d + `>
+        }; return function (o, s) {
+            var c = [si], u = Zw({ "xmlns:office": "urn:oasis:names:tc:opendocument:xmlns:office:1.0", "xmlns:table": "urn:oasis:names:tc:opendocument:xmlns:table:1.0", "xmlns:style": "urn:oasis:names:tc:opendocument:xmlns:style:1.0", "xmlns:text": "urn:oasis:names:tc:opendocument:xmlns:text:1.0", "xmlns:draw": "urn:oasis:names:tc:opendocument:xmlns:drawing:1.0", "xmlns:fo": "urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0", "xmlns:xlink": "http://www.w3.org/1999/xlink", "xmlns:dc": "http://purl.org/dc/elements/1.1/", "xmlns:meta": "urn:oasis:names:tc:opendocument:xmlns:meta:1.0", "xmlns:number": "urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0", "xmlns:presentation": "urn:oasis:names:tc:opendocument:xmlns:presentation:1.0", "xmlns:svg": "urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0", "xmlns:chart": "urn:oasis:names:tc:opendocument:xmlns:chart:1.0", "xmlns:dr3d": "urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0", "xmlns:math": "http://www.w3.org/1998/Math/MathML", "xmlns:form": "urn:oasis:names:tc:opendocument:xmlns:form:1.0", "xmlns:script": "urn:oasis:names:tc:opendocument:xmlns:script:1.0", "xmlns:ooo": "http://openoffice.org/2004/office", "xmlns:ooow": "http://openoffice.org/2004/writer", "xmlns:oooc": "http://openoffice.org/2004/calc", "xmlns:dom": "http://www.w3.org/2001/xml-events", "xmlns:xforms": "http://www.w3.org/2002/xforms", "xmlns:xsd": "http://www.w3.org/2001/XMLSchema", "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance", "xmlns:sheet": "urn:oasis:names:tc:opendocument:sh33tjs:1.0", "xmlns:rpt": "http://openoffice.org/2005/report", "xmlns:of": "urn:oasis:names:tc:opendocument:xmlns:of:1.2", "xmlns:xhtml": "http://www.w3.org/1999/xhtml", "xmlns:grddl": "http://www.w3.org/2003/g/data-view#", "xmlns:tableooo": "http://openoffice.org/2009/table", "xmlns:drawooo": "http://openoffice.org/2010/draw", "xmlns:calcext": "urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0", "xmlns:loext": "urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0", "xmlns:field": "urn:openoffice:names:experimental:ooo-ms-interop:xmlns:field:1.0", "xmlns:formx": "urn:openoffice:names:experimental:ooxml-odf-interop:xmlns:form:1.0", "xmlns:css3t": "http://www.w3.org/TR/css3-text/", "office:version": "1.2" }), d = Zw({ "xmlns:config": "urn:oasis:names:tc:opendocument:xmlns:config:1.0", "office:mimetype": "application/vnd.oasis.opendocument.spreadsheet" }); s.bookType == "fods" ? (c.push("<office:document" + u + d + `>
 `), c.push(Lle().replace(/office:document-meta/g, "office:meta"))) : c.push("<office:document-content" + u + `>
 `), a(c, o), c.push(`  <office:body>
 `), c.push(`    <office:spreadsheet>
 `); for (var A = 0; A != o.SheetNames.length; ++A)c.push(n(o.Sheets[o.SheetNames[A]], o, A)); return c.push(`    </office:spreadsheet>
 `), c.push(`  </office:body>
 `), s.bookType == "fods" ? c.push("</office:document>") : c.push("</office:document-content>"), c.join("")
-    }
+        }
 }(); function Tce(e, t) { if (t.bookType == "fods") return tG(e, t); var r = r6(), n = "", a = [], i = []; return n = "mimetype", Br(r, n, "application/vnd.oasis.opendocument.spreadsheet"), n = "content.xml", Br(r, n, tG(e, t)), a.push([n, "text/xml"]), i.push([n, "ContentFile"]), n = "styles.xml", Br(r, n, Hpt(e, t)), a.push([n, "text/xml"]), i.push([n, "StylesFile"]), n = "meta.xml", Br(r, n, si + Lle()), a.push([n, "text/xml"]), i.push([n, "MetadataFile"]), n = "manifest.rdf", Br(r, n, tct(i)), a.push([n, "application/rdf+xml"]), n = "META-INF/manifest.xml", Br(r, n, Zlt(a)), r }/*! sheetjs (C) 2013-present SheetJS -- http://sheetjs.com */function K5(e) { return new DataView(e.buffer, e.byteOffset, e.byteLength) } function zpt(e) { return typeof TextEncoder < "u" ? new TextEncoder().encode(e) : Lc(qd(e)) } function qpt(e, t) { e: for (var r = 0; r <= e.length - t.length; ++r) { for (var n = 0; n < t.length; ++n)if (e[r + n] != t[n]) continue e; return !0 } return !1 } function gp(e) { var t = e.reduce(function (a, i) { return a + i.length }, 0), r = new Uint8Array(t), n = 0; return e.forEach(function (a) { r.set(a, n), n += a.length }), r } function Kpt(e, t, r) { var n = Math.floor(r == 0 ? 0 : Math.LOG10E * Math.log(Math.abs(r))) + 6176 - 20, a = r / Math.pow(10, n - 6176); e[t + 15] |= n >> 7, e[t + 14] |= (n & 127) << 1; for (var i = 0; a >= 1; ++i, a /= 256)e[t + i] = a & 255; e[t + 15] |= r >= 0 ? 0 : 128 } function e2(e, t) { var r = t ? t[0] : 0, n = e[r] & 127; e: if (e[r++] >= 128 && (n |= (e[r] & 127) << 7, e[r++] < 128 || (n |= (e[r] & 127) << 14, e[r++] < 128) || (n |= (e[r] & 127) << 21, e[r++] < 128) || (n += (e[r] & 127) * Math.pow(2, 28), ++r, e[r++] < 128) || (n += (e[r] & 127) * Math.pow(2, 35), ++r, e[r++] < 128) || (n += (e[r] & 127) * Math.pow(2, 42), ++r, e[r++] < 128))) break e; return t && (t[0] = r), n } function gn(e) { var t = new Uint8Array(7); t[0] = e & 127; var r = 1; e: if (e > 127) { if (t[r - 1] |= 128, t[r] = e >> 7 & 127, ++r, e <= 16383 || (t[r - 1] |= 128, t[r] = e >> 14 & 127, ++r, e <= 2097151) || (t[r - 1] |= 128, t[r] = e >> 21 & 127, ++r, e <= 268435455) || (t[r - 1] |= 128, t[r] = e / 256 >>> 21 & 127, ++r, e <= 34359738367) || (t[r - 1] |= 128, t[r] = e / 65536 >>> 21 & 127, ++r, e <= 4398046511103)) break e; t[r - 1] |= 128, t[r] = e / 16777216 >>> 21 & 127, ++r } return t.slice(0, r) } function Ug(e) { var t = 0, r = e[t] & 127; e: if (e[t++] >= 128) { if (r |= (e[t] & 127) << 7, e[t++] < 128 || (r |= (e[t] & 127) << 14, e[t++] < 128) || (r |= (e[t] & 127) << 21, e[t++] < 128)) break e; r |= (e[t] & 127) << 28 } return r } function ui(e) { for (var t = [], r = [0]; r[0] < e.length;) { var n = r[0], a = e2(e, r), i = a & 7; a = Math.floor(a / 8); var o = 0, s; if (a == 0) break; switch (i) { case 0: { for (var c = r[0]; e[r[0]++] >= 128;); s = e.slice(c, r[0]) } break; case 5: o = 4, s = e.slice(r[0], r[0] + o), r[0] += o; break; case 1: o = 8, s = e.slice(r[0], r[0] + o), r[0] += o; break; case 2: o = e2(e, r), s = e.slice(r[0], r[0] + o), r[0] += o; break; case 3: case 4: default: throw new Error("PB Type ".concat(i, " for Field ").concat(a, " at offset ").concat(n)) }var u = { data: s, type: i }; t[a] == null ? t[a] = [u] : t[a].push(u) } return t } function qi(e) { var t = []; return e.forEach(function (r, n) { r.forEach(function (a) { a.data && (t.push(gn(n * 8 + a.type)), a.type == 2 && t.push(gn(a.data.length)), t.push(a.data)) }) }), gp(t) } function Tc(e) { for (var t, r = [], n = [0]; n[0] < e.length;) { var a = e2(e, n), i = ui(e.slice(n[0], n[0] + a)); n[0] += a; var o = { id: Ug(i[1][0].data), messages: [] }; i[2].forEach(function (s) { var c = ui(s.data), u = Ug(c[3][0].data); o.messages.push({ meta: c, data: e.slice(n[0], n[0] + u) }), n[0] += u }), (t = i[3]) != null && t[0] && (o.merge = Ug(i[3][0].data) >>> 0 > 0), r.push(o) } return r } function O0(e) { var t = []; return e.forEach(function (r) { var n = []; n[1] = [{ data: gn(r.id), type: 0 }], n[2] = [], r.merge != null && (n[3] = [{ data: gn(+!!r.merge), type: 0 }]); var a = []; r.messages.forEach(function (o) { a.push(o.data), o.meta[3] = [{ type: 0, data: gn(o.data.length) }], n[2].push({ data: qi(o.meta), type: 2 }) }); var i = qi(n); t.push(gn(i.length)), t.push(i), a.forEach(function (o) { return t.push(o) }) }), gp(t) } function Vpt(e, t) { if (e != 0) throw new Error("Unexpected Snappy chunk type ".concat(e)); for (var r = [0], n = e2(t, r), a = []; r[0] < t.length;) { var i = t[r[0]] & 3; if (i == 0) { var o = t[r[0]++] >> 2; if (o < 60) ++o; else { var s = o - 59; o = t[r[0]], s > 1 && (o |= t[r[0] + 1] << 8), s > 2 && (o |= t[r[0] + 2] << 16), s > 3 && (o |= t[r[0] + 3] << 24), o >>>= 0, o++, r[0] += s } a.push(t.slice(r[0], r[0] + o)), r[0] += o; continue } else { var c = 0, u = 0; if (i == 1 ? (u = (t[r[0]] >> 2 & 7) + 4, c = (t[r[0]++] & 224) << 3, c |= t[r[0]++]) : (u = (t[r[0]++] >> 2) + 1, i == 2 ? (c = t[r[0]] | t[r[0] + 1] << 8, r[0] += 2) : (c = (t[r[0]] | t[r[0] + 1] << 8 | t[r[0] + 2] << 16 | t[r[0] + 3] << 24) >>> 0, r[0] += 4)), a = [gp(a)], c == 0) throw new Error("Invalid offset 0"); if (c > a[0].length) throw new Error("Invalid offset beyond length"); if (u >= c) for (a.push(a[0].slice(-c)), u -= c; u >= a[a.length - 1].length;)a.push(a[a.length - 1]), u -= a[a.length - 1].length; a.push(a[0].slice(-c, -c + u)) } } var d = gp(a); if (d.length != n) throw new Error("Unexpected length: ".concat(d.length, " != ").concat(n)); return d } function Ec(e) { for (var t = [], r = 0; r < e.length;) { var n = e[r++], a = e[r] | e[r + 1] << 8 | e[r + 2] << 16; r += 3, t.push(Vpt(n, e.slice(r, r + a))), r += a } if (r !== e.length) throw new Error("data is not a valid framed stream!"); return gp(t) } function B0(e) { for (var t = [], r = 0; r < e.length;) { var n = Math.min(e.length - r, 268435455), a = new Uint8Array(4); t.push(a); var i = gn(n), o = i.length; t.push(i), n <= 60 ? (o++, t.push(new Uint8Array([n - 1 << 2]))) : n <= 256 ? (o += 2, t.push(new Uint8Array([240, n - 1 & 255]))) : n <= 65536 ? (o += 3, t.push(new Uint8Array([244, n - 1 & 255, n - 1 >> 8 & 255]))) : n <= 16777216 ? (o += 4, t.push(new Uint8Array([248, n - 1 & 255, n - 1 >> 8 & 255, n - 1 >> 16 & 255]))) : n <= 4294967296 && (o += 5, t.push(new Uint8Array([252, n - 1 & 255, n - 1 >> 8 & 255, n - 1 >> 16 & 255, n - 1 >>> 24 & 255]))), t.push(e.slice(r, r + n)), o += n, a[0] = 0, a[1] = o & 255, a[2] = o >> 8 & 255, a[3] = o >> 16 & 255, r += n } return gp(t) } function oF(e, t) { var r = new Uint8Array(32), n = K5(r), a = 12, i = 0; switch (r[0] = 5, e.t) { case "n": r[1] = 2, Kpt(r, a, e.v), i |= 1, a += 16; break; case "b": r[1] = 6, n.setFloat64(a, e.v ? 1 : 0, !0), i |= 2, a += 8; break; case "s": if (t.indexOf(e.v) == -1) throw new Error("Value ".concat(e.v, " missing from SST!")); r[1] = 3, n.setUint32(a, t.indexOf(e.v), !0), i |= 8, a += 4; break; default: throw "unsupported cell type " + e.t }return n.setUint32(8, i, !0), r.slice(0, a) } function sF(e, t) { var r = new Uint8Array(32), n = K5(r), a = 12, i = 0; switch (r[0] = 3, e.t) { case "n": r[2] = 2, n.setFloat64(a, e.v, !0), i |= 32, a += 8; break; case "b": r[2] = 6, n.setFloat64(a, e.v ? 1 : 0, !0), i |= 32, a += 8; break; case "s": if (t.indexOf(e.v) == -1) throw new Error("Value ".concat(e.v, " missing from SST!")); r[2] = 3, n.setUint32(a, t.indexOf(e.v), !0), i |= 16, a += 4; break; default: throw "unsupported cell type " + e.t }return n.setUint32(4, i, !0), r.slice(0, a) } function GA(e) { var t = ui(e); return e2(t[1][0].data) } function Wpt(e, t, r) { var n, a, i, o; if (!((n = e[6]) != null && n[0]) || !((a = e[7]) != null && a[0])) throw "Mutation only works on post-BNC storages!"; var s = ((o = (i = e[8]) == null ? void 0 : i[0]) == null ? void 0 : o.data) && Ug(e[8][0].data) > 0 || !1; if (s) throw "Math only works with normal offsets"; for (var c = 0, u = K5(e[7][0].data), d = 0, A = [], f = K5(e[4][0].data), p = 0, m = [], h = 0; h < t.length; ++h) { if (t[h] == null) { u.setUint16(h * 2, 65535, !0), f.setUint16(h * 2, 65535); continue } u.setUint16(h * 2, d, !0), f.setUint16(h * 2, p, !0); var g, v; switch (typeof t[h]) { case "string": g = oF({ t: "s", v: t[h] }, r), v = sF({ t: "s", v: t[h] }, r); break; case "number": g = oF({ t: "n", v: t[h] }, r), v = sF({ t: "n", v: t[h] }, r); break; case "boolean": g = oF({ t: "b", v: t[h] }, r), v = sF({ t: "b", v: t[h] }, r); break; default: throw new Error("Unsupported value " + t[h]) }A.push(g), d += g.length, m.push(v), p += v.length, ++c } for (e[2][0].data = gn(c); h < e[7][0].data.length / 2; ++h)u.setUint16(h * 2, 65535, !0), f.setUint16(h * 2, 65535, !0); return e[6][0].data = gp(A), e[3][0].data = gp(m), c } function Gpt(e, t) { if (!t || !t.numbers) throw new Error("Must pass a `numbers` option -- check the README"); var r = e.Sheets[e.SheetNames[0]]; e.SheetNames.length > 1 && console.error("The Numbers writer currently writes only the first table"); var n = sl(r["!ref"]); n.s.r = n.s.c = 0; var a = !1; n.e.c > 9 && (a = !0, n.e.c = 9), n.e.r > 49 && (a = !0, n.e.r = 49), a && console.error("The Numbers writer is currently limited to ".concat(oi(n))); var i = V5(r, { range: n, header: 1 }), o = ["~Sh33tJ5~"]; i.forEach(function (Q) { return Q.forEach(function (D) { typeof D == "string" && o.push(D) }) }); var s = {}, c = [], u = Sn.read(t.numbers, { type: "base64" }); u.FileIndex.map(function (Q, D) { return [Q, u.FullPaths[D]] }).forEach(function (Q) { var D = Q[0], U = Q[1]; if (D.type == 2 && D.name.match(/\.iwa/)) { var H = D.content, oe = Ec(H), ee = Tc(oe); ee.forEach(function (te) { c.push(te.id), s[te.id] = { deps: [], location: U, type: Ug(te.messages[0].meta[1][0].data) } }) } }), c.sort(function (Q, D) { return Q - D }); var d = c.filter(function (Q) { return Q > 1 }).map(function (Q) { return [Q, gn(Q)] }); u.FileIndex.map(function (Q, D) { return [Q, u.FullPaths[D]] }).forEach(function (Q) { var D = Q[0]; if (Q[1], !!D.name.match(/\.iwa/)) { var U = Tc(Ec(D.content)); U.forEach(function (H) { H.messages.forEach(function (oe) { d.forEach(function (ee) { H.messages.some(function (te) { return Ug(te.meta[1][0].data) != 11006 && qpt(te.data, ee[1]) }) && s[ee[0]].deps.push(H.id) }) }) }) } }); for (var A = Sn.find(u, s[1].location), f = Tc(Ec(A.content)), p, m = 0; m < f.length; ++m) { var h = f[m]; h.id == 1 && (p = h) } var g = GA(ui(p.messages[0].data)[1][0].data); for (A = Sn.find(u, s[g].location), f = Tc(Ec(A.content)), m = 0; m < f.length; ++m)h = f[m], h.id == g && (p = h); for (g = GA(ui(p.messages[0].data)[2][0].data), A = Sn.find(u, s[g].location), f = Tc(Ec(A.content)), m = 0; m < f.length; ++m)h = f[m], h.id == g && (p = h); for (g = GA(ui(p.messages[0].data)[2][0].data), A = Sn.find(u, s[g].location), f = Tc(Ec(A.content)), m = 0; m < f.length; ++m)h = f[m], h.id == g && (p = h); var v = ui(p.messages[0].data); { v[6][0].data = gn(n.e.r + 1), v[7][0].data = gn(n.e.c + 1); var y = GA(v[46][0].data), x = Sn.find(u, s[y].location), b = Tc(Ec(x.content)); { for (var C = 0; C < b.length && b[C].id != y; ++C); if (b[C].id != y) throw "Bad ColumnRowUIDMapArchive"; var E = ui(b[C].messages[0].data); E[1] = [], E[2] = [], E[3] = []; for (var T = 0; T <= n.e.c; ++T) { var B = []; B[1] = B[2] = [{ type: 0, data: gn(T + 420690) }], E[1].push({ type: 2, data: qi(B) }), E[2].push({ type: 0, data: gn(T) }), E[3].push({ type: 0, data: gn(T) }) } E[4] = [], E[5] = [], E[6] = []; for (var j = 0; j <= n.e.r; ++j)B = [], B[1] = B[2] = [{ type: 0, data: gn(j + 726270) }], E[4].push({ type: 2, data: qi(B) }), E[5].push({ type: 0, data: gn(j) }), E[6].push({ type: 0, data: gn(j) }); b[C].messages[0].data = qi(E) } x.content = B0(O0(b)), x.size = x.content.length, delete v[46]; var I = ui(v[4][0].data); { I[7][0].data = gn(n.e.r + 1); var S = ui(I[1][0].data), R = GA(S[2][0].data); x = Sn.find(u, s[R].location), b = Tc(Ec(x.content)); { if (b[0].id != R) throw "Bad HeaderStorageBucket"; var k = ui(b[0].messages[0].data); for (j = 0; j < i.length; ++j) { var L = ui(k[2][0].data); L[1][0].data = gn(j), L[4][0].data = gn(i[j].length), k[2][j] = { type: k[2][0].type, data: qi(L) } } b[0].messages[0].data = qi(k) } x.content = B0(O0(b)), x.size = x.content.length; var q = GA(I[2][0].data); x = Sn.find(u, s[q].location), b = Tc(Ec(x.content)); { if (b[0].id != q) throw "Bad HeaderStorageBucket"; for (k = ui(b[0].messages[0].data), T = 0; T <= n.e.c; ++T)L = ui(k[2][0].data), L[1][0].data = gn(T), L[4][0].data = gn(n.e.r + 1), k[2][T] = { type: k[2][0].type, data: qi(L) }; b[0].messages[0].data = qi(k) } x.content = B0(O0(b)), x.size = x.content.length; var G = GA(I[4][0].data); (function () { for (var Q = Sn.find(u, s[G].location), D = Tc(Ec(Q.content)), U, H = 0; H < D.length; ++H) { var oe = D[H]; oe.id == G && (U = oe) } var ee = ui(U.messages[0].data); { ee[3] = []; var te = []; o.forEach(function (ue, _e) { te[1] = [{ type: 0, data: gn(_e) }], te[2] = [{ type: 0, data: gn(1) }], te[3] = [{ type: 2, data: zpt(ue) }], ee[3].push({ type: 2, data: qi(te) }) }) } U.messages[0].data = qi(ee); var pe = O0(D), ye = B0(pe); Q.content = ye, Q.size = Q.content.length })(); var W = ui(I[3][0].data); { var V = W[1][0]; delete W[2]; var Y = ui(V.data); { var ae = GA(Y[2][0].data); (function () { for (var Q = Sn.find(u, s[ae].location), D = Tc(Ec(Q.content)), U, H = 0; H < D.length; ++H) { var oe = D[H]; oe.id == ae && (U = oe) } var ee = ui(U.messages[0].data); { delete ee[6], delete W[7]; var te = new Uint8Array(ee[5][0].data); ee[5] = []; for (var pe = 0, ye = 0; ye <= n.e.r; ++ye) { var ue = ui(te); pe += Wpt(ue, i[ye], o), ue[1][0].data = gn(ye), ee[5].push({ data: qi(ue), type: 2 }) } ee[1] = [{ type: 0, data: gn(n.e.c + 1) }], ee[2] = [{ type: 0, data: gn(n.e.r + 1) }], ee[3] = [{ type: 0, data: gn(pe) }], ee[4] = [{ type: 0, data: gn(n.e.r + 1) }] } U.messages[0].data = qi(ee); var _e = O0(D), ke = B0(_e); Q.content = ke, Q.size = Q.content.length })() } V.data = qi(Y) } I[3][0].data = qi(W) } v[4][0].data = qi(I) } p.messages[0].data = qi(v); var Ee = O0(f), N = B0(Ee); return A.content = N, A.size = A.content.length, u } function Ypt(e) { return function (r) { for (var n = 0; n != e.length; ++n) { var a = e[n]; r[a[0]] === void 0 && (r[a[0]] = a[1]), a[2] === "n" && (r[a[0]] = Number(r[a[0]])) } } } function v6(e) { Ypt([["cellDates", !1], ["bookSST", !1], ["bookType", "xlsx"], ["compression", !1], ["WTF", !1]])(e) } function Xpt(e, t) { return t.bookType == "ods" ? Tce(e, t) : t.bookType == "numbers" ? Gpt(e, t) : t.bookType == "xlsb" ? Jpt(e, t) : Zpt(e, t) } function Jpt(e, t) { Ag = 1024, e && !e.SSF && (e.SSF = Bs(Ba)), e && e.SSF && (Ej(), Tj(e.SSF), t.revssf = Oj(e.SSF), t.revssf[e.SSF[65535]] = 0, t.ssf = e.SSF), t.rels = {}, t.wbrels = {}, t.Strings = [], t.Strings.Count = 0, t.Strings.Unique = 0, mb ? t.revStrings = new Map : (t.revStrings = {}, t.revStrings.foo = [], delete t.revStrings.foo); var r = t.bookType == "xlsb" ? "bin" : "xml", n = oce.indexOf(t.bookType) > -1, a = Ple(); v6(t = t || {}); var i = r6(), o = "", s = 0; if (t.cellXfs = [], jp(t.cellXfs, {}, { revssf: { General: 0 } }), e.Props || (e.Props = {}), o = "docProps/core.xml", Br(i, o, Mle(e.Props, t)), a.coreprops.push(o), xn(t.rels, 2, o, Zr.CORE_PROPS), o = "docProps/app.xml", !(e.Props && e.Props.SheetNames)) if (!e.Workbook || !e.Workbook.Sheets) e.Props.SheetNames = e.SheetNames; else { for (var c = [], u = 0; u < e.SheetNames.length; ++u)(e.Workbook.Sheets[u] || {}).Hidden != 2 && c.push(e.SheetNames[u]); e.Props.SheetNames = c } for (e.Props.Worksheets = e.Props.SheetNames.length, Br(i, o, Qle(e.Props)), a.extprops.push(o), xn(t.rels, 3, o, Zr.EXT_PROPS), e.Custprops !== e.Props && oo(e.Custprops || {}).length > 0 && (o = "docProps/custom.xml", Br(i, o, $le(e.Custprops)), a.custprops.push(o), xn(t.rels, 4, o, Zr.CUST_PROPS)), s = 1; s <= e.SheetNames.length; ++s) { var d = { "!id": {} }, A = e.Sheets[e.SheetNames[s - 1]], f = (A || {})["!type"] || "sheet"; switch (f) { case "chart": default: o = "xl/worksheets/sheet" + s + "." + r, Br(i, o, tpt(s - 1, o, t, e, d)), a.sheets.push(o), xn(t.wbrels, -1, "worksheets/sheet" + s + "." + r, Zr.WS[0]) }if (A) { var p = A["!comments"], m = !1, h = ""; p && p.length > 0 && (h = "xl/comments" + s + "." + r, Br(i, h, apt(p, h)), a.comments.push(h), xn(d, -1, "../comments" + s + "." + r, Zr.CMNT), m = !0), A["!legacy"] && m && Br(i, "xl/drawings/vmlDrawing" + s + ".vml", ace(s, A["!comments"])), delete A["!comments"], delete A["!legacy"] } d["!id"].rId1 && Br(i, kle(o), Lg(d)) } return t.Strings != null && t.Strings.length > 0 && (o = "xl/sharedStrings." + r, Br(i, o, npt(t.Strings, o, t)), a.strs.push(o), xn(t.wbrels, -1, "sharedStrings." + r, Zr.SST)), o = "xl/workbook." + r, Br(i, o, ept(e, o)), a.workbooks.push(o), xn(t.rels, 1, o, Zr.WB), o = "xl/theme/theme1.xml", Br(i, o, rce(e.Themes, t)), a.themes.push(o), xn(t.wbrels, -1, "theme/theme1.xml", Zr.THEME), o = "xl/styles." + r, Br(i, o, rpt(e, o, t)), a.styles.push(o), xn(t.wbrels, -1, "styles." + r, Zr.STY), e.vbaraw && n && (o = "xl/vbaProject.bin", Br(i, o, e.vbaraw), a.vba.push(o), xn(t.wbrels, -1, "vbaProject.bin", Zr.VBA)), o = "xl/metadata." + r, Br(i, o, ipt(o)), a.metadata.push(o), xn(t.wbrels, -1, "metadata." + r, Zr.XLMETA), Br(i, "[Content_Types].xml", Ile(a, t)), Br(i, "_rels/.rels", Lg(t.rels)), Br(i, "xl/_rels/workbook." + r + ".rels", Lg(t.wbrels)), delete t.revssf, delete t.ssf, i } function Zpt(e, t) { Ag = 1024, e && !e.SSF && (e.SSF = Bs(Ba)), e && e.SSF && (Ej(), Tj(e.SSF), t.revssf = Oj(e.SSF), t.revssf[e.SSF[65535]] = 0, t.ssf = e.SSF), t.rels = {}, t.wbrels = {}, t.Strings = [], t.Strings.Count = 0, t.Strings.Unique = 0, mb ? t.revStrings = new Map : (t.revStrings = {}, t.revStrings.foo = [], delete t.revStrings.foo); var r = "xml", n = oce.indexOf(t.bookType) > -1, a = Ple(); v6(t = t || {}); var i = r6(), o = "", s = 0; if (t.cellXfs = [], jp(t.cellXfs, {}, { revssf: { General: 0 } }), e.Props || (e.Props = {}), o = "docProps/core.xml", Br(i, o, Mle(e.Props, t)), a.coreprops.push(o), xn(t.rels, 2, o, Zr.CORE_PROPS), o = "docProps/app.xml", !(e.Props && e.Props.SheetNames)) if (!e.Workbook || !e.Workbook.Sheets) e.Props.SheetNames = e.SheetNames; else { for (var c = [], u = 0; u < e.SheetNames.length; ++u)(e.Workbook.Sheets[u] || {}).Hidden != 2 && c.push(e.SheetNames[u]); e.Props.SheetNames = c } e.Props.Worksheets = e.Props.SheetNames.length, Br(i, o, Qle(e.Props)), a.extprops.push(o), xn(t.rels, 3, o, Zr.EXT_PROPS), e.Custprops !== e.Props && oo(e.Custprops || {}).length > 0 && (o = "docProps/custom.xml", Br(i, o, $le(e.Custprops)), a.custprops.push(o), xn(t.rels, 4, o, Zr.CUST_PROPS)); var d = ["SheetJ5"]; for (t.tcid = 0, s = 1; s <= e.SheetNames.length; ++s) { var A = { "!id": {} }, f = e.Sheets[e.SheetNames[s - 1]], p = (f || {})["!type"] || "sheet"; switch (p) { case "chart": default: o = "xl/worksheets/sheet" + s + "." + r, Br(i, o, hce(s - 1, t, e, A)), a.sheets.push(o), xn(t.wbrels, -1, "worksheets/sheet" + s + "." + r, Zr.WS[0]) }if (f) { var m = f["!comments"], h = !1, g = ""; if (m && m.length > 0) { var v = !1; m.forEach(function (y) { y[1].forEach(function (x) { x.T == !0 && (v = !0) }) }), v && (g = "xl/threadedComments/threadedComment" + s + "." + r, Br(i, g, jut(m, d, t)), a.threadedcomments.push(g), xn(A, -1, "../threadedComments/threadedComment" + s + "." + r, Zr.TCMNT)), g = "xl/comments" + s + "." + r, Br(i, g, ice(m)), a.comments.push(g), xn(A, -1, "../comments" + s + "." + r, Zr.CMNT), h = !0 } f["!legacy"] && h && Br(i, "xl/drawings/vmlDrawing" + s + ".vml", ace(s, f["!comments"])), delete f["!comments"], delete f["!legacy"] } A["!id"].rId1 && Br(i, kle(o), Lg(A)) } return t.Strings != null && t.Strings.length > 0 && (o = "xl/sharedStrings." + r, Br(i, o, Yle(t.Strings, t)), a.strs.push(o), xn(t.wbrels, -1, "sharedStrings." + r, Zr.SST)), o = "xl/workbook." + r, Br(i, o, vce(e)), a.workbooks.push(o), xn(t.rels, 1, o, Zr.WB), o = "xl/theme/theme1.xml", Br(i, o, rce(e.Themes, t)), a.themes.push(o), xn(t.wbrels, -1, "theme/theme1.xml", Zr.THEME), o = "xl/styles." + r, Br(i, o, ece(e, t)), a.styles.push(o), xn(t.wbrels, -1, "styles." + r, Zr.STY), e.vbaraw && n && (o = "xl/vbaProject.bin", Br(i, o, e.vbaraw), a.vba.push(o), xn(t.wbrels, -1, "vbaProject.bin", Zr.VBA)), o = "xl/metadata." + r, Br(i, o, nce()), a.metadata.push(o), xn(t.wbrels, -1, "metadata." + r, Zr.XLMETA), d.length > 1 && (o = "xl/persons/person.xml", Br(i, o, Nut(d)), a.people.push(o), xn(t.wbrels, -1, "persons/person.xml", Zr.PEOPLE)), Br(i, "[Content_Types].xml", Ile(a, t)), Br(i, "_rels/.rels", Lg(t.rels)), Br(i, "xl/_rels/workbook." + r + ".rels", Lg(t.wbrels)), delete t.revssf, delete t.ssf, i } function eht(e, t) { var r = ""; switch ((t || {}).type || "base64") { case "buffer": return [e[0], e[1], e[2], e[3], e[4], e[5], e[6], e[7]]; case "base64": r = fA(e.slice(0, 12)); break; case "binary": r = e; break; case "array": return [e[0], e[1], e[2], e[3], e[4], e[5], e[6], e[7]]; default: throw new Error("Unrecognized type " + (t && t.type || "undefined")) }return [r.charCodeAt(0), r.charCodeAt(1), r.charCodeAt(2), r.charCodeAt(3), r.charCodeAt(4), r.charCodeAt(5), r.charCodeAt(6), r.charCodeAt(7)] } function Ece(e, t) { switch (t.type) { case "base64": case "binary": break; case "buffer": case "array": t.type = ""; break; case "file": return X2(t.file, Sn.write(e, { type: on ? "buffer" : "" })); case "string": throw new Error("'string' output type invalid for '" + t.bookType + "' files"); default: throw new Error("Unrecognized type " + t.type) }return Sn.write(e, t) } function tht(e, t) { var r = Bs(t || {}), n = Xpt(e, r); return rht(n, r) } function rht(e, t) { var r = {}, n = on ? "nodebuffer" : typeof Uint8Array < "u" ? "array" : "string"; if (t.compression && (r.compression = "DEFLATE"), t.password) r.type = n; else switch (t.type) { case "base64": r.type = "base64"; break; case "binary": r.type = "string"; break; case "string": throw new Error("'string' output type invalid for '" + t.bookType + "' files"); case "buffer": case "file": r.type = n; break; default: throw new Error("Unrecognized type " + t.type) }var a = e.FullPaths ? Sn.write(e, { fileType: "zip", type: { nodebuffer: "buffer", string: "binary" }[r.type] || r.type, compression: !!t.compression }) : e.generate(r); if (typeof Deno < "u" && typeof a == "string") { if (t.type == "binary" || t.type == "base64") return a; a = new Uint8Array(Cj(a)) } return t.password && typeof encrypt_agile < "u" ? Ece(encrypt_agile(a, t.password), t) : t.type === "file" ? X2(t.file, a) : t.type == "string" ? Ab(a) : a } function nht(e, t) { var r = t || {}, n = xpt(e, r); return Ece(n, r) } function vu(e, t, r) { r || (r = ""); var n = r + e; switch (t.type) { case "base64": return Xw(qd(n)); case "binary": return qd(n); case "string": return e; case "file": return X2(t.file, n, "utf8"); case "buffer": return on ? bA(n, "utf8") : typeof TextEncoder < "u" ? new TextEncoder().encode(n) : vu(n, { type: "binary" }).split("").map(function (a) { return a.charCodeAt(0) }) }throw new Error("Unrecognized type " + t.type) } function aht(e, t) { switch (t.type) { case "base64": return Xw(e); case "binary": return e; case "string": return e; case "file": return X2(t.file, e, "binary"); case "buffer": return on ? bA(e, "binary") : e.split("").map(function (r) { return r.charCodeAt(0) }) }throw new Error("Unrecognized type " + t.type) } function mE(e, t) { switch (t.type) { case "string": case "base64": case "binary": for (var r = "", n = 0; n < e.length; ++n)r += String.fromCharCode(e[n]); return t.type == "base64" ? Xw(r) : t.type == "string" ? Ab(r) : r; case "file": return X2(t.file, e); case "buffer": return e; default: throw new Error("Unrecognized type " + t.type) } } function Oce(e, t) { Nst(), Hft(e); var r = Bs(t || {}); if (r.cellStyles && (r.cellNF = !0, r.sheetStubs = !0), r.type == "array") { r.type = "binary"; var n = Oce(e, r); return r.type = "array", Cj(n) } var a = 0; if (r.sheet && (typeof r.sheet == "number" ? a = r.sheet : a = e.SheetNames.indexOf(r.sheet), !e.SheetNames[a])) throw new Error("Sheet not found: " + r.sheet + " : " + typeof r.sheet); switch (r.bookType || "xlsb") { case "xml": case "xlml": return vu(gpt(e, r), r); case "slk": case "sylk": return vu(Uct.from_sheet(e.Sheets[e.SheetNames[a]], r), r); case "htm": case "html": return vu(bce(e.Sheets[e.SheetNames[a]], r), r); case "txt": return aht(Bce(e.Sheets[e.SheetNames[a]], r), r); case "csv": return vu(x6(e.Sheets[e.SheetNames[a]], r), r, "\uFEFF"); case "dif": return vu(Qct.from_sheet(e.Sheets[e.SheetNames[a]], r), r); case "dbf": return mE(Mct.from_sheet(e.Sheets[e.SheetNames[a]], r), r); case "prn": return vu($ct.from_sheet(e.Sheets[e.SheetNames[a]], r), r); case "rtf": return vu(Gct.from_sheet(e.Sheets[e.SheetNames[a]], r), r); case "eth": return vu(Gle.from_sheet(e.Sheets[e.SheetNames[a]], r), r); case "fods": return vu(Tce(e, r), r); case "wk1": return mE(WW.sheet_to_wk1(e.Sheets[e.SheetNames[a]], r), r); case "wk3": return mE(WW.book_to_wk3(e, r), r); case "biff2": r.biff || (r.biff = 2); case "biff3": r.biff || (r.biff = 3); case "biff4": return r.biff || (r.biff = 4), mE(yce(e, r), r); case "biff5": r.biff || (r.biff = 5); case "biff8": case "xla": case "xls": return r.biff || (r.biff = 8), nht(e, r); case "xlsx": case "xlsm": case "xlam": case "xlsb": case "numbers": case "ods": return tht(e, r); default: throw new Error("Unrecognized bookType |" + r.bookType + "|") } } function iht(e, t, r, n, a, i, o, s) { var c = ao(r), u = s.defval, d = s.raw || !Object.prototype.hasOwnProperty.call(s, "raw"), A = !0, f = a === 1 ? [] : {}; if (a !== 1) if (Object.defineProperty) try { Object.defineProperty(f, "__rowNum__", { value: r, enumerable: !1 }) } catch { f.__rowNum__ = r } else f.__rowNum__ = r; if (!o || e[r]) for (var p = t.s.c; p <= t.e.c; ++p) { var m = o ? e[r][p] : e[n[p] + c]; if (m === void 0 || m.t === void 0) { if (u === void 0) continue; i[p] != null && (f[i[p]] = u); continue } var h = m.v; switch (m.t) { case "z": if (h == null) break; continue; case "e": h = h == 0 ? null : void 0; break; case "s": case "d": case "b": case "n": break; default: throw new Error("unrecognized type " + m.t) }if (i[p] != null) { if (h == null) if (m.t == "e" && h === null) f[i[p]] = null; else if (u !== void 0) f[i[p]] = u; else if (d && h === null) f[i[p]] = null; else continue; else f[i[p]] = d && (m.t !== "n" || m.t === "n" && s.rawNumbers !== !1) ? h : pA(m, h, s); h != null && (A = !1) } } return { row: f, isempty: A } } function V5(e, t) { if (e == null || e["!ref"] == null) return []; var r = { t: "n", v: 0 }, n = 0, a = 1, i = [], o = 0, s = "", c = { s: { r: 0, c: 0 }, e: { r: 0, c: 0 } }, u = t || {}, d = u.range != null ? u.range : e["!ref"]; switch (u.header === 1 ? n = 1 : u.header === "A" ? n = 2 : Array.isArray(u.header) ? n = 3 : u.header == null && (n = 0), typeof d) { case "string": c = ta(d); break; case "number": c = ta(e["!ref"]), c.s.r = d; break; default: c = d }n > 0 && (a = 0); var A = ao(c.s.r), f = [], p = [], m = 0, h = 0, g = Array.isArray(e), v = c.s.r, y = 0, x = {}; g && !e[v] && (e[v] = []); var b = u.skipHidden && e["!cols"] || [], C = u.skipHidden && e["!rows"] || []; for (y = c.s.c; y <= c.e.c; ++y)if (!(b[y] || {}).hidden) switch (f[y] = _o(y), r = g ? e[v][y] : e[f[y] + A], n) { case 1: i[y] = y - c.s.c; break; case 2: i[y] = f[y]; break; case 3: i[y] = u.header[y - c.s.c]; break; default: if (r == null && (r = { w: "__EMPTY", t: "s" }), s = o = pA(r, null, u), h = x[o] || 0, !h) x[o] = 1; else { do s = o + "_" + h++; while (x[s]); x[o] = h, x[s] = 1 } i[y] = s }for (v = c.s.r + a; v <= c.e.r; ++v)if (!(C[v] || {}).hidden) { var E = iht(e, c, v, f, n, i, g, u); (E.isempty === !1 || (n === 1 ? u.blankrows !== !1 : u.blankrows)) && (p[m++] = E.row) } return p.length = m, p } var rG = /"/g; function oht(e, t, r, n, a, i, o, s) { for (var c = !0, u = [], d = "", A = ao(r), f = t.s.c; f <= t.e.c; ++f)if (n[f]) { var p = s.dense ? (e[r] || [])[f] : e[n[f] + A]; if (p == null) d = ""; else if (p.v != null) { c = !1, d = "" + (s.rawNumbers && p.t == "n" ? p.v : pA(p, null, s)); for (var m = 0, h = 0; m !== d.length; ++m)if ((h = d.charCodeAt(m)) === a || h === i || h === 34 || s.forceQuotes) { d = '"' + d.replace(rG, '""') + '"'; break } d == "ID" && (d = '"ID"') } else p.f != null && !p.F ? (c = !1, d = "=" + p.f, d.indexOf(",") >= 0 && (d = '"' + d.replace(rG, '""') + '"')) : d = ""; u.push(d) } return s.blankrows === !1 && c ? null : u.join(o) } function x6(e, t) {
     var r = [], n = t ?? {}; if (e == null || e["!ref"] == null) return ""; var a = ta(e["!ref"]), i = n.FS !== void 0 ? n.FS : ",", o = i.charCodeAt(0), s = n.RS !== void 0 ? n.RS : `
 `, c = s.charCodeAt(0), u = new RegExp((i == "|" ? "\\|" : i) + "+$"), d = "", A = []; n.dense = Array.isArray(e); for (var f = n.skipHidden && e["!cols"] || [], p = n.skipHidden && e["!rows"] || [], m = a.s.c; m <= a.e.c; ++m)(f[m] || {}).hidden || (A[m] = _o(m)); for (var h = 0, g = a.s.r; g <= a.e.r; ++g)(p[g] || {}).hidden || (d = oht(e, a, g, A, o, c, i, n), d != null && (n.strip && (d = d.replace(u, "")), (d || n.blankrows !== !1) && r.push((h++ ? s : "") + d))); return delete n.dense, r.join("")
@@ -2795,7 +2795,7 @@ padding: 20px 0;
 .boxes{
     background-color: #dbe1fc;
     padding: 2rem;
-    border-radius: var(--border-radius);
+    border-radius: var(--br);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -3104,7 +3104,7 @@ background-color: #1f5fba;
             border: none;
             background-color: #e63946;
             padding: .5rem;
-            border-radius: var(--border-radius);
+            border-radius: var(--br);
             margin: 5px;
         &:hover{
             background-color: #ac4047;
@@ -3118,7 +3118,7 @@ background-color: #1f5fba;
 
         span{
         border: 1px dashed;
-        border-radius: var(--border-radius);
+        border-radius: var(--br);
         padding: .5rem;
         cursor: pointer;
     
@@ -3681,7 +3681,7 @@ form{
 
     box-shadow: 4px 10px 25px -12px rgba(0,0,0,0.62);
 
-    border-radius: var(--border-radius);
+    border-radius: var(--br);
     font-size: var(--fsLow);
     justify-items: center;
 }
@@ -3788,7 +3788,7 @@ align-items: center;
 justify-content: space-between;
 font-size: var(--fsLow) ;
 border: 2px solid #dfe6f1;
-border-radius: var(--border-radius);
+border-radius: var(--br);
 padding: 1rem 3rem;
 margin-bottom: 1.5rem;
 font-size: var(--fsLowest);
@@ -4048,7 +4048,7 @@ div{
 }
 `; function Ds() { const e = pJ(); return console.error(e), l.jsx(qmt, { id: "error-page", children: l.jsxs("div", { children: [l.jsx("h1", { children: "Oops!" }), l.jsx("p", { children: "Desculpe, um erro inesperado ocorreu." }), l.jsx("p", { children: l.jsx("i", { children: e.statusText || e.message }) }), l.jsx("img", { src: zmt, alt: "Error image" })] }) }) } const Mr = JSON.parse(localStorage.getItem("userData")), { config: cG, home: Kmt, redefinePass: Vmt, signContracts: uG, orders: dG, nestedOrder: AG, comissionalControl: fG, configRegister: pG, control: hG, nestedControl: mG, configCustomFields: gG, campaign: vG, products: xG, services: yG } = An, Wmt = qpe([{ path: cG.path, element: cG.access.find(e => e === (Mr == null ? void 0 : Mr.role)) ? l.jsxs(l.Fragment, { children: [l.jsx(bl, {}), " ", l.jsx(Oht, {}), " "] }) : l.jsx(ks, {}), errorElement: l.jsx(Ds, {}) }, { path: Kmt.path, element: l.jsx(dmt, {}), errorElement: l.jsx(Ds, {}), exact: !0 }, { path: Vmt.path, element: l.jsx(Lmt, {}), errorElement: l.jsx(Ds, {}) }, { path: vG.path, element: vG.access.find(e => e === (Mr == null ? void 0 : Mr.role)) ? l.jsxs(l.Fragment, { children: [l.jsx(bl, {}), l.jsx(GEe, {}), " "] }) : l.jsx(ks, {}), errorElement: l.jsx(Ds, {}) }, { path: xG.path, element: xG.access.find(e => e === (Mr == null ? void 0 : Mr.role)) ? l.jsxs(l.Fragment, { children: [l.jsx(bl, {}), l.jsx(i3e, {}), " "] }) : l.jsx(ks, {}), errorElement: l.jsx(Ds, {}) }, { path: yG.path, element: yG.access.find(e => e === (Mr == null ? void 0 : Mr.role)) ? l.jsxs(l.Fragment, { children: [l.jsx(bl, {}), l.jsx(l3e, {}), " "] }) : l.jsx(ks, {}), errorElement: l.jsx(Ds, {}) }, { path: uG.path, element: uG.access.find(e => e === (Mr == null ? void 0 : Mr.role)) ? l.jsxs(l.Fragment, { children: [l.jsx(bl, {}), l.jsx(Pht, {}), " "] }) : l.jsx(ks, {}), errorElement: l.jsx(Ds, {}) }, { path: dG.path, element: dG.access.find(e => e === (Mr == null ? void 0 : Mr.role)) ? l.jsxs(l.Fragment, { children: [l.jsx(bl, {}), l.jsx(Rmt, {}), " "] }) : l.jsx(ks, {}), errorElement: l.jsx(Ds, {}) }, { path: AG.path, element: AG.access.find(e => e === (Mr == null ? void 0 : Mr.role)) ? l.jsxs(l.Fragment, { children: [l.jsx(bl, {}), l.jsx(e3e, {})] }) : l.jsx(ks, {}), errorElement: l.jsx(Ds, {}) }, { path: fG.path, element: fG.access.find(e => e === (Mr == null ? void 0 : Mr.role)) ? l.jsxs(l.Fragment, { children: [l.jsx(bl, {}), l.jsx(vht, {})] }) : l.jsx(ks, {}), errorElement: l.jsx(Ds, {}) }, { path: pG.path, element: pG.access.find(e => e === (Mr == null ? void 0 : Mr.role)) ? l.jsxs(l.Fragment, { children: [l.jsx(bl, {}), l.jsx(Hmt, {}), " "] }) : l.jsx(ks, {}), errorElement: l.jsx(Ds, {}) }, { path: gG.path, element: gG.access.find(e => e === (Mr == null ? void 0 : Mr.role)) ? l.jsxs(l.Fragment, { children: [l.jsx(bl, {}), l.jsx(umt, {}), " "] }) : l.jsx(ks, {}), errorElement: l.jsx(Ds, {}) }, { path: hG.path, element: hG.access.find(e => e === (Mr == null ? void 0 : Mr.role)) ? l.jsxs(l.Fragment, { children: [l.jsx(bl, {}), l.jsx(PI, {})] }) : l.jsx(ks, {}), errorElement: l.jsx(Ds, {}), children: [{ path: mG.path, element: mG.access.find(e => e === (Mr == null ? void 0 : Mr.role)) ? l.jsxs(l.Fragment, { children: [l.jsx(bl, {}), l.jsx(PI, {})] }) : l.jsx(ks, {}) }] }]), Gmt = PEe`
 :root{
-    --border-radius: .35rem;
+    --br: .35rem;
 
     --fsXLow : 10px;
 
@@ -4085,7 +4085,7 @@ html{
 
 
     border: none;
-    border-radius: var(--border-radius);
+    border-radius: var(--br);
 
     background-color: #1976d2;
     cursor: pointer;

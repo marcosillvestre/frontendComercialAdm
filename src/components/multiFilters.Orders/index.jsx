@@ -28,8 +28,6 @@ export const MultiFiltersOrders = () => {
                                     onChange={(e) => {
 
 
-                                        console.log(e.target.value)
-
                                         setTypeFilter([...typeFilter.filter(f => f.id !== res.id), {
                                             id: new Date().setUTCHours(0),
                                             key: res.key,

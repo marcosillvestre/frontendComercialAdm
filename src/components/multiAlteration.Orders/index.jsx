@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useOrders } from '../../hooks/orders/ordersContext.hook.jsx';
 import { useUser } from '../../hooks/userContext.jsx';
+import { MakeOrders } from '../popUps/sendProductOrders.orders/index.jsx';
 import { CloserClick } from '../source.jsx';
 import { Box, ButtonContainer, Container, Edit, OptionsContainer } from './styles.jsx';
 
@@ -8,14 +9,28 @@ export function MultiAlterationOrders(data) {
     const { checkData, queryOrder, setQueryOrder, body, setBody, mutationMultiUpdate } = useOrders()
     const { userData } = useUser()
 
+    const [pop, setPop] = useState()
+
+    useEffect(() => {
+
+        checkData.every(res => res.status === "REVISADO" ||
+            res.status === "ENTREGUE") ?
+            setPop(true) :
+            setPop(false)
+
+
+
+    }, [JSON.stringify(checkData)])
+
+
+
 
     const arrayQuantityChanges = useMemo(() => [
         {
-            label: 'CONFIRMAR CHEGADA',
-            type: 'arrived',
+            label: 'MARCAR COMO ASSINADO',
+            type: 'signed',
             value: true
         },
-
         {
             label: 'DEFINIR COMO REVISADO',
             type: 'status',
@@ -26,7 +41,16 @@ export function MultiAlterationOrders(data) {
             type: 'status',
             value: 'DISPONIVEL',
         },
-
+        {
+            label: 'FAZER PEDIDO',
+            // type: 'status',
+            email: true
+        },
+        {
+            label: 'CONFIRMAR CHEGADA',
+            type: 'arrived',
+            value: true
+        },
         {
             label: 'DEFINIR COMO ENTREGUE',
             type: 'delivery',
@@ -38,24 +62,19 @@ export function MultiAlterationOrders(data) {
             type: 'available',
             value: false
         },
-
-        {
-            label: 'CONFIRMAR CHEGADA DE REPOSIÇÃO',
-            type: 'type',
-            value: "REPOSICAO"
-        },
-
-
         // {
         //     label: 'FAZER REPOSIÇÃO DE MERCADORIAS',
-        //     type: 'status',
+        //     type: 'type',
+        //     value: 'REPOSICAO',
         //     email: true
         // },
         // {
-        //     label: 'FAZER PEDIDO',
-        //     type: 'status',
-        //     email: true
+        //     label: 'CONFIRMAR CHEGADA DE REPOSIÇÃO',
+        //     type: 'type',
+        //     value: "REPOSICAO"
         // },
+
+
 
     ], [])
 
@@ -76,13 +95,34 @@ export function MultiAlterationOrders(data) {
 
     const handleOptionGroup = ({ label, type, value, email }) => {
 
-        if (email) return console.log("first")
+        if (email) return <MakeOrders />
+
+        // REVISAR = CANCELAR, EXCLUIR, MARCAR REVISADO
+
+        if (label === 'DEFINIR COMO ENTREGUE' && checkData.every(res => res.status !== "DISPONIVEL"))
+            return alert("Só pode ser ENTREGUE caso o produto esteja DISPONIVEL")
+
+        if (label === 'MARCAR COMO ASSINADO' && checkData.every(res => res.status !== "DISPONIVEL" || res.status !== "ENTREGUE"))
+            return alert("Só pode ser marcado como assinado caso o produto esteja DISPONIVEL ou ENTREGUE")
+
+        if (label === "CONFIRMAR CHEGADA" && checkData.every(res => res.status !== "ENVIADO"))
+            return alert("Somente produtos que estão na fase ENVIADOS podem ser confirmados sua chegada.")
+
+        if (value === "DISPONIVEL" && checkData.some(res => res.status !== "REVISADO" && res.status !== "CHEGOU"))
+            return alert("Somente produtos na fase REVISADOS e CHEGOU podem ser marcados como DISPONIVEL")
 
         setBody({
             responsible: userData.name,
             ids: checkData.map(res => res.id),
             where: type,
-            what: value
+            what: value,
+            label,
+            logistic: [
+                {
+                    stage: value,
+                    active: true
+                }
+            ]
         })
 
         optionGroup.length > 1 ?
@@ -100,7 +140,6 @@ export function MultiAlterationOrders(data) {
     async function handleSenderDataToBeChanged() {
 
         mutationMultiUpdate.mutateAsync()
-            .then((e) => console.log(e))
 
         close()
 
@@ -109,7 +148,6 @@ export function MultiAlterationOrders(data) {
         const { ids, where, what } = body
         for (let index = 0; index < order.length; index++) {
             const object = order[index];
-            console.log(ids)
 
             const idSearched = ids.find(res => res === object.id)
 
@@ -121,7 +159,6 @@ export function MultiAlterationOrders(data) {
         setQueryOrder({ order: data, count })
 
     }
-
 
     return (
         <>
@@ -153,14 +190,22 @@ export function MultiAlterationOrders(data) {
                                 $open={manyAlteration}
 
                             >
+                                {
+                                    !res.email ?
+                                        <Edit
+                                            able={data.able}
+                                            $open={manyAlteration}
+                                            onClick={() => handleOptionGroup(res)}
+                                        >
+                                            {res.label}
+                                        </Edit> :
+                                        <Edit
+                                            able={pop}
+                                        >
+                                            <MakeOrders data={res} />
+                                        </Edit>
 
-                                <Edit
-                                    able={data.able}
-                                    $open={manyAlteration}
-                                    onClick={() => handleOptionGroup(res)}
-                                >
-                                    {res.label}
-                                </Edit>
+                                }
 
                             </OptionsContainer>
                         ))
