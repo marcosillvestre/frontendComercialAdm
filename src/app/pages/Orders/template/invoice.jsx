@@ -10,29 +10,30 @@ const aw = "https://ik.imagekit.io/khqnnhktw/assets/copy.svg?updatedAt=170793790
 
 const Invoice = () => {
 
-    const { orders: data, recibo } = useOrders()
+    const { orders: data, recibo, setCheckData } = useOrders()
     const { userData } = useUser()
+
 
     if (!data) window.location.href = paths.orders.path
 
     const date = new Date().toLocaleDateString()
 
     const cropIds = (id) => {
-        let len = id.length
-        return id.slice(len - 12, len)
-    }
+        if (!id || typeof id !== "string") return ""; // Garante que `id` seja válido
+        return id.slice(-12); // Retorna os últimos 12 caracteres
+    };
 
     const nameCreatorForPdf = () => {
-        const ids = data.orders.map((r, index) => {
+        const ids = data && data.map((r, index) => {
             let croppedId = cropIds(r.id)
 
-            return index + 1 < data.orders.length ? croppedId.concat("_") : croppedId
+            return index < data.length ? croppedId.concat("_") : croppedId
         })
 
-        return `reciboMd-${data.orders[0].nome}+${cropIds(data.id)}_`.concat(ids).replace(/,/g, '');
+        return `reciboMd-${data[0].name}+${cropIds(data.id)}_`.concat(ids).replace(/,/g, '');
     }
 
-    const pdfName = nameCreatorForPdf()
+    const pdfName = data.length > 0 && nameCreatorForPdf()
 
     return (
 
@@ -43,6 +44,7 @@ const Invoice = () => {
                 >
                     <Links
                         to="/pedidos"
+                        onClick={() => setCheckData([])}
                     >
                         Voltar
                     </Links>
@@ -79,7 +81,7 @@ const Invoice = () => {
                     <header>
                         <img src={aw} alt="" />
                         {
-                            data && data.unity === 'PTB' ?
+                            data && data[0]?.unity === 'PTB' ?
                                 <p>AMERICAN WAY - C.N.P.J. 18.953.641/0001-26 </p>
                                 :
                                 <p>AMERICAN WAY - C.N.P.J. 42.387.487/0001-57 </p>
@@ -101,12 +103,12 @@ const Invoice = () => {
 
                         <tbody>
                             {
-                                data && data.orders.map((res, index) => (
+                                data && data.map((res, index) => (
                                     <tr key={index}>
-                                        <td>{res.materialDidatico}</td>
+                                        <td>{res.book}</td>
                                         <td>Sim</td>
-                                        <td>{res.data}</td>
-                                        <td>{res.valor}</td>
+                                        <td>{res.created_at}</td>
+                                        <td>{res.value}</td>
 
                                     </tr>
 
@@ -118,7 +120,7 @@ const Invoice = () => {
 
 
 
-                    <h3>Valor Total: R$ {data.orders.length > 0 && data.orders.reduce((acc, curr) => acc + curr.valor, 0).toFixed(2)}</h3>
+                    <h3>Valor Total: R$ {data.length > 0 && data.reduce((acc, curr) => acc + curr.value, 0).toFixed(2)}</h3>
                     <hr />
 
                     <div className="assinaturas">
@@ -133,7 +135,7 @@ const Invoice = () => {
                         </table>
                         <div className="names">
                             <h3>{userData.name}</h3>
-                            <h3>{data.orders[0].nome}</h3>
+                            <h3>{data[0]?.name}</h3>
                         </div>
                     </div>
 
@@ -145,7 +147,7 @@ const Invoice = () => {
                     <header>
                         <img src={aw} alt="" />
                         {
-                            data && data.unity === 'PTB' ?
+                            data && data[0]?.unity === 'PTB' ?
                                 <p>AMERICAN WAY - C.N.P.J. 18.953.641/0001-26 </p>
                                 :
                                 <p>AMERICAN WAY - C.N.P.J. 42.387.487/0001-57 </p>
@@ -167,12 +169,13 @@ const Invoice = () => {
 
                         <tbody>
                             {
-                                data && data.orders.map((res, index) => (
+                                data && data.map((res, index) => (
                                     <tr key={index}>
-                                        <td>{res.materialDidatico}</td>
+                                        <td>{res.book}</td>
                                         <td>Sim</td>
-                                        <td>{res.data}</td>
-                                        <td>{res.valor}</td>
+                                        <td>{res.created_at}</td>
+                                        <td>{res.value}</td>
+
                                     </tr>
 
                                 ))
@@ -183,7 +186,7 @@ const Invoice = () => {
 
 
 
-                    <h3>Valor Total: R$ {data.orders.length > 0 && data.orders.reduce((acc, curr) => acc + curr.valor, 0).toFixed(2)}</h3>
+                    <h3>Valor Total: R$ {data.length > 0 && data.reduce((acc, curr) => acc + curr.value, 0).toFixed(2)}</h3>
                     <hr />
 
                     <div className="assinaturas">
@@ -198,7 +201,7 @@ const Invoice = () => {
                         </table>
                         <div className="names">
                             <h3>{userData.name}</h3>
-                            <h3>{data.orders[0].nome}</h3>
+                            <h3>{data[0]?.name}</h3>
                         </div>
                     </div>
 

@@ -1,5 +1,6 @@
 
 import camp from '../../../assets/campaign.svg'
+import deliver from '../../../assets/deliver.svg'
 import products from '../../../assets/pdts.svg'
 import pdeserv from '../../../assets/prods.svg'
 import team from '../../../assets/team.svg'
@@ -97,18 +98,19 @@ export const Settings = () => {
                     </Links>
                 </div>
 
-                {/* <div className='boxes'>
+                <div className='boxes'>
                     <p>
-                        Gerencie seus contratos
+                        Cadastre novos fornecedores
                     </p>
-                    <img src={contract} alt="" />
+                    <img
+                        src={deliver}
+                        alt="" />
                     <Links
-                        to={paths.configCustomFields.path}
-                        style={{ pointerEvents: "none" }}
+                        to={paths.supliers.path}
                     >
-                        Em breve..
+                        Fornecedores
                     </Links>
-                </div> */}
+                </div>
 
 
 

@@ -3,7 +3,7 @@ import { createGlobalStyle } from "styled-components"
 
 export default createGlobalStyle`
 :root{
-    --border-radius: .35rem;
+    --br: .35rem;
 
     --fsXLow : 10px;
 
@@ -57,7 +57,7 @@ html{
 
 
     border: none;
-    border-radius: var(--border-radius);
+    border-radius: var(--br);
 
     background-color: #1976d2;
     cursor: pointer;
@@ -70,6 +70,7 @@ background-color: #1f5fba;
     }
 
     .tooltip{
+        cursor: pointer;
             &:hover{
         &::after{
             content: attr(tool);

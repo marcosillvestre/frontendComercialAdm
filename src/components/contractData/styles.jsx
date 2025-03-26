@@ -17,7 +17,7 @@ tbody, th, tr,td, thead{
     text-align: center;
 }
 table{
-    border-radius: var(--border-radius);
+    border-radius: var(--br);
     width: 100%;
 }
 
@@ -38,7 +38,7 @@ th{
     flex: 1 1 100%;
 
     border: 1px solid #222;
-    border-radius: var(--border-radius);
+    border-radius: var(--br);
     width: 90dvw;
 
     padding: 1rem ;
@@ -99,7 +99,7 @@ align-items: ${props => props.active ? '' : 'center'};
 justify-content: ${props => props.active ? '' : 'space-between'};
 animation-duration: .5s;
 
-border-radius: var(--border-radius);
+border-radius: var(--br);
 position: ${props => props.active ? 'sticky' : 'static'};
 background-color: #e0e0e0;
 top: 90px;
@@ -130,7 +130,7 @@ margin: 5px 0;
 .view {
     border: 1px dashed;
     padding: .1rem .5rem;
-    border-radius: var(--border-radius);
+    border-radius: var(--br);
 }
 
 .buttons{

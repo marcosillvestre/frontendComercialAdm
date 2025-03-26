@@ -43,29 +43,27 @@ export function DeliverySure(info) {
         handleOpen()
     }
 
-    const { data } = info
+    const { data, fn } = info
 
     async function Send() {
         Promise.all([
             updateLink.mutateAsync({
-                value: new Date().toLocaleString(),
-                where: 'dataRetirada',
-                id: data.id,
-                order: [data.order.id]
+                ...data,
+                responsible: userData.name,
+                withdraw: new Date(),
+                removedBy: userData.name,
             }),
-
-            updateLink.mutateAsync({
-                value: userData.name,
-                where: 'retiradoPor',
-                id: data.id,
-                order: [data.order.id]
-            })
+            fn()
         ])
     }
 
+
     return (
         <div>
-            <Filter onClick={handleFuncs}> Marcar como entregue</Filter>
+            <Filter
+                onClick={handleFuncs}
+            >
+                Marcar como entregue</Filter>
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
@@ -95,9 +93,9 @@ export function DeliverySure(info) {
                             }}>
 
                                 <Typography
+                                    variant="h7" component="h3"
                                     id="transition-modal-title"
-                                    variant="h6"
-                                    component="h2"
+
                                 >
                                     Marcar como entregue
                                 </Typography>
@@ -110,7 +108,8 @@ export function DeliverySure(info) {
 
                             <Boxes>
 
-                                <Typography variant="h7" component="h3">
+                                <Typography variant="h6"
+                                    component="h2">
                                     Aviso:
                                 </Typography>
                                 O documento ainda não foi assinado

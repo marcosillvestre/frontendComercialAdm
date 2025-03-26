@@ -19,10 +19,16 @@ font-size: var(--fsLowest);
 z-index: 2;
 padding: .3rem ;
 border-radius: 5px;
-transition-duration: .5s;
-&:hover{
-        background-color: #a5a5a5;
-        scale: 1.04;
-        color: #fff;
-        }
+transition-duration: .2s;
+pointer-events: ${({ inative }) => inative ? "none" : "all"};
+background-color: ${({ inative }) => inative && "#e75757"};
+color: ${({ inative }) => inative && "#fff"};
+user-select: none;
+margin: 1px auto;
+&:hover {
+background-color: ${({ inative }) => inative ? "#ffc5c5" : " #a5a5a5"};
+scale: 1.04;
+color: #fff;
+} 
+
 `

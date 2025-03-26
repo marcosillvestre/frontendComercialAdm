@@ -39,7 +39,6 @@ function Row(props) {
 
             <TableCell align="center">R${row.price_card}</TableCell>
             <TableCell align="center">R${row.price_cash}</TableCell>
-            <TableCell align="center">{row.category}</TableCell>
             <TableCell align="center">{row.status === true ? <DoneIcon /> : <DoNotDisturbAltIcon />}</TableCell>
 
             <TableCell align="center">
@@ -150,7 +149,11 @@ export function ServicesTable(props) {
                                                 <HeaderTable
                                                     className='flex'
                                                     onClick={() => setOrderBy("name")}
-                                                >Nome <SwapVertIcon /></HeaderTable>
+                                                >
+                                                    Nome
+                                                    <SwapVertIcon />
+
+                                                </HeaderTable>
                                             </TableCell>
                                             <TableCell align="center">
                                                 <Typography>SKU</Typography>
@@ -199,10 +202,6 @@ export function ServicesTable(props) {
 
                                             </TableCell>
 
-                                            <TableCell align="center">
-                                                <Typography>Categoria</Typography>
-
-                                            </TableCell>
                                             <TableCell align="center">
                                                 <Typography>Status</Typography>
 

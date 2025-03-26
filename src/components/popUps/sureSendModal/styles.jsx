@@ -40,7 +40,7 @@ gap: .1rem;
     margin: .5rem auto;
     border: 1px dashed;
     padding: 1rem;
-    border-radius: calc(var(--border-radius));
+    border-radius: calc(var(--br));
     background-color: #f9f9f9;
     width: 100%;
     label{

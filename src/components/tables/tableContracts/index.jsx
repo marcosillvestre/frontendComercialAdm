@@ -63,21 +63,12 @@ Row.propTypes = {
 
 export default function TableContracts() {
 
-    const { contractsForSign, contractOptions, setTake, setSkip, queryContract } = useSignContracts()
+    const { contractsForSign, contractOptions, setTake, setSkip, queryContract, } = useSignContracts()
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
     const { isPending, data } = contractsForSign
     const { isFetching } = queryContract
 
-    const style = {
-        fontSize: "9px",
-        width: "100%",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        minHeight: "12rem",
-        boxShadow: "4px 10px 20px -12px rgba(0,0,0,0.62)"
-    }
 
     const [page, setPage] = React.useState(0);
 
@@ -99,56 +90,69 @@ export default function TableContracts() {
 
 
     return (
-        <>
-            <div style={style}>
+
+        <TableContainer component={Paper}>
+            <Paper sx={{ width: '100%' }}>
+
+
                 {
                     isPending || isFetching ?
-                        <LoadingSpin
-                            duration="4s"
-                            width="15px"
-                            timingFunction="ease-in-out"
-                            direction="alternate"
-                            size="60px"
-                            primaryColor="#1976d2"
-                            secondaryColor="#333"
-                            numberOfRotationsInAnimation={3}
-                        />
-                        :
-                        <TableContainer component={Paper}>
-                            <Table aria-label="collapsible table">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell align="center"><Typography>Nome</Typography></TableCell>
-                                        <TableCell align="center"><Typography>Aluno</Typography></TableCell>
-                                        <TableCell align="center"><Typography>Vendedor</Typography></TableCell>
-                                        <TableCell align="center"><Typography>Celular</Typography></TableCell>
-                                        <TableCell align="center"><Typography>Subclasse</Typography></TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {
+                        <div style={{
+                            width: "100%",
+                            display: 'flex',
+                            justifyContent: 'center',
+                            padding: "5rem 0"
+                        }}>
 
-                                        contractOptions
-                                        && contractOptions.map((row, index) => (
-                                            <Row key={index} row={row} />
-                                        ))
-
-                                    }
-                                </TableBody>
-                            </Table>
-                            <TablePagination
-                                rowsPerPageOptions={[10, 20, 40]}
-                                component="div"
-                                count={data && data.total}
-                                rowsPerPage={rowsPerPage}
-                                page={page}
-                                onPageChange={handleChangePage}
-                                onRowsPerPageChange={handleChangeRowsPerPage}
+                            <LoadingSpin
+                                duration="4s"
+                                width="15px"
+                                timingFunction="ease-in-out"
+                                direction="alternate"
+                                size="60px"
+                                primaryColor="#1976d2"
+                                secondaryColor="#333"
+                                numberOfRotationsInAnimation={2}
                             />
-                        </TableContainer>
+                        </div>
+                        :
+                        <Table aria-label="collapsible table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell align="center"><Typography>Nome</Typography></TableCell>
+                                    <TableCell align="center"><Typography>Aluno</Typography></TableCell>
+                                    <TableCell align="center"><Typography>Vendedor</Typography></TableCell>
+                                    <TableCell align="center"><Typography>Celular</Typography></TableCell>
+                                    <TableCell align="center"><Typography>Subclasse</Typography></TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {
+
+                                    contractOptions &&
+                                    contractOptions.map((row) => (
+                                        <Row
+                                            key={row.id}
+                                            row={row}
+                                        />
+                                    ))
+
+                                }
+                            </TableBody>
+                        </Table>
                 }
-            </div>
-        </>
+                <TablePagination
+                    rowsPerPageOptions={[10, 20, 40]}
+                    component="div"
+                    count={data && data.total}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+
+            </Paper>
+        </TableContainer>
 
     );
 }

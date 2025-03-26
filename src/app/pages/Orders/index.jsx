@@ -1,54 +1,71 @@
 // import React from 'react'
 
-import {
-    // CloserClick, 
-    Select
-} from '../../../components/source.jsx';
+import SearchIcon from '@mui/icons-material/Search';
+import { useRef } from 'react';
+import { OrderMoreFilters } from '../../../components/moreFilters.orders/index.jsx';
+import { SelectOrders } from '../../../components/selects/select.Orders';
 import TableOrders from '../../../components/tables/tableOrders/index.jsx';
 import { useOrders } from '../../../hooks/orders/ordersContext.hook.jsx';
 import businessRules from '../../utils/Rules/options.jsx';
-import { Container, Header } from "./styles.jsx";
+import { Container, Header, InputSearch } from "./styles.jsx";
 
 export const Orders = () => {
     const { predeterminedPeriods } = businessRules
-    const { search, handleInput } = useOrders()
-
-
-    const rest = predeterminedPeriods.filter(res => !res.name.includes("Personalizado"))
-
+    const { search, handleInput, initialDate, endDate, setQuery } = useOrders()
+    const searching = useRef()
 
     return (
         <Container>
 
             <Header>
-                <nav>
+                <nav className='flex'>
                     <label htmlFor="">
                         <p>
                             Período
                         </p>
-                        <Select
+                        <SelectOrders
                             label={search}
-                            option={rest}
+                            option={predeterminedPeriods}
                             fn={[handleInput]}
                             width="5rem"
+                            where="filter"
                         />
 
+
+                        {
+                            initialDate &&
+                            `${initialDate !== null ? new Date(initialDate).toLocaleDateString() : ""} ~ ${endDate !== null ? new Date(endDate).toLocaleDateString() : ""}`
+                        }
                     </label>
 
-                    {/* <label htmlFor="">
-                        <p>
-                            Pesquisar por nome
-                        </p>
-                        <InputSearch
-                            onChange={(e) => {
-                                setName(e.target.value)
+
+                    <form className='flex' >
+                        <label htmlFor="">
+
+                            <p>
+                                Pesquisar
+                            </p>
+                            <InputSearch
+                                placeholder='pesquisar...'
+                                title='busque por nome, livro ou unidade'
+                                ref={searching}
+                                onChange={(e) => e.target.value === "" && setQuery(undefined)}
+                            />
+                        </label>
+
+                        <button type='submit'
+                            className='sender'
+                            onClick={(e) => {
+                                setQuery(searching.current.value)
+                                e.preventDefault()
                             }}
-                        />
+                        >
+                            <SearchIcon />
+                        </button>
+                    </form>
 
-                    </label>
-                    <button className='sender' onClick={() => sender()}>
-                        <SearchIcon />
-                    </button> */}
+
+                    <OrderMoreFilters />
 
                 </nav>
 

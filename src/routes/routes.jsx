@@ -15,6 +15,7 @@ import {
     Register,
     Settings
 } from '../app/pages/source.jsx';
+import { Supliers } from "../app/pages/Supliers/index.jsx";
 import { MiniDrawer } from '../components/source.jsx';
 import ErrorPage from "../errorHandling/error-page.jsx";
 
@@ -25,7 +26,7 @@ const {
     config, home, redefinePass,
     signContracts, orders, nestedOrder, comissionalControl,
     configRegister, control, nestedControl, configCustomFields,
-    campaign, products, services
+    campaign, products, services, supliers
 } = paths
 
 
@@ -52,6 +53,12 @@ const Routes = createBrowserRouter([
     {
         path: campaign.path,
         element: campaign.access.find(res => res === user?.role) ? <><MiniDrawer /><Campaigns /> </> : <Login />,
+        errorElement: <ErrorPage />,
+    },
+    {
+        path: supliers.path,
+        element: supliers.access.find(res => res === user?.role) ?
+            <><MiniDrawer /><Supliers /> </> : <Login />,
         errorElement: <ErrorPage />,
     },
     {

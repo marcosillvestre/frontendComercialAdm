@@ -7,7 +7,32 @@ import Box from '@mui/material/Box';
 import { Link } from 'react-router-dom';
 import styled from "styled-components";
 
+export const Modal = styled.div`
+display: ${({ active }) => active ? "grid" : "none"};
+gap: 5px;
+padding: 5px 15px 5px 0;
+font-size: calc(var(--fsLowest) - 5px);
 
+`
+
+export const ErrorMessage = styled.p`
+color: red;
+`
+export const Header = styled.div`
+width: 100%;
+justify-content: space-between;
+border: .1px solid #d1d1d1;
+align-items: center;
+height: var(--boxHei);
+padding: .5rem;
+border-radius: var(--br);
+
+
+svg{
+    transform: ${({ active }) => active ? "rotate(180deg)" : ""};
+}
+
+`
 
 export const Label = styled.div`
 font-size: 13px;
@@ -103,7 +128,7 @@ export const InputCheckbox = styled.input`
 
 export const TextArea = styled.textarea`
 min-width: 100%;
-max-width: 100%;
+max-width: 12rem;
 
 color: #222;
 min-height: 5rem;
@@ -165,7 +190,7 @@ display: flex;
 flex-direction: column;
 border: 2px solid rgb(223, 230, 241);
 
-border-radius: var(--border-radius);
+border-radius: var(--br);
 font-size: calc(var(--fsLowest) - 1px );
 
 margin: .6rem 0;

@@ -4,7 +4,7 @@ export const Container = styled.div`
     margin-bottom: 20px;
 
 table{
-    border-radius: var(--border-radius); 
+    border-radius: var(--br); 
     padding: 20px;
 }
 

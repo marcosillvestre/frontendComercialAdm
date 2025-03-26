@@ -1,7 +1,7 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import Proptypes from 'prop-types'
-import { createContext, useContext, useEffect, useRef, useState } from "react"
+import { createContext, useContext, useLayoutEffect, useRef, useState } from "react"
 import { toast } from "react-toastify"
 import businessRules from '../../app/utils/Rules/options.jsx'
 import URI from "../../app/utils/utils"
@@ -12,38 +12,35 @@ export const OrdersProvider = ({ children }) => {
     const { predeterminedPeriods } = businessRules
 
     const queryClient = useQueryClient()
-    const [orders, setOrders] = useState()
+    const [orders, setOrders] = useState([])
     const [queryOrder, setQueryOrder] = useState([])
+    const [typeFilter, setTypeFilter] = useState([])
 
-    const [initialDate, setInitialDate] = useState()
-    const [endDate, setEndDate] = useState()
+    const [checkData, setCheckData] = useState([])
+
+    const [initialDate, setInitialDate] = useState(null)
+    const [endDate, setEndDate] = useState(null)
+
+
+    const [filterInitialDate, setFilteringInitialDate] = useState(null)
+    const [filterEndDate, setFilteringEndDate] = useState(null)
 
     const [search, setSearch] = useState(predeterminedPeriods[0].name)
+    const [take, setTake] = useState(10)
+    const [skip, setSkip] = useState(0)
+
+
+    const [orderFor, setOrderFor] = useState("desc")
+    const [orderBy, setOrderBy] = useState("created_at")
+    const [dateType, setDateType] = useState("created_at")
+    const [query, setQuery] = useState(undefined)
+
+    const [body, setBody] = useState()
+    const [checked, setChecked] = useState(false)
+
+
 
     const recibo = useRef()
-
-    const updateData = async (e) => {
-
-        const response = await toast.promise(
-            URI.put("/pedidos", e),
-            {
-                pending: 'Conferindo os dados',
-                success: 'Pedido editado com sucesso',
-                error: 'Algo deu errado'
-            }
-        )
-            .catch(err => console.log(err))
-
-        return response
-    }
-
-    const updateOrders = useMutation({
-        mutationFn: (e) => updateData(e),
-        onSuccess: () => {
-            queryClient.invalidateQueries([search, "orders"])
-        }
-    })
-
 
     const pickingDate = (range) => {
 
@@ -88,71 +85,130 @@ export const OrdersProvider = ({ children }) => {
         return settledPeriod[range]
     }
 
+    const removeFilter = (data) => {
+        const filtered = typeFilter.filter(res => res.id !== data.id)
 
-    const [take, setTake] = useState(10)
-    const [skip, setSkip] = useState(0)
-
+        return setTypeFilter(filtered)
+    }
 
     const queryOrders = async () => {
-        const response = await URI.get(`/pedidos?dates=${await pickingDate(search)}`)
+
+        const dates = search !== "Período personalizado" ? await pickingDate(search) :
+            `${initialDate}~${endDate}`
+
+        const url = query ?
+            `/pedidos-query` : `/pedidos`
+
+        const response = await URI.post(url, {
+            dates,
+            take,
+            skip,
+            orderBy,
+            orderFor,
+            dateType,
+            typeFilter,
+            query,
+        })
 
         return response.data
     }
 
-
-
     const ordersQuery = useQuery({
         queryFn: () => queryOrders(),
-        queryKey: [search, "orders"],
-        retry: false
-
+        queryKey: [
+            search, "orders", skip, take, query,
+            JSON.stringify(typeFilter), orderBy, orderFor
+        ],
+        // staleTime: 1000 * 60 * 5, // 5 minutos sem refazer a requisição
+        // cacheTime: 1000 * 60 * 10
     })
 
+    const invalidateOrderQuery = () => {
 
-    useEffect(() => {
-        if (ordersQuery.isSuccess) {
-            const { data } = ordersQuery
-            setQueryOrder(data)
-        }
-
-    }, [search, ordersQuery, take, skip])
-
-
-    async function handleInput(params) {
-        queryClient.invalidateQueries([search, "orders"])
-
-        setSearch(params)
-
+        queryClient.invalidateQueries([
+            search, "orders", skip, take, query,
+            JSON.stringify(typeFilter), orderBy, orderFor
+        ])
+        ordersQuery.refetch()
     }
 
+    useLayoutEffect(() => {
+        const gatherData = async () => {
 
 
-    const updateOrder = async (body) => {
+            const { data } = ordersQuery
+            const { order, count } = data
+
+            setQueryOrder({ order, count })
+        }
+
+        invalidateOrderQuery()
+        if (ordersQuery.isSuccess) gatherData()
+
+    }, [
+        search, take, skip, ordersQuery.isSuccess, query,
+        typeFilter.length, orderFor, orderBy
+    ])
+
+
+    const multiUpdate = async () => {
 
         await toast.promise(
-            URI.put("/linkpedido", body),
+            URI.put("/multi-pedidos", body),
             {
                 pending: 'Editando o pedido',
                 success: 'Editado com sucesso',
-                error: "Erro ao deletar, confira os dados"
+                error: "Erro ao editar, confira os dados"
+            })
+    }
+
+    const mutationMultiUpdate = useMutation({
+        mutationFn: (e) => multiUpdate(e),
+        onSuccess: () => ordersQuery.refetch()
+    })
+
+
+
+
+    async function handleInput(params) {
+        if (search === params) return ordersQuery.refetch()
+        if (params !== "Período personalizado") {
+            setInitialDate(null)
+            setEndDate(null)
+        }
+
+        setSearch(params)
+
+        invalidateOrderQuery()
+    }
+
+    const updateOrder = async (body) => {
+        const response = await toast.promise(
+            URI.put("/pedidos", body),
+            {
+                pending: 'Editando o pedido',
+                success: 'Editado com sucesso',
+                error: "Erro ao editar, confira os dados"
             })
 
+        return response.data
     }
 
     const updateLink = useMutation({
         mutationFn: (e) => updateOrder(e),
         onSuccess: () => {
-            queryClient.invalidateQueries([search, "orders"])
+            invalidateOrderQuery()
+
         }
     })
 
 
+
+
+
     return (
         <OrdersContext.Provider value={{
-            updateOrders,
-
             orders, setOrders,
-
             ordersQuery,
 
             recibo,
@@ -161,13 +217,36 @@ export const OrdersProvider = ({ children }) => {
 
             search, setSearch,
 
-            setInitialDate,
-            setEndDate,
+            initialDate, setInitialDate,
+            endDate, setEndDate,
+
+            query,
+
             queryClient,
             handleInput,
             queryOrder, setQueryOrder,
 
-            setTake, setSkip, take
+            setTake, setSkip, take,
+            setOrderFor, setOrderBy, setDateType, setQuery,
+
+            checked, setChecked,
+
+            typeFilter, setTypeFilter,
+            removeFilter,
+
+            filterInitialDate, setFilteringInitialDate,
+            filterEndDate, setFilteringEndDate,
+
+            orderBy,
+            orderFor,
+
+            checkData, setCheckData,
+
+            body, setBody,
+
+            mutationMultiUpdate,
+            invalidateOrderQuery,
+
         }}>
 
             {children}

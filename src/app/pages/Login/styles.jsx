@@ -66,7 +66,7 @@ form{
 
     box-shadow: 4px 10px 25px -12px rgba(0,0,0,0.62);
 
-    border-radius: var(--border-radius);
+    border-radius: var(--br);
     font-size: var(--fsLow);
     justify-items: center;
 }

@@ -9,6 +9,7 @@ import { OrdersProvider } from './orders/ordersContext.hook'
 import { ProductsProvider } from './products/productsContext.hook'
 import { ServicesProvider } from './services/servicesContext.hook'
 import { SigningContracts } from './signContracts/sign.hook'
+import { SupliersProvider } from './supliers/supliersContext.hook'
 import { UnitiesProvider } from './unities/unitiesContext.hook'
 import { UserProvider } from './userContext'
 import { UsersProvider } from './users/usersContext.hook'
@@ -26,7 +27,10 @@ const AppProvider = ({ children }) => (
                                         <CampaignProvider>
                                             <ServicesProvider>
                                                 <ProductsProvider>
-                                                    {children}
+                                                    <SupliersProvider>
+
+                                                        {children}
+                                                    </SupliersProvider>
                                                 </ProductsProvider>
                                             </ServicesProvider>
                                         </CampaignProvider>
