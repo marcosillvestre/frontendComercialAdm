@@ -98,7 +98,6 @@ const Invoice = () => {
                                 <th>Produto</th>
                                 <th>Ent.</th>
                                 <th>Data de pagamento</th>
-                                <th>Valor Unitário</th>
                             </tr>
                         </thead>
 
@@ -109,7 +108,6 @@ const Invoice = () => {
                                         <td>{res.book}</td>
                                         <td>Sim</td>
                                         <td>{new Date(res.created_at).toLocaleDateString('pt-BR')}</td>
-                                        <td>{res.value.toLocaleString("pt-BR", { style: 'currency', currency: 'brl' })}</td>
 
                                     </tr>
 
@@ -121,7 +119,6 @@ const Invoice = () => {
 
 
 
-                    <h3>Valor Total: {data.length > 0 && data.reduce((acc, curr) => acc + curr.value, 0).toLocaleString('pt-BR', { style: 'currency', currency: 'brl' })}</h3>
                     <hr />
 
                     <div className="assinaturas">
@@ -164,7 +161,6 @@ const Invoice = () => {
                                 <th>Produto</th>
                                 <th>Ent.</th>
                                 <th>Data de pagamento</th>
-                                <th>Valor Unitário</th>
                             </tr>
                         </thead>
 
@@ -175,7 +171,6 @@ const Invoice = () => {
                                         <td>{res.book}</td>
                                         <td>Sim</td>
                                         <td>{new Date(res.created_at).toLocaleDateString('pt-BR')}</td>
-                                        <td>{res.value.toLocaleString("pt-BR", { style: 'currency', currency: 'brl' })}</td>
 
                                     </tr>
 
@@ -187,7 +182,6 @@ const Invoice = () => {
 
 
 
-                    <h3>Valor Total: {data.length > 0 && data.reduce((acc, curr) => acc + curr.value, 0).toLocaleString('pt-BR', { style: 'currency', currency: 'brl' })}</h3>
                     <hr />
 
                     <div className="assinaturas">
