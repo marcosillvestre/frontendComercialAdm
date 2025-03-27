@@ -40,7 +40,6 @@ export const SelectOrders = (parameters) => {
     }
 
     const handleFilterRangeDate = async () => {
-        setTypeFilter([])
 
         await handleInput(label)
     }

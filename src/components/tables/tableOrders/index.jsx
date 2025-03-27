@@ -27,7 +27,7 @@ function Row(props) {
         'ENVIADO': "#dff2d1",
         'CHEGOU': "#d1f2f0",
         'DISPONIVEL': "#d1d5f2",
-        'ENTREGUE': "#edd1f2",
+        'ENTREGUE': "#cbe765",
         'CANCELADO': "#f09393",
     }
 

@@ -94,7 +94,7 @@ export const ProductsProvider = ({ children }) => {
     const queryProductsTotals = async () => {
 
         const response = await URI.
-            get(`http://localhost:7070/produtos-totais`)
+            get(`/produtos-totais`)
 
         return response.data
     }

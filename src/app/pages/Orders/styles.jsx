@@ -41,6 +41,28 @@ nav{
     }
     }
 
+    .clean {
+background-color: #c9302c; 
+color: white;
+border: none;
+padding: 10px 16px;
+height: var(--boxHei);
+font-size: 14px;
+font-weight: bold;
+border-radius: var(--br);
+cursor: pointer;
+transition: background 0.3s ease, transform 0.2s ease;
+&:hover {
+    background-color: #d9534f; /* Vermelho forte */
+}
+
+&:active {
+background-color: #a72824; 
+transform: scale(0.98);
+}
+}
+
+
 
 `
 

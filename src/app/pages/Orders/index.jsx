@@ -11,7 +11,7 @@ import { Container, Header, InputSearch } from "./styles.jsx";
 
 export const Orders = () => {
     const { predeterminedPeriods } = businessRules
-    const { search, handleInput, initialDate, endDate, setQuery } = useOrders()
+    const { search, handleInput, initialDate, endDate, setQuery, typeFilter, setTypeFilter } = useOrders()
     const searching = useRef()
 
     return (
@@ -66,6 +66,16 @@ export const Orders = () => {
 
 
                     <OrderMoreFilters />
+
+                    {
+                        typeFilter.length > 0 &&
+                        <button
+                            className='clean'
+                            onClick={() => setTypeFilter([])}
+                        >
+                            limpar filtros
+                        </button>
+                    }
 
                 </nav>
 

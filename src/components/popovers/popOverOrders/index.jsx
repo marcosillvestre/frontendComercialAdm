@@ -86,9 +86,9 @@ export function PopOverOrder(data) {
                                         }
                                         onClick={async () => {
                                             await handleUpdate({
-                                                withdraw: new Date().toLocaleString("pt-Br"),
+                                                withdraw: new Date(),
                                                 removedBy: userData.name,
-                                                status: "REVISADO"
+                                                status: "ENTREGUE"
 
                                             })
                                         }}

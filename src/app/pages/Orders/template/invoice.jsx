@@ -35,7 +35,6 @@ const Invoice = () => {
 
     const pdfName = data.length > 0 && nameCreatorForPdf()
 
-    console.log(data)
 
     return (
 
