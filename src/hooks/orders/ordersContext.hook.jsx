@@ -35,7 +35,6 @@ export const OrdersProvider = ({ children }) => {
     const [dateType, setDateType] = useState("created_at")
     const [query, setQuery] = useState(undefined)
 
-    const [body, setBody] = useState()
     const [checked, setChecked] = useState(false)
 
 
@@ -151,10 +150,19 @@ export const OrdersProvider = ({ children }) => {
     ])
 
 
-    const multiUpdate = async () => {
+    const multiUpdate = async (e) => {
+        const promise = new Promise((resolve, reject) => {
+            URI.put("/multi-pedidos", e)
+                .then(response => resolve(response))
+                .catch(err => {
+                    alert(err.response.data.message)
+                    reject(err.response.data.message)
+                })
+
+        })
 
         await toast.promise(
-            URI.put("/multi-pedidos", body),
+            promise,
             {
                 pending: 'Editando o pedido',
                 success: 'Editado com sucesso',
@@ -242,7 +250,6 @@ export const OrdersProvider = ({ children }) => {
 
             checkData, setCheckData,
 
-            body, setBody,
 
             mutationMultiUpdate,
             invalidateOrderQuery,

@@ -6,10 +6,12 @@ import { CloserClick } from '../source.jsx';
 import { Box, ButtonContainer, Container, Edit, OptionsContainer } from './styles.jsx';
 
 export function MultiAlterationOrders(data) {
-    const { checkData, queryOrder, setQueryOrder, body, setBody, mutationMultiUpdate } = useOrders()
+    const { checkData, queryOrder, setQueryOrder, mutationMultiUpdate } = useOrders()
     const { userData } = useUser()
 
     const [pop, setPop] = useState()
+
+    const [body, setBody] = useState()
 
     useEffect(() => {
 
@@ -139,7 +141,7 @@ export function MultiAlterationOrders(data) {
 
     async function handleSenderDataToBeChanged() {
 
-        mutationMultiUpdate.mutateAsync()
+        mutationMultiUpdate.mutateAsync(body)
 
         close()
 

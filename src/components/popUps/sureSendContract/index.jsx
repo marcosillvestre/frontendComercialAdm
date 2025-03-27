@@ -49,7 +49,7 @@ export function SureSendContract(data) {
 
     const { orders, mutationMultiUpdate } = useOrders()
 
-    const [phoneNumber, setPhoneNumber] = useState(orders[0].phone)
+    const [phoneNumber, setPhoneNumber] = useState(orders[0]?.phone)
 
     const schema = Yup.object({
         file:
@@ -100,7 +100,7 @@ export function SureSendContract(data) {
 
                         await mutationMultiUpdate.mutateAsync({
                             ids: orders.map(res => res.id),
-                            responsible: userData.nane,
+                            responsible: userData.name,
                             where: 'link',
                             what: data.customer
                         })

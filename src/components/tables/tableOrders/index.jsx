@@ -182,7 +182,7 @@ export default function TableOrders() {
                                 <MultiAlterationOrders
                                     element={1}
                                     able={checkData.length > 0}
-                                    label={"Alterar em lote"}
+                                    label={"ações em lote"}
                                 />
                                 <ButtonContainer
                                     able={checkData.length > 0}
