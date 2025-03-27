@@ -90,10 +90,25 @@ export const ProductsProvider = ({ children }) => {
     //////////////////// get
 
 
+
+    const queryProductsTotals = async () => {
+
+        const response = await URI.
+            get(`http://localhost:7070/produtos-totais`)
+
+        return response.data
+    }
+
+    const totalsQuery = useQuery({
+        queryFn: () => queryProductsTotals(),
+        queryKey: ["products"],
+        enabled: !headers.Authorization.includes("undefined")
+    })
+
     return (
         <ProductsContext.Provider value={{
             createProduct,
-
+            totalsQuery,
             Product, setProduct,
             productQuery,
             editProduct, setEditProduct,

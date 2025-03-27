@@ -47,7 +47,7 @@ export const Orders = () => {
                             </p>
                             <InputSearch
                                 placeholder='pesquisar...'
-                                title='busque por nome, livro ou unidade'
+                                title='busque pelo cliente ou aluno'
                                 ref={searching}
                                 onChange={(e) => e.target.value === "" && setQuery(undefined)}
                             />

@@ -275,8 +275,16 @@ export default function TableOrders() {
                                                     }
                                                 </ContainerOrder>
                                             </TableCell>
-                                            <TableCell align="center">Produto</TableCell>
-                                            <TableCell align="center">Situação</TableCell>
+                                            <TableCell align="center">
+                                                <ContainerOrder>
+                                                    Produto
+                                                </ContainerOrder>
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                <ContainerOrder>
+                                                    Situação
+                                                </ContainerOrder>
+                                            </TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>

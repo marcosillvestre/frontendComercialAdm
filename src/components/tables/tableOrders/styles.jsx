@@ -13,7 +13,6 @@ th{
 
 export const ButtonContainer = styled(Link)`
 font-weight: 500;
-/* font-size: var(--fsLowest); */
 line-height: 1.75;
 letter-spacing: 0.02857em;
 text-transform: uppercase;

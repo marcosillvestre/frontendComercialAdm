@@ -35,6 +35,8 @@ const Invoice = () => {
 
     const pdfName = data.length > 0 && nameCreatorForPdf()
 
+    console.log(data)
+
     return (
 
         <Container>
@@ -107,8 +109,8 @@ const Invoice = () => {
                                     <tr key={index}>
                                         <td>{res.book}</td>
                                         <td>Sim</td>
-                                        <td>{res.created_at}</td>
-                                        <td>{res.value}</td>
+                                        <td>{new Date(res.created_at).toLocaleDateString('pt-BR')}</td>
+                                        <td>{res.value.toLocaleString("pt-BR", { style: 'currency', currency: 'brl' })}</td>
 
                                     </tr>
 
@@ -120,7 +122,7 @@ const Invoice = () => {
 
 
 
-                    <h3>Valor Total: R$ {data.length > 0 && data.reduce((acc, curr) => acc + curr.value, 0).toFixed(2)}</h3>
+                    <h3>Valor Total: {data.length > 0 && data.reduce((acc, curr) => acc + curr.value, 0).toLocaleString('pt-BR', { style: 'currency', currency: 'brl' })}</h3>
                     <hr />
 
                     <div className="assinaturas">
@@ -173,8 +175,8 @@ const Invoice = () => {
                                     <tr key={index}>
                                         <td>{res.book}</td>
                                         <td>Sim</td>
-                                        <td>{res.created_at}</td>
-                                        <td>{res.value}</td>
+                                        <td>{new Date(res.created_at).toLocaleDateString('pt-BR')}</td>
+                                        <td>{res.value.toLocaleString("pt-BR", { style: 'currency', currency: 'brl' })}</td>
 
                                     </tr>
 
@@ -186,7 +188,7 @@ const Invoice = () => {
 
 
 
-                    <h3>Valor Total: R$ {data.length > 0 && data.reduce((acc, curr) => acc + curr.value, 0).toFixed(2)}</h3>
+                    <h3>Valor Total: {data.length > 0 && data.reduce((acc, curr) => acc + curr.value, 0).toLocaleString('pt-BR', { style: 'currency', currency: 'brl' })}</h3>
                     <hr />
 
                     <div className="assinaturas">
