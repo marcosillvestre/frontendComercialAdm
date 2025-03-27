@@ -288,9 +288,7 @@ export const SupliersProvider = ({ children }) => {
 
     const getAllSupliers = async () => {
 
-        const url = `/fornecedores`
-
-        const response = await URI.get(url)
+        const response = await URI.get(`/fornecedor-totais`)
 
         return response.data
     }
