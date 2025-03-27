@@ -6,7 +6,6 @@ import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import PropTypes from 'prop-types';
@@ -16,7 +15,7 @@ import { useOrders } from '../../../hooks/orders/ordersContext.hook';
 import { MultiAlterationOrders } from '../../multiAlteration.Orders';
 import { MultiFiltersOrders } from '../../multiFilters.Orders';
 import { PopOverOrder } from '../../popovers/popOverOrders';
-import { ButtonContainer, Container, ContainerOrder, Tag } from './styles';
+import { ButtonContainer, Container, ContainerOrder, ContainerTable, Tag } from './styles';
 
 function Row(props) {
     const { row } = props;
@@ -208,11 +207,11 @@ export default function TableOrders() {
 
 
                         </nav>
-                        <TableContainer component={Paper}>
+                        <ContainerTable component={Paper}>
                             <Paper >
                                 <Table aria-label="collapsible table">
                                     <TableHead>
-                                        <TableRow sx={{ borderBottom: 'unset', fontSize: ".4rem" }}>
+                                        <TableRow sx={{ borderBottom: 'unset' }}>
                                             <TableCell align="center">
                                                 <input
                                                     type="checkbox"
@@ -276,7 +275,7 @@ export default function TableOrders() {
                                                     }
                                                 </ContainerOrder>
                                             </TableCell>
-                                            <TableCell align="center">Livro</TableCell>
+                                            <TableCell align="center">Produto</TableCell>
                                             <TableCell align="center">Situação</TableCell>
                                         </TableRow>
                                     </TableHead>
@@ -297,7 +296,7 @@ export default function TableOrders() {
                                     onRowsPerPageChange={handleChangeRowsPerPage}
                                 />
                             </Paper>
-                        </TableContainer>
+                        </ContainerTable>
                     </Container>
             }
         </div>
