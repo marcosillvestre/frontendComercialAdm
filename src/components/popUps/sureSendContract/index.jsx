@@ -18,7 +18,6 @@ const style = {
     transform: 'translate(-50%, -50%)',
     width: 490,
     bgcolor: 'background.paper',
-    // border: '1px solid #000',
     boxShadow: 24,
     p: 6,
 };
@@ -41,17 +40,16 @@ import { useOrders } from '../../../hooks/orders/ordersContext.hook';
 export function SureSendContract(data) {
 
 
-    const { headers } = useUser()
+    const { headers, userData } = useUser()
 
     const [open, setOpen] = useState(false);
     const [fileName, setFileName] = useState('')
     const [file, setFile] = useState('')
     const [Links, setLinks] = useState({})
 
-    const { orders, updateLink } = useOrders()
+    const { orders, mutationMultiUpdate } = useOrders()
 
-    const [phoneNumber, setPhoneNumber] = useState("")
-
+    const [phoneNumber, setPhoneNumber] = useState(orders[0].phone)
 
     const schema = Yup.object({
         file:
@@ -67,8 +65,6 @@ export function SureSendContract(data) {
     });
 
 
-
-
     const handleOpen = () => setOpen(true);
 
     const handleClose = () => {
@@ -82,7 +78,7 @@ export function SureSendContract(data) {
         if (phoneNumber.length !== 11) return alert("Número de telefone inválido")
 
         const data = new FormData()
-        data.append('name', orders.orders[0].nome)
+        data.append('name', orders[0].name)
 
 
         data.append('number', phoneNumber)
@@ -102,11 +98,11 @@ export function SureSendContract(data) {
                         const data = res.data.message
                         data.customer && setLinks(data)
 
-                        await updateLink.mutateAsync({
-                            value: data.customer,
+                        await mutationMultiUpdate.mutateAsync({
+                            ids: orders.map(res => res.id),
+                            responsible: userData.nane,
                             where: 'link',
-                            id: orders.id,
-                            order: orders.orders.map(res => res.id)
+                            what: data.customer
                         })
                     })
                 , {
@@ -172,7 +168,7 @@ export function SureSendContract(data) {
                                                 type="text"
                                                 id="phone"
                                                 onChange={(e) => setPhoneNumber(e.target.value)}
-                                                value={maskPhone(phoneNumber)}
+                                                value={phoneNumber && maskPhone(phoneNumber)}
                                                 maxLength={11}
                                             />
 

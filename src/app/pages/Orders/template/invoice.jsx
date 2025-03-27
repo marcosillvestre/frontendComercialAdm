@@ -27,10 +27,10 @@ const Invoice = () => {
         const ids = data && data.map((r, index) => {
             let croppedId = cropIds(r.id)
 
-            return index < data.length ? croppedId.concat("_") : croppedId
+            return index + 1 < data.length ? croppedId.concat("_") : croppedId
         })
 
-        return `reciboMd-${data[0].name}+${cropIds(data.id)}_`.concat(ids).replace(/,/g, '');
+        return `reciboMd-${data[0].name}+`.concat(ids).replace(/,/g, '');
     }
 
     const pdfName = data.length > 0 && nameCreatorForPdf()
