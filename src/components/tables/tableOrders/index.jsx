@@ -34,20 +34,12 @@ function Row(props) {
     const tenDaysAhead = `Data de entrega: ${new Date(new Date(row.created_at).setDate(new Date(row.created_at).getDate() + 10)).toLocaleDateString("pt-br")}`
     const created = new Date(row.created_at).setUTCHours(10)
 
-    const bgColor = () => {
-
-        if (!row.available) return statusTrail["REVISAR"]
-
-        if (row.signed) return statusTrail["ENVIADO"]
-    }
-
     return (
         <React.Fragment>
             <TableRow sx={{
                 '& > *': {
                     borderBottom: 'unset', fontSize: ".7rem",
 
-                    backgroundColor: bgColor()
                 }
             }}>
                 <TableCell align="center" component="th" scope="row">
