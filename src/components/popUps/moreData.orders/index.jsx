@@ -39,23 +39,22 @@ export function MoreData(info) {
 
 
     const subtitle = {
-        'id': "Id",
-        'name': "Nome",
-        'status': "Status",
-        'phone': "Telefone de contato",
-        'book': "Material",
-        'student': "Aluno",
-        'sku': "SKU",
-        'unity': "Unidade",
-        'value': "Valor",
-        'link': "Link",
         'created_at': "Data de criação",
-
+        'name': "Nome do responsável",
+        'student': "Aluno",
+        'status': "Situação",
+        'book': "Produto",
+        'sku': "SKU",
+        'value': "Valor",
+        'phone': "Telefone de contato",
+        'arrivingDate': "Data de chegada",
         'withdraw': "Data de retirada",
-
-        'arrived': "Chegou",
         'signed': "Assinado",
+        'unity': "Unidade",
+        'link': "Link",
+        'arrived': "Chegou",
         'removedBy': "Retirado por",
+        'id': "Id",
     }
     const statusTrail = {
         'REVISAR': 0,
@@ -69,6 +68,8 @@ export function MoreData(info) {
 
     const keys = Object.keys(subtitle)
 
+
+    console.log(info)
     return (
         <div>
             <Filter onClick={handleFuncs}> Mais informações</Filter>
@@ -179,54 +180,33 @@ export function MoreData(info) {
                                             </label>
                                     ))
                                 }
+                                <hr />
+                                <Typography variant="h7" component="h3">
+                                    Histórico de alterações:
+                                </Typography>
+                                {
+                                    data.logs.length > 0 &&
+                                    data.logs.map((res, index) => (
 
+                                        <label htmlFor="" key={index}>
+                                            <div
+                                                className='input'
+                                                style={{ backgroundColor: "#e0e0e0" }}
+                                            >
+                                                <span
+                                                    title={res.date}
+                                                >
+                                                    <Typography variant="h7" component="h3">
+                                                        {res.responsible}:
+                                                    </Typography>
 
-                                {/* <label htmlFor="">
-                                    <Typography variant="h7" component="h3">
-                                        SkU
-                                    </Typography>
-                                    {data.sku}
-                                </label>
+                                                    {res.description}
+                                                </span>
 
-                                <label htmlFor="">
-                                    <Typography variant="h7" component="h3">
-                                        Data de pagamento
-                                    </Typography>
-                                    {data.created_at}
-                                </label>
-
-                                <label htmlFor="">
-                                    <Typography variant="h7" component="h3">
-                                        Link
-                                    </Typography>
-                                    {
-                                        data.link !== "" &&
-                                        <a href={data.link}>Link do autentique</a>
-                                    }
-                                </label>
-
-                                <label htmlFor="">
-                                    <Typography variant="h7" component="h3">
-                                        Assinado
-                                    </Typography>
-                                    {data.signed ? "Sim" : "Não"}
-                                </label>
-
-                                <label htmlFor="">
-                                    <Typography variant="h7" component="h3">
-                                        Valor
-                                    </Typography>
-                                    R$ {data.value}
-                                </label>
-
-                                <label htmlFor="">
-                                    <Typography variant="h7" component="h3">
-                                        Número de telefone
-                                    </Typography>
-                                    {data.phone}
-                                </label> */}
-
-
+                                            </div>
+                                        </label>
+                                    ))
+                                }
 
                             </Boxes>
                         </Box>
