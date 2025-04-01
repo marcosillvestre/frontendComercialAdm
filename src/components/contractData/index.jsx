@@ -791,7 +791,7 @@ export const ContractData = () => {
                                                             {
                                                                 idx + 1 > camp?.parcel?.affectedParcels ?
                                                                     <td>{(res.valor - res.descount).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td> :
-                                                                    <td>{res.valor}</td>
+                                                                    <td>{parseFloat(res.valor).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
                                                             }
                                                         </tr>
                                                     ))
