@@ -325,11 +325,13 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                                 <tbody>
                                     <tr>
                                         <td >{data["service"]}</td>
-                                        <td >{(data["valorCurso"]).toFixed(2)}</td>
-                                        <td >{parseFloat(parcel.parcels.reduce((acc, curr) => parseFloat(curr.descount) + acc, 0)).toFixed(2)}</td>
+                                        <td >{(data["valorCurso"]).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
+                                        <td >{parseFloat(parcel.parcels.reduce((acc, curr) => parseFloat(curr.descount) + acc, 0)).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
                                         <td >{data["Número de parcelas do curso"]}</td>
                                         <td >{data["Forma de pagamento da parcela"]}</td>
-                                        <td >{(parcel["total"] - parcel["descount"]).toFixed(2)}</td>
+
+                                        <td >{(parcel["total"] - parcel["descount"])
+                                            .toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
                                     </tr>
 
 
@@ -359,13 +361,13 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                                             <tr key={idx}>
                                                 <td>{idx + 1}</td>
                                                 <td>{dateCalculator(data["Data de vencimento da primeira parcela"], idx)}</td>
-                                                <td>{(parcel.total / parcel.parcels.length).toFixed(2)}</td>
-
-                                                <td>{res.descount}</td>
-
-                                                <td>{(res.valor - res.descount).toFixed(2)}</td> :
-
-
+                                                <td>{(parcel.total / parcel.parcels.length).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
+                                                <td>{parseFloat(res.descount).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
+                                                {
+                                                    idx + 1 > campaign?.parcel?.affectedParcels ?
+                                                        <td>{(res.valor - res.descount).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td> :
+                                                        <td>{parseFloat(res.valor).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
+                                                }
                                             </tr>
                                         ))
                                     }
@@ -489,11 +491,11 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                                         data["products"].map((res) => (
                                             <tr key={res.id}>
                                                 <td>{res.name}</td>
-                                                <td>{(res.price_ticket).toFixed(2)}</td>
-                                                <td>{(res.price_ticket - res[paymentMethodsForMaterials[data["Forma de pagamento do MD"]]]).toFixed(2)}</td>
+                                                <td>{(res.price_ticket).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
+                                                <td>{(res.price_ticket - res[paymentMethodsForMaterials[data["Forma de pagamento do MD"]]]).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
                                                 <td>{data["Quantidade de parcelas MD"]}</td>
                                                 <td>{data["Forma de pagamento do MD"]}</td>
-                                                <td>{(res[paymentMethodsForMaterials[data["Forma de pagamento do MD"]]].toFixed(2))}</td>
+                                                <td>{(res[paymentMethodsForMaterials[data["Forma de pagamento do MD"]]].toLocaleString('pt-BR', { style: 'currency', currency: "brl" }))}</td>
                                             </tr>
                                         ))
                                     }
@@ -503,11 +505,11 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                                     <tfoot className='contrast'>
                                         <tr>
                                             <td>TOTAL</td>
-                                            <td>{data['products'].reduce((acc, curr) => acc + curr.price_ticket, 0).toFixed(2)}</td>
-                                            <td>{data['products'].reduce((acc, curr) => acc + curr.price_ticket - curr[paymentMethodsForMaterials[data["Forma de pagamento do MD"]]], 0).toFixed(2)}</td>
+                                            <td>{data['products'].reduce((acc, curr) => acc + curr.price_ticket, 0).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
+                                            <td>{data['products'].reduce((acc, curr) => acc + curr.price_ticket - curr[paymentMethodsForMaterials[data["Forma de pagamento do MD"]]], 0).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
                                             <td>{data["Quantidade de parcelas MD"]}</td>
                                             <td>{data["Forma de pagamento do MD"]}</td>
-                                            <td>{data['products'].reduce((acc, curr) => acc + curr[paymentMethodsForMaterials[data["Forma de pagamento do MD"]]], 0).toFixed(2)}</td>
+                                            <td>{data['products'].reduce((acc, curr) => acc + curr[paymentMethodsForMaterials[data["Forma de pagamento do MD"]]], 0).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
                                         </tr>
                                     </tfoot>
                                 }
@@ -537,9 +539,9 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                                             <tr key={idx}>
                                                 <td>{idx + 1}</td>
                                                 <td>{dateCalculator(data["Data de pagamento MD"], idx)}</td>
-                                                <td>{(data['products'].reduce((acc, curr) => acc + curr.price_ticket, 0) / data['material'].materials.length).toFixed(2)}</td>
+                                                <td>{(data['products'].reduce((acc, curr) => acc + curr.price_ticket, 0) / data['material'].materials.length).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
                                                 <td>{((data['products'].reduce((acc, curr) => acc + curr[paymentMethodsForMaterials[data["Forma de pagamento do MD"]]], 0))
-                                                    / data['material'].materials.length).toFixed(2)}</td>
+                                                    / data['material'].materials.length).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
                                             </tr>
                                         ))
                                     }
@@ -642,9 +644,9 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                             A CONTRATADA reserva-se o direito de cobrar uma taxa de adesão, denominada &quot;TAXA DE MATRÍCULA&quot;,
                             no valor de até R$350,00, a ser paga no ato da matrícula.
                             Tal valor destina-se à cobertura de custos operacionais e administrativos relacionados ao processo de adesão.
-                            A CONTRATADA poderá conceder um desconto condicional de R${(data['tax'].descount).toFixed(2)} <strong>somados aos demais descontos</strong>,
+                            A CONTRATADA poderá conceder um desconto condicional de R${(data['tax'].descount).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })} <strong>somados aos demais descontos</strong>,
 
-                            resultando em um valor líquido final a ser pago de R${(data['tax'].total).toFixed(2)}, desde que atendidas as condições estabelecidas no contrato,
+                            resultando em um valor líquido final a ser pago de R${(data['tax'].total).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}, desde que atendidas as condições estabelecidas no contrato,
                             incluindo a forma de pagamento escolhida e o cumprimento do prazo de quitação.
                         </p>
                         <br />
