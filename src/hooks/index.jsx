@@ -7,6 +7,7 @@ import { CustomFields } from './customFields/customFIelds.hook'
 import { DataProvider } from './dataContext'
 import { OrdersProvider } from './orders/ordersContext.hook'
 import { ProductsProvider } from './products/productsContext.hook'
+import { RequestsProvider } from './requests/requestsContext.hook'
 import { ServicesProvider } from './services/servicesContext.hook'
 import { SigningContracts } from './signContracts/sign.hook'
 import { SupliersProvider } from './supliers/supliersContext.hook'
@@ -28,8 +29,9 @@ const AppProvider = ({ children }) => (
                                             <ServicesProvider>
                                                 <ProductsProvider>
                                                     <SupliersProvider>
-
-                                                        {children}
+                                                        <RequestsProvider>
+                                                            {children}
+                                                        </RequestsProvider>
                                                     </SupliersProvider>
                                                 </ProductsProvider>
                                             </ServicesProvider>

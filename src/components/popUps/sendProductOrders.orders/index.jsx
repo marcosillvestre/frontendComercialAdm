@@ -9,6 +9,7 @@ import LoadingSpin from 'react-loading-spin';
 // import URI from '../../app/utils/utils';
 import CloseIcon from '@mui/icons-material/Close';
 import { useOrders } from '../../../hooks/orders/ordersContext.hook';
+import { useRequests } from '../../../hooks/requests/requestsContext.hook';
 import { useSupliers } from '../../../hooks/supliers/supliersContext.hook';
 import { useUser } from '../../../hooks/userContext';
 import { Boxes, Filter, Header, PrevisionContainer, TableProducts } from './styles';
@@ -30,76 +31,80 @@ const style = {
 
 
 export function MakeOrders(info) {
-
+    const { data } = info
+    const [suplier, setSuplier] = React.useState();
+    const [result, setResult] = React.useState();
     const [open, setOpen] = React.useState(false);
-    const [load, setLoad] = React.useState(false);
+
     const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-    const { userData } = useUser()
-    const { checkData, setCheckData, setChecked } = useOrders()
 
-    const { allSupliers } = useSupliers()
-
-    const { data: sups, isPeding } = allSupliers
-
-
+    const handleClose = () => {
+        setOpen(false)
+        setSuplier(null)
+    };
     function handleFuncs() {
         handleOpen()
     }
-    const { data } = info
 
-    const [suplier, setSuplier] = React.useState();
-    const [wppSend, setSendWpp] = React.useState(true);
-    const [emailSend, setSendEmail] = React.useState(true);
 
-    const comment = React.useRef()
 
-    // const addComment = () => {
-    //     setLoad(true)
-    //     const commentText = comment.current.value
 
-    //     const value = [
-    //         ...comments,
-    //         {
-    //             id: new Date().setUTCHours(0),
-    //             name: `${userData.name} / ${userData.role}`,
-    //             comment: commentText, date: new Date()
-    //         }
-    //     ]
-    //     setcomments(value)
 
-    //     updateLink.mutateAsync({
-    //         id: data.id,
-    //         observations: value,
-    //         responsible: userData.name
-    //     })
-    //     setLoad(false)
+    const { userData } = useUser()
+    const { checkData, setCheckData, setChecked } = useOrders()
+    const { createRequest } = useRequests()
+    const { allSupliers } = useSupliers()
+    const { data: sups, isPending } = allSupliers
 
-    // }
+    React.useEffect(() => {
+        const itemCount = checkData.reduce((acc, item) => {
+            acc[item.book] = (acc[item.book] || 0) + 1;
+            return acc;
+        }, {});
+
+        setResult(Object.entries(itemCount)
+            .map(([name, count]) => ({ name, count })));
+
+    }, [JSON.stringify(checkData)])
+
+    const [wppPermission, setWppPermission] = React.useState(false);
+    const [emailPermission, setEmailPermission] = React.useState(false);
+
+    const message = React.useRef()
+    const prevision = React.useRef()
+
 
     const checkAll = (bool) => {
-        document.querySelectorAll("input[type='checkbox']").forEach((checkbox) => {
-            setChecked(bool)
-            checkbox.checked = bool;
-        });
+        document.querySelectorAll("input[type='checkbox']")
+            .forEach((checkbox) => {
+                setChecked(bool)
+                checkbox.checked = bool;
+            });
     };
 
-    const filterSuplier = (doc) => {
-        setSuplier(sups.supliers.find(res => res.docment === doc))
+    const filterSuplier = React.useCallback((name) => {
+        setSuplier(sups?.supliers?.find(res => res.name === name));
+    }, [sups]);
+
+
+
+
+    const sendRequests = async () => {
+
+        if (checkData.every(res => res.status !== "REVISADO" && res.status !== "ENTREGUE"))
+            return alert("Apenas produtos REVISADOS ou ENTREGUES podem ser realizado pedidos.")
+
+        createRequest.mutateAsync({
+            orders: checkData,
+            responsible: userData.name,
+            message: message.current.value,
+            prevision: prevision.current.value,
+            suplier,
+            wppPermission,
+            emailPermission
+        })
+
     }
-
-
-
-    const itemCount = checkData.reduce((acc, item) => {
-        // const cleanedItem = item.trim(); // Remove espaços extras e quebras de linha
-
-        acc[item.book] = (acc[item.book] || 0) + 1; // Conta ocorrências
-        return acc;
-    }, {});
-
-    // Convertendo para array, se precisar
-    const result = Object.entries(itemCount).map(([name, count]) => ({ name, count }));
-
     return (
         <div>
             <Filter onClick={handleFuncs}> {data.label}</Filter>
@@ -134,7 +139,7 @@ export function MakeOrders(info) {
 
                             </Header>
                             {
-                                load ?
+                                isPending ?
                                     <LoadingSpin
                                         duration="4s"
                                         width="15px"
@@ -156,17 +161,22 @@ export function MakeOrders(info) {
                                                         filterSuplier(e.target.value)
                                                 }}
                                             />
-                                        </label>
-                                        <datalist id='supliers'>
-                                            {sups &&
-                                                sups.supliers.map(res => (
+                                            <datalist
+                                                id='supliers'>
+                                                {sups &&
+                                                    sups.supliers.map(res => (
 
-                                                    <option key={res.id} value={res.docment}>
-                                                        {res.name}
-                                                    </option>
-                                                ))
-                                            }
-                                        </datalist>
+                                                        <option
+                                                            key={res.id}
+                                                            value={res.name}
+
+                                                        >
+                                                            {res.name}
+                                                        </option>
+                                                    ))
+                                                }
+                                            </datalist>
+                                        </label>
                                         <TableProducts>
                                             <thead>
                                                 <tr>
@@ -224,7 +234,7 @@ export function MakeOrders(info) {
                                             </tfoot>
                                         </TableProducts>
                                         {
-                                            suplier &&
+                                            suplier !== undefined &&
                                             <>
                                                 <PrevisionContainer>
                                                     <div className='flex'>
@@ -232,16 +242,18 @@ export function MakeOrders(info) {
                                                         <label htmlFor="">
                                                             <p>whatsapp</p>
                                                             <input type="checkbox"
-                                                                disabled={suplier.contacts?.whatsapp === undefined}
-                                                                defaultChecked={true}
+                                                                disabled={suplier?.contacts?.whatsapp === undefined}
+                                                                defaultChecked={wppPermission}
+                                                                onChange={() => setWppPermission(prev => !prev)}
                                                                 name="whatsapp" id="" />
                                                         </label>
 
                                                         <label htmlFor="">
                                                             <p>email</p>
                                                             <input type="checkbox"
-                                                                disabled={suplier.contacts?.orderEmail === undefined}
-                                                                defaultChecked={true}
+                                                                disabled={suplier?.contacts?.orderEmail === undefined}
+                                                                defaultChecked={emailPermission}
+                                                                onChange={() => setEmailPermission(prev => !prev)}
                                                                 name="email" id="" />
                                                         </label>
                                                     </div>
@@ -250,7 +262,8 @@ export function MakeOrders(info) {
                                                         <p>Tempo previsto de entrega (em dias)</p>
                                                         <input
                                                             className='input-suplier'
-                                                            // ref={}
+                                                            defaultValue={10}
+                                                            ref={prevision}
                                                             type="number" name="" id="" />
                                                     </label>
                                                 </PrevisionContainer>
@@ -260,26 +273,18 @@ export function MakeOrders(info) {
                                                         <p>Pré-visualização do pedido:</p>
                                                         <textarea
                                                             defaultValue={
-                                                                `Olá, gostaria de fazer um pedido desses produtos: 
+                                                                `Olá, em nome da American Way gostaria de fazer um pedido dos seguintes produtos: 
 
-${result.map(res => `${res.name}, quantidade: ${res.count}\n`)}
+${result.map(res => `${res.name},   quantidade: ${res.count}\n`)}
 
-observações: 
-
-${suplier.contacts.descricao}
-`
+                                                                `
                                                             }
-                                                            type="text" ref={comment} />
+                                                            type="text" ref={message} />
 
                                                         <button
                                                             type='submit'
                                                             onClick={(e) => {
-
-                                                                if (checkData.every(res =>
-                                                                    res.status !== "REVISADO" || res.status !== "ENTREGUE")) {
-                                                                    alert("Apenas produtos REVISADOS ou ENTREGUES podem ser realizado pedidos.")
-                                                                }
-                                                                // comment.current.value !== '' && addComment()
+                                                                sendRequests()
                                                                 e.preventDefault()
                                                             }}
                                                             className='defaultButton'>
@@ -290,11 +295,6 @@ ${suplier.contacts.descricao}
                                                 </form>
                                             </>
                                         }
-
-
-
-
-
 
                                     </Boxes>
                             }

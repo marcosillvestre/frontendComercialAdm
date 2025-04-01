@@ -45,11 +45,12 @@ export const OrdersProvider = ({ children }) => {
 
         const now = new Date();
 
-        const LastMonth = () => `${new Date(now.getFullYear(), now.getMonth() - 1, 1)}~${new Date(now.getFullYear(), now.getMonth(), 0)}`;
-        const TwoMonths = () => `${new Date(now.getFullYear(), now.getMonth() - 2, 1)}~${new Date(now.getFullYear(), now.getMonth() - 1, 0)}`;
-        const ThisMonth = () => `${new Date(now.getFullYear(), now.getMonth(), 1)}~${new Date(now.getFullYear(), now.getMonth() + 1, 0)}`;
 
-        const Custom = () => `${initialDate}~${endDate}`;
+        const LastMonth = () => `${new Date(now.getFullYear(), now.getMonth() - 1, 1)}~${new Date(now.getFullYear(), now.getMonth(), 0, 23, 59, 59, 999)}`;
+        const TwoMonths = () => `${new Date(now.getFullYear(), now.getMonth() - 2, 1)}~${new Date(now.getFullYear(), now.getMonth() - 1, 0, 23, 59, 59, 999)}`;
+        const ThisMonth = () => `${new Date(now.getFullYear(), now.getMonth(), 1)}~${new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999)}`;
+
+        const Custom = () => `${initialDate}~${new Date(new Date(endDate).setUTCHours(23, 59, 59, 999))}`;
 
         const SevenDays = () => {
             const date = new Date()
@@ -60,15 +61,14 @@ export const OrdersProvider = ({ children }) => {
         const All = () => {
             const date = new Date()
             date.setDate(date.getDate() - 10000)
-            return `${date.toDateString()}~${now}`
+            return `${date.toDateString()}~${now.setUTCHours(23, 59, 59, 999)}`
         }
 
         const ThisYear = () => {
             const date = new Date();
             const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
-            return `${firstDayOfYear.toDateString()}~${now}`
+            return `${firstDayOfYear.toDateString()}~${now.setUTCHours(23, 59, 59, 999)}`
         }
-
 
 
         const settledPeriod = {
@@ -124,10 +124,6 @@ export const OrdersProvider = ({ children }) => {
 
     const invalidateOrderQuery = () => {
 
-        queryClient.invalidateQueries([
-            search, "orders", skip, take, query,
-            JSON.stringify(typeFilter), orderBy, orderFor
-        ])
         ordersQuery.refetch()
     }
 
@@ -172,7 +168,75 @@ export const OrdersProvider = ({ children }) => {
 
     const mutationMultiUpdate = useMutation({
         mutationFn: (e) => multiUpdate(e),
-        onSuccess: () => ordersQuery.refetch()
+        onSuccess: (_, variable) => {
+            queryClient.setQueryData(
+                [search, "orders", skip, take, query,
+                    JSON.stringify(typeFilter), orderBy, orderFor],
+                (oldData) => {
+                    const { order, count } = oldData
+                    const { ids, where, what } = variable
+
+                    const newData = order.map(order => {
+                        if (!ids.includes(order.id)) return order; // Mantém os pedidos que não precisam ser atualizados
+                        const dateTypes = {
+                            delivery: {
+                                status: 'ENTREGUE',
+                                "withdraw": new Date(),
+                                logistic: [...order['logistic'], {
+                                    stage: "ENTREGUE",
+                                    active: true,
+                                    date: new Date()
+                                }]
+                            },
+                            arrived: {
+                                status: 'CHEGOU',
+                                "arrivingDate": new Date(),
+                                logistic: [...order['logistic'], {
+                                    stage: "CHEGOU",
+                                    active: true,
+                                    date: new Date()
+                                }]
+                            },
+                            available: {
+                                status: 'CANCELADO',
+                                logistic: [...order['logistic'], {
+                                    stage: "CANCELADO",
+                                    active: true,
+                                    date: new Date()
+                                }]
+                            },
+                            status: {
+                                [where]: what,
+                                logistic: [...order['logistic'], {
+                                    stage: what,
+                                    active: true,
+                                    date: new Date()
+                                }]
+                            },
+                            signed: {
+                                signed: true,
+                            },
+                        }
+
+                        const toBeUpdated = dateTypes[where]
+
+                        return {
+                            ...order,
+                            ...toBeUpdated
+                        };
+                    });
+
+                    const arrayUpdated = {
+                        order: newData,
+                        count
+                    }
+
+                    setQueryOrder(arrayUpdated)
+
+                    return arrayUpdated
+                }
+            )
+        }
     })
 
 

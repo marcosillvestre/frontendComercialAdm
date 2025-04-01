@@ -296,10 +296,10 @@ export const SupliersProvider = ({ children }) => {
     const allSupliers = useQuery({
         queryFn: () => getAllSupliers(),
         queryKey: [
-            "Supliers"
+            "AllSupliers"
         ],
-        // staleTime: 1000 * 60 * 5, // 5 minutos sem refazer a requisição
-        // cacheTime: 1000 * 60 * 10
+        staleTime: 1000 * 60 * 5, // 5 minutos sem refazer a requisição
+        cacheTime: 1000 * 60 * 10
     })
 
 

@@ -1,18 +1,18 @@
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useState } from 'react';
 import businessRules from '../../../app/utils/Rules/options.jsx';
-import { useOrders } from '../../../hooks/orders/ordersContext.hook.jsx';
-import { CustomDateMenuOrders } from '../../customDateMenu/filteringMenu.Orders/index.jsx';
+import { useRequests } from '../../../hooks/requests/requestsContext.hook.jsx';
+import { CustomDateMenuHistoricOrders } from '../../customDateMenu/filteringMenu.HistoricOrders/index.jsx';
 import { CloserClick } from '../../source.jsx';
 import { Container, Icon, ListOpt, Options, SelectButton } from './styles.jsx';
 
-export const SelectOrders = (parameters) => {
+export const SelectHistoricOrders = (parameters) => {
 
     const { types } = businessRules
     const [label, setLabel] = useState(types[parameters.label] || parameters.label)
     const [open, setOpen] = useState(false)
 
-    const { setInitialDate, setEndDate, handleInput } = useOrders()
+    const { setInitialDate, setEndDate, handleInput } = useRequests()
 
 
     const handleCheck = async (label) => {
@@ -103,7 +103,7 @@ export const SelectOrders = (parameters) => {
                                             </span>
                                             :
                                             <span onClick={() => setLabel("Período personalizado")}>
-                                                <CustomDateMenuOrders props={{
+                                                <CustomDateMenuHistoricOrders props={{
                                                     label: data.name,
                                                     date: true,
                                                 }}

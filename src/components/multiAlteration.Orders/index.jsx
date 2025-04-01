@@ -6,7 +6,7 @@ import { CloserClick } from '../source.jsx';
 import { Box, ButtonContainer, Container, Edit, OptionsContainer } from './styles.jsx';
 
 export function MultiAlterationOrders(data) {
-    const { checkData, queryOrder, setQueryOrder, mutationMultiUpdate } = useOrders()
+    const { checkData, mutationMultiUpdate } = useOrders()
     const { userData } = useUser()
 
     const [pop, setPop] = useState()
@@ -64,18 +64,6 @@ export function MultiAlterationOrders(data) {
             type: 'available',
             value: false
         },
-        // {
-        //     label: 'FAZER REPOSIÇÃO DE MERCADORIAS',
-        //     type: 'type',
-        //     value: 'REPOSICAO',
-        //     email: true
-        // },
-        // {
-        //     label: 'CONFIRMAR CHEGADA DE REPOSIÇÃO',
-        //     type: 'type',
-        //     value: "REPOSICAO"
-        // },
-
 
 
     ], [])
@@ -122,7 +110,8 @@ export function MultiAlterationOrders(data) {
             logistic: [
                 {
                     stage: value,
-                    active: true
+                    active: true,
+                    date: new Date()
                 }
             ]
         })
@@ -130,36 +119,19 @@ export function MultiAlterationOrders(data) {
         optionGroup.length > 1 ?
             setOptionGroup(optionGroup.filter(res => res.label === label)) :
             setOptionGroup(arrayQuantityChanges)
-
     }
+
 
     const close = () => {
         setManyAlteration(!manyAlteration)
 
     }
 
-
     async function handleSenderDataToBeChanged() {
 
         mutationMultiUpdate.mutateAsync(body)
 
         close()
-
-        const { order, count } = queryOrder
-        const data = []
-        const { ids, where, what } = body
-        for (let index = 0; index < order.length; index++) {
-            const object = order[index];
-
-            const idSearched = ids.find(res => res === object.id)
-
-            idSearched ? data.push({ ...object, [where]: what }) :
-                data.push(object)
-
-        }
-
-        setQueryOrder({ order: data, count })
-
     }
 
     return (

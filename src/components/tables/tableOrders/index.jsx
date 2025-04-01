@@ -280,9 +280,11 @@ export default function TableOrders() {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {count > 0 && order.map((row) => (
-                                            <Row key={row.id} row={row} />
-                                        ))}
+                                        {
+                                            order &&
+                                            order.map((row) => (
+                                                <Row key={row.id} row={row} />
+                                            ))}
                                     </TableBody>
                                 </Table>
                                 <TablePagination

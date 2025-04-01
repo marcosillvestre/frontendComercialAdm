@@ -85,6 +85,10 @@ export const paths = {
         path: "/pedidos",
         access: general
     },
+    historicOrders: {
+        path: "/historico-pedidos",
+        access: general
+    },
 
     nestedOrder: {
         path: "/pedidos/invoice",

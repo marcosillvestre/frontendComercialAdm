@@ -3,6 +3,7 @@ import { createBrowserRouter } from "react-router-dom";
 
 import { paths } from "../app/constants/paths.js";
 import { Campaigns } from "../app/pages/campaigns/index.jsx";
+import { HistoricOrders } from "../app/pages/historicOrders/index.jsx";
 import Invoice from "../app/pages/Orders/template/invoice.jsx";
 import { Products } from "../app/pages/Products/index.jsx";
 import { Services } from "../app/pages/Services/index.jsx";
@@ -26,7 +27,8 @@ const {
     config, home, redefinePass,
     signContracts, orders, nestedOrder, comissionalControl,
     configRegister, control, nestedControl, configCustomFields,
-    campaign, products, services, supliers
+    campaign, products, services, supliers, historicOrders
+
 } = paths
 
 
@@ -79,6 +81,11 @@ const Routes = createBrowserRouter([
     {
         path: orders.path,
         element: orders.access.find(res => res === user?.role) ? <><MiniDrawer /><Orders /> </> : <Login />,
+        errorElement: <ErrorPage />,
+    },
+    {
+        path: historicOrders.path,
+        element: historicOrders.access.find(res => res === user?.role) ? <><MiniDrawer /><HistoricOrders /> </> : <Login />,
         errorElement: <ErrorPage />,
     },
     {

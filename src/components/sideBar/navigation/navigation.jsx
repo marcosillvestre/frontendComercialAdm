@@ -1,8 +1,8 @@
 import SettingsIcon from '@mui/icons-material/Settings';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
+import WorkHistoryIcon from '@mui/icons-material/WorkHistory';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
 import { useLocation } from 'react-router-dom';
 import { paths } from "../../../app/constants/paths";
 import { useUser } from "../../../hooks/userContext";
@@ -23,8 +23,10 @@ export const Navigation = (openSidebar) => {
         { name: 'Emitir Contratos', url: paths.signContracts.path, icon: <GetContracts />, access: paths.signContracts.access },
         { name: 'Relatórios', url: paths.comissionalControl.path, icon: <ComissionScreen />, access: paths.comissionalControl.access },
         { name: 'Pedidos', url: paths.orders.path, icon: <ShoppingBasketIcon />, access: paths.orders.access },
+        { name: 'Histórico de pedidos', url: paths.historicOrders.path, icon: <WorkHistoryIcon />, access: paths.historicOrders.access },
         { name: 'Configurações', url: paths.config.path, icon: <SettingsIcon />, access: paths.config.access },
     ]
+
 
     return (
         <div>
@@ -36,10 +38,13 @@ export const Navigation = (openSidebar) => {
                     >
 
                         <ListItem
-                            disablePadding sx={{ display: 'block' }}>
+                            disablePadding sx={{ display: 'block' }}
+                            style={{ backgroundColor: url.pathname === text.url ? "#d2d2d2" : "" }}
+
+                        >
                             <ListItemButton
                                 sx={{
-                                    minHeight: 60,
+                                    minHeight: 40,
                                     justifyContent: openSidebar.open ? 'initial' : 'right',
                                     px: 2,
                                 }}
@@ -48,15 +53,11 @@ export const Navigation = (openSidebar) => {
                                     id="link"
                                     key={text.name}
                                     to={text.url}
-                                    active={url.pathname === text.url && true} >
+                                >
 
                                     {text.icon}
                                     {text.name}
 
-                                    <ListItemText
-                                        primary={text.name}
-                                        sx={{ opacity: openSidebar.open ? 1 : 0 }}
-                                    />
 
                                 </Links>
 

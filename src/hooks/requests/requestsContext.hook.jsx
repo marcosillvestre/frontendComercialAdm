@@ -3,11 +3,13 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import Proptypes from 'prop-types'
 import { createContext, useContext, useLayoutEffect, useRef, useState } from "react"
 import { toast } from "react-toastify"
+import businessRules from '../../app/utils/Rules/options.jsx'
 import URI from "../../app/utils/utils"
 
 const RequestsContext = createContext({})
 
 export const RequestsProvider = ({ children }) => {
+    const { predeterminedPeriods } = businessRules
 
     const queryClient = useQueryClient()
 
@@ -17,29 +19,10 @@ export const RequestsProvider = ({ children }) => {
     const [typeFilter, setTypeFilter] = useState([])
 
     const [query, setQuery] = useState()
-    // id: 'cm8na0tnv000f73rcpyboweir',
-    // name: 'Marcos Viniciu',
-    // docment: '02605441',
-    // type: 'FISICO',
-    // contacts: {
-    //   email: 'Marcos.vinicius7170@gmail.com',
-    //   telefone: '544444',
-    //   whatsapp: '5',
-    //   descricao: '555',
-    //   orderEmail: '5555',
-    //   comercialPhone: '31973375058'
-    // },
-    // address: {
-    //   UF: 'Minas Gerais',
-    //   Rua: 'Rua Formosa',
-    //   cep: '32606-720',
-    //   Bairro: 'Conjunto Habitacional Homero Gil',
-    //   Cidade: 'Betim',
-    //   numero: '215',
-    //   complemento: 'casa'
-    // },
+
     const [initialDate, setInitialDate] = useState(null)
     const [endDate, setEndDate] = useState(null)
+    const [search, setSearch] = useState(predeterminedPeriods[0].name)
 
     const [take, setTake] = useState(10)
     const [skip, setSkip] = useState(0)
@@ -54,64 +37,67 @@ export const RequestsProvider = ({ children }) => {
 
     const recibo = useRef()
 
-    // const pickingDate = (range) => {
-
-    //     const now = new Date();
-
-    //     const LastMonth = () => `${new Date(now.getFullYear(), now.getMonth() - 1, 1)}~${new Date(now.getFullYear(), now.getMonth(), 0)}`;
-    //     const TwoMonths = () => `${new Date(now.getFullYear(), now.getMonth() - 2, 1)}~${new Date(now.getFullYear(), now.getMonth() - 1, 0)}`;
-    //     const ThisMonth = () => `${new Date(now.getFullYear(), now.getMonth(), 1)}~${new Date(now.getFullYear(), now.getMonth() + 1, 0)}`;
-
-    //     const Custom = () => `${initialDate}~${endDate}`;
-
-    //     const SevenDays = () => {
-    //         const date = new Date()
-    //         date.setDate(date.getDate() - 7)
-    //         return `${date.toDateString()}~${now}`
-    //     }
-
-    //     const All = () => {
-    //         const date = new Date()
-    //         date.setDate(date.getDate() - 10000)
-    //         return `${date.toDateString()}~${now}`
-    //     }
-
-    //     const ThisYear = () => {
-    //         const date = new Date();
-    //         const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
-    //         return `${firstDayOfYear.toDateString()}~${now}`
-    //     }
-
-
-
-    //     const settledPeriod = {
-    //         "Mês passado": LastMonth(),
-    //         "Mês retrasado": TwoMonths(),
-    //         "Este mês": ThisMonth(),
-    //         "Personalizado": Custom(),
-    //         "Últimos 7 dias": SevenDays(),
-    //         "Este ano": ThisYear(),
-    //         "Todo período": All(),
-    //     }
-
-    //     return settledPeriod[range]
-    // }
 
     const removeFilter = (data) => {
         const filtered = typeFilter.filter(res => res.id !== data.id)
 
         return setTypeFilter(filtered)
     }
+    const pickingDate = (range) => {
 
+        const now = new Date();
+
+        const LastMonth = () => `${new Date(now.getFullYear(), now.getMonth() - 1, 1)}~${new Date(now.getFullYear(), now.getMonth(), 0, 23, 59, 59, 999)}`;
+        const TwoMonths = () => `${new Date(now.getFullYear(), now.getMonth() - 2, 1)}~${new Date(now.getFullYear(), now.getMonth() - 1, 0, 23, 59, 59, 999)}`;
+        const ThisMonth = () => `${new Date(now.getFullYear(), now.getMonth(), 1)}~${new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999)}`;
+
+        const Custom = () => `${initialDate}~${new Date(new Date(endDate).setUTCHours(23, 59, 59, 999))}`;
+
+        const SevenDays = () => {
+            const date = new Date()
+            date.setDate(date.getDate() - 7)
+            return `${date.toDateString()}~${now}`
+        }
+
+        const All = () => {
+            const date = new Date()
+            date.setDate(date.getDate() - 10000)
+            return `${date.toDateString()}~${now.setUTCHours(23, 59, 59, 999)}`
+        }
+
+        const ThisYear = () => {
+            const date = new Date();
+            const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
+            return `${firstDayOfYear.toDateString()}~${now.setUTCHours(23, 59, 59, 999)}`
+        }
+
+
+
+        const settledPeriod = {
+            "Mês passado": LastMonth(),
+            "Mês retrasado": TwoMonths(),
+            "Este mês": ThisMonth(),
+            "Período personalizado": Custom(),
+            "Últimos 7 dias": SevenDays(),
+            "Este ano": ThisYear(),
+            "Todo período": All(),
+        }
+
+        return settledPeriod[range]
+    }
 
 
     const queryRequests = async () => {
+        const dates = await pickingDate(search)
+        //  :
+        //     `${initialDate}~${endDate}`
 
         const url = query ?
             `/requisicao-query` :
             `/requisicao`
 
         const response = await URI.post(url, {
+            dates,
             take,
             skip,
             orderBy,
@@ -127,7 +113,7 @@ export const RequestsProvider = ({ children }) => {
     const RequestsQuery = useQuery({
         queryFn: () => queryRequests(),
         queryKey: [
-            "Requests", skip, take, query,
+            search, "Requests", skip, take, query,
             JSON.stringify(typeFilter), orderBy, orderFor
         ],
         // staleTime: 1000 * 60 * 5, // 5 minutos sem refazer a requisição
@@ -166,9 +152,10 @@ export const RequestsProvider = ({ children }) => {
 
 
             const { data } = RequestsQuery
-            const { requests, total } = data
 
-            setQueryRequest({ requests, total })
+            const { request, total } = data
+
+            setQueryRequest({ request, total })
         }
 
         if (RequestsQuery.isSuccess) gatherData()
@@ -176,6 +163,7 @@ export const RequestsProvider = ({ children }) => {
     }, [
         take, skip, RequestsQuery.data, query,
         typeFilter.length, orderFor, orderBy,
+        search
     ])
 
 
@@ -185,7 +173,7 @@ export const RequestsProvider = ({ children }) => {
 
         const newSup = new Promise((resolve, reject) => {
 
-            URI.post("/novo-requisicao", body)
+            URI.post("/nova-requisicao", body)
                 .then(response => resolve(response))
                 .catch(err => {
                     alert(err.response.data.message)
@@ -284,32 +272,21 @@ export const RequestsProvider = ({ children }) => {
     })
 
 
+    async function handleInput(params) {
+        if (search === params) return RequestsQuery.refetch()
+        if (params !== "Período personalizado") {
+            setInitialDate(null)
+            setEndDate(null)
+        }
 
+        setSearch(params)
 
-    const getAllRequests = async () => {
-
-        const url =
-            `/requisicaoes`
-
-        const response = await URI.get(url)
-
-        return response.data
     }
-
-    const allRequests = useQuery({
-        queryFn: () => getAllRequests(),
-        queryKey: [
-            "Requests"
-        ],
-        // staleTime: 1000 * 60 * 5, // 5 minutos sem refazer a requisição
-        // cacheTime: 1000 * 60 * 10
-    })
-
 
     return (
         <RequestsContext.Provider value={{
-            allRequests,
             Requests, setRequests,
+            handleInput,
             RequestsQuery,
             updateRequest,
             recibo,
@@ -337,7 +314,8 @@ export const RequestsProvider = ({ children }) => {
 
             updateCacheData,
 
-            editRequest, setEditRequest
+            editRequest, setEditRequest,
+            search, setSearch
         }}>
 
             {children}

@@ -69,7 +69,6 @@ export function MoreData(info) {
     const keys = Object.keys(subtitle)
 
 
-    console.log(info)
     return (
         <div>
             <Filter onClick={handleFuncs}> Mais informações</Filter>
