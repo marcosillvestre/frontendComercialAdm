@@ -786,7 +786,7 @@ export const ContractData = () => {
                                                             <td>{dateCalculator(filteredContracts["Data de vencimento da primeira parcela"], idx)}</td>
                                                             <td>{(paymentParcels.total / paymentParcels.parcels.length).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
 
-                                                            <td>{(res.descount)}</td>
+                                                            <td>{parseFloat(res.descount).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
 
                                                             {
                                                                 idx + 1 > camp?.parcel?.affectedParcels ?
@@ -862,7 +862,8 @@ export const ContractData = () => {
                                                 <td>{material?.descount}</td>
                                                 <td>{filteredContracts["Quantidade de parcelas MD"]}</td>
                                                 <td>{filteredContracts["Forma de pagamento do MD"]}</td>
-                                                <td>{filteredContracts['products'].reduce((acc, curr) => acc + curr[paymentMethodsForMaterials[filteredContracts["Forma de pagamento do MD"]]], 0).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
+                                                <td>{filteredContracts['products'].reduce((acc, curr) => acc + curr[paymentMethodsForMaterials[filteredContracts["Forma de pagamento do MD"]]], 0)
+                                                    .toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
                                             </tr>
                                         </tfoot>
                                     }
@@ -964,11 +965,16 @@ export const ContractData = () => {
                                     <tbody>
                                         <tr>
                                             <td >Taxa de matrícula</td>
-                                            <td >350</td>
-                                            <td >{filteredContracts['tax']?.descount}</td>
+                                            <td >R$ 350,00</td>
+                                            <td >{
+                                                parseFloat(filteredContracts['tax']?.descount)
+                                                    .toLocaleString('pt-BR', { style: 'currency', currency: "brl" })
+                                            }</td>
                                             <td >{filteredContracts['Quantidade de parcelas TM ']}</td>
                                             <td >{filteredContracts['Forma de pagamento TM']}</td>
-                                            <td >{filteredContracts['tax']?.total}</td>
+                                            <td >{filteredContracts['tax']?.total
+                                                .toLocaleString('pt-BR', { style: 'currency', currency: "brl" })
+                                            }</td>
 
                                         </tr>
 
