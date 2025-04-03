@@ -10,7 +10,6 @@ import { toast } from 'react-toastify';
 import { useMutation } from '@tanstack/react-query';
 import { useLocation } from 'react-router-dom';
 import URI from '../../../app/utils/utils';
-import { useOrders } from '../../../hooks/orders/ordersContext.hook';
 import { useSupliers } from '../../../hooks/supliers/supliersContext.hook';
 import { useUser } from '../../../hooks/userContext';
 import { Boxes, ButtonDelete } from './styles';
@@ -30,7 +29,7 @@ const style = {
 
 export function SureModal(data) {
     const { fetchData, setFetchData, userData, invalidateYourQuery } = useUser()
-    const { invalidateOrderQuery } = useOrders()
+    // const { invalidateOrderQuery } = useOrders()
 
     const { updateCacheData } = useSupliers()
 
@@ -48,23 +47,24 @@ export function SureModal(data) {
         setOpen(!open)
 
         const responsible = userData.name
-
+        const promise = new Promise((resolve, reject) => {
+            URI.delete(`${data.url}/${id}?responsible=${responsible}`)
+                .then(response => resolve(response))
+                .catch(error => {
+                    reject(error)
+                    if ('message' in error.response.data) alert(error.response.data.message)
+                })
+        })
         await toast.promise(
-            URI.delete(`${data.url}/${id}?responsible=${responsible}`),
+            promise,
             {
                 pending: 'Conferindo os dados',
                 success: 'Deletado com sucesso',
                 error: 'Alguma coisa deu errado'
             }
-        ).then(() => {
-            // alert("deletado com suceeso")
-
-
-            const filtered = fetchData?.filter(res => res.id !== id)
-            setFetchData(filtered)
-        })
-            .catch(err => console.log(err))
+        )
     }
+
     const url = useLocation()
 
     const mutationDeleteData = useMutation({
@@ -72,7 +72,7 @@ export function SureModal(data) {
         onSuccess: () => {
             url.pathname === '/controle-comercial' && invalidateYourQuery("register");
             url.pathname === '/campos-personalizados' && invalidateYourQuery("custom");
-            url.pathname === '/pedidos' && invalidateOrderQuery()
+            // url.pathname === '/pedidos' && invalidateOrderQuery()
             url.pathname === '/fornecedores' && updateCacheData(data.data)
 
 

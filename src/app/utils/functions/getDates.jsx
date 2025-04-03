@@ -66,3 +66,9 @@ export const parseDates = (date) => {
 
     return new Date(newDate)
 }
+
+
+export const treatingDates = (date) => {
+    if (!date) return ''
+    return new Date(date).toLocaleString()
+}

@@ -67,8 +67,8 @@ export function MakeOrders(info) {
 
     }, [JSON.stringify(checkData)])
 
-    const [wppPermission, setWppPermission] = React.useState(false);
-    const [emailPermission, setEmailPermission] = React.useState(false);
+    const [wppPermission, setWppPermission] = React.useState(true);
+    const [emailPermission, setEmailPermission] = React.useState(true);
 
     const message = React.useRef()
     const prevision = React.useRef()
@@ -90,6 +90,8 @@ export function MakeOrders(info) {
 
 
     const sendRequests = async () => {
+
+        if (!suplier) return alert("Você precisa definir o fornecedor antes de enviar o pedido!")
 
         if (checkData.every(res => res.status !== "REVISADO" && res.status !== "ENTREGUE"))
             return alert("Apenas produtos REVISADOS ou ENTREGUES podem ser realizado pedidos.")
@@ -157,7 +159,7 @@ export function MakeOrders(info) {
                                                 className='input-suplier'
                                                 list='supliers' name="" id=""
                                                 onChange={(e) => {
-                                                    e.target.value.length >= 11 &&
+                                                    e.target.value.length >= 3 &&
                                                         filterSuplier(e.target.value)
                                                 }}
                                             />
@@ -233,68 +235,66 @@ export function MakeOrders(info) {
                                                 </tr>
                                             </tfoot>
                                         </TableProducts>
-                                        {
-                                            suplier !== undefined &&
-                                            <>
-                                                <PrevisionContainer>
-                                                    <div className='flex'>
+                                        <PrevisionContainer>
+                                            <div className='flex'>
 
-                                                        <label htmlFor="">
-                                                            <p>whatsapp</p>
-                                                            <input type="checkbox"
-                                                                disabled={suplier?.contacts?.whatsapp === undefined}
-                                                                defaultChecked={wppPermission}
-                                                                onChange={() => setWppPermission(prev => !prev)}
-                                                                name="whatsapp" id="" />
-                                                        </label>
+                                                <label htmlFor="">
+                                                    <p>whatsapp</p>
+                                                    <input type="checkbox"
+                                                        disabled={suplier?.contacts?.whatsapp === undefined}
+                                                        defaultChecked={wppPermission}
+                                                        onChange={() => setWppPermission(prev => !prev)}
+                                                        name="whatsapp" id="" />
+                                                </label>
 
-                                                        <label htmlFor="">
-                                                            <p>email</p>
-                                                            <input type="checkbox"
-                                                                disabled={suplier?.contacts?.orderEmail === undefined}
-                                                                defaultChecked={emailPermission}
-                                                                onChange={() => setEmailPermission(prev => !prev)}
-                                                                name="email" id="" />
-                                                        </label>
-                                                    </div>
+                                                <label htmlFor="">
+                                                    <p>email</p>
+                                                    <input type="checkbox"
+                                                        disabled={suplier?.contacts?.orderEmail === undefined}
+                                                        defaultChecked={emailPermission}
+                                                        onChange={() => setEmailPermission(prev => !prev)}
+                                                        name="email" id="" />
+                                                </label>
+                                            </div>
 
-                                                    <label htmlFor="">
-                                                        <p>Tempo previsto de entrega (em dias)</p>
-                                                        <input
-                                                            className='input-suplier'
-                                                            defaultValue={10}
-                                                            ref={prevision}
-                                                            type="number" name="" id="" />
-                                                    </label>
-                                                </PrevisionContainer>
-                                                <form action="">
+                                            <label htmlFor="">
+                                                <p>Tempo previsto de entrega (em dias)</p>
+                                                <input
+                                                    className='input-suplier'
+                                                    defaultValue={10}
+                                                    ref={prevision}
+                                                    type="number" name="" id="" />
+                                            </label>
+                                        </PrevisionContainer>
+                                        <form action="">
 
-                                                    <label htmlFor="">
-                                                        <p>Pré-visualização do pedido:</p>
-                                                        <textarea
-                                                            defaultValue={
-                                                                `Olá, em nome da American Way gostaria de fazer um pedido dos seguintes produtos: 
+                                            <label htmlFor="">
+                                                <p>Pré-visualização do pedido:</p>
+                                                <textarea
+                                                    defaultValue={
+                                                        `Olá, em nome da American Way gostaria de fazer um pedido dos seguintes produtos: 
 
-${result.map(res => `${res.name},   quantidade: ${res.count}\n`)}
+${result &&
+                                                        result.map(res => `${res.name},   quantidade: ${res.count}\n`)}
 
                                                                 `
-                                                            }
-                                                            type="text" ref={message} />
+                                                    }
+                                                    type="text" ref={message} />
 
-                                                        <button
-                                                            type='submit'
-                                                            onClick={(e) => {
-                                                                sendRequests()
-                                                                e.preventDefault()
-                                                            }}
-                                                            className='defaultButton'>
+                                                <button
+                                                    type='submit'
+                                                    onClick={(e) => {
+                                                        sendRequests()
+                                                        e.preventDefault()
+                                                    }}
+                                                    className='defaultButton'>
 
-                                                            enviar
-                                                        </button>
-                                                    </label>
-                                                </form>
-                                            </>
-                                        }
+                                                    enviar
+                                                </button>
+                                            </label>
+                                        </form>
+
+
 
                                     </Boxes>
                             }

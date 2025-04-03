@@ -1,85 +1,85 @@
 
 
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import SearchIcon from '@mui/icons-material/Search';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { maskPhone } from '../../../app/utils/functions/maskNumber.jsx';
 import { useSupliers } from '../../../hooks/supliers/supliersContext.hook.jsx';
 import { ErrorMessage, Header, Input, Label, Modal, Submit, TextArea } from "../styles.jsx";
 
 export const SupliersSidebar = () => {
-    const { editSuplier, setEditSuplier, Suplier, setSuplier,
-        createSuplier, updateSuplier, updateCacheData } = useSupliers()
-
+    const { editSuplier, createSuplier, updateSuplier, setEditSuplier } = useSupliers()
 
     const [contactModal, setContactModal] = useState(false)
     const [addressModal, setAddressModal] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [edit, setEdit] = useState(false)
+
+    const cep = useRef()
+    const name = useRef()
+    const docment = useRef()
+    const descricao = useRef()
+    const email = useRef()
+    const telefone = useRef()
+    const comercialPhone = useRef()
+    const whatsapp = useRef()
+    const orderEmail = useRef()
+    const numero = useRef()
+    const rua = useRef()
+    const bairro = useRef()
+    const cidade = useRef()
+    const uf = useRef()
+    const complemento = useRef()
 
 
-    const [type, setType] = useState('FISICO')
+
+    const [type, setType] = useState(editSuplier ? editSuplier.type : 'FISICO')
     const [address, setAddress] = useState({})
 
-
-    const [sup, setSup] = useState()
-
-
-    const sender = (key, value) => {
-
-        if (editSuplier === null) return setSup({ ...sup, [key]: value })
-
-        const data = editSuplier
-
-        if (key in data) {
-            data[key] = value;
-        }
-
-        else if (key in data.contacts) {
-            data.contacts[key] = value;
-        }
-
-        else if (key in data.address) {
-            data.address[key] = value;
-        }
+    const translate = {
+        'PESSOA FISÍCA': 'FISICO',
+        'PESSOA JURIDICA': 'JURIDICO',
+        'FISICO': 'PESSOA FISÍCA',
+        'JURIDICO': 'PESSOA JURIDICA',
     }
+
 
     const create = () => {
 
-        if (editSuplier === null) {
 
-            const body = {
-                type,
-                name: sup.name,
-                docment: sup.docment,
-                contacts: {
-                    descricao: sup.descricao,
-                    email: sup.email,
-                    telefone: sup.telefone,
-                    comercialPhone: sup.comercialPhone,
-                    whatsapp: sup.whatsapp,
-                    orderEmail: sup.orderEmail,
-                },
-                address: {
-                    numero: sup.numero,
-                    cep: sup.cep,
-                    Rua: sup.Rua,
-                    Bairro: sup.Bairro,
-                    Cidade: sup.Cidade,
-                    UF: sup.UF,
-                    complemento: sup.complemento,
-                }
-            }
-
-
-            return createSuplier.mutateAsync(body)
+        if (!name || !docment) {
+            return alert("Preencha os dados corretamente")
         }
 
+        const body = {
+            type,
+            name: name.current.value,
+            docment: docment.current.value,
+            contacts: {
+                descricao: descricao.current.value,
+                email: email.current.value,
+                telefone: telefone.current.value,
+                comercialPhone: comercialPhone.current.value,
+                whatsapp: whatsapp.current.value,
+                orderEmail: orderEmail.current.value,
+            },
+            address: {
+                numero: numero.current.value,
+                cep: cep.current.value,
+                rua: rua.current.value,
+                bairro: bairro.current.value,
+                cidade: cidade.current.value,
+                uf: uf.current.value,
+                complemento: complemento.current.value,
+            }
+        }
+        return editSuplier ?
+            updateSuplier.mutateAsync(body) :
+            createSuplier.mutateAsync(body)
 
-        updateSuplier.mutateAsync(editSuplier)
     }
-
-    const addressAutoData = ["logradouro", "bairro", "estado", "localidade", "erro",]
 
     const getDataFromCep = async (cep) => {
 
@@ -102,31 +102,28 @@ export const SupliersSidebar = () => {
 
                 }
 
-
-                setSup({ ...sup, ...d })
             })
+            .catch(() => setAddress({ erro: true }))
             .finally(() =>
                 setLoading(false)
             )
 
     }
 
-
     return (
+
 
         <div style={{
             whiteSpace: "normal", display: "grid",
             gap: "1rem"
         }}>
+
             <Label >
                 <p>Nome/Razão Social</p>
                 < Input
                     type="text"
                     defaultValue={editSuplier && editSuplier.name}
-                    onChange={(e) => {
-                        e.target.value !== '' &&
-                            sender("name", e.target.value)
-                    }}
+                    ref={name}
                 />
             </Label>
 
@@ -137,14 +134,8 @@ export const SupliersSidebar = () => {
                     defaultValue={editSuplier && editSuplier.docment}
                     minLength={11}
                     maxLength={14}
-                    onChange={(e) => {
-                        e.target.value.length > 11 ?
-                            setType('JURIDICO') :
-                            setType('FISICO')
-
-                        e.target.value !== '' &&
-                            sender("docment", e.target.value)
-                    }}
+                    onChange={() => docment.current.value.length > 11 ? setType("JURIDICO") : setType('FISICO')}
+                    ref={docment}
                 />
             </Label>
 
@@ -153,11 +144,9 @@ export const SupliersSidebar = () => {
                 <p>Tipo</p>
                 < Input
                     type="text"
-                    value={type}
+                    value={translate[type]}
                     disabled
-                    onChange={(e) => {
-                        sender("type", e.target.value)
-                    }}
+
                 />
             </Label>
 
@@ -179,13 +168,10 @@ export const SupliersSidebar = () => {
                         <p>Telefone comercial</p>
                         < Input
                             type="tel"
-                            onChange={(e) => {
-                                e.target.value !== '' &&
-                                    sender("comercialPhone", e.target.value)
-                            }}
+
                             defaultValue={editSuplier && maskPhone(editSuplier.contacts?.comercialPhone)}
                             maxLength={11}
-
+                            ref={comercialPhone}
                         />
                     </Label>
 
@@ -195,12 +181,10 @@ export const SupliersSidebar = () => {
                         < Input
                             type="tel"
 
-                            onChange={(e) => {
-                                e.target.value !== '' &&
-                                    sender("telefone", e.target.value)
-                            }}
+
                             defaultValue={editSuplier && maskPhone(editSuplier.contacts?.telefone)}
                             maxLength={11}
+                            ref={telefone}
                         />
                     </Label>
                     <Label >
@@ -209,10 +193,7 @@ export const SupliersSidebar = () => {
                         < Input
                             type="email"
                             defaultValue={editSuplier && editSuplier.contacts?.email}
-                            onChange={(e) => {
-                                e.target.value !== '' &&
-                                    sender("email", e.target.value)
-                            }}
+                            ref={email}
                         />
                     </Label>
 
@@ -222,10 +203,7 @@ export const SupliersSidebar = () => {
                         < TextArea
                             type="text"
                             defaultValue={editSuplier && editSuplier.contacts?.descricao}
-                            onChange={(e) => {
-                                e.target.value !== '' &&
-                                    sender("descricao", e.target.value)
-                            }}
+                            ref={descricao}
                         />
                     </Label>
 
@@ -234,12 +212,10 @@ export const SupliersSidebar = () => {
 
                         < Input
                             type="tel"
-                            onChange={(e) => {
-                                e.target.value !== '' &&
-                                    sender("whatsapp", e.target.value)
-                            }}
+
                             defaultValue={editSuplier && maskPhone(editSuplier.contacts?.whatsapp)}
                             maxLength={11}
+                            ref={whatsapp}
                         />
                     </Label>
                     <Label >
@@ -248,10 +224,7 @@ export const SupliersSidebar = () => {
                         < Input
                             type="email"
                             defaultValue={editSuplier && editSuplier.contacts?.orderEmail}
-                            onChange={(e) => {
-                                e.target.value !== '' &&
-                                    sender("orderEmail", e.target.value)
-                            }}
+                            ref={orderEmail}
                         />
                     </Label>
                 </Modal>
@@ -269,107 +242,201 @@ export const SupliersSidebar = () => {
                     <KeyboardArrowDownIcon />
                 </Header>
 
-                <Modal active={addressModal}>
+                {
+                    editSuplier ?
+                        <Modal active={addressModal}>
 
-                    <Label >
-                        <p>CEP</p>
+                            <Label >
+                                <p>CEP</p>
 
-                        < Input
-                            type="text"
-                            defaultValue={editSuplier && editSuplier.address?.cep}
-                            minLength={8}
-                            maxLength={9}
-                            onChange={(e) => {
-
-                                e.target.value.length === 0 &&
-                                    setAddress({})
-
-                                e.target.value.length >= 8 &&
-                                    getDataFromCep(e.target.value)
-                            }}
-                        />
-                        {
-                            address?.erro &&
-                            <ErrorMessage >cep inválido</ErrorMessage>
-                        }
-
-                    </Label>
-
-
-                    {
-                        editSuplier ?
-
-                            Object.keys(editSuplier.address).map((res, index) => (
-                                res !== 'cep' &&
-                                <Label key={index}>
-                                    <p>{res}</p>
+                                <span className='flex'>
 
                                     < Input
                                         type="text"
-                                        defaultValue={editSuplier.address[res]}
+                                        minLength={8}
+                                        maxLength={9}
+                                        ref={cep}
+                                        defaultValue={editSuplier && editSuplier.address.cep}
+
                                         onChange={(e) => {
-                                            e.target.value !== '' &&
-                                                sender(res, e.target.value)
+                                            e.target.value.length === 0 &&
+                                                setAddress({})
                                         }}
                                     />
-                                </Label>
-                            ))
 
-                            :
-                            loading ?
-                                "carregando..." :
-                                address &&
-                                Object.keys(address).map((res, index) => (
-                                    addressAutoData.find(t => t === res) &&
-                                    <Label key={index}>
-                                        <p>{res}</p>
+                                    <button
+                                        onClick={() => {
+                                            cep.length >= 8 ?
+                                                setAddress({ erro: true }) :
+                                                getDataFromCep(cep.current.value)
+                                        }}
+                                    >
+                                        <SearchIcon />
+                                    </button>
+                                </span>
+                                {
+                                    address?.erro &&
+                                    <ErrorMessage >cep inválido</ErrorMessage>
+                                }
 
-                                        < Input
-                                            type="text"
-                                            defaultValue={address[res]}
-                                            onChange={(e) => {
-                                                e.target.value !== '' &&
-                                                    sender(res, e.target.value)
-                                            }}
-                                        />
-                                    </Label>
-                                ))
-                    }
+                            </Label>
 
-                    <Label >
-                        <p>Número</p>
 
-                        < Input
-                            type="text"
-                            defaultValue={editSuplier && editSuplier.address.numero}
-                            onChange={(e) => {
-                                e.target.value !== '' &&
-                                    sender("numero", e.target.value)
-                            }}
-                        />
-                    </Label>
+                            <Label >
+                                <p>Estado</p>
 
-                    <Label >
-                        <p>Complemento</p>
+                                < Input
+                                    type="text"
+                                    defaultValue={editSuplier.address.uf ? editSuplier.address.uf : address.uf}
+                                    ref={uf}
+                                />
+                            </Label>
+                            <Label >
+                                <p>Cidade</p>
 
-                        < Input
-                            type="text"
-                            defaultValue={editSuplier && editSuplier.address.complemento}
-                            onChange={(e) => {
-                                e.target.value !== '' &&
-                                    sender("complemento", e.target.value)
-                            }}
-                        />
-                    </Label>
+                                < Input
+                                    type="text"
+                                    defaultValue={editSuplier.address.cidade ? editSuplier.address.cidade : address.localidade}
+                                    ref={cidade}
+                                />
+                            </Label>
+                            <Label >
+                                <p>Bairro</p>
 
-                </Modal>
+                                < Input
+                                    type="text"
+                                    defaultValue={editSuplier.address.bairro ? editSuplier.address.bairro : address.bairro}
+                                    ref={bairro}
+                                />
+                            </Label>
+                            <Label >
+                                <p>Rua</p>
+
+                                < Input
+                                    type="text"
+                                    defaultValue={editSuplier.address.rua ? editSuplier.address.rua : address.logradouro}
+                                    ref={rua}
+                                />
+                            </Label>
+                            <Label >
+                                <p>Número</p>
+
+                                < Input
+                                    type="text"
+                                    defaultValue={editSuplier.address.numero && editSuplier.address.numero}
+                                    ref={numero}
+                                />
+                            </Label>
+
+                            <Label >
+                                <p>Complemento</p>
+
+                                < Input
+                                    type="text"
+                                    defaultValue={editSuplier.address.complemento && editSuplier.address.complemento}
+                                    ref={complemento}
+                                />
+                            </Label>
+
+                        </Modal>
+                        :
+                        <Modal active={addressModal}>
+
+                            <Label >
+                                <p>CEP</p>
+
+                                <span className='flex'>
+
+                                    < Input
+                                        type="text"
+                                        minLength={8}
+                                        maxLength={9}
+                                        ref={cep}
+                                        onChange={(e) => {
+                                            e.target.value.length === 0 &&
+                                                setAddress({})
+                                        }}
+                                    />
+
+                                    <button
+                                        onClick={() => {
+                                            cep.length >= 8 ?
+                                                setAddress({ erro: true }) :
+                                                getDataFromCep(cep.current.value)
+                                        }}
+                                    >
+                                        <SearchIcon />
+                                    </button>
+                                </span>
+                                {
+                                    address?.erro &&
+                                    <ErrorMessage >cep inválido</ErrorMessage>
+                                }
+
+                            </Label>
+                            <Label >
+                                <p>Estado</p>
+
+                                < Input
+                                    type="text"
+                                    defaultValue={address && address.uf}
+                                    ref={uf}
+                                />
+                            </Label>
+
+                            <Label >
+                                <p>Cidade</p>
+
+                                < Input
+                                    type="text"
+                                    defaultValue={address && address.localidade}
+                                    ref={cidade}
+                                />
+                            </Label>
+                            <Label >
+                                <p>Bairro</p>
+
+                                < Input
+                                    type="text"
+                                    defaultValue={address && address.bairro}
+                                    ref={bairro}
+                                />
+                            </Label>
+                            <Label >
+                                <p>Rua</p>
+
+                                < Input
+                                    type="text"
+                                    defaultValue={address && address.logradouro}
+                                    ref={rua}
+                                />
+                            </Label>
+                            <Label >
+                                <p>Número</p>
+
+                                < Input
+                                    type="text"
+                                    defaultValue={address && address.numero}
+                                    ref={numero}
+                                />
+                            </Label>
+
+                            <Label >
+                                <p>Complemento</p>
+
+                                < Input
+                                    type="text"
+                                    defaultValue={address && address.complemento}
+                                    ref={complemento}
+                                />
+                            </Label>
+
+                        </Modal>
+                }
+
+
+
             </Label>
-
-
-
-
-
-
 
             <hr />
             <Submit
@@ -380,6 +447,8 @@ export const SupliersSidebar = () => {
             >
                 Enviar
             </Submit>
+
+
         </div>
 
     )

@@ -13,7 +13,7 @@ export const RequestsProvider = ({ children }) => {
 
     const queryClient = useQueryClient()
 
-    const [Requests, setRequests] = useState()
+    const [request, setRequests] = useState()
     const [editRequest, setEditRequest] = useState(null)
     const [queryRequest, setQueryRequest] = useState([])
     const [typeFilter, setTypeFilter] = useState([])
@@ -129,7 +129,7 @@ export const RequestsProvider = ({ children }) => {
             ],
             oldData => {
                 return {
-                    Requests: oldData.requests.filter(res => res.id !== id),
+                    Requests: oldData.request.filter(res => res.id !== id),
                     total: oldData.total - 1
                 }
             }
@@ -137,10 +137,10 @@ export const RequestsProvider = ({ children }) => {
 
         if (id) {
 
-            const { total, requests } = queryRequest
-            const wout = requests.filter(q => q.id !== id)
+            const { total, request } = queryRequest
+            const wout = request.filter(q => q.id !== id)
 
-            setQueryRequest({ requests: wout, total: total - 1 })
+            setQueryRequest({ request: wout, total: total - 1 })
         }
 
         RequestsQuery.refetch()
@@ -203,8 +203,8 @@ export const RequestsProvider = ({ children }) => {
                 ],
                 (oldData) => {
                     return {
-                        Requests: [
-                            ...oldData.requests,
+                        request: [
+                            ...oldData.request,
                             {
                                 ...variables,
                                 id: crypto.randomUUID(),
@@ -285,7 +285,7 @@ export const RequestsProvider = ({ children }) => {
 
     return (
         <RequestsContext.Provider value={{
-            Requests, setRequests,
+            request, setRequests,
             handleInput,
             RequestsQuery,
             updateRequest,

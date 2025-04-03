@@ -5,6 +5,7 @@ import { createContext, useContext, useLayoutEffect, useRef, useState } from "re
 import { toast } from "react-toastify"
 import businessRules from '../../app/utils/Rules/options.jsx'
 import URI from "../../app/utils/utils"
+import { useUser } from "../userContext.jsx"
 
 const OrdersContext = createContext({})
 
@@ -37,6 +38,7 @@ export const OrdersProvider = ({ children }) => {
 
     const [checked, setChecked] = useState(false)
 
+    const { userData } = useUser()
 
 
     const recibo = useRef()
@@ -122,10 +124,7 @@ export const OrdersProvider = ({ children }) => {
         // cacheTime: 1000 * 60 * 10
     })
 
-    const invalidateOrderQuery = () => {
 
-        ordersQuery.refetch()
-    }
 
     useLayoutEffect(() => {
         const gatherData = async () => {
@@ -137,7 +136,7 @@ export const OrdersProvider = ({ children }) => {
             setQueryOrder({ order, count })
         }
 
-        invalidateOrderQuery()
+
         if (ordersQuery.isSuccess) gatherData()
 
     }, [
@@ -185,7 +184,9 @@ export const OrdersProvider = ({ children }) => {
                                 logistic: [...order['logistic'], {
                                     stage: "ENTREGUE",
                                     active: true,
-                                    date: new Date()
+                                    date: new Date(),
+                                    user: userData.name
+
                                 }]
                             },
                             arrived: {
@@ -194,7 +195,9 @@ export const OrdersProvider = ({ children }) => {
                                 logistic: [...order['logistic'], {
                                     stage: "CHEGOU",
                                     active: true,
-                                    date: new Date()
+                                    date: new Date(),
+                                    user: userData.name
+
                                 }]
                             },
                             available: {
@@ -202,7 +205,9 @@ export const OrdersProvider = ({ children }) => {
                                 logistic: [...order['logistic'], {
                                     stage: "CANCELADO",
                                     active: true,
-                                    date: new Date()
+                                    date: new Date(),
+                                    user: userData.name
+
                                 }]
                             },
                             status: {
@@ -210,7 +215,9 @@ export const OrdersProvider = ({ children }) => {
                                 logistic: [...order['logistic'], {
                                     stage: what,
                                     active: true,
-                                    date: new Date()
+                                    date: new Date(),
+                                    user: userData.name
+
                                 }]
                             },
                             signed: {
@@ -218,7 +225,7 @@ export const OrdersProvider = ({ children }) => {
                             },
                         }
 
-                        const toBeUpdated = dateTypes[where]
+                        const toBeUpdated = dateTypes[where] ?? { [where]: what }
 
                         return {
                             ...order,
@@ -250,13 +257,22 @@ export const OrdersProvider = ({ children }) => {
         }
 
         setSearch(params)
-
-        invalidateOrderQuery()
     }
 
     const updateOrder = async (body) => {
-        const response = await toast.promise(
-            URI.put("/pedidos", body),
+
+        const response = new Promise((resolve, reject) => {
+            URI.put("/pedidos", body)
+                .then(response => resolve(response))
+                .catch(err => {
+                    alert(err.response.data.message)
+                    reject(err.response.data.message)
+                })
+
+        })
+
+        toast.promise(
+            response,
             {
                 pending: 'Editando o pedido',
                 success: 'Editado com sucesso',
@@ -268,8 +284,19 @@ export const OrdersProvider = ({ children }) => {
 
     const updateLink = useMutation({
         mutationFn: (e) => updateOrder(e),
-        onSuccess: () => {
-            invalidateOrderQuery()
+        onSuccess: (_, variable) => {
+            queryClient.setQueryData(
+                [search, "orders", skip, take, query,
+                    JSON.stringify(typeFilter), orderBy, orderFor],
+                (oldData) => {
+                    const { order, count } = oldData
+                    const { id } = variable
+
+                    const newData = order.filter(res => res.id !== id).concat(variable)
+                    return { order: newData, count }
+
+
+                })
 
         }
     })
@@ -316,7 +343,6 @@ export const OrdersProvider = ({ children }) => {
 
 
             mutationMultiUpdate,
-            invalidateOrderQuery,
 
         }}>
 

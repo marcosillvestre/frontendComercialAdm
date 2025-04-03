@@ -36,10 +36,14 @@ svg{
 
 export const Label = styled.div`
 font-size: 13px;
+button{
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
 p{
     font-size: 11px;
 }
-
 .container{
     display: flex;
     gap: .5rem;

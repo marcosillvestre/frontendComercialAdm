@@ -8,36 +8,51 @@ import { Container, Header } from './styles';
 export function Supliers() {
     const forQuery = useRef()
     const { setTypeSidebar, setOpenSidebar, } = useUser()
-    const { SupliersQuery, setEditSuplier } = useSupliers()
+    const { SupliersQuery, setEditSuplier, setQuery } = useSupliers()
 
 
-    const { data } = SupliersQuery
 
     return (
         <Container>
+            <nav>
 
+                <h3>Configurações - Fornecedores</h3>
+                <button
+                    className='defaultButton create-button'
+                    onClick={() => {
+                        setTypeSidebar(8)
+                        setOpenSidebar(true);
+                        setEditSuplier(null)
+                    }
+                    }>
+                    Criar novo fornecedor
+                </button>
+            </nav>
             <Header>
                 <nav>
                     <div>
-                        <h1>Fornecedores</h1>
 
                         <form action=""
                             className='flex'
                         >
+                            <label htmlFor="">
 
-                            <input
-                                type="text"
-                                className='inputSearch'
-                                placeholder="Nome"
-                                ref={forQuery}
-                                onChange={(e) => { }
-                                    // e.target.value === "" && setQuery('')
-                                }
-                            />
+                                <p>Pesquisar</p>
+                                <input
+                                    type="text"
+                                    className='inputSearch'
+                                    placeholder="Nome"
+                                    ref={forQuery}
+                                    onChange={(e) => {
+                                        e.target.value === "" && setQuery('')
+                                    }
+                                    }
+                                />
+                            </label>
 
                             <button type="submit"
                                 onClick={(e) => {
-                                    // setQuery(forQuery.current.value)
+                                    setQuery(forQuery.current.value)
                                     e.preventDefault()
 
                                 }}
@@ -47,27 +62,14 @@ export function Supliers() {
                         </form>
                     </div>
 
-                    <span>
-                        <button
-                            className='defaultButton create-button'
-                            onClick={() => {
-                                setTypeSidebar(8)
-                                setOpenSidebar(true);
-                                setEditSuplier(null)
-                            }
-                            }>
-                            Criar novo fornecedor
-                        </button>
 
-                    </span>
                 </nav>
             </Header>
 
-            {
-                data &&
-                <SupliersTable
-                />
-            }
+
+            <SupliersTable
+            />
+
 
         </Container>
     )

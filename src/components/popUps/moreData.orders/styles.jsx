@@ -114,10 +114,23 @@ align-items: center;
 
 svg{
   cursor: pointer;
-  width: 1.2rem;
-  height: 1.2rem;
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+span{
+  padding: .5rem;
 }
 }
+.container-historic{
+  padding: .8rem;
+  border-radius: var(--br);
+
+  .historic{
+    display: grid;
+  }
+}
+
 
 `
 

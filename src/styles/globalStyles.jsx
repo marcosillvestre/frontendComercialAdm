@@ -27,7 +27,7 @@ html{
     margin-top: .5rem;
     text-overflow: ellipsis;
     height: var(--boxHei);
-    font-size: var(--fsLowest);
+    font-size: calc(var(--fsLowest) - 1px);
 
  &:focus{
     border: 1px solid;

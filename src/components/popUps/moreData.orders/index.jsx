@@ -10,6 +10,7 @@ import * as React from 'react';
 import CancelIcon from '@mui/icons-material/Cancel';
 import CloseIcon from '@mui/icons-material/Close';
 import { toast } from 'react-toastify';
+import { treatingDates } from '../../../app/utils/functions/getDates';
 import { Ball, Boxes, ContainerTread, Filter, Header, Stick, Treadmill } from './styles';
 
 const style = {
@@ -36,7 +37,6 @@ export function MoreData(info) {
     }
 
     const { data } = info
-
 
     const subtitle = {
         'created_at': "Data de criação",
@@ -110,6 +110,8 @@ export function MoreData(info) {
                                         data.logistic.map((res, index) => (
                                             <ContainerTread
                                                 key={index}
+                                                title={`${res?.user}, ${treatingDates(res.date)}`}
+
                                             >
                                                 <div>
                                                     {
@@ -168,7 +170,7 @@ export function MoreData(info) {
                                                 >
                                                     {
                                                         subtitle[key].includes("Data") ?
-                                                            <p>{new Date(data[key]).toLocaleString()}</p> :
+                                                            <p>{treatingDates(data[key])}</p> :
                                                             <p>{data[key]}</p>
                                                     }
                                                     <ContentCopyIcon onClick={() => {
@@ -189,17 +191,20 @@ export function MoreData(info) {
 
                                         <label htmlFor="" key={index}>
                                             <div
-                                                className='input'
-                                                style={{ backgroundColor: "#e0e0e0" }}
+                                                className='container-historic'
+                                                style={{ backgroundColor: "#dadada" }}
                                             >
                                                 <span
-                                                    title={res.date}
+                                                    className='historic'
+
                                                 >
                                                     <Typography variant="h7" component="h3">
                                                         {res.responsible}:
                                                     </Typography>
 
-                                                    {res.description}
+                                                    <p>{res.description}</p>
+                                                    <p>{treatingDates(res.date)}</p>
+
                                                 </span>
 
                                             </div>

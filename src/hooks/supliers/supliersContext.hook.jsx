@@ -38,7 +38,6 @@ export const SupliersProvider = ({ children }) => {
     //   numero: '215',
     //   complemento: 'casa'
     // },
-    const [initialDate, setInitialDate] = useState(null)
     const [endDate, setEndDate] = useState(null)
 
     const [take, setTake] = useState(10)
@@ -47,62 +46,18 @@ export const SupliersProvider = ({ children }) => {
 
     const [orderFor, setOrderFor] = useState("desc")
     const [orderBy, setOrderBy] = useState("created_at")
-    const [dateType, setDateType] = useState("created_at")
 
     const [body, setBody] = useState()
 
 
     const recibo = useRef()
 
-    // const pickingDate = (range) => {
-
-    //     const now = new Date();
-
-    //     const LastMonth = () => `${new Date(now.getFullYear(), now.getMonth() - 1, 1)}~${new Date(now.getFullYear(), now.getMonth(), 0)}`;
-    //     const TwoMonths = () => `${new Date(now.getFullYear(), now.getMonth() - 2, 1)}~${new Date(now.getFullYear(), now.getMonth() - 1, 0)}`;
-    //     const ThisMonth = () => `${new Date(now.getFullYear(), now.getMonth(), 1)}~${new Date(now.getFullYear(), now.getMonth() + 1, 0)}`;
-
-    //     const Custom = () => `${initialDate}~${endDate}`;
-
-    //     const SevenDays = () => {
-    //         const date = new Date()
-    //         date.setDate(date.getDate() - 7)
-    //         return `${date.toDateString()}~${now}`
-    //     }
-
-    //     const All = () => {
-    //         const date = new Date()
-    //         date.setDate(date.getDate() - 10000)
-    //         return `${date.toDateString()}~${now}`
-    //     }
-
-    //     const ThisYear = () => {
-    //         const date = new Date();
-    //         const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
-    //         return `${firstDayOfYear.toDateString()}~${now}`
-    //     }
-
-
-
-    //     const settledPeriod = {
-    //         "Mês passado": LastMonth(),
-    //         "Mês retrasado": TwoMonths(),
-    //         "Este mês": ThisMonth(),
-    //         "Personalizado": Custom(),
-    //         "Últimos 7 dias": SevenDays(),
-    //         "Este ano": ThisYear(),
-    //         "Todo período": All(),
-    //     }
-
-    //     return settledPeriod[range]
-    // }
 
     const removeFilter = (data) => {
         const filtered = typeFilter.filter(res => res.id !== data.id)
 
         return setTypeFilter(filtered)
     }
-
 
 
     const querySupliers = async () => {
@@ -116,7 +71,6 @@ export const SupliersProvider = ({ children }) => {
             skip,
             orderBy,
             orderFor,
-            dateType,
             typeFilter,
             query,
         })
@@ -135,30 +89,30 @@ export const SupliersProvider = ({ children }) => {
     })
 
 
-    const updateCacheData = (id) => {
-        queryClient.setQueryData(
-            [
-                "Supliers", skip, take, query,
-                JSON.stringify(typeFilter), orderBy, orderFor
-            ],
-            oldData => {
-                return {
-                    supliers: oldData.supliers.filter(res => res.id !== id),
-                    total: oldData.total - 1
-                }
-            }
-        )
+    // const updateCacheData = (id) => {
+    //     queryClient.setQueryData(
+    //         [
+    //             "Supliers", skip, take, query,
+    //             JSON.stringify(typeFilter), orderBy, orderFor
+    //         ],
+    //         oldData => {
+    //             return {
+    //                 supliers: oldData.supliers.filter(res => res.id !== id),
+    //                 total: oldData.total - 1
+    //             }
+    //         }
+    //     )
 
-        if (id) {
+    //     if (id) {
 
-            const { total, supliers } = querySuplier
-            const wout = supliers.filter(q => q.id !== id)
+    //         const { total, supliers } = querySuplier
+    //         const wout = supliers.filter(q => q.id !== id)
 
-            setQuerySuplier({ supliers: wout, total: total - 1 })
-        }
+    //         setQuerySuplier({ supliers: wout, total: total - 1 })
+    //     }
 
-        SupliersQuery.refetch()
-    }
+    //     SupliersQuery.refetch()
+    // }
 
 
     useLayoutEffect(() => {
@@ -234,10 +188,9 @@ export const SupliersProvider = ({ children }) => {
 
 
     const suplierUpdate = async (body) => {
-
         const newSup = new Promise((resolve, reject) => {
 
-            URI.put(`/fornecedor/${body.id}`, body)
+            URI.put(`/fornecedor/${editSuplier.id}`, body)
                 .then(response => resolve(response))
                 .catch(err => {
                     alert(err.response.data.message)
@@ -269,7 +222,7 @@ export const SupliersProvider = ({ children }) => {
 
                     return {
                         supliers: [
-                            oldData.supliers.filter(r => r.id !== variables.id),
+                            ...oldData.supliers.filter(r => r.id !== editSuplier.id),
                             {
                                 ...variables,
                                 id: crypto.randomUUID(),
@@ -312,7 +265,6 @@ export const SupliersProvider = ({ children }) => {
             recibo,
             createSuplier,
 
-            setInitialDate,
             endDate, setEndDate,
 
             query,
@@ -321,7 +273,8 @@ export const SupliersProvider = ({ children }) => {
             querySuplier, setQuerySuplier,
 
             setTake, setSkip, take,
-            setOrderFor, setOrderBy, setDateType, setQuery,
+            setOrderFor, setOrderBy,
+            setQuery,
 
 
             typeFilter, setTypeFilter,
@@ -332,7 +285,6 @@ export const SupliersProvider = ({ children }) => {
 
             body, setBody,
 
-            updateCacheData,
 
             editSuplier, setEditSuplier
         }}>

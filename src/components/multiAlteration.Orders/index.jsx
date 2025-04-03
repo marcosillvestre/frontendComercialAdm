@@ -9,64 +9,58 @@ export function MultiAlterationOrders(data) {
     const { checkData, mutationMultiUpdate } = useOrders()
     const { userData } = useUser()
 
-    const [pop, setPop] = useState()
 
     const [body, setBody] = useState()
-
-    useEffect(() => {
-
-        checkData.every(res => res.status === "REVISADO" ||
-            res.status === "ENTREGUE") ?
-            setPop(true) :
-            setPop(false)
-
-
-
-    }, [JSON.stringify(checkData)])
 
 
 
 
     const arrayQuantityChanges = useMemo(() => [
         {
+            able: checkData.length > 0 ? checkData?.every(res => res.status === "DISPONIVEL" || res.status === "ENTREGUE") : false,
             label: 'MARCAR COMO ASSINADO',
             type: 'signed',
             value: true
         },
         {
+            able: checkData.length > 0 ? checkData.every(res => res.status === "REVISAR") : false,
             label: 'DEFINIR COMO REVISADO',
             type: 'status',
             value: 'REVISADO'
         },
         {
+            able: checkData.length > 0 ? checkData.every(res => res.status === "REVISADO" || res.status === "CHEGOU") : false,
             label: 'DEFINIR COMO DISPONÍVEIS',
             type: 'status',
             value: 'DISPONIVEL',
         },
         {
+            able: checkData.length > 0 ? checkData.every(res => res.status === "REVISADO" || res.status === "ENTREGUE") : false,
             label: 'FAZER PEDIDO',
-            // type: 'status',
             email: true
         },
         {
+            able: checkData.length > 0 ? checkData.every(res => res.status === "ENVIADO") : false,
             label: 'CONFIRMAR CHEGADA',
             type: 'arrived',
             value: true
         },
         {
+            able: checkData.length > 0 ? checkData.every(res => res.status === "DISPONIVEL") : false,
             label: 'DEFINIR COMO ENTREGUE',
             type: 'delivery',
             value: true
 
         },
         {
+            able: checkData.length > 0 ? checkData.every(res => res.status === "REVISADO") : false,
             label: 'CANCELAR PEDIDO',
             type: 'available',
             value: false
         },
 
 
-    ], [])
+    ], [JSON.stringify(checkData)])
 
 
     const [manyAlteration, setManyAlteration] = useState(false)
@@ -87,23 +81,15 @@ export function MultiAlterationOrders(data) {
 
         if (email) return <MakeOrders />
 
-        // REVISAR = CANCELAR, EXCLUIR, MARCAR REVISADO
 
-        if (label === 'DEFINIR COMO ENTREGUE' && checkData.every(res => res.status !== "DISPONIVEL"))
-            return alert("Só pode ser ENTREGUE caso o produto esteja DISPONIVEL")
-
-        if (label === 'MARCAR COMO ASSINADO' && checkData.every(res => res.status !== "DISPONIVEL" || res.status !== "ENTREGUE"))
-            return alert("Só pode ser marcado como assinado caso o produto esteja DISPONIVEL ou ENTREGUE")
-
-        if (label === "CONFIRMAR CHEGADA" && checkData.every(res => res.status !== "ENVIADO"))
-            return alert("Somente produtos que estão na fase ENVIADOS podem ser confirmados sua chegada.")
-
-        if (value === "DISPONIVEL" && checkData.some(res => res.status !== "REVISADO" && res.status !== "CHEGOU"))
-            return alert("Somente produtos na fase REVISADOS e CHEGOU podem ser marcados como DISPONIVEL")
+        if (label === "DEFINIR COMO ENTREGUE" && checkData.some(res => !res.signed)) {
+            let filtered = checkData.filter(r => !r.signed)
+            alert(`${filtered.map(r => r.name)} não teve/tiveram seus documentos assinados, deseja marca-lo(s) como ENTREGUE mesmo assim ?`)
+        }
 
         setBody({
             responsible: userData.name,
-            ids: checkData.map(res => res.id),
+            ids: checkData?.map(res => res.id),
             where: type,
             what: value,
             label,
@@ -111,7 +97,8 @@ export function MultiAlterationOrders(data) {
                 {
                     stage: value,
                     active: true,
-                    date: new Date()
+                    date: new Date(),
+                    user: userData.name
                 }
             ]
         })
@@ -129,7 +116,7 @@ export function MultiAlterationOrders(data) {
 
     async function handleSenderDataToBeChanged() {
 
-        mutationMultiUpdate.mutateAsync(body)
+        await mutationMultiUpdate.mutateAsync(body)
 
         close()
     }
@@ -167,14 +154,14 @@ export function MultiAlterationOrders(data) {
                                 {
                                     !res.email ?
                                         <Edit
-                                            able={data.able}
+                                            able={res.able}
                                             $open={manyAlteration}
                                             onClick={() => handleOptionGroup(res)}
                                         >
                                             {res.label}
                                         </Edit> :
                                         <Edit
-                                            able={pop}
+                                            able={res.able}
                                         >
                                             <MakeOrders data={res} />
                                         </Edit>

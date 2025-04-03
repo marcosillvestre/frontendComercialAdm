@@ -78,43 +78,33 @@ export function PopOverOrder(data) {
                         }
 
                         {
-                            !row.withdraw ?
-                                row.signed ?
-                                    <Divider
-                                        inative={
-                                            !row.logistic.find(res => res.stage === 'REVISADO')
-                                        }
-                                        onClick={async () => {
-                                            await handleUpdate({
-                                                withdraw: new Date(),
-                                                removedBy: userData.name,
-                                                status: "ENTREGUE"
+                            row.signed ?
+                                <Divider
+                                    inative={
+                                        row.status !== 'DISPONIVEL'
+                                    }
+                                    onClick={async () => {
+                                        await handleUpdate({
+                                            withdraw: new Date(),
+                                            removedBy: userData.name,
+                                            status: "ENTREGUE",
+                                            logs: [...row.logs, {
+                                                date: new Date(),
+                                                description: `Foi marcado como entregue`,
+                                                responsible: userData.name
+                                            }]
 
-                                            })
-                                        }}
-                                    >
-                                        Marcar como entregue
-                                    </Divider>
-                                    :
-                                    <Divider
-                                        inative={
-                                            !row.logistic.find(res => res.stage === 'REVISADO')
-                                        }>
-                                        <DeliverySure data={row} fn={reset} />
-                                    </Divider>
-
-                                :
-                                <Divider onClick={async () => {
-
-                                    await handleUpdate({
-                                        withdraw: null,
-                                        removedBy: "",
-                                        status: "REVISAR",
-                                    })
-
-                                }}>
-                                    Marcar como não entregue
+                                        })
+                                    }}
+                                >
+                                    Marcar como entregue
                                 </Divider>
+                                :
+                                <Divider>
+                                    <DeliverySure data={row} fn={reset} />
+                                </Divider>
+
+
                         }
 
                         {
@@ -126,6 +116,11 @@ export function PopOverOrder(data) {
                                     onClick={async () => {
                                         await handleUpdate({
                                             signed: true,
+                                            logs: [...row.logs, {
+                                                date: new Date(),
+                                                description: `Foi marcado como assinado`,
+                                                responsible: userData.name
+                                            }]
                                         })
 
                                     }}>
@@ -135,6 +130,11 @@ export function PopOverOrder(data) {
                                 <Divider onClick={async () => {
                                     await handleUpdate({
                                         signed: false,
+                                        logs: [...row.logs, {
+                                            date: new Date(),
+                                            description: `Foi marcado como não assinado`,
+                                            responsible: userData.name
+                                        }]
                                     })
                                 }}>
                                     Marcar como não assinado
@@ -153,6 +153,11 @@ export function PopOverOrder(data) {
                                         await handleUpdate({
                                             available: false,
                                             status: 'CANCELADO',
+                                            logs: [...row.logs, {
+                                                date: new Date(),
+                                                description: `Pedido cancelado`,
+                                                responsible: userData.name
+                                            }]
 
                                         })
                                     }}>
@@ -166,9 +171,17 @@ export function PopOverOrder(data) {
                                         logistic: [
                                             {
                                                 stage: "REVISAR",
-                                                active: true
+                                                active: true,
+                                                date: new Date(),
+                                                user: userData.name
+
                                             }
-                                        ]
+                                        ],
+                                        logs: [...row.logs, {
+                                            date: new Date(),
+                                            description: `Pedido reintegrado`,
+                                            responsible: userData.name
+                                        }]
                                     })
                                 }}>
                                     Reaver pedido

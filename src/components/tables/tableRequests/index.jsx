@@ -48,7 +48,7 @@ function Row(props) {
                 <TableCell align="center" component="th" scope="row">{row.price.toLocaleString("pt-BR", { style: 'currency', currency: "brl" })}</TableCell>
                 <TableCell align="center" component="th" scope="row">
                     <Tag style={{ backgroundColor: "#d2d2d2" }}>
-                        {row.suplier.name}
+                        {row.suplier?.name}
                     </Tag>
                 </TableCell>
                 <TableCell align="center" component="th" scope="row">{row.unity.name} </TableCell>
@@ -175,6 +175,7 @@ export default function TableRequests() {
 
     const { isPending } = RequestsQuery
     const { total, request } = queryRequest
+
 
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
