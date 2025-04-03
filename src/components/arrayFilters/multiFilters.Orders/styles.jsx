@@ -4,6 +4,7 @@ import styled from "styled-components";
 export const Container = styled.section`
 display: ${({ active }) => (active ? 'flex' : 'none')};
 gap: 15px;
+font-size: var(--fsLowest);
 
 `
 export const FilterContainer = styled.section`

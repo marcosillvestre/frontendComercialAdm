@@ -1,106 +1,56 @@
 
 import { memo, useState } from 'react';
-import { Container, Filters, InputSearch, NothingHere, Tabled } from './styles';
+import { Container, Header, InputSearch } from './styles';
 
 import { useUser } from '../../../hooks/userContext';
 
-import noData from '../../../assets/noData.svg';
 
 import {
-    CustomizedMenus,
     Select
 } from '../../../components/source.jsx';
 
 
-import { useData } from '../../../hooks/dataContext';
 
 import SearchIcon from '@mui/icons-material/Search';
 import PropTypes from 'prop-types';
+import { RegisterMoreFilters } from '../../../components/multiFilters/moreFilters.registers/index.jsx';
 import TableMainData from '../../../components/tables/tableData2/index.jsx';
 import businessRules from '../../utils/Rules/options.jsx';
 
 export const ListFiltered = () => {
 
 
-    const { filtered, setFiltered, resetFilter,
-        setPeriodFilter, mutationControlData, setTake,
-        setSkip, allData,
-        setPeriodRange, setSelectedInitialDate, setSelectedEndDate,
-        setQueryParam,
-        selectedInitialDate, selectedEndDate
+    const {
+        allData, selectedInitialDate, selectedEndDate,
+        setSearch, setQuery, typeFilter, setTypeFilter
     } = useUser()
 
 
     const [searcher, setSearcher] = useState('')
 
 
-    const { typeFilter, setTypeFilter,
-        // customizableArray, handleCustomizableData,
-        setCustomizableArray } = useData()
-
-
-
-    const handleResetFilter = (filter) => {
-        setQueryParam({ param: "", value: "" })
-
-        if (filter === undefined) {
-            setTypeFilter([])
-            resetFilter()
-        } else {
-            setTypeFilter(typeFilter.filter(res => res !== filter))
-            resetFilter(filter)
-        }
-    }
-
-
-    const { data } = mutationControlData
-
-    const sender = (name) => {
-        setPeriodFilter(false)
+    const handleResetFilter = () => {
         setTypeFilter([])
-
-        const filteredByName = filtered?.filter(res => {
-            return res.name.toLowerCase().includes(name.toLowerCase()) ||
-                res['customFields']["Nome do aluno"]
-                    .toLowerCase().includes(name.toLowerCase())
-                && res
-
-        })
-
-        if (filteredByName.length === 0) {
-            return setQueryParam({ param: "name", value: name, path: "Nome do aluno" })
-        }
-
-        name !== '' && setFiltered(filteredByName)
     }
-
-
-
-
-
 
 
     const handleCheck = async (label) => {
 
-        setQueryParam({ param: "", value: "" })
-        setSelectedInitialDate(null)
-        setSelectedEndDate(null)
-        setCustomizableArray([])
-        setPeriodRange(label)
-
-        setTypeFilter([])
-
-        setTake(10)
-        setSkip(0)
-
-        setPeriodFilter(false)
+        setSearch(label)
     }
 
 
     return (
         <Container>
-            <span className='nav-filter' >
-                <div className='wrapper'>
+            <nav
+                className='over-nav'
+            >
+                <h3>Validação de Matrículas</h3>
+
+            </nav>
+
+            <Header  >
+                <nav className='inside-header'>
 
                     <label htmlFor="select">
                         <p>Período</p>
@@ -117,7 +67,7 @@ export const ListFiltered = () => {
                         }
                     </label>
 
-                    <label className="box-search">
+                    <form className="box-search">
                         <p>Pesquisar no período</p>
                         <InputSearch
                             type="text"
@@ -126,14 +76,17 @@ export const ListFiltered = () => {
                             list='list'
                             onChange={(e) => {
                                 setSearcher(e.target.value)
-                                if (e.target.value === "") {
-                                    setQueryParam({ param: "", value: "" })
+                                if (e.target.value === "") return setQuery(null)
 
-                                }
                             }}
                         />
 
-                        <button onClick={() => sender(searcher)}>
+                        <button
+                            type='submit'
+                            onClick={(e) => {
+                                setQuery(searcher)
+                                e.preventDefault()
+                            }}>
                             <SearchIcon />
                         </button>
 
@@ -149,60 +102,33 @@ export const ListFiltered = () => {
                                 ))
                             }
                         </datalist>
-                    </label>
-
-                    <CustomizedMenus />
-                </div>
+                    </form>
 
 
-            </span>
-            <div className='wrapper'>
 
-                <Filters className='filters'>
-                    {typeFilter?.length > 0 &&
-                        <>
-                            <div >
-                                {typeFilter.map(res => (
-                                    <span
-                                        key={res.key}
-                                        onClick={() =>
-                                            handleResetFilter(res)}
-                                    >
-                                        <p className='header'>{res.key}:</p>
-                                        <p className='body'>{res.value}</p>
-                                    </span>
-                                ))}
-                            </div>
-                            <div>
-                                <button
-                                    className='defaultButton'
-                                    onClick={() => handleResetFilter()}
-                                >
-                                    Limpar filtros
-                                </button>
-                            </div>
-                        </>
+                    {/* <CustomizedMenus /> */}
+
+                    <RegisterMoreFilters />
+
+                    {
+                        typeFilter?.length > 0 &&
+                        <div>
+                            <button
+                                className='button-clean'
+                                onClick={() => handleResetFilter()}
+                            >
+                                Limpar filtros
+                            </button>
+                        </div>
                     }
-                </Filters>
-            </div>
+                </nav>
 
 
-            {
-                filtered === undefined ?
-                    "carregando..."
-                    :
-                    filtered?.length < 1 ?
-                        <NothingHere >
-                            <img src={noData} alt="No data image" />
-                        </NothingHere> :
-                        <Tabled>
-                            <TableMainData data={
-                                data !== undefined &&
-                                { total: data.total, deals: filtered }}
-                            />
-                        </Tabled>
+            </Header>
 
-            }
+
+            <TableMainData />
+
         </Container>
     )
 }

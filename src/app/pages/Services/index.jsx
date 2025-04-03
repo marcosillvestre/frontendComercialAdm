@@ -15,24 +15,42 @@ export function Services() {
 
     return (
         <Container>
+            <nav>
+                <h3>Configurações - Serviços</h3>
 
+                <button
+                    className='defaultButton create-button'
+
+                    onClick={() => {
+                        setTypeSidebar(7)
+                        setOpenSidebar(true);
+                        setEditService(null)
+                    }
+                    }>
+                    Criar novo serviço
+                </button>
+            </nav>
             <Header>
                 <nav>
                     <div>
-                        <h1>Serviços</h1>
                         <form action=""
                             className='flex'
                         >
+                            <label htmlFor="">
 
-                            <input
-                                type="text"
-                                className='inputSearch'
-                                placeholder="Nome ou Sku"
-                                ref={forQuery}
-                                onChange={(e) => e.target.value === "" && setQuery('')}
-                            />
+                                <p>Pesquisar</p>
+                                <input
+                                    type="text"
+                                    className='inputSearch'
+                                    placeholder="Nome ou Sku"
+                                    ref={forQuery}
+                                    onChange={(e) => e.target.value === "" && setQuery('')}
+                                />
 
-                            <button type="submit"
+                            </label>
+
+                            <button
+                                type="submit"
                                 onClick={(e) => {
                                     setQuery(forQuery.current.value)
                                     e.preventDefault()
@@ -43,20 +61,7 @@ export function Services() {
                             </button>
                         </form>
                     </div>
-                    <span>
 
-                        <button
-                            className='defaultButton create-button'
-                            onClick={() => {
-                                setTypeSidebar(7)
-                                setOpenSidebar(true);
-                                setEditService(null)
-                            }
-                            }>
-                            Criar novo serviço
-                        </button>
-
-                    </span>
                 </nav>
             </Header>
             {

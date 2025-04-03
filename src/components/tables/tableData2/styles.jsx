@@ -1,8 +1,27 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 import { TableBody, TableCell, TableHead } from '@mui/material';
+import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import styled from "styled-components";
 
+
+export const Container = styled.main`
+nav{
+    align-items: center;
+    gap: 1rem;
+
+    span{
+        justify-content: space-between;
+        padding: .1rem;
+    }
+}
+`
+
+export const ContainerTable = styled(TableContainer)`
+th,td{
+    font-size: .7rem;
+}
+`
 
 export const RowTable = styled(TableRow)`
 

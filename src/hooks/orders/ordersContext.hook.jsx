@@ -124,8 +124,6 @@ export const OrdersProvider = ({ children }) => {
         // cacheTime: 1000 * 60 * 10
     })
 
-
-
     useLayoutEffect(() => {
         const gatherData = async () => {
 

@@ -6,7 +6,6 @@ import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
@@ -17,6 +16,7 @@ import colorsRules from '../../../app/utils/Rules/colors.jsx';
 import businessRules from '../../../app/utils/Rules/options.jsx';
 import { useUnities } from '../../../hooks/unities/unitiesContext.hook.jsx';
 import { useUser } from '../../../hooks/userContext';
+import { MultiFiltersRegisters } from '../../arrayFilters/multiFilters.registers/index.jsx';
 import { UniqueSelect } from '../../selects/UniqueSelect/index.jsx';
 import { PopOverControl } from '../../source';
 import { ContractInfo } from './contractInfo';
@@ -26,7 +26,7 @@ import { Observations } from './observations';
 import { Pedagogic } from './pedagogic/index.jsx';
 import { StatusMatricula } from './statusMatricula';
 import { StudentInfo } from './studentInfo/index.jsx';
-import { RowTable } from './styles';
+import { Container, ContainerTable, RowTable } from './styles';
 
 
 function TableMainData(props) {
@@ -279,12 +279,12 @@ TableMainData.propTypes = {
     }).isRequired,
 };
 
-export default function CollapsibleTable(props) {
+export default function CollapsibleTable() {
 
-    const { total, deals } = props.data
-    const { setSkip, take, setTake, mutationControlData } = useUser()
-
+    const { setSkip, take, setTake, mutationControlData, filtered } = useUser()
     const { isPending } = mutationControlData
+
+    const { total, deals } = filtered
 
 
     const [page, setPage] = React.useState(0);
@@ -306,9 +306,9 @@ export default function CollapsibleTable(props) {
         setTake(+event.target.value);
     };
 
-    return (
 
-        <TableContainer component={Paper}>
+    return (
+        <ContainerTable component={Paper}>
             <Paper sx={{ width: '100%' }}>
 
                 {
@@ -332,33 +332,40 @@ export default function CollapsibleTable(props) {
                             />
                         </div>
                         :
-                        <Table aria-label="collapsible table">
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell />
-                                    <TableCell align="center">Data</TableCell>
-                                    <TableCell align="center">Aluno</TableCell>
-                                    <TableCell align="center">Responsável</TableCell>
-                                    <TableCell align="center">Curso</TableCell>
-                                    <TableCell align="center">Unidade</TableCell>
-                                    <TableCell align="center">Background</TableCell>
-                                    <TableCell align="center">Comissionamento</TableCell>
-                                    <TableCell />
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {
-                                    deals &&
-                                    deals.map((row) => (
-                                        <TableMainData
-                                            key={row.id}
-                                            row={row}
-                                        />
-                                    ))
+                        <Container>
+                            <nav>
+                                <MultiFiltersRegisters />
 
-                                }
-                            </TableBody>
-                        </Table>
+                            </nav>
+
+                            <Table aria-label="collapsible table">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell />
+                                        <TableCell align="center">Data</TableCell>
+                                        <TableCell align="center">Aluno</TableCell>
+                                        <TableCell align="center">Responsável</TableCell>
+                                        <TableCell align="center">Curso</TableCell>
+                                        <TableCell align="center">Unidade</TableCell>
+                                        <TableCell align="center">Background</TableCell>
+                                        <TableCell align="center">Comissionamento</TableCell>
+                                        <TableCell />
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {
+                                        deals &&
+                                        deals.map((row) => (
+                                            <TableMainData
+                                                key={row.id}
+                                                row={row}
+                                            />
+                                        ))
+
+                                    }
+                                </TableBody>
+                            </Table>
+                        </Container>
                 }
 
                 <TablePagination
@@ -371,22 +378,10 @@ export default function CollapsibleTable(props) {
                     onRowsPerPageChange={handleChangeRowsPerPage}
                 />
             </Paper>
-        </TableContainer>
+        </ContainerTable>
     );
 }
 
 CollapsibleTable.propTypes = {
-    data: PropTypes.shape({
-
-        total: PropTypes.number.isRequired,
-        deals: PropTypes.arrayOf(
-            PropTypes.shape({
-                name: PropTypes.string.isRequired,
-                customFields: PropTypes.shape({
-                    "Nome do aluno": PropTypes.string.isRequired,
-                }).isRequired,
-            }),
-        ).isRequired,
-
-    }).isRequired,
+    data: PropTypes.shape({}),
 };

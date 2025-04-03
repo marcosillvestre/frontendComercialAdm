@@ -28,6 +28,7 @@ display: flex;
 padding: .4rem .6rem ;
 transition: transform 0.1s, box-shadow 0.1s ;
 height: fit-content;
+font-size: var(--fsLowest);
 &:active{
     opacity: .8;
 }

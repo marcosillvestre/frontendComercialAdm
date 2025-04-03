@@ -2,7 +2,7 @@
 
 import SearchIcon from '@mui/icons-material/Search';
 import { useRef } from 'react';
-import { OrderMoreFilters } from '../../../components/moreFilters.orders/index.jsx';
+import { OrderMoreFilters } from '../../../components/multiFilters/moreFilters.orders/index.jsx';
 import { SelectOrders } from '../../../components/selects/select.Orders';
 import TableOrders from '../../../components/tables/tableOrders/index.jsx';
 import { useOrders } from '../../../hooks/orders/ordersContext.hook.jsx';
@@ -70,7 +70,7 @@ export const Orders = () => {
                     {
                         typeFilter.length > 0 &&
                         <button
-                            className='clean'
+                            className='button-clean'
                             onClick={() => setTypeFilter([])}
                         >
                             limpar filtros

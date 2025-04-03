@@ -209,6 +209,8 @@ const ordersFilters = [
     },
 ]
 
+
+
 export default {
     types, ordersFilters,
     arrayQuantityChanges, predeterminedPeriods, customizablePeriods,

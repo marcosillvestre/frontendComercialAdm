@@ -38,8 +38,8 @@ export const FinancialInfo = (props) => {
 
         Sender(key, row.id, value, key)
     }
-    return (
 
+    return (
         <React.Fragment>
             <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
                 <TableCell>

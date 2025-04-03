@@ -8,7 +8,7 @@ import { Container, Header } from './styles';
 export function Supliers() {
     const forQuery = useRef()
     const { setTypeSidebar, setOpenSidebar, } = useUser()
-    const { SupliersQuery, setEditSuplier, setQuery } = useSupliers()
+    const { setEditSuplier, setQuery } = useSupliers()
 
 
 

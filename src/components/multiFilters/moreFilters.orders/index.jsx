@@ -4,11 +4,11 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { alpha, styled } from '@mui/material/styles';
 import LoadingSpin from 'react-loading-spin';
-import rules from '../../app/utils/Rules/options.jsx';
-import { useOrders } from '../../hooks/orders/ordersContext.hook.jsx';
-import { useProduct } from '../../hooks/products/productsContext.hook.jsx';
-import { useUser } from '../../hooks/userContext.jsx';
-import { CustomDateMenuOrders } from '../customDateMenu/filteringMenu.Orders/index.jsx';
+import rules from '../../../app/utils/Rules/options.jsx';
+import { useOrders } from '../../../hooks/orders/ordersContext.hook.jsx';
+import { useProduct } from '../../../hooks/products/productsContext.hook.jsx';
+import { useUser } from '../../../hooks/userContext.jsx';
+import { CustomDateMenuOrders } from '../../customDateMenu/filteringMenu.Orders/index.jsx';
 import { Buttonn, Container } from './styles.jsx';
 
 const StyledMenu = styled((props) => (
@@ -57,7 +57,7 @@ const StyledMenu = styled((props) => (
 
 export function OrderMoreFilters() {
 
-    const { anchorEl, handleClose, setAnchorEl, } = useUser()
+    const { anchorEl, handleClose, setAnchorEl } = useUser()
     const { totalsQuery } = useProduct()
 
     const { isPending, data } = totalsQuery
@@ -79,6 +79,8 @@ export function OrderMoreFilters() {
 
 
     const handleClick = (event) => {
+
+
         setAnchorEl(event.currentTarget);
     };
 

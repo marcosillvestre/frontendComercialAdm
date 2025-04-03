@@ -61,7 +61,8 @@ export function CustomizedMenus() {
     const open = Boolean(anchorEl);
 
     const { cfSrted } = useCustomFields()
-    const customFieldsFiltered = cfSrted && cfSrted.filter(res => res.type === "option")
+    const customFieldsFiltered = cfSrted &&
+        cfSrted.filter(res => res.type === "option")
 
 
     const handleClick = (event) => {

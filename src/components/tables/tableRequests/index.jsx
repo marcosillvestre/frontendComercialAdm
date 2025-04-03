@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import LoadingSpin from 'react-loading-spin';
 import { useRequests } from '../../../hooks/requests/requestsContext.hook';
-import { MultiFiltersOrders } from '../../multiFilters.Orders';
+// import { MultiFiltersOrders } from '../../arrayFilters/multiFilters.Orders';
 import { Container, ContainerOrder, ContainerTable, Tag } from './styles';
 function Row(props) {
     const { row } = props;
@@ -224,8 +224,7 @@ export default function TableRequests() {
                     :
                     <Container>
                         <nav>
-                            <MultiFiltersOrders
-                            />
+                            {/* <MultiFiltersOrders/> */}
 
                         </nav>
                         <ContainerTable component={Paper}>

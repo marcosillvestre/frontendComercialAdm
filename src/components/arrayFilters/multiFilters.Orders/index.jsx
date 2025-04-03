@@ -1,5 +1,5 @@
 import CloseIcon from '@mui/icons-material/Close';
-import { useOrders } from '../../hooks/orders/ordersContext.hook';
+import { useOrders } from '../../../hooks/orders/ordersContext.hook';
 
 import { Container, FilterContainer } from './styles';
 

@@ -3,15 +3,14 @@
 import Proptypes from 'prop-types'
 import { redirect } from "react-router-dom"
 import URI from "../app/utils/utils.jsx"
-import { useData } from "./dataContext.jsx"
 
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { toast } from "react-toastify"
 import { paths } from '../app/constants/paths.js'
 import businessRules from '../app/utils/Rules/options.jsx'
 
 import { createContext, useContext, useEffect, useLayoutEffect, useMemo, useState } from "react"
-import { getDate } from '../app/utils/functions/getDates.jsx'
+import { pickingDate } from '../app/utils/functions/getDates.jsx'
 
 const UserContext = createContext({})
 export const UserProvider = ({ children }) => {
@@ -25,7 +24,7 @@ export const UserProvider = ({ children }) => {
     const [filteredContracts, setFilteredContracts] = useState()
 
 
-    const [periodRange, setPeriodRange] = useState(businessRules.predeterminedPeriods[0].name)
+    const { predeterminedPeriods } = businessRules
 
     const [anchorEl, setAnchorEl] = useState(null);
     const [openPeriodRange, setOpenPeriodRange] = useState(false)
@@ -35,9 +34,7 @@ export const UserProvider = ({ children }) => {
 
     const [unHandleLabel, setUnHandleLabel] = useState("Data de matrícula")
 
-    const { typeFilter } = useData()
-
-    const queryCache = useQueryClient();
+    const [typeFilter, setTypeFilter] = useState([])
 
 
     const handleClose = () => setAnchorEl(null);
@@ -76,59 +73,48 @@ export const UserProvider = ({ children }) => {
 
 
 
-
-
-    const typeSearch = {
-        "Data de matrícula": "dataMatricula",
-        "Data de validação": "dataValidacao"
-    }
-
     const [take, setTake] = useState(10)
     const [skip, setSkip] = useState(0)
-    const [queryParam, setQueryParam] = useState({ param: "", value: "", path: "" })
+    const [query, setQuery] = useState('')
+
+    const [orderFor, setOrderFor] = useState('desc')
+    const [orderBy, setOrderBy] = useState('created_at')
 
 
-    const body = {
-        "range": periodRange,
-        "types": typeSearch[unHandleLabel],
-        "role": userData.role,
-        "name": userData.name,
-        "unity": userData.unity,
-        "take": take,
-        "skip": skip,
-        "orderBy": "created_at"
-    }
-
+    const [search, setSearch] = useState(predeterminedPeriods[0].name)
 
 
     const [allData, setAllData] = useState([])
 
 
     const indexPeriod = async () => {
-        body['dates'] = await getDate(body.range)
-
-        if (selectedInitialDate !== null && selectedEndDate !== null) {
-            body['range'] = "Personalizado"
-            body['dates'] = `${selectedInitialDate && selectedInitialDate}~${selectedEndDate && selectedEndDate}`
-
-        }
+        const dates = search !== "Período personalizado" ? await pickingDate(search) :
+            `${selectedInitialDate}~${selectedInitialDate}`
 
 
-        let query = `/query?param=${queryParam.param}&value=${queryParam.value}&dates=${await getDate(body.range)}&name=${body.name}&role=${body.role}&orderBy=${body.orderBy}&path=${queryParam.path}`
-        let period = `/registro?range=${body.range}&role=${body.role}&name=${body.name}&unity=${body.unity}&dates=${body.dates}&skip=${body.skip}&take=${body.take}&orderBy=${body.orderBy}`
+        let url = query ? `/registro-query` : `/registro`
 
-        const response = await
-            URI.get(queryParam.value !== '' ? query : period)
-        return response?.data
+
+        const response = await URI.post(url, {
+            role: userData.role,
+            name: userData.name,
+
+            dates,
+            take,
+            skip,
+            orderFor,
+            orderBy,
+            query,
+            typeFilter
+        })
+        return response.data
     }
-
 
 
     const mutationControlData = useQuery({
         queryFn: () => indexPeriod(),
-        queryKey: [body, queryParam],
-        enabled: !headers.Authorization.includes("undefined"),
-        retry: false
+        queryKey: [search, take, skip, orderFor, query, orderBy, JSON.stringify(typeFilter)],
+        enabled: userData.name !== undefined && userData.role !== undefined
     })
 
     if (mutationControlData.error &&
@@ -138,29 +124,23 @@ export const UserProvider = ({ children }) => {
         logOut()
     }
 
-    const invalidateYourQuery = (query) => {
-        const querys = {
-            "register": queryCache.invalidateQueries([body, queryParam]),
-            "custom": queryCache.invalidateQueries(["custom"])
-
-        }
-
-        querys[query]
-    }
 
     useLayoutEffect(() => {
-
-        queryCache.invalidateQueries([body, queryParam])
-        if (mutationControlData.isSuccess) {
+        const gatherData = async () => {
             const { data } = mutationControlData
-            setFiltered(data.deals)
-            setAllData(data.deals)
+
+
+            setFiltered(data)
+            setAllData(data)
         }
 
+        if (mutationControlData.isSuccess) gatherData()
+
     }, [
-        periodRange, skip, take,
-        mutationControlData.isSuccess, queryParam,
-        typeFilter.length
+        // periodRange, skip, take,
+        mutationControlData.isSuccess,
+        take, skip, orderFor, query, orderBy,
+        JSON.stringify(typeFilter), search
     ])
 
 
@@ -238,36 +218,37 @@ export const UserProvider = ({ children }) => {
     const [openSidebar, setOpenSidebar] = useState(false);
     const [typeSidebar, setTypeSidebar] = useState(0)
 
+    const removeFilter = (data) => {
+        const filtered = typeFilter.filter(res => res.id !== data.id)
 
-    const [material, setmaterial] = useState()
-    const [tax, settax] = useState()
-
-
+        return setTypeFilter(filtered)
+    }
 
     return (
         <UserContext.Provider value={{
-            contracts, setContracts, periodRange, setPeriodRange, periodFilter, setPeriodFilter,
+            contracts, setContracts, periodFilter, setPeriodFilter,
             headers, putInfo,
             userData,
 
             anchorEl, setAnchorEl, handleClose,
             logOut, fetchData, setFetchData, selectedInitialDate, setSelectedInitialDate,
             filtered, setFiltered, filteredContracts, setFilteredContracts,
-            selectedEndDate, setSelectedEndDate, resetFilter, body,
+            selectedEndDate, setSelectedEndDate, resetFilter,
             openPeriodRange, setOpenPeriodRange, unHandleLabel, setUnHandleLabel,
             mutationControlData, take, skip, setTake,
             setSkip, allData,
-            // SenderDirector, 
             Sender,
             UpdateCustomFields,
             historic, refetchHistoric, isPendingHistoric, historicSuccess, setHistoricTake, historicTake,
             openSidebar, setOpenSidebar,
             typeSidebar, setTypeSidebar,
-            setQueryParam,
 
-            material, setmaterial,
-            tax, settax,
-            invalidateYourQuery
+            query, setQuery,
+            setSearch,
+            typeFilter, setTypeFilter, removeFilter,
+
+            setOrderFor,
+            setOrderBy
         }}>
 
             {children}
