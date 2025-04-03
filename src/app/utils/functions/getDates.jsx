@@ -94,13 +94,13 @@ export const pickingDate = (range) => {
     const All = () => {
         const date = new Date()
         date.setDate(date.getDate() - 10000)
-        return `${date.toDateString()}~${now.setUTCHours(23, 59, 59, 999)}`
+        return `${date.toDateString()}~${new Date(now.setUTCHours(23, 59, 59, 999))}`
     }
 
     const ThisYear = () => {
         const date = new Date();
         const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
-        return `${firstDayOfYear.toDateString()}~${now.setUTCHours(23, 59, 59, 999)}`
+        return `${firstDayOfYear.toDateString()}~${new Date(now.setUTCHours(23, 59, 59, 999))}`
     }
 
 

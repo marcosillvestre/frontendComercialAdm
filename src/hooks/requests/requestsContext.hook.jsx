@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import Proptypes from 'prop-types'
 import { createContext, useContext, useLayoutEffect, useRef, useState } from "react"
 import { toast } from "react-toastify"
+import { pickingDate } from "../../app/utils/functions/getDates.jsx"
 import businessRules from '../../app/utils/Rules/options.jsx'
 import URI from "../../app/utils/utils"
 
@@ -43,54 +44,11 @@ export const RequestsProvider = ({ children }) => {
 
         return setTypeFilter(filtered)
     }
-    const pickingDate = (range) => {
-
-        const now = new Date();
-
-        const LastMonth = () => `${new Date(now.getFullYear(), now.getMonth() - 1, 1)}~${new Date(now.getFullYear(), now.getMonth(), 0, 23, 59, 59, 999)}`;
-        const TwoMonths = () => `${new Date(now.getFullYear(), now.getMonth() - 2, 1)}~${new Date(now.getFullYear(), now.getMonth() - 1, 0, 23, 59, 59, 999)}`;
-        const ThisMonth = () => `${new Date(now.getFullYear(), now.getMonth(), 1)}~${new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999)}`;
-
-        const Custom = () => `${initialDate}~${new Date(new Date(endDate).setUTCHours(23, 59, 59, 999))}`;
-
-        const SevenDays = () => {
-            const date = new Date()
-            date.setDate(date.getDate() - 7)
-            return `${date.toDateString()}~${now}`
-        }
-
-        const All = () => {
-            const date = new Date()
-            date.setDate(date.getDate() - 10000)
-            return `${date.toDateString()}~${now.setUTCHours(23, 59, 59, 999)}`
-        }
-
-        const ThisYear = () => {
-            const date = new Date();
-            const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
-            return `${firstDayOfYear.toDateString()}~${now.setUTCHours(23, 59, 59, 999)}`
-        }
-
-
-
-        const settledPeriod = {
-            "Mês passado": LastMonth(),
-            "Mês retrasado": TwoMonths(),
-            "Este mês": ThisMonth(),
-            "Período personalizado": Custom(),
-            "Últimos 7 dias": SevenDays(),
-            "Este ano": ThisYear(),
-            "Todo período": All(),
-        }
-
-        return settledPeriod[range]
-    }
 
 
     const queryRequests = async () => {
-        const dates = await pickingDate(search)
-        //  :
-        //     `${initialDate}~${endDate}`
+        const dates = search !== "Período personalizado" ? await pickingDate(search) :
+            `${initialDate}~${endDate}`
 
         const url = query ?
             `/requisicao-query` :
