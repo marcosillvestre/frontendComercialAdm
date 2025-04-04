@@ -58,6 +58,8 @@ display: flex;
 align-items: center;
 justify-content: center;
 font-size: var(--fsLowest);
+width: max-content;
+
 svg{
     width: 20px;
     cursor: pointer;
