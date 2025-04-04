@@ -33,7 +33,6 @@ const style = {
 export function MakeOrders(info) {
     const { data } = info
     const [suplier, setSuplier] = React.useState();
-    const [result, setResult] = React.useState();
     const [setUpMessage, setSetUpMessage] = React.useState('');
     const [open, setOpen] = React.useState(false);
 
@@ -55,16 +54,6 @@ export function MakeOrders(info) {
     const { allSupliers } = useSupliers()
     const { data: sups, isPending } = allSupliers
 
-    React.useEffect(() => {
-        const itemCount = checkData.reduce((acc, item) => {
-            acc[item.book] = (acc[item.book] || 0) + 1;
-            return acc;
-        }, {});
-
-        setResult(Object.entries(itemCount)
-            .map(([name, count]) => ({ name, count })));
-
-    }, [JSON.stringify(checkData)])
 
     const [wppPermission, setWppPermission] = React.useState(true);
     const [emailPermission, setEmailPermission] = React.useState(true);
@@ -81,11 +70,22 @@ export function MakeOrders(info) {
             });
     };
 
+    const calculateCheckData = () => {
+        const itemCount = checkData.reduce((acc, item) => {
+            acc[item.book] = (acc[item.book] || 0) + 1;
+            return acc;
+        }, {});
+
+        return Object.entries(itemCount)
+            .map(([name, count]) => ({ name, count }));
+    }
 
     const filterSuplier = React.useCallback((name) => {
 
         const choosenSuplier = sups?.supliers?.find(res => res.name === name)
         setSuplier(choosenSuplier);
+
+        const result = calculateCheckData()
 
         setSetUpMessage(`Assunto: Solicitação de Pedido
 
