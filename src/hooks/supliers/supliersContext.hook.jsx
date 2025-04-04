@@ -17,27 +17,7 @@ export const SupliersProvider = ({ children }) => {
     const [typeFilter, setTypeFilter] = useState([])
 
     const [query, setQuery] = useState()
-    // id: 'cm8na0tnv000f73rcpyboweir',
-    // name: 'Marcos Viniciu',
-    // docment: '02605441',
-    // type: 'FISICO',
-    // contacts: {
-    //   email: 'Marcos.vinicius7170@gmail.com',
-    //   telefone: '544444',
-    //   whatsapp: '5',
-    //   descricao: '555',
-    //   orderEmail: '5555',
-    //   comercialPhone: '31973375058'
-    // },
-    // address: {
-    //   UF: 'Minas Gerais',
-    //   Rua: 'Rua Formosa',
-    //   cep: '32606-720',
-    //   Bairro: 'Conjunto Habitacional Homero Gil',
-    //   Cidade: 'Betim',
-    //   numero: '215',
-    //   complemento: 'casa'
-    // },
+
     const [endDate, setEndDate] = useState(null)
 
     const [take, setTake] = useState(10)
@@ -62,9 +42,7 @@ export const SupliersProvider = ({ children }) => {
 
     const querySupliers = async () => {
 
-        const url = query ?
-            `/fornecedor-query` :
-            `/fornecedor`
+        const url = query ? `/fornecedor-query` : `/fornecedor`
 
         const response = await URI.post(url, {
             take,
@@ -170,12 +148,13 @@ export const SupliersProvider = ({ children }) => {
                 (oldData) => {
                     return {
                         supliers: [
-                            ...oldData.supliers,
                             {
                                 ...variables,
                                 id: crypto.randomUUID(),
                                 created_at: new Date()
-                            }],
+                            },
+                            ...oldData.supliers,
+                        ],
                         total: oldData.total + 1
                     }
                 }
@@ -222,12 +201,13 @@ export const SupliersProvider = ({ children }) => {
 
                     return {
                         supliers: [
-                            ...oldData.supliers.filter(r => r.id !== editSuplier.id),
                             {
                                 ...variables,
                                 id: crypto.randomUUID(),
                                 created_at: new Date()
-                            }],
+                            },
+                            ...oldData.supliers.filter(r => r.id !== editSuplier.id),
+                        ],
                         total: oldData.total
                     }
                 }

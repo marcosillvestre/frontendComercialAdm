@@ -34,6 +34,7 @@ export function MakeOrders(info) {
     const { data } = info
     const [suplier, setSuplier] = React.useState();
     const [result, setResult] = React.useState();
+    const [setUpMessage, setSetUpMessage] = React.useState('');
     const [open, setOpen] = React.useState(false);
 
     const handleOpen = () => setOpen(true);
@@ -41,13 +42,11 @@ export function MakeOrders(info) {
     const handleClose = () => {
         setOpen(false)
         setSuplier(null)
+        setSetUpMessage('')
     };
     function handleFuncs() {
         handleOpen()
     }
-
-
-
 
 
     const { userData } = useUser()
@@ -82,9 +81,36 @@ export function MakeOrders(info) {
             });
     };
 
+
     const filterSuplier = React.useCallback((name) => {
-        setSuplier(sups?.supliers?.find(res => res.name === name));
-    }, [sups]);
+
+        const choosenSuplier = sups?.supliers?.find(res => res.name === name)
+        setSuplier(choosenSuplier);
+
+        setSetUpMessage(`Assunto: Solicitação de Pedido
+
+Prezado(a) ${choosenSuplier && choosenSuplier.name},
+
+Gostaríamos de solicitar o seguinte pedido:
+
+${result &&
+            result.map(res => `${res.name},   quantidade: ${res.count}\n`)}
+
+Solicitamos, por gentileza, que nos confirme a disponibilidade e o prazo estimado para entrega. Caso necessário, estamos à disposição para qualquer esclarecimento adicional.
+
+Agradecemos desde já pela atenção e aguardamos seu retorno.
+
+Atenciosamente,
+
+${userData.name},
+${checkData[0].unity === 'PTB' ?
+                `American Way - 18.953.641/0001-26,
++55 31 8713-7018` :
+                `American Way - 42.387487/0001-57,
++55 31 8284-0590`
+            }
+`)
+    }, [sups, JSON.stringify(checkData)]);
 
 
 
@@ -92,6 +118,7 @@ export function MakeOrders(info) {
     const sendRequests = async () => {
 
         if (!suplier) return alert("Você precisa definir o fornecedor antes de enviar o pedido!")
+        if (checkData.find(res => res.unity !== checkData[0].unity)) return alert("Você só pode realizar pediddos relacionados a somente uma unidade")
 
         if (checkData.every(res => res.status !== "REVISADO" && res.status !== "ENTREGUE"))
             return alert("Apenas produtos REVISADOS ou ENTREGUES podem ser realizado pedidos.")
@@ -159,6 +186,11 @@ export function MakeOrders(info) {
                                                 className='input-suplier'
                                                 list='supliers' name="" id=""
                                                 onChange={(e) => {
+                                                    if (e.target.value === '') {
+                                                        setSetUpMessage('')
+                                                        setSuplier(null)
+                                                    }
+
                                                     e.target.value.length >= 3 &&
                                                         filterSuplier(e.target.value)
                                                 }}
@@ -271,14 +303,7 @@ export function MakeOrders(info) {
                                             <label htmlFor="">
                                                 <p>Pré-visualização do pedido:</p>
                                                 <textarea
-                                                    defaultValue={
-                                                        `Olá, em nome da American Way gostaria de fazer um pedido dos seguintes produtos: 
-
-${result &&
-                                                        result.map(res => `${res.name},   quantidade: ${res.count}\n`)}
-
-                                                                `
-                                                    }
+                                                    defaultValue={setUpMessage}
                                                     type="text" ref={message} />
 
                                                 <button
