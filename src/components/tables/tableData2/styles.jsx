@@ -4,6 +4,16 @@ import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import styled from "styled-components";
 
+export const ContainerOrder = styled.span`
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: var(--fsLowest);
+svg{
+    width: 20px;
+    cursor: pointer;
+}
+`
 
 export const Container = styled.main`
 nav{

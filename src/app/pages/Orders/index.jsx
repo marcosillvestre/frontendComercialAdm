@@ -68,7 +68,7 @@ export const Orders = () => {
                     <OrderMoreFilters />
 
                     {
-                        typeFilter.length > 0 &&
+                        typeFilter?.length > 0 &&
                         <button
                             className='button-clean'
                             onClick={() => setTypeFilter([])}

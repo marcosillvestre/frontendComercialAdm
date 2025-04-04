@@ -34,6 +34,7 @@ export const OrdersProvider = ({ children }) => {
 
     const [orderFor, setOrderFor] = useState("desc")
     const [orderBy, setOrderBy] = useState("created_at")
+
     const [dateType, setDateType] = useState("created_at")
     const [query, setQuery] = useState(undefined)
 

@@ -1,5 +1,8 @@
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import SwapVertIcon from '@mui/icons-material/SwapVert';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
 import Paper from '@mui/material/Paper';
@@ -26,8 +29,7 @@ import { Observations } from './observations';
 import { Pedagogic } from './pedagogic/index.jsx';
 import { StatusMatricula } from './statusMatricula';
 import { StudentInfo } from './studentInfo/index.jsx';
-import { Container, ContainerTable, RowTable } from './styles';
-
+import { Container, ContainerOrder, ContainerTable, RowTable } from './styles';
 
 function TableMainData(props) {
     const { row } = props;
@@ -281,7 +283,7 @@ TableMainData.propTypes = {
 
 export default function CollapsibleTable() {
 
-    const { setSkip, take, setTake, mutationControlData, filtered } = useUser()
+    const { setSkip, take, setTake, mutationControlData, filtered, orderBy, setOrderBy, orderFor, setOrderFor } = useUser()
     const { isPending } = mutationControlData
 
     const { total, deals } = filtered
@@ -305,7 +307,6 @@ export default function CollapsibleTable() {
         setSkip(0);
         setTake(+event.target.value);
     };
-
 
     return (
         <ContainerTable component={Paper}>
@@ -342,13 +343,68 @@ export default function CollapsibleTable() {
                                 <TableHead>
                                     <TableRow>
                                         <TableCell />
-                                        <TableCell align="center">Data</TableCell>
-                                        <TableCell align="center">Aluno</TableCell>
-                                        <TableCell align="center">Responsável</TableCell>
-                                        <TableCell align="center">Curso</TableCell>
-                                        <TableCell align="center">Unidade</TableCell>
-                                        <TableCell align="center">Background</TableCell>
-                                        <TableCell align="center">Comissionamento</TableCell>
+                                        <TableCell align="center">
+                                            <ContainerOrder>
+                                                Data de criação
+
+                                                {
+                                                    orderBy !== "created_at" &&
+                                                    <SwapVertIcon onClick={() => setOrderBy("created_at")} />
+                                                }
+                                                {
+                                                    orderBy === "created_at" && orderFor === "asc" &&
+                                                    <ArrowDownwardIcon onClick={() => setOrderFor("desc")} />
+                                                }
+                                                {
+                                                    orderBy === "created_at" && orderFor === "desc" &&
+                                                    <ArrowUpwardIcon onClick={() => setOrderFor("asc")} />
+                                                }
+
+                                            </ContainerOrder>
+                                        </TableCell>
+                                        <TableCell align="center">
+
+                                            Aluno
+
+                                        </TableCell>
+                                        <TableCell align="center">
+
+                                            <ContainerOrder>
+                                                Responsável
+                                                {
+                                                    orderBy !== "name" &&
+                                                    <SwapVertIcon onClick={() => setOrderBy("name")} />
+                                                }
+                                                {
+                                                    orderBy === "name" && orderFor === "asc" &&
+                                                    <ArrowDownwardIcon onClick={() => setOrderFor("desc")} />
+                                                }
+                                                {
+                                                    orderBy === "name" && orderFor === "desc" &&
+                                                    <ArrowUpwardIcon onClick={() => setOrderFor("asc")} />
+                                                }
+                                            </ContainerOrder>
+                                        </TableCell>
+                                        <TableCell align="center">
+
+                                            Curso
+
+                                        </TableCell>
+                                        <TableCell align="center">
+
+                                            Unidade
+
+                                        </TableCell>
+                                        <TableCell align="center">
+
+                                            Background
+
+                                        </TableCell>
+                                        <TableCell align="center">
+
+                                            Comissionamento
+
+                                        </TableCell>
                                         <TableCell />
                                     </TableRow>
                                 </TableHead>

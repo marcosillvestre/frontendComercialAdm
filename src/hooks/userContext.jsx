@@ -92,8 +92,7 @@ export const UserProvider = ({ children }) => {
             `${selectedInitialDate}~${selectedInitialDate}`
 
 
-        let url = query ? `http://localhost:7070/registro-query` :
-            `http://localhost:7070/registro`
+        let url = query ? `/registro-query` : `/registro`
 
 
         const response = await URI.post(url, {
@@ -248,8 +247,7 @@ export const UserProvider = ({ children }) => {
             setSearch,
             typeFilter, setTypeFilter, removeFilter,
 
-            setOrderFor,
-            setOrderBy
+            orderBy, setOrderBy, orderFor, setOrderFor
         }}>
 
             {children}
