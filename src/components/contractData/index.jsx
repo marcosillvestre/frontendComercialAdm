@@ -721,7 +721,9 @@ export const ContractData = () => {
                                             <td >{parseFloat(paymentParcels["descount"]).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
                                             <td >{filteredContracts["Número de parcelas do curso"]}</td>
                                             <td >{filteredContracts["Forma de pagamento da parcela"]}</td>
-                                            <td >{(paymentParcels["total"] - paymentParcels["descount"]).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
+                                            <td >{
+                                                (paymentParcels["total"] - paymentParcels["descount"])
+                                                    .toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
                                         </tr>
 
 

@@ -355,28 +355,46 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                                         <td>Valor líquido (R$)</td>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    {
-                                        parcel.parcels.map((res, idx) => (
-                                            <tr key={idx}>
-                                                <td>{idx + 1}</td>
-                                                <td>{dateCalculator(data["Data de vencimento da primeira parcela"], idx)}</td>
-                                                <td>{(parcel.total / parcel.parcels.length).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
-                                                <td>{parseFloat(res.descount).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
-                                                {
-                                                    idx + 1 > campaign?.parcel?.affectedParcels ?
-                                                        <td>{(res.valor - res.descount).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td> :
-                                                        <td>{parseFloat(res.valor).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
-                                                }
+                                {
+                                    campaign.parcel ?
+                                        <tbody>
+                                            {
+                                                parcel.parcels.map((res, idx) => (
+                                                    <tr key={idx}>
+                                                        <td>{idx + 1}</td>
+                                                        <td>{dateCalculator(data["Data de vencimento da primeira parcela"], idx)}</td>
+                                                        <td>{(parcel.total / parcel.parcels.length).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
+                                                        <td>{parseFloat(res.descount).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
+                                                        {
+                                                            idx + 1 > campaign?.parcel?.affectedParcels ?
+                                                                <td>{(res.valor - res.descount).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td> :
+                                                                <td>{parseFloat(res.valor).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
+                                                        }
+                                                    </tr>
+                                                ))
+                                            }
+                                            <tr>
+
                                             </tr>
-                                        ))
-                                    }
-                                    <tr>
+                                        </tbody> :
+                                        <tbody>
+                                            {
+                                                parcel.parcels.map((res, idx) => (
+                                                    <tr key={idx}>
+                                                        <td>{idx + 1}</td>
+                                                        <td>{dateCalculator(data["Data de vencimento da primeira parcela"], idx)}</td>
+                                                        <td>{(parcel.total / parcel.parcels.length).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
+                                                        <td>{parseFloat(res.descount).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
+                                                        <td>{(res.valor - res.descount).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
+                                                    </tr>
+                                                ))
+                                            }
+                                            <tr>
 
-                                    </tr>
+                                            </tr>
+                                        </tbody>
+                                }
 
-
-                                </tbody>
 
                             </table>
                         </section>
@@ -540,6 +558,7 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                                                 <td>{idx + 1}</td>
                                                 <td>{dateCalculator(data["Data de pagamento MD"], idx)}</td>
                                                 <td>{(data['products'].reduce((acc, curr) => acc + curr.price_ticket, 0) / data['material'].materials.length).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
+
                                                 <td>{((data['products'].reduce((acc, curr) => acc + curr[paymentMethodsForMaterials[data["Forma de pagamento do MD"]]], 0))
                                                     / data['material'].materials.length).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
                                             </tr>

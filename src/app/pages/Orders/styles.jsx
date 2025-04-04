@@ -1,10 +1,20 @@
 import styled from "styled-components";
 
 export const Container = styled.section`
+font-size: var(--fsLowest) ;
 display: flex;
 flex-direction: column;
 padding: 0 4rem;
 margin-left: 17px;
+
+.over-nav{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    padding: 1rem;
+
+}
 `
 export const Header = styled.header`
 display: flex;

@@ -10,6 +10,7 @@ align-items: center;
 justify-content: center;
 font-size: var(--fsLowest);
 width: max-content;
+margin: 0 auto;
 svg{
     width: 20px;
     cursor: pointer;
