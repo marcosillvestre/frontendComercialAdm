@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useOrders } from '../../hooks/orders/ordersContext.hook.jsx';
 import { useUser } from '../../hooks/userContext.jsx';
+import { WarnAvailableOrders } from '../popUps/sendAvailableProduct.orders/index.jsx';
 import { MakeOrders } from '../popUps/sendProductOrders.orders/index.jsx';
 import { CloserClick } from '../source.jsx';
 import { Box, ButtonContainer, Container, Edit, OptionsContainer } from './styles.jsx';
@@ -31,13 +32,15 @@ export function MultiAlterationOrders(data) {
         {
             able: checkData.length > 0 ? checkData.every(res => res.status === "REVISADO" || res.status === "CHEGOU") : false,
             label: 'DEFINIR COMO DISPONÍVEIS',
-            type: 'status',
-            value: 'DISPONIVEL',
+            popup: true
+
+            // type: 'status',
+            // value: 'DISPONIVEL',
         },
         {
             able: checkData.length > 0 ? checkData.every(res => res.status === "REVISADO" || res.status === "ENTREGUE") : false,
             label: 'FAZER PEDIDO',
-            email: true
+            popup: true
         },
         {
             able: checkData.length > 0 ? checkData.every(res => res.status === "ENVIADO") : false,
@@ -152,7 +155,7 @@ export function MultiAlterationOrders(data) {
 
                             >
                                 {
-                                    !res.email ?
+                                    !res.popup ?
                                         <Edit
                                             able={res.able}
                                             $open={manyAlteration}
@@ -163,7 +166,14 @@ export function MultiAlterationOrders(data) {
                                         <Edit
                                             able={res.able}
                                         >
-                                            <MakeOrders data={res} />
+                                            {
+                                                res.label === 'FAZER PEDIDO' &&
+                                                <MakeOrders data={res} />
+                                            }
+                                            {
+                                                res.label === 'DEFINIR COMO DISPONÍVEIS' &&
+                                                <WarnAvailableOrders data={res} />
+                                            }
                                         </Edit>
 
                                 }

@@ -38,11 +38,21 @@ export function MakeOrders(info) {
 
     const handleOpen = () => setOpen(true);
 
+    const checkAll = (bool) => {
+        document.querySelectorAll("input[type='checkbox']")
+            .forEach((checkbox) => {
+                setChecked(bool)
+                checkbox.checked = bool;
+            });
+    };
+
     const handleClose = () => {
         setOpen(false)
         setSuplier(null)
         setSetUpMessage('')
+        checkAll(false)
     };
+
     function handleFuncs() {
         handleOpen()
     }
@@ -62,13 +72,7 @@ export function MakeOrders(info) {
     const prevision = React.useRef()
 
 
-    const checkAll = (bool) => {
-        document.querySelectorAll("input[type='checkbox']")
-            .forEach((checkbox) => {
-                setChecked(bool)
-                checkbox.checked = bool;
-            });
-    };
+
 
     const calculateCheckData = () => {
         const itemCount = checkData.reduce((acc, item) => {
