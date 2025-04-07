@@ -1,6 +1,7 @@
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
+import TaskIcon from '@mui/icons-material/Task';
 import { TablePagination } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -16,7 +17,6 @@ import { MultiFiltersOrders } from '../../arrayFilters/multiFilters.Orders';
 import { MultiAlterationOrders } from '../../multiAlteration.Orders';
 import { PopOverOrder } from '../../popovers/popOverOrders';
 import { ButtonContainer, Container, ContainerOrder, ContainerTable, Tag } from './styles';
-
 function Row(props) {
     const { row } = props;
     const { checked, setChecked, checkData, setCheckData, } = useOrders()
@@ -72,7 +72,14 @@ function Row(props) {
                 <TableCell align="center" component="th" scope="row">{row.book} </TableCell>
                 <TableCell align="center" component="th" scope="row"><Tag style={{ backgroundColor: statusTrail[row.status] }}>{row.status}</Tag> </TableCell>
                 <TableCell align="center" component="th" scope="row">
-                    <PopOverOrder row={row} />
+                    <div className='flex'>
+
+                        {
+                            row.signed &&
+                            <TaskIcon htmlColor='#719f4ed9' />
+                        }
+                        <PopOverOrder row={row} />
+                    </div>
                 </TableCell>
 
             </TableRow>
@@ -88,14 +95,14 @@ Row.propTypes = {
         phone: PropTypes.string.isRequired,
         student: PropTypes.string.isRequired,
         sku: PropTypes.string.isRequired,
-        link: PropTypes.string.isRequired,
+        link: PropTypes.string,
         name: PropTypes.string.isRequired,
         value: PropTypes.number.isRequired,
         arrived: PropTypes.bool.isRequired,
         available: PropTypes.bool.isRequired,
         signed: PropTypes.bool.isRequired,
         status: PropTypes.string.isRequired,
-        removedBy: PropTypes.string.isRequired,
+        removedBy: PropTypes.string,
         withdraw: PropTypes.string.isRequired,
         book: PropTypes.string.isRequired,
         created_at: PropTypes.string.isRequired,
@@ -109,7 +116,8 @@ Row.propTypes = {
 export default function TableOrders() {
     const { setOrderBy, setOrderFor, checkData, setCheckData,
         ordersQuery, queryOrder, setTake, setSkip, take,
-        checked, setChecked, orderBy, orderFor, setOrders } = useOrders()
+        checked, setChecked, orderBy, orderFor, setOrders, } = useOrders()
+
     const { isPending } = ordersQuery
 
 
@@ -120,7 +128,7 @@ export default function TableOrders() {
 
 
     const handleChangePage = (event, newPage) => {
-
+        setCheckData([])
         setPage(newPage)
         if (newPage === 0) return setSkip(0)
 
