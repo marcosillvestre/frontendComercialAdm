@@ -58,6 +58,7 @@ export const Billing = () => {
         "data-vencimento",
         "link-pagamento",
         "produto-servico-relacionado",
+        "valor-cheio",
         "quebra-linha",
         "pula-linha",
     ];
