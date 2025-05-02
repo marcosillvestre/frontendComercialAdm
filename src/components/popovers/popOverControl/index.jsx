@@ -10,20 +10,18 @@ import { Button, Container, Divider } from './styles.jsx';
 
 export function PopOverControl(props) {
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const { invalidateYourQuery } = useUser()
-
     const handleClick = (event) => {
         setAnchorEl(anchorEl ? null : event.currentTarget);
     };
 
-    const { userData } = useUser()
+    const { userData, deleteCampaign } = useUser()
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popper' : undefined;
 
     const { row } = props
 
     const reset = async () => {
-        await invalidateYourQuery("register")
+        deleteCampaign.mutateAsync(row.id)
     }
     return (
         <>
@@ -51,6 +49,7 @@ export function PopOverControl(props) {
 
                             >
                                 <Divider>
+
                                     <SureModal
                                         data={row?.id}
                                         name={row?.name}

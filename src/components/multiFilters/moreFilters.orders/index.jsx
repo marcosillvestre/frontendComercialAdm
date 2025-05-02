@@ -58,9 +58,9 @@ const StyledMenu = styled((props) => (
 export function OrderMoreFilters() {
 
     const { anchorEl, handleClose, setAnchorEl } = useUser()
-    const { totalsQuery } = useProduct()
+    const { productsTotalsQuery } = useProduct()
 
-    const { isPending, data } = totalsQuery
+    const { isPending, data } = productsTotalsQuery
 
 
     const { ordersFilters } = rules

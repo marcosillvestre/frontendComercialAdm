@@ -5,13 +5,7 @@ import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
 
-import { toast } from 'react-toastify';
 // import URI from '../../app/utils/utils';
-import { useMutation } from '@tanstack/react-query';
-import { useLocation } from 'react-router-dom';
-import URI from '../../../app/utils/utils';
-import { useSupliers } from '../../../hooks/supliers/supliersContext.hook';
-import { useUser } from '../../../hooks/userContext';
 import { Boxes, ButtonDelete } from './styles';
 const style = {
     position: 'absolute',
@@ -28,10 +22,6 @@ const style = {
 
 
 export function SureModal(data) {
-    const { fetchData, setFetchData, userData, invalidateYourQuery } = useUser()
-    // const { invalidateOrderQuery } = useOrders()
-
-    const { updateCacheData } = useSupliers()
 
     const [open, setOpen] = React.useState(false);
     const [disable, setDisable] = React.useState(true);
@@ -43,41 +33,10 @@ export function SureModal(data) {
     }
 
 
-    async function DeleteData(id) {
-        setOpen(!open)
+    const handleDeleteData = async () => {
+        await data.fn()
 
-        const responsible = userData.name
-        const promise = new Promise((resolve, reject) => {
-            URI.delete(`${data.url}/${id}?responsible=${responsible}`)
-                .then(response => resolve(response))
-                .catch(error => {
-                    reject(error)
-                    if ('message' in error.response.data) alert(error.response.data.message)
-                })
-        })
-        await toast.promise(
-            promise,
-            {
-                pending: 'Conferindo os dados',
-                success: 'Deletado com sucesso',
-                error: 'Alguma coisa deu errado'
-            }
-        )
     }
-
-    const url = useLocation()
-
-    const mutationDeleteData = useMutation({
-        mutationFn: () => DeleteData(data.data),
-        onSuccess: () => {
-            url.pathname === '/controle-comercial' && invalidateYourQuery("register");
-            url.pathname === '/campos-personalizados' && invalidateYourQuery("custom");
-            // url.pathname === '/pedidos' && invalidateOrderQuery()
-            url.pathname === '/fornecedores' && updateCacheData(data.data)
-
-
-        }
-    })
 
     return (
         <div>
@@ -135,13 +94,7 @@ export function SureModal(data) {
 
                             <ButtonDelete
                                 disabled={disable}
-                                onClick={() => {
-                                    mutationDeleteData.mutateAsync()
-                                    setTimeout(() => {
-                                        data.fn()
-                                    }, 3000);
-
-                                }}
+                                onClick={() => handleDeleteData()}
                             >
                                 DELETAR
                             </ButtonDelete>

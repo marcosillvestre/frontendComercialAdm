@@ -19,7 +19,7 @@ export const Orders = () => {
             <nav
                 className='over-nav'
             >
-                <h3>Controle de produtos</h3>
+                <h3>Controle de pedidos</h3>
 
             </nav>
             <Header>
@@ -51,6 +51,7 @@ export const Orders = () => {
                                 Pesquisar
                             </p>
                             <InputSearch
+                                className='inputSearch'
                                 placeholder='pesquisar...'
                                 title='busque pelo cliente ou aluno'
                                 ref={searching}

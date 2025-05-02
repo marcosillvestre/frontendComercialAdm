@@ -1,7 +1,6 @@
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Box from '@mui/material/Box';
 import Popper from '@mui/material/Popper';
-import { useQueryClient } from '@tanstack/react-query';
 import PropTypes from 'prop-types';
 import * as React from 'react';
 import { useProduct } from '../../../hooks/products/productsContext.hook.jsx';
@@ -16,12 +15,10 @@ export function PopOverProduct(data) {
     const handleClick = (event) => {
         setAnchorEl(anchorEl ? null : event.currentTarget);
     };
-    const queryClient = useQueryClient()
-
 
     const { setTypeSidebar, userData, setOpenSidebar, } = useUser()
 
-    const { setEditProduct } = useProduct()
+    const { setEditProduct, deleteProduct } = useProduct()
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popper' : undefined;
 
@@ -33,7 +30,7 @@ export function PopOverProduct(data) {
         setEditProduct(row)
     }
     const reset = () => {
-        queryClient.invalidateQueries(["Campaign"])
+        deleteProduct.mutateAsync(row.id)
     }
 
     return (

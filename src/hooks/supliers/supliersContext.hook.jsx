@@ -4,6 +4,7 @@ import Proptypes from 'prop-types'
 import { createContext, useContext, useLayoutEffect, useRef, useState } from "react"
 import { toast } from "react-toastify"
 import URI from "../../app/utils/utils"
+import { useUser } from "../userContext"
 
 const SupliersContext = createContext({})
 
@@ -11,6 +12,7 @@ export const SupliersProvider = ({ children }) => {
 
     const queryClient = useQueryClient()
 
+    const { userData } = useUser()
     const [Supliers, setSupliers] = useState()
     const [editSuplier, setEditSuplier] = useState(null)
     const [querySuplier, setQuerySuplier] = useState([])
@@ -67,30 +69,7 @@ export const SupliersProvider = ({ children }) => {
     })
 
 
-    // const updateCacheData = (id) => {
-    //     queryClient.setQueryData(
-    //         [
-    //             "Supliers", skip, take, query,
-    //             JSON.stringify(typeFilter), orderBy, orderFor
-    //         ],
-    //         oldData => {
-    //             return {
-    //                 supliers: oldData.supliers.filter(res => res.id !== id),
-    //                 total: oldData.total - 1
-    //             }
-    //         }
-    //     )
 
-    //     if (id) {
-
-    //         const { total, supliers } = querySuplier
-    //         const wout = supliers.filter(q => q.id !== id)
-
-    //         setQuerySuplier({ supliers: wout, total: total - 1 })
-    //     }
-
-    //     SupliersQuery.refetch()
-    // }
 
 
     useLayoutEffect(() => {
@@ -236,6 +215,47 @@ export const SupliersProvider = ({ children }) => {
     })
 
 
+
+    const deleteSuplierData = async (id) => {
+
+        const responsible = userData.name
+        const response = await toast.promise(
+            URI.delete(`/fornecedor/${id}?responsible=${responsible}`),
+            {
+                pending: 'Conferindo os dados',
+                success: 'Fornecedor deletado com sucesso',
+                error: 'Algo deu errado'
+            }
+        )
+        return response.data
+    }
+
+    const deleteSuplier = useMutation({
+        mutationFn: (e) => deleteSuplierData(e),
+        onSuccess: (_, variables) => {
+
+
+            queryClient.setQueryData(
+                [
+                    "Supliers", skip, take, query,
+                    JSON.stringify(typeFilter), orderBy, orderFor
+                ],
+                (oldData) => {
+
+                    return setQuerySuplier({
+                        supliers: oldData.filter(res => res.id !== variables),
+                        total: oldData.total - 1
+                    })
+
+                }
+            )
+        }
+    })
+
+
+
+
+
     return (
         <SupliersContext.Provider value={{
             allSupliers,
@@ -266,7 +286,9 @@ export const SupliersProvider = ({ children }) => {
             body, setBody,
 
 
-            editSuplier, setEditSuplier
+            editSuplier, setEditSuplier,
+
+            deleteSuplier
         }}>
 
             {children}

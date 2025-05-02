@@ -80,6 +80,21 @@ fieldset{
 
     }
 }
+
+.possibilities{
+border: 1px dashed;
+padding: .2rem ;
+border-radius: var(--br);
+margin: 2px auto;
+display: flex;
+justify-content: space-between;
+align-items: center;
+
+svg{
+    cursor: pointer;
+    height: 17px;
+}
+}
 `
 
 export const ButtonIcon = styled.button`

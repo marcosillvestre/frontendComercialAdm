@@ -1,4 +1,5 @@
 import DeleteIcon from '@mui/icons-material/Delete';
+import { TableContainer } from '@mui/material';
 import styled from "styled-components";
 
 
@@ -13,4 +14,41 @@ export const Trash = styled(DeleteIcon)`
 &:active{
     opacity: 0.7;
 }
+`
+
+export const ContainerTable = styled(TableContainer)`
+
+th{
+    font-size: .7rem;
+}
+`
+export const ContainerOrder = styled.span`
+display: flex;
+align-items: center;
+justify-content: center;
+
+font-size: var(--fsLowest);
+svg{
+    cursor: pointer;
+    width: 20px;
+}
+`
+
+export const Container = styled.main`
+nav{
+    align-items: center;
+    gap: 1rem;
+
+    span{
+        justify-content: space-between;
+        padding: .1rem;
+    }
+}
+`
+
+export const Tag = styled.span`
+font-size: var(--fsLowest);
+padding: .5rem;
+color: #494949;
+border-radius: var(--br);
 `

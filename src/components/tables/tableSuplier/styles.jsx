@@ -9,7 +9,16 @@ th{
     font-size: .7rem;
 }
 `
-
+export const ContainerOrder = styled.span`
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: var(--fsLowest);
+svg{
+    width: 20px;
+    cursor: pointer;
+}
+`
 
 export const ButtonContainer = styled(Link)`
 font-weight: 500;
@@ -53,13 +62,3 @@ nav{
 }
 `
 
-export const ContainerOrder = styled.span`
-display: flex;
-align-items: center;
-justify-content: center;
-font-size: var(--fsLowest);
-svg{
-    width: 20px;
-    cursor: pointer;
-}
-`

@@ -1,37 +1,46 @@
-import SearchIcon from '@mui/icons-material/Search';
-import { useRef } from 'react';
-import SupliersTable from '../../../components/tables/tableSuplier';
-import { useSupliers } from '../../../hooks/supliers/supliersContext.hook';
-import { useUser } from '../../../hooks/userContext';
-import { Container, Header } from './styles';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
+import SearchIcon from '@mui/icons-material/Search'
+import { useRef } from 'react'
+import { Link } from 'react-router-dom'
+import { ServicesTable } from '../../../../components/tables/servicesTable'
+import { useService } from '../../../../hooks/services/servicesContext.hook'
+import { useUser } from '../../../../hooks/userContext'
+import { Container, Header } from './styles'
 
-export function Supliers() {
+export function Services() {
     const forQuery = useRef()
     const { setTypeSidebar, setOpenSidebar, } = useUser()
-    const { setEditSuplier, setQuery } = useSupliers()
+    const { setEditService, setQuery } = useService()
 
 
 
     return (
         <Container>
             <nav>
+                <span>
+                    <Link
+                        to="/config"
+                    >
+                        <ArrowUpwardIcon />
+                    </Link>
+                    <h3>Configurações - Serviços</h3>
+                </span>
 
-                <h3>Configurações - Fornecedores</h3>
                 <button
                     className='defaultButton create-button'
+
                     onClick={() => {
-                        setTypeSidebar(8)
+                        setTypeSidebar(7)
                         setOpenSidebar(true);
-                        setEditSuplier(null)
+                        setEditService(null)
                     }
                     }>
-                    Criar novo fornecedor
+                    Criar novo serviço
                 </button>
             </nav>
             <Header>
                 <nav>
                     <div>
-
                         <form action=""
                             className='flex'
                         >
@@ -41,16 +50,15 @@ export function Supliers() {
                                 <input
                                     type="text"
                                     className='inputSearch'
-                                    placeholder="Nome"
+                                    placeholder="Nome ou Sku"
                                     ref={forQuery}
-                                    onChange={(e) => {
-                                        e.target.value === "" && setQuery('')
-                                    }
-                                    }
+                                    onChange={(e) => e.target.value === "" && setQuery('')}
                                 />
+
                             </label>
 
-                            <button type="submit"
+                            <button
+                                type="submit"
                                 onClick={(e) => {
                                     setQuery(forQuery.current.value)
                                     e.preventDefault()
@@ -62,14 +70,11 @@ export function Supliers() {
                         </form>
                     </div>
 
-
                 </nav>
             </Header>
-
-
-            <SupliersTable
-            />
-
+            {
+                <ServicesTable />
+            }
 
         </Container>
     )

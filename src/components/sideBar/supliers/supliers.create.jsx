@@ -10,12 +10,10 @@ import { useSupliers } from '../../../hooks/supliers/supliersContext.hook.jsx';
 import { ErrorMessage, Header, Input, Label, Modal, Submit, TextArea } from "../styles.jsx";
 
 export const SupliersSidebar = () => {
-    const { editSuplier, createSuplier, updateSuplier, setEditSuplier } = useSupliers()
+    const { editSuplier, createSuplier, updateSuplier } = useSupliers()
 
     const [contactModal, setContactModal] = useState(false)
     const [addressModal, setAddressModal] = useState(false)
-    const [loading, setLoading] = useState(false)
-    const [edit, setEdit] = useState(false)
 
     const cep = useRef()
     const name = useRef()
@@ -83,7 +81,6 @@ export const SupliersSidebar = () => {
 
     const getDataFromCep = async (cep) => {
 
-        setLoading(true)
 
         await axios.get(`https://viacep.com.br/ws/${cep}/json/`)
             .then(res => {
@@ -104,10 +101,6 @@ export const SupliersSidebar = () => {
 
             })
             .catch(() => setAddress({ erro: true }))
-            .finally(() =>
-                setLoading(false)
-            )
-
     }
 
     return (

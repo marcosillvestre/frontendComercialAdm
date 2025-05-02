@@ -1,7 +1,6 @@
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Box from '@mui/material/Box';
 import Popper from '@mui/material/Popper';
-import { useQueryClient } from '@tanstack/react-query';
 import PropTypes from 'prop-types';
 import * as React from 'react';
 import { useCampaign } from '../../../hooks/campaign/campaignContext.hook.jsx';
@@ -19,8 +18,7 @@ export function PopOverCampaign(data) {
 
 
     const { setTypeSidebar, userData, setOpenSidebar, } = useUser()
-    const { setEditCampaign } = useCampaign();
-    const queryClient = useQueryClient()
+    const { setEditCampaign, deleteCampaign } = useCampaign();
 
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popper' : undefined;
@@ -34,7 +32,7 @@ export function PopOverCampaign(data) {
     }
 
     const reset = () => {
-        queryClient.invalidateQueries(["Campaign"])
+        deleteCampaign.mutateAsync(row.id);
     }
 
     return (

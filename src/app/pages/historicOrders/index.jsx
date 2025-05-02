@@ -19,7 +19,12 @@ export const HistoricOrders = () => {
 
     return (
         <Container>
+            <nav
+                className='over-nav'
+            >
+                <h3>Histórico de pedidos</h3>
 
+            </nav>
             <Header>
                 <nav className='flex'>
                     <label htmlFor="">
@@ -52,6 +57,7 @@ export const HistoricOrders = () => {
                                 placeholder='pesquisar...'
                                 title='busque pelo cliente ou aluno'
                                 ref={searching}
+                                className='inputSearch'
                                 onChange={(e) => e.target.value === "" &&
                                     setQuery(undefined)}
                             />

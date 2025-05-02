@@ -33,7 +33,12 @@ export const Contracts = () => {
     return (
 
         <Container>
+            <nav
+                className='over-nav'
+            >
+                <h3>Criação de contratos</h3>
 
+            </nav>
             <Header className='search'
             >
                 <div className='inputs'>
@@ -64,6 +69,8 @@ export const Contracts = () => {
 
                                 <input
                                     ref={forQuery}
+                                    className='inputSearch'
+
                                     onChange={(e) => e.target.value === "" && setContractOptions(allContracts)}
                                     list='person'
                                 />
@@ -82,9 +89,9 @@ export const Contracts = () => {
                                     contractOptions && contractOptions.map((res, i) => (
                                         <option
                                             key={i}
-                                            value={res["Nome do responsável"]}
+                                            value={res["name"]}
                                         >
-                                            Aluno: {res["Nome do aluno"]}
+                                            Aluno: {res["student"]}
                                         </option>
 
                                     ))

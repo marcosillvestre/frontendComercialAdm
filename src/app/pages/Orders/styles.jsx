@@ -4,7 +4,8 @@ export const Container = styled.section`
 font-size: var(--fsLowest) ;
 display: flex;
 flex-direction: column;
-padding: 0 4rem;
+padding:0 4rem 5rem ;
+
 margin-left: 17px;
 
 .over-nav{

@@ -3,6 +3,8 @@ import styled from "styled-components";
 
 export const Container = styled.div`
 cursor: pointer;
+z-index: 3;
+
 `
 
 export const Button = styled.button`

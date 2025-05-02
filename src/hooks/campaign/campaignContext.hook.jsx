@@ -11,7 +11,7 @@ const CampaignContext = createContext({})
 export const CampaignProvider = ({ children }) => {
 
     const queryClient = useQueryClient()
-    const { headers } = useUser()
+    const { userData } = useUser()
     const [campaign, setCampaign] = useState({
         status: true
     })
@@ -66,11 +66,39 @@ export const CampaignProvider = ({ children }) => {
     const campaignQuery = useQuery({
         queryFn: () => queryCampaign(),
         queryKey: ["Campaign"],
-        enabled: !headers.Authorization.includes("undefined")
     })
     ///////////////////////// get
 
 
+    const deleteCampaignData = async (id) => {
+
+        const responsible = userData.name
+        const response = await toast.promise(
+            URI.delete(`/campanha/${id}?responsible=${responsible}`),
+            {
+                pending: 'Conferindo os dados',
+                success: 'Campanha deletada com sucesso',
+                error: 'Algo deu errado'
+            }
+        )
+        return response.data
+    }
+
+    const deleteCampaign = useMutation({
+        mutationFn: (e) => deleteCampaignData(e),
+        onSuccess: (_, variables) => {
+
+
+            queryClient.setQueryData(
+                ["Campaign"],
+                (oldData) => {
+
+                    return oldData.filter(res => res.id !== variables)
+
+                }
+            )
+        }
+    })
 
     return (
         <CampaignContext.Provider value={{
@@ -82,6 +110,8 @@ export const CampaignProvider = ({ children }) => {
             editCampaign, setEditCampaign,
 
             mutateCampaign,
+
+            deleteCampaign
 
         }}>
 

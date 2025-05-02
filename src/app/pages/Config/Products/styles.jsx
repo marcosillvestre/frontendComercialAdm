@@ -1,21 +1,32 @@
 import styled from 'styled-components'
 
 export const Container = styled.div`
-padding: 0 4rem;
-margin-left: 17px;
 font-size: var(--fsLowest) ;
+margin-left: 17px;
+padding:0 4rem 5rem ;
+
 nav{
     display: flex;
     justify-content: space-between;
     width: 100%;
     align-items: center;
-    padding: 1rem;
+    padding: 1rem 0;
     
-    .create-button{
-    padding: 0 1rem;
+    button{
+        padding: 0 1rem;
+    }
+    span{
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+            svg{
+                color: #222;
+                transform: rotate(-90deg);
+            }
+        
+    }
+}
 
-}
-}
 @media(max-width:760px){
 margin-left: 34px ;
 
@@ -25,23 +36,23 @@ margin-left: 34px ;
 
 export const Header = styled.header`
 display: flex;
-align-items: center;
-justify-content: space-between;
-font-size: var(--fsLow) ;
+width: 100%;
 border: 2px solid #dfe6f1;
-border-radius: var(--br);
+border-radius: .35rem;
 padding: 1rem 3rem;
 margin-bottom: 1.5rem;
-font-size: var(--fsLowest);
-
 nav{
     width:100%;
     justify-content: space-between;
     display: flex;
     align-items: center;
+    margin: 0 3rem;
     gap: 1rem;
 }
+.create-button{
+    padding: 0 1rem;
 
+}
 
 form{
     gap: 10px;

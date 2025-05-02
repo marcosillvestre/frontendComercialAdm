@@ -1,38 +1,46 @@
-import SearchIcon from '@mui/icons-material/Search'
-import { useRef } from 'react'
-import { ServicesTable } from '../../../components/tables/servicesTable'
-import { useService } from '../../../hooks/services/servicesContext.hook'
-import { useUser } from '../../../hooks/userContext'
-import { Container, Header } from './styles'
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import SearchIcon from '@mui/icons-material/Search';
+import { useRef } from 'react';
+import { Link } from 'react-router-dom';
+import SupliersTable from '../../../../components/tables/tableSuplier';
+import { useSupliers } from '../../../../hooks/supliers/supliersContext.hook';
+import { useUser } from '../../../../hooks/userContext';
+import { Container, Header } from './styles';
 
-export function Services() {
+export function Supliers() {
     const forQuery = useRef()
     const { setTypeSidebar, setOpenSidebar, } = useUser()
-    const { serviceQuery, setEditService, setQuery } = useService()
+    const { setEditSuplier, setQuery } = useSupliers()
 
-    const { data, isPeding } = serviceQuery
 
 
     return (
         <Container>
             <nav>
-                <h3>Configurações - Serviços</h3>
+                <span>
+                    <Link
+                        to="/config"
+                    >
+                        <ArrowUpwardIcon />
+                    </Link>
+                    <h3>Configurações - Fornecedores</h3>
+                </span>
 
                 <button
                     className='defaultButton create-button'
-
                     onClick={() => {
-                        setTypeSidebar(7)
+                        setTypeSidebar(8)
                         setOpenSidebar(true);
-                        setEditService(null)
+                        setEditSuplier(null)
                     }
                     }>
-                    Criar novo serviço
+                    Criar novo fornecedor
                 </button>
             </nav>
             <Header>
                 <nav>
                     <div>
+
                         <form action=""
                             className='flex'
                         >
@@ -42,15 +50,16 @@ export function Services() {
                                 <input
                                     type="text"
                                     className='inputSearch'
-                                    placeholder="Nome ou Sku"
+                                    placeholder="Nome"
                                     ref={forQuery}
-                                    onChange={(e) => e.target.value === "" && setQuery('')}
+                                    onChange={(e) => {
+                                        e.target.value === "" && setQuery('')
+                                    }
+                                    }
                                 />
-
                             </label>
 
-                            <button
-                                type="submit"
+                            <button type="submit"
                                 onClick={(e) => {
                                     setQuery(forQuery.current.value)
                                     e.preventDefault()
@@ -62,16 +71,14 @@ export function Services() {
                         </form>
                     </div>
 
+
                 </nav>
             </Header>
-            {
-                data &&
-                <ServicesTable
-                    data={data?.services}
-                    total={data?.total}
-                    loading={isPeding}
-                />
-            }
+
+
+            <SupliersTable
+            />
+
 
         </Container>
     )

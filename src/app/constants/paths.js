@@ -18,6 +18,10 @@ export const paths = {
         path: "/fornecedores",
         access: low
     },
+    billingRule: {
+        path: "/regua-de-cobranca",
+        access: low
+    },
     products: {
         path: "/produtos",
         access: low

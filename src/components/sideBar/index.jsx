@@ -14,10 +14,10 @@ import { styled, useTheme } from '@mui/material/styles';
 import { useUser } from '../../hooks/userContext';
 import { CloserClick, Header } from '../source.jsx';
 
-import { toast } from 'react-toastify';
 import { useContractsHook } from '../../hooks/contracts/contracts.hook.jsx';
 import { useCustomFields } from '../../hooks/customFields/customFIelds.hook.jsx';
 import { useUsers } from '../../hooks/users/usersContext.hook.jsx';
+import { Billing } from './billingRule/billing.create.jsx';
 import { Campaign } from './campaign/campaign.create.jsx';
 import { Contracts } from './contracts/contract.create.jsx';
 import { CustomFields } from './customFields/customField.create.jsx';
@@ -30,7 +30,7 @@ import {
     Submit
 } from './styles';
 import { SupliersSidebar } from './supliers/supliers.create.jsx';
-import { CreateUsersForm } from './users/customField.create.jsx';
+import { CreateUsersForm } from './users/users.create.jsx';
 
 const drawerWidth = 250;
 
@@ -149,23 +149,23 @@ export function MiniDrawer() {
 
         }
 
-        const submitUsers = () => {
+        // const submitUsers = () => {
 
-            if (!person.name || !person.email || !person.password || !person.confirmPassword || !person.role) {
-                return toast.error("Preencha todos os campos")
-            }
-            if (person.password !== person.confirmPassword) {
-                return toast.error("As senhas devem coincidir")
-            }
-            createUsers.mutateAsync()
+        //     if (!person.name || !person.email || !person.password || !person.confirmPassword || !person.role) {
+        //         return toast.error("Preencha todos os campos")
+        //     }
+        //     if (person.password !== person.confirmPassword) {
+        //         return toast.error("As senhas devem coincidir")
+        //     }
+        //     createUsers.mutateAsync()
 
 
-        }
+        // }
 
 
         type === 1 && submitCustomField()
         type === 2 && submitContracts()
-        type === 3 && submitUsers()
+        // type === 3 && submitUsers()
 
     }
 
@@ -227,12 +227,13 @@ export function MiniDrawer() {
                                 <Contracts />
                             }
 
+
+
+                            {/* ////////////////////////////// */}
                             {
                                 typeSidebar === 3 &&
                                 <CreateUsersForm />
-
                             }
-
                             {
                                 typeSidebar === 4 &&
                                 <Historic />
@@ -253,14 +254,15 @@ export function MiniDrawer() {
                                 typeSidebar === 8 &&
                                 <SupliersSidebar />
                             }
-
                             {
-                                typeSidebar !== 0 &&
-                                typeSidebar !== 4 &&
-                                typeSidebar !== 5 &&
-                                typeSidebar !== 6 &&
-                                typeSidebar !== 7 &&
-                                typeSidebar !== 8 &&
+
+                                typeSidebar === 9 &&
+                                <Billing />
+                            }
+                            {
+                                typeSidebar === 1 ||
+                                typeSidebar === 2 &&
+
                                 <>
                                     <hr />
                                     <Submit

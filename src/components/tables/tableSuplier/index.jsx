@@ -97,7 +97,6 @@ export default function SupliersTable() {
 
 
 
-
     return (
         <ContainerTable component={Paper}>
             <Paper >
@@ -150,19 +149,21 @@ export default function SupliersTable() {
                                             </ContainerOrder>
                                         </TableCell>
                                         <TableCell align="center">
-                                            Nome
-                                            {
-                                                orderBy !== "name" &&
-                                                <SwapVertIcon onClick={() => setOrderBy("name")} />
-                                            }
-                                            {
-                                                orderBy === "name" && orderFor === "asc" &&
-                                                <ArrowDownwardIcon onClick={() => setOrderFor("desc")} />
-                                            }
-                                            {
-                                                orderBy === "name" && orderFor === "desc" &&
-                                                <ArrowUpwardIcon onClick={() => setOrderFor("asc")} />
-                                            }
+                                            <ContainerOrder>
+                                                Nome
+                                                {
+                                                    orderBy !== "name" &&
+                                                    <SwapVertIcon onClick={() => setOrderBy("name")} />
+                                                }
+                                                {
+                                                    orderBy === "name" && orderFor === "asc" &&
+                                                    <ArrowDownwardIcon onClick={() => setOrderFor("desc")} />
+                                                }
+                                                {
+                                                    orderBy === "name" && orderFor === "desc" &&
+                                                    <ArrowUpwardIcon onClick={() => setOrderFor("asc")} />
+                                                }
+                                            </ContainerOrder>
                                         </TableCell>
                                         <TableCell align="center">CPF/CNPJ</TableCell>
                                         <TableCell align="center">

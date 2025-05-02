@@ -72,7 +72,6 @@ export function SureSendModal(data) {
 
 
 
-
     const handleOpen = () => setOpen(true);
 
     const handleClose = () => {
@@ -94,9 +93,9 @@ export function SureSendModal(data) {
 
                 })
                 .catch(async err => {
-                    toast.error("Erro ao cadastrar o cliente")
                     const error = await err
 
+                    toast.error("Erro ao cadastrar o cliente")
 
                     if ("message" in error.response.data) alert(error.response.data.message)
                     reject(err)

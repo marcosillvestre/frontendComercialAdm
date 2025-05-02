@@ -2,10 +2,19 @@ import styled from "styled-components";
 
 
 export const Container = styled.div`
-padding: 0 4rem;
+padding:0 4rem 5rem ;
+
 margin-left: 17px;
 font-size: var(--fsLowest) ;
 
+.over-nav{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    padding: 1rem;
+
+}
 
 table{
     border-radius: var(--br); 

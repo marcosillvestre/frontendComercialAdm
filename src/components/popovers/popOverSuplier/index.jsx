@@ -19,26 +19,14 @@ export function PopOverSuplier(data) {
     };
 
 
-    const { invalidateSuplierQuery, setEditSuplier } = useSupliers()
+    const { setEditSuplier, deleteSuplier } = useSupliers()
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popper' : undefined;
 
 
     const reset = async () => {
-        invalidateSuplierQuery(row.id)
+        deleteSuplier.mutateAsync(row.id)
     }
-
-    // const handleUpdate = async (data) => {
-
-    //     const newData = { ...row, ...data, responsible: userData.name }
-
-    //     await updateLink.mutateAsync(newData)
-
-    //     for (const key in data) {
-    //         reset(key, data[key])
-    //     }
-
-    // }
 
     const handleEdit = () => {
         setTypeSidebar(8)

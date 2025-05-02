@@ -2,21 +2,18 @@
 import { createBrowserRouter } from "react-router-dom";
 
 import { paths } from "../app/constants/paths.js";
-import { Campaigns } from "../app/pages/campaigns/index.jsx";
-import { HistoricOrders } from "../app/pages/historicOrders/index.jsx";
+import { Campaigns } from "../app/pages/Config/Campaigns/index.jsx";
+import { Products } from "../app/pages/Config/Products/index.jsx";
+import { Services } from "../app/pages/Config/Services/index.jsx";
+import { Supliers } from "../app/pages/Config/Supliers/index.jsx";
+
 import Invoice from "../app/pages/Orders/template/invoice.jsx";
-import { Products } from "../app/pages/Products/index.jsx";
-import { Services } from "../app/pages/Services/index.jsx";
-import {
-    ComissionControll, Contracts, Control,
-    CustomFields,
-    Home, Login,
-    Orders,
-    RecoverPassword,
-    Register,
-    Settings
-} from '../app/pages/source.jsx';
-import { Supliers } from "../app/pages/Supliers/index.jsx";
+
+import { HistoricOrders } from "../app/pages/historicOrders/index.jsx";
+
+import { ComissionControll, Contracts, Control, CustomFields, Home, Login, Orders, RecoverPassword, Register, Settings } from '../app/pages/source.jsx';
+
+import { BillingRules } from "../app/pages/Config/BillingRules/index.jsx";
 import { MiniDrawer } from '../components/source.jsx';
 import ErrorPage from "../errorHandling/error-page.jsx";
 
@@ -27,7 +24,7 @@ const {
     config, home, redefinePass,
     signContracts, orders, nestedOrder, comissionalControl,
     configRegister, control, nestedControl, configCustomFields,
-    campaign, products, services, supliers, historicOrders
+    campaign, products, services, supliers, historicOrders, billingRule
 
 } = paths
 
@@ -59,8 +56,12 @@ const Routes = createBrowserRouter([
     },
     {
         path: supliers.path,
-        element: supliers.access.find(res => res === user?.role) ?
-            <><MiniDrawer /><Supliers /> </> : <Login />,
+        element: supliers.access.find(res => res === user?.role) ? <><MiniDrawer /><Supliers /> </> : <Login />,
+        errorElement: <ErrorPage />,
+    },
+    {
+        path: billingRule.path,
+        element: billingRule.access.find(res => res === user?.role) ? <><MiniDrawer /><BillingRules /> </> : <Login />,
         errorElement: <ErrorPage />,
     },
     {

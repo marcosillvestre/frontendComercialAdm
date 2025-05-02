@@ -4,7 +4,7 @@ import Proptypes from 'prop-types'
 import { redirect } from "react-router-dom"
 import URI from "../app/utils/utils.jsx"
 
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { toast } from "react-toastify"
 import { paths } from '../app/constants/paths.js'
 import businessRules from '../app/utils/Rules/options.jsx'
@@ -23,6 +23,7 @@ export const UserProvider = ({ children }) => {
 
     const [filteredContracts, setFilteredContracts] = useState()
 
+    const queryClient = useQueryClient()
 
     const { predeterminedPeriods } = businessRules
 
@@ -107,6 +108,7 @@ export const UserProvider = ({ children }) => {
             query,
             typeFilter
         })
+
         return response.data
     }
 
@@ -143,6 +145,46 @@ export const UserProvider = ({ children }) => {
         JSON.stringify(typeFilter), search
     ])
 
+    const deleteCampaignData = async (id) => {
+
+        const responsible = userData.name
+        const response = await toast.promise(
+            URI.delete(`/controle/${id}?responsible=${responsible}`),
+            {
+                pending: 'Conferindo os dados',
+                success: 'Registro deletado com sucesso',
+                error: 'Algo deu errado'
+            }
+        )
+        return response.data
+    }
+
+    const deleteCampaign = useMutation({
+        mutationFn: (e) => deleteCampaignData(e),
+        onSuccess: (_, variables) => {
+
+
+            queryClient.setQueryData(
+                [[search, take, skip, orderFor, query, orderBy, JSON.stringify(typeFilter)]],
+                (oldData) => {
+
+                    return setFiltered({
+                        deals: oldData.deals.filter(res => res.id !== variables),
+                        total: oldData.total - 1
+                    })
+
+                }
+            )
+        }
+    })
+
+
+
+
+
+
+
+
 
 
     const decreaseFilters = (types) => {
@@ -165,10 +207,6 @@ export const UserProvider = ({ children }) => {
             setFiltered(allData) :
             decreaseFilters(types)
     }
-
-
-
-
 
 
     const [periodFilter, setPeriodFilter] = useState(false)
@@ -247,7 +285,9 @@ export const UserProvider = ({ children }) => {
             setSearch,
             typeFilter, setTypeFilter, removeFilter,
 
-            orderBy, setOrderBy, orderFor, setOrderFor
+            orderBy, setOrderBy, orderFor, setOrderFor,
+
+            deleteCampaign
         }}>
 
             {children}

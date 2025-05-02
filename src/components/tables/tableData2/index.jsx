@@ -364,7 +364,9 @@ export default function CollapsibleTable() {
                                         </TableCell>
                                         <TableCell align="center">
 
-                                            Aluno
+                                            <ContainerOrder>
+                                                Aluno
+                                            </ContainerOrder>
 
                                         </TableCell>
                                         <TableCell align="center">
@@ -386,23 +388,33 @@ export default function CollapsibleTable() {
                                             </ContainerOrder>
                                         </TableCell>
                                         <TableCell align="center">
-
-                                            Curso
-
-                                        </TableCell>
-                                        <TableCell align="center">
-
-                                            Unidade
+                                            <ContainerOrder>
+                                                Curso
+                                            </ContainerOrder>
 
                                         </TableCell>
                                         <TableCell align="center">
+                                            <ContainerOrder>
 
-                                            Background
+
+                                                Unidade
+                                            </ContainerOrder>
 
                                         </TableCell>
                                         <TableCell align="center">
+                                            <ContainerOrder>
 
-                                            Comissionamento
+
+                                                Background
+                                            </ContainerOrder>
+
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <ContainerOrder>
+
+
+                                                Comissionamento
+                                            </ContainerOrder>
 
                                         </TableCell>
                                         <TableCell />

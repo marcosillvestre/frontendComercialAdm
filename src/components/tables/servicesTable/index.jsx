@@ -1,7 +1,9 @@
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import DoneIcon from '@mui/icons-material/Done';
 import DoNotDisturbAltIcon from '@mui/icons-material/DoNotDisturbAlt';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
-import { TablePagination, Typography } from '@mui/material';
+import { TablePagination } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -15,8 +17,7 @@ import LoadingSpin from 'react-loading-spin';
 import noData from '../../../assets/noData.svg';
 import { useService } from '../../../hooks/services/servicesContext.hook';
 import { PopOverService } from '../../popovers/popOverService';
-import { HeaderTable } from './styles';
-
+import { ContainerOrder } from './styles';
 function Row(props) {
 
     const { row } = props
@@ -24,12 +25,14 @@ function Row(props) {
 
         <TableRow
             sx={{
-                '&:last-child td, &:last-child th': { border: 0 },
-                backgroundColor: `${row.color}`
+                '& > *': {
+                    borderBottom: 'unset', fontSize: ".7rem",
+                    backgroundColor: `${row.color}`
+
+                }
             }}
         >
-            <TableCell component="th" scope="row"></TableCell>
-            <TableCell component="th" scope="row">
+            <TableCell component="th" scope="row" align="center">
                 {row.name}
             </TableCell>
             <TableCell align="center">{row.sku}</TableCell>
@@ -69,20 +72,16 @@ Row.propTypes = {
     }).isRequired,
 };
 
-export function ServicesTable(props) {
-    const { data, loading, total } = props
-    const { take, setTake, setSkip, setOrderBy } = useService()
+export function ServicesTable() {
+
+    const { take, setTake, setSkip, setOrderBy, queryService, serviceQuery, orderBy, orderFor, setOrderFor, } = useService()
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
-    const style = {
-        fontSize: "9px",
-        width: "100%",
-        display: "flex",
-        justifyContent: "center",
-        boxShadow: "4px 10px 20px -12px rgba(0,0,0,0.62)"
-    }
 
+    const { isPending } = serviceQuery;
+
+    const { total, services } = queryService;
     const handleChangePage = (event, newPage) => {
 
         setPage(newPage)
@@ -101,109 +100,132 @@ export function ServicesTable(props) {
 
 
     return (
-        <div style={style}>
-            {
-                loading ?
-                    <div style={{
-                        width: "100%",
-                        display: 'flex',
-                        justifyContent: 'center',
-                        padding: "5rem 0"
-                    }}>
-                        <LoadingSpin
-                            duration="4s"
-                            width="15px"
-                            timingFunction="ease-in-out"
-                            direction="alternate"
-                            size="60px"
-                            primaryColor="#1976d2"
-                            secondaryColor="#333"
-                            numberOfRotationsInAnimation={3}
-                        />
-                    </div>
-                    :
-                    data && data.length === 0 ?
+        <TableContainer component={Paper}>
+            <Paper>
+                {
+                    isPending ?
                         <div style={{
                             width: "100%",
-                            display: 'grid',
+                            display: 'flex',
                             justifyContent: 'center',
-                            padding: "5rem 0",
-                            textAlign: "center"
+                            padding: "5rem 0"
                         }}>
-                            <img src={noData} alt=""
-                                style={{
-                                    width: "300px",
-                                }}
+                            <LoadingSpin
+                                duration="4s"
+                                width="15px"
+                                timingFunction="ease-in-out"
+                                direction="alternate"
+                                size="60px"
+                                primaryColor="#1976d2"
+                                secondaryColor="#333"
+                                numberOfRotationsInAnimation={3}
                             />
-
                         </div>
-
                         :
-                        <TableContainer component={Paper}>
-                            <Paper>
+                        services &&
+                            services.length === 0 ?
+                            <div style={{
+                                width: "100%",
+                                display: 'grid',
+                                justifyContent: 'center',
+                                padding: "5rem 0",
+                                textAlign: "center"
+                            }}>
+                                <img src={noData} alt=""
+                                    style={{
+                                        width: "300px",
+                                    }}
+                                />
+
+                            </div>
+
+                            :
+                            <>
+
                                 <Table aria-label="collapsible table">
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell align="center"></TableCell>
                                             <TableCell align="left">
-                                                <HeaderTable
+                                                <ContainerOrder
                                                     className='flex'
                                                     onClick={() => setOrderBy("name")}
                                                 >
                                                     Nome
-                                                    <SwapVertIcon />
-
-                                                </HeaderTable>
+                                                    {
+                                                        orderBy !== "name" &&
+                                                        <SwapVertIcon onClick={() => setOrderBy("name")} />
+                                                    }
+                                                    {
+                                                        orderBy === "name" && orderFor === "asc" &&
+                                                        <ArrowDownwardIcon onClick={() => setOrderFor("desc")} />
+                                                    }
+                                                    {
+                                                        orderBy === "name" && orderFor === "desc" &&
+                                                        <ArrowUpwardIcon onClick={() => setOrderFor("asc")} />
+                                                    }
+                                                </ContainerOrder>
                                             </TableCell>
                                             <TableCell align="center">
-                                                <Typography>SKU</Typography>
+                                                SKU
 
                                             </TableCell>
                                             <TableCell align="center">
 
-                                                <HeaderTable
+                                                <ContainerOrder
                                                     className='flex'
                                                     onClick={() => setOrderBy("price_selling")}
-
-                                                > Vitrine <SwapVertIcon /></HeaderTable>
-
+                                                >
+                                                    Vitríne
+                                                    {
+                                                        orderBy !== "price_selling" &&
+                                                        <SwapVertIcon onClick={() => setOrderBy("price_selling")} />
+                                                    }
+                                                    {
+                                                        orderBy === "price_selling" && orderFor === "asc" &&
+                                                        <ArrowDownwardIcon onClick={() => setOrderFor("desc")} />
+                                                    }
+                                                    {
+                                                        orderBy === "price_selling" && orderFor === "desc" &&
+                                                        <ArrowUpwardIcon onClick={() => setOrderFor("asc")} />
+                                                    }
+                                                </ContainerOrder>
                                             </TableCell>
                                             <TableCell align="center">
 
-                                                <HeaderTable
+                                                <ContainerOrder
                                                     className='flex'
                                                 >
                                                     Boleto
-                                                </HeaderTable>
+                                                </ContainerOrder>
 
                                             </TableCell>
                                             <TableCell align="center">
-                                                <HeaderTable
+                                                <ContainerOrder
                                                     className='flex'
                                                 >
                                                     Link
-                                                </HeaderTable>
+                                                </ContainerOrder>
 
                                             </TableCell>
                                             <TableCell align="center">
-                                                <HeaderTable
+                                                <ContainerOrder
                                                     className='flex'
                                                 >
                                                     Cartão
-                                                </HeaderTable>
+                                                </ContainerOrder>
 
                                             </TableCell>
                                             <TableCell align="center">
-                                                <HeaderTable
+                                                <ContainerOrder
                                                     className='flex'
                                                 >
                                                     À vista
-                                                </HeaderTable>
+                                                </ContainerOrder>
 
                                             </TableCell>
 
                                             <TableCell align="center">
-                                                <Typography>Status</Typography>
+                                                Status
 
                                             </TableCell>
                                             <TableCell align="cent
@@ -213,9 +235,11 @@ export function ServicesTable(props) {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {data && data.map((row) => (
-                                            <Row key={row.id} row={row} />
-                                        ))}
+                                        {
+                                            services &&
+                                            services.map((row) => (
+                                                <Row key={row.id} row={row} />
+                                            ))}
                                     </TableBody>
                                 </Table>
                                 <TablePagination
@@ -227,10 +251,12 @@ export function ServicesTable(props) {
                                     onPageChange={handleChangePage}
                                     onRowsPerPageChange={handleChangeRowsPerPage}
                                 />
-                            </Paper>
-                        </TableContainer>
-            }
-        </div>
+                            </>
+
+                }
+            </Paper>
+        </TableContainer>
+
     );
 }
 

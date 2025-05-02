@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 
+import { BillingsProvider } from './billingRules/billingRulesContext.hook'
 import { CampaignProvider } from './campaign/campaignContext.hook'
 import { ComissionProvider } from './comissions/comissionContext.hook'
 import { Contracts } from './contracts/contracts.hook'
@@ -30,7 +31,11 @@ const AppProvider = ({ children }) => (
                                                 <ProductsProvider>
                                                     <SupliersProvider>
                                                         <RequestsProvider>
-                                                            {children}
+                                                            <BillingsProvider>
+
+                                                                {children}
+
+                                                            </BillingsProvider>
                                                         </RequestsProvider>
                                                     </SupliersProvider>
                                                 </ProductsProvider>

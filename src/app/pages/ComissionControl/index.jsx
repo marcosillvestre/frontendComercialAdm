@@ -32,11 +32,9 @@ export function ComissionControll() {
         selectedEndDate, userData
     } = useUser()
 
-    // const { UsersQuery } = useUsers()
 
     const { unityQuery } = useUnities()
 
-    // const [yearGraph, setYearGraph] = useState([])
 
     const { comissionSuccess, comissionQuery, comissionPending, setLabel, label } = useComission()
 
@@ -81,48 +79,6 @@ export function ComissionControll() {
         list
     ])
 
-    // const graphType = [
-    //     { name: "curso", label: "Curso" },
-    //     { name: "tipoMatricula", label: "Comissionamento" },
-    //     { name: "unidade", label: "Unidade" },
-    //     { name: "owner", label: "Consultor" }
-    // ]
-
-
-
-    // const [valueGraph, setValueGraph] = useState([])
-
-
-    // async function push(type, value) {
-    //     const body = {
-    //         "typeGraphic": {
-    //             "type": type,
-    //             "value": value
-    //         }
-    //     }
-    //     await URI.post('/grafico', body)
-    //         .then(res => {
-    //             setYearGraph(res.data.data)
-    //         }).catch(err => (err))
-    // }
-
-
-    // const handleGraphic = (type, value, label) => {
-    //     if (type === 'type') {
-    //         // setType(value)
-    //         setValueGraph([])
-    //         setOpen1(!open1)
-    //     }
-    //     if (type === 'value') {
-    //         const exist = valueGraph.filter(res => res === value).length
-    //         if (exist === 0) {
-    //             valueGraph.length <= 2 ? setValueGraph(values => [...values, value]) : alert("Só é possivel configurar 3 paramêtros por vez")
-    //         }
-    //         if (exist > 0) {
-    //             setValueGraph(valueGraph.filter(res => res !== value))
-    //         }
-    //     }
-    // }
 
     const exportToExcel = () => {
         setAnimation(true)
@@ -188,9 +144,15 @@ export function ComissionControll() {
             />
 
             <Container>
+                <nav
+                    className='over-nav'
+                >
+                    <h3>Controle de matrículas</h3>
+
+                </nav>
+
 
                 <Header>
-
                     <nav>
                         <label htmlFor="">
                             <p>

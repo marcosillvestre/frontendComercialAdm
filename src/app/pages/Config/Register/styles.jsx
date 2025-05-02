@@ -3,26 +3,36 @@ import styled from 'styled-components';
 
 
 export const Container = styled.main`
+font-size: var(--fsLowest);
+padding:0 4rem 5rem ;
 display: flex;
-flex-direction: column;
-/* width: 100vw; */
-padding: 0 4rem;
+flex-direction: column;    
 margin-left: 17px ;
 p{
     margin-bottom: .2rem;
 }
 
-.nav-drawer{
-position: relative;
-margin: 10px 0;
-padding: 2rem ;
-display: flex;
-align-items: center;
+nav{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    padding: 1rem 0;
+    
+    span{
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+            svg{
+                color: #222;
+                transform: rotate(-90deg);
+            }
+        
+    }
 }
+
 .openDrawer{
     padding: 0 .8rem;
-    position:absolute;
-    right: 0;
     &:hover{
     background-color: #1f5fba;
     }

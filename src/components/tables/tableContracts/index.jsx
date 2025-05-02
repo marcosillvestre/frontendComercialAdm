@@ -3,15 +3,13 @@ import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
 import React from 'react';
 import LoadingSpin from 'react-loading-spin';
 import { useSignContracts } from '../../../hooks/signContracts/sign.hook.jsx';
-import { RowTable } from './styles.jsx';
+import { ContainerOrder, ContainerTable, RowTable } from './styles.jsx';
 
 
 function Row(props) {
@@ -91,7 +89,7 @@ export default function TableContracts() {
 
     return (
 
-        <TableContainer component={Paper}>
+        <ContainerTable component={Paper}>
             <Paper sx={{ width: '100%' }}>
 
 
@@ -119,11 +117,11 @@ export default function TableContracts() {
                         <Table aria-label="collapsible table">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell align="center"><Typography>Nome</Typography></TableCell>
-                                    <TableCell align="center"><Typography>Aluno</Typography></TableCell>
-                                    <TableCell align="center"><Typography>Vendedor</Typography></TableCell>
-                                    <TableCell align="center"><Typography>Celular</Typography></TableCell>
-                                    <TableCell align="center"><Typography>Subclasse</Typography></TableCell>
+                                    <TableCell align="center"><ContainerOrder>Nome</ContainerOrder></TableCell>
+                                    <TableCell align="center"><ContainerOrder>Aluno</ContainerOrder></TableCell>
+                                    <TableCell align="center"><ContainerOrder>Vendedor</ContainerOrder></TableCell>
+                                    <TableCell align="center"><ContainerOrder>Celular</ContainerOrder></TableCell>
+                                    <TableCell align="center"><ContainerOrder>Subclasse</ContainerOrder></TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -152,7 +150,7 @@ export default function TableContracts() {
                 />
 
             </Paper>
-        </TableContainer>
+        </ContainerTable>
 
     );
 }

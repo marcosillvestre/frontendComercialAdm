@@ -4,12 +4,20 @@ import styled from "styled-components";
 
 
 export const Container = styled.div`
+padding:0 4rem 5rem ;
 
-padding: 0 4rem;
 margin-left: 17px ;
 position: relative;
+font-size: var(--fsLowest);
 
+.over-nav{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    padding: 1rem;
 
+}
 @media(max-width:760px){
 margin-left: 34px ;
 .inputs{

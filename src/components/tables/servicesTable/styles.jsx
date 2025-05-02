@@ -1,6 +1,21 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 import styled from "styled-components";
 
+
+
+
+export const ContainerOrder = styled.span`
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: var(--fsLowest);
+svg{
+    width: 20px;
+    cursor: pointer;
+}
+`
+
+
 export const Input = styled.input`
 color: #222;
 height: 2.5rem;

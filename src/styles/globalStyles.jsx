@@ -28,6 +28,7 @@ html{
     text-overflow: ellipsis;
     height: var(--boxHei);
     font-size: calc(var(--fsLowest) - 1px);
+    min-width: 13rem;
 
  &:focus{
     border: 1px solid;

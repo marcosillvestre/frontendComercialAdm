@@ -1,42 +1,47 @@
 
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import LoadingSpin from 'react-loading-spin';
-import { CustomFieldTable } from '../../../components/source.jsx';
-import { useCustomFields } from '../../../hooks/customFields/customFIelds.hook.jsx';
-import { useUser } from '../../../hooks/userContext.jsx';
+import { Link } from 'react-router-dom';
+import { CustomFieldTable } from '../../../../components/source.jsx';
+import { useCustomFields } from '../../../../hooks/customFields/customFIelds.hook.jsx';
+import { useUser } from '../../../../hooks/userContext.jsx';
 import { Container, Header, MainBox } from './styles.jsx';
 
 
 
 export const CustomFields = () => {
-    const {
-        openSidebar, setOpenSidebar, setTypeSidebar,
-        userData
-    } = useUser()
+    const { openSidebar, setOpenSidebar, setTypeSidebar } = useUser()
 
     const { cfSrted, customFieldsQuery } = useCustomFields()
 
     return (
         <Container>
-            <Header>
-                <nav>
-                    <div>
-                        <h1>Configurações</h1>
-                        <h3>Campos personalizados</h3>
-                    </div>
+            <nav>
+                <span>
 
-                    <button
-                        className='defaultButton'
-                        onClick={() => {
-                            setTypeSidebar(1)
-                            setOpenSidebar(!openSidebar)
-                        }
-                        }>
-                        Criar campo
-                    </button>
-                </nav>
-            </Header>
+                    <Link
+                        to="/config"
+                    >
+                        <ArrowUpwardIcon />
+                    </Link>
+                    <div>
+                        <h3>ConfiguraçõesCampos personalizados</h3>
+                    </div>
+                </span>
+
+                <button
+                    className='defaultButton'
+                    onClick={() => {
+                        setTypeSidebar(1)
+                        setOpenSidebar(!openSidebar)
+                    }
+                    }>
+                    Criar campo
+                </button>
+            </nav>
+            <Header />
 
             <MainBox>
                 {

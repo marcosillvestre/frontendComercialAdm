@@ -1,12 +1,13 @@
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import DoneIcon from '@mui/icons-material/Done';
 import DoNotDisturbAltIcon from '@mui/icons-material/DoNotDisturbAlt';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
-import { TablePagination, Typography } from '@mui/material';
+import { TablePagination } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import PropTypes from 'prop-types';
@@ -15,7 +16,7 @@ import LoadingSpin from 'react-loading-spin';
 import noData from '../../../assets/noData.svg';
 import { useProduct } from '../../../hooks/products/productsContext.hook';
 import { PopOverProduct } from '../../popovers/popOverProduct';
-import { HeaderTable } from './styles';
+import { ContainerOrder, ContainerTable } from './styles';
 function Row(props) {
 
     const { row } = props
@@ -23,22 +24,25 @@ function Row(props) {
 
         <TableRow
             sx={{
-                '&:last-child td, &:last-child th': { border: 0 },
-                backgroundColor: `${row.color}`
+                '& > *': {
+                    borderBottom: 'unset', fontSize: ".7rem",
+                    backgroundColor: `${row.color}`
+
+                }
             }}
+
         >
-            <TableCell component="th" scope="row"></TableCell>
-            <TableCell component="th" scope="row">
+            <TableCell component="th" scope="row" align="center">
                 {row.name}
             </TableCell>
-            <TableCell align="center">{row.sku}</TableCell>
-            <TableCell align="center">R${row.price_selling}</TableCell>
-            <TableCell align="center">R${row.price_ticket}</TableCell>
-            <TableCell align="center">R${row.price_link}</TableCell>
-            <TableCell align="center">R${row.price_card}</TableCell>
-            <TableCell align="center">R${row.price_cash}</TableCell>
-            <TableCell align="center">{row.status === true ? <DoneIcon /> : <DoNotDisturbAltIcon />}</TableCell>
-            <TableCell align="center">
+            <TableCell component="th" align="center">{row.sku}</TableCell>
+            <TableCell component="th" align="center">R${row.price_selling}</TableCell>
+            <TableCell component="th" align="center">R${row.price_ticket}</TableCell>
+            <TableCell component="th" align="center">R${row.price_link}</TableCell>
+            <TableCell component="th" align="center">R${row.price_card}</TableCell>
+            <TableCell component="th" align="center">R${row.price_cash}</TableCell>
+            <TableCell component="th" align="center">{row.status === true ? <DoneIcon /> : <DoNotDisturbAltIcon />}</TableCell>
+            <TableCell component="th" align="center">
                 <PopOverProduct row={row} />
 
             </TableCell>
@@ -66,21 +70,22 @@ Row.propTypes = {
     }).isRequired,
 };
 
-export function InsumeTable(props) {
-    const { data, loading, total } = props
-    const { take, setTake, setSkip, setOrderBy } = useProduct()
+export function ProductsTable() {
+
+    const { take, setTake, setSkip, setOrderBy, orderBy,
+        orderFor, setOrderFor, productQuery, queryProducts, } = useProduct();
+
+    const { isPending } = productQuery;
+
+    const { products, total } = queryProducts;
+
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
-    const style = {
-        fontSize: "9px",
-        width: "100%",
-        display: "flex",
-        justifyContent: "center",
-        boxShadow: "4px 10px 20px -12px rgba(0,0,0,0.62)"
-    }
+
 
     const handleChangePage = (event, newPage) => {
+
 
         setPage(newPage)
         if (newPage === 0) return setSkip(0)
@@ -98,105 +103,130 @@ export function InsumeTable(props) {
 
 
     return (
-        <div style={style}>
-            {
-                loading ?
-                    <div style={{
-                        width: "100%",
-                        display: 'flex',
-                        justifyContent: 'center',
-                        padding: "5rem 0"
-                    }}>
-                        <LoadingSpin
-                            duration="4s"
-                            width="15px"
-                            timingFunction="ease-in-out"
-                            direction="alternate"
-                            size="60px"
-                            primaryColor="#1976d2"
-                            secondaryColor="#333"
-                            numberOfRotationsInAnimation={3}
-                        />
-                    </div>
-                    :
-                    data && data.length === 0 ?
+        <ContainerTable component={Paper}>
+            <Paper>
+                {
+                    isPending ?
                         <div style={{
                             width: "100%",
-                            display: 'grid',
+                            display: 'flex',
                             justifyContent: 'center',
-                            padding: "5rem 0",
-                            textAlign: "center"
+                            padding: "5rem 0"
                         }}>
-                            <img src={noData} alt=""
-                                style={{
-                                    width: "300px",
-                                }}
+                            <LoadingSpin
+                                duration="4s"
+                                width="15px"
+                                timingFunction="ease-in-out"
+                                direction="alternate"
+                                size="60px"
+                                primaryColor="#1976d2"
+                                secondaryColor="#333"
+                                numberOfRotationsInAnimation={3}
                             />
-
                         </div>
-
                         :
-                        <TableContainer component={Paper}>
-                            <Paper>
+                        products &&
+                            products.length === 0 ?
+                            <div style={{
+                                width: "100%",
+                                display: 'grid',
+                                justifyContent: 'center',
+                                padding: "5rem 0",
+                                textAlign: "center"
+                            }}>
+                                <img src={noData} alt=""
+                                    style={{
+                                        width: "300px",
+                                    }}
+                                />
+
+                            </div>
+
+                            :
+                            <>
                                 <Table aria-label="collapsible table">
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell align="center"></TableCell>
                                             <TableCell align="left">
-                                                <HeaderTable
+                                                <ContainerOrder
                                                     className='flex'
                                                     onClick={() => setOrderBy("name")}
-                                                >Nome <SwapVertIcon /></HeaderTable>
+                                                >
+                                                    Nome
+                                                    {
+                                                        orderBy !== "name" &&
+                                                        <SwapVertIcon onClick={() => setOrderBy("name")} />
+                                                    }
+                                                    {
+                                                        orderBy === "name" && orderFor === "asc" &&
+                                                        <ArrowDownwardIcon onClick={() => setOrderFor("desc")} />
+                                                    }
+                                                    {
+                                                        orderBy === "name" && orderFor === "desc" &&
+                                                        <ArrowUpwardIcon onClick={() => setOrderFor("asc")} />
+                                                    }
+                                                </ContainerOrder>
                                             </TableCell>
                                             <TableCell align="center">
-                                                <Typography>SKU</Typography>
+                                                SKU
 
                                             </TableCell>
                                             <TableCell align="center">
-
-                                                <HeaderTable
+                                                <ContainerOrder
                                                     className='flex'
                                                     onClick={() => setOrderBy("price_selling")}
-
-                                                > Vitrine <SwapVertIcon /></HeaderTable>
-
+                                                >
+                                                    Vitríne
+                                                    {
+                                                        orderBy !== "price_selling" &&
+                                                        <SwapVertIcon onClick={() => setOrderBy("price_selling")} />
+                                                    }
+                                                    {
+                                                        orderBy === "price_selling" && orderFor === "asc" &&
+                                                        <ArrowDownwardIcon onClick={() => setOrderFor("desc")} />
+                                                    }
+                                                    {
+                                                        orderBy === "price_selling" && orderFor === "desc" &&
+                                                        <ArrowUpwardIcon onClick={() => setOrderFor("asc")} />
+                                                    }
+                                                </ContainerOrder>
                                             </TableCell>
                                             <TableCell align="center">
 
-                                                <HeaderTable
+                                                <ContainerOrder
                                                     className='flex'
                                                 >
                                                     Boleto
-                                                </HeaderTable>
+                                                </ContainerOrder>
 
                                             </TableCell>
                                             <TableCell align="center">
-                                                <HeaderTable
+                                                <ContainerOrder
                                                     className='flex'
                                                 >
                                                     Link
-                                                </HeaderTable>
+                                                </ContainerOrder>
 
                                             </TableCell>
                                             <TableCell align="center">
-                                                <HeaderTable
+                                                <ContainerOrder
                                                     className='flex'
                                                 >
                                                     Cartão
-                                                </HeaderTable>
+                                                </ContainerOrder>
 
                                             </TableCell>
                                             <TableCell align="center">
-                                                <HeaderTable
+                                                <ContainerOrder
                                                     className='flex'
                                                 >
                                                     À vista
-                                                </HeaderTable>
+                                                </ContainerOrder>
 
                                             </TableCell>
 
                                             <TableCell align="center">
-                                                <Typography>Status</Typography>
+                                                Status
 
                                             </TableCell>
                                             <TableCell align="cent
@@ -206,9 +236,11 @@ export function InsumeTable(props) {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {data && data.map((row) => (
-                                            <Row key={row.id} row={row} />
-                                        ))}
+                                        {
+                                            products &&
+                                            products.map((row) => (
+                                                <Row key={row.id} row={row} />
+                                            ))}
                                     </TableBody>
                                 </Table>
                                 <TablePagination
@@ -220,14 +252,15 @@ export function InsumeTable(props) {
                                     onPageChange={handleChangePage}
                                     onRowsPerPageChange={handleChangeRowsPerPage}
                                 />
-                            </Paper>
-                        </TableContainer>
-            }
-        </div>
+                            </>
+
+                }
+            </Paper>
+        </ContainerTable>
     );
 }
 
-InsumeTable.propTypes = {
+ProductsTable.propTypes = {
     data: PropTypes.array.isRequired,
     loading: PropTypes.bool.isRequired,
     total: PropTypes.number.isRequired
