@@ -12,9 +12,12 @@ export const Contracts = () => {
     const forQuery = useRef()
 
     const { filteredContracts, setFilteredContracts } = useUser()
-    const { setSign, contractOptions, setContractOptions, allContracts, funnelsQuery } = useSignContracts()
+    const { setSign, contractOptions, funnelsQuery, setQuery } = useSignContracts();
 
     const { data, isPending } = funnelsQuery
+
+
+    console.log(contractOptions)
 
     async function dataFilter(e) {
         setSign(e)
@@ -22,13 +25,9 @@ export const Contracts = () => {
     }
 
     function filterData(search) {
-        const data = contractOptions.filter(res =>
-            res["Nome do aluno"].includes(search) || res["Nome do responsável"].toLowerCase()
-                .includes(search.toLowerCase()))
-
-        setContractOptions(data)
-
+        setQuery(search);
     }
+
 
     return (
 
@@ -71,22 +70,25 @@ export const Contracts = () => {
                                     ref={forQuery}
                                     className='inputSearch'
 
-                                    onChange={(e) => e.target.value === "" && setContractOptions(allContracts)}
+                                    onChange={(e) => e.target.value === "" &&
+                                        setQuery(null)
+                                    }
                                     list='person'
                                 />
 
                                 <button
                                     type='submit'
                                     onClick={(e) => {
-                                        filterData(forQuery.current.value)
                                         e.preventDefault()
+                                        filterData(forQuery.current.value)
                                     }}>
                                     <SearchIcon />
                                 </button>
                             </form>
                             <datalist id='person' >
                                 {
-                                    contractOptions && contractOptions.map((res, i) => (
+                                    contractOptions !== undefined &&
+                                    contractOptions?.contracts.map((res, i) => (
                                         <option
                                             key={i}
                                             value={res["name"]}

@@ -61,13 +61,20 @@ Row.propTypes = {
 
 export default function TableContracts() {
 
-    const { contractsForSign, contractOptions, setTake, setSkip, queryContract, } = useSignContracts()
+    const {
+        contractsForSign, contractOptions,
+        setTake, setSkip, queryContract,
+    } = useSignContracts();
+
+
+
+
+    const { isPending } = contractsForSign;
+    const { isFetching } = queryContract;
+
+
+
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
-    const { isPending, data } = contractsForSign
-    const { isFetching } = queryContract
-
-
     const [page, setPage] = React.useState(0);
 
 
@@ -128,7 +135,7 @@ export default function TableContracts() {
                                 {
 
                                     contractOptions &&
-                                    contractOptions.map((row) => (
+                                    contractOptions.contracts.map((row) => (
                                         <Row
                                             key={row.id}
                                             row={row}
@@ -142,7 +149,7 @@ export default function TableContracts() {
                 <TablePagination
                     rowsPerPageOptions={[10, 20, 40]}
                     component="div"
-                    count={data && data.total}
+                    count={contractOptions && contractOptions.total}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onPageChange={handleChangePage}

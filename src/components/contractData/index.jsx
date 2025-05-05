@@ -24,7 +24,7 @@ export const ContractData = () => {
     const { content, view, setView } = useData()
     const [emmit, setEmmit] = useState(false)
     const [camp, setcamp] = useState({})
-    const { setContractOptions, allContracts, setContract } = useSignContracts()
+    const { setContract } = useSignContracts()
 
 
     const buttonsLinks = document.querySelectorAll(".button-link")
@@ -462,7 +462,7 @@ export const ContractData = () => {
                             className='defaultButton button'
                             onClick={() => {
                                 setFilteredContracts(undefined)
-                                setContractOptions(allContracts)
+                                // setContractOptions(allContracts)
                                 setContract(null)
                                 setView('table')
                             }}>

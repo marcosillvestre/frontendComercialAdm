@@ -1,7 +1,7 @@
 
-import { useQuery, useQueryClient } from "@tanstack/react-query"
+import { useQuery } from "@tanstack/react-query"
 import Proptypes from 'prop-types'
-import { createContext, useContext, useEffect, useState } from "react"
+import { createContext, useContext, useEffect, useLayoutEffect, useState } from "react"
 import URI from "../../app/utils/utils"
 import { useUser } from "../userContext.jsx"
 
@@ -9,16 +9,15 @@ const SignContracts = createContext({})
 
 export const SigningContracts = ({ children }) => {
 
-    const [contractOptions, setContractOptions] = useState([])
-    const [allContracts, setAllContracts] = useState()
+    const [contractOptions, setContractOptions] = useState()
     const [take, setTake] = useState(10)
     const [skip, setSkip] = useState(1)
 
     const [contract, setContract] = useState()
+    const [query, setQuery] = useState('')
 
 
     const { userData, setFilteredContracts } = useUser()
-    const queryCache = useQueryClient();
 
     const [sign, setSign] = useState()
 
@@ -39,17 +38,43 @@ export const SigningContracts = ({ children }) => {
     const signData = async () => {
         const id = sign ? sign : funnelsQuery.data[0].value
 
-        const response = await URI.get(`/contrato/${id}?take=${take}&skip=${skip}`)
+        const url = query ?
+            `/contrato-query/${id}?take=${take}&skip=${skip}&name=${query}` :
+            `/contrato/${id}?take=${take}&skip=${skip}`
+
+        const response = await URI.get(url);
 
         return response.data
     }
 
     const contractsForSign = useQuery({
         queryFn: () => signData(),
-        queryKey: [sign, skip, take],
+        queryKey: [query, sign, skip, take],
         enabled: funnelsQuery.isSuccess,
         retry: false
     })
+
+    useLayoutEffect(() => {
+
+        const gatherData = async () => {
+            const { data } = contractsForSign;
+            const { contracts, total } = data;
+
+            const filteredBySellers = contracts.filter(res => res?.seller.toLowerCase()
+                .includes(userData.name.toLowerCase()))
+
+            setContractOptions(userData.role === "comercial" ?
+                { contracts: filteredBySellers, total } :
+                { contracts, total })
+        }
+
+        if (contractsForSign.isSuccess) gatherData()
+
+    }, [query, take, skip, contractsForSign.isSuccess])
+
+
+
+
 
 
     const signAContract = async () => {
@@ -77,20 +102,6 @@ export const SigningContracts = ({ children }) => {
     }, [contract, isSuccess])
 
 
-    useEffect(() => {
-        contractsForSign.refetch()
-
-        if (contractsForSign.data) {
-            const { data: { contracts } } = contractsForSign
-            const filteredBySellers = contracts.filter(res => res?.seller.toLowerCase()
-                .includes(userData.name.toLowerCase()))
-
-            setContractOptions(userData.role === "comercial" ? filteredBySellers : contracts)
-            setAllContracts(userData.role === "comercial" ? filteredBySellers : contracts)
-        }
-        queryCache.invalidateQueries([sign, skip, take])
-
-    }, [take, skip, contractsForSign.isSuccess])
 
 
     return (
@@ -100,13 +111,14 @@ export const SigningContracts = ({ children }) => {
             setContractOptions,
             setSign,
             sign,
-            allContracts,
             take, setTake,
             skip, setSkip,
 
             contract, setContract,
             queryContract,
-            funnelsQuery
+            funnelsQuery,
+
+            setQuery
 
         }}>
 
