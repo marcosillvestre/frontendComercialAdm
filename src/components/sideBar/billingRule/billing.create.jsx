@@ -47,9 +47,9 @@ export const Billing = () => {
         }
 
 
-        editBilling !== null ?
-            mutateBilling.mutateAsync({ ...body, ...editBilling }) :
-            createBilling.mutateAsync({ ...body, ...Billing })
+        !editBilling?.isItFor && createBilling.mutateAsync({ ...body, ...Billing });
+        editBilling.isItFor === 'edit' && mutateBilling.mutateAsync({ ...body, ...editBilling });
+        editBilling.isItFor === 'copy' && createBilling.mutateAsync({ ...editBilling, ...body });
     }
 
 

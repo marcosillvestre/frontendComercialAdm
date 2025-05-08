@@ -17,8 +17,6 @@ export const Contracts = () => {
     const { data, isPending } = funnelsQuery
 
 
-    console.log(contractOptions)
-
     async function dataFilter(e) {
         setSign(e)
         setFilteredContracts(undefined)

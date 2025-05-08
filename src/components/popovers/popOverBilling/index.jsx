@@ -30,7 +30,8 @@ export function PopOverBilling(data) {
     }
 
 
-    const handleEdit = () => {
+    const handleSidebar = (isItFor) => {
+
         setTypeSidebar(9)
         setOpenSidebar(true);
 
@@ -39,7 +40,7 @@ export function PopOverBilling(data) {
             row.productsRelated
 
 
-        setEditBilling({ related, ...row })
+        setEditBilling({ isItFor, related, ...row })
     }
 
     return (
@@ -63,10 +64,19 @@ export function PopOverBilling(data) {
 
 
                         <Divider
-                            onClick={() => handleEdit()}
+                            onClick={() => handleSidebar('edit')}
                         >
                             Editar
                         </Divider>
+
+
+                        <Divider
+                            onClick={() => handleSidebar('copy')}
+                        >
+                            Duplicar
+                        </Divider>
+
+
 
 
 
