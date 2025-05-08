@@ -1,3 +1,6 @@
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import SwapVertIcon from '@mui/icons-material/SwapVert';
 import { TablePagination } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -10,7 +13,6 @@ import React from 'react';
 import LoadingSpin from 'react-loading-spin';
 import { useSignContracts } from '../../../hooks/signContracts/sign.hook.jsx';
 import { ContainerOrder, ContainerTable, RowTable } from './styles.jsx';
-
 
 function Row(props) {
 
@@ -32,7 +34,8 @@ function Row(props) {
                     setContract(row.id)
                 }}
             >
-
+                {/* adicionar o controle de ordenação e direçao aqui  */}
+                <TableCell align="center" component="th" scope="row">{new Date(row.created_at).toLocaleDateString("pt-BR")}</TableCell>
                 <TableCell align="center" component="th" scope="row">{row.name}</TableCell>
                 <TableCell align="center" component="th" scope="row">{row.student !== !row.student ? row.student : row.name}</TableCell>
                 <TableCell align="center" component="th" scope="row">{row.seller}</TableCell>
@@ -47,6 +50,7 @@ function Row(props) {
 
 Row.propTypes = {
     row: PropTypes.shape({
+        created_at: PropTypes.string.isRequired,
         id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
         student: PropTypes.string.isRequired,
@@ -63,7 +67,7 @@ export default function TableContracts() {
 
     const {
         contractsForSign, contractOptions,
-        setTake, setSkip, queryContract,
+        setTake, setSkip, queryContract, orderFor, setOrderFor, orderBy, setOrderBy
     } = useSignContracts();
 
 
@@ -124,7 +128,37 @@ export default function TableContracts() {
                         <Table aria-label="collapsible table">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell align="center"><ContainerOrder>Nome</ContainerOrder></TableCell>
+                                    <TableCell align="center"><ContainerOrder>
+                                        Data de criação
+
+                                        {
+                                            orderBy !== "created_at" &&
+                                            <SwapVertIcon onClick={() => setOrderBy("created_at")} />
+                                        }
+                                        {
+                                            orderBy === "created_at" && orderFor === "asc" &&
+                                            <ArrowDownwardIcon onClick={() => setOrderFor("desc")} />
+                                        }
+                                        {
+                                            orderBy === "created_at" && orderFor === "desc" &&
+                                            <ArrowUpwardIcon onClick={() => setOrderFor("asc")} />
+                                        }
+                                    </ContainerOrder></TableCell>
+                                    <TableCell align="center"><ContainerOrder>
+                                        Nome
+                                        {
+                                            orderBy !== "name" &&
+                                            <SwapVertIcon onClick={() => setOrderBy("name")} />
+                                        }
+                                        {
+                                            orderBy === "name" && orderFor === "asc" &&
+                                            <ArrowDownwardIcon onClick={() => setOrderFor("desc")} />
+                                        }
+                                        {
+                                            orderBy === "name" && orderFor === "desc" &&
+                                            <ArrowUpwardIcon onClick={() => setOrderFor("asc")} />
+                                        }
+                                    </ContainerOrder></TableCell>
                                     <TableCell align="center"><ContainerOrder>Aluno</ContainerOrder></TableCell>
                                     <TableCell align="center"><ContainerOrder>Vendedor</ContainerOrder></TableCell>
                                     <TableCell align="center"><ContainerOrder>Celular</ContainerOrder></TableCell>

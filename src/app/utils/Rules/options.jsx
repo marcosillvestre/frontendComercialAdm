@@ -27,6 +27,7 @@ const nonEspecificOpt = [
     { name: "Pendente" },
     { name: "Ok" },
     { name: "Não" },
+    { name: "Não se aplica" },
 ]
 
 const arrayQuantityChanges = [

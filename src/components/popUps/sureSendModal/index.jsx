@@ -142,10 +142,6 @@ export function SureSendModal(data) {
 
     const feeEnroll = async (body) => {
 
-        // if (filteredContracts.tax.total > 0) {
-        // axios.post("/taxa", body, { headers })
-
-
         URI.post("/taxa", body)
             .then(() => toast.success("Venda criada com sucesso"))
             .catch(async err => {
@@ -156,10 +152,7 @@ export function SureSendModal(data) {
             .finally(() => {
                 setLoading(false)
             })
-        // }
     }
-
-
 
 
     const sendEverything = async () => {

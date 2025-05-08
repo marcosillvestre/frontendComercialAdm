@@ -27,4 +27,7 @@ font-size: var(--fsLowest);
 width: max-content;
 margin: 0 auto;
 
+svg{
+    cursor: pointer;
+}
 `

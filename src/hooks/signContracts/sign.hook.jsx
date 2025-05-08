@@ -14,8 +14,11 @@ export const SigningContracts = ({ children }) => {
     const [skip, setSkip] = useState(1)
 
     const [contract, setContract] = useState()
+
     const [query, setQuery] = useState('')
 
+    const [orderFor, setOrderFor] = useState("desc")
+    const [orderBy, setOrderBy] = useState("created_at")
 
     const { userData, setFilteredContracts } = useUser()
 
@@ -39,8 +42,8 @@ export const SigningContracts = ({ children }) => {
         const id = sign ? sign : funnelsQuery.data[0].value
 
         const url = query ?
-            `/contrato-query/${id}?take=${take}&skip=${skip}&name=${query}` :
-            `/contrato/${id}?take=${take}&skip=${skip}`
+            `/contrato-query/${id}?take=${take}&skip=${skip}&name=${query}&orderFor=${orderFor}&orderBy=${orderBy}` :
+            `/contrato/${id}?take=${take}&skip=${skip}&orderFor=${orderFor}&orderBy=${orderBy}`
 
         const response = await URI.get(url);
 
@@ -49,7 +52,7 @@ export const SigningContracts = ({ children }) => {
 
     const contractsForSign = useQuery({
         queryFn: () => signData(),
-        queryKey: [query, sign, skip, take],
+        queryKey: [query, sign, skip, take, orderFor, orderBy],
         enabled: funnelsQuery.isSuccess,
         retry: false
     })
@@ -70,7 +73,7 @@ export const SigningContracts = ({ children }) => {
 
         if (contractsForSign.isSuccess) gatherData()
 
-    }, [query, take, skip, contractsForSign.isSuccess])
+    }, [query, take, skip, contractsForSign.isSuccess, orderFor, orderBy])
 
 
 
@@ -118,8 +121,10 @@ export const SigningContracts = ({ children }) => {
             queryContract,
             funnelsQuery,
 
-            setQuery
+            setQuery,
 
+            orderFor, setOrderFor,
+            orderBy, setOrderBy
         }}>
 
             {children}
