@@ -29,5 +29,7 @@ margin: 0 auto;
 
 svg{
     cursor: pointer;
+    width: 20px;
+
 }
 `
