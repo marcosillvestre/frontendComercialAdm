@@ -252,7 +252,7 @@ export const ContractData = () => {
 
         filteredContracts["parcel"] = {
             parcels: array,
-            descount: array.reduce((acc, curr) => curr.descount + acc, 0),
+            descount: array.reduce((acc, curr) => parseFloat(curr.descount) + acc, 0),
             campaign: campaignParcel,
             total: fullValue,
             descountForPontuality,
