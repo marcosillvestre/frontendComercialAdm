@@ -20,12 +20,14 @@ export const StatusMatricula = (props) => {
 
     const customFieldsFiltered = cfSrted && cfSrted.filter(res => res.category === "StatusMatricula")
 
-    const { comissionStatusOpt, nonEspecificOpt } = businessRules
+    const { comissionStatusOpt, nonEspecificOpt, registerState } = businessRules
     const { setColor, borderColor } = colorsRules
     const { userData, Sender, UpdateCustomFields } = useUser()
 
-
     const [payStatus, setPayStatus] = React.useState()
+
+    const contractSigning = row["historic"].find(res =>
+        res.information.field === "assinaturaContratoStatus" && res.responsible !== "Victor Souza")
 
     if (!userData.admin) {
         return (
@@ -56,11 +58,11 @@ export const StatusMatricula = (props) => {
                                 <Table size="small" aria-label="purchases" >
                                     <TableHead >
                                         <TableRow >
-                                            <TableCell sx={{ fontWeight: "bold" }} align="center">AC. Status</TableCell>
-                                            <TableCell sx={{ fontWeight: "bold" }} align="center">TM. Status</TableCell>
-                                            <TableCell sx={{ fontWeight: "bold" }} align="center">PP.Status</TableCell>
-                                            <TableCell sx={{ fontWeight: "bold" }} align="center">MD. Status</TableCell>
-                                            <TableCell sx={{ fontWeight: "bold" }} align="center">PA. Status</TableCell>
+                                            <TableCell sx={{ fontWeight: "bold" }} align="center">Assinatura do contrato</TableCell>
+                                            <TableCell sx={{ fontWeight: "bold" }} align="center">Taxa de matrícula</TableCell>
+                                            <TableCell sx={{ fontWeight: "bold" }} align="center">Primeira parcela</TableCell>
+                                            <TableCell sx={{ fontWeight: "bold" }} align="center">Material didático</TableCell>
+                                            <TableCell sx={{ fontWeight: "bold" }} align="center">Primeira aula</TableCell>
                                             <TableCell sx={{ fontWeight: "bold" }} align="center">Data da Matrícula</TableCell>
                                             <TableCell sx={{ fontWeight: "bold" }} align="center">Data da Validação</TableCell>
                                         </TableRow>
@@ -81,7 +83,9 @@ export const StatusMatricula = (props) => {
                                                 {row.primeiraAulaStatus}
                                             </TableCell>
                                             <TableCell align="center">
-                                                {row["customFields"]["Data de emissão da venda"]}
+                                                {
+
+                                                }
                                             </TableCell>
                                             <TableCell align="center">
                                                 {row.dataValidacao}
@@ -98,7 +102,7 @@ export const StatusMatricula = (props) => {
                                             <TableCell sx={{ fontWeight: "bold" }} align="center">Status Direção</TableCell>
                                             <TableCell sx={{ fontWeight: "bold" }} align="center">Aprovação ADM.</TableCell>
                                             <TableCell sx={{ fontWeight: "bold" }} align="center">Consultor(a)</TableCell>
-                                            <TableCell sx={{ fontWeight: "bold" }} align="center">Emissão da Venda</TableCell>
+                                            <TableCell sx={{ fontWeight: "bold" }} align="center">Data de matrícula</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -115,7 +119,11 @@ export const StatusMatricula = (props) => {
                                                 {row.primeiraAulaStatus}
                                             </TableCell>
                                             <TableCell align="center">
-                                                {row["customFields"]["Data de emissão da venda"]}
+                                                {
+                                                    contractSigning &&
+                                                    new Date(contractSigning.created_at).toLocaleDateString('pt-BR')
+
+                                                }
                                             </TableCell>
                                             <TableCell align="center">
                                                 {row.dataValidacao}
@@ -179,13 +187,11 @@ export const StatusMatricula = (props) => {
     }
 
     const ChangerCustomFields = async (key, value) => {
-
         UpdateCustomFields("customFields", row.id, key, value, row.customFields)
     }
 
     const Changer = async (key, value) => {
         key === "comissaoStatus" && setPayStatus(value)
-
         Sender(key, row.id, value, key)
     }
 
@@ -218,19 +224,18 @@ export const StatusMatricula = (props) => {
                             <Table size="small" aria-label="purchases" >
                                 <TableHead >
                                     <TableRow >
-                                        <TableCell sx={{ fontWeight: "bold" }} align="center">AC. Status</TableCell>
-                                        <TableCell sx={{ fontWeight: "bold" }} align="center">TM. Status</TableCell>
-                                        <TableCell sx={{ fontWeight: "bold" }} align="center">PP.Status</TableCell>
-                                        <TableCell sx={{ fontWeight: "bold" }} align="center">MD. Status</TableCell>
-                                        <TableCell sx={{ fontWeight: "bold" }} align="center">PA. Status</TableCell>
-                                        <TableCell sx={{ fontWeight: "bold" }} align="center">Data da Matrícula</TableCell>
-                                        <TableCell sx={{ fontWeight: "bold" }} align="center">Data da Validação</TableCell>
+                                        <TableCell sx={{ fontWeight: "bold" }} align="center">Assinatura do contrato</TableCell>
+                                        <TableCell sx={{ fontWeight: "bold" }} align="center">Taxa de matrícula</TableCell>
+                                        <TableCell sx={{ fontWeight: "bold" }} align="center">Primeira parcela</TableCell>
+                                        <TableCell sx={{ fontWeight: "bold" }} align="center">Material didático</TableCell>
+                                        <TableCell sx={{ fontWeight: "bold" }} align="center">Primeira aula</TableCell>
+                                        <TableCell sx={{ fontWeight: "bold" }} align="center">Documentos</TableCell>
+                                        <TableCell sx={{ fontWeight: "bold" }} align="center">Situação do contrato</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
                                     <TableRow >
                                         <TableCell component="th" scope="row" align="center">
-
                                             <UniqueSelect
                                                 label={row.assinaturaContratoStatus}
                                                 option={nonEspecificOpt}
@@ -241,11 +246,8 @@ export const StatusMatricula = (props) => {
                                                 border={borderColor[payStatus]}
                                                 fn={[Changer]}
                                             />
-
-
                                         </TableCell>
                                         <TableCell align="center">
-
                                             <UniqueSelect
                                                 label={row.taxaMatriculaStatus}
                                                 option={nonEspecificOpt}
@@ -268,7 +270,6 @@ export const StatusMatricula = (props) => {
                                                 border={borderColor[payStatus]}
                                                 fn={[Changer]}
                                             />
-
                                         </TableCell>
                                         <TableCell align="center">
                                             <UniqueSelect
@@ -281,7 +282,6 @@ export const StatusMatricula = (props) => {
                                                 border={borderColor[payStatus]}
                                                 fn={[Changer]}
                                             />
-
                                         </TableCell>
                                         <TableCell align="center">
                                             <UniqueSelect
@@ -294,9 +294,47 @@ export const StatusMatricula = (props) => {
                                                 border={borderColor[payStatus]}
                                                 fn={[Changer]}
                                             />
-
                                         </TableCell>
-                                        <TableCell align="center">{row["customFields"]["Data de emissão da venda"]}</TableCell>
+                                        <TableCell align="center">
+                                            <UniqueSelect
+                                                label={row.documentos}
+                                                option={nonEspecificOpt}
+                                                width="7rem"
+                                                field="documentos"
+                                                where="customField"
+                                                color={setColor[payStatus]}
+                                                border={borderColor[payStatus]}
+                                                fn={[Changer]}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <UniqueSelect
+                                                label={row.situacaoContrato}
+                                                option={registerState}
+                                                width="7rem"
+                                                field="situacaoContrato"
+                                                where="customField"
+                                                color={setColor[payStatus]}
+                                                border={borderColor[payStatus]}
+                                                fn={[Changer]}
+                                            />
+                                        </TableCell>
+
+                                    </TableRow>
+
+                                </TableBody>
+
+                                <TableHead >
+                                    <TableRow >
+                                        <TableCell sx={{ fontWeight: "bold" }} align="center">Data da Validação</TableCell>
+                                        <TableCell sx={{ fontWeight: "bold" }} align="center">Data de Comissionamento</TableCell>
+                                        <TableCell sx={{ fontWeight: "bold" }} align="center">Comissionamento</TableCell>
+                                        <TableCell sx={{ fontWeight: "bold" }} align="center">Consultor(a)</TableCell>
+                                        <TableCell sx={{ fontWeight: "bold" }} align="center">Data da matrícula</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    <TableRow >
                                         <TableCell align="center">
                                             <DateSelect
                                                 label={row.dataValidacao}
@@ -305,28 +343,8 @@ export const StatusMatricula = (props) => {
                                                 where="customField"
                                                 fn={[Changer]}
                                             />
-
-
                                         </TableCell>
-                                    </TableRow>
-
-                                </TableBody>
-
-                                <TableHead >
-                                    <TableRow >
-                                        <TableCell sx={{ fontWeight: "bold" }} align="center">Data de Comissionamento</TableCell>
-                                        <TableCell sx={{ fontWeight: "bold" }} align="center">Status do comissionamento</TableCell>
-                                        <TableCell sx={{ fontWeight: "bold" }} align="center">ADM. Responsável</TableCell>
-                                        <TableCell sx={{ fontWeight: "bold" }} align="center">Status Direção</TableCell>
-                                        <TableCell sx={{ fontWeight: "bold" }} align="center">Aprovação ADM.</TableCell>
-                                        <TableCell sx={{ fontWeight: "bold" }} align="center">Consultor(a)</TableCell>
-                                        <TableCell sx={{ fontWeight: "bold" }} align="center">Emissão da Venda</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    <TableRow >
                                         <TableCell component="th" scope="row" align="center">
-
                                             <DateSelect
                                                 label={row.dataComissionamento}
                                                 width="7rem"
@@ -336,7 +354,6 @@ export const StatusMatricula = (props) => {
                                             />
                                         </TableCell>
                                         <TableCell align="center">
-
                                             <UniqueSelect
                                                 label={row.comissaoStatus}
                                                 option={comissionStatusOpt}
@@ -347,41 +364,17 @@ export const StatusMatricula = (props) => {
                                                 border={borderColor[payStatus]}
                                                 fn={[Changer]}
                                             />
-
-
                                         </TableCell>
-                                        <TableCell align="center">{row.admResponsavel}</TableCell>
-                                        <TableCell align="center">
-                                            <UniqueSelect
-                                                label={row.aprovacaoDirecao}
-                                                option={comissionStatusOpt}
-                                                width="7rem"
-                                                field="aprovacaoDirecao"
-                                                where="customField"
-                                                color={setColor[payStatus]}
-                                                border={borderColor[payStatus]}
-                                                fn={[Changer]}
-                                            />
 
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <UniqueSelect
-                                                label={row.aprovacaoADM}
-                                                option={comissionStatusOpt}
-                                                width="7rem"
-                                                field="aprovacaoADM"
-                                                where="customField"
-                                                color={setColor[payStatus]}
-                                                border={borderColor[payStatus]}
-                                                fn={[Changer]}
-                                            />
-
-                                        </TableCell>
                                         <TableCell align="center">
                                             {row.owner}
                                         </TableCell>
+
                                         <TableCell align="center">
-                                            {row["customFields"]["Data de emissão da venda"]}
+                                            {
+                                                contractSigning &&
+                                                new Date(contractSigning.created_at).toLocaleDateString('pt-BR')
+                                            }
                                         </TableCell>
                                     </TableRow>
 
@@ -469,6 +462,7 @@ StatusMatricula.propTypes = {
     row: PropTypes.shape({
         assinaturaContratoStatus: PropTypes.string.isRequired,
         owner: PropTypes.string.isRequired,
+        documentos: PropTypes.string.isRequired,
         id: PropTypes.string.isRequired,
         taxaMatriculaStatus: PropTypes.string.isRequired,
         pagamentoPrimeiraParcelaStatus: PropTypes.string.isRequired,
@@ -478,8 +472,10 @@ StatusMatricula.propTypes = {
         aprovacaoDirecao: PropTypes.string.isRequired,
         dataValidacao: PropTypes.string.isRequired,
         comissaoStatus: PropTypes.string.isRequired,
+        situacaoContrato: PropTypes.string.isRequired,
         aprovacaoADM: PropTypes.string.isRequired,
         dataComissionamento: PropTypes.string.isRequired,
+        historic: PropTypes.array.isRequired,
         customFields: PropTypes.shape({
             "Data de emissão da venda": PropTypes.string.isRequired,
         }).isRequired,

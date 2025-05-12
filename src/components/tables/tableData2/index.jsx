@@ -76,7 +76,7 @@ function TableMainData(props) {
                 </RowTable>
 
                 <TableRow>
-                    <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={10}>
+                    <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
                         <Collapse in={Registration} timeout="auto" unmountOnExit sx={{ width: "100%" }}>
                             <StatusMatricula row={row} />
                         </Collapse>
@@ -99,14 +99,28 @@ function TableMainData(props) {
                 <TableRow>
                     <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
                         <Collapse in={Registration} timeout="auto" unmountOnExit sx={{ width: "100%" }}>
-                            <ContractInfo row={row} />
+                            <FinancialInfo row={row} />
                         </Collapse>
                     </TableCell>
                 </TableRow>
                 <TableRow>
                     <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
                         <Collapse in={Registration} timeout="auto" unmountOnExit sx={{ width: "100%" }}>
-                            <ContractInfo row={row} />
+                            <StudentInfo row={row} />
+                        </Collapse>
+                    </TableCell>
+                </TableRow>
+                <TableRow>
+                    <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+                        <Collapse in={Registration} timeout="auto" unmountOnExit sx={{ width: "100%" }}>
+                            <Pedagogic row={row} />
+                        </Collapse>
+                    </TableCell>
+                </TableRow>
+                <TableRow>
+                    <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+                        <Collapse in={Registration} timeout="auto" unmountOnExit sx={{ width: "100%" }}>
+                            <Historic row={row} />
                         </Collapse>
                     </TableCell>
                 </TableRow>
@@ -126,6 +140,7 @@ function TableMainData(props) {
 
         Sender(key, row.id, value, key)
     }
+
 
     return (
         <React.Fragment>
@@ -164,7 +179,7 @@ function TableMainData(props) {
                 <TableCell align="center">
                     <UniqueSelect
                         label={row["customFields"]["Unidade"]}
-                        option={unityQuery.data}
+                        option={unityQuery && unityQuery.data}
                         width="6rem"
                         field="Unidade"
                         where="customField"
@@ -258,11 +273,9 @@ function TableMainData(props) {
         </React.Fragment>
 
     );
-
-
-
-
 }
+
+
 
 TableMainData.propTypes = {
     row: PropTypes.shape({
@@ -411,8 +424,6 @@ export default function CollapsibleTable() {
                                         </TableCell>
                                         <TableCell align="center">
                                             <ContainerOrder>
-
-
                                                 Comissionamento
                                             </ContainerOrder>
 

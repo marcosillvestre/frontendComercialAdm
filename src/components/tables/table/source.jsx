@@ -1,6 +1,0 @@
-export * from './fifthDrop'
-export * from './firstDrop'
-export * from './fourthDrop'
-export * from './seccDrop'
-export * from './sixthDrop'
-export * from './thirdDrop'

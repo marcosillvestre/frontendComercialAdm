@@ -224,8 +224,8 @@ export const UserProvider = ({ children }) => {
             URI.put(`/registro/${id}`,
                 {
                     key,
-                    "area": area,
-                    "value": value,
+                    area,
+                    value,
                     "responsible": { "name": userData.name, "role": userData.role }
                 }),
             {
@@ -235,6 +235,7 @@ export const UserProvider = ({ children }) => {
             }
         )
     }
+
     const [historicTake, setHistoricTake] = useState(10)
     const queryHistoric = async () => {
         const response = await URI.get(`/historico?take=${historicTake}`)

@@ -196,7 +196,7 @@ export const Observations = (props) => {
                                         align="center"
                                         style={{ fontWeight: "bold" }}
                                     >
-                                        OBS. Matrícula
+                                        Observação da Matrícula
                                     </TableCell>
 
                                     <TableCell

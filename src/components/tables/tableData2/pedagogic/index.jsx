@@ -63,11 +63,11 @@ export const Pedagogic = (props) => {
                         <Table size="small" aria-label="purchases" >
                             <TableHead >
                                 <TableRow>
-                                    <TableCell style={{ fontWeight: "bold" }}>PA. Data</TableCell>
+                                    <TableCell style={{ fontWeight: "bold" }}>Data da primeira aula</TableCell>
                                     <TableCell align="center" style={{ fontWeight: "bold" }}>Classe</TableCell>
-                                    <TableCell align="center" style={{ fontWeight: "bold" }} >SubClasse</TableCell>
+                                    <TableCell align="center" style={{ fontWeight: "bold" }}>SubClasse</TableCell>
                                     <TableCell align="center" style={{ fontWeight: "bold" }}>Material Didático</TableCell>
-                                    <TableCell align="center" style={{ fontWeight: "bold" }}>Nivelamento </TableCell>
+                                    <TableCell align="center" style={{ fontWeight: "bold" }}>Nivelamento</TableCell>
                                     <TableCell align="center" style={{ fontWeight: "bold" }}>Dia de Aula</TableCell>
                                 </TableRow>
                             </TableHead>

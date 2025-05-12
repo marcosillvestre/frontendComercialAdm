@@ -9,9 +9,6 @@ export const UniqueSelect = (parameters) => {
     const [label, setLabel] = useState(types[parameters.label] || parameters.label)
     const [open, setOpen] = useState(false)
 
-
-
-
     const handleCheck = async (label) => {
 
         const { field, value } = label

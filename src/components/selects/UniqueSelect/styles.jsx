@@ -3,7 +3,8 @@ import styled from "styled-components"
 export const Container = styled.td`
 position: relative;
 font-size: var(--fsLowest) ;
-
+cursor: pointer;
+user-select: none;
 
 #category-select {
 font-size: var(--fsLowest) ;

@@ -17,6 +17,16 @@ const courseOpt = [
     { name: "Espanhol" },
     { name: "Tecnologia" },
 ]
+
+const registerState = [
+    { name: "Ativo", value: "ATIVO" },
+    { name: "Inativo", value: "INATIVO" },
+    { name: "Trancado", value: "TRANCADO" },
+    { name: "Rescindido", value: "RESCINDIDO" },
+    { name: "Cancelado", value: "CANCELADO" },
+    { name: "Pre-matriculado", value: "PREMATRICULADO" },
+]
+
 const backgroundOpt = [
     { name: "Novo aluno" },
     { name: "Ex-aluno" },
@@ -216,5 +226,5 @@ export default {
     types, ordersFilters,
     arrayQuantityChanges, predeterminedPeriods, customizablePeriods,
     comissionStatusOpt, coursesOpt, backgroundOpt, nonEspecificOpt,
-    roles, fields, courseOpt
+    roles, fields, courseOpt, registerState
 }

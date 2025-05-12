@@ -88,7 +88,7 @@ export const FinancialInfo = (props) => {
                                     <TableRow>
                                         <TableCell style={{ fontWeight: "bold" }}>Valor</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }} >Vencimento</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Forma de PG.</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Forma de pagamento</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>Situação</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>Data Realizada</TableCell>
                                     </TableRow>
@@ -164,7 +164,7 @@ export const FinancialInfo = (props) => {
                                         <TableCell style={{ fontWeight: "bold" }}>Valor</TableCell>
                                         <TableCell style={{ fontWeight: "bold" }}>Desconto</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }} >Vencimento</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Forma de PG.</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Forma de pagamento</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>Parcelas</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>Situação</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>Data Realizada</TableCell>
@@ -246,7 +246,7 @@ export const FinancialInfo = (props) => {
                                         <TableCell style={{ fontWeight: "bold" }}>Valor</TableCell>
                                         <TableCell style={{ fontWeight: "bold" }}>Desconto</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }} >Vencimento</TableCell>
-                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Forma de PG.</TableCell>
+                                        <TableCell align="center" style={{ fontWeight: "bold" }}>Forma de pagamento</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>Situação</TableCell>
                                         <TableCell align="center" style={{ fontWeight: "bold" }}>Data Realizada</TableCell>
                                     </TableRow>

@@ -32,6 +32,8 @@ export const ContractInfo = (props) => {
 
     var difenceMonths = (data2.getFullYear() - data1.getFullYear()) * 12 + (data2.getMonth() - data1.getMonth());
 
+    const contractSigning = row["historic"].find(res => res.information.field === "assinaturaContratoStatus" && res.responsible !== "Victor Souza")
+
     return (
 
         <React.Fragment>
@@ -63,11 +65,11 @@ export const ContractInfo = (props) => {
                         <Table size="small" aria-label="purchases" >
                             <TableHead >
                                 <TableRow >
-                                    <TableCell style={{ fontWeight: "bold" }}>N°. do Contrato</TableCell>
-                                    <TableCell style={{ fontWeight: "bold" }}>Início do Contrato</TableCell>
-                                    <TableCell align="center" style={{ fontWeight: "bold" }} >Fim do Contrato</TableCell>
+                                    <TableCell align="center" style={{ fontWeight: "bold" }}>N°. do Contrato</TableCell>
+                                    <TableCell align="center" style={{ fontWeight: "bold" }}>Início do Contrato</TableCell>
+                                    <TableCell align="center" style={{ fontWeight: "bold" }}>Fim do Contrato</TableCell>
                                     <TableCell align="center" style={{ fontWeight: "bold" }}>Tipo de Assinatura</TableCell>
-                                    <TableCell align="center" style={{ fontWeight: "bold" }}>Data AC.</TableCell>
+                                    <TableCell align="center" style={{ fontWeight: "bold" }}>Data de assinatura</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -85,7 +87,11 @@ export const ContractInfo = (props) => {
                                         {row["customFields"]["Tipo de assinatura"]}
                                     </TableCell>
                                     <TableCell align="center">
-                                        {/* {row["customFields"]["Data de fim do contrato"]} */}
+                                        {
+                                            contractSigning &&
+                                            new Date(contractSigning.created_at).toLocaleDateString('pt-BR')
+
+                                        }
 
                                     </TableCell>
                                 </TableRow>
@@ -103,11 +109,11 @@ export const ContractInfo = (props) => {
                                 <TableRow >
                                     <TableCell component="th" scope="row" align="center">
                                         {
-                                            row["historic"].map(res => {
-                                                if (res.information.field === "AssinaturaContrato") return (
-                                                    <p>{res.responsible} assinou o contrato</p>
-                                                )
-                                            })
+                                            row["historic"].map((res, i) => (
+                                                res.information.field === "assinaturaContratoStatus" &&
+                                                <p key={i}>{res.responsible} assinou o contrato</p>
+
+                                            ))
                                         }
                                     </TableCell>
                                     <TableCell align="center">{row["customFields"]["Carga horário do curso"]}</TableCell>

@@ -99,17 +99,23 @@ export function CustomDateMenuRegisters({ props, fn, where }) {
                         </RangeDate>
                         :
                         <Label >
-                            <Select onChange={(e) => handleFilter(e.target.value, name, label, options, customField)} >
+                            <Select onChange={(e) => handleFilter(
+                                e.target.value,
+                                name, label,
+                                options, customField
+                            )} >
                                 <option value="selec">Selecione</option>
                                 {
-                                    options && options.map((res, idx) => (
+                                    options &&
+                                    options.map((res, idx) => (
                                         <option
                                             key={idx}
-                                            value={res.name}
+                                            value={
+                                                res.value ?
+                                                    res.value : res.name
+                                            }
                                         >
-
                                             {res.name}
-
                                         </option>
                                     ))
                                 }

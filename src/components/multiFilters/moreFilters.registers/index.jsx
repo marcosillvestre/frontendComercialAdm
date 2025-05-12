@@ -101,11 +101,23 @@ export function RegisterMoreFilters() {
                 { name: "Comissionado" },
             ],
         },
+        {
+            label: "STATUS DO CONTRATO",
+            name: "situacaoContrato",
+            options: [
+                { name: "ATIVO" },
+                { name: "INATIVO" },
+                { name: "TRANCADO" },
+                { name: "RESCINDIDO" },
+                { name: "CANCELADO" },
+                { name: "PREMATRICULADO" },
+            ],
+        },
     ]
 
+
+
     const open = Boolean(anchorEl);
-
-
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -120,7 +132,6 @@ export function RegisterMoreFilters() {
             label,
         }])
     }
-
 
     return (
         <Container>
