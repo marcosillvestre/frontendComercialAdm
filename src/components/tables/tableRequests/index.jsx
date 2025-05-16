@@ -19,8 +19,6 @@ import { Container, ContainerOrder, ContainerTable, Tag } from './styles';
 function Row(props) {
     const { row } = props;
     const [open, setOpen] = useState(false)
-
-
     return (
         <React.Fragment>
             <TableRow sx={{
@@ -125,7 +123,10 @@ function Row(props) {
                                             component="th"
                                             scope="row" align="center"
                                         >
-                                            {new Date(res.arrivingDate).toLocaleString()}
+
+                                            {
+                                                res.arrivingDate &&
+                                                new Date(res.arrivingDate).toLocaleString()}
                                         </TableCell>
 
                                     </TableRow>
