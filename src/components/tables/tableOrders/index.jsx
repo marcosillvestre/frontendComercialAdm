@@ -46,6 +46,7 @@ function Row(props) {
                     <input
                         type="checkbox"
                         name="" id=""
+                        defaultChecked={checkData.find(res => res.id === row.id)}
                         onClick={() => {
                             setChecked(false)
                             setCheckData(checkData.find(c => c.id === row.id) ?
@@ -128,7 +129,6 @@ export default function TableOrders() {
 
 
     const handleChangePage = (event, newPage) => {
-        setCheckData([])
         setPage(newPage)
         if (newPage === 0) return setSkip(0)
 
@@ -179,14 +179,23 @@ export default function TableOrders() {
                             <nav>
                                 <MultiFiltersOrders
                                 />
+
                                 <span
                                     className='flex'
                                 >
-                                    <MultiAlterationOrders
-                                        element={1}
-                                        able={checkData.length > 0}
-                                        label={"ações em lote"}
-                                    />
+                                    <span
+                                    >
+                                        <MultiAlterationOrders
+                                            element={1}
+                                            able={checkData.length > 0}
+                                            label={"ações em lote"}
+                                        />
+                                        {
+                                            checkData.length > 0 &&
+                                            <p>{checkData.length}pedido(s) selecionado(s)</p>
+                                        }
+                                    </span>
+
                                     <ButtonContainer
                                         able={checkData.length > 0}
                                         onClick={() => {
@@ -301,7 +310,7 @@ export default function TableOrders() {
                 }
 
                 <TablePagination
-                    rowsPerPageOptions={[10, 20, 50]}
+                    rowsPerPageOptions={[10, 20, 50, 100]}
                     component="div"
                     count={count}
                     rowsPerPage={rowsPerPage}

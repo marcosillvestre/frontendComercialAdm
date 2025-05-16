@@ -232,7 +232,7 @@ export default function BillingTable() {
                             </Table>
                             <TablePagination
 
-                                rowsPerPageOptions={[10, 20, 50]}
+                                rowsPerPageOptions={[10, 20, 50, 100]}
                                 component="div"
                                 count={total}
                                 rowsPerPage={rowsPerPage}
