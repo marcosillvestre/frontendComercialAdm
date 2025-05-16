@@ -446,7 +446,6 @@ export const ContractData = () => {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-
     return (
         <Container>
             {
@@ -571,6 +570,10 @@ export const ContractData = () => {
                                         <tr>
                                             <td>Nome</td>
                                             <td>{filteredContracts["Nome do responsável"]}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Data de nascimento</td>
+                                            <td>{filteredContracts["Data de nascimento do  responsável"]}</td>
                                         </tr>
                                         <tr>
                                             <td>CPF</td>
