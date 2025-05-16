@@ -71,7 +71,11 @@ function Row(props) {
                 <TableCell align="center" component="th" scope="row">{row.name} </TableCell>
                 <TableCell align="center" component="th" scope="row">{row.student ? row.student.split(" ")[0] : ""} </TableCell>
                 <TableCell align="center" component="th" scope="row">{row.book} </TableCell>
-                <TableCell align="center" component="th" scope="row"><Tag style={{ backgroundColor: statusTrail[row.status] }}>{row.status}</Tag> </TableCell>
+                <TableCell align="center" component="th" scope="row">
+                    <Tag style={{ backgroundColor: statusTrail[row.status] }}>
+                        {row.status}
+                    </Tag>
+                </TableCell>
                 <TableCell align="center" component="th" scope="row">
                     <div className='flex'>
 
@@ -145,11 +149,15 @@ export default function TableOrders() {
 
 
     const checkAll = (bool) => {
+        !bool && setCheckData([])
+
         document.querySelectorAll("input[type='checkbox']").forEach((checkbox) => {
             setChecked(bool)
             checkbox.checked = bool;
         });
     };
+
+
 
     return (
         <ContainerTable component={Paper}>
@@ -179,11 +187,11 @@ export default function TableOrders() {
                             <nav>
                                 <MultiFiltersOrders
                                 />
-
                                 <span
                                     className='flex'
                                 >
                                     <span
+                                        className='flex'
                                     >
                                         <MultiAlterationOrders
                                             element={1}
@@ -192,8 +200,26 @@ export default function TableOrders() {
                                         />
                                         {
                                             checkData.length > 0 &&
-                                            <p>{checkData.length}pedido(s) selecionado(s)</p>
+                                            <>
+                                                <button
+                                                    className='defaultButton'
+                                                    style={{
+                                                        padding: "0 1rem"
+                                                    }}
+                                                >
+                                                    {checkData.length} pedido(s) selecionado(s)
+                                                </button>
+
+                                                <button
+                                                    className='button-clean'
+                                                    onClick={() => checkAll(false)}
+                                                >
+                                                    Desmarcar todos
+                                                </button>
+                                            </>
                                         }
+
+
                                     </span>
 
                                     <ButtonContainer
@@ -216,6 +242,7 @@ export default function TableOrders() {
 
 
                                 </span>
+
 
 
                             </nav>

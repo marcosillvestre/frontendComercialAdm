@@ -46,9 +46,12 @@ nav{
     align-items: center;
     gap: 1rem;
 
-    span{
+    .flex{
         justify-content: space-between;
-        padding: .1rem;
+        padding: .5rem;
+        button{
+            margin: 0 2px 2px 0;
+        }
     }
 }
 `

@@ -13,20 +13,17 @@ line-height: 1.75;
 letter-spacing: 0.02857em;
 text-transform: uppercase;
 user-select: none;
-margin: 5px ;
 z-index: 12;
 
 `
-export const Container = styled.div`
+export const Container = styled.button`
     z-index: 3;
     border: none;
     cursor: pointer;
     color: #fff;
     background-color: ${props => props.able ? "#1976d2" : "#222"};
     border-radius: 5px;
-    margin:  5px 0;
-    display: flex;
-    padding: .4rem .6rem ;
+    padding: 0 1rem ;
     transition: transform 0.1s, box-shadow 0.1s ;
     &:active{
         opacity: .8;
