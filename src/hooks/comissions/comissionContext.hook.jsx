@@ -5,6 +5,7 @@ import { createContext, useContext, useState } from "react"
 import { getDate } from "../../app/utils/functions/getDates.jsx"
 import businessRules from '../../app/utils/Rules/options.jsx'
 import URI from "../../app/utils/utils.jsx"
+import { useRegister } from "../registers/registersContext.hook.jsx"
 import { useUser } from "../userContext.jsx"
 
 
@@ -12,7 +13,8 @@ import { useUser } from "../userContext.jsx"
 const ComissionContext = createContext({})
 export const ComissionProvider = ({ children }) => {
 
-    const { selectedInitialDate, selectedEndDate, headers, userData } = useUser()
+    const { headers, userData } = useUser();
+    const { selectedInitialDate, selectedEndDate } = useRegister()
 
     const [label, setLabel] = useState(businessRules.predeterminedPeriods[0].name)
 

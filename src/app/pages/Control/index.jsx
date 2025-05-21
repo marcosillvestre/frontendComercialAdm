@@ -2,7 +2,6 @@
 import { memo, useState } from 'react';
 import { Container, Header, InputSearch } from './styles';
 
-import { useUser } from '../../../hooks/userContext';
 
 
 import {
@@ -15,16 +14,14 @@ import SearchIcon from '@mui/icons-material/Search';
 import PropTypes from 'prop-types';
 import { RegisterMoreFilters } from '../../../components/multiFilters/moreFilters.registers/index.jsx';
 import TableMainData from '../../../components/tables/tableData2/index.jsx';
+import { useRegister } from '../../../hooks/registers/registersContext.hook.jsx';
 import businessRules from '../../utils/Rules/options.jsx';
 
 export const ListFiltered = () => {
 
 
-    const {
-        allData, selectedInitialDate, selectedEndDate,
-        setSearch, setQuery, typeFilter, setTypeFilter
-    } = useUser()
-
+    const { setSearch, setQuery, typeFilter, setTypeFilter,
+        selectedInitialDate, selectedEndDate, } = useRegister()
 
     const [searcher, setSearcher] = useState('')
 
@@ -90,18 +87,7 @@ export const ListFiltered = () => {
                             <SearchIcon />
                         </button>
 
-                        <datalist id='list' >
-                            {
-                                allData?.length > 0 && allData.map((res, idx) => (
-                                    <option
-                                        key={idx}
-                                        value={res.name}
-                                    >
-                                        Aluno: {res["customFields"]["Nome do aluno"]}
-                                    </option>
-                                ))
-                            }
-                        </datalist>
+
                     </form>
 
 

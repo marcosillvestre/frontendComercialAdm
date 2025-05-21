@@ -18,7 +18,9 @@ import { saveAs } from 'file-saver';
 import { toast } from 'react-toastify';
 import * as XLSX from 'xlsx';
 import excel from '../../../assets/excel.svg';
+import { useRegister } from '../../../hooks/registers/registersContext.hook.jsx';
 import { filtrarArray } from '../../utils/functions/multiFilter.jsx';
+
 export function ComissionControll() {
     gsap.registerPlugin(Flip)
 
@@ -28,9 +30,8 @@ export function ComissionControll() {
     } = businessRules
 
 
-    const { selectedInitialDate,
-        selectedEndDate, userData
-    } = useUser()
+    const { userData } = useUser()
+    const { selectedInitialDate, selectedEndDate, } = useRegister()
 
 
     const { unityQuery } = useUnities()

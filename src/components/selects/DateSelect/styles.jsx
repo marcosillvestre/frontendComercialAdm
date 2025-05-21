@@ -58,9 +58,8 @@ border-radius: 0 .3rem;
 export const SelectButton = styled.input`
 color: #222;
 padding: .4rem .75rem;
-margin-top: .5rem;
 display: flex;
-border-radius: .2rem;
+border-radius: var(--br);
 border: .5px solid #a9a9a9;
 #selected-value{
     color: #000;

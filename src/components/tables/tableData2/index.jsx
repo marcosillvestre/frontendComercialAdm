@@ -17,6 +17,7 @@ import * as React from 'react';
 import LoadingSpin from 'react-loading-spin';
 import colorsRules from '../../../app/utils/Rules/colors.jsx';
 import businessRules from '../../../app/utils/Rules/options.jsx';
+import { useRegister } from '../../../hooks/registers/registersContext.hook.jsx';
 import { useUnities } from '../../../hooks/unities/unitiesContext.hook.jsx';
 import { useUser } from '../../../hooks/userContext';
 import { MultiFiltersRegisters } from '../../arrayFilters/multiFilters.registers/index.jsx';
@@ -216,7 +217,7 @@ function TableMainData(props) {
                     />
                 </TableCell>
                 <TableCell align="center">
-                    <PopOverControl row={row} />
+                    <PopOverControl row={{ name: row.name, id: row.id }} />
                 </TableCell>
             </RowTable>
 
@@ -296,10 +297,16 @@ TableMainData.propTypes = {
 
 export default function CollapsibleTable() {
 
-    const { setSkip, take, setTake, mutationControlData, filtered, orderBy, setOrderBy, orderFor, setOrderFor } = useUser()
-    const { isPending } = mutationControlData
+    const { setSkip, take, setTake, RegisterQuery,
+        queryRegister,
+        orderBy, setOrderBy, orderFor, setOrderFor } = useRegister()
 
-    const { total, deals } = filtered
+
+
+
+    const { isPending } = RegisterQuery
+
+    const { total, registers } = queryRegister
 
 
     const [page, setPage] = React.useState(0);
@@ -433,8 +440,8 @@ export default function CollapsibleTable() {
                                 </TableHead>
                                 <TableBody>
                                     {
-                                        deals &&
-                                        deals.map((row) => (
+                                        registers &&
+                                        registers.map((row) => (
                                             <TableMainData
                                                 key={row.id}
                                                 row={row}
@@ -448,7 +455,7 @@ export default function CollapsibleTable() {
                 }
 
                 <TablePagination
-                    rowsPerPageOptions={[10, 25, 100]}
+                    rowsPerPageOptions={[10, 25, 50, 100]}
                     component="div"
                     count={total}
                     rowsPerPage={rowsPerPage}

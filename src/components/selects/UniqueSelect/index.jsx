@@ -1,12 +1,10 @@
 import { useState } from 'react';
-import businessRules from '../../../app/utils/Rules/options.jsx';
 import { CloserClick } from '../../source.jsx';
 import { Container, ListOpt, Options, SelectButton } from './styles.jsx';
 
 export const UniqueSelect = (parameters) => {
 
-    const { types } = businessRules
-    const [label, setLabel] = useState(types[parameters.label] || parameters.label)
+    const [label, setLabel] = useState(parameters.label)
     const [open, setOpen] = useState(false)
 
     const handleCheck = async (label) => {
@@ -64,6 +62,7 @@ export const UniqueSelect = (parameters) => {
                     }}
                 >
                     {
+                        parameters.option &&
                         parameters.option?.map((data, idx) => (
                             data.name === label ? "" :
                                 <Options
@@ -77,7 +76,9 @@ export const UniqueSelect = (parameters) => {
                                         onClick={() => {
                                             setLabel(data.name)
                                             handleCheck({
-                                                value: data.value === undefined ? data?.name : data.value,
+                                                value: data.value === undefined ?
+                                                    data?.name :
+                                                    data.value,
                                                 field: parameters?.field
                                             })
                                         }

@@ -3,8 +3,8 @@ import styled from "styled-components"
 export const Container = styled.div`
 position: relative;
 font-size: var(--fsLowest) ;
-    height: var(--boxHei);
-
+height: var(--boxHei);
+width: 100%;
 
 #category-select {
 font-size: var(--fsLowest) ;
@@ -18,8 +18,8 @@ export const ListOpt = styled.ul`
 display:${props => props.open ? "" : "none"} ;
 position: absolute;
 margin: .25rem 0 ;
-border-radius: .375rem;
-background-color:#dfe6f1;
+border-radius: var(--br);
+background-color:#d0d0d0;
 width: 100%;
 z-index: 13;
 `
@@ -38,47 +38,58 @@ cursor: pointer;
 height: var(--boxHei);
 z-index: 10;
 background: ${props => props.selected ? "#c4d3e0" : ""};
+font-size: calc(var(--fsLowest) - 2px);
 
 
 span{
     text-align: center;
     font-size: var(--fsXLow) ;
-
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    svg{
+        display: ${props => props.selected ? "block" : "none"};
+        height: 18px;
+    }
 }
 &:hover{
-    background: #cdd5db;
+    background: #c4d3e0;
     scale: 1.03;
+    border-radius: var(--br);
+
     }
     
 `
 
 
 export const SelectButton = styled.div`
+position: relative;
 color: #222;
-height: var(--boxHei);  
-z-index: 11;
-margin-top: .5rem;
+padding: .4rem .75rem;
 display: flex;
-padding: .75rem;
-align-items: center;
 justify-content: space-between;
-border-radius: .375rem;
-background-color:#dfe6f1;
+align-items: center;
+border-radius: var(--br);
+border: .5px solid #a9a9a9;
+min-height: calc(var(--boxHei) - 8px);
+max-height: var(--boxHei);
 
 #selected-value{
     color: #000;
     font-size: var(--fsXLow) ;
-    margin-right: 2rem;
 }
 `
 export const Icon = styled.div`
 display: flex;
 align-items: center;
 cursor: pointer;
-translate:  -2px -2px ;
-
+position: absolute;
+right: 10px;
 .icon{
     transform: ${props => props.open ? "rotate(180deg)" : "rotate(0deg)"};
+    translate: ${props => props.open ? "4px -4px" : ""};
     transition: all.4s;
     }
 `

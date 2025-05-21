@@ -1,20 +1,20 @@
+import DoneIcon from '@mui/icons-material/Done';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useState } from 'react';
 import { Container, Icon, ListOpt, Options, SelectButton } from './styles.jsx';
 
 export const MultiSelect = (parameters) => {
 
-    const { related, fn, width, option } = parameters
+    const [open, setOpen] = useState(false)
+    const { field, related, fn, width, option } = parameters
 
     const [selected, setSelected] = useState(related)
 
     const handleFunction = () => {
         setOpen(!open)
 
-        fn("related", selected)
+        open && fn(field, selected);
     }
-
-    const [open, setOpen] = useState(false)
 
     return (
         <>
@@ -52,14 +52,12 @@ export const MultiSelect = (parameters) => {
                             <Options
                                 className="option"
                                 key={idx}
-                                selected={selected.find(res => res.id === data.id)}
+                                selected={selected.find(res => res.name === data.name)}
                                 onClick={() => {
-                                    selected.find(res => res.id === data.id) ?
-                                        setSelected(selected.filter(res => res.id !== data.id)) :
+                                    selected.find(res => res.name === data.name) ?
+                                        setSelected(selected.filter(res => res.name !== data.name)) :
                                         setSelected(res => [...res, {
-                                            id: data.id,
                                             name: data.name,
-
                                         }])
                                 }
                                 }
@@ -68,8 +66,8 @@ export const MultiSelect = (parameters) => {
                                     <span
                                         className="label"
                                     >
-
-                                        {data?.name}
+                                        <p>{data?.name}</p>
+                                        <DoneIcon />
                                     </span>
 
                                 }

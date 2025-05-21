@@ -18,7 +18,8 @@ import { Box, Container, ErrorMessage, Header, Input, Powered, Submit } from './
 export const Login = () => {
     const [open, setOpen] = React.useState(true)
 
-    const { putInfo } = useUser()
+    const { putInfo } = useUser();
+
     const schema = Yup.object({
         email: Yup.string().required(),
         password: Yup.string().required(),

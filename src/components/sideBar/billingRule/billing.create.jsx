@@ -215,6 +215,7 @@ export const Billing = () => {
                 <Label>
                     <p>Produtos relacionados</p>
                     <MultiSelect
+                        field="related"
                         related={editBilling ? editBilling.related : []}
                         fn={sender}
                         width="11.5rem"
@@ -230,6 +231,7 @@ export const Billing = () => {
                     <p>Serviços relacionados</p>
 
                     <MultiSelect
+                        field="related"
                         related={editBilling ? editBilling?.related : []}
                         fn={sender}
                         option={services}

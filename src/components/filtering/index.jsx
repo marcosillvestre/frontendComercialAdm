@@ -55,8 +55,8 @@ const StyledMenu = styled((props) => (
 
 export function CustomizedMenus() {
 
-    const { anchorEl, handleClose, setAnchorEl, userData, setTake } = useUser()
-    const { comissionStatusOpt, coursesOpt, backgroundOpt } = rules
+    const { anchorEl, handleClose, setAnchorEl, } = useUser()
+    const { comissionStatusOpt } = rules
 
     const open = Boolean(anchorEl);
 

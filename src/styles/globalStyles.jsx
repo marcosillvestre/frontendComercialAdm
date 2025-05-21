@@ -48,9 +48,9 @@ html{
     .defaultButton{
     line-height: 1.75;
     font-family: "Roboto","Helvetica","Arial",sans-serif;
-    font-weight: 500;
     font-size: var(--fsLowest);
     letter-spacing: 0.02857em;
+    font-weight: bold;
     text-transform: uppercase;
     color: #fff;
     user-select: none;
@@ -75,7 +75,7 @@ color: white;
 border: none;
 padding: 10px 16px;
 height: var(--boxHei);
-font-size: 14px;
+font-size: var(--fsLowest);
 font-weight: bold;
 border-radius: var(--br);
 cursor: pointer;

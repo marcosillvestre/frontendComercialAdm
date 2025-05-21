@@ -55,7 +55,10 @@ export function PopOverOrder(data) {
                     <MoreVertIcon />
                 </Button>
                 <Popper id={id} open={open} anchorEl={anchorEl} sx={{ zIndex: 12 }}>
-                    <Box sx={{ border: 0, p: 1, bgcolor: '#ddddddf4', borderRadius: 2 }}>
+                    <Box sx={{
+                        border: 0, p: 1,
+                        bgcolor: '#ddddddf4', borderRadius: 2
+                    }}>
 
                         <Divider >
                             <MoreData data={row} />

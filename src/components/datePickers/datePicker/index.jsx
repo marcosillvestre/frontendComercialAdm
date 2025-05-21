@@ -1,12 +1,12 @@
 import React from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useUser } from "../../../hooks/userContext";
+import { useRegister } from "../../../hooks/registers/registersContext.hook";
 import { Container } from "./styles";
 
 
 export const DatePickers = (parameters) => {
-    const { setSelectedEndDate, setSelectedInitialDate } = useUser()
+    const { setSelectedEndDate, setSelectedInitialDate } = useRegister()
     const [selectedDate, setSelectedDate] = React.useState(null);
 
 

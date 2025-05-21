@@ -32,7 +32,6 @@ export const SupliersSidebar = () => {
     const complemento = useRef()
 
 
-
     const [type, setType] = useState(editSuplier ? editSuplier.type : 'FISICO')
     const [address, setAddress] = useState({})
 

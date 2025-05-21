@@ -1,71 +1,7 @@
-import DeleteIcon from '@mui/icons-material/Delete';
-import styled, { keyframes } from "styled-components";
-
-const pulse = keyframes`
-  0% {
-    box-shadow: 0 0 5px 0 #1efd40aa;
-  }
-  50% {
-    box-shadow: 0 0 10px 5px #1efd40aa;
-  }
-  100% {
-    box-shadow: 0 0 5px 0 #1efd40aa;
-  }
-`
+import styled from "styled-components";
 
 export const Filter = styled.button`
 all: unset;
-`
-export const ContainerTread = styled.span`
-margin: 0 5px;
-font-size: var(--fsLowest);
-width: 4rem;
-height: 5rem;
-
-display: grid;
-align-items: center;
-justify-content: center;
-
-div{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-
-    svg{
-      width: 1.5rem;
-      height: 1.5rem;
-      color: #ee2727;
-      background-color: #fff;
-    }
-}
-`
-export const Stick = styled.span`
-background-color: ${props => props.active ? "#1efd40aa" : "#ffb9b9"};
-
-position: absolute;
-width: 5.8rem;
-right: -60px;
-height: 8px;
-border-radius: 10px;
-`
-
-export const Treadmill = styled.span`
-width: 100%;
-display: flex;
-/* justify-content: space-around; */
-
-`
-export const Ball = styled.span`
-color: #222;
-font-size: var(--fsLowest);
-background-color: ${props => props.active ? "#1efd40aa" : "#ffb9b9"};
-animation: ${({ active }) => (active ? pulse : 'none')} 3s infinite;
-width: ${({ active }) => (active ? '1.5rem' : '1.2rem')};
-height: ${({ active }) => (active ? '1.5rem' : '1.2rem')};
-
-border-radius: 50%;
-z-index: 2;
 `
 
 export const Header = styled.header`
@@ -79,13 +15,14 @@ border-radius: var(--br);
 position: relative;
 button{
     cursor: pointer;
+    border-radius: var(--br);
     border: none;
-    padding: .3rem;
-    border-radius: 30%;
+    padding: .2rem;
     width: fit-content;
     position: absolute;
-    right: 2px;
-    top: 2px;
+    right: 5px;
+    top: 5px;
+    background: none;
     &:hover{
         background-color: #eaeaea;
     }
@@ -93,72 +30,223 @@ button{
 `
 
 export const Boxes = styled.div`
-margin-top: .8rem ;
-display: grid;
-gap: 1rem;
-overflow-y: scroll;
-max-height: 70dvh;
-padding: 1rem ;
+max-height: 60dvh;
+padding: .3rem;
+`
 
-.input, input{
-font-size: var(--fsLowest);
-border: none;
-width: 100%;
-padding: .5rem; 
-height: var(--boxHei);
-border-radius: var(--br);
-
+export const Footer = styled.footer`
 display: flex;
 justify-content: space-between;
-align-items: center;
+margin: 5px 0;
+display: ${props => props.active ? "block" : "none"};
+`
 
-svg{
-  cursor: pointer;
-  width: 1.1rem;
-  height: 1.1rem;
-}
-
-span{
-  padding: .5rem;
-}
-}
-.container-historic{
-  padding: .8rem;
-  border-radius: var(--br);
-
-  .historic{
-    display: grid;
-  }
-}
-
-
+export const RollingButtons = styled.nav`
+display: flex;
+overflow-x: scroll;
+gap: 7px;
+padding: .5rem 1rem;
+border-radius: var(--br);
+margin: 10px 0;
 `
 
 export const ButtonDelete = styled.button`
-background: none;
-background-color: rgb(25, 118, 210);
-color:  #fff;
+width: 49%;
+height: var(--boxHei);
+border-radius: var(--br);
+border: .5px solid #c1c1c1;
+background-color: ${props => props.cancel ? "#1565c0" : ""};
+color: ${props => props.cancel ? "#fff" : ""};
+cursor: pointer;
+margin: 0 2px;
+
+&:hover:not(:disabled){
+  background-color: ${props => props.cancel ? "#1565c0" : "#c1c1c1"};
+  color: #fff;
+}
+`
+
+export const NavButton = styled.button`
+background-color: ${props => props.active ? "#1565c0" : "#e1e1e1"};
+color: ${props => props.active ? "#fff" : "#222"};
 border: none;
-font-size: .7rem;
-padding: 1rem;
-border-radius: 0.5rem;
-text-transform: uppercase;
-&:hover{
-    /* text-decoration: none; */
-    background-color: rgb(16, 87, 158);
-    color: #f1f1f1;
+font-size: calc(var(--fsLow) - 2px);
+text-overflow: ellipsis;
+border-radius: var(--br);
+
+user-select: none;
+padding: .2rem .5rem ;
+cursor: pointer;
+
+scale: ${props => props.active ? "1.09" : "1"};
+`
+
+export const ContainerPopUpData = styled.main`
+padding: 1rem 0;
+max-height: 55dvh;
+overflow-y: scroll;
+
+
+.input{
+    display: block;
+    align-items: center;
+    padding-bottom: 1rem;
+    width: 95%;
+}
+
+.observation-box{
+  display: flex;
+  justify-content: space-between;
+  height: 14rem;
+  font-size: var(--fsLowest);
+        .container{
+      text-align: center;
+      width: 30%;
+      padding-top: 1rem;
+      overflow-y: scroll;
+
+      header{
+        width: 100%;
+
+      }
+}
 }
 
 `
-export const Trash = styled(DeleteIcon)`
 
+export const ContainerComment = styled.div`
+background-color: #d1d1d1;
+border-radius: var(--br);
+padding: 8px;
+margin-bottom: 5px;
+main{
+  font-size: calc(var(--fsLowest) - 1px);
+  padding: 3px;
+  border-radius: 3px;
+  border: .1px solid #a3a3a3;
+  word-wrap: break-word; 
+  overflow-wrap: break-word; 
+  p{
+    text-align: justify;
+    max-width: 100%;
+    
+  }
+}
+footer{
+  font-size: calc(var(--fsLowest) - 2px);
+}
+
+
+`
+
+export const ObservationContainer = styled.form`
+padding: .5rem 0;
+font-size: var(--fsLowest);
+width: 65%;
+textarea{
+  border-radius: var(--br);
+  min-width: 100%;
+  max-width: 102%;
+  padding: .5rem; 
+  min-height: 8rem;
+  max-height: 10rem;
+
+}
+button{
+  width: 100%;
+}
+
+
+`
+export const FilesContainer = styled.form`
+font-size: var(--fsLowest);
+border-radius: var(--br);
+padding: .5rem 0;
+width: 65%;
+label{
+  cursor: pointer;
+  text-align: center;
+  border-radius: var(--br);
+  width: 100%;
+  padding: .5rem; 
+  border: 1px dashed;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+button{
+  width: 100%;
+}
+
+input{
+  display: none;
+}
+svg{
+    width: 6rem;
+    height: 4rem;
+    color: rgb(25, 118, 210);
+}
+
+
+
+
+`
+
+export const ChooseArchive = styled.span`
+display: flex;
+flex-direction: column;
+gap: .5rem;
+justify-content: center;
+align-items: center;
+
+label {
+height: min-content;
+
+}
+input{
+width: 100%;
+border: none;
+color: #fff;
+background-color: #3458f5;
+padding: .8rem  ;
+border-radius: 5px;
+margin: 5px 0;
 &:hover{
-    color: #336ba3;
+background-color:#526cdf;
+
 }
 &:active{
-    opacity: 0.7;
+opacity: .8;
+
+}
+}
+svg{
+    width: 6rem;
+    height: 4rem;
+    color: rgb(25, 118, 210);
+    cursor: pointer;
 }
 `
 
+export const ButtonAction = styled.button`
+background: none;
+border: none;
+cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+&:hover{
+  text-decoration: underline;
+}
+`
 
-
+export const ContainerHistoric = styled.div`
+width: 100%;
+background-color: #e0e0e0;
+padding: .2rem .5rem;
+border-radius: var(--br);
+margin-bottom: 5px;
+`

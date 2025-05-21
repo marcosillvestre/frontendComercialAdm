@@ -1,17 +1,21 @@
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import CloseIcon from '@mui/icons-material/Close';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Fade from '@mui/material/Fade';
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
-
-// import URI from '../../app/utils/utils';
-import CancelIcon from '@mui/icons-material/Cancel';
-import CloseIcon from '@mui/icons-material/Close';
-import { toast } from 'react-toastify';
-import { treatingDates } from '../../../app/utils/functions/getDates';
-import { Ball, Boxes, ContainerTread, Filter, Header, Stick, Treadmill } from './styles';
+import LoadingSpin from 'react-loading-spin';
+import { useRegister } from '../../../hooks/registers/registersContext.hook';
+import { EmptyData } from '../../emptyData';
+import { Anexes } from './anexos';
+import { CustomFields } from './customFields';
+import { Financial } from './financeiro';
+import { Historic } from './historico';
+import { Matricula } from './matricula';
+import { Observations } from './observacoes';
+import { Pedagogic } from './pedagogico';
+import { Boxes, ButtonDelete, Filter, Footer, Header, NavButton, RollingButtons } from './styles';
 
 const style = {
     position: 'absolute',
@@ -26,7 +30,45 @@ const style = {
 };
 
 
-export function MoreData(info) {
+export function MoreDataRegisters(info) {
+    const { data } = info
+    const { name, id } = data
+
+    const buttons = [
+        "Matrícula",
+        "Observações",
+        "Anexos",
+        "Pedagógico",
+        "Financeiro",
+        "Campos personalizados",
+        "Histórico",
+        "Contrato",
+        "Aluno",
+        "Responsável",
+    ];
+
+    const elements = {
+        "Matrícula": <Matricula />,
+        "Observações": <Observations />,
+        "Anexos": <Anexes />,
+        "Histórico": <Historic />,
+        "Pedagógico": <Pedagogic />,
+
+        "Financeiro": <Financial />,
+        "Campos personalizados": <CustomFields />,
+
+        "Contrato": <EmptyData />,
+        "Aluno": <EmptyData />,
+        "Responsável": <EmptyData />,
+    }
+    const { queryOnlyRegister, updateCustomFields,
+        setRegisterId, editRegister, register, setEditRegister, setUpdateRegister
+    } = useRegister()
+
+    React.useLayoutEffect(() => setRegisterId(id), [id])
+
+
+    const [choosen, setChoosen] = React.useState(buttons[0])
 
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
@@ -36,41 +78,10 @@ export function MoreData(info) {
         handleOpen()
     }
 
-    const { data } = info
-
-    const subtitle = {
-        'created_at': "Data de criação",
-        'name': "Nome do responsável",
-        'student': "Aluno",
-        'status': "Situação",
-        'book': "Produto",
-        'sku': "SKU",
-        'value': "Valor",
-        'phone': "Telefone de contato",
-        'arrivingDate': "Data de chegada",
-        'withdraw': "Data de retirada",
-        'signed': "Assinado",
-        'unity': "Unidade",
-        'link': "Link",
-        'arrived': "Chegou",
-        'removedBy': "Retirado por",
-        'id': "Id",
-    }
-    const statusTrail = {
-        'REVISAR': 0,
-        'REVISADO': 1,
-        'ENVIADO': 2,
-        'CHEGOU': 3,
-        'DISPONIVEL': 4,
-        'ENTREGUE': 5,
-        'CANCELADO': 6,
-    }
-
-    const keys = Object.keys(subtitle)
-
+    const { isPending } = queryOnlyRegister
 
     return (
-        <div>
+        <>
             <Filter onClick={handleFuncs}> Mais informações</Filter>
             <Modal
                 aria-labelledby="transition-modal-title"
@@ -86,138 +97,89 @@ export function MoreData(info) {
                     },
                 }}
             >
-                {
-                    data &&
-                    <Fade in={open} style={{ border: "none", borderRadius: ".9rem", width: "40%" }}>
-                        <Box sx={style}>
-                            <Header >
 
-                                <Typography id="transition-modal-title" variant="h6" component="h2">
-                                    {data.name}
-                                </Typography>
+                <Fade in={open} style={{
+                    border: "none",
+                    borderRadius: ".9rem",
+                    width: "40%"
+                }}>
+                    <Box sx={style}>
+                        <Header >
 
-                                <button onClick={() => handleClose()}>
-                                    <CloseIcon />
-                                </button>
+                            <Typography
+                                id="transition-modal-title"
+                                variant="h6"
+                                component="h2"
+                            >
+                                {name}
+                            </Typography>
 
-                                {data.book}
-                            </Header>
-                            <Boxes>
-                                <Treadmill>
+                            <button onClick={() => handleClose()}>
+                                <CloseIcon />
+                            </button>
 
-                                    {
-                                        data &&
-                                        data.logistic.map((res, index) => (
-                                            <ContainerTread
-                                                key={index}
-                                                title={`${res?.user}, ${treatingDates(res.date)}`}
+                        </Header>
 
-                                            >
-                                                <div>
-                                                    {
-                                                        res.active ?
-                                                            <>
-                                                                <Ball
-                                                                    active
-                                                                />
-                                                                {
-                                                                    index + 1 < data.logistic.length &&
-                                                                    <Stick
-                                                                        active={statusTrail[data['status']] >= statusTrail[res.stage]}
-                                                                    />
-                                                                }
-                                                            </> :
-                                                            <>
-                                                                <CancelIcon active />
-                                                            </>
-                                                    }
+                        <RollingButtons>
+                            {
+                                buttons.map((res, index) => (
 
-                                                </div>
-                                                <p>{res.stage}</p>
+                                    <NavButton
+                                        active={res === choosen}
+                                        onClick={() => {
+                                            setChoosen(res)
+                                            setEditRegister(null)
+                                            setUpdateRegister(null)
+                                        }}
+                                        key={index}
+                                    >
+                                        {res}
+                                    </NavButton>
+                                ))
+                            }
+                        </RollingButtons>
 
-                                            </ContainerTread>
-                                        ))
-                                    }
+                        <Boxes>
+                            {
+                                isPending ?
+                                    <LoadingSpin
+                                        duration="4s"
+                                        width="15px"
+                                        timingFunction="ease-in-out"
+                                        direction="alternate"
+                                        size="60px"
+                                        primaryColor="#1976d2"
+                                        secondaryColor="#333"
+                                        numberOfRotationsInAnimation={2}
+                                    /> :
+                                    elements[choosen]
+                            }
 
-                                </Treadmill>
+                        </Boxes>
 
-                                {
-                                    keys.map((key, index) => (
+                        <Footer
+                            active={
+                                choosen !== 'Observações' &&
+                                choosen !== 'Anexos'
+                            }
+                        >
+                            <ButtonDelete
+                                cancel={false}
+                            >
+                                CANCELAR
+                            </ButtonDelete>
 
-                                        subtitle[key] &&
-                                            typeof data[key] === 'boolean' ?
-                                            <label htmlFor="" key={index}>
-                                                <Typography variant="h7" component="h3">
-                                                    {subtitle[key]}:
-                                                </Typography>
-                                                <input type="text"
-                                                    disabled
-                                                    defaultValue={data[key] ? "SIM" : "NÃO"}
-                                                    style={{ backgroundColor: data[key] ? "#e0e0e0" : "#ffcaca" }}
-                                                />
-                                            </label>
-                                            :
-                                            <label htmlFor="" key={index}>
-                                                <Typography variant="h7" component="h3">
-                                                    {subtitle[key]}:
-                                                </Typography>
-                                                <div
-                                                    className='input'
-                                                    style={{
-                                                        backgroundColor: data[key] !== ''
-                                                            ? "#e0e0e0" : "#ffcaca"
-                                                    }}
-                                                >
-                                                    {
-                                                        subtitle[key].includes("Data") ?
-                                                            <p>{treatingDates(data[key])}</p> :
-                                                            <p>{data[key]}</p>
-                                                    }
-                                                    <ContentCopyIcon onClick={() => {
-                                                        navigator.clipboard.writeText(data[key])
-                                                        toast.success(`${subtitle[key]} copiado para área de transferência!`)
-                                                    }} />
-                                                </div>
-                                            </label>
-                                    ))
-                                }
-                                <hr />
-                                <Typography variant="h7" component="h3">
-                                    Histórico de alterações:
-                                </Typography>
-                                {
-                                    data.logs.length > 0 &&
-                                    data.logs.map((res, index) => (
-
-                                        <label htmlFor="" key={index}>
-                                            <div
-                                                className='container-historic'
-                                                style={{ backgroundColor: "#dadada" }}
-                                            >
-                                                <span
-                                                    className='historic'
-
-                                                >
-                                                    <Typography variant="h7" component="h3">
-                                                        {res.responsible}:
-                                                    </Typography>
-
-                                                    <p>{res.description}</p>
-                                                    <p>{treatingDates(res.date)}</p>
-
-                                                </span>
-
-                                            </div>
-                                        </label>
-                                    ))
-                                }
-
-                            </Boxes>
-                        </Box>
-
-                    </Fade>
-                }
+                            <ButtonDelete
+                                cancel={true}
+                                disabled={editRegister === null}
+                                onClick={() => updateCustomFields(id)}
+                            >
+                                SALVAR
+                            </ButtonDelete>
+                        </Footer>
+                    </Box>
+                </Fade>
             </Modal>
-        </div>
+        </>
     );
 }   

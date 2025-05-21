@@ -248,23 +248,25 @@ export const Observations = (props) => {
 
                                     <TableCell>
                                         {
-                                            files.length > 0 ? files.map(res => (
+                                            files &&
+                                                files.length > 0 ?
+                                                files.map(res => (
 
-                                                <FileContainer
-                                                    className="flexCenterContainer"
-                                                    key={res.id}
-                                                >
-                                                    <p className='tooltip'
-                                                        onClick={() => GetDownloadUrl(res.key)}
-                                                        tool="baixar arquivo">
-                                                        {res.name}
-                                                    </p>
+                                                    <FileContainer
+                                                        className="flexCenterContainer"
+                                                        key={res.id}
+                                                    >
+                                                        <p className='tooltip'
+                                                            onClick={() => GetDownloadUrl(res.key)}
+                                                            tool="baixar arquivo">
+                                                            {res.name}
+                                                        </p>
 
-                                                    <CloseIcon onClick={() => DeleteFile(res.key)} />
-                                                </FileContainer>
+                                                        <CloseIcon onClick={() => DeleteFile(res.key)} />
+                                                    </FileContainer>
 
 
-                                            )) :
+                                                )) :
                                                 <h5>
                                                     Nenhum documento anexado ainda
                                                 </h5>

@@ -38,13 +38,12 @@ function Row(props) {
                 <TableCell align="center" component="th" scope="row">{row.name} </TableCell>
                 <TableCell align="center" component="th" scope="row">{row.docment}</TableCell>
                 <TableCell align="center" component="th" scope="row">{row.contacts?.orderEmail}</TableCell>
-                <TableCell align="center" component="th" scope="row">{row.contacts?.comercialPhone}</TableCell>
+                <TableCell align="center" component="th" scope="row">{row.contacts?.whatsapp}</TableCell>
                 <TableCell align="center" component="th" scope="row">
                     <PopOverSuplier row={row} />
                 </TableCell>
 
             </TableRow>
-
 
         </React.Fragment >
     );
