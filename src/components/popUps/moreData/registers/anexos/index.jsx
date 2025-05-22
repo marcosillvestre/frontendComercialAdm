@@ -3,10 +3,10 @@ import axios from 'axios';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import URI from '../../../../app/utils/utils';
-import { useRegister } from '../../../../hooks/registers/registersContext.hook';
-import { useUser } from '../../../../hooks/userContext';
-import { EmptyData } from '../../../emptyData';
+import URI from '../../../../../app/utils/utils';
+import { useRegister } from '../../../../../hooks/registers/registersContext.hook';
+import { useUser } from '../../../../../hooks/userContext';
+import { EmptyData } from '../../../../emptyData';
 import { ButtonAction, ContainerComment, ContainerPopUpData, FilesContainer } from '../styles';
 export const Anexes = () => {
 
