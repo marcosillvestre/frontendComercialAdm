@@ -1,9 +1,9 @@
 import { Typography } from '@mui/material';
 // import { treatingDates } from '../../../../app/utils/functions/getDates';
-import businessRules from '../../../../app/utils/Rules/options.jsx';
-import { useRegister } from '../../../../hooks/registers/registersContext.hook';
-import { DateSelect } from '../../../selects/DateSelect/index.jsx';
-import { UniqueSelect } from '../../../selects/UniqueSelect';
+import businessRules from '../../../../../app/utils/Rules/options.jsx';
+import { useRegister } from '../../../../../hooks/registers/registersContext.hook';
+import { DateSelect } from '../../../../selects/DateSelect/index.jsx';
+import { UniqueSelect } from '../../../../selects/UniqueSelect';
 import { ContainerPopUpData } from '../styles';
 export const Matricula = () => {
 

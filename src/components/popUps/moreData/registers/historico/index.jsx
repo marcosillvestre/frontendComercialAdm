@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material';
 // import { treatingDates } from '../../../../app/utils/functions/getDates';
-import { useRegister } from '../../../../hooks/registers/registersContext.hook';
-import { EmptyData } from '../../../emptyData';
+import { useRegister } from '../../../../../hooks/registers/registersContext.hook';
+import { EmptyData } from '../../../../emptyData';
 import { ContainerHistoric, ContainerPopUpData } from '../styles';
 
 export const Historic = () => {

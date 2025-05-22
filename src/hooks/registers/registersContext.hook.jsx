@@ -201,7 +201,8 @@ export const RegistersProvider = ({ children }) => {
                 (oldData) => {
                     const { id, registerUpdate, files } = variables;
 
-                    setRegister({ ...registerUpdate, files })
+                    setRegister({ ...registerUpdate, files });
+                    setUpdateRegister(null);
 
                     return setQueryRegister({
                         registers: [

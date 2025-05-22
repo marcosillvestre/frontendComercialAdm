@@ -1,7 +1,7 @@
 import React from 'react';
-import { useRegister } from '../../../../hooks/registers/registersContext.hook';
-import { useUser } from '../../../../hooks/userContext';
-import { EmptyData } from '../../../emptyData';
+import { useRegister } from '../../../../../hooks/registers/registersContext.hook';
+import { useUser } from '../../../../../hooks/userContext';
+import { EmptyData } from '../../../../emptyData';
 import { ContainerComment, ContainerPopUpData, ObservationContainer } from '../styles';
 
 export const Observations = () => {

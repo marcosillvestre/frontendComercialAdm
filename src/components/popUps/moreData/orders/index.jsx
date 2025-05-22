@@ -10,7 +10,7 @@ import * as React from 'react';
 import CancelIcon from '@mui/icons-material/Cancel';
 import CloseIcon from '@mui/icons-material/Close';
 import { toast } from 'react-toastify';
-import { treatingDates } from '../../../app/utils/functions/getDates';
+import { treatingDates } from '../../../../app/utils/functions/getDates';
 import { Ball, Boxes, ContainerTread, Filter, Header, Stick, Treadmill } from './styles';
 
 const style = {

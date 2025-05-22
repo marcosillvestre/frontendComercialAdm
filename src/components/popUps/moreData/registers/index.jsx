@@ -6,8 +6,9 @@ import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import LoadingSpin from 'react-loading-spin';
-import { useRegister } from '../../../hooks/registers/registersContext.hook';
-import { EmptyData } from '../../emptyData';
+import { useRegister } from '../../../../hooks/registers/registersContext.hook';
+import { EmptyData } from '../../../emptyData';
+import { SureCloseSave } from '../../sureCloseAndSave';
 import { Anexes } from './anexos';
 import { CustomFields } from './customFields';
 import { Financial } from './financeiro';
@@ -23,12 +24,10 @@ const style = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     bgcolor: 'background.paper',
-    border: '1px solid #000',
     boxShadow: 24,
     p: 3,
     fontSize: 10,
 };
-
 
 export function MoreDataRegisters(info) {
     const { data } = info
@@ -62,7 +61,8 @@ export function MoreDataRegisters(info) {
         "Responsável": <EmptyData />,
     }
     const { queryOnlyRegister, updateCustomFields,
-        setRegisterId, editRegister, register, setEditRegister, setUpdateRegister
+        setRegisterId, editRegister, setEditRegister, setUpdateRegister,
+        updateRegister
     } = useRegister()
 
     React.useLayoutEffect(() => setRegisterId(id), [id])
@@ -72,8 +72,10 @@ export function MoreDataRegisters(info) {
 
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-
+    const handleClose = () => {
+        setOpen(false);
+        setUpdateRegister(null)
+    }
     function handleFuncs() {
         handleOpen()
     }
@@ -163,11 +165,24 @@ export function MoreDataRegisters(info) {
                                 choosen !== 'Anexos'
                             }
                         >
-                            <ButtonDelete
-                                cancel={false}
-                            >
-                                CANCELAR
-                            </ButtonDelete>
+                            {
+                                updateRegister === null ?
+                                    <ButtonDelete
+                                        cancel={false}
+                                        onClick={() => handleClose()}
+                                    >
+                                        CANCELAR
+                                    </ButtonDelete>
+                                    :
+                                    <ButtonDelete
+                                        cancel={false}
+                                    >
+                                        <SureCloseSave
+                                            fn={handleClose}
+                                        />
+                                    </ButtonDelete>
+
+                            }
 
                             <ButtonDelete
                                 cancel={true}

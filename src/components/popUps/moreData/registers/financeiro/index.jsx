@@ -1,11 +1,11 @@
 import { Typography } from '@mui/material';
 // import { treatingDates } from '../../../../app/utils/functions/getDates';
-import { useCustomFields } from '../../../../hooks/customFields/customFIelds.hook';
-import { useRegister } from '../../../../hooks/registers/registersContext.hook';
-import { InputRegister } from '../../../inputs/input.update.register';
-import { DateSelect } from '../../../selects/DateSelect';
-import { MultiSelect } from '../../../selects/MultiSelect';
-import { UniqueSelect } from '../../../selects/UniqueSelect';
+import { useCustomFields } from '../../../../../hooks/customFields/customFIelds.hook';
+import { useRegister } from '../../../../../hooks/registers/registersContext.hook';
+import { InputRegister } from '../../../../inputs/input.update.register';
+import { DateSelect } from '../../../../selects/DateSelect';
+import { MultiSelect } from '../../../../selects/MultiSelect';
+import { UniqueSelect } from '../../../../selects/UniqueSelect';
 import { ContainerPopUpData } from '../styles';
 
 export const Financial = () => {
@@ -59,11 +59,14 @@ export const Financial = () => {
                                 <MultiSelect
                                     field={key.name}
                                     related={
-                                        register.customFields[key.name].map(res => {
-                                            return {
-                                                name: res
-                                            }
-                                        })}
+                                        register.customFields[key.name][0]?.name ?
+                                            register.customFields[key.name] :
+                                            register.customFields[key.name]
+                                                .map(res => {
+                                                    return {
+                                                        name: res
+                                                    }
+                                                })}
                                     fn={customFieldsChanger}
                                     width="100%"
                                     option={key.options.map(res => {

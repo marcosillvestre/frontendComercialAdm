@@ -6,7 +6,7 @@ import * as React from 'react';
 import { useRegister } from '../../../hooks/registers/registersContext.hook.jsx';
 import { useUser } from '../../../hooks/userContext.jsx';
 import { CloserClick } from '../../closeClick';
-import { MoreDataRegisters } from '../../popUps/moreData.registers/index.jsx';
+import { MoreDataRegisters } from '../../popUps/moreData/registers/index.jsx';
 import { SureModal } from '../../popUps/sureModal';
 import { Button, Container, Divider } from './styles.jsx';
 
