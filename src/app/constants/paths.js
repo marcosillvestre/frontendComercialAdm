@@ -1,14 +1,14 @@
 
 const general = ['administrativo', 'direcao', 'comercial', 'gerencia', 'pedagogico', 'recepcao']
 const high = ['direcao', 'gerencia']
-const mid = ['administrativo', 'direcao', 'comercial', 'gerencia', 'pedagogico']
+const mid = ['administrativo', 'direcao', 'gerencia', 'pedagogico']
 const low = ['administrativo', 'direcao', 'gerencia', 'comercial']
 
 
 export const paths = {
     home: {
         path: "/",
-        access: mid
+        access: general
     },
     campaign: {
         path: "/campanhas",
@@ -44,7 +44,7 @@ export const paths = {
 
     control: {
         path: "/controle-comercial/",
-        access: mid
+        access: general
     },
 
 
@@ -75,7 +75,7 @@ export const paths = {
         access: high
     },
 
-    configRegister: {
+    users: {
         path: "/config/cadastro",
         access: high
     },
@@ -87,16 +87,16 @@ export const paths = {
 
     orders: {
         path: "/pedidos",
-        access: general
+        access: mid
     },
     historicOrders: {
         path: "/historico-pedidos",
-        access: general
+        access: mid
     },
 
     nestedOrder: {
         path: "/pedidos/invoice",
-        access: general
+        access: mid
     },
 
 }
