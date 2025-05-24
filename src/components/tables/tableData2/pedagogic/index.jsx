@@ -14,11 +14,11 @@ import { RowTableCustomFields } from '../styles';
 export const Pedagogic = (props) => {
 
     const { row } = props
+    const { customFieldsTotals } = useCustomFields()
 
-    const { cfSrted } = useCustomFields()
+    const { customFields } = customFieldsTotals
 
-    const customFieldsFiltered = cfSrted && cfSrted.filter(res => res.category === "Pedagogico")
-
+    const customFieldsFiltered = customFields.filter(res => res.category === "Pedagogico")
 
 
     const { UpdateCustomFields } = useUser()

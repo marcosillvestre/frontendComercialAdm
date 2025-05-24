@@ -12,10 +12,11 @@ export const Financial = () => {
 
     const { register, setEditRegister, editRegister, updateRegister, setUpdateRegister } = useRegister()
 
-    const { cfSrted } = useCustomFields()
+    const { customFieldsTotals } = useCustomFields()
 
+    const { customFields } = customFieldsTotals
 
-    const customFieldsFiltered = cfSrted.filter(res => res.category === "Financeiro")
+    const customFieldsFiltered = customFields.filter(res => res.category === "Financeiro")
 
 
     const customFieldsChanger = (key, value) => {

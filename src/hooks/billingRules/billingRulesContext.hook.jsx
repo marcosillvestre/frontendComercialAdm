@@ -78,7 +78,6 @@ export const BillingsProvider = ({ children }) => {
         mutationFn: (e) => sendData(e),
         onSuccess: (_, variables) => {
 
-
             queryClient.setQueryData(
                 ["Billing", take, skip, orderBy, query, orderFor],
                 (oldData) => {

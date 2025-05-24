@@ -14,7 +14,7 @@ margin-left: 34px ;
 export const MainBox = styled.main`
 display: flex;
 flex-wrap: wrap;
-gap: 10px;
+gap: 5px;
 padding: 20px 0;
 
 .boxes{
@@ -49,27 +49,9 @@ text-decoration: none;
 border-radius: var(--br);
 
 &:hover{
-    background-color: #b4bad3;
-    color: #fff;
-    scale: 1.01;
-    font-weight: bold;
+    background: #c4d3e0;
+    scale: 1.03;
+    border-radius: var(--br);
+
 }
 `
-
-// export const Links = styled(Link)`
-// background-color: #222;
-// font-size: var(--fsMid) ;
-
-// padding: .5rem ;
-// width: 100%;
-// color: #fff;
-// border-radius: .9rem;
-// text-align: center;
-// text-decoration: none;
-//         &:hover{
-//             background-color: #4b4b4b;
-//         }
-//         &:visited{
-//             color: #fff;
-//         }
-// `

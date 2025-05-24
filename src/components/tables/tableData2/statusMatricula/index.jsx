@@ -16,9 +16,14 @@ import { RowTableCustomFields } from '../styles.jsx'
 export const StatusMatricula = (props) => {
     const { row } = props
     const [Observatios, setObservatios] = React.useState(false)
-    const { cfSrted } = useCustomFields()
 
-    const customFieldsFiltered = cfSrted && cfSrted.filter(res => res.category === "StatusMatricula")
+    const { customFieldsTotals } = useCustomFields()
+
+    const { customFields } = customFieldsTotals
+
+    const customFieldsFiltered = customFields.filter(res => res.category === "StatusMatricula")
+
+
 
     const { comissionStatusOpt, nonEspecificOpt, registerState } = businessRules
     const { setColor, borderColor } = colorsRules

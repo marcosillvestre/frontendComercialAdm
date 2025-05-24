@@ -9,7 +9,9 @@ import { ButtonIcon, Input, Label } from '../styles'
 
 export const Contracts = () => {
     const { UsersQuery } = useUsers()
-    const { cfSrted } = useCustomFields()
+    const { customFieldsTotals } = useCustomFields()
+
+    const { customFields } = customFieldsTotals
 
     const { setContractData, contractData,
         multiSelectOptions, setMultiSelectOptions,
@@ -69,8 +71,8 @@ export const Contracts = () => {
                 />
             </Label>
             {
-                cfSrted &&
-                cfSrted.map((res, index) => (
+                customFields &&
+                customFields.map((res, index) => (
                     <Label key={res.id}>
                         <p>{res.label}</p>
                         {

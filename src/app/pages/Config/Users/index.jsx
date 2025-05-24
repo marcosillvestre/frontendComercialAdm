@@ -4,9 +4,9 @@
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import { Link } from 'react-router-dom';
 import UsersTable from '../../../../components/tables/tableUsers/index.jsx';
-import { useUser } from '../../../../hooks/userContext';
+import { useUser } from '../../../../hooks/userContext.jsx';
 import { useUsers } from '../../../../hooks/users/usersContext.hook.jsx';
-import { Container, Header } from './styles';
+import { Container, Header } from './styles.jsx';
 
 
 export function Register() {

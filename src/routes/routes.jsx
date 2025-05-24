@@ -23,7 +23,7 @@ const user = JSON.parse(localStorage.getItem('userData'))
 const {
     config, home, redefinePass,
     signContracts, orders, nestedOrder, comissionalControl,
-    configRegister, control, nestedControl, configCustomFields,
+    users, control, nestedControl, configCustomFields,
     campaign, products, services, supliers, historicOrders, billingRule
 
 } = paths
@@ -101,8 +101,8 @@ const Routes = createBrowserRouter([
     },
 
     {
-        path: configRegister.path,
-        element: configRegister.access.find(res => res === user?.role) ? <><MiniDrawer /><Register /> </> : <Login />,
+        path: users.path,
+        element: users.access.find(res => res === user?.role) ? <><MiniDrawer /><Register /> </> : <Login />,
         errorElement: <ErrorPage />,
     },
     {

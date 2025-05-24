@@ -1,20 +1,17 @@
 
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
-import Paper from '@mui/material/Paper';
-import LoadingSpin from 'react-loading-spin';
 import { Link } from 'react-router-dom';
-import { CustomFieldTable } from '../../../../components/source.jsx';
+import CustomFieldsTable from '../../../../components/tables/customFieldsTables/index.jsx';
 import { useCustomFields } from '../../../../hooks/customFields/customFIelds.hook.jsx';
 import { useUser } from '../../../../hooks/userContext.jsx';
-import { Container, Header, MainBox } from './styles.jsx';
+import { Container, Header } from './styles.jsx';
 
 
 
 export const CustomFields = () => {
     const { openSidebar, setOpenSidebar, setTypeSidebar } = useUser()
 
-    const { cfSrted, customFieldsQuery } = useCustomFields()
+    const { setEditCustomField } = useCustomFields()
 
     return (
         <Container>
@@ -27,7 +24,7 @@ export const CustomFields = () => {
                         <ArrowUpwardIcon />
                     </Link>
                     <div>
-                        <h3>ConfiguraçõesCampos personalizados</h3>
+                        <h3>Configurações - Campos personalizados</h3>
                     </div>
                 </span>
 
@@ -35,7 +32,8 @@ export const CustomFields = () => {
                     className='defaultButton'
                     onClick={() => {
                         setTypeSidebar(1)
-                        setOpenSidebar(!openSidebar)
+                        setOpenSidebar(!openSidebar);
+                        setEditCustomField(null)
                     }
                     }>
                     Criar campo
@@ -43,57 +41,7 @@ export const CustomFields = () => {
             </nav>
             <Header />
 
-            <MainBox>
-                {
-                    customFieldsQuery.isPending ?
-                        <LoadingSpin
-                            duration="4s"
-                            width="15px"
-                            timingFunction="ease-in-out"
-                            direction="alternate"
-                            size="60px"
-                            primaryColor="#1976d2"
-                            secondaryColor="#333"
-                            numberOfRotationsInAnimation={3} />
-                        :
-                        <table className='tableContainer'>
-                            <div style={{ textAlign: 'right' }}>
-                                {
-                                    customFieldsQuery.data &&
-                                    customFieldsQuery.data.length
-                                } registros
-
-                            </div>
-                            <TableContainer component={Paper}>
-                                <Table aria-label="collapsible table">
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell style={{ fontWeight: 'bold' }} align='center'> Ordem </TableCell>
-                                            <TableCell style={{ fontWeight: 'bold' }} align='center'>Nome do campo</TableCell>
-                                            <TableCell style={{ fontWeight: 'bold' }} align="center">Tipo</TableCell>
-                                            <TableCell style={{ fontWeight: 'bold' }} align="center">Obrigatório</TableCell>
-                                            <TableCell style={{ fontWeight: 'bold' }} align="center">Categoria</TableCell>
-                                            <TableCell style={{ fontWeight: 'bold' }} align="center">Opções</TableCell>
-                                            <TableCell align="right">  </TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody >
-                                        {
-                                            cfSrted && cfSrted.map((row, index) => (
-                                                <CustomFieldTable
-                                                    key={row.id}
-                                                    row={row}
-                                                    index={index} />
-                                            ))
-                                        }
-
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-                        </table>
-                }
-            </MainBox>
-
+            <CustomFieldsTable />
 
         </Container>
     )

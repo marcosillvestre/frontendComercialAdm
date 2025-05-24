@@ -12,10 +12,11 @@ export const Pedagogic = () => {
 
     const { register, setEditRegister, editRegister, updateRegister, setUpdateRegister } = useRegister()
 
-    const { cfSrted } = useCustomFields()
+    const { customFieldsTotals } = useCustomFields()
 
+    const { customFields } = customFieldsTotals
 
-    const customFieldsFiltered = cfSrted.filter(res => res.category === "Pedagogico")
+    const customFieldsFiltered = customFields.filter(res => res.category === "Pedagogico")
 
 
     const customFieldsChanger = (key, value) => {

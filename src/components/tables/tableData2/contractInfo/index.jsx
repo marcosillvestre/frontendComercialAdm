@@ -15,9 +15,11 @@ export const ContractInfo = (props) => {
     const { UpdateCustomFields } = useUser()
 
     const [Open, setOpen] = useState(false)
-    const { cfSrted } = useCustomFields()
+    const { customFieldsTotals } = useCustomFields()
 
-    const customFieldsFiltered = cfSrted && cfSrted.filter(res => res.category === "Contrato")
+    const { customFields } = customFieldsTotals
+
+    const customFieldsFiltered = customFields.filter(res => res.category === "Contrato")
 
 
     const start = row["customFields"]["Data de início do contrato"].split("/")

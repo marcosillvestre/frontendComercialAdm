@@ -21,11 +21,13 @@ export const FinancialInfo = (props) => {
     const [Payment, setPayment] = useState(false)
     const [Material, setMaterial] = useState(false)
 
-    const { cfSrted } = useCustomFields()
     const { Sender, UpdateCustomFields } = useUser()
+    const { customFieldsTotals } = useCustomFields()
 
+    const { customFields } = customFieldsTotals
 
-    const customFieldsFiltered = cfSrted && cfSrted.filter(res => res.category === "Contrato")
+    const customFieldsFiltered = customFields.filter(res => res.category === "Contrato")
+
     const { comissionStatusOpt } = businessRules
 
 

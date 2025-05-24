@@ -125,18 +125,11 @@ const fields = {
 
 
 const types = {
-    String: "Texto",
-    "Texto": "String",
 
     Number: "Número",
     "Número": "Number",
 
-    Date: "Data",
-    "Data": "Date",
-    Select: "Seleção única",
-    "Seleção única": "Select",
-    MultiSelect: "Multi-Select",
-    "Multi-Select": "MultiSelect",
+
     "Sim": true,
     "Não": false,
     true: "Sim",

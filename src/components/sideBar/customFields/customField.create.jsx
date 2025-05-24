@@ -1,26 +1,55 @@
 import SendIcon from '@mui/icons-material/Send';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormGroup from '@mui/material/FormGroup';
-import Switch from '@mui/material/Switch';
-import { useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { useCustomFields } from '../../../hooks/customFields/customFIelds.hook';
 import { Select } from '../../selects/select';
-import { ButtonIcon, Input, Label } from '../styles';
+import { ButtonIcon, Input, Label, Submit } from '../styles';
 
 export const CustomFields = () => {
-    const { options, setOptions, setCustomFields, customFields } = useCustomFields()
 
-    const [required, setRequired] = useState(false)
+    const { editCustomField, setEditCustomField, createCustomField, mutateCustomField, setCustomFields, customFields } = useCustomFields()
+
+    const [type, setType] = useState();
+    const [options, setOptions] = useState()
+
     const opt = useRef()
 
+    useLayoutEffect(() => {
+        setOptions(editCustomField?.options ?? []);
+        setType(editCustomField?.type);
+    }, [editCustomField]);
 
-    // const {sender} = fn
 
-    const sender = async (field, value) => {
-        if (field !== undefined && value !== undefined) {
 
-            setCustomFields({ ...customFields, [field]: value })
-        }
+    const subtitle = {
+        text: "Texto",
+        date: "Data",
+        multiple_choice: "Multipla escolha",
+        option: "Seleção única",
+
+        StatusMatricula: "Status da matrícula",
+        Contrato: "Contrato",
+        Financeiro: "Financeiro",
+        InformacoesAlunoEResponsavel: "Dados do aluno e do responsável",
+        Pedagogico: "Pedagógico",
+        Outros: "Outros",
+    }
+
+    const handleType = (_, value) => setType(value);
+
+    const sender = (key, value) => {
+
+        editCustomField !== null ?
+            setEditCustomField({ ...editCustomField, [key]: value }) :
+            setCustomFields({ ...customFields, [key]: value })
+    }
+
+
+
+    const submit = () => {
+
+        editCustomField === null ?
+            createCustomField.mutateAsync({ ...customFields, type, options }) :
+            mutateCustomField.mutateAsync({ ...editCustomField, type, options })
     }
 
     return (
@@ -29,44 +58,46 @@ export const CustomFields = () => {
                 <p>Nome do campo</p>
                 <Input
                     type="text"
-                    onBlur={(e) => {
-                        sender("name", e.target.value)
-                        // toast.success("Gravado")
-                    }} /// trocar
+                    defaultValue={editCustomField && editCustomField.name}
+
+                    onChange={(e) => {
+                        e.target.value !== '' &&
+                            sender("name", e.target.value)
+                    }}
                 />
             </Label>
 
             <Label htmlFor="">
                 <p>Tipo</p>
                 <Select
-                    label={""}
+                    label={editCustomField && subtitle[editCustomField.type]}
                     option={
                         [
-                            { name: "text" },
-                            { name: "date" },
-                            { name: "option" },
-                            { name: "multiple_choice" }
+                            { value: "text", name: "Texto" },
+                            { value: "date", name: "Data" },
+                            { value: "option", name: "Seleção Única" },
+                            { value: "multiple_choice", name: "Multipla escolha" },
                         ]
                     }
                     width="100%"
                     field="type"
                     where="create"
-                    fn={[sender]} /// trocar 
+                    fn={[handleType]}
                 />
             </Label>
             <Label htmlFor="">
                 <p>Categoria</p>
                 <Select
-                    label={""}
+                    label={editCustomField && subtitle[editCustomField.category]}
                     option={
                         [
-                            { name: "StatusMatricula" },
-                            { name: "Observacoes" },
-                            { name: "Contrato" },
-                            { name: "Financeiro" },
-                            { name: "InformacoesAlunoEResponsavel" },
-                            { name: "Pedagogico" },
-                            { name: "Outros" },
+                            { value: "StatusMatricula", name: "Status da matrícula" },
+                            { value: "Contrato", name: "Contrato" },
+                            { value: "Financeiro", name: "Financeiro" },
+                            { value: "InformacoesAlunoEResponsavel", name: "Dados do aluno e do responsável" },
+                            { value: "Pedagogico", name: "Pedagógico" },
+                            { value: "Outros", name: "Outros" },
+
                         ]
                     }
                     width="100%"
@@ -75,7 +106,7 @@ export const CustomFields = () => {
                     fn={[sender]} /// trocar 
                 />
             </Label>
-            <Label htmlFor="">
+            {/* <Label htmlFor="">
                 <p>Obrigatório</p>
 
                 <FormGroup>
@@ -90,11 +121,10 @@ export const CustomFields = () => {
                         }}
                     />
                 </FormGroup>
-            </Label>
+            </Label> */}
 
             {
-                customFields !== undefined &&
-                customFields?.type?.includes('Select') &&
+                type === 'multiple_choice' || type === 'option' &&
                 <Label htmlFor="">
                     <p>Opções</p>
                     <div
@@ -137,6 +167,16 @@ export const CustomFields = () => {
                         }
                     </div>
                 </Label>
-            }</>
+            }
+
+            <hr />
+            <Submit
+                placeholder="Enviar"
+                className='defaultButton'
+                onClick={() => submit()}
+            >
+                Enviar
+            </Submit>
+        </>
     )
 }

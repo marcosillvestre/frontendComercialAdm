@@ -16,17 +16,17 @@ export const Settings = () => {
             <MainBox>
 
 
-                <Links to={paths.configRegister.path}>
+                <Links to={paths.users.path}>
                     Convidar usuários
                 </Links>
 
                 <Links to={paths.configCustomFields.path}>
-                    Campos
+                    Campos personalizados
                 </Links>
 
 
                 <Links to={paths.campaign.path}>
-                    Campanha
+                    Campanhas
                 </Links>
 
                 <Links to={paths.products.path} >
@@ -42,7 +42,7 @@ export const Settings = () => {
                 </Links>
 
                 <Links to={paths.billingRule.path} >
-                    Régua de cobranças
+                    Réguas de cobrança
                 </Links>
 
 

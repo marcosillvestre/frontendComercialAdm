@@ -13,5 +13,4 @@ export * from './popUps/sureModal'
 export * from './popUps/sureSendModal'
 export * from './selects/select'
 export * from './sideBar'
-export * from './tables/customFieldsTable'
 

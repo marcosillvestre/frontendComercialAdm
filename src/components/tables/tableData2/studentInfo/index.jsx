@@ -15,9 +15,12 @@ export const StudentInfo = (props) => {
 
     const { row } = props
 
-    const { cfSrted } = useCustomFields()
+    const { customFieldsTotals } = useCustomFields()
 
-    const customFieldsFiltered = cfSrted && cfSrted.filter(res => res.category === "InformacoesAlunoEResponsavel")
+    const { customFields } = customFieldsTotals
+
+    const customFieldsFiltered = customFields.filter(res => res.category === "InformacoesAlunoEResponsavel")
+
 
     const { UpdateCustomFields } = useUser()
 

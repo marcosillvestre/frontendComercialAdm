@@ -25,11 +25,11 @@ export const Observations = (props) => {
 
     const { row } = props
 
-    const { cfSrted } = useCustomFields()
+    const { customFieldsTotals } = useCustomFields()
 
-    const customFieldsFiltered = cfSrted && cfSrted.filter(res => res.category === "Observacoes")
+    const { customFields } = customFieldsTotals
 
-
+    const customFieldsFiltered = customFields.filter(res => res.category === "Observacoes")
 
     const { userData, Sender, UpdateCustomFields } = useUser()
     const queryCache = useQueryClient();
