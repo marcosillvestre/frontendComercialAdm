@@ -55,7 +55,7 @@ export const dateCalculator = (date, index) => {
     dateFormated.setUTCHours(12)
 
     return index === 0 ? dateFormated.toLocaleDateString() :
-        new Date(dateFormated.setMonth(dateFormated.getMonth() + index)).toLocaleDateString()
+        new Date(dateFormated.setMonth(dateFormated.getMonth() + index)).toLocaleDateString("pt-Br")
 }
 
 export const parseDates = (date) => {
