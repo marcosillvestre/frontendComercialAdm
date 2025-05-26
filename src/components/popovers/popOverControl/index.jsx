@@ -30,7 +30,7 @@ export function PopOverControl(props) {
         <>
             <CloserClick
                 open={anchorEl}
-                fn={handleClick} opacity={0}
+                fn={handleClick} opacity={0.01}
             />
             <Container style={{ zIndex: "11" }}>
                 {userData?.admin === true &&

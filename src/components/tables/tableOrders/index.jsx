@@ -231,7 +231,7 @@ export default function TableOrders() {
                                                         <>
                                                             <CloserClick
                                                                 open={view}
-                                                                fn={setView} opacity={0.4}
+                                                                fn={setView} opacity={0.01}
                                                             />
                                                             <SellectedView
                                                             >

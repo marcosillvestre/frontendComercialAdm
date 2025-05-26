@@ -61,18 +61,25 @@ export const UsersProvider = ({ children }) => {
 
 
     const UserCreate = async (body) => {
+        const newUser = new Promise((resolve, reject) => {
+
+            URI.post(`/cadastro`, body)
+                .then(response => resolve(response))
+                .catch(err => {
+                    alert(err.response.data.message)
+                    reject(err.response.data.message)
+                })
+
+        })
 
         const response = await toast.promise(
-            URI.post("/cadastro", body),
+            newUser,
             {
                 pending: 'Conferindo os dados',
                 success: 'Usuário criado com sucesso',
                 error: 'Algo deu errado'
             }
         )
-            .catch(res => {
-                return alert(res.response.data.message)
-            })
 
         return response.data
     }
@@ -80,8 +87,8 @@ export const UsersProvider = ({ children }) => {
     const createUsers = useMutation({
         mutationFn: (e) => UserCreate(e),
         onSuccess: (_, variables) => {
-            setTypeSidebar(0)
-            setOpenSidebar(false);
+            // setTypeSidebar(0)
+            // setOpenSidebar(false);
 
             queryClient.setQueryData(
                 ["users", take, skip, orderFor, orderBy],

@@ -38,7 +38,7 @@ export const Header = (parsed) => {
         <>
             <CloserClick
                 open={nav}
-                fn={setNav} opacity={0}
+                fn={setNav} opacity={0.01}
             />
             <Container open={parsed.open} >
                 <nav>

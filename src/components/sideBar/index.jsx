@@ -174,7 +174,7 @@ export function MiniDrawer() {
         <>
             <CloserClick
                 open={openSidebar}
-                fn={setOpenSidebar} opacity={0}
+                fn={setOpenSidebar} opacity={0.01}
             />
             <Box >
                 <CssBaseline />

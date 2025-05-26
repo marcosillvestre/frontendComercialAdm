@@ -40,7 +40,7 @@ export function PopOverUsers(data) {
         <>
             <CloserClick
                 open={anchorEl}
-                fn={handleClick} opacity={0}
+                fn={handleClick} opacity={0.01}
             />
             <Container>
                 {userData?.admin === true &&
