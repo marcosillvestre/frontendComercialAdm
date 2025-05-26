@@ -24,7 +24,7 @@ export const CustomFields = ({ children }) => {
 
     const queryCustomFields = async () => {
         const response = await
-            URI.post("http://localhost:7070/campos-personalizados", {
+            URI.post("/campos-personalizados", {
                 orderBy,
                 orderFor,
                 skip,
@@ -41,7 +41,7 @@ export const CustomFields = ({ children }) => {
 
     const queryCustomFieldsTotals = async () => {
         const response = await
-            URI.get("http://localhost:7070/campos-personalizados-totais")
+            URI.get("/campos-personalizados-totais")
         return response.data
     }
 
@@ -91,7 +91,7 @@ export const CustomFields = ({ children }) => {
     const sendData = async (body) => {
 
         const response = await toast.promise(
-            URI.post("http://localhost:7070/campo-personalizado", body),
+            URI.post("/campo-personalizado", body),
             {
                 pending: 'Conferindo os dados',
                 success: 'Campo criado com sucesso',
@@ -131,7 +131,7 @@ export const CustomFields = ({ children }) => {
 
     const editData = async (body) => {
         const response = await toast.promise(
-            URI.put(`http://localhost:7070/campos-personalizados/${editCustomField.id}`, body),
+            URI.put(`/campos-personalizados/${editCustomField.id}`, body),
             {
                 pending: 'Conferindo os dados',
                 success: 'Campo editado com sucesso',
