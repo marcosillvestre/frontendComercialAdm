@@ -54,7 +54,7 @@ html{
     text-transform: uppercase;
     color: #fff;
     user-select: none;
-    z-index: 3;
+    z-index: 12;
 
 
     border: none;

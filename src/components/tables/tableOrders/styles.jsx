@@ -42,6 +42,7 @@ border-radius: var(--br);
 `
 
 export const Container = styled.main`
+z-index: 12;
 nav{
     align-items: center;
     gap: 1rem;
@@ -67,5 +68,41 @@ margin: 0 auto;
 svg{
     width: 20px;
     cursor: pointer;
+}
+`
+
+export const ButtonSellected = styled.button`
+padding: 0 1rem;
+z-index: 12;
+
+`
+export const SellectedView = styled.div`
+display: none;
+background-color: #222;
+color: #fff;
+padding: .5rem;
+border-radius: 5px;
+font-size: var(--fsXLow);
+max-width: 18rem;
+display: grid;
+position: absolute;
+z-index: 11;
+max-height: 15rem;
+overflow-y: scroll;
+&::-webkit-scrollbar{
+    display: none;
+}
+.container-sellected-view{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+
+    &:hover{
+        text-decoration: underline;
+    }
+}
+svg{
+    width: 15px;
 }
 `

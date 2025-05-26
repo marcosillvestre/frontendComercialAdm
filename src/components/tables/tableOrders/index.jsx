@@ -1,5 +1,6 @@
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import CloseIcon from '@mui/icons-material/Close';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
 import TaskIcon from '@mui/icons-material/Task';
 import { TablePagination } from '@mui/material';
@@ -14,9 +15,11 @@ import React from 'react';
 import LoadingSpin from 'react-loading-spin';
 import { useOrders } from '../../../hooks/orders/ordersContext.hook';
 import { MultiFiltersOrders } from '../../arrayFilters/multiFilters.Orders';
+import { CloserClick } from '../../closeClick';
 import { MultiAlterationOrders } from '../../multiAlteration.Orders';
 import { PopOverOrder } from '../../popovers/popOverOrders';
-import { ButtonContainer, Container, ContainerOrder, ContainerTable, Tag } from './styles';
+import { ButtonContainer, ButtonSellected, Container, ContainerOrder, ContainerTable, SellectedView, Tag } from './styles';
+
 function Row(props) {
     const { row } = props;
     const { checked, setChecked, checkData, setCheckData, } = useOrders()
@@ -63,7 +66,6 @@ function Row(props) {
                     <p
                         title={tenDaysAhead}
                     >
-
                         {new Date(created).toLocaleDateString("pt-BR")}
                     </p>
                 </TableCell>
@@ -121,15 +123,19 @@ Row.propTypes = {
 export default function TableOrders() {
     const { setOrderBy, setOrderFor, checkData, setCheckData,
         ordersQuery, queryOrder, setTake, setSkip, take,
-        checked, setChecked, orderBy, orderFor, setOrders, } = useOrders()
+        checked, setChecked, orderBy, orderFor, setOrders,
+        setQueryOrder
+    } = useOrders()
 
-    const { isPending } = ordersQuery
-
-
-    const { count, order } = queryOrder
 
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+    const [view, setView] = React.useState(false);
+
+    const { isPending, data } = ordersQuery
+
+    const { count, order } = queryOrder
 
 
     const handleChangePage = (event, newPage) => {
@@ -137,7 +143,7 @@ export default function TableOrders() {
         if (newPage === 0) return setSkip(0)
 
         setSkip(newPage * take)
-
+        setChecked(false)
     };
 
     const handleChangeRowsPerPage = (event) => {
@@ -156,7 +162,6 @@ export default function TableOrders() {
             checkbox.checked = bool;
         });
     };
-
 
 
     return (
@@ -192,6 +197,7 @@ export default function TableOrders() {
                                 >
                                     <span
                                         className='flex'
+
                                     >
                                         <MultiAlterationOrders
                                             element={1}
@@ -201,14 +207,55 @@ export default function TableOrders() {
                                         {
                                             checkData.length > 0 &&
                                             <>
-                                                <button
+                                                <ButtonSellected
                                                     className='defaultButton'
-                                                    style={{
-                                                        padding: "0 1rem"
-                                                    }}
+                                                    onMouseOver={() => setView(true)}
+
+                                                    onClick={() => {
+                                                        setView(!view)
+                                                        const { order: orderQueried, count: countQueried } = data
+
+                                                        setQueryOrder(view ?
+                                                            { order: orderQueried, count: countQueried } :
+                                                            { order: checkData, count: checkData.length }
+                                                        )
+                                                    }
+                                                    }
                                                 >
                                                     {checkData.length} pedido(s) selecionado(s)
-                                                </button>
+                                                </ButtonSellected>
+                                                <span>
+
+                                                    {
+                                                        view &&
+                                                        <>
+                                                            <CloserClick
+                                                                open={view}
+                                                                fn={setView} opacity={0.4}
+                                                            />
+                                                            <SellectedView
+                                                            >
+                                                                {checkData &&
+                                                                    checkData.map((res, i) => (
+                                                                        <span
+                                                                            key={i}
+                                                                            className='container-sellected-view'
+                                                                            onClick={() => {
+                                                                                let filtered = checkData.filter(t => t.id !== res.id);
+                                                                                setCheckData(filtered)
+                                                                            }}
+                                                                        >
+                                                                            <p>{res.name}</p>
+                                                                            <i title='remover'>
+                                                                                <CloseIcon />
+                                                                            </i>
+                                                                        </span>
+                                                                    ))}
+                                                            </SellectedView>
+                                                        </>
+                                                    }
+
+                                                </span>
 
                                                 <button
                                                     className='button-clean'
@@ -257,8 +304,13 @@ export default function TableOrders() {
                                                 checked={checked}
                                                 onClick={() => {
                                                     checkAll(!checked)
-                                                    setCheckData(!checked ? order : [])
+
+
+                                                    setCheckData(oldData => !checked ?
+                                                        [...oldData, ...order] :
+                                                        [])
                                                 }} />
+
                                         </TableCell>
                                         <TableCell align="center">
                                             <ContainerOrder>
