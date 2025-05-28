@@ -37,7 +37,9 @@ export function ComissionControll() {
     const { unityQuery } = useUnities()
 
 
-    const { comissionSuccess, comissionQuery, comissionPending, setLabel, label } = useComission()
+    const { comissionQuery, setLabel, label } = useComission()
+
+    const { data, isPending, isSuccess } = comissionQuery
 
     const [open1, setOpen1] = useState(false)
     const [open2, setOpen2] = useState(false)
@@ -53,13 +55,15 @@ export function ComissionControll() {
 
     useLayoutEffect(() => {
 
-        if (comissionSuccess) {
+        if (isSuccess) {
 
-            const resultado = filtrarArray(comissionQuery, list, comissionQuery);
+            const { deals, total: _ } = data
+
+            const resultado = filtrarArray(deals, list, deals);
             setRelatory(resultado)
 
 
-            const data = comissionQuery.reduce((contador, item) => {
+            const newData = data.deals.reduce((contador, item) => {
                 const owner = item.owner;
                 if (contador[owner]) {
                     contador[owner]++;
@@ -71,14 +75,12 @@ export function ComissionControll() {
             }, {});
 
 
-            setSellersRelatories(Object.keys(data).map(owner => ({
+            setSellersRelatories(Object.keys(newData).map(owner => ({
                 owner: owner,
-                count: data[owner]
+                count: newData[owner]
             })))
         }
-    }, [comissionQuery, comissionSuccess,
-        list
-    ])
+    }, [isSuccess, list])
 
 
     const exportToExcel = () => {
@@ -177,8 +179,8 @@ export function ComissionControll() {
                     </nav>
                     <Tax>
                         {
-                            comissionPending === false && <p>
-                                {comissionQuery.length}
+                            isPending === false && <p>
+                                {data.total}
                             </p>
                         }
                     </Tax>
@@ -225,10 +227,10 @@ export function ComissionControll() {
 
                 {view === 'list' ?
                     <ContainerTable
-                        load={comissionPending}
+                        load={isPending}
                     >
                         {
-                            comissionPending ?
+                            isPending ?
                                 <LoadingSpin
                                     duration="4s"
                                     width="15px"
@@ -243,7 +245,7 @@ export function ComissionControll() {
                                 <div className='cell-relatory'>
 
                                     <Totals
-                                        pending={comissionPending}
+                                        pending={isPending}
                                         data={relatory}
                                         sellected={list}
                                     />

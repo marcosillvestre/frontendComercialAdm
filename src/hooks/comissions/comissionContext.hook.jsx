@@ -23,26 +23,26 @@ export const ComissionProvider = ({ children }) => {
         range: label,
     }
 
-
-
-
-
     const comissionData = async () => {
 
-        bodyComission['dates'] = await getDate(bodyComission.range)
-
-        if (selectedInitialDate !== null && selectedEndDate !== null) {
+        if (!selectedInitialDate && !selectedEndDate) {
             bodyComission['range'] = "Personalizado"
             bodyComission['dates'] = `${selectedInitialDate}~${selectedEndDate}`
         }
 
-        const response = await URI.get(`/comissao?range=${bodyComission.range}&dates=${bodyComission.dates}`).then(res => res.data.data)
-        return response
+        const response = await URI.post(`/comissao`,
+            {
+                dates: await getDate(label),
+                responsible: userData
+            }
+        )
+
+        return response.data
     }
 
 
 
-    const { isPending: comissionPending, isSuccess: comissionSuccess, data: comissionQueried } = useQuery({
+    const comissionQuery = useQuery({
         queryFn: () => comissionData(),
         queryKey: [bodyComission],
         enabled: !headers.Authorization.includes("undefined")
@@ -50,20 +50,10 @@ export const ComissionProvider = ({ children }) => {
 
 
 
-    const admRoles = () => {
-        return userData.role !== 'comercial' ?
-            comissionQueried.deals :
-            comissionQueried.deals.filter(res => res.owner.toLowerCase().includes(userData.name.toLowerCase()))
-    }
-
-    const comissionQuery = comissionSuccess && admRoles()
-
     return (
         <ComissionContext.Provider value={{
             setLabel,
             comissionQuery,
-            comissionPending,
-            comissionSuccess,
             label,
 
         }}>
