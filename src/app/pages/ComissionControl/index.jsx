@@ -80,7 +80,7 @@ export function ComissionControll() {
                 count: newData[owner]
             })))
         }
-    }, [isSuccess, list])
+    }, [isSuccess, JSON.stringify(data?.deals)])
 
 
     const exportToExcel = () => {
