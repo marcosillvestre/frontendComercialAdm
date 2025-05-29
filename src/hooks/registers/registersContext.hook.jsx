@@ -46,7 +46,7 @@ export const RegistersProvider = ({ children }) => {
     const queryOnlyRegister = useQuery({
         queryFn: () => querieRegister(),
         queryKey: ["RegisterOnly", registerId],
-        enabled: userData.name !== undefined &&
+        enabled: userData?.name !== undefined &&
             userData.role !== undefined &&
             registerId !== null
 
@@ -100,7 +100,7 @@ export const RegistersProvider = ({ children }) => {
             "Register", search, take, skip,
             orderBy, query, orderFor, JSON.stringify(typeFilter)
         ],
-        enabled: userData.name !== undefined && userData.role !== undefined
+        enabled: userData?.name !== undefined && userData.role !== undefined
 
     })
 

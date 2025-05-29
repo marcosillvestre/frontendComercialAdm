@@ -1,12 +1,13 @@
 
 
 import Proptypes from 'prop-types'
+import { redirect } from "react-router-dom"
 import URI from "../app/utils/utils.jsx"
 
 import { useQuery } from '@tanstack/react-query'
 import { paths } from '../app/constants/paths.js'
 
-import { createContext, useContext, useEffect, useMemo, useState } from "react"
+import { createContext, useContext, useEffect, useState } from "react"
 
 const UserContext = createContext({})
 export const UserProvider = ({ children }) => {
@@ -16,10 +17,7 @@ export const UserProvider = ({ children }) => {
     const [fetchData, setFetchData] = useState()
     const [filtered, setFiltered] = useState([])
     const [contracts, setContracts] = useState([])
-
     const [filteredContracts, setFilteredContracts] = useState()
-
-
     const [anchorEl, setAnchorEl] = useState(null);
     const [openPeriodRange, setOpenPeriodRange] = useState(false)
 
@@ -38,11 +36,12 @@ export const UserProvider = ({ children }) => {
             if (clientInfo) {
                 setUserData(JSON.parse(clientInfo))
             }
-            if (!clientInfo) {
 
-                window.location.href = paths.home.path
+            if (!clientInfo) {
+                redirect(paths.home.path)
             }
         }
+
         loadUserData()
 
     }, [])
@@ -56,22 +55,11 @@ export const UserProvider = ({ children }) => {
 
     const logOut = async () => {
         await localStorage.removeItem('userData')
+        redirect(paths.home.path)
     }
 
 
-    const headers = useMemo(() => {
-        return {
-            "Authorization": `Bearer ${userData?.token}`
-        }
-    }, [userData?.token])
-
-
-
-
     const [periodFilter, setPeriodFilter] = useState(false)
-
-
-
 
     const [historicTake, setHistoricTake] = useState(10)
     const queryHistoric = async () => {
@@ -80,15 +68,12 @@ export const UserProvider = ({ children }) => {
     }
 
 
-    const {
-        data: historic,
-        refetch: refetchHistoric,
-        isPending: isPendingHistoric,
-        isSuccess: historicSuccess } = useQuery({
-            queryFn: () => queryHistoric(),
-            queryKey: ["historic", historicTake],
-            onError: (err) => console.log(err)
-        })
+    const { data: historic, refetch: refetchHistoric, isPending: isPendingHistoric, isSuccess: historicSuccess, error } = useQuery({
+        queryFn: () => queryHistoric(),
+        queryKey: ["historic", historicTake],
+        onError: (err) => console.log(err),
+        enabled: userData.name !== undefined
+    })
 
 
     const [openSidebar, setOpenSidebar] = useState(false);
@@ -98,8 +83,7 @@ export const UserProvider = ({ children }) => {
     return (
         <UserContext.Provider value={{
             contracts, setContracts, periodFilter, setPeriodFilter,
-            headers, putInfo,
-            userData,
+            putInfo, userData,
 
             anchorEl, setAnchorEl, handleClose,
             logOut, fetchData, setFetchData, selectedInitialDate, setSelectedInitialDate,

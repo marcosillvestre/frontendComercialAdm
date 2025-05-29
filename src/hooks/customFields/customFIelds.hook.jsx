@@ -10,7 +10,7 @@ const CustomFieldsHook = createContext({})
 export const CustomFields = ({ children }) => {
 
     const queryClient = useQueryClient()
-    const { headers, userData } = useUser()
+    const { userData } = useUser()
 
     const [queryCustomField, setQueryCustomField] = useState({ customFields: [], total: 0 })
     const [customFieldsTotals, setCustomFieldsTotals] = useState({ customFields: [], total: 0 })
@@ -36,7 +36,7 @@ export const CustomFields = ({ children }) => {
     const CustomFieldsQuery = useQuery({
         queryFn: () => queryCustomFields(),
         queryKey: ["custom", take, skip, orderBy, orderFor],
-        enabled: !headers.Authorization.includes("undefined")
+        enabled: userData?.name !== undefined
     })
 
     const queryCustomFieldsTotals = async () => {
@@ -48,7 +48,7 @@ export const CustomFields = ({ children }) => {
     const totals = useQuery({
         queryFn: () => queryCustomFieldsTotals(),
         queryKey: ["custom-total"],
-        enabled: !headers.Authorization.includes("undefined")
+        enabled: userData?.name !== undefined
     })
 
 

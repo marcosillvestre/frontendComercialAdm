@@ -11,7 +11,7 @@ const UnitiesContext = createContext({})
 export const UnitiesProvider = ({ children }) => {
 
     const queryClient = useQueryClient()
-    const { headers } = useUser()
+    const { userData } = useUser()
     const [unity, setUnity] = useState()
 
     const sendData = async () => {
@@ -42,7 +42,7 @@ export const UnitiesProvider = ({ children }) => {
     const unityQuery = useQuery({
         queryFn: () => queryUnities(),
         queryKey: ["unities"],
-        enabled: !headers.Authorization.includes("undefined")
+        enabled: userData?.name !== undefined
     })
 
 

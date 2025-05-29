@@ -13,7 +13,7 @@ import { useUser } from "../userContext.jsx"
 const ComissionContext = createContext({})
 export const ComissionProvider = ({ children }) => {
 
-    const { headers, userData } = useUser();
+    const { userData } = useUser();
     const { selectedInitialDate, selectedEndDate } = useRegister()
 
     const [label, setLabel] = useState(businessRules.predeterminedPeriods[0].name)
@@ -45,7 +45,7 @@ export const ComissionProvider = ({ children }) => {
     const comissionQuery = useQuery({
         queryFn: () => comissionData(),
         queryKey: [bodyComission],
-        enabled: !headers.Authorization.includes("undefined")
+        enabled: userData?.name !== undefined
     })
 
 

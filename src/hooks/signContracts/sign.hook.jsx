@@ -34,7 +34,7 @@ export const SigningContracts = ({ children }) => {
     const funnelsQuery = useQuery({
         queryFn: () => funnelsData(),
         queryKey: ['funnel'],
-        enabled: userData.role !== undefined,
+        enabled: userData?.role !== undefined,
         retry: false
     })
 
