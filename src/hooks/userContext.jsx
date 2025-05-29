@@ -1,7 +1,6 @@
 
 
 import Proptypes from 'prop-types'
-import { redirect } from "react-router-dom"
 import URI from "../app/utils/utils.jsx"
 
 import { useQuery } from '@tanstack/react-query'
@@ -40,7 +39,8 @@ export const UserProvider = ({ children }) => {
                 setUserData(JSON.parse(clientInfo))
             }
             if (!clientInfo) {
-                redirect(paths.home.path)
+
+                window.location.href = paths.home.path
             }
         }
         loadUserData()
