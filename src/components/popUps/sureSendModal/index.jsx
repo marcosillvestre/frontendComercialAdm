@@ -46,7 +46,7 @@ export function SureSendModal(data) {
 
 
     const [send, setSend] = useState(data.data === "PDF" ? false : true)
-    const { filteredContracts, headers, userData } = useUser()
+    const { filteredContracts, userData } = useUser()
     const { content, setView } = useData()
 
     const [open, setOpen] = useState(false);
@@ -248,25 +248,29 @@ export function SureSendModal(data) {
         } else {
             alert('Arquivo não encontrado');
         }
-        headers['Content-Type'] = 'multipart/form-data',
 
 
-            // return
-            await toast.promise(
-                // axios.post('/uploads',
-                URI.post("/uploads",
-                    data, { headers: headers })
-                    .then(res => {
-                        const data = res.data.message
-                        data.customer && setLinks(data)
-                        send && contaAzulSender()
-                    })
-                , {
-                    pending: 'Enviando para o autentique',
-                    success: 'Enviado com sucesso',
-                    error: "Erro ao enviar, confira seus dados"
+
+        // return
+        await toast.promise(
+            // axios.post('/uploads',
+            URI.post("/uploads",
+                data, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
                 }
-            )
+            })
+                .then(res => {
+                    const data = res.data.message
+                    data.customer && setLinks(data)
+                    send && contaAzulSender()
+                })
+            , {
+                pending: 'Enviando para o autentique',
+                success: 'Enviado com sucesso',
+                error: "Erro ao enviar, confira seus dados"
+            }
+        )
     }
 
 
