@@ -32,6 +32,9 @@ button{
 export const Boxes = styled.div`
 max-height: 60dvh;
 padding: .3rem;
+display: flex;
+justify-content: center;
+align-items: center;
 `
 
 export const Footer = styled.footer`
@@ -85,7 +88,8 @@ export const ContainerPopUpData = styled.main`
 padding: 1rem 0;
 max-height: 55dvh;
 overflow-y: scroll;
-
+width: 100%;
+padding: 1rem;
 
 .input{
     display: block;

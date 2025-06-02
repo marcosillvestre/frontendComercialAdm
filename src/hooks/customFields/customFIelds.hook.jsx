@@ -83,7 +83,7 @@ export const CustomFields = ({ children }) => {
 
         if (CustomFieldsQuery.isSuccess) gatherData()
 
-    }, [take, skip, orderBy, customFieldsTotals.isSuccess, orderFor])
+    }, [take, skip, orderBy, CustomFieldsQuery.isSuccess, orderFor])
 
 
 
@@ -171,7 +171,7 @@ export const CustomFields = ({ children }) => {
         const responsible = userData.name
 
         const response = await toast.promise(
-            URI.delete(`/campo-personalizado/${id}?responsible=${responsible}`),
+            URI.delete(`/campos-personalizados/${id}?responsible=${responsible}`),
             {
                 pending: 'Conferindo os dados',
                 success: 'serviço deletado com sucesso',
@@ -192,16 +192,13 @@ export const CustomFields = ({ children }) => {
                 (oldData) => {
 
                     return setQueryCustomField({
-                        customField:
-                            oldData.customField.filter(res => res.id !== variables),
+                        customFields: oldData.customFields.filter(res => res.id !== variables),
                         total: oldData.total - 1
                     })
                 }
             )
         }
     })
-
-
 
 
     return (
