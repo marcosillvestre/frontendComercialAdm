@@ -40,7 +40,7 @@ import { useOrders } from '../../../hooks/orders/ordersContext.hook';
 export function SureSendContract(data) {
 
 
-    const { headers, userData } = useUser()
+    const { userData } = useUser()
 
     const [open, setOpen] = useState(false);
     const [fileName, setFileName] = useState('')
@@ -88,29 +88,31 @@ export function SureSendContract(data) {
         } else {
             alert('Arquivo não encontrado');
         }
-        headers['Content-Type'] = 'multipart/form-data',
 
-            // return
-            await toast.promise(
-                URI.post("/uploads-recibos",
-                    data, { headers: headers })
-                    .then(async res => {
-                        const data = res.data.message
-                        data.customer && setLinks(data)
-
-                        await mutationMultiUpdate.mutateAsync({
-                            ids: orders.map(res => res.id),
-                            responsible: userData.name,
-                            where: 'link',
-                            what: data.customer
-                        })
-                    })
-                , {
-                    pending: 'Enviando para o autentique',
-                    success: 'Enviado com sucesso',
-                    error: "Erro ao enviar, confira seus dados"
+        await toast.promise(
+            URI.post("/uploads-recibos",
+                data, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
                 }
-            )
+            })
+                .then(async res => {
+                    const data = res.data.message
+                    data.customer && setLinks(data)
+
+                    await mutationMultiUpdate.mutateAsync({
+                        ids: orders.map(res => res.id),
+                        responsible: userData.name,
+                        where: 'link',
+                        what: data.customer
+                    })
+                })
+            , {
+                pending: 'Enviando para o autentique',
+                success: 'Enviado com sucesso',
+                error: "Erro ao enviar, confira seus dados"
+            }
+        )
     }
 
     const copy = () => {
