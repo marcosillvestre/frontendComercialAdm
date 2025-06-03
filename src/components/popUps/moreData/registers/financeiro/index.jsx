@@ -37,8 +37,10 @@ export const Financial = () => {
         })
 
         setEditRegister(newRegister)
-
     }
+
+    console.log(customFieldsFiltered)
+    console.log(register)
 
     return (
         <ContainerPopUpData>
@@ -60,8 +62,8 @@ export const Financial = () => {
                                 <MultiSelect
                                     field={key.name}
                                     related={
-                                        register.customFields[key.name][0]?.name ?
-                                            register.customFields[key.name] :
+                                        !register.customFields[key.name] ?
+                                            [] :
                                             register.customFields[key.name]
                                                 .map(res => {
                                                     return {
@@ -70,11 +72,12 @@ export const Financial = () => {
                                                 })}
                                     fn={customFieldsChanger}
                                     width="100%"
-                                    option={key.options.map(res => {
-                                        return {
-                                            name: res
-                                        }
-                                    })}
+                                    option={
+                                        key.options.map(res => {
+                                            return {
+                                                name: res
+                                            }
+                                        })}
 
                                 />
                             </div>

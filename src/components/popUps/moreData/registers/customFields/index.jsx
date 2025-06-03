@@ -60,8 +60,8 @@ export const CustomFields = () => {
                                 <MultiSelect
                                     field={key.name}
                                     related={
-                                        register.customFields[key.name][0]?.name ?
-                                            register.customFields[key.name] :
+                                        !register.customFields[key.name] ?
+                                            [] :
                                             register.customFields[key.name]
                                                 .map(res => {
                                                     return {

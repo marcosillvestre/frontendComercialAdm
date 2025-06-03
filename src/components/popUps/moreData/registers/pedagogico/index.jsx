@@ -39,7 +39,7 @@ export const Pedagogic = () => {
         setEditRegister(newRegister)
 
     }
-
+    console.log(customFieldsFiltered.map(key => register.customFields[key.name]))
 
     return (
         <ContainerPopUpData>
@@ -65,8 +65,8 @@ export const Pedagogic = () => {
                                 <MultiSelect
                                     field={key.name}
                                     related={
-                                        register.customFields[key.name][0]?.name ?
-                                            register.customFields[key.name] :
+                                        !register.customFields[key.name] ?
+                                            [] :
                                             register.customFields[key.name]
                                                 .map(res => {
                                                     return {
