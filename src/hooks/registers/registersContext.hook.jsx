@@ -71,8 +71,8 @@ export const RegistersProvider = ({ children }) => {
 
     ////
     const queriesRegister = async () => {
-        let url = query ? `/registro-query` :
-            `/registro`
+        let url = query ?
+            `/registro-query` : `/registro`
 
         const dates = search !== "Período personalizado" ? await pickingDate(search) :
             `${selectedInitialDate}~${selectedEndDate}`
@@ -111,9 +111,11 @@ export const RegistersProvider = ({ children }) => {
             const { data, error } = RegisterQuery;
 
             if (error && error?.response?.data.error === 'token invalid') {
-                window.location.href = paths.home.path
-                alert("Faça login novamente, seu acesso expirou")
-                logOut()
+                window.location.href = paths.home.path;
+                alert("Faça login novamente, seu acesso expirou");
+                logOut();
+
+                return;
             }
 
             const { registers, total } = data;
@@ -121,15 +123,13 @@ export const RegistersProvider = ({ children }) => {
             setQueryRegister({ registers, total })
         }
 
-        if (RegisterQuery.isSuccess) gatherData()
+        if (RegisterQuery.isSuccess || RegisterQuery.isError) gatherData()
 
     }, [
-        RegisterQuery.isSuccess, take, skip,
+        RegisterQuery.isSuccess, take, skip, RegisterQuery.isError,
         orderFor, query, orderBy, JSON.stringify(typeFilter), search
     ])
 
-
-    ////
 
     const deleteRegisterData = async (id) => {
         const responsible = userData.name
