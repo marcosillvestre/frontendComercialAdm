@@ -51,6 +51,8 @@ export const getDate = async (range) => {
 
 
 export const dateCalculator = (date, index) => {
+    if (!date) return null;
+
     const dateFormated = new Date(date.split('/').reverse().join('-'));
     dateFormated.setUTCHours(12)
 
