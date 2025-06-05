@@ -509,7 +509,7 @@ export function SureSendModal(data) {
                                                             defaultChecked={sendingList && sendingList.find(r => r === "contract")}
                                                             onClick={(e) => {
                                                                 const msgs = {
-                                                                    "Data de vencimento da primeira parcela": "A data de vencimento da primeira parcela não foi preenchida.",
+                                                                    "Data de Vencimento da Primeira Parcela": "A data de vencimento da primeira parcela não foi preenchida.",
                                                                     "Número de parcelas do curso": "O número de parcelas do curso não foi preenchido",
                                                                     "Forma de pagamento da parcela": "A forma de pagamento do curso não foi preenchido",
                                                                 }

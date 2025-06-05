@@ -242,7 +242,7 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                                 <tbody>
                                     <tr>
                                         <td >Aluno</td>
-                                        <td >{data["Nome do aluno"]}</td>
+                                        <td >{data["Nome do aluno (se não for responsável próprio))"]}</td>
                                     </tr>
                                     <tr>
                                         <td >Data de nascimento</td>
@@ -366,7 +366,7 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                                                 parcel.parcels.map((res, idx) => (
                                                     <tr key={idx}>
                                                         <td>{idx + 1}</td>
-                                                        <td>{dateCalculator(data["Data de vencimento da primeira parcela"], idx)}</td>
+                                                        <td>{dateCalculator(data["Data de Vencimento da Primeira Parcela"], idx)}</td>
                                                         <td>{(parcel.total / parcel.parcels.length).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
                                                         <td>{parseFloat(res.descount).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
                                                         {
@@ -386,7 +386,7 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                                                 parcel.parcels.map((res, idx) => (
                                                     <tr key={idx}>
                                                         <td>{idx + 1}</td>
-                                                        <td>{dateCalculator(data["Data de vencimento da primeira parcela"], idx)}</td>
+                                                        <td>{dateCalculator(data["Data de Vencimento da Primeira Parcela"], idx)}</td>
                                                         <td>{(parcel.total / parcel.parcels.length).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
                                                         <td>{parseFloat(res.descount).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
                                                         <td>{(res.valor - res.descount).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
@@ -984,7 +984,7 @@ PDFFile.propTypes = {
         'Desconto total': PropTypes.string,
         'Valor do desconto demais parcelas': PropTypes.string,
         'Data de vencimento da última parcela': PropTypes.string,
-        'Data de vencimento da primeira parcela': PropTypes.string,
+        "Data de Vencimento da Primeira Parcela": PropTypes.string,
         'Valor total do material didático': PropTypes.string,
         'Material didático': PropTypes.array,
         'Quantidade de parcelas MD': PropTypes.string,
@@ -993,7 +993,7 @@ PDFFile.propTypes = {
         'Forma de pagamento do MD': PropTypes.string,
         'Data de início do contrato': PropTypes.string,
         'Data de fim do contrato': PropTypes.string,
-        'Nome do aluno': PropTypes.string,
+        'Nome do aluno (se não for responsável próprio))': PropTypes.string,
         'Data de nascimento do aluno': PropTypes.string,
         'Background do Aluno': PropTypes.string,
         'Idade do Aluno': PropTypes.string,

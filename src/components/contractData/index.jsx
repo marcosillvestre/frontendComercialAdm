@@ -264,11 +264,9 @@ export const ContractData = () => {
     const activeCampaignForMaterial = async (campaignMaterial, insumes) => {
 
         const { total, descount } = await defineValueForMaterials(filteredContracts["Material didático"], insumes);
-        const mdValor = total - parseNumber(filteredContracts["Valor do desconto material didático"])
-
 
         const campaignDescount = await defineDescountValueForType(
-            mdValor,
+            total,
             campaignMaterial.value,
             campaignMaterial.descountType
         )
@@ -277,7 +275,7 @@ export const ContractData = () => {
 
         for (let index = 0; index < parseNumber(filteredContracts["Quantidade de parcelas MD"]); index++) {
             materials.push({
-                valor: ((mdValor - campaignDescount) / parseNumber(filteredContracts["Quantidade de parcelas MD"])).toFixed(2)
+                valor: ((total - campaignDescount) / parseNumber(filteredContracts["Quantidade de parcelas MD"])).toFixed(2)
             })
         }
         setmaterial({
@@ -297,7 +295,7 @@ export const ContractData = () => {
     }
 
     const activeCampaignForTax = async (campaignTax) => {
-        const value = 350 - parseNumber(filteredContracts["Valor do Desconto na Taxa de Matrícula"])
+        const value = 350 - parseNumber(filteredContracts["Valor do Desconto na TM"])
 
         const campaignDescount = await defineDescountValueForType(
             value,
@@ -334,11 +332,10 @@ export const ContractData = () => {
 
         const { total, descount } = await defineValueForMaterials(filteredContracts["Material didático"], campaignMaterial)
 
-        const mdValor = total - parseNumber(filteredContracts["Valor do desconto material didático"])
 
         let materials = []
         for (let index = 0; index < parseNumber(filteredContracts["Quantidade de parcelas MD"]); index++) {
-            materials.push({ valor: (mdValor / parseNumber(filteredContracts["Quantidade de parcelas MD"])).toFixed(2) })
+            materials.push({ valor: (total / parseNumber(filteredContracts["Quantidade de parcelas MD"])).toFixed(2) })
         }
 
         setmaterial({
@@ -398,7 +395,7 @@ export const ContractData = () => {
 
     const sincValueForTax = async () => {
 
-        const taxValue = 350 - parseNumber(filteredContracts["Valor do Desconto na Taxa de Matrícula"])
+        const taxValue = 350 - parseNumber(filteredContracts["Valor do Desconto na TM"])
         const tx = []
         for (let index = 0; index < filteredContracts["Quantidade de parcelas TM "]; index++) {
 
@@ -412,7 +409,7 @@ export const ContractData = () => {
         filteredContracts["tax"] = {
             taxes: tx,
             total: taxValue,
-            descount: parseNumber(filteredContracts["Valor do Desconto na Taxa de Matrícula"])
+            descount: parseNumber(filteredContracts["Valor do Desconto na TM"])
         }
     }
     /////////////////////////////////////
@@ -439,7 +436,7 @@ export const ContractData = () => {
 
     useEffect(() => {
         const handleScroll = () => {
-            setActiveNavbar(window.scrollY > 250); // Altera para `true` quando passa de 100px
+            setActiveNavbar(window.scrollY > 200); // Altera para `true` quando passa de 100px
         };
 
         window.addEventListener("scroll", handleScroll);
@@ -461,7 +458,6 @@ export const ContractData = () => {
                             className='defaultButton button'
                             onClick={() => {
                                 setFilteredContracts(undefined)
-                                // setContractOptions(allContracts)
                                 setContract(null)
                                 setView('table')
                             }}>
@@ -516,14 +512,6 @@ export const ContractData = () => {
                         </Button>
 
                         <Box $emmit={emmit && true} >
-                            {/* <SendContract
-                                className='defaultButton'
-
-                                $emmit={emmit && true}>
-                                <SureSendModal
-                                    data={"PDF"}
-                                    text={personalText.PDF} />
-                            </SendContract> */}
                             <SendContract
                                 className='defaultButton'
                                 $emmit={emmit && true}>
@@ -641,7 +629,7 @@ export const ContractData = () => {
                                     <tbody>
                                         <tr>
                                             <td >Aluno</td>
-                                            <td >{filteredContracts["Nome do aluno"]}</td>
+                                            <td >{filteredContracts["Nome do aluno (se não for responsável próprio))"]}</td>
                                         </tr>
                                         <tr>
                                             <td >Data de nascimento</td>
@@ -788,7 +776,7 @@ export const ContractData = () => {
                                                     paymentParcels.parcels.map((res, idx) => (
                                                         <tr key={idx}>
                                                             <td>{idx + 1}</td>
-                                                            <td>{dateCalculator(filteredContracts["Data de vencimento da primeira parcela"], idx)}</td>
+                                                            <td>{dateCalculator(filteredContracts["Data de Vencimento da Primeira Parcela"], idx)}</td>
                                                             <td>{(paymentParcels.total / paymentParcels.parcels.length).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
 
                                                             <td>{parseFloat(res.descount).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
@@ -809,7 +797,7 @@ export const ContractData = () => {
                                                     paymentParcels.parcels.map((res, idx) => (
                                                         <tr key={idx}>
                                                             <td>{idx + 1}</td>
-                                                            <td>{dateCalculator(filteredContracts["Data de vencimento da primeira parcela"], idx)}</td>
+                                                            <td>{dateCalculator(filteredContracts["Data de Vencimento da Primeira Parcela"], idx)}</td>
                                                             <td>{(paymentParcels.total / paymentParcels.parcels.length).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
                                                             <td>{parseFloat(paymentParcels.descountForPontuality).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
                                                             <td>{(res.valor - paymentParcels.descountForPontuality).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td> :

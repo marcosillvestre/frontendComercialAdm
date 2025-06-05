@@ -66,7 +66,7 @@ function TableMainData(props) {
                     <TableCell component="th" scope="row">
                         {new Date(row.created_at).toLocaleDateString("pt-Br")}
                     </TableCell>
-                    <TableCell align="center">{row["customFields"]["Nome do aluno"]}</TableCell>
+                    <TableCell align="center">{row["customFields"]["Nome do aluno (se não for responsável próprio))"]}</TableCell>
                     <TableCell align="center">{row.name}</TableCell>
                     <TableCell align="center">{row["customFields"]["Curso"]}</TableCell>
                     <TableCell align="center">{row["customFields"]["Unidade"]}</TableCell>
@@ -162,7 +162,7 @@ function TableMainData(props) {
                 <TableCell component="th" scope="row">
                     {new Date(row.created_at).toLocaleDateString("pt-Br")}
                 </TableCell>
-                <TableCell align="center">{row["customFields"]["Nome do aluno"]}</TableCell>
+                <TableCell align="center">{row["customFields"]["Nome do aluno (se não for responsável próprio))"]}</TableCell>
                 <TableCell align="center">{row.name}</TableCell>
                 <TableCell align="center">
 
@@ -285,7 +285,7 @@ TableMainData.propTypes = {
         comissaoStatus: PropTypes.string.isRequired,
         id: PropTypes.string.isRequired,
         customFields: PropTypes.shape({
-            "Nome do aluno": PropTypes.string.isRequired,
+            "Nome do aluno (se não for responsável próprio))": PropTypes.string.isRequired,
             "Curso": PropTypes.string.isRequired,
             "Unidade": PropTypes.string.isRequired,
             "Background do Aluno": PropTypes.string.isRequired,

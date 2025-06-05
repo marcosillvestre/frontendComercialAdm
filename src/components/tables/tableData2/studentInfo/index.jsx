@@ -75,7 +75,7 @@ export const StudentInfo = (props) => {
                             <TableBody>
                                 <TableRow >
                                     <TableCell component="th" scope="row" align="center">
-                                        {row["customFields"]["Nome do aluno"]}
+                                        {row["customFields"]["Nome do aluno (se não for responsável próprio))"]}
                                     </TableCell>
                                     <TableCell align="center">
                                         {row["customFields"]["Data de nascimento do aluno"]}
@@ -175,7 +175,7 @@ StudentInfo.propTypes = {
         observacao: PropTypes.array,
         customFields: PropTypes.shape({
             "Data de emissão da venda": PropTypes.string.isRequired,
-            "Nome do aluno": PropTypes.string.isRequired,
+            "Nome do aluno (se não for responsável próprio))": PropTypes.string.isRequired,
             "Data de nascimento do aluno": PropTypes.string.isRequired,
             "Idade do Aluno": PropTypes.string.isRequired,
         }).isRequired,

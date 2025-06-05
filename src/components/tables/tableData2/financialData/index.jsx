@@ -181,7 +181,7 @@ export const FinancialInfo = (props) => {
                                             {row["customFields"]["Valor do desconto de pontualidade por parcela"]}
                                         </TableCell>
                                         <TableCell align="center">
-                                            {row["customFields"]["Data de vencimento da primeira parcela"]}
+                                            {row["customFields"]["Data de Vencimento da Primeira Parcela"]}
                                         </TableCell>
                                         <TableCell align="center">
                                             {row["customFields"]["Forma de pagamento da parcela"]}
@@ -402,7 +402,7 @@ FinancialInfo.propTypes = {
             "Forma de pagamento TM": PropTypes.string,
             "Valor total da parcela": PropTypes.string,
             "Valor do desconto de pontualidade por parcela": PropTypes.string,
-            "Data de vencimento da primeira parcela": PropTypes.string,
+            "Data de Vencimento da Primeira Parcela": PropTypes.string,
             "Forma de pagamento da parcela": PropTypes.string,
             "Número de parcelas": PropTypes.string,
             "Valor total do material didático": PropTypes.string,

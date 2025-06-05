@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import Proptypes from 'prop-types'
 import { createContext, useContext, useLayoutEffect, useRef, useState } from "react"
 import { toast } from "react-toastify"
+import { paths } from "../../app/constants/paths.js"
 import { pickingDate } from "../../app/utils/functions/getDates.jsx"
 import businessRules from '../../app/utils/Rules/options.jsx'
 import URI from "../../app/utils/utils"
@@ -40,7 +41,7 @@ export const OrdersProvider = ({ children }) => {
 
     const [checked, setChecked] = useState(false)
 
-    const { userData } = useUser()
+    const { userData, logOut } = useUser()
 
 
     const recibo = useRef()
@@ -88,18 +89,25 @@ export const OrdersProvider = ({ children }) => {
     useLayoutEffect(() => {
         const gatherData = async () => {
 
+            const { data, error } = ordersQuery;
 
-            const { data } = ordersQuery
+            if (error && error?.response?.data.error === 'token invalid') {
+                window.location.href = paths.home.path;
+                alert("Faça login novamente, seu acesso expirou");
+                logOut();
+
+                return;
+            }
             const { order, count } = data
 
             setQueryOrder({ order, count })
         }
 
 
-        if (ordersQuery.isSuccess) gatherData()
+        if (ordersQuery.isSuccess || ordersQuery.isError) gatherData()
 
     }, [
-        search, take, skip, ordersQuery.isSuccess, query,
+        search, take, skip, ordersQuery.isSuccess, ordersQuery.isError, query,
         typeFilter.length, orderFor, orderBy
     ])
 
