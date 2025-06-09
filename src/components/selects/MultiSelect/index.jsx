@@ -58,6 +58,7 @@ export const MultiSelect = (parameters) => {
                                         setSelected(selected.filter(res => res.name !== data.name)) :
                                         setSelected(res => [...res, {
                                             name: data.name,
+                                            id: data?.id
                                         }])
                                 }
                                 }
