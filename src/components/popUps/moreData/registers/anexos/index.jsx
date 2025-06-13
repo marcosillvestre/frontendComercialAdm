@@ -147,12 +147,21 @@ export const Anexes = () => {
                                                     {tag.contentType}
                                                 </header>
                                                 <main>
-                                                    <ButtonAction
-                                                        onClick={() => GetDownloadUrl(tag.key)}
-                                                        title={`Fazer o download do arquivo ${tag.contentType}`}
-                                                    >
-                                                        {tag.name}
-                                                    </ButtonAction>
+                                                    {
+                                                        tag.contentType === 'link' ?
+                                                            <ButtonAction
+                                                                title={`Direcionar ao contrato`}
+                                                            >
+                                                                <a href={tag.key} target='_blank' rel='noreferrer'>{tag.name}</a>
+                                                            </ButtonAction>
+                                                            :
+                                                            <ButtonAction
+                                                                onClick={() => GetDownloadUrl(tag.key)}
+                                                                title={`Fazer o download do arquivo ${tag.contentType}`}
+                                                            >
+                                                                {tag.name}
+                                                            </ButtonAction>
+                                                    }
                                                 </main>
                                                 <footer>
                                                     <p>{new Date(tag.created_at).toLocaleString("pt-BR")}</p>

@@ -18,6 +18,7 @@ export const Pedagogic = () => {
 
     const customFieldsFiltered = customFields.filter(res => res.category === "Pedagogico")
 
+    
 
     const customFieldsChanger = (key, value) => {
 
@@ -39,7 +40,6 @@ export const Pedagogic = () => {
         setEditRegister(newRegister)
 
     }
-    console.log(customFieldsFiltered.map(key => register.customFields[key.name]))
 
     return (
         <ContainerPopUpData>

@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import Proptypes from 'prop-types'
 import { createContext, useContext, useLayoutEffect, useState } from "react"
 import { toast } from "react-toastify"
+import { paths } from "../../app/constants/paths"
 import URI from "../../app/utils/utils"
 import { useUser } from "../userContext"
 
@@ -24,7 +25,7 @@ export const BillingsProvider = ({ children }) => {
 
     const [queryBilling, setQueryBilling] = useState({ Billings: [], total: 0 })
 
-    const { userData } = useUser()
+    const { userData, logOut } = useUser()
 
     const queriesBilling = async () => {
         const response = await URI.post(`/reguas`, {
@@ -46,7 +47,16 @@ export const BillingsProvider = ({ children }) => {
 
         const gatherData = async () => {
 
-            const { data } = BillingQuery
+            const { data, error } = BillingQuery
+
+
+            if (error && error?.response?.data.error === 'token invalid') {
+                window.location.href = paths.home.path;
+                alert("Faça login novamente, seu acesso expirou");
+                logOut();
+
+                return;
+            }
             const { billing, total } = data
 
 
