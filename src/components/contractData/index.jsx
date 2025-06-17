@@ -708,13 +708,13 @@ export const ContractData = () => {
                                     <tbody>
                                         <tr>
                                             <td >{filteredContracts["service"]}</td>
-                                            <td >{(filteredContracts["valorCurso"]).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
-                                            <td >{parseFloat(paymentParcels["descount"]).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
+                                            <td >{(filteredContracts["valorCurso"])?.toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
+                                            <td >{parseFloat(paymentParcels["descount"])?.toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
                                             <td >{filteredContracts["Número de parcelas do curso"]}</td>
                                             <td >{filteredContracts["Forma de pagamento da parcela"]}</td>
                                             <td >{
                                                 (paymentParcels["total"] - paymentParcels["descount"])
-                                                    .toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
+                                                    ?.toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
                                         </tr>
 
 
@@ -777,14 +777,14 @@ export const ContractData = () => {
                                                         <tr key={idx}>
                                                             <td>{idx + 1}</td>
                                                             <td>{dateCalculator(filteredContracts["Data de Vencimento da Primeira Parcela"], idx)}</td>
-                                                            <td>{(paymentParcels.total / paymentParcels.parcels.length).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
+                                                            <td>{(paymentParcels.total / paymentParcels.parcels.length)?.toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
 
-                                                            <td>{parseFloat(res.descount).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
+                                                            <td>{parseFloat(res.descount)?.toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
 
                                                             {
                                                                 idx + 1 > camp?.parcel?.affectedParcels ?
-                                                                    <td>{(res.valor - res.descount).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td> :
-                                                                    <td>{parseFloat(res.valor).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
+                                                                    <td>{(res.valor - res.descount)?.toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td> :
+                                                                    <td>{parseFloat(res.valor)?.toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
                                                             }
                                                         </tr>
                                                     ))
@@ -798,9 +798,9 @@ export const ContractData = () => {
                                                         <tr key={idx}>
                                                             <td>{idx + 1}</td>
                                                             <td>{dateCalculator(filteredContracts["Data de Vencimento da Primeira Parcela"], idx)}</td>
-                                                            <td>{(paymentParcels.total / paymentParcels.parcels.length).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
-                                                            <td>{parseFloat(paymentParcels.descountForPontuality).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
-                                                            <td>{(res.valor - paymentParcels.descountForPontuality).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td> :
+                                                            <td>{(paymentParcels.total / paymentParcels.parcels.length)?.toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
+                                                            <td>{parseFloat(paymentParcels.descountForPontuality)?.toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
+                                                            <td>{(res.valor - paymentParcels.descountForPontuality)?.toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td> :
                                                         </tr>
                                                     ))
                                                 }
@@ -836,11 +836,11 @@ export const ContractData = () => {
                                             filteredContracts["products"].map((res) => (
                                                 <tr key={res.id}>
                                                     <td>{res.name}</td>
-                                                    <td>{(res.price_ticket).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
-                                                    <td>{(res.price_ticket - res[paymentMethodsForMaterials[filteredContracts["Forma de pagamento do MD"]]]).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
+                                                    <td>{(res.price_ticket)?.toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
+                                                    <td>{(res.price_ticket - res[paymentMethodsForMaterials[filteredContracts["Forma de pagamento do MD"]]])?.toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
                                                     <td>{filteredContracts["Quantidade de parcelas MD"]}</td>
                                                     <td>{filteredContracts["Forma de pagamento do MD"]}</td>
-                                                    <td>{(res[paymentMethodsForMaterials[filteredContracts["Forma de pagamento do MD"]]].toLocaleString('pt-BR', { style: 'currency', currency: "brl" }))}</td>
+                                                    <td>{(res[paymentMethodsForMaterials[filteredContracts["Forma de pagamento do MD"]]]?.toLocaleString('pt-BR', { style: 'currency', currency: "brl" }))}</td>
                                                 </tr>
                                             ))
                                         }
@@ -856,7 +856,7 @@ export const ContractData = () => {
                                                 <td>{filteredContracts["Quantidade de parcelas MD"]}</td>
                                                 <td>{filteredContracts["Forma de pagamento do MD"]}</td>
                                                 <td>{filteredContracts['products'].reduce((acc, curr) => acc + curr[paymentMethodsForMaterials[filteredContracts["Forma de pagamento do MD"]]], 0)
-                                                    .toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
+                                                    ?.toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
                                             </tr>
                                         </tfoot>
                                     }
@@ -916,9 +916,9 @@ export const ContractData = () => {
                                                 <tr key={idx}>
                                                     <td>{idx + 1}</td>
                                                     <td>{dateCalculator(filteredContracts["Data de pagamento MD"], idx)}</td>
-                                                    <td>{(filteredContracts['products'].reduce((acc, curr) => acc + curr.price_ticket, 0) / filteredContracts['material'].materials.length).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
+                                                    <td>{(filteredContracts['products'].reduce((acc, curr) => acc + curr.price_ticket, 0) / filteredContracts['material'].materials.length)?.toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
                                                     <td>{((filteredContracts['products'].reduce((acc, curr) => acc + curr[paymentMethodsForMaterials[filteredContracts["Forma de pagamento do MD"]]], 0))
-                                                        / filteredContracts['material'].materials.length).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
+                                                        / filteredContracts['material'].materials.length)?.toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
                                                 </tr>
                                             ))
                                         }
@@ -961,12 +961,12 @@ export const ContractData = () => {
                                             <td >R$ 350,00</td>
                                             <td >{
                                                 parseFloat(filteredContracts['tax']?.descount)
-                                                    .toLocaleString('pt-BR', { style: 'currency', currency: "brl" })
+                                                    ?.toLocaleString('pt-BR', { style: 'currency', currency: "brl" })
                                             }</td>
                                             <td >{filteredContracts['Quantidade de parcelas TM ']}</td>
                                             <td >{filteredContracts['Forma de pagamento TM']}</td>
                                             <td >{filteredContracts['tax']?.total
-                                                .toLocaleString('pt-BR', { style: 'currency', currency: "brl" })
+                                                ?.toLocaleString('pt-BR', { style: 'currency', currency: "brl" })
                                             }</td>
 
                                         </tr>
@@ -1027,8 +1027,8 @@ export const ContractData = () => {
                                                 <tr key={idx}>
                                                     <td>{idx + 1}</td>
                                                     <td>{dateCalculator(filteredContracts["Data de pagamento TM"], idx)}</td>
-                                                    <td>{(tax?.total / tax.taxes.length).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
-                                                    <td>{(tax?.total / tax.taxes.length).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
+                                                    <td>{(tax?.total / tax.taxes.length)?.toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
+                                                    <td>{(tax?.total / tax.taxes.length)?.toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
                                                 </tr>
                                             ))
                                         }
