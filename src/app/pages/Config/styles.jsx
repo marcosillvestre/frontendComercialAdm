@@ -50,7 +50,7 @@ border-radius: var(--br);
 
 &:hover{
     background: #c4d3e0;
-    scale: 1.03;
+    scale: 1.003;
     border-radius: var(--br);
 
 }
