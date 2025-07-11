@@ -62,7 +62,7 @@ export const PDFFile = ({ data, parcel, campaign }) => {
             {
                 loading === true ?
                     <button
-                        className='defaultButton'
+                        className='defaultButton blueButton'
 
                     >
 
@@ -70,7 +70,7 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                     </button>
                     :
                     <button
-                        className='defaultButton'
+                        className='defaultButton blueButton'
                         onClick={() => render()}
                     >
 
@@ -539,6 +539,8 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                             </table>
                         </section>
 
+
+
                         <br />
 
                         <section
@@ -577,7 +579,41 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                             </table>
                         </section>
 
+                        {
+                            campaign.material !== undefined &&
+                            <section
+                                className='avoid'
+                            >
 
+                                <table>
+                                    <h3> Campanha</h3>
+
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <td>Nome</td>
+                                                <td>Valor</td>
+                                                <td>Alvo</td>
+                                                <td>N° de parcelas</td>
+                                                <td>Descrição</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td >{campaign.material.name}</td>
+                                                <td >{campaign.material.value}</td>
+                                                <td >{campaign.material.for}</td>
+                                                <td >{campaign.material.affectedParcels}</td>
+                                                <td >{campaign.material.description}</td>
+                                            </tr>
+
+                                        </tbody>
+
+                                    </table>
+                                </table>
+                            </section>
+
+                        }
 
                     </div>
                 </Container>
