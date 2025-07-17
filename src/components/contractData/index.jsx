@@ -20,10 +20,7 @@ import { PDFFile } from './templates/contract.jsx';
 export const ContractData = () => {
     gsap.registerPlugin(Flip)
 
-    const {
-        filteredContracts,
-        setFilteredContracts
-    } = useUser()
+    const { filteredContracts, setFilteredContracts } = useUser();
     const { content, view, setView } = useData()
     const [emmit, setEmmit] = useState(false)
     const [camp, setcamp] = useState({})
