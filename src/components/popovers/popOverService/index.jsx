@@ -28,7 +28,10 @@ export function PopOverService(data) {
     const handleEdit = () => {
         setTypeSidebar(7)
         setOpenSidebar(true);
-        setEditService(row)
+        setEditService(row);
+
+        handleClick();
+
     }
 
     const reset = () => {

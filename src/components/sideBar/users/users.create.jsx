@@ -178,7 +178,7 @@ export const CreateUsersForm = () => {
 
             <hr />
             <Submit
-                className='defaultButton'
+                className='defaultButton blueButton'
 
                 // onClick={() => submit()}
                 onClick={() => create()}

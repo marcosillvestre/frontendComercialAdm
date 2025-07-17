@@ -16,7 +16,7 @@ export const ProductsProvider = ({ children }) => {
     const [Product, setProduct] = useState({
         status: true
     })
-    const [editProduct, setEditProduct] = useState()
+    const [editProduct, setEditProduct] = useState(null)
     const [take, setTake] = useState(10)
     const [skip, setSkip] = useState(0)
     const [orderBy, setOrderBy] = useState("name")
@@ -25,11 +25,17 @@ export const ProductsProvider = ({ children }) => {
     const [query, setQuery] = useState("")
 
     const [queryProducts, setQueryProducts] = useState({ products: [], total: 0 })
+    const [view, setView] = useState('produtos');
 
+
+    const resetDataProduct = () => {
+        setEditProduct(null);
+        setProduct(null);
+    }
 
     const queriesProduct = async () => {
 
-        const response = await URI.post(`/produtos`, {
+        const response = await URI.post(`http://localhost:7070/produtos`, {
             take,
             skip,
             orderBy,
@@ -62,9 +68,9 @@ export const ProductsProvider = ({ children }) => {
 
 
 
-    const sendData = async () => {
+    const sendData = async (body) => {
         const response = await toast.promise(
-            URI.post(`/produto`, Product),
+            URI.post(`http://localhost:7070/produto`, body),
             {
                 pending: 'Conferindo os dados',
                 success: 'produto criado com sucesso',
@@ -75,18 +81,42 @@ export const ProductsProvider = ({ children }) => {
     }
 
     const createProduct = useMutation({
-        mutationFn: () => sendData(),
-        onSuccess: () => {
-            queryClient.invalidateQueries(["product"])
+        mutationFn: (e) => sendData(e),
+        onSuccess: (_, variables) => {
+
+            queryClient.setQueryData(
+                ["product", take, skip, orderBy, query, orderFor],
+                (oldData) => {
+
+                    return setQueryProducts({
+                        products: [
+                            {
+                                ...variables,
+                                id: crypto.randomUUID(),
+                                created_at: new Date()
+                            },
+                            ...oldData.products,
+                        ],
+                        total: oldData.total + 1
+                    })
+                }
+            )
+        },
+        onError: (error) => {
+
+            const { response } = error
+
+            "message" in response.data && alert(response.data.message)
+            console.log(response)
         }
     })
     ///////////////////////// create
 
 
 
-    const editData = async () => {
+    const editData = async (body) => {
         const response = await toast.promise(
-            URI.put(`/produtos/${editProduct.id}`, editProduct),
+            URI.put(`http://localhost:7070/produtos/${body.id}`, body),
             {
                 pending: 'Conferindo os dados',
                 success: 'produto editado com sucesso',
@@ -97,9 +127,32 @@ export const ProductsProvider = ({ children }) => {
     }
 
     const mutateProduct = useMutation({
-        mutationFn: () => editData(),
-        onSuccess: () => {
-            queryClient.invalidateQueries(["product"])
+        mutationFn: (e) => editData(e),
+        onSuccess: (_, variables) => {
+
+
+            queryClient.setQueryData(
+                ["product", take, skip, orderBy, query, orderFor],
+                (oldData) => {
+                    const { total, products } = oldData;
+                    const filtered = products.filter(res => res.id !== variables.id)
+
+                    return setQueryProducts({
+                        products: [
+                            { ...variables },
+                            ...filtered,
+                        ],
+                        total: total + 1
+                    })
+                }
+            )
+        },
+        onError: (error) => {
+
+            const { response } = error
+
+            "message" in response.data && alert(response.data.message)
+            console.log(response)
         }
     })
     ///////////////////////// edit
@@ -112,7 +165,7 @@ export const ProductsProvider = ({ children }) => {
     const queryProductsTotals = async () => {
 
         const response = await URI.
-            get(`/produtos-totais`)
+            get(`http://localhost:7070/produtos-totais`)
 
         return response.data
     }
@@ -128,7 +181,7 @@ export const ProductsProvider = ({ children }) => {
 
         const responsible = userData.name
         const response = await toast.promise(
-            URI.delete(`/produtos/${id}?responsible=${responsible}`),
+            URI.delete(`http://localhost:7070/produtos/${id}?responsible=${responsible}`),
             {
                 pending: 'Conferindo os dados',
                 success: 'Produto deletado com sucesso',
@@ -147,9 +200,11 @@ export const ProductsProvider = ({ children }) => {
                 ["product", take, skip, orderBy, query, orderFor],
                 (oldData) => {
 
+                    const { products, total } = oldData;
+
                     return setQueryProducts({
-                        products: oldData.filter(res => res.id !== variables),
-                        total: oldData.total - 1
+                        products: products.filter(res => res.id !== variables),
+                        total: total - 1
                     })
 
                 }
@@ -178,7 +233,11 @@ export const ProductsProvider = ({ children }) => {
             setQuery,
             queryProducts,
 
-            deleteProduct
+            deleteProduct,
+
+            view, setView,
+
+            resetDataProduct
 
         }}>
 

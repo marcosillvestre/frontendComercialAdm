@@ -208,7 +208,7 @@ export default function TableOrders() {
                                             checkData.length > 0 &&
                                             <>
                                                 <ButtonSellected
-                                                    className='defaultButton'
+                                                    className='defaultButton blueButton'
                                                     onMouseOver={() => setView(true)}
 
                                                     onClick={() => {
@@ -258,7 +258,7 @@ export default function TableOrders() {
                                                 </span>
 
                                                 <button
-                                                    className='button-clean'
+                                                    className='defaultButton redButton'
                                                     onClick={() => checkAll(false)}
                                                 >
                                                     Desmarcar todos

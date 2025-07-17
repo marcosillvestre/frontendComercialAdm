@@ -40,7 +40,10 @@ export function PopOverBilling(data) {
             row.productsRelated
 
 
-        setEditBilling({ isItFor, related, ...row })
+        setEditBilling({ isItFor, related, ...row });
+
+        handleClick();
+
     }
 
     return (

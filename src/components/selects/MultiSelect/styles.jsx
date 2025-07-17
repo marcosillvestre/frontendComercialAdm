@@ -2,12 +2,12 @@ import styled from "styled-components"
 
 export const Container = styled.div`
 position: relative;
-font-size: var(--fsLowest) ;
+font-size: var(--fsXLow) ;
 height: var(--boxHei);
 width: 100%;
 
 #category-select {
-font-size: var(--fsLowest) ;
+font-size: var(--fsXLow) ;
 letter-spacing: .0225rem;
 }
 
@@ -29,7 +29,7 @@ transition: .4s;
 transform-origin: top;
 color: #222;
 padding: .75rem;
-border-bottom: 1px solid #fafafa;
+border-bottom: 1px solid #fff;
 display: flex;
 align-items: center;
 justify-content: center;
@@ -38,20 +38,29 @@ cursor: pointer;
 height: var(--boxHei);
 z-index: 10;
 background: ${props => props.selected ? "#c4d3e0" : ""};
-font-size: calc(var(--fsLowest) - 2px);
+font-size: calc(var(--fsXLow) - 2px);
 
 
 span{
     text-align: center;
-    font-size: var(--fsXLow) ;
+    font-size: calc(var(--fsXLow) - 2px) ;
     position: relative;
     width: 100%;
+
+    
     display: flex;
     align-items: center;
     justify-content: space-between;
+    p{
+        max-width: 90%;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
     svg{
         display: ${props => props.selected ? "block" : "none"};
         height: 18px;
+        max-width: 10%;
     }
 }
 &:hover{

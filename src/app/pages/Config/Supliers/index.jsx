@@ -27,7 +27,7 @@ export function Supliers() {
                 </span>
 
                 <button
-                    className='defaultButton create-button'
+                    className='defaultButton blueButton create-button'
                     onClick={() => {
                         setTypeSidebar(8)
                         setOpenSidebar(true);

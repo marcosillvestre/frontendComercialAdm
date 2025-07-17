@@ -31,7 +31,10 @@ export function PopOverSuplier(data) {
     const handleEdit = () => {
         setTypeSidebar(8)
         setOpenSidebar(true);
-        setEditSuplier(row)
+        setEditSuplier(row);
+
+        handleClick();
+
     }
 
     return (

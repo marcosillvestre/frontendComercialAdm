@@ -15,7 +15,9 @@ export const parseNumber = (number) => {
 
 
 export const changeCurrency = (value) => {
-    const parsedValue = parseNumber(value);
+    if (!value) return 0;
+
+    const parsedValue = parseFloat(value);
 
     return parsedValue.toLocaleString('pt-BR', { style: 'currency', currency: 'brl' })
 }

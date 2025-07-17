@@ -116,12 +116,7 @@ gap: 1rem;
 padding: 1rem 2rem;
 `
 export const Submit = styled.button`
-
-width: 50%;
-
-margin-top: 1rem ;
-position: relative;
-left: 50%;
+width: 49%;
 user-select: none;
 
 `
@@ -139,6 +134,12 @@ border-radius: .375rem;
 background-color:#dfe6f1;
 border: none;
 font-size: .67rem;
+
+&:invalid:not(:placeholder-shown) {
+  border: 2px solid red;
+  background-color: #ffe5e5;
+}
+
 
 `
 export const InputCheckbox = styled.input`
@@ -240,3 +241,5 @@ color: #222;
         color: #222;
     }
 `
+
+

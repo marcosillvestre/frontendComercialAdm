@@ -36,7 +36,7 @@ export function Register() {
         </span>
 
         <button
-          className='openDrawer defaultButton'
+          className='openDrawer defaultButton blueButton'
 
           onClick={() => handleDrawerOpen()}
         >

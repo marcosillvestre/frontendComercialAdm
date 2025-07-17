@@ -116,7 +116,7 @@ export const Anexes = () => {
                         <p>{fileName}</p>
                         <button
                             type='submit'
-                            className='defaultButton'>
+                            className='defaultButton blueButton'>
 
                             enviar
                         </button>

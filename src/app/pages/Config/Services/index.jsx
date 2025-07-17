@@ -27,7 +27,7 @@ export function Services() {
                 </span>
 
                 <button
-                    className='defaultButton create-button'
+                    className='defaultButton blueButton create-button'
 
                     onClick={() => {
                         setTypeSidebar(7)

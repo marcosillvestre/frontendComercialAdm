@@ -433,7 +433,7 @@ export const SupliersSidebar = () => {
             <hr />
             <Submit
                 placeholder="Enviar"
-                className='defaultButton'
+                className='defaultButton blueButton'
                 // onClick={() => submit()}
                 onClick={() => create()}
             >

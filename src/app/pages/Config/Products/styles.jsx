@@ -58,6 +58,12 @@ form{
     gap: 10px;
     align-items: end;
 
+    input{
+        &:disabled{
+            opacity: .5;
+        }
+    }
+
     button{  
         all: unset;
         cursor: pointer;
@@ -66,6 +72,10 @@ form{
         height: var(--boxHei);
         padding: 0 .8rem;
         border-radius: 5px;
+
+        &:disabled{
+            opacity: .5;
+        }
     }
 }
 

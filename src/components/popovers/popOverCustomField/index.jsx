@@ -28,7 +28,10 @@ export function PopOverCustomFields(data) {
     const handleEdit = () => {
         setTypeSidebar(1)
         setOpenSidebar(true);
-        setEditCustomField(row)
+        setEditCustomField(row);
+
+        handleClick();
+
     }
 
     const reset = () => {

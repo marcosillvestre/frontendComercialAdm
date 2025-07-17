@@ -2,10 +2,12 @@ import PropTypes from 'prop-types'
 
 import { BillingsProvider } from './billingRules/billingRulesContext.hook'
 import { CampaignProvider } from './campaign/campaignContext.hook'
+import { CategorieProductsProvider } from './categorieProduct/categorieProd.hook'
 import { ComissionProvider } from './comissions/comissionContext.hook'
 import { Contracts } from './contracts/contracts.hook'
 import { CustomFields } from './customFields/customFIelds.hook'
 import { DataProvider } from './dataContext'
+import { KitsProvider } from './kits/kitsContext.hook'
 import { OrdersProvider } from './orders/ordersContext.hook'
 import { ProductsProvider } from './products/productsContext.hook'
 import { RegistersProvider } from './registers/registersContext.hook'
@@ -34,9 +36,11 @@ const AppProvider = ({ children }) => (
                                                         <RequestsProvider>
                                                             <BillingsProvider>
                                                                 <RegistersProvider>
-
-                                                                    {children}
-
+                                                                    <KitsProvider>
+                                                                        <CategorieProductsProvider>
+                                                                            {children}
+                                                                        </CategorieProductsProvider>
+                                                                    </KitsProvider>
                                                                 </RegistersProvider>
                                                             </BillingsProvider>
                                                         </RequestsProvider>

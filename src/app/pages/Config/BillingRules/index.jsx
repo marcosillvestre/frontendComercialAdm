@@ -24,7 +24,7 @@ export function BillingRules() {
                 </span>
 
                 <button
-                    className='defaultButton'
+                    className='defaultButton blueButton'
                     onClick={() => {
                         setTypeSidebar(9)
                         setOpenSidebar(true);

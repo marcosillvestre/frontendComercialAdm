@@ -16,7 +16,6 @@ import { CloserClick, Header } from '../source.jsx';
 
 import { useContractsHook } from '../../hooks/contracts/contracts.hook.jsx';
 import { useCustomFields } from '../../hooks/customFields/customFIelds.hook.jsx';
-import { useUsers } from '../../hooks/users/usersContext.hook.jsx';
 import { Billing } from './billingRule/billing.create.jsx';
 import { Campaign } from './campaign/campaign.create.jsx';
 import { Contracts } from './contracts/contract.create.jsx';
@@ -107,7 +106,6 @@ export function MiniDrawer() {
     const { openSidebar, setOpenSidebar, typeSidebar,
         setTypeSidebar, userData } = useUser()
 
-    const { person, createUsers } = useUsers()
 
     const { customFields,
         createCustomFIeld, } = useCustomFields()
@@ -149,23 +147,9 @@ export function MiniDrawer() {
 
         }
 
-        // const submitUsers = () => {
-
-        //     if (!person.name || !person.email || !person.password || !person.confirmPassword || !person.role) {
-        //         return toast.error("Preencha todos os campos")
-        //     }
-        //     if (person.password !== person.confirmPassword) {
-        //         return toast.error("As senhas devem coincidir")
-        //     }
-        //     createUsers.mutateAsync()
-
-
-        // }
-
 
         type === 1 && submitCustomField()
         type === 2 && submitContracts()
-        // type === 3 && submitUsers()
 
     }
 
@@ -174,7 +158,7 @@ export function MiniDrawer() {
         <>
             <CloserClick
                 open={openSidebar}
-                fn={setOpenSidebar} opacity={0.01}
+                fn={setOpenSidebar} opacity={.1}
             />
             <Box >
                 <CssBaseline />
@@ -267,7 +251,7 @@ export function MiniDrawer() {
                                     <hr />
                                     <Submit
                                         placeholder="Enviar"
-                                        className='defaultButton'
+                                        className='defaultButton blueButton'
                                         onClick={() => submit(typeSidebar)}
                                     >
                                         Enviar

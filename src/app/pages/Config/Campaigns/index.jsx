@@ -24,7 +24,7 @@ export function Campaigns() {
                 </span>
 
                 <button
-                    className='defaultButton'
+                    className='defaultButton blueButton'
                     onClick={() => {
                         setTypeSidebar(5)
                         setOpenSidebar(true);

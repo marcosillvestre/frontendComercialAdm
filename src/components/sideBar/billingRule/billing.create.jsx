@@ -282,7 +282,7 @@ export const Billing = () => {
             <hr />
             <Submit
                 placeholder="Enviar"
-                className='defaultButton'
+                className='defaultButton blueButton'
                 onClick={() => submit()}
             >
                 Enviar

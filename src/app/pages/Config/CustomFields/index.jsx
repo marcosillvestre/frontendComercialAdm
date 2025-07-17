@@ -29,7 +29,7 @@ export const CustomFields = () => {
                 </span>
 
                 <button
-                    className='defaultButton'
+                    className='defaultButton blueButton'
                     onClick={() => {
                         setTypeSidebar(1)
                         setOpenSidebar(!openSidebar);

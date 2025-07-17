@@ -18,8 +18,6 @@ export const MultiSelect = (parameters) => {
 
     return (
         <>
-
-
             <Container
                 style={{
                     minWidth: `${width}`,
@@ -52,13 +50,14 @@ export const MultiSelect = (parameters) => {
                             <Options
                                 className="option"
                                 key={idx}
-                                selected={selected.find(res => res.name === data.name)}
+                                selected={selected?.find(res => res.name === data.name)}
                                 onClick={() => {
                                     selected.find(res => res.name === data.name) ?
                                         setSelected(selected.filter(res => res.name !== data.name)) :
                                         setSelected(res => [...res, {
                                             name: data.name,
-                                            id: data?.id
+                                            id: data?.id,
+                                            priceSale: data?.priceSale,
                                         }])
                                 }
                                 }
@@ -66,6 +65,7 @@ export const MultiSelect = (parameters) => {
                                 {
                                     <span
                                         className="label"
+                                        title={data?.name}
                                     >
                                         <p>{data?.name}</p>
                                         <DoneIcon />

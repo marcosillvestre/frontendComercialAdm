@@ -29,7 +29,10 @@ export function PopOverUsers(data) {
     const handleEdit = () => {
         setTypeSidebar(3)
         setOpenSidebar(true);
-        setEditUser(row)
+        setEditUser(row);
+
+        handleClick();
+
     }
 
     const reset = () => {

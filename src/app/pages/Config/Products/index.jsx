@@ -3,16 +3,25 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { ProductsTable } from '../../../../components/tables/productsTable';
+import { useCategorieProducts } from '../../../../hooks/categorieProduct/categorieProd.hook';
+import { useKits } from '../../../../hooks/kits/kitsContext.hook';
 import { useProduct } from '../../../../hooks/products/productsContext.hook';
 import { useUser } from '../../../../hooks/userContext';
 import { Container, Header } from './styles';
 
 export function Products() {
     const forQuery = useRef()
-    const { setTypeSidebar, setOpenSidebar, } = useUser()
-    const { setEditProduct, setQuery } = useProduct()
+    const { setTypeSidebar, setOpenSidebar, } = useUser();
+    const { resetDataProduct, setQuery, view } = useProduct();
+    const { resetDataKits } = useKits();
+    const { resetDataCategorieProduct } = useCategorieProducts();
+    
 
-
+    const resetData = () => {
+        resetDataProduct();
+        resetDataKits();
+        resetDataCategorieProduct();
+    }
 
     return (
         <Container>
@@ -29,14 +38,16 @@ export function Products() {
 
 
                 <button
-                    className='defaultButton create-button'
+                    className='defaultButton blueButton create-button'
                     onClick={() => {
                         setTypeSidebar(6)
                         setOpenSidebar(true);
-                        setEditProduct(null)
+
+                        resetData()
+
                     }
                     }>
-                    Criar novo produto
+                    Criar novos {view}
                 </button>
 
             </nav>
@@ -48,6 +59,7 @@ export function Products() {
 
                         <p>Pesquisar por produtos</p>
                         <input
+                            disabled={view !== "produtos"}
                             type="text"
                             className='inputSearch'
                             placeholder="Nome ou Sku"
@@ -57,6 +69,7 @@ export function Products() {
                     </label>
 
                     <button type="submit"
+                        disabled={view !== "produtos"}
                         onClick={(e) => {
                             setQuery(forQuery.current.value)
                             e.preventDefault()

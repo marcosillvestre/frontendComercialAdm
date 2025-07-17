@@ -11,18 +11,18 @@ export const PDFFile = ({ data, parcel, campaign }) => {
 
 
     const paymentMethodsForMaterials = {
-        "Boleto": "price_ticket",
-        "Cartão de crédito via link": "price_link",
-        "Cartão de crédito via outro bancos": "price_card",
-        "Cartão de débito via outros bancos": "price_cash",
-        "Dinheiro": "price_ticket",
-        "PIX - Pagamento Instantâneo": "price_cash",
-        "Pix": "price_cash",
-        "Pix cobrança": "price_cash",
-        "Sem pagamento": "price_selling",
-        "Isenção": "price_selling",
-        "Transferência bancária": "price_cash",
-        "Outros": "price_ticket",
+        "Boleto": "priceSale",
+        "Cartão de crédito via link": "priceSale",
+        "Cartão de crédito via outro bancos": "priceSale",
+        "Cartão de débito via outros bancos": "priceSale",
+        "Dinheiro": "priceSale",
+        "PIX - Pagamento Instantâneo": "priceSale",
+        "Pix": "priceSale",
+        "Pix cobrança": "priceSale",
+        "Sem pagamento": "priceSale",
+        "Isenção": "priceSale",
+        "Transferência bancária": "priceSale",
+        "Outros": "priceSale",
     }
 
     const render = () => {
@@ -513,8 +513,8 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                                         data["products"].map((res) => (
                                             <tr key={res.id}>
                                                 <td>{res.name}</td>
-                                                <td>{(res.price_ticket).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
-                                                <td>{(res.price_ticket - res[paymentMethodsForMaterials[data["Forma de pagamento do MD"]]]).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
+                                                <td>{(res.priceSale).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
+                                                <td>{(res.priceSale - res[paymentMethodsForMaterials[data["Forma de pagamento do MD"]]]).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
                                                 <td>{data["Quantidade de parcelas MD"]}</td>
                                                 <td>{data["Forma de pagamento do MD"]}</td>
                                                 <td>{(res[paymentMethodsForMaterials[data["Forma de pagamento do MD"]]].toLocaleString('pt-BR', { style: 'currency', currency: "brl" }))}</td>
@@ -527,8 +527,8 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                                     <tfoot className='contrast'>
                                         <tr>
                                             <td>TOTAL</td>
-                                            <td>{data['products'].reduce((acc, curr) => acc + curr.price_ticket, 0).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
-                                            <td>{data['products'].reduce((acc, curr) => acc + curr.price_ticket - curr[paymentMethodsForMaterials[data["Forma de pagamento do MD"]]], 0).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
+                                            <td>{data['products'].reduce((acc, curr) => acc + curr.priceSale, 0).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
+                                            <td>{data['products'].reduce((acc, curr) => acc + curr.priceSale - curr[paymentMethodsForMaterials[data["Forma de pagamento do MD"]]], 0).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
                                             <td>{data["Quantidade de parcelas MD"]}</td>
                                             <td>{data["Forma de pagamento do MD"]}</td>
                                             <td>{data['products'].reduce((acc, curr) => acc + curr[paymentMethodsForMaterials[data["Forma de pagamento do MD"]]], 0).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
@@ -563,7 +563,7 @@ export const PDFFile = ({ data, parcel, campaign }) => {
                                             <tr key={idx}>
                                                 <td>{idx + 1}</td>
                                                 <td>{dateCalculator(data["Data de pagamento MD"], idx)}</td>
-                                                <td>{(data['products'].reduce((acc, curr) => acc + curr.price_ticket, 0) / data['material'].materials.length).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
+                                                <td>{(data['products'].reduce((acc, curr) => acc + curr.priceSale, 0) / data['material'].materials.length).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
 
                                                 <td>{((data['products'].reduce((acc, curr) => acc + curr[paymentMethodsForMaterials[data["Forma de pagamento do MD"]]], 0))
                                                     / data['material'].materials.length).toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
@@ -953,11 +953,11 @@ PDFFile.propTypes = {
             sku: PropTypes.string,
             color: PropTypes.string,
             status: PropTypes.bool,
-            price_selling: PropTypes.number,
-            price_ticket: PropTypes.number,
-            price_card: PropTypes.number,
-            price_cash: PropTypes.number,
-            price_link: PropTypes.number,
+            priceSale: PropTypes.number,
+            priceSale: PropTypes.number,
+            priceSale: PropTypes.number,
+            priceSale: PropTypes.number,
+            priceSale: PropTypes.number,
             category: PropTypes.string,
             created_at: PropTypes.string,
             updated_at: PropTypes.string

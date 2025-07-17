@@ -231,7 +231,7 @@ ${user.unity === 'PTB' ?
                                                     sendRequests()
                                                     e.preventDefault()
                                                 }}
-                                                className='defaultButton'>
+                                                className='defaultButton blueButton'>
 
                                                 enviar
                                             </button>

@@ -23,10 +23,14 @@ const style = {
 
 export function SureCloseSave(info) {
 
-    const { fn, color } = info
+    const { fn, edition } = info
 
     const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
+    const handleOpen = () => {
+        if (edition) return setOpen(true)
+
+        fn()
+    };
 
     const handleClose = () => {
         setOpen(false)
@@ -36,10 +40,15 @@ export function SureCloseSave(info) {
     return (
         <Container>
             <Filter
+                className='defaultButton redButton'
+
                 onClick={() => handleOpen()}
-                style={{ color, width: "100%" }}>
+                edited={edition}
+                style={{ width: "100%" }}>
                 CANCELAR
             </Filter>
+
+
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
@@ -89,17 +98,17 @@ export function SureCloseSave(info) {
                                 cancel={true}
                                 onClick={() => handleClose()}
                             >
-                                VOLTAR À EDIÇÃO
+                                VOLTAR
                             </ButtonDelete>
 
                             <ButtonDelete
                                 onClick={() => {
-                                    handleClose()
-                                    fn()
+                                    handleClose();
+                                    fn();
                                 }}
 
                             >
-                                DESCARTAR EDIÇÕES
+                                DESCARTAR
                             </ButtonDelete>
                         </Footer>
 

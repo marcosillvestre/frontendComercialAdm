@@ -41,7 +41,7 @@ const Invoice = () => {
         <Container>
             <div className='buttons-container'>
                 <ButtonContainer
-                    className="defaultButton"
+                    className="defaultButton blueButton"
                 >
                     <Links
                         to="/pedidos"
@@ -54,7 +54,7 @@ const Invoice = () => {
                 <div>
 
                     <ButtonContainer
-                        className="defaultButton"
+                        className="defaultButton blueButton"
 
                         able={true}
                         onClick={() => senderImpressContract(pdfName, recibo)}
@@ -65,7 +65,7 @@ const Invoice = () => {
 
 
                     <ButtonContainer
-                        className="defaultButton"
+                        className="defaultButton blueButton"
                         able={true}
                     >
                         <SureSendContract

@@ -18,17 +18,24 @@ export function PopOverProduct(data) {
 
     const { setTypeSidebar, userData, setOpenSidebar, } = useUser()
 
-    const { setEditProduct, deleteProduct } = useProduct()
+    const { setEditProduct, deleteProduct, setProduct } = useProduct()
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popper' : undefined;
 
     const { row } = data
 
-    const handleEdit = () => {
+    const handleEdit = (action) => {
+        const { id, name, code, ...rest } = row
+
         setTypeSidebar(6)
         setOpenSidebar(true);
-        setEditProduct(row)
+        action ? setEditProduct({ id, name, code, ...rest }) :
+            setProduct({ ...rest })
+
+        handleClick();
+
     }
+
     const reset = () => {
         deleteProduct.mutateAsync(row.id)
     }
@@ -47,15 +54,18 @@ export function PopOverProduct(data) {
                         </Button>
                         <Popper id={id} open={open} anchorEl={anchorEl} sx={{ zIndex: 12 }}>
                             <Box sx={{ border: 0, p: 1, bgcolor: '#ddddddf4', borderRadius: 2 }}>
-                                <Divider onClick={() => handleEdit()} >
+                                <Divider onClick={() => handleEdit(true)} >
                                     Editar
+                                </Divider>
+
+                                <Divider onClick={() => handleEdit()} >
+                                    Duplicar
                                 </Divider>
 
                                 <Divider>
                                     <SureModal
                                         data={row?.id}
                                         name={row?.name}
-                                        url="/produtos"
                                         fn={reset}
                                     />
                                 </Divider>

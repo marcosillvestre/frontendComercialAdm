@@ -18,6 +18,16 @@ export default createGlobalStyle`
 
 
 html{
+
+    .table_tag{
+    width: 100%;
+    background-color: #4175f8;
+    padding: 1.1rem 1rem;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    }
     .inputSearch{
     border: none;
     background-color:#dfe6f1;
@@ -44,7 +54,25 @@ html{
         display: flex;
         gap: 5px;
     }
+.blueButton{
+    background-color: #1976d2;
+    &:hover{
+    background-color: #1f5fba;
+    }
+}
+.redButton{ 
+    background-color: #c9302c; 
+    transition: background 0.3s ease, transform 0.2s ease;
 
+    &:hover {
+        background-color: #d9534f; 
+    }
+
+    &:active {
+    background-color: #a72824; 
+    transform: scale(0.98);
+    }
+}
     .defaultButton{
     line-height: 1.75;
     font-family: "Roboto","Helvetica","Arial",sans-serif;
@@ -52,43 +80,21 @@ html{
     letter-spacing: 0.02857em;
     font-weight: bold;
     text-transform: uppercase;
-    color: #fff;
     user-select: none;
     z-index: 12;
-
-
+    
+    
     border: none;
     border-radius: var(--br);
-
-    background-color: #1976d2;
+    
+    color: #fff;
+    
     cursor: pointer;
     
     height: var(--boxHei);
     
-&:hover{
-background-color: #1f5fba;
-}
-    }
-    .button-clean {
-background-color: #c9302c; 
-color: white;
-border: none;
-padding: 10px 16px;
-height: var(--boxHei);
-font-size: var(--fsLowest);
-font-weight: bold;
-border-radius: var(--br);
-cursor: pointer;
-transition: background 0.3s ease, transform 0.2s ease;
-&:hover {
-    background-color: #d9534f; /* Vermelho forte */
-}
 
-&:active {
-background-color: #a72824; 
-transform: scale(0.98);
-}
-}
+    }
     .tooltip{
         cursor: pointer;
             &:hover{

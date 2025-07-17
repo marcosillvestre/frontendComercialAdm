@@ -1,5 +1,4 @@
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import Button from '@mui/material/Button';
 import Fade from '@mui/material/Fade';
 import styled from "styled-components";
 
@@ -25,8 +24,8 @@ button{
     padding: .2rem;
     width: fit-content;
     position: absolute;
-    right: 5px;
-    top: 5px;
+    right: 2px;
+    top: 2px;
     background: none;
     &:hover{
         background-color: #eaeaea;
@@ -48,7 +47,7 @@ padding: 4rem 0rem ;
 
 `
 
-export const Filter = styled(Button)`
+export const Filter = styled.button`
 
 `
 export const UploadIcon = styled(CloudUploadIcon)`
@@ -57,13 +56,11 @@ export const UploadIcon = styled(CloudUploadIcon)`
 
 export const Boxes = styled.div`
 display: flex;
-margin-top: ${props => props.radio ? "2rem" : "1rem"};
-justify-content: center;
 background-color: #fff;
+justify-content: center;
 align-items: center;
-justify-content: ${props => props.radio ? "center" : "left"};
 gap: .1rem;
-
+font-size: var(--fsLowest);
 .container{
     display: flex;
     align-items: center;
@@ -140,6 +137,7 @@ svg{
 `
 
 export const ButtonDelete = styled.button`
+font-size: var(--fsXLow);
 width: 49%;
 height: var(--boxHei);
 border-radius: var(--br);

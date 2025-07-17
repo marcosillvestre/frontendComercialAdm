@@ -137,7 +137,7 @@ export function MultiAlterationOrders(data) {
                     $open={manyAlteration}
                     able={data.able}
                     onClick={() => data.able ? handleManyAlteration() : ""}
-                    className='defaultButton'
+                    className='defaultButton blueButton'
                 >
                     <p>{data.label}</p>
 

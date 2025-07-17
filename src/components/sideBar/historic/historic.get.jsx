@@ -97,7 +97,7 @@ export const Historic = () => {
 
                         }
                         <Submit
-                            className="defaultButton"
+                            className="defaultButton blueButton"
                             onClick={() => setHistoricTake(historicTake + 10)}>
                             +10
                         </Submit>

@@ -58,7 +58,7 @@ export const Observations = () => {
                                 comment.current.value !== '' && addComment()
                                 e.preventDefault()
                             }}
-                            className='defaultButton'>
+                            className='defaultButton blueButton'>
 
                             enviar
                         </button>

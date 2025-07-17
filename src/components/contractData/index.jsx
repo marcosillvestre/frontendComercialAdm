@@ -10,7 +10,7 @@ import { gsap } from 'gsap';
 import { Flip } from 'gsap/Flip';
 import { useEffect, useLayoutEffect, useState } from 'react';
 import { dateCalculator } from '../../app/utils/functions/getDates.jsx';
-import { parseNumber } from '../../app/utils/functions/parseNumbers.jsx';
+import { changeCurrency, parseNumber } from '../../app/utils/functions/parseNumbers.jsx';
 import { useCampaign } from '../../hooks/campaign/campaignContext.hook.jsx';
 import { useSignContracts } from '../../hooks/signContracts/sign.hook.jsx';
 import { SureSendModal } from '../source.jsx';
@@ -20,11 +20,155 @@ import { PDFFile } from './templates/contract.jsx';
 export const ContractData = () => {
     gsap.registerPlugin(Flip)
 
-    const { filteredContracts, setFilteredContracts } = useUser()
+    const {
+        filteredContracts,
+        setFilteredContracts
+    } = useUser()
     const { content, view, setView } = useData()
     const [emmit, setEmmit] = useState(false)
     const [camp, setcamp] = useState({})
     const { setContract } = useSignContracts()
+
+    // const filteredContracts = {
+    //     'Nome do aluno (se não for responsável próprio))': 'Giovanna de Paula Martins',
+    //     'País': 'Brasil',
+    //     'Precisa de nivelamento?': 'Não',
+    //     'Data de Vencimento da Primeira Parcela': '20/07/2025',
+    //     'Observações para o financeiro:':
+    //         'Não será cobrada TM, cliente pretende pagar MD a vista. ',
+    //     'Horário de Inicio': '19:00',
+    //     Vendedor: 'Victor Souza',
+    //     'Data de nascimento do aluno': '1/08/2000',
+    //     'Amais teste 2': '',
+    //     'Material didático': [
+    //         'Interchange 1 - W/ EBOOK - SB - 5th Ed - BK / 9781009040440', 'Interchange 1 - WB - 5th Ed - AP / IN1WB5AP'
+    //     ],
+    //     Professor: 'Victor Souza',
+    //     'Possui conhecimento no idioma?': 'Sim',
+    //     'Valor do Desconto na TM': '',
+    //     'Data de pagamento MD': '10/07/2025',
+    //     'Amais teste 1': '',
+    //     'Horário de fim': '21:00',
+    //     'Data de fim do contrato': '04/07/2026',
+    //     'Quantidade de parcelas TM ': '1',
+    //     'Número de parcelas do curso': '12',
+    //     'Forma de pagamento do MD': 'Pix',
+    //     'Forma de pagamento TM': 'Sem pagamento',
+    //     'Data de início do contrato': '04/07/2025',
+    //     'Data de pagamento TM': '04/07/2025',
+    //     CEP: '32667554',
+    //     'Observações para o pedagógico:':
+    //         'Já foi feito o nivelamento, aluno precisará de fazer umas 5 aulas particulares no máximo, para acompanhar a turma, porém já está pronta para iniciar em uma turma do início do INterchange 1',
+    //     CPF: '14861190690',
+    //     'Onde o voucher será aplicado?': '',
+    //     'Tipo de plano': 'Único',
+    //     'Tipo de Campanha / Convênio': ['Isenção da taxa de matrícula'],
+    //     'Dia de aula': ['Quarta-feira'],
+    //     'Número': '75',
+    //     'Aluno é o próprio responsável?': 'Sim',
+    //     'Forma de pagamento da parcela': 'Pix cobrança',
+    //     Complemento: 'AP 203 Bl 1 ',
+    //     'Data da primeira aula': '09/07/2025',
+    //     'Quantidade de parcelas MD': '1',
+    //     'Formato de Aula': 'Híbrido',
+    //     Endereco: 'Rua Adão Roque',
+    //     Bairro: 'Paulo Camilo',
+    //     Cidade: 'Betim',
+    //     Uf: 'MG',
+    //     Phone: '47997842059',
+    //     Email: 'giovannapmrt@gmail.com',
+    //     Classe: 'Fluency Way Class',
+    //     Subclasse: 'Adults',
+    //     Unidade: 'PTB',
+    //     Curso: 'Inglês',
+    //     'Data de nascimento do  responsável': '1/08/2000',
+    //     'Tipo/ modalidade': 'Em grupo',
+    //     'Carga horário do curso': '80',
+    //     'Nome do responsável': 'Giovanna de Paula Martins',
+    //     'Profissão': 'Analista financeira',
+    //     'Data de vencimento da última parcela': 'Erro para calcular data de fim',
+    //     'Nº do contrato': 'VS14072025-2',
+    //     'Idade do Aluno': null,
+    //     'Background do Aluno': 'Novo aluno',
+    //     id: '68681a962e4a35001e14bf30',
+    //     promocao: 'Sim',
+    //     products: [
+    //         {
+    //             id: '142f1733-177c-45a4-bd98-725db9195836',
+    //             name: 'Interchange 1 - W/ EBOOK - SB - 5th Ed - BK',
+    //             code: '9781009040440',
+    //             priceSale: '409',
+    //             priceCost: '0',
+    //             ean: '9781009040440',
+    //             unit: 'UN',
+    //             description: null,
+    //             minStock: 0,
+    //             maxStock: 0,
+    //             active: true,
+    //             categorieName: null,
+    //             createdAt: '2025-07-02T22:10:31.714Z',
+    //             updatedAt: '2025-07-02T22:10:31.714Z'
+    //         },
+    //         {
+    //             id: '2ded8059-d88c-4772-b04d-084f0461cb22',
+    //             name: 'Interchange 1 - WB - 5th Ed - AP',
+    //             code: 'IN1WB5AP',
+    //             priceSale: '31',
+    //             priceCost: '0',
+    //             ean: null,
+    //             unit: 'UN',
+    //             description: null,
+    //             minStock: 0,
+    //             maxStock: 0,
+    //             active: true,
+    //             categorieName: null,
+    //             createdAt: '2025-07-02T22:10:31.714Z',
+    //             updatedAt: '2025-07-02T22:10:31.714Z'
+    //         }
+    //     ],
+    //     vendedor: 'Victor Souza',
+    //     CelularResponsavel: '47997842059',
+    //     valorCurso: 3012,
+    //     service: 'Fluency Way Class - Adults',
+    //     material: { materials: [{ valor: '440.00' }], total: 440, descount: 0 },
+    //     parcel: {
+    //         parcels: Array(12)[
+    //             { valor: '251.00', descount: '26.00' },
+    //             { valor: '251.00', descount: '26.00' },
+    //             { valor: '251.00', descount: '26.00' },
+    //             { valor: '251.00', descount: '26.00' },
+    //             { valor: '251.00', descount: '26.00' },
+    //             { valor: '251.00', descount: '26.00' },
+    //             { valor: '251.00', descount: '26.00' },
+    //             { valor: '251.00', descount: '26.00' },
+    //             { valor: '251.00', descount: '26.00' },
+    //             { valor: '251.00', descount: '26.00' },
+    //             { valor: '251.00', descount: '26.00' },
+    //             { valor: '251.00', descount: '26.00' }
+    //         ],
+    //         total: 3012,
+    //         descount: 312,
+    //         descountForPontuality: 26
+    //     },
+    //     tax: {
+    //         taxes: [{ valor: '0.00' }],
+    //         total: 0,
+    //         campaign: {
+    //             id: 'cm7nwx5rg00001z0rr21vrup6',
+    //             name: 'Isenção da taxa de matrícula',
+    //             description:
+    //                 'Os beneficiários dessa campanha terão custo zero na taxa de matrícula.',
+    //             affectedParcels: 1,
+    //             value: 100,
+    //             descountType: 'Percentage',
+    //             for: 'Tax',
+    //             status: true,
+    //             created_at: '2025-02-28T01:25:03.321Z',
+    //             updated_at: '2025-04-30T14:39:04.798Z'
+    //         },
+    //         descount: 350
+    //     }
+    // }
 
 
     const buttonsLinks = document.querySelectorAll(".button-link")
@@ -59,7 +203,8 @@ export const ContractData = () => {
         contaAzul: "Ao enviar um contrato ao Conta Azul ele somente estará disponível no Conta Azul!"
     }
 
-    const { campaignQuery } = useCampaign()
+    const { campaignQuery } = useCampaign();
+
 
     const [paymentParcels, setPaymentParcels] = useState({
         parcels: [],
@@ -71,18 +216,18 @@ export const ContractData = () => {
 
 
     const paymentMethodsForMaterials = {
-        "Boleto": "price_ticket",
+        "Boleto": "priceSale",
         "Cartão de crédito via link": "price_link",
         "Cartão de crédito via outro bancos": "price_card",
         "Cartão de débito via outros bancos": "price_cash",
-        "Dinheiro": "price_ticket",
+        "Dinheiro": "priceSale",
         "PIX - Pagamento Instantâneo": "price_cash",
         "Pix": "price_cash",
         "Pix cobrança": "price_cash",
         "Sem pagamento": "price_selling",
         "Isenção": "price_selling",
         "Transferência bancária": "price_cash",
-        "Outros": "price_ticket",
+        "Outros": "priceSale",
     }
 
     const paymentMethodsForParcels = {
@@ -135,19 +280,18 @@ export const ContractData = () => {
 
 
             const splited = element.split(" / ")
-            const material = search.find(f => f.sku === splited[1])
+            const material = search.find(f => f.code === splited[1])
 
             material !== undefined &&
                 value.push({
-                    fullValue: material["price_ticket"],
-                    total: material[paymentMethodsForMaterials[filteredContracts["Forma de pagamento do MD"]]],
+                    fullValue: material["priceSale"],
+                    total: material["priceSale"],
                 })
         }
 
 
-        const total = value.reduce((acc, curr) => acc + curr.total, 0).toFixed(2)
-        const descount = (value.reduce((acc, curr) => acc + curr.fullValue, 0) - total).toFixed()
-
+        const total = value.reduce((acc, curr) => acc + parseFloat(curr.total), 0)
+        const descount = (value.reduce((acc, curr) => acc + parseFloat(curr.fullValue), 0) - total)
 
         return { total, descount }
     }
@@ -265,11 +409,15 @@ export const ContractData = () => {
 
         const { total, descount } = await defineValueForMaterials(filteredContracts["Material didático"], insumes);
 
+        console.log({ total, descount })
+
         const campaignDescount = await defineDescountValueForType(
             total,
             campaignMaterial.value,
             campaignMaterial.descountType
         )
+
+        console.log({ campaignDescount })
 
         const materials = []
 
@@ -278,17 +426,18 @@ export const ContractData = () => {
                 valor: ((total - campaignDescount) / parseNumber(filteredContracts["Quantidade de parcelas MD"])).toFixed(2)
             })
         }
+
         setmaterial({
             materials,
-            total: total,
-            descount
+            total,
+            descount: descount + campaignDescount
         })
 
         filteredContracts["material"] = {
             materials,
             total: total,
             campaign: campaignMaterial,
-            descount
+            descount: descount + campaignDescount
 
         }
 
@@ -432,16 +581,163 @@ export const ContractData = () => {
         }
     }, [filteredContracts])
 
-    const [activeNavbar, setActiveNavbar] = useState(false)
+    const [activeNavbar, setActiveNavbar] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
-            setActiveNavbar(window.scrollY > 200); // Altera para `true` quando passa de 100px
+            setActiveNavbar(window.scrollY > 150); // Altera para `true` quando passa de 100px
         };
 
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
+
+
+    console.log(filteredContracts)
+    /*
+    {
+        'Nome do aluno (se não for responsável próprio))': 'Giovanna de Paula Martins',
+        'País': 'Brasil',
+        'Precisa de nivelamento?': 'Não',
+        'Data de Vencimento da Primeira Parcela': '20/07/2025',
+        'Observações para o financeiro:': 
+          'Não será cobrada TM, cliente pretende pagar MD a vista. ',
+        'Horário de Inicio': '19:00',
+        Vendedor: 'Victor Souza',
+        'Data de nascimento do aluno': '1/08/2000',
+        'Amais teste 2': '',
+        'Material didático': [
+          'Interchange 1 - W/ EBOOK - SB - 5th Ed - BK / 9781009040440', 'Interchange 1 - WB - 5th Ed - AP / IN1WB5AP'
+        ],
+        Professor: 'Victor Souza',
+        'Possui conhecimento no idioma?': 'Sim',
+        'Valor do Desconto na TM': '',
+        'Data de pagamento MD': '10/07/2025',
+        'Amais teste 1': '',
+        'Horário de fim': '21:00',
+        'Data de fim do contrato': '04/07/2026',
+        'Quantidade de parcelas TM ': '1',
+        'Número de parcelas do curso': '12',
+        'Forma de pagamento do MD': 'Pix',
+        'Forma de pagamento TM': 'Sem pagamento',
+        'Data de início do contrato': '04/07/2025',
+        'Data de pagamento TM': '04/07/2025',
+        CEP: '32667554',
+        'Observações para o pedagógico:': 
+          'Já foi feito o nivelamento, aluno precisará de fazer umas 5 aulas particulares no máximo, para acompanhar a turma, porém já está pronta para iniciar em uma turma do início do INterchange 1',
+        CPF: '14861190690',
+        'Onde o voucher será aplicado?': '',
+        'Tipo de plano': 'Único',
+        'Tipo de Campanha / Convênio': [ 'Isenção da taxa de matrícula' ],
+        'Dia de aula': [ 'Quarta-feira' ],
+        'Número': '75',
+        'Aluno é o próprio responsável?': 'Sim',
+        'Forma de pagamento da parcela': 'Pix cobrança',
+        Complemento: 'AP 203 Bl 1 ',
+        'Data da primeira aula': '09/07/2025',
+        'Quantidade de parcelas MD': '1',
+        'Formato de Aula': 'Híbrido',
+        Endereco: 'Rua Adão Roque',
+        Bairro: 'Paulo Camilo',
+        Cidade: 'Betim',
+        Uf: 'MG',
+        Phone: '47997842059',
+        Email: 'giovannapmrt@gmail.com',
+        Classe: 'Fluency Way Class',
+        Subclasse: 'Adults',
+        Unidade: 'PTB',
+        Curso: 'Inglês',
+        'Data de nascimento do  responsável': '1/08/2000',
+        'Tipo/ modalidade': 'Em grupo',
+        'Carga horário do curso': '80',
+        'Nome do responsável': 'Giovanna de Paula Martins',
+        'Profissão': 'Analista financeira',
+        'Data de vencimento da última parcela': 'Erro para calcular data de fim',
+        'Nº do contrato': 'VS14072025-2',
+        'Idade do Aluno': null,
+        'Background do Aluno': 'Novo aluno',
+        id: '68681a962e4a35001e14bf30',
+        promocao: 'Sim',
+        products: [
+          {
+            id: '142f1733-177c-45a4-bd98-725db9195836',
+            name: 'Interchange 1 - W/ EBOOK - SB - 5th Ed - BK',
+            code: '9781009040440',
+            priceSale: '409',
+            priceCost: '0',
+            ean: '9781009040440',
+            unit: 'UN',
+            description: null,
+            minStock: 0,
+            maxStock: 0,
+            active: true,
+            categorieName: null,
+            createdAt: '2025-07-02T22:10:31.714Z',
+            updatedAt: '2025-07-02T22:10:31.714Z'
+          },
+          {
+            id: '2ded8059-d88c-4772-b04d-084f0461cb22',
+            name: 'Interchange 1 - WB - 5th Ed - AP',
+            code: 'IN1WB5AP',
+            priceSale: '31',
+            priceCost: '0',
+            ean: null,
+            unit: 'UN',
+            description: null,
+            minStock: 0,
+            maxStock: 0,
+            active: true,
+            categorieName: null,
+            createdAt: '2025-07-02T22:10:31.714Z',
+            updatedAt: '2025-07-02T22:10:31.714Z'
+          }
+        ],
+        vendedor: 'Victor Souza',
+        CelularResponsavel: '47997842059',
+        valorCurso: 3012,
+        service: 'Fluency Way Class - Adults',
+        material: { materials: [ { valor: '440.00' } ], total: 440, descount: 0 },
+        parcel: {
+          parcels: Array(12) [
+            { valor: '251.00', descount: '26.00' },
+            { valor: '251.00', descount: '26.00' },
+            { valor: '251.00', descount: '26.00' },
+            { valor: '251.00', descount: '26.00' },
+            { valor: '251.00', descount: '26.00' },
+            { valor: '251.00', descount: '26.00' },
+            { valor: '251.00', descount: '26.00' },
+            { valor: '251.00', descount: '26.00' },
+            { valor: '251.00', descount: '26.00' },
+            { valor: '251.00', descount: '26.00' },
+            { valor: '251.00', descount: '26.00' },
+            { valor: '251.00', descount: '26.00' }
+          ],
+          total: 3012,
+          descount: 312,
+          descountForPontuality: 26
+        },
+        tax: {
+          taxes: [ { valor: '0.00' } ],
+          total: 0,
+          campaign: {
+            id: 'cm7nwx5rg00001z0rr21vrup6',
+            name: 'Isenção da taxa de matrícula',
+            description: 
+              'Os beneficiários dessa campanha terão custo zero na taxa de matrícula.',
+            affectedParcels: 1,
+            value: 100,
+            descountType: 'Percentage',
+            for: 'Tax',
+            status: true,
+            created_at: '2025-02-28T01:25:03.321Z',
+            updated_at: '2025-04-30T14:39:04.798Z'
+          },
+          descount: 350
+        }
+      }
+     
+    */
+    console.log({ material })
 
     return (
         <Container>
@@ -455,7 +751,7 @@ export const ContractData = () => {
                     >
                         <ComeBackButton
                             active={activeNavbar}
-                            className='defaultButton button'
+                            className='defaultButton blueButton button'
                             onClick={() => {
                                 setFilteredContracts(undefined)
                                 setContract(null)
@@ -466,7 +762,7 @@ export const ContractData = () => {
 
                         <ComeBackButton
                             active={activeNavbar}
-                            className='defaultButton button'
+                            className='defaultButton blueButton button'
                             onClick={() => {
                                 window.scrollTo({ top: 0, behavior: "smooth" });
                             }}>
@@ -504,7 +800,7 @@ export const ContractData = () => {
                     <span className='emmit flex' >
 
                         <Button
-                            className='defaultButton'
+                            className='defaultButton blueButton'
                             open={emmit && true}
                             onClick={() => setEmmit(!emmit)}
                         >
@@ -513,14 +809,14 @@ export const ContractData = () => {
 
                         <Box $emmit={emmit && true} >
                             <SendContract
-                                className='defaultButton'
+                                className='defaultButton blueButton'
                                 $emmit={emmit && true}>
                                 <SureSendModal
                                     data={"Autentique"}
                                     text={personalText.autentique} />
                             </SendContract>
                             <SendContract
-                                className='defaultButton'
+                                className='defaultButton blueButton'
 
                                 $emmit={emmit && true}>
                                 <SureSendModal
@@ -708,13 +1004,11 @@ export const ContractData = () => {
                                     <tbody>
                                         <tr>
                                             <td >{filteredContracts["service"]}</td>
-                                            <td >{(filteredContracts["valorCurso"])?.toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
-                                            <td >{parseFloat(paymentParcels["descount"])?.toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
+                                            <td >{changeCurrency(filteredContracts["valorCurso"])}</td>
+                                            <td >{changeCurrency(paymentParcels["descount"])}</td>
                                             <td >{filteredContracts["Número de parcelas do curso"]}</td>
                                             <td >{filteredContracts["Forma de pagamento da parcela"]}</td>
-                                            <td >{
-                                                (paymentParcels["total"] - paymentParcels["descount"])
-                                                    ?.toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
+                                            <td >{changeCurrency(paymentParcels["total"] - paymentParcels["descount"])}</td>
                                         </tr>
 
 
@@ -777,14 +1071,13 @@ export const ContractData = () => {
                                                         <tr key={idx}>
                                                             <td>{idx + 1}</td>
                                                             <td>{dateCalculator(filteredContracts["Data de Vencimento da Primeira Parcela"], idx)}</td>
-                                                            <td>{(paymentParcels.total / paymentParcels.parcels.length)?.toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
-
-                                                            <td>{parseFloat(res.descount)?.toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
+                                                            <td>{changeCurrency(paymentParcels.total / paymentParcels.parcels.length)}</td>
+                                                            <td>{changeCurrency(res.descount)}</td>
 
                                                             {
                                                                 idx + 1 > camp?.parcel?.affectedParcels ?
-                                                                    <td>{(res.valor - res.descount)?.toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td> :
-                                                                    <td>{parseFloat(res.valor)?.toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
+                                                                    <td>{changeCurrency(res.valor - res.descount)}</td> :
+                                                                    <td>{changeCurrency(res.valor)}</td>
                                                             }
                                                         </tr>
                                                     ))
@@ -798,9 +1091,9 @@ export const ContractData = () => {
                                                         <tr key={idx}>
                                                             <td>{idx + 1}</td>
                                                             <td>{dateCalculator(filteredContracts["Data de Vencimento da Primeira Parcela"], idx)}</td>
-                                                            <td>{(paymentParcels.total / paymentParcels.parcels.length)?.toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
-                                                            <td>{parseFloat(paymentParcels.descountForPontuality)?.toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
-                                                            <td>{(res.valor - paymentParcels.descountForPontuality)?.toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td> :
+                                                            <td>{changeCurrency(paymentParcels.total / paymentParcels.parcels.length)}</td>
+                                                            <td>{changeCurrency(paymentParcels.descountForPontuality)}</td>
+                                                            <td>{changeCurrency(res.valor - paymentParcels.descountForPontuality)}</td> :
                                                         </tr>
                                                     ))
                                                 }
@@ -836,11 +1129,11 @@ export const ContractData = () => {
                                             filteredContracts["products"].map((res) => (
                                                 <tr key={res.id}>
                                                     <td>{res.name}</td>
-                                                    <td>{(res.price_ticket)?.toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
-                                                    <td>{(res.price_ticket - res[paymentMethodsForMaterials[filteredContracts["Forma de pagamento do MD"]]])?.toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
+                                                    <td>{changeCurrency(res.priceSale)}</td>
+                                                    <td>{changeCurrency(material?.descount)}</td>
                                                     <td>{filteredContracts["Quantidade de parcelas MD"]}</td>
                                                     <td>{filteredContracts["Forma de pagamento do MD"]}</td>
-                                                    <td>{(res[paymentMethodsForMaterials[filteredContracts["Forma de pagamento do MD"]]]?.toLocaleString('pt-BR', { style: 'currency', currency: "brl" }))}</td>
+                                                    <td>{changeCurrency(res.priceSale)}</td>
                                                 </tr>
                                             ))
                                         }
@@ -851,12 +1144,11 @@ export const ContractData = () => {
                                             <tr>
 
                                                 <td>TOTAL</td>
-                                                <td>{parseFloat(material?.total) + parseFloat(material?.descount)}</td>
-                                                <td>{material?.descount}</td>
+                                                <td>{changeCurrency(parseFloat(material?.total) + parseFloat(material?.descount))}</td>
+                                                <td>{changeCurrency(material?.descount)}</td>
                                                 <td>{filteredContracts["Quantidade de parcelas MD"]}</td>
                                                 <td>{filteredContracts["Forma de pagamento do MD"]}</td>
-                                                <td>{filteredContracts['products'].reduce((acc, curr) => acc + curr[paymentMethodsForMaterials[filteredContracts["Forma de pagamento do MD"]]], 0)
-                                                    ?.toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
+                                                <td>{changeCurrency(filteredContracts['products'].reduce((acc, curr) => acc + parseFloat(curr.priceSale), 0))}</td>
                                             </tr>
                                         </tfoot>
                                     }
@@ -865,7 +1157,6 @@ export const ContractData = () => {
                             </ContainerData>
                             {
                                 camp.material !== undefined &&
-
                                 <ContainerData>
                                     <h3> Campanha</h3>
 
@@ -916,9 +1207,8 @@ export const ContractData = () => {
                                                 <tr key={idx}>
                                                     <td>{idx + 1}</td>
                                                     <td>{dateCalculator(filteredContracts["Data de pagamento MD"], idx)}</td>
-                                                    <td>{(filteredContracts['products'].reduce((acc, curr) => acc + curr.price_ticket, 0) / filteredContracts['material'].materials.length)?.toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
-                                                    <td>{((filteredContracts['products'].reduce((acc, curr) => acc + curr[paymentMethodsForMaterials[filteredContracts["Forma de pagamento do MD"]]], 0))
-                                                        / filteredContracts['material'].materials.length)?.toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
+                                                    <td>{changeCurrency(filteredContracts['products'].reduce((acc, curr) => acc + parseFloat(curr.priceSale), 0) / filteredContracts['material'].materials.length)}</td>
+                                                    <td>{changeCurrency((filteredContracts['products'].reduce((acc, curr) => acc + parseFloat(curr.priceSale), 0)) / filteredContracts['material'].materials.length)}</td>
                                                 </tr>
                                             ))
                                         }

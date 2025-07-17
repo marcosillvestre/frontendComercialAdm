@@ -41,6 +41,8 @@ export const BillingsProvider = ({ children }) => {
     const BillingQuery = useQuery({
         queryFn: () => queriesBilling(),
         queryKey: ["Billing", take, skip, orderBy, query, orderFor],
+        enabled: userData?.name !== undefined && userData.role !== undefined
+
     })
 
     useLayoutEffect(() => {
@@ -52,6 +54,8 @@ export const BillingsProvider = ({ children }) => {
 
             if (error && error?.response?.data.error === 'token invalid') {
                 window.location.href = paths.home.path;
+                console.log("first")
+
                 alert("Faça login novamente, seu acesso expirou");
                 logOut();
 

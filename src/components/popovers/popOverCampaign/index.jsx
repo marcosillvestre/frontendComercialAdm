@@ -28,7 +28,10 @@ export function PopOverCampaign(data) {
     const handleEdit = () => {
         setTypeSidebar(5)
         setOpenSidebar(true);
-        setEditCampaign(row)
+        setEditCampaign(row);
+
+        handleClick();
+
     }
 
     const reset = () => {

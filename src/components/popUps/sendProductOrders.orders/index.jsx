@@ -316,7 +316,7 @@ ${checkData[0].unity === 'PTB' ?
                                                         sendRequests()
                                                         e.preventDefault()
                                                     }}
-                                                    className='defaultButton'>
+                                                    className='defaultButton blueButton'>
 
                                                     enviar
                                                 </button>

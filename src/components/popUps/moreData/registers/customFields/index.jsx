@@ -1,5 +1,6 @@
 import { Typography } from '@mui/material';
 // import { treatingDates } from '../../../../app/utils/functions/getDates';
+import { gatheringArrays } from '../../../../../app/utils/functions/treatingArrays';
 import { useCustomFields } from '../../../../../hooks/customFields/customFIelds.hook';
 import { useRegister } from '../../../../../hooks/registers/registersContext.hook';
 import { InputRegister } from '../../../../inputs/input.update.register';
@@ -18,6 +19,8 @@ export const CustomFields = () => {
 
     const customFieldsFiltered = customFields.filter(res => res.category === "Outros")
 
+
+    const keys = gatheringArrays(Object.keys(register.customFields), customFieldsFiltered);
 
     const customFieldsChanger = (key, value) => {
 
@@ -45,7 +48,8 @@ export const CustomFields = () => {
 
             {
                 register &&
-                customFieldsFiltered.map((key, index) => (
+                keys.map((key, index) => (
+
                     <label htmlFor="" key={index}>
                         <Typography variant="h7" component="h3">
                             {key.name}:
@@ -120,12 +124,6 @@ export const CustomFields = () => {
                                     width="100%"
                                     field={key.name}
                                     label={register.customFields[key.name]}
-                                    option={
-                                        key.options.map(res => {
-                                            return {
-                                                name: res
-                                            }
-                                        })}
                                     fn={[customFieldsChanger]}
                                 />
                             </div>

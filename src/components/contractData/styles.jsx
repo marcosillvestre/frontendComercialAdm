@@ -92,11 +92,12 @@ export const NavBar = styled.nav`
 text-align: center;
 margin: 15px 0;
 padding: 1rem;
-display: ${props => props.active ? "flex" : "none"};
+display: flex;
 flex-direction: column;
 animation-duration: .5s;
 border-radius: var(--br);
-position: sticky;
+position: ${props => props.active ? "sticky" : "absolute"};
+
 background-color: #e0e0e0;
 top: 90px;
 margin-left: calc(100% - 220px);
@@ -117,6 +118,7 @@ box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1),0px 10px 15px -3px rgba(0,0,0,0.1
 }
 }
 .emmit{
+display: ${props => props.active ? "block" : "none"};
 user-select:none;
 justify-content: center;
 flex-direction: column;

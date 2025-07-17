@@ -127,7 +127,7 @@ export function ObservationsOrders(info) {
                                                         comment.current.value !== '' && addComment()
                                                         e.preventDefault()
                                                     }}
-                                                    className='defaultButton'>
+                                                    className='defaultButton blueButton'>
 
                                                     enviar
                                                 </button>

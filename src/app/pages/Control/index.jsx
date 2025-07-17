@@ -100,7 +100,7 @@ export const ListFiltered = () => {
                         typeFilter?.length > 0 &&
                         <div>
                             <button
-                                className='button-clean'
+                                className='defaultButton redButton'
                                 onClick={() => handleResetFilter()}
                             >
                                 Limpar filtros

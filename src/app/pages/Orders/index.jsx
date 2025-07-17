@@ -76,7 +76,7 @@ export const Orders = () => {
                     {
                         typeFilter?.length > 0 &&
                         <button
-                            className='button-clean'
+                            className='defaultButton redButton'
                             onClick={() => setTypeFilter([])}
                         >
                             limpar filtros

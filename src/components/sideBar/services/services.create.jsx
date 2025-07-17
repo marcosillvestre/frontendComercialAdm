@@ -166,7 +166,7 @@ export const ServicesSidebar = () => {
             <hr />
             <Submit
                 placeholder="Enviar"
-                className='defaultButton'
+                className='defaultButton blueButton'
                 onClick={() => submit()}
             >
                 Enviar

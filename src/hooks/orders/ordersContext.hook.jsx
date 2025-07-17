@@ -82,6 +82,8 @@ export const OrdersProvider = ({ children }) => {
             search, "orders", skip, take, query,
             JSON.stringify(typeFilter), orderBy, orderFor
         ],
+        enabled: userData?.name !== undefined && userData.role !== undefined
+
         // staleTime: 1000 * 60 * 5, // 5 minutos sem refazer a requisição
         // cacheTime: 1000 * 60 * 10
     })
