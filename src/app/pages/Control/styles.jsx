@@ -61,7 +61,11 @@ export const Header = styled.header`
         display: flex;
         align-items: end;
         gap:1rem;
-        
+
+        .create-button{
+    padding: 0 1rem;
+
+}
         .box-search{
     display: grid;
     gap: 5px;
@@ -84,19 +88,7 @@ export const Header = styled.header`
     }
 }
     }
-.button{
-    border-radius: .35rem;
-    padding: 0 .5rem ; 
-    margin-top: 0; 
-    border: none;
-    background-color:#dfe6f1;
-    height: 2.395rem;
-    transition-duration: .4s;
-    &:hover{
-    background-color:#d9d9d9;
 
-    }
-}
 `
 
 export const InputSearch = styled.input`

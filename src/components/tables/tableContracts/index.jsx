@@ -34,10 +34,12 @@ function Row(props) {
                     setContract(row.id)
                 }}
             >
-                {/* adicionar o controle de ordenação e direçao aqui  */}
                 <TableCell align="center" component="th" scope="row">{new Date(row.created_at).toLocaleDateString("pt-BR")}</TableCell>
                 <TableCell align="center" component="th" scope="row">{row.name}</TableCell>
                 <TableCell align="center" component="th" scope="row">{row.student !== !row.student ? row.student : row.name}</TableCell>
+                <TableCell align="center" component="th" scope="row" title={row.convenio.map(r => `${r}\n`)}>
+                    {row.convenio.length}
+                </TableCell>
                 <TableCell align="center" component="th" scope="row">{row.seller}</TableCell>
                 <TableCell align="center" component="th" scope="row">{row.phone}</TableCell>
                 <TableCell align="center" component="th" scope="row">{row.subclass}</TableCell>
@@ -57,6 +59,7 @@ Row.propTypes = {
         seller: PropTypes.string.isRequired,
         phone: PropTypes.string.isRequired,
         subclass: PropTypes.string.isRequired,
+        convenio: PropTypes.array.isRequired,
 
     }).isRequired,
 };
@@ -75,8 +78,7 @@ export default function TableContracts() {
 
     const { isPending } = contractsForSign;
     const { isFetching } = queryContract;
-
-
+    const { contracts } = contractOptions;
 
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [page, setPage] = React.useState(0);
@@ -160,6 +162,7 @@ export default function TableContracts() {
                                         }
                                     </ContainerOrder></TableCell>
                                     <TableCell align="center"><ContainerOrder>Aluno</ContainerOrder></TableCell>
+                                    <TableCell align="center"><ContainerOrder>Campanhas</ContainerOrder></TableCell>
                                     <TableCell align="center"><ContainerOrder>Vendedor</ContainerOrder></TableCell>
                                     <TableCell align="center"><ContainerOrder>Celular</ContainerOrder></TableCell>
                                     <TableCell align="center"><ContainerOrder>Subclasse</ContainerOrder></TableCell>
@@ -168,8 +171,8 @@ export default function TableContracts() {
                             <TableBody>
                                 {
 
-                                    contractOptions &&
-                                    contractOptions.contracts.map((row) => (
+                                    contracts.length > 0 &&
+                                    contracts.map((row) => (
                                         <Row
                                             key={row.id}
                                             row={row}

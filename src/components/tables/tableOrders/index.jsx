@@ -165,239 +165,242 @@ export default function TableOrders() {
 
 
     return (
-        <ContainerTable component={Paper}>
-            <Paper sx={{ width: '100%' }}>
-                {
-                    isPending ?
-                        <div style={{
-                            width: "100%",
-                            display: 'flex',
-                            justifyContent: 'center',
-                            padding: "5rem 0"
-                        }}>
+        <>
+            <MultiFiltersOrders
+            />
+            <ContainerTable component={Paper}>
+                <Paper sx={{ width: '100%' }}>
+                    {
+                        isPending ?
+                            <div style={{
+                                width: "100%",
+                                display: 'flex',
+                                justifyContent: 'center',
+                                padding: "5rem 0"
+                            }}>
 
-                            <LoadingSpin
-                                duration="4s"
-                                width="15px"
-                                timingFunction="ease-in-out"
-                                direction="alternate"
-                                size="60px"
-                                primaryColor="#1976d2"
-                                secondaryColor="#333"
-                                numberOfRotationsInAnimation={3}
-                            />
-                        </div>
-                        :
-                        <Container>
-                            <nav>
-                                <MultiFiltersOrders
+                                <LoadingSpin
+                                    duration="4s"
+                                    width="15px"
+                                    timingFunction="ease-in-out"
+                                    direction="alternate"
+                                    size="60px"
+                                    primaryColor="#1976d2"
+                                    secondaryColor="#333"
+                                    numberOfRotationsInAnimation={3}
                                 />
-                                <span
-                                    className='flex'
-                                >
+                            </div>
+                            :
+                            <Container>
+                                <nav>
+
                                     <span
                                         className='flex'
-
                                     >
-                                        <MultiAlterationOrders
-                                            element={1}
+                                        <span
+                                            className='flex'
+
+                                        >
+                                            <MultiAlterationOrders
+                                                element={1}
+                                                able={checkData.length > 0}
+                                                label={"ações em lote"}
+                                            />
+                                            {
+                                                checkData.length > 0 &&
+                                                <>
+                                                    <ButtonSellected
+                                                        className='defaultButton blueButton'
+                                                        onMouseOver={() => setView(true)}
+
+                                                        onClick={() => {
+                                                            setView(!view)
+                                                            const { order: orderQueried, count: countQueried } = data
+
+                                                            setQueryOrder(view ?
+                                                                { order: orderQueried, count: countQueried } :
+                                                                { order: checkData, count: checkData.length }
+                                                            )
+                                                        }
+                                                        }
+                                                    >
+                                                        {checkData.length} pedido(s) selecionado(s)
+                                                    </ButtonSellected>
+                                                    <span>
+
+                                                        {
+                                                            view &&
+                                                            <>
+                                                                <CloserClick
+                                                                    open={view}
+                                                                    fn={setView} opacity={0.01}
+                                                                />
+                                                                <SellectedView
+                                                                >
+                                                                    {checkData &&
+                                                                        checkData.map((res, i) => (
+                                                                            <span
+                                                                                key={i}
+                                                                                className='container-sellected-view'
+                                                                                onClick={() => {
+                                                                                    let filtered = checkData.filter(t => t.id !== res.id);
+                                                                                    setCheckData(filtered)
+                                                                                }}
+                                                                            >
+                                                                                <p>{res.name}</p>
+                                                                                <i title='remover'>
+                                                                                    <CloseIcon />
+                                                                                </i>
+                                                                            </span>
+                                                                        ))}
+                                                                </SellectedView>
+                                                            </>
+                                                        }
+
+                                                    </span>
+
+                                                    <button
+                                                        className='defaultButton redButton'
+                                                        onClick={() => checkAll(false)}
+                                                    >
+                                                        Desmarcar todos
+                                                    </button>
+                                                </>
+                                            }
+
+
+                                        </span>
+
+                                        <ButtonContainer
                                             able={checkData.length > 0}
-                                            label={"ações em lote"}
-                                        />
-                                        {
-                                            checkData.length > 0 &&
-                                            <>
-                                                <ButtonSellected
-                                                    className='defaultButton blueButton'
-                                                    onMouseOver={() => setView(true)}
+                                            onClick={() => {
+                                                if (checkData.some(res => res.name !== checkData[0].name))
+                                                    return alert("Você só pode emitir um recibo para o mesmo dono")
 
-                                                    onClick={() => {
-                                                        setView(!view)
-                                                        const { order: orderQueried, count: countQueried } = data
+                                                setOrders(checkData)
+                                            }}
 
-                                                        setQueryOrder(view ?
-                                                            { order: orderQueried, count: countQueried } :
-                                                            { order: checkData, count: checkData.length }
-                                                        )
-                                                    }
-                                                    }
-                                                >
-                                                    {checkData.length} pedido(s) selecionado(s)
-                                                </ButtonSellected>
-                                                <span>
+                                            to={
+                                                !checkData.some(res => res.name !== checkData[0].name)
+                                                && `invoice`
+                                            }
+                                        >
 
-                                                    {
-                                                        view &&
-                                                        <>
-                                                            <CloserClick
-                                                                open={view}
-                                                                fn={setView} opacity={0.01}
-                                                            />
-                                                            <SellectedView
-                                                            >
-                                                                {checkData &&
-                                                                    checkData.map((res, i) => (
-                                                                        <span
-                                                                            key={i}
-                                                                            className='container-sellected-view'
-                                                                            onClick={() => {
-                                                                                let filtered = checkData.filter(t => t.id !== res.id);
-                                                                                setCheckData(filtered)
-                                                                            }}
-                                                                        >
-                                                                            <p>{res.name}</p>
-                                                                            <i title='remover'>
-                                                                                <CloseIcon />
-                                                                            </i>
-                                                                        </span>
-                                                                    ))}
-                                                            </SellectedView>
-                                                        </>
-                                                    }
-
-                                                </span>
-
-                                                <button
-                                                    className='defaultButton redButton'
-                                                    onClick={() => checkAll(false)}
-                                                >
-                                                    Desmarcar todos
-                                                </button>
-                                            </>
-                                        }
+                                            recibo
+                                        </ButtonContainer>
 
 
                                     </span>
 
-                                    <ButtonContainer
-                                        able={checkData.length > 0}
-                                        onClick={() => {
-                                            if (checkData.some(res => res.name !== checkData[0].name))
-                                                return alert("Você só pode emitir um recibo para o mesmo dono")
-
-                                            setOrders(checkData)
-                                        }}
-
-                                        to={
-                                            !checkData.some(res => res.name !== checkData[0].name)
-                                            && `invoice`
-                                        }
-                                    >
-
-                                        recibo
-                                    </ButtonContainer>
 
 
-                                </span>
+                                </nav>
+
+                                <Table aria-label="collapsible table">
+                                    <TableHead>
+                                        <TableRow sx={{ borderBottom: 'unset' }}>
+                                            <TableCell align="center">
+                                                <input
+                                                    type="checkbox"
+                                                    name="" id=""
+                                                    checked={checked}
+                                                    onClick={() => {
+                                                        checkAll(!checked)
 
 
+                                                        setCheckData(oldData => !checked ?
+                                                            [...oldData, ...order] :
+                                                            [])
+                                                    }} />
 
-                            </nav>
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                <ContainerOrder>
+                                                    Data de criação
 
-                            <Table aria-label="collapsible table">
-                                <TableHead>
-                                    <TableRow sx={{ borderBottom: 'unset' }}>
-                                        <TableCell align="center">
-                                            <input
-                                                type="checkbox"
-                                                name="" id=""
-                                                checked={checked}
-                                                onClick={() => {
-                                                    checkAll(!checked)
+                                                    {
+                                                        orderBy !== "created_at" &&
+                                                        <SwapVertIcon onClick={() => setOrderBy("created_at")} />
+                                                    }
+                                                    {
+                                                        orderBy === "created_at" && orderFor === "asc" &&
+                                                        <ArrowDownwardIcon onClick={() => setOrderFor("desc")} />
+                                                    }
+                                                    {
+                                                        orderBy === "created_at" && orderFor === "desc" &&
+                                                        <ArrowUpwardIcon onClick={() => setOrderFor("asc")} />
+                                                    }
+                                                </ContainerOrder>
+                                            </TableCell>
+                                            <TableCell align="center">Data de retirada</TableCell>
+                                            <TableCell align="center">
+                                                <ContainerOrder>
+                                                    Cliente
+                                                    {
+                                                        orderBy !== "name" &&
+                                                        <SwapVertIcon onClick={() => setOrderBy("name")} />
+                                                    }
+                                                    {
+                                                        orderBy === "name" && orderFor === "asc" &&
+                                                        <ArrowDownwardIcon onClick={() => setOrderFor("desc")} />
+                                                    }
+                                                    {
+                                                        orderBy === "name" && orderFor === "desc" &&
+                                                        <ArrowUpwardIcon onClick={() => setOrderFor("asc")} />
+                                                    }
+                                                </ContainerOrder>
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                <ContainerOrder>
+                                                    Aluno
+                                                    {
+                                                        orderBy !== "student" &&
+                                                        <SwapVertIcon onClick={() => setOrderBy("student")} />
+                                                    }
+                                                    {
+                                                        orderBy === "student" && orderFor === "asc" &&
+                                                        <ArrowDownwardIcon onClick={() => setOrderFor("desc")} />
+                                                    }
+                                                    {
+                                                        orderBy === "student" && orderFor === "desc" &&
+                                                        <ArrowUpwardIcon onClick={() => setOrderFor("asc")} />
+                                                    }
+                                                </ContainerOrder>
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                <ContainerOrder>
+                                                    Produto
+                                                </ContainerOrder>
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                <ContainerOrder>
+                                                    Situação
+                                                </ContainerOrder>
+                                            </TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {
+                                            order &&
+                                            order.map((row) => (
+                                                <Row key={row.id} row={row} />
+                                            ))}
+                                    </TableBody>
+                                </Table>
+                            </Container>
+                    }
 
-
-                                                    setCheckData(oldData => !checked ?
-                                                        [...oldData, ...order] :
-                                                        [])
-                                                }} />
-
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <ContainerOrder>
-                                                Data de criação
-
-                                                {
-                                                    orderBy !== "created_at" &&
-                                                    <SwapVertIcon onClick={() => setOrderBy("created_at")} />
-                                                }
-                                                {
-                                                    orderBy === "created_at" && orderFor === "asc" &&
-                                                    <ArrowDownwardIcon onClick={() => setOrderFor("desc")} />
-                                                }
-                                                {
-                                                    orderBy === "created_at" && orderFor === "desc" &&
-                                                    <ArrowUpwardIcon onClick={() => setOrderFor("asc")} />
-                                                }
-                                            </ContainerOrder>
-                                        </TableCell>
-                                        <TableCell align="center">Data de retirada</TableCell>
-                                        <TableCell align="center">
-                                            <ContainerOrder>
-                                                Cliente
-                                                {
-                                                    orderBy !== "name" &&
-                                                    <SwapVertIcon onClick={() => setOrderBy("name")} />
-                                                }
-                                                {
-                                                    orderBy === "name" && orderFor === "asc" &&
-                                                    <ArrowDownwardIcon onClick={() => setOrderFor("desc")} />
-                                                }
-                                                {
-                                                    orderBy === "name" && orderFor === "desc" &&
-                                                    <ArrowUpwardIcon onClick={() => setOrderFor("asc")} />
-                                                }
-                                            </ContainerOrder>
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <ContainerOrder>
-                                                Aluno
-                                                {
-                                                    orderBy !== "student" &&
-                                                    <SwapVertIcon onClick={() => setOrderBy("student")} />
-                                                }
-                                                {
-                                                    orderBy === "student" && orderFor === "asc" &&
-                                                    <ArrowDownwardIcon onClick={() => setOrderFor("desc")} />
-                                                }
-                                                {
-                                                    orderBy === "student" && orderFor === "desc" &&
-                                                    <ArrowUpwardIcon onClick={() => setOrderFor("asc")} />
-                                                }
-                                            </ContainerOrder>
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <ContainerOrder>
-                                                Produto
-                                            </ContainerOrder>
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <ContainerOrder>
-                                                Situação
-                                            </ContainerOrder>
-                                        </TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {
-                                        order &&
-                                        order.map((row) => (
-                                            <Row key={row.id} row={row} />
-                                        ))}
-                                </TableBody>
-                            </Table>
-                        </Container>
-                }
-
-                <TablePagination
-                    rowsPerPageOptions={[10, 20, 50, 100]}
-                    component="div"
-                    count={count}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                />
-            </Paper>
-        </ContainerTable>
+                    <TablePagination
+                        rowsPerPageOptions={[10, 20, 50, 100]}
+                        component="div"
+                        count={count}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
+                </Paper>
+            </ContainerTable>
+        </>
     );
 }

@@ -4,10 +4,9 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { alpha, styled } from '@mui/material/styles';
 import LoadingSpin from 'react-loading-spin';
-import { useRegister } from '../../../hooks/registers/registersContext.hook.jsx';
-import { useUnities } from '../../../hooks/unities/unitiesContext.hook.jsx';
+import { useCategorieProducts } from '../../../hooks/categorieProduct/categorieProd.hook.jsx';
+import { useProduct } from '../../../hooks/products/productsContext.hook.jsx';
 import { useUser } from '../../../hooks/userContext.jsx';
-import { CustomDateMenuRegisters } from '../../customDateMenu/filteringMenu.Registers/index.jsx';
 import { Buttonn, Container } from './styles.jsx';
 
 const StyledMenu = styled((props) => (
@@ -53,66 +52,34 @@ const StyledMenu = styled((props) => (
     },
 }));
 
+import PropTypes from 'prop-types';
+import { CustomDateMenuProducts } from '../../customDateMenu/filteringMenu.Products/index.jsx';
 
-export function RegisterMoreFilters() {
+export function ProductsMoreFilters({ disabled }) {
 
     const { anchorEl, handleClose, setAnchorEl } = useUser();
-    const { filterInitialDate, filterEndDate, setTypeFilter, typeFilter } = useRegister();
 
-    const { unityQuery } = useUnities()
-    const { data: unities, isPending } = unityQuery
+    const { filterInitialDate, filterEndDate, setTypeFilter, typeFilter } = useProduct();
+    const { CategorieProductsTotalsQuery } = useCategorieProducts();
+    const { isPending, data } = CategorieProductsTotalsQuery;
 
+    const { categorie } = data;
 
     const filters = [
         {
-            label: "UNIDADE",
-            name: "Unidade",
-            customField: true,
-            options: unities,
+            label: "Categoria",
+            name: "categorieName",
+            options: categorie,
         },
         {
-            label: "CURSO",
-            name: "Curso",
-            customField: true,
+            label: "Ativo",
+            name: "active",
             options: [
-                { name: "Inglês" },
-                { name: "Espanhol" },
-                { name: "Tecnologia" },
+                { name: "Sim" },
+                { name: "Não" },
             ],
         },
-        {
-            label: "BACKGROUND",
-            name: "Background do Aluno",
-            customField: true,
-            options: [
-                { name: "Ex-aluno" },
-                { name: "Novo aluno" },
-                { name: "Aluno vigente" },
-                { name: "Rematrícula" },
-            ],
-        },
-        {
-            label: "STATUS DE COMISSIONAMENTO",
-            name: "comissaoStatus",
-            options: [
-                { name: "Pendente" },
-                { name: "Não aprovado" },
-                { name: "Pré aprovado" },
-                { name: "Comissionado" },
-            ],
-        },
-        {
-            label: "STATUS DO CONTRATO",
-            name: "situacaoContrato",
-            options: [
-                { name: "ATIVO" },
-                { name: "INATIVO" },
-                { name: "TRANCADO" },
-                { name: "RESCINDIDO" },
-                { name: "CANCELADO" },
-                { name: "PREMATRICULADO" },
-            ],
-        },
+
     ]
 
 
@@ -136,6 +103,7 @@ export function RegisterMoreFilters() {
     return (
         <Container>
             <Buttonn
+                disabled={disabled}
                 id="demo-customized-button"
                 aria-controls={open ? 'demo-customized-menu' : undefined}
                 aria-haspopup="true"
@@ -178,7 +146,7 @@ export function RegisterMoreFilters() {
                         :
                         filters.map((res, index) => (
                             <MenuItem disableRipple key={index}>
-                                <CustomDateMenuRegisters
+                                <CustomDateMenuProducts
                                     props={res}
                                     fn={apllyDateFilters}
                                     where="moreFilters"
@@ -194,3 +162,8 @@ export function RegisterMoreFilters() {
         </Container>
     );
 }
+
+ProductsMoreFilters.propTypes = {
+    disabled: PropTypes.bool,
+
+};

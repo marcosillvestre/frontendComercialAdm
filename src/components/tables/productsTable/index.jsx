@@ -1,6 +1,7 @@
 import Paper from '@mui/material/Paper';
 import PropTypes from 'prop-types';
 import { useProduct } from '../../../hooks/products/productsContext.hook';
+import { MultiFiltersProducts } from '../../arrayFilters/multiFilters.products';
 import { SwitchButtons } from '../../switchButtons';
 import { Categorie } from './categorie';
 import { Kits } from './kit';
@@ -18,32 +19,39 @@ export function ProductsTable() {
         "categorias": <Categorie />,
     }
 
+    //consertae esse miltifilter
+
     return (
-        <ContainerTable component={Paper}>
-            <div className='table_tag'>
+        <>
+            <MultiFiltersProducts />
+            <ContainerTable component={Paper}>
 
-                <h3>Lista de {view}</h3>
+                <div className='table_tag'>
 
-                <div>
-                    <SwitchButtons
-                        data={{
-                            fn: setView,
-                            options: [
-                                "produtos",
-                                "kits",
-                                "categorias"
-                            ],
-                            optionActive: view,
-                        }}
-                    />
+                    <h3>Lista de {view}</h3>
+
+                    <div>
+                        <SwitchButtons
+                            data={{
+                                fn: setView,
+                                options: [
+                                    "produtos",
+                                    "kits",
+                                    "categorias"
+                                ],
+                                optionActive: view,
+                            }}
+                        />
+                    </div>
+
+
                 </div>
 
+                {tables[view]}
 
-            </div>
+            </ContainerTable>
+        </>
 
-            {tables[view]}
-
-        </ContainerTable>
     );
 }
 

@@ -38,7 +38,7 @@ function Row(props) {
             <TableCell component="th" >{row.categorieName}</TableCell>
             <TableCell component="th" >{changeCurrency(row.priceSale)}</TableCell>
             <TableCell component="th" >
-                <Tag style={{ backgroundColor: "#a2e67e" }}>
+                <Tag style={{ backgroundColor: row.active ? "#a2e67e" : "#e6937e" }}>
                     {row.active ? "ATIVO" : "INATIVO"}
                 </Tag>
 

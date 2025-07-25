@@ -43,7 +43,6 @@ export const Prod = () => {
         setTypeSidebar(0)
     }
 
-    console.log({ body })
 
     return (
 

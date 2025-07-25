@@ -32,7 +32,7 @@ export const KitsProvider = ({ children }) => {
     }
     const queriesKits = async () => {
 
-        const response = await URI.post(`http://localhost:7070/kits`, {
+        const response = await URI.post(`/kits`, {
             take,
             skip,
             orderBy,
@@ -68,7 +68,7 @@ export const KitsProvider = ({ children }) => {
 
     const sendData = async (body) => {
         const response = await toast.promise(
-            URI.post(`http://localhost:7070/kit`, body),
+            URI.post(`/kit`, body),
             {
                 pending: 'Conferindo os dados',
                 success: 'Kit criado com sucesso',
@@ -114,7 +114,7 @@ export const KitsProvider = ({ children }) => {
 
     const editData = async (body) => {
         const response = await toast.promise(
-            URI.put(`http://localhost:7070/kits/${body.id}`, body),
+            URI.put(`/kits/${body.id}`, body),
             {
                 pending: 'Conferindo os dados',
                 success: 'Kit editado com sucesso',
@@ -163,7 +163,7 @@ export const KitsProvider = ({ children }) => {
     const queryKitsTotals = async () => {
 
         const response = await URI.
-            get(`http://localhost:7070/kits-totais`)
+            get(`/kits-totais`)
 
         return response.data
     }
@@ -179,7 +179,7 @@ export const KitsProvider = ({ children }) => {
 
         const responsible = userData.name
         const response = await toast.promise(
-            URI.delete(`http://localhost:7070/kits/${id}?responsible=${responsible}`),
+            URI.delete(`/kits/${id}?responsible=${responsible}`),
             {
                 pending: 'Conferindo os dados',
                 success: 'Kit deletado com sucesso',

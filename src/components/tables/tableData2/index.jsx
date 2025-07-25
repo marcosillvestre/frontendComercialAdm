@@ -329,142 +329,151 @@ export default function CollapsibleTable() {
     };
 
     return (
-        <ContainerTable component={Paper}>
-            <Paper sx={{ width: '100%' }}>
+        <>
+            <MultiFiltersRegisters />
 
-                {
-                    isPending ?
-                        <div style={{
-                            width: "100%",
-                            display: 'flex',
-                            justifyContent: 'center',
-                            padding: "5rem 0"
-                        }}>
+            <ContainerTable component={Paper}>
+                <div className='table_tag'>
 
-                            <LoadingSpin
-                                duration="4s"
-                                width="15px"
-                                timingFunction="ease-in-out"
-                                direction="alternate"
-                                size="60px"
-                                primaryColor="#1976d2"
-                                secondaryColor="#333"
-                                numberOfRotationsInAnimation={2}
-                            />
-                        </div>
-                        :
-                        <Container>
-                            <nav>
-                                <MultiFiltersRegisters />
+                    <h3>Lista de matrículas</h3>
 
-                            </nav>
+                </div>
 
-                            <Table aria-label="collapsible table">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell />
-                                        <TableCell align="center">
-                                            <ContainerOrder>
-                                                Data de criação
+                <Paper sx={{ width: '100%' }}>
 
-                                                {
-                                                    orderBy !== "created_at" &&
-                                                    <SwapVertIcon onClick={() => setOrderBy("created_at")} />
-                                                }
-                                                {
-                                                    orderBy === "created_at" && orderFor === "asc" &&
-                                                    <ArrowDownwardIcon onClick={() => setOrderFor("desc")} />
-                                                }
-                                                {
-                                                    orderBy === "created_at" && orderFor === "desc" &&
-                                                    <ArrowUpwardIcon onClick={() => setOrderFor("asc")} />
-                                                }
+                    {
+                        isPending ?
+                            <div style={{
+                                width: "100%",
+                                display: 'flex',
+                                justifyContent: 'center',
+                                padding: "5rem 0"
+                            }}>
 
-                                            </ContainerOrder>
-                                        </TableCell>
-                                        <TableCell align="center">
-
-                                            <ContainerOrder>
-                                                Aluno
-                                            </ContainerOrder>
-
-                                        </TableCell>
-                                        <TableCell align="center">
-
-                                            <ContainerOrder>
-                                                Responsável
-                                                {
-                                                    orderBy !== "name" &&
-                                                    <SwapVertIcon onClick={() => setOrderBy("name")} />
-                                                }
-                                                {
-                                                    orderBy === "name" && orderFor === "asc" &&
-                                                    <ArrowDownwardIcon onClick={() => setOrderFor("desc")} />
-                                                }
-                                                {
-                                                    orderBy === "name" && orderFor === "desc" &&
-                                                    <ArrowUpwardIcon onClick={() => setOrderFor("asc")} />
-                                                }
-                                            </ContainerOrder>
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <ContainerOrder>
-                                                Curso
-                                            </ContainerOrder>
-
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <ContainerOrder>
+                                <LoadingSpin
+                                    duration="4s"
+                                    width="15px"
+                                    timingFunction="ease-in-out"
+                                    direction="alternate"
+                                    size="60px"
+                                    primaryColor="#1976d2"
+                                    secondaryColor="#333"
+                                    numberOfRotationsInAnimation={2}
+                                />
+                            </div>
+                            :
+                            <Container>
 
 
-                                                Unidade
-                                            </ContainerOrder>
+                                <Table aria-label="collapsible table">
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell />
+                                            <TableCell align="center">
+                                                <ContainerOrder>
+                                                    Data de criação
 
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <ContainerOrder>
+                                                    {
+                                                        orderBy !== "created_at" &&
+                                                        <SwapVertIcon onClick={() => setOrderBy("created_at")} />
+                                                    }
+                                                    {
+                                                        orderBy === "created_at" && orderFor === "asc" &&
+                                                        <ArrowDownwardIcon onClick={() => setOrderFor("desc")} />
+                                                    }
+                                                    {
+                                                        orderBy === "created_at" && orderFor === "desc" &&
+                                                        <ArrowUpwardIcon onClick={() => setOrderFor("asc")} />
+                                                    }
+
+                                                </ContainerOrder>
+                                            </TableCell>
+                                            <TableCell align="center">
+
+                                                <ContainerOrder>
+                                                    Aluno
+                                                </ContainerOrder>
+
+                                            </TableCell>
+                                            <TableCell align="center">
+
+                                                <ContainerOrder>
+                                                    Responsável
+                                                    {
+                                                        orderBy !== "name" &&
+                                                        <SwapVertIcon onClick={() => setOrderBy("name")} />
+                                                    }
+                                                    {
+                                                        orderBy === "name" && orderFor === "asc" &&
+                                                        <ArrowDownwardIcon onClick={() => setOrderFor("desc")} />
+                                                    }
+                                                    {
+                                                        orderBy === "name" && orderFor === "desc" &&
+                                                        <ArrowUpwardIcon onClick={() => setOrderFor("asc")} />
+                                                    }
+                                                </ContainerOrder>
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                <ContainerOrder>
+                                                    Curso
+                                                </ContainerOrder>
+
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                <ContainerOrder>
 
 
-                                                Background
-                                            </ContainerOrder>
+                                                    Unidade
+                                                </ContainerOrder>
 
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <ContainerOrder>
-                                                Comissionamento
-                                            </ContainerOrder>
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                <ContainerOrder>
 
-                                        </TableCell>
-                                        <TableCell />
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {
-                                        registers &&
-                                        registers.map((row) => (
-                                            <TableMainData
-                                                key={row.id}
-                                                row={row}
-                                            />
-                                        ))
 
-                                    }
-                                </TableBody>
-                            </Table>
-                        </Container>
-                }
+                                                    Background
+                                                </ContainerOrder>
 
-                <TablePagination
-                    rowsPerPageOptions={[10, 25, 50, 100]}
-                    component="div"
-                    count={total}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                />
-            </Paper>
-        </ContainerTable>
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                <ContainerOrder>
+                                                    Comissionamento
+                                                </ContainerOrder>
+
+                                            </TableCell>
+                                            <TableCell />
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {
+                                            registers &&
+                                            registers.map((row) => (
+                                                <TableMainData
+                                                    key={row.id}
+                                                    row={row}
+                                                />
+                                            ))
+
+                                        }
+                                    </TableBody>
+                                </Table>
+                            </Container>
+                    }
+
+                    <TablePagination
+                        rowsPerPageOptions={[10, 25, 50, 100]}
+                        component="div"
+                        count={total}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
+                </Paper>
+
+            </ContainerTable>
+        </>
+
     );
 }
 

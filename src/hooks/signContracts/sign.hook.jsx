@@ -9,7 +9,7 @@ const SignContracts = createContext({})
 
 export const SigningContracts = ({ children }) => {
 
-    const [contractOptions, setContractOptions] = useState()
+    const [contractOptions, setContractOptions] = useState({ contracts: [], total: 0 })
     const [take, setTake] = useState(10)
     const [skip, setSkip] = useState(1)
 
@@ -82,7 +82,7 @@ export const SigningContracts = ({ children }) => {
 
     const signAContract = async () => {
         if (!contract) return ""
-        const response = await URI.get(`http://localhost:7070/matricula/${contract}`)
+        const response = await URI.get(`/matricula/${contract}`)
         return response.data
     }
 

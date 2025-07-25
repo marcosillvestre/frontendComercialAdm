@@ -54,7 +54,6 @@ export const BillingsProvider = ({ children }) => {
 
             if (error && error?.response?.data.error === 'token invalid') {
                 window.location.href = paths.home.path;
-                console.log("first")
 
                 alert("Faça login novamente, seu acesso expirou");
                 logOut();

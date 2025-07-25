@@ -92,7 +92,6 @@ export const ListFiltered = () => {
 
 
 
-                    {/* <CustomizedMenus /> */}
 
                     <RegisterMoreFilters />
 
@@ -100,7 +99,7 @@ export const ListFiltered = () => {
                         typeFilter?.length > 0 &&
                         <div>
                             <button
-                                className='defaultButton redButton'
+                                className='defaultButton redButton create-button'
                                 onClick={() => handleResetFilter()}
                             >
                                 Limpar filtros

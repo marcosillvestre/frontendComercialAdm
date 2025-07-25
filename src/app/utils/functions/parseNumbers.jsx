@@ -5,7 +5,7 @@ export const parseNumber = (number) => {
 
         const parsed = number.includes(",") ?
             parseFloat(number.replace(",", ".")) :
-            parseInt(number)
+            parseFloat(number)
 
         return parsed
     }

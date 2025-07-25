@@ -6,16 +6,16 @@ import { Container, Label, RangeDate, Select } from './styles.jsx';
 import { DatePickerOrders } from '../../datePickers/datePicker.Orders/index.jsx';
 
 import PropTypes from 'prop-types';
-import { useRegister } from '../../../hooks/registers/registersContext.hook.jsx';
+import { useProduct } from '../../../hooks/products/productsContext.hook.jsx';
 
 
-export function CustomDateMenuRegisters({ props, fn, where }) {
+export function CustomDateMenuProducts({ props, fn, where }) {
 
     const { label, date, options, name, customField } = props
 
     const [anchorEl, setAnchorEl] = React.useState(null);
 
-    const { typeFilter, setTypeFilter } = useRegister()
+    const { typeFilter, setTypeFilter } = useProduct()
 
 
     const handleFilter = (value, type, label, options, customField) => {
@@ -130,7 +130,7 @@ export function CustomDateMenuRegisters({ props, fn, where }) {
     );
 }
 
-CustomDateMenuRegisters.propTypes = {
+CustomDateMenuProducts.propTypes = {
     props: PropTypes.shape({
     }).isRequired,
     label: PropTypes.string,

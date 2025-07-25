@@ -246,7 +246,6 @@ export const RegistersProvider = ({ children }) => {
     }
 
 
-
     ///////////////////////////////////////////////////////////////////////////
 
 
@@ -327,7 +326,9 @@ export const RegistersProvider = ({ children }) => {
 
             setRegisterId,
             queryOnlyRegister,
+
             typeFilter,
+            setTypeFilter,
 
             updateCustomFields,
 

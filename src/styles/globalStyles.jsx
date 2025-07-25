@@ -93,6 +93,9 @@ html{
     
     height: var(--boxHei);
     
+    &:disabled{
+            opacity: .5;
+        }
 
     }
     .tooltip{

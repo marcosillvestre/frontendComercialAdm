@@ -1,11 +1,11 @@
 import CloseIcon from '@mui/icons-material/Close';
 
-import { useRegister } from '../../../hooks/registers/registersContext.hook';
+import { useProduct } from '../../../hooks/products/productsContext.hook';
 import { Container, FilterContainer } from './styles';
 
-export const MultiFiltersRegisters = () => {
+export const MultiFiltersProducts = () => {
 
-    const { removeFilter, typeFilter, setTypeFilter } = useRegister();
+    const { removeFilter, typeFilter, setTypeFilter } = useProduct();
 
     return (
         <Container active={typeFilter.length > 0}>

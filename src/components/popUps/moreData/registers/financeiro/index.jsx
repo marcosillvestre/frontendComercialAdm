@@ -39,8 +39,6 @@ export const Financial = () => {
         setEditRegister(newRegister)
     }
 
-    console.log(customFieldsFiltered)
-    console.log(register)
 
     return (
         <ContainerPopUpData>

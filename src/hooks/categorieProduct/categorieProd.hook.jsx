@@ -34,7 +34,7 @@ export const CategorieProductsProvider = ({ children }) => {
 
     const queriesCategorieProducts = async () => {
 
-        const response = await URI.post(`http://localhost:7070/categorias`, {
+        const response = await URI.post(`/categorias`, {
             take,
             skip,
             orderBy,
@@ -69,7 +69,7 @@ export const CategorieProductsProvider = ({ children }) => {
 
     const sendData = async (body) => {
         const response = await toast.promise(
-            URI.post(`http://localhost:7070/categoria`, body),
+            URI.post(`/categoria`, body),
             {
                 pending: 'Conferindo os dados',
                 success: 'Categoria criado com sucesso',
@@ -106,7 +106,6 @@ export const CategorieProductsProvider = ({ children }) => {
             const { response } = error
 
             "message" in response.data && alert(response.data.message)
-            console.log(response)
         }
     })
     ///////////////////////// create
@@ -115,7 +114,7 @@ export const CategorieProductsProvider = ({ children }) => {
 
     const editData = async (body) => {
         const response = await toast.promise(
-            URI.put(`http://localhost:7070/categoria/${body.id}`, body),
+            URI.put(`/categoria/${body.id}`, body),
             {
                 pending: 'Conferindo os dados',
                 success: 'Categoria de produto editado com sucesso',
@@ -151,7 +150,6 @@ export const CategorieProductsProvider = ({ children }) => {
             const { response } = error
 
             "message" in response.data && alert(response.data.message)
-            console.log(response)
         }
     })
     ///////////////////////// edit
@@ -164,7 +162,7 @@ export const CategorieProductsProvider = ({ children }) => {
     const queryCategorieProductsTotals = async () => {
 
         const response = await URI.
-            get(`http://localhost:7070/categorias-totais`)
+            get(`/categorias-totais`)
 
         return response.data
     }
@@ -172,6 +170,7 @@ export const CategorieProductsProvider = ({ children }) => {
     const CategorieProductsTotalsQuery = useQuery({
         queryFn: () => queryCategorieProductsTotals(),
         queryKey: ["categorieProducts"],
+        initialData: [{ categorie: [], total: 0 }],
 
     })
 
@@ -180,7 +179,7 @@ export const CategorieProductsProvider = ({ children }) => {
 
         const responsible = userData.name
         const response = await toast.promise(
-            URI.delete(`http://localhost:7070/categoria/${id}?responsible=${responsible}`),
+            URI.delete(`/categoria/${id}?responsible=${responsible}`),
             {
                 pending: 'Conferindo os dados',
                 success: 'Produto deletado com sucesso',

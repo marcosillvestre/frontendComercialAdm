@@ -23,6 +23,7 @@ export const ProductsProvider = ({ children }) => {
     const [orderFor, setOrderFor] = useState("asc")
 
     const [query, setQuery] = useState("")
+    const [typeFilter, setTypeFilter] = useState([])
 
     const [queryProducts, setQueryProducts] = useState({ products: [], total: 0 })
     const [view, setView] = useState('produtos');
@@ -35,12 +36,16 @@ export const ProductsProvider = ({ children }) => {
 
     const queriesProduct = async () => {
 
-        const response = await URI.post(`http://localhost:7070/produtos`, {
+        let url = query ?
+            `/produto-query` : `/produtos`
+
+        const response = await URI.post(url, {
             take,
             skip,
             orderBy,
             orderFor,
             query,
+            typeFilter
         })
 
         return response.data
@@ -48,7 +53,7 @@ export const ProductsProvider = ({ children }) => {
 
     const productQuery = useQuery({
         queryFn: () => queriesProduct(),
-        queryKey: ["product", take, skip, orderBy, query, orderFor],
+        queryKey: ["product", take, skip, orderBy, query, orderFor, JSON.stringify(typeFilter)],
     })
 
 
@@ -58,19 +63,18 @@ export const ProductsProvider = ({ children }) => {
             const { data } = productQuery
             const { products, total } = data
 
-
             setQueryProducts({ products, total })
         }
 
         if (productQuery.isSuccess) gatherData()
 
-    }, [take, skip, orderBy, query, orderFor, productQuery.isSuccess])
+    }, [take, skip, orderBy, query, orderFor, productQuery.isSuccess, JSON.stringify(typeFilter)])
 
 
 
     const sendData = async (body) => {
         const response = await toast.promise(
-            URI.post(`http://localhost:7070/produto`, body),
+            URI.post(`/produto`, body),
             {
                 pending: 'Conferindo os dados',
                 success: 'produto criado com sucesso',
@@ -116,7 +120,7 @@ export const ProductsProvider = ({ children }) => {
 
     const editData = async (body) => {
         const response = await toast.promise(
-            URI.put(`http://localhost:7070/produtos/${body.id}`, body),
+            URI.put(`/produtos/${body.id}`, body),
             {
                 pending: 'Conferindo os dados',
                 success: 'produto editado com sucesso',
@@ -165,7 +169,7 @@ export const ProductsProvider = ({ children }) => {
     const queryProductsTotals = async () => {
 
         const response = await URI.
-            get(`http://localhost:7070/produtos-totais`)
+            get(`/produtos-totais`)
 
         return response.data
     }
@@ -181,7 +185,7 @@ export const ProductsProvider = ({ children }) => {
 
         const responsible = userData.name
         const response = await toast.promise(
-            URI.delete(`http://localhost:7070/produtos/${id}?responsible=${responsible}`),
+            URI.delete(`/produtos/${id}?responsible=${responsible}`),
             {
                 pending: 'Conferindo os dados',
                 success: 'Produto deletado com sucesso',
@@ -213,7 +217,11 @@ export const ProductsProvider = ({ children }) => {
     })
 
 
+    const removeFilter = (data) => {
+        const filtered = typeFilter.filter(res => res.id !== data.id)
 
+        return setTypeFilter(filtered)
+    }
 
     return (
         <ProductsContext.Provider value={{
@@ -237,7 +245,10 @@ export const ProductsProvider = ({ children }) => {
 
             view, setView,
 
-            resetDataProduct
+            resetDataProduct,
+
+            typeFilter, setTypeFilter,
+            removeFilter
 
         }}>
 

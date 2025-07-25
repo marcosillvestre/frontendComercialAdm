@@ -99,10 +99,9 @@ border-radius: var(--br);
 position: ${props => props.active ? "sticky" : "absolute"};
 
 background-color: #e0e0e0;
-top: 90px;
-margin-left: calc(100% - 220px);
+top: 150px;
 box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1),0px 10px 15px -3px rgba(0,0,0,0.1);
-
+width: 15rem;
 .button{
     color: #fff;
     cursor: pointer;
@@ -122,13 +121,15 @@ display: ${props => props.active ? "block" : "none"};
 user-select:none;
 justify-content: center;
 flex-direction: column;
-margin: 5px 0;
 
 }
 .view {
+    margin: 5px 0;
     border: 1px dashed;
     padding: .1rem .5rem;
     border-radius: var(--br);
+    flex-direction: column;
+    align-items: center;
 }
 
 .buttons{
@@ -184,14 +185,13 @@ right:0px
 export const Button = styled.button`
 width: 100% ;
 padding: 0 2rem;
-
+margin: 2px 0;
 `
 
 export const ComeBackButton = styled.button`
 min-width: 50% ;
 `
 export const ComeBackDiv = styled.span`
-display: ${props => props.active ? 'none' : 'block'};
 `
 
 export const Box = styled.div`

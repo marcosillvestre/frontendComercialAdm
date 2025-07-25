@@ -5,16 +5,16 @@ font-size: var(--fsLowest) ;
 margin-left: 17px;
 padding:0 4rem 5rem ;
 
-nav{
+button{
+    padding: 0 1rem;
+}
+.nav{
     display: flex;
     justify-content: space-between;
     width: 100%;
     align-items: center;
     padding: 1rem 0;
     
-    button{
-        padding: 0 1rem;
-    }
     span{
         display: flex;
         gap: 1rem;
@@ -41,12 +41,10 @@ border: 2px solid #dfe6f1;
 border-radius: .35rem;
 padding: 1rem 3rem;
 margin-bottom: 1.5rem;
-nav{
-    width:100%;
-    justify-content: space-between;
+
+.inside-header{
     display: flex;
-    align-items: center;
-    margin: 0 3rem;
+    align-items: end;
     gap: 1rem;
 }
 .create-button{
