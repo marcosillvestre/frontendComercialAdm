@@ -1,6 +1,5 @@
 
 
-import PropTypes from 'prop-types';
 import { useProduct } from '../../../hooks/products/productsContext.hook.jsx';
 import { SwitchButtons } from '../../switchButtons/index.jsx';
 import { Category } from './category/index.jsx';
@@ -46,7 +45,3 @@ export const ProductsSidebar = () => {
     )
 }
 
-
-ProductsSidebar.propTypes = {
-    location: PropTypes.object
-}

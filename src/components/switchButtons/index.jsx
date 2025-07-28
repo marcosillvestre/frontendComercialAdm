@@ -29,7 +29,7 @@ SwitchButtons.propTypes = {
     data: PropTypes.shape({
         options: PropTypes.array.isRequired,
         optionActive: PropTypes.string.isRequired,
-        fn: PropTypes.node,
+        fn: PropTypes.func,
 
     }).isRequired,
 };

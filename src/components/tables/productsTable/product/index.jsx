@@ -58,15 +58,9 @@ Row.propTypes = {
         id: PropTypes.string.isRequired,
         priceSale: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
-        categorieName: PropTypes.string.isRequired,
+        categorieName: PropTypes.string,
         code: PropTypes.string.isRequired,
-        color: PropTypes.string.isRequired,
         active: PropTypes.bool.isRequired,
-        price_selling: PropTypes.number.isRequired,
-        price_ticket: PropTypes.number.isRequired,
-        price_card: PropTypes.number.isRequired,
-        price_cash: PropTypes.number.isRequired,
-        price_link: PropTypes.number.isRequired,
 
     }).isRequired,
 };
@@ -190,8 +184,7 @@ export const Products = () => {
                                             </ContainerOrder>
 
                                         </TableCell>
-                                        <TableCell align="cent
-                                            er">
+                                        <TableCell align="center">
 
                                         </TableCell>
                                     </TableRow>

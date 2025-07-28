@@ -142,5 +142,5 @@ CustomDateMenuProducts.propTypes = {
     })),
     name: PropTypes.string,
     where: PropTypes.string,
-    fn: PropTypes.node
+    fn: PropTypes.func
 };

@@ -1,5 +1,4 @@
 import Paper from '@mui/material/Paper';
-import PropTypes from 'prop-types';
 import { useProduct } from '../../../hooks/products/productsContext.hook';
 import { MultiFiltersProducts } from '../../arrayFilters/multiFilters.products';
 import { SwitchButtons } from '../../switchButtons';
@@ -53,11 +52,4 @@ export function ProductsTable() {
         </>
 
     );
-}
-
-ProductsTable.propTypes = {
-    data: PropTypes.array.isRequired,
-    loading: PropTypes.bool.isRequired,
-    total: PropTypes.number.isRequired
-
 }
