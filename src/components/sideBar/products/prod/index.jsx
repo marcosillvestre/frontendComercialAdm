@@ -122,7 +122,7 @@ export const Prod = () => {
                     defaultValue={body && body.ean}
                     onChange={(e) => {
                         e.target.value !== '' &&
-                            sender("ean", parseFloat(e.target.value))
+                            sender("ean", e.target.value)
                     }}
                 />
             </Label>
