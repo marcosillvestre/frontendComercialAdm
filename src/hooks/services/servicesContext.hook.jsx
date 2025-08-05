@@ -13,7 +13,7 @@ export const ServicesProvider = ({ children }) => {
     const queryClient = useQueryClient()
     const { userData } = useUser()
     const [Service, setService] = useState({
-        status: true
+        active: true
     })
     const [editService, setEditService] = useState()
     const [take, setTake] = useState(10)
@@ -21,26 +21,36 @@ export const ServicesProvider = ({ children }) => {
     const [orderBy, setOrderBy] = useState("name")
     const [orderFor, setOrderFor] = useState("asc")
     const [query, setQuery] = useState("")
+    const [typeFilter, setTypeFilter] = useState([])
 
     const [queryService, setQueryService] = useState({ services: [], total: 0 })
 
-
+    const resetDataService = () => {
+        setEditService(null);
+        setService(null);
+    }
 
     const queriesService = async () => {
-        const response = await URI.post(`/servicos`, {
+
+        const url = query ?
+            `/servico-query` : `/servicos`
+
+        const response = await URI.post(url, {
             take,
             skip,
             orderBy,
             query,
-            orderFor
+            orderFor,
+            typeFilter
         })
         return response.data
     }
 
     const serviceQuery = useQuery({
         queryFn: () => queriesService(),
-        queryKey: ["service", take, skip, orderBy, query, orderFor],
+        queryKey: ["service", take, skip, orderBy, query, orderFor, JSON.stringify(typeFilter)],
     })
+
 
     useLayoutEffect(() => {
 
@@ -55,17 +65,17 @@ export const ServicesProvider = ({ children }) => {
 
         if (serviceQuery.isSuccess) gatherData()
 
-    }, [take, skip, orderBy, query, serviceQuery.isSuccess, orderFor])
+    }, [take, skip, orderBy, query, serviceQuery.isSuccess, orderFor, JSON.stringify(typeFilter)])
 
 
 
 
-    const sendData = async () => {
+    const sendData = async (body) => {
         const response = await toast.promise(
-            URI.post(`/servico`, Service),
+            URI.post(`/servico`, body),
             {
                 pending: 'Conferindo os dados',
-                success: 'serviço criado com sucesso',
+                success: 'Serviço criado com sucesso',
                 error: 'Algo deu errado'
             }
         )
@@ -73,16 +83,40 @@ export const ServicesProvider = ({ children }) => {
     }
 
     const createService = useMutation({
-        mutationFn: () => sendData(),
-        onSuccess: () => {
-            queryClient.invalidateQueries(["service"])
+        mutationFn: (e) => sendData(e),
+        onSuccess: (_, variables) => {
+
+            queryClient.setQueryData(
+                ["service", take, skip, orderBy, query, orderFor, JSON.stringify(typeFilter)],
+                (oldData) => {
+
+                    return setQueryService({
+                        services: [
+                            {
+                                ...variables,
+                                id: crypto.randomUUID(),
+                                created_at: new Date()
+                            },
+                            ...oldData.services,
+                        ],
+                        total: oldData.total + 1
+                    })
+                }
+            )
+        },
+        onError: (error) => {
+
+            const { response } = error
+
+            console.log(response)
+            "message" in response.data && alert(response.data.message)
         }
     })
 
     ///////////////////////// create
-    const editData = async () => {
+    const editData = async (body) => {
         const response = await toast.promise(
-            URI.put(`/servicos/${editService.id}`, editService),
+            URI.put(`/servicos/${body.id}`, body),
             {
                 pending: 'Conferindo os dados',
                 success: 'serviço criado com sucesso',
@@ -94,8 +128,30 @@ export const ServicesProvider = ({ children }) => {
 
     const mutateService = useMutation({
         mutationFn: () => editData(),
-        onSuccess: () => {
-            queryClient.invalidateQueries(["service"])
+        onSuccess: (_, variables) => {
+
+            queryClient.setQueryData(
+                ["service", take, skip, orderBy, query, orderFor, JSON.stringify(typeFilter)],
+                (oldData) => {
+                    const { total, services } = oldData;
+                    const filtered = services.filter(res => res.id !== variables.id)
+
+                    return setQueryService({
+                        services: [
+                            { ...variables },
+                            ...filtered,
+                        ],
+                        total: total + 1
+                    })
+                }
+            )
+        },
+        onError: (error) => {
+
+            const { response } = error
+
+            "message" in response.data && alert(response.data.message)
+            console.log(response)
         }
     })
     ///////////////////////// edit
@@ -142,21 +198,36 @@ export const ServicesProvider = ({ children }) => {
 
 
             queryClient.setQueryData(
-                ["service", take, skip, orderBy, query, orderFor],
+                ["service", take, skip, orderBy, query, orderFor, JSON.stringify(typeFilter)],
                 (oldData) => {
 
+                    const { services, total } = oldData;
+
+                    console.log(oldData)
+
                     return setQueryService({
-                        services: oldData.filter(res => res.id !== variables),
-                        total: oldData.total - 1
+                        services: services.filter(res => res.id !== variables),
+                        total: total - 1
                     })
 
                 }
             )
+        },
+        onError: (error) => {
+
+            const { response } = error
+
+            console.log(response)
+            "message" in response.data && alert(response.data.message)
         }
     })
 
 
+    const removeFilter = (data) => {
+        const filtered = typeFilter.filter(res => res.id !== data.id)
 
+        return setTypeFilter(filtered)
+    }
 
     return (
         <ServiceContext.Provider value={{
@@ -180,7 +251,10 @@ export const ServicesProvider = ({ children }) => {
 
             serviceTotalsQuery,
 
-            deleteService
+            deleteService,
+
+            removeFilter,
+            resetDataService
         }}>
 
             {children}
