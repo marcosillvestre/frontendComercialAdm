@@ -60,13 +60,22 @@ export const dateCalculator = (date, index) => {
         new Date(dateFormated.setMonth(dateFormated.getMonth() + index)).toLocaleDateString("pt-Br")
 }
 
+export const ReOrderDate = (string) => {
+    let [day, month, year] = string.split('/');
+
+    // Reorganiza para o formato "YYYY-MM-DD"
+    let isoDate = `${year}-${month}-${day}`;
+
+    return isoDate
+}
+
 export const parseDates = (date) => {
 
-    if (date === null) return new Date()
+    if (!date) return new Date()
 
-    let newDate = new Date(date).setUTCHours(0)
-
-    return new Date(newDate)
+    const utc = date.split("T")[0];
+    const isoDate = utc + "T03:00:00.000Z";
+    return new Date(isoDate).toLocaleDateString('pt-BR')
 }
 
 

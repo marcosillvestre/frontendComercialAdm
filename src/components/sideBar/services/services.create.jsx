@@ -1,17 +1,38 @@
-
-
 import PropTypes from 'prop-types';
+import { useState } from 'react';
 import { useService } from '../../../hooks/services/servicesContext.hook.jsx';
+import { useUser } from '../../../hooks/userContext.jsx';
+import { SureCloseSave } from '../../popUps/sureCloseAndSave/index.jsx';
 import { Select } from "../../source.jsx";
-import { Input, InputCheckbox, Label, Submit } from "../styles.jsx";
+import { ButtonContainer, ButtonDelete } from '../products/styles.jsx';
+import { Input, InputCheckbox, Label, Submit, TextArea } from "../styles.jsx";
 
 
 export const ServicesSidebar = () => {
     const { editService, setEditService, Service, setService,
-        createService, mutateService } = useService()
+        createService, mutateService } = useService();
 
+    const { setOpenSidebar, setTypeSidebar } = useUser();
+
+    // const body = editService ?? Service;
+    const body = {
+        name: 'abc teste',
+        code: 'abctst',
+        description: 'descrição teste',
+        priceSale: 20.5,
+        priceCost: 10.5,
+        workLoad: '5',
+        duration: 6,
+        modality: 'Em grupo',
+        active: true
+    }
+
+
+    const [edited, setEdited] = useState(false);
 
     const sender = (key, value) => {
+        setEdited(true);
+
         editService !== null ?
             setEditService({ ...editService, [key]: value }) :
             setService({ ...Service, [key]: value })
@@ -20,11 +41,21 @@ export const ServicesSidebar = () => {
     const submit = () => {
 
         editService !== null ?
-            mutateService.mutateAsync() :
-            createService.mutateAsync()
+            mutateService.mutateAsync(body) :
+            createService.mutateAsync(body)
     }
 
 
+
+    const handleClose = () => {
+        setEditService(null);
+        setService(null);
+
+        setOpenSidebar(false);
+        setTypeSidebar(0)
+    }
+
+    console.log(body)
 
     return (
 
@@ -33,7 +64,7 @@ export const ServicesSidebar = () => {
                 <p>Nome do serviço</p>
                 < Input
                     type="text"
-                    defaultValue={editService && editService.name}
+                    defaultValue={body && body.name}
                     onChange={(e) => {
                         e.target.value !== '' &&
                             sender("name", e.target.value)
@@ -41,43 +72,56 @@ export const ServicesSidebar = () => {
                 />
             </Label>
             <Label >
-                <p>Sku</p>
+                <p>Código(SKU)</p>
+
                 < Input
                     type="text"
-                    defaultValue={editService && editService.sku}
+                    defaultValue={body && body.code}
                     onChange={(e) => {
                         e.target.value !== '' &&
-                            sender("sku", e.target.value)
+                            sender("code", e.target.value)
+                    }}
+                />
+            </Label>
+
+            <Label >
+                <p>Descrição</p>
+                <TextArea name="" id=""
+                    defaultValue={body && body.description}
+                    onChange={(e) => {
+                        e.target.value !== '' &&
+                            sender("description", e.target.value)
                     }}
                 />
             </Label>
             <Label >
-                <p>Preço de vitríne(parcela)</p>
+                <p>Preço de venda</p>
                 < Input
-                    type="number"
-                    defaultValue={editService && editService.price_selling}
+                    type="text" pattern="^\d+(\.\d+)?$"
+                    defaultValue={body && body.priceSale}
                     onChange={(e) => {
                         e.target.value !== '' &&
-                            sender("price_selling", parseInt(e.target.value))
+                            sender("priceSale", parseFloat(e.target.value))
                     }}
                 />
             </Label>
             <Label >
-                <p>Cor</p>
+                <p>Preço de custo</p>
+
                 < Input
-                    type="color"
-                    defaultValue={editService && editService.color}
+                    type="text" pattern="^\d+(\.\d+)?$"
+                    defaultValue={body && body.priceCost}
                     onChange={(e) => {
                         e.target.value !== '' &&
-                            sender("color", e.target.value)
+                            sender("priceCost", parseFloat(e.target.value))
                     }}
                 />
             </Label>
             <Label >
                 <p>Carga horária(em horas)</p>
                 < Input
-                    type="number"
-                    defaultValue={editService && editService.workLoad}
+                    type="text" pattern="\d+"
+                    defaultValue={body && body.workLoad}
                     onChange={(e) => {
                         e.target.value !== '' &&
                             sender("workLoad", e.target.value)
@@ -87,8 +131,8 @@ export const ServicesSidebar = () => {
             <Label >
                 <p>Duração(em meses)</p>
                 < Input
-                    type="number"
-                    defaultValue={editService && editService.duration}
+                    type="text" pattern="\d+"
+                    defaultValue={body && body.duration}
                     onChange={(e) => {
                         e.target.value !== '' &&
                             sender("duration", e.target.value)
@@ -97,26 +141,10 @@ export const ServicesSidebar = () => {
             </Label>
 
             <Label >
-                <p>Curso</p>
-                < Select
-                    where="create"
-                    label={editService && editService.course}
-                    width="11.5rem"
-                    option={[
-                        { name: "Inglês" },
-                        { name: "Tecnologia" },
-                        { name: "Espanhol" },
-                    ]}
-                    field="course"
-                    fn={[sender]}
-                />
-            </Label>
-
-            <Label >
                 <p>Modalidade</p>
                 < Select
                     where="create"
-                    label={editService && editService.modality}
+                    label={body && body.modality}
                     width="11.5rem"
                     option={[
                         { name: "Em grupo" },
@@ -129,6 +157,7 @@ export const ServicesSidebar = () => {
                 />
             </Label>
 
+
             <Label >
                 <fieldset>
 
@@ -137,10 +166,10 @@ export const ServicesSidebar = () => {
                         < InputCheckbox
                             type="radio"
                             id='positive'
-                            name='status'
-                            defaultChecked={editService ? editService.status === true : true}
+                            name='active'
+                            defaultChecked={editService ? editService.active === true : true}
                             value={true}
-                            onChange={() => sender("status", true)}
+                            onChange={() => sender("active", true)}
                         />
                         <label htmlFor="positive">Ativo</label>
 
@@ -150,10 +179,10 @@ export const ServicesSidebar = () => {
                         < InputCheckbox
                             type="radio"
                             id='negative'
-                            name='status'
-                            defaultChecked={editService && editService.status === false}
+                            name='active'
+                            defaultChecked={body && body.active === false}
                             value={false}
-                            onChange={() => sender("status", false)}
+                            onChange={() => sender("active", false)}
 
                         />
                         <label htmlFor="negative">Inativo</label>
@@ -164,13 +193,22 @@ export const ServicesSidebar = () => {
 
 
             <hr />
-            <Submit
-                placeholder="Enviar"
-                className='defaultButton blueButton'
-                onClick={() => submit()}
-            >
-                Enviar
-            </Submit>
+            <ButtonContainer>
+                <ButtonDelete>
+                    <SureCloseSave
+                        fn={handleClose}
+                        edition={edited}
+                    />
+                </ButtonDelete>
+
+                <Submit
+                    placeholder="Enviar"
+                    className='defaultButton blueButton'
+                    onClick={() => submit()}
+                >
+                    ENVIAR
+                </Submit>
+            </ButtonContainer>
         </div>
 
     )

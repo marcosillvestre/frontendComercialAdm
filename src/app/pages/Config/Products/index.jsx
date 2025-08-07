@@ -11,7 +11,7 @@ import { useUser } from '../../../../hooks/userContext';
 import { Container, Header } from './styles';
 
 export function Products() {
-    const forQuery = useRef()
+    const forQuery = useRef();
     const { setTypeSidebar, setOpenSidebar, } = useUser();
     const { resetDataProduct, setQuery, view, setTypeFilter, typeFilter } = useProduct();
     const { resetDataKits } = useKits();
@@ -83,7 +83,7 @@ export function Products() {
 
                             }}
                         >
-                            <SearchIcon />,
+                            <SearchIcon />
                         </button>
                     </form>
 

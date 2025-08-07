@@ -15,6 +15,7 @@ import TableRow from '@mui/material/TableRow';
 import PropTypes from 'prop-types';
 import * as React from 'react';
 import LoadingSpin from 'react-loading-spin';
+import { parseDates } from '../../../app/utils/functions/getDates.jsx';
 import colorsRules from '../../../app/utils/Rules/colors.jsx';
 import businessRules from '../../../app/utils/Rules/options.jsx';
 import { useRegister } from '../../../hooks/registers/registersContext.hook.jsx';
@@ -142,7 +143,6 @@ function TableMainData(props) {
         Sender(key, row.id, value, key)
     }
 
-
     return (
         <React.Fragment>
 
@@ -160,10 +160,10 @@ function TableMainData(props) {
                     </IconButton>
                 </TableCell>
                 <TableCell component="th" scope="row">
-                    {new Date(row.created_at).toLocaleDateString("pt-Br")}
+                    {parseDates(row.created_at)}
                 </TableCell>
                 <TableCell align="center">{row["customFields"]["Nome do aluno (se não for responsável próprio))"]}</TableCell>
-                <TableCell align="center">{row.name}</TableCell>
+                <TableCell >{row.name}</TableCell>
                 <TableCell align="center">
 
                     <UniqueSelect
@@ -306,7 +306,7 @@ export default function CollapsibleTable() {
 
     const { isPending } = RegisterQuery
 
-    const { total, registers } = queryRegister
+    const { total, registers } = queryRegister;
 
 
     const [page, setPage] = React.useState(0);
@@ -369,8 +369,11 @@ export default function CollapsibleTable() {
                                     <TableHead>
                                         <TableRow>
                                             <TableCell />
-                                            <TableCell align="center">
-                                                <ContainerOrder>
+                                            <TableCell >
+                                                <ContainerOrder
+                                                    className='flex'
+                                                    onClick={() => setOrderBy("created_at")}
+                                                >
                                                     Data de criação
 
                                                     {
@@ -395,9 +398,12 @@ export default function CollapsibleTable() {
                                                 </ContainerOrder>
 
                                             </TableCell>
-                                            <TableCell align="center">
+                                            <TableCell >
 
-                                                <ContainerOrder>
+                                                <ContainerOrder
+                                                    className='flex'
+                                                    onClick={() => setOrderBy("name")}
+                                                >
                                                     Responsável
                                                     {
                                                         orderBy !== "name" &&

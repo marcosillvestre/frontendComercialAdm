@@ -5,12 +5,8 @@ import TableRow from '@mui/material/TableRow';
 import styled from "styled-components";
 
 export const ContainerOrder = styled.span`
-display: flex;
-align-items: center;
-justify-content: center;
+text-align: center;
 font-size: var(--fsLowest);
-width: max-content;
-margin: 0 auto;
 svg{
     width: 20px;
     cursor: pointer;

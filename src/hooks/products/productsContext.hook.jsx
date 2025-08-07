@@ -14,7 +14,7 @@ export const ProductsProvider = ({ children }) => {
     const { userData } = useUser()
 
     const [Product, setProduct] = useState({
-        status: true
+        active: true
     })
     const [editProduct, setEditProduct] = useState(null)
     const [take, setTake] = useState(10)

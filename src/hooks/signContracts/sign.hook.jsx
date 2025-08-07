@@ -23,6 +23,10 @@ export const SigningContracts = ({ children }) => {
     const { userData, setFilteredContracts } = useUser()
 
     const [sign, setSign] = useState()
+    const [queryFunnels, setQueryFunnels] = useState({ funnels: [], total: 0 });
+
+
+
 
     const funnelsData = async () => {
         const response = await URI.get(`/funis`)
@@ -38,8 +42,26 @@ export const SigningContracts = ({ children }) => {
         retry: false
     })
 
+
+    useLayoutEffect(() => {
+        const gatherData = async () => {
+
+            const { data } = funnelsQuery
+            const { funnels, total } = data
+
+            setQueryFunnels({ funnels, total })
+        }
+
+        if (funnelsQuery.isSuccess) gatherData()
+
+    }, [funnelsQuery.isSuccess])
+
+
+
     const signData = async () => {
-        const id = sign ? sign : funnelsQuery.data[0].value
+
+        const { data } = funnelsQuery;
+        const id = sign ? sign : data?.funnels[0].value;
 
         const url = query ?
             `/contrato-query/${id}?take=${take}&skip=${skip}&name=${query}&orderFor=${orderFor}&orderBy=${orderBy}` :
@@ -119,6 +141,7 @@ export const SigningContracts = ({ children }) => {
 
             contract, setContract,
             queryContract,
+            queryFunnels,
             funnelsQuery,
 
             setQuery,

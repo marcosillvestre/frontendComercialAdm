@@ -2,21 +2,29 @@ import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
 import SearchIcon from '@mui/icons-material/Search'
 import { useRef } from 'react'
 import { Link } from 'react-router-dom'
+import { ServicesMoreFilters } from '../../../../components/multiFilters/moreFilters.services'
 import { ServicesTable } from '../../../../components/tables/servicesTable'
 import { useService } from '../../../../hooks/services/servicesContext.hook'
 import { useUser } from '../../../../hooks/userContext'
 import { Container, Header } from './styles'
 
 export function Services() {
-    const forQuery = useRef()
-    const { setTypeSidebar, setOpenSidebar, } = useUser()
-    const { setEditService, setQuery } = useService()
+    const forQuery = useRef();
+    const { setTypeSidebar, setOpenSidebar, } = useUser();
+    const { setQuery, resetDataService, typeFilter, setTypeFilter } = useService();
 
+    const resetData = () => {
+        resetDataService();
 
+    }
+
+    const handleResetFilter = () => {
+        setTypeFilter([])
+    }
 
     return (
         <Container>
-            <nav>
+            <nav className='nav'>
                 <span>
                     <Link
                         to="/config"
@@ -32,49 +40,68 @@ export function Services() {
                     onClick={() => {
                         setTypeSidebar(7)
                         setOpenSidebar(true);
-                        setEditService(null)
+
+                        resetData()
                     }
                     }>
                     Criar novo serviço
                 </button>
             </nav>
             <Header>
-                <nav>
-                    <div>
-                        <form action=""
-                            className='flex'
+                <nav className='inside-header'>
+
+                    <form action=""
+                        className='flex'
+                    >
+                        <label htmlFor="">
+
+                            <p>Pesquisar por serviços</p>
+                            <input
+                                type="text"
+                                className='inputSearch'
+                                placeholder="Nome ou Sku"
+                                ref={forQuery}
+                                onChange={(e) => e.target.value === "" && setQuery('')}
+                            />
+
+                        </label>
+
+                        <button
+                            type="submit"
+                            onClick={(e) => {
+                                setQuery(forQuery.current.value)
+                                e.preventDefault()
+
+                            }}
                         >
-                            <label htmlFor="">
+                            <SearchIcon />
+                        </button>
+                    </form>
 
-                                <p>Pesquisar</p>
-                                <input
-                                    type="text"
-                                    className='inputSearch'
-                                    placeholder="Nome ou Sku"
-                                    ref={forQuery}
-                                    onChange={(e) => e.target.value === "" && setQuery('')}
-                                />
+                    <ServicesMoreFilters
+                    // disabled={view !== "produtos"}
 
-                            </label>
+                    />
 
+                    {
+                        typeFilter?.length > 0 &&
+                        <div>
                             <button
-                                type="submit"
-                                onClick={(e) => {
-                                    setQuery(forQuery.current.value)
-                                    e.preventDefault()
+                                // disabled={view !== "produtos"}
 
-                                }}
+                                className='defaultButton redButton'
+                                onClick={() => handleResetFilter()}
                             >
-                                <SearchIcon />
+                                Limpar filtros
                             </button>
-                        </form>
-                    </div>
+                        </div>
+                    }
 
                 </nav>
             </Header>
-            {
-                <ServicesTable />
-            }
+
+            <ServicesTable />
+
 
         </Container>
     )
