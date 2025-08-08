@@ -181,13 +181,13 @@ align-items: center;
 gap: 2rem;
 text-decoration: none;
 width: 100%;
-height: 100%;
+height: 3rem;
 font-size: var(--fsLowest);
 &:visited{
     color: #2E2F8E;
 }
 &:hover{
-    translate: 8% 0;
+    translate: ${props => props.open ? "8% 0" : ""};
     transition: all.6s ease-in-out;
 
 }

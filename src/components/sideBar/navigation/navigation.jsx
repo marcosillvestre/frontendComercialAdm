@@ -13,8 +13,9 @@ import {
     Links
 } from "../styles";
 
-export const Navigation = (openSidebar) => {
-    const { userData } = useUser()
+export const Navigation = () => {
+    const { userData, openSidebar } = useUser()
+
 
 
     const url = useLocation()
@@ -45,7 +46,7 @@ export const Navigation = (openSidebar) => {
                             <ListItemButton
                                 sx={{
                                     minHeight: 40,
-                                    justifyContent: openSidebar.open ? 'initial' : 'right',
+                                    justifyContent: openSidebar ? 'initial' : 'right',
                                     px: 2,
                                 }}
                             >
@@ -53,6 +54,7 @@ export const Navigation = (openSidebar) => {
                                     id="link"
                                     key={text.name}
                                     to={text.url}
+                                    open={openSidebar}
                                 >
 
                                     {text.icon}
@@ -71,7 +73,3 @@ export const Navigation = (openSidebar) => {
         </div >
     )
 }
-
-Navigation.propTypes = {}
-
-// export default CreateUsersForm
