@@ -1,4 +1,5 @@
 import DeleteIcon from '@mui/icons-material/Delete';
+import TableContainer from '@mui/material/TableContainer';
 import styled from "styled-components";
 
 import TableContainer from '@mui/material/TableContainer';
@@ -10,9 +11,7 @@ th{
 `
 
 export const ContainerOrder = styled.span`
-display: flex;
-align-items: center;
-justify-content: center;
+text-align: center;
 font-size: var(--fsLowest);
 svg{
     width: 20px;
@@ -25,7 +24,6 @@ export const Input = styled.input`
 color: #222;
 height: 2.5rem;
 display: flex;
-/* padding-left: .75rem; */
 text-align: center;
 align-items: center;
 justify-content: space-between;
@@ -36,8 +34,8 @@ border: none;
 
 &::-webkit-outer-spin-button,
 &::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+-webkit-appearance: none;
+margin: 0;
 }
 `
 
@@ -87,3 +85,13 @@ svg{
     }
 }
 `
+
+export const Tag = styled.span`
+font-size: var(--fsLowest);
+border-radius: var(--br);
+padding: .5rem;
+color: #494949;
+text-align: center;
+
+`
+

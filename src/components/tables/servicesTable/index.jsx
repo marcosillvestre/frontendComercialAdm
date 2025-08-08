@@ -1,7 +1,5 @@
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import DoneIcon from '@mui/icons-material/Done';
-import DoNotDisturbAltIcon from '@mui/icons-material/DoNotDisturbAlt';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
 import { TablePagination } from '@mui/material';
 import Paper from '@mui/material/Paper';
@@ -13,10 +11,11 @@ import TableRow from '@mui/material/TableRow';
 import PropTypes from 'prop-types';
 import * as React from 'react';
 import LoadingSpin from 'react-loading-spin';
+import { changeCurrency } from '../../../app/utils/functions/parseNumbers';
 import noData from '../../../assets/noData.svg';
 import { useService } from '../../../hooks/services/servicesContext.hook';
 import { PopOverService } from '../../popovers/popOverService';
-import { ContainerOrder, ContainerTable } from './styles';
+import { ContainerOrder, ContainerTable, Tag } from './styles';
 function Row(props) {
 
     const { row } = props
@@ -26,22 +25,21 @@ function Row(props) {
             sx={{
                 '& > *': {
                     borderBottom: 'unset', fontSize: ".7rem",
-                    backgroundColor: `${row.color}`
-
                 }
             }}
         >
-            <TableCell component="th" scope="row" align="center">
+            <TableCell component="th" scope="row">
                 {row.name}
             </TableCell>
-            <TableCell align="center">{row.sku}</TableCell>
-            <TableCell align="center">R${row.price_selling}</TableCell>
-            <TableCell align="center">R${row.price_ticket}</TableCell>
-            <TableCell align="center">R${row.price_link}</TableCell>
+            <TableCell component="th" align="center">{row.code}</TableCell>
+            <TableCell component="th">{changeCurrency(row.priceSale)}</TableCell>
+            <TableCell component="th">{row.modality}</TableCell>
 
-            <TableCell align="center">R${row.price_card}</TableCell>
-            <TableCell align="center">R${row.price_cash}</TableCell>
-            <TableCell align="center">{row.status === true ? <DoneIcon /> : <DoNotDisturbAltIcon />}</TableCell>
+            <TableCell component="th">
+                <Tag style={{ backgroundColor: row.active ? "#a2e67e" : "#e6937e" }}>
+                    {row.active ? "ATIVO" : "INATIVO"}
+                </Tag>
+            </TableCell>
 
             <TableCell align="center">
                 <PopOverService row={row} />
@@ -57,16 +55,11 @@ function Row(props) {
 Row.propTypes = {
     row: PropTypes.shape({
         id: PropTypes.string.isRequired,
+        priceSale: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
-        category: PropTypes.string.isRequired,
-        sku: PropTypes.string.isRequired,
-        color: PropTypes.string.isRequired,
-        status: PropTypes.bool.isRequired,
-        price_selling: PropTypes.number.isRequired,
-        price_ticket: PropTypes.number.isRequired,
-        price_card: PropTypes.number.isRequired,
-        price_cash: PropTypes.number.isRequired,
-        price_link: PropTypes.number.isRequired,
+        modality: PropTypes.string.isRequired,
+        code: PropTypes.string.isRequired,
+        active: PropTypes.bool.isRequired,
 
     }).isRequired,
 };
@@ -81,17 +74,6 @@ export function ServicesTable() {
     const { isPending } = serviceQuery;
 
     const { total, services } = queryService;
-
-    console.log({ services })
-
-
-    //     name: 'abc teste',
-    //     code: 'abctst',
-    //     priceSale: '20.5',
-    //     modality: 'Em grupo',
-    //     active: true,
-
-
 
     const handleChangePage = (event, newPage) => {
 
@@ -161,7 +143,7 @@ export function ServicesTable() {
                                 <Table aria-label="collapsible table">
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell align="left">
+                                            <TableCell >
                                                 <ContainerOrder
                                                     className='flex'
                                                     onClick={() => setOrderBy("name")}
@@ -182,72 +164,53 @@ export function ServicesTable() {
                                                 </ContainerOrder>
                                             </TableCell>
                                             <TableCell align="center">
-                                                SKU
+                                                Código(SKU)
 
                                             </TableCell>
                                             <TableCell align="center">
 
                                                 <ContainerOrder
                                                     className='flex'
-                                                    onClick={() => setOrderBy("price_selling")}
+                                                    onClick={() => setOrderBy("priceSale")}
                                                 >
-                                                    Vitríne
+                                                    Valor (R$)
                                                     {
-                                                        orderBy !== "price_selling" &&
-                                                        <SwapVertIcon onClick={() => setOrderBy("price_selling")} />
+                                                        orderBy !== "priceSale" &&
+                                                        <SwapVertIcon onClick={() => setOrderBy("priceSale")} />
                                                     }
                                                     {
-                                                        orderBy === "price_selling" && orderFor === "asc" &&
+                                                        orderBy === "priceSale" && orderFor === "asc" &&
                                                         <ArrowDownwardIcon onClick={() => setOrderFor("desc")} />
                                                     }
                                                     {
-                                                        orderBy === "price_selling" && orderFor === "desc" &&
+                                                        orderBy === "priceSale" && orderFor === "desc" &&
                                                         <ArrowUpwardIcon onClick={() => setOrderFor("asc")} />
                                                     }
                                                 </ContainerOrder>
                                             </TableCell>
-                                            <TableCell align="center">
+                                            <TableCell >
 
                                                 <ContainerOrder
                                                     className='flex'
                                                 >
-                                                    Boleto
+                                                    Modalidade
+
                                                 </ContainerOrder>
 
                                             </TableCell>
-                                            <TableCell align="center">
+                                            <TableCell >
+
                                                 <ContainerOrder
                                                     className='flex'
                                                 >
-                                                    Link
-                                                </ContainerOrder>
+                                                    Situação
 
-                                            </TableCell>
-                                            <TableCell align="center">
-                                                <ContainerOrder
-                                                    className='flex'
-                                                >
-                                                    Cartão
-                                                </ContainerOrder>
-
-                                            </TableCell>
-                                            <TableCell align="center">
-                                                <ContainerOrder
-                                                    className='flex'
-                                                >
-                                                    À vista
                                                 </ContainerOrder>
 
                                             </TableCell>
 
-                                            <TableCell align="center">
-                                                Status
 
-                                            </TableCell>
-                                            <TableCell align="cent
-                                            er">
-
-                                            </TableCell>
+                                            <TableCell align="center" />
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -275,11 +238,4 @@ export function ServicesTable() {
         </ContainerTable>
 
     );
-}
-
-ServicesTable.propTypes = {
-    data: PropTypes.array.isRequired,
-    loading: PropTypes.bool.isRequired,
-    total: PropTypes.number.isRequired
-
 }

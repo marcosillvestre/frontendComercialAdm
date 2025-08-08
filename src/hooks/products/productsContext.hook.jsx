@@ -14,7 +14,7 @@ export const ProductsProvider = ({ children }) => {
     const { userData } = useUser()
 
     const [Product, setProduct] = useState({
-        status: true
+        active: true
     })
     const [editProduct, setEditProduct] = useState(null)
     const [take, setTake] = useState(10)
@@ -86,7 +86,7 @@ export const ProductsProvider = ({ children }) => {
 
     const createProduct = useMutation({
         mutationFn: (e) => sendData(e),
-        onSuccess: (_, variables) => {
+        onSuccess: (data,) => {
 
             queryClient.setQueryData(
                 ["product", take, skip, orderBy, query, orderFor],
@@ -94,11 +94,7 @@ export const ProductsProvider = ({ children }) => {
 
                     return setQueryProducts({
                         products: [
-                            {
-                                ...variables,
-                                id: crypto.randomUUID(),
-                                created_at: new Date()
-                            },
+                            data,
                             ...oldData.products,
                         ],
                         total: oldData.total + 1

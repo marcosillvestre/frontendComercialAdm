@@ -5,7 +5,7 @@ padding:0 4rem 5rem ;
 
 margin-left: 17px;
 font-size: var(--fsLowest) ;
-nav{
+.nav{
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -44,11 +44,10 @@ border-radius: var(--br);
 padding: 1rem 3rem;
 margin-bottom: 1.5rem;
 font-size: var(--fsLowest);
-nav{
-    width:100%;
-    justify-content: space-between;
+
+.inside-header{
     display: flex;
-    align-items: center;
+    align-items: end;
     gap: 1rem;
 }
 .create-button{
@@ -59,6 +58,13 @@ nav{
 form{
     gap: 10px;
     align-items: end;
+
+    input{
+        &:disabled{
+            opacity: .5;
+        }
+    }
+
     button{  
         all: unset;
         cursor: pointer;
@@ -67,6 +73,10 @@ form{
         height: var(--boxHei);
         padding: 0 .8rem;
         border-radius: 5px;
+
+        &:disabled{
+            opacity: .5;
+        }
     }
 }
 

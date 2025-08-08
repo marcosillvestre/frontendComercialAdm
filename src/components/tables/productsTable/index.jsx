@@ -26,7 +26,6 @@ export function ProductsTable() {
             <ContainerTable component={Paper}>
 
                 <div className='table_tag'>
-
                     <h3>Lista de {view}</h3>
 
                     <div>
@@ -42,7 +41,6 @@ export function ProductsTable() {
                             }}
                         />
                     </div>
-
 
                 </div>
 

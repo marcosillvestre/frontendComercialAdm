@@ -19,7 +19,7 @@ export const Prod = () => {
 
     const body = editProduct ?? Product;
 
-    const [edited, setEdited] = useState(false)
+    const [edited, setEdited] = useState(false);
 
 
     const sender = (key, value) => {

@@ -81,6 +81,8 @@ export function SureSendModal(data) {
 
     };
 
+    console.log({ filteredContracts })
+
     const client = async (body) => {
 
 
@@ -94,8 +96,9 @@ export function SureSendModal(data) {
                 })
                 .catch(async err => {
                     const error = await err
+                    console.log(error)
 
-                    toast.error("Erro ao cadastrar o cliente")
+                    toast.error("Erro ao cadastrar o clientee")
 
                     if ("message" in error.response.data) alert(error.response.data.message)
                     reject(err)
@@ -110,17 +113,21 @@ export function SureSendModal(data) {
 
     const contract = async (body) => {
 
-        await toast.promise(
-            // axios.post("/registro-conta-azul", body, { headers })
-            URI.post("/registro-conta-azul", body)
-            , {
-                pending: 'Enviando o contrato',
-                success: 'Enviado com sucesso',
-                error: "Erro ao criar o contrato"
-            }
-        )
+
+
+        URI.post("/registro-conta-azul", body)
+            .then(() => toast.success("Contrato criado com sucesso"))
+            .catch(async err => {
+                toast.error("Erro ao criar novo contrato")
+                const error = await err
+                if ("message" in error.response.data) alert(error.response.data.message)
+            })
+            .finally(() => {
+                setLoading(false)
+            })
 
     }
+
 
     const sales = async (body) => {
 

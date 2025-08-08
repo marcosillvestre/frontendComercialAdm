@@ -84,7 +84,7 @@ export const ServicesProvider = ({ children }) => {
 
     const createService = useMutation({
         mutationFn: (e) => sendData(e),
-        onSuccess: (_, variables) => {
+        onSuccess: (data,) => {
 
             queryClient.setQueryData(
                 ["service", take, skip, orderBy, query, orderFor, JSON.stringify(typeFilter)],
@@ -92,11 +92,7 @@ export const ServicesProvider = ({ children }) => {
 
                     return setQueryService({
                         services: [
-                            {
-                                ...variables,
-                                id: crypto.randomUUID(),
-                                created_at: new Date()
-                            },
+                            data,
                             ...oldData.services,
                         ],
                         total: oldData.total + 1

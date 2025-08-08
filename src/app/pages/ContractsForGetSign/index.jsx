@@ -12,9 +12,10 @@ export const Contracts = () => {
     const forQuery = useRef()
 
     const { filteredContracts, setFilteredContracts } = useUser()
-    const { setSign, contractOptions, funnelsQuery, setQuery } = useSignContracts();
+    const { setSign, contractOptions, queryFunnels, setQuery, funnelsQuery } = useSignContracts();
 
-    const { data, isPending } = funnelsQuery
+    const { funnels } = queryFunnels;
+    const { isPending } = funnelsQuery;
 
 
     async function dataFilter(e) {
@@ -48,8 +49,8 @@ export const Contracts = () => {
                                 "carregando"
                                 :
                                 <Select
-                                    label={data && data[0].name}
-                                    option={data && data}
+                                    label={'Funil de Vendas PTB'}
+                                    option={funnels}
                                     width="5rem"
                                     field="type"
                                     fn={[dataFilter]}
