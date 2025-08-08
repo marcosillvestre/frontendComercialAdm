@@ -118,7 +118,7 @@ export const ContractData = () => {
     const defineDescountValueForTypePayment = (fullValue, parcelsNumber, type, table) => {
 
 
-        if (!table[type]) return alert("Forma de pagamento impróprio, confira seus dados")
+        if (table[type] ?? true) return alert("Forma de pagamento impróprio, confira seus dados")
 
         const value = (fullValue / parcelsNumber) * table[type];
 
