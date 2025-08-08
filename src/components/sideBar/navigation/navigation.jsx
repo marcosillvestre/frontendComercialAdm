@@ -55,6 +55,7 @@ export const Navigation = () => {
                                     key={text.name}
                                     to={text.url}
                                     open={openSidebar}
+                                    title={text.name}
                                 >
 
                                     {text.icon}
