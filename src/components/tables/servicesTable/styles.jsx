@@ -1,8 +1,13 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 import styled from "styled-components";
 
+import TableContainer from '@mui/material/TableContainer';
 
-
+export const ContainerTable = styled(TableContainer)`
+th{
+    font-size: .7rem;
+}
+`
 
 export const ContainerOrder = styled.span`
 display: flex;

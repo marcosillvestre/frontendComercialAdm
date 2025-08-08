@@ -8,7 +8,6 @@ import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import PropTypes from 'prop-types';
@@ -17,7 +16,7 @@ import LoadingSpin from 'react-loading-spin';
 import noData from '../../../assets/noData.svg';
 import { useService } from '../../../hooks/services/servicesContext.hook';
 import { PopOverService } from '../../popovers/popOverService';
-import { ContainerOrder } from './styles';
+import { ContainerOrder, ContainerTable } from './styles';
 function Row(props) {
 
     const { row } = props
@@ -82,6 +81,18 @@ export function ServicesTable() {
     const { isPending } = serviceQuery;
 
     const { total, services } = queryService;
+
+    console.log({ services })
+
+
+    //     name: 'abc teste',
+    //     code: 'abctst',
+    //     priceSale: '20.5',
+    //     modality: 'Em grupo',
+    //     active: true,
+
+
+
     const handleChangePage = (event, newPage) => {
 
         setPage(newPage)
@@ -100,7 +111,12 @@ export function ServicesTable() {
 
 
     return (
-        <TableContainer component={Paper}>
+        <ContainerTable component={Paper}>
+
+            <div className='table_tag'>
+                <h3>Lista de serviços</h3>
+            </div>
+
             <Paper>
                 {
                     isPending ?
@@ -255,7 +271,8 @@ export function ServicesTable() {
 
                 }
             </Paper>
-        </TableContainer>
+
+        </ContainerTable>
 
     );
 }
