@@ -43,7 +43,6 @@ export const ServicesSidebar = () => {
         setTypeSidebar(0)
     }
 
-
     return (
 
         <div style={{ whiteSpace: "normal", display: "grid", gap: "1rem" }}>

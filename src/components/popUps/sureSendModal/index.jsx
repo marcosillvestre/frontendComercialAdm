@@ -81,7 +81,6 @@ export function SureSendModal(data) {
 
     };
 
-    console.log({ filteredContracts })
 
     const client = async (body) => {
 

@@ -111,11 +111,12 @@ export const ServicesProvider = ({ children }) => {
 
     ///////////////////////// create
     const editData = async (body) => {
+
         const response = await toast.promise(
             URI.put(`/servicos/${body.id}`, body),
             {
                 pending: 'Conferindo os dados',
-                success: 'serviço criado com sucesso',
+                success: 'serviço editado com sucesso',
                 error: 'Algo deu errado'
             }
         )
@@ -123,8 +124,8 @@ export const ServicesProvider = ({ children }) => {
     }
 
     const mutateService = useMutation({
-        mutationFn: () => editData(),
-        onSuccess: (_, variables) => {
+        mutationFn: (e) => editData(e),
+        onSuccess: (data, variables) => {
 
             queryClient.setQueryData(
                 ["service", take, skip, orderBy, query, orderFor, JSON.stringify(typeFilter)],
@@ -134,7 +135,7 @@ export const ServicesProvider = ({ children }) => {
 
                     return setQueryService({
                         services: [
-                            { ...variables },
+                            data,
                             ...filtered,
                         ],
                         total: total + 1
@@ -147,7 +148,6 @@ export const ServicesProvider = ({ children }) => {
             const { response } = error
 
             "message" in response.data && alert(response.data.message)
-            console.log(response)
         }
     })
     ///////////////////////// edit
@@ -199,8 +199,6 @@ export const ServicesProvider = ({ children }) => {
 
                     const { services, total } = oldData;
 
-                    console.log(oldData)
-
                     return setQueryService({
                         services: services.filter(res => res.id !== variables),
                         total: total - 1
@@ -250,7 +248,10 @@ export const ServicesProvider = ({ children }) => {
             deleteService,
 
             removeFilter,
-            resetDataService
+            resetDataService,
+
+            typeFilter,
+            setTypeFilter,
         }}>
 
             {children}

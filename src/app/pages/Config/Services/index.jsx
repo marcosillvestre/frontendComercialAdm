@@ -78,17 +78,12 @@ export function Services() {
                         </button>
                     </form>
 
-                    <ServicesMoreFilters
-                    // disabled={view !== "produtos"}
-
-                    />
+                    <ServicesMoreFilters />
 
                     {
                         typeFilter?.length > 0 &&
                         <div>
                             <button
-                                // disabled={view !== "produtos"}
-
                                 className='defaultButton redButton'
                                 onClick={() => handleResetFilter()}
                             >

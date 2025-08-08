@@ -2,7 +2,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import TableContainer from '@mui/material/TableContainer';
 import styled from "styled-components";
 
-import TableContainer from '@mui/material/TableContainer';
 
 export const ContainerTable = styled(TableContainer)`
 th{

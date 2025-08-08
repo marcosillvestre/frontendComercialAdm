@@ -6,7 +6,7 @@ import { Container, Label, RangeDate, Select } from './styles.jsx';
 import { DatePickerOrders } from '../../datePickers/datePicker.Orders/index.jsx';
 
 import PropTypes from 'prop-types';
-import { useProduct } from '../../../hooks/products/productsContext.hook.jsx';
+import { useService } from '../../../hooks/services/servicesContext.hook.jsx';
 
 
 export function CustomDateMenuServices({ props, fn, where }) {
@@ -15,7 +15,7 @@ export function CustomDateMenuServices({ props, fn, where }) {
 
     const [anchorEl, setAnchorEl] = React.useState(null);
 
-    const { typeFilter, setTypeFilter } = useProduct()
+    const { typeFilter, setTypeFilter } = useService();
 
 
     const handleFilter = (value, type, label, options, customField) => {

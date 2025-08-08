@@ -14,6 +14,7 @@ import LoadingSpin from 'react-loading-spin';
 import { changeCurrency } from '../../../app/utils/functions/parseNumbers';
 import noData from '../../../assets/noData.svg';
 import { useService } from '../../../hooks/services/servicesContext.hook';
+import { MultiFiltersServices } from '../../arrayFilters/multiFilters.services';
 import { PopOverService } from '../../popovers/popOverService';
 import { ContainerOrder, ContainerTable, Tag } from './styles';
 function Row(props) {
@@ -93,149 +94,152 @@ export function ServicesTable() {
 
 
     return (
-        <ContainerTable component={Paper}>
+        <>
+            <MultiFiltersServices />
+            <ContainerTable component={Paper}>
 
-            <div className='table_tag'>
-                <h3>Lista de serviços</h3>
-            </div>
+                <div className='table_tag'>
+                    <h3>Lista de serviços</h3>
+                </div>
 
-            <Paper>
-                {
-                    isPending ?
-                        <div style={{
-                            width: "100%",
-                            display: 'flex',
-                            justifyContent: 'center',
-                            padding: "5rem 0"
-                        }}>
-                            <LoadingSpin
-                                duration="4s"
-                                width="15px"
-                                timingFunction="ease-in-out"
-                                direction="alternate"
-                                size="60px"
-                                primaryColor="#1976d2"
-                                secondaryColor="#333"
-                                numberOfRotationsInAnimation={3}
-                            />
-                        </div>
-                        :
-                        services &&
-                            services.length === 0 ?
+                <Paper>
+                    {
+                        isPending ?
                             <div style={{
                                 width: "100%",
-                                display: 'grid',
+                                display: 'flex',
                                 justifyContent: 'center',
-                                padding: "5rem 0",
-                                textAlign: "center"
+                                padding: "5rem 0"
                             }}>
-                                <img src={noData} alt=""
-                                    style={{
-                                        width: "300px",
-                                    }}
+                                <LoadingSpin
+                                    duration="4s"
+                                    width="15px"
+                                    timingFunction="ease-in-out"
+                                    direction="alternate"
+                                    size="60px"
+                                    primaryColor="#1976d2"
+                                    secondaryColor="#333"
+                                    numberOfRotationsInAnimation={3}
                                 />
-
                             </div>
-
                             :
-                            <>
+                            services &&
+                                services.length === 0 ?
+                                <div style={{
+                                    width: "100%",
+                                    display: 'grid',
+                                    justifyContent: 'center',
+                                    padding: "5rem 0",
+                                    textAlign: "center"
+                                }}>
+                                    <img src={noData} alt=""
+                                        style={{
+                                            width: "300px",
+                                        }}
+                                    />
 
-                                <Table aria-label="collapsible table">
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell >
-                                                <ContainerOrder
-                                                    className='flex'
-                                                    onClick={() => setOrderBy("name")}
-                                                >
-                                                    Nome
-                                                    {
-                                                        orderBy !== "name" &&
-                                                        <SwapVertIcon onClick={() => setOrderBy("name")} />
-                                                    }
-                                                    {
-                                                        orderBy === "name" && orderFor === "asc" &&
-                                                        <ArrowDownwardIcon onClick={() => setOrderFor("desc")} />
-                                                    }
-                                                    {
-                                                        orderBy === "name" && orderFor === "desc" &&
-                                                        <ArrowUpwardIcon onClick={() => setOrderFor("asc")} />
-                                                    }
-                                                </ContainerOrder>
-                                            </TableCell>
-                                            <TableCell align="center">
-                                                Código(SKU)
+                                </div>
 
-                                            </TableCell>
-                                            <TableCell align="center">
+                                :
+                                <>
 
-                                                <ContainerOrder
-                                                    className='flex'
-                                                    onClick={() => setOrderBy("priceSale")}
-                                                >
-                                                    Valor (R$)
-                                                    {
-                                                        orderBy !== "priceSale" &&
-                                                        <SwapVertIcon onClick={() => setOrderBy("priceSale")} />
-                                                    }
-                                                    {
-                                                        orderBy === "priceSale" && orderFor === "asc" &&
-                                                        <ArrowDownwardIcon onClick={() => setOrderFor("desc")} />
-                                                    }
-                                                    {
-                                                        orderBy === "priceSale" && orderFor === "desc" &&
-                                                        <ArrowUpwardIcon onClick={() => setOrderFor("asc")} />
-                                                    }
-                                                </ContainerOrder>
-                                            </TableCell>
-                                            <TableCell >
+                                    <Table aria-label="collapsible table">
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell >
+                                                    <ContainerOrder
+                                                        className='flex'
+                                                        onClick={() => setOrderBy("name")}
+                                                    >
+                                                        Nome
+                                                        {
+                                                            orderBy !== "name" &&
+                                                            <SwapVertIcon onClick={() => setOrderBy("name")} />
+                                                        }
+                                                        {
+                                                            orderBy === "name" && orderFor === "asc" &&
+                                                            <ArrowDownwardIcon onClick={() => setOrderFor("desc")} />
+                                                        }
+                                                        {
+                                                            orderBy === "name" && orderFor === "desc" &&
+                                                            <ArrowUpwardIcon onClick={() => setOrderFor("asc")} />
+                                                        }
+                                                    </ContainerOrder>
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                    Código(SKU)
 
-                                                <ContainerOrder
-                                                    className='flex'
-                                                >
-                                                    Modalidade
+                                                </TableCell>
+                                                <TableCell align="center">
 
-                                                </ContainerOrder>
+                                                    <ContainerOrder
+                                                        className='flex'
+                                                        onClick={() => setOrderBy("priceSale")}
+                                                    >
+                                                        Valor (R$)
+                                                        {
+                                                            orderBy !== "priceSale" &&
+                                                            <SwapVertIcon onClick={() => setOrderBy("priceSale")} />
+                                                        }
+                                                        {
+                                                            orderBy === "priceSale" && orderFor === "asc" &&
+                                                            <ArrowDownwardIcon onClick={() => setOrderFor("desc")} />
+                                                        }
+                                                        {
+                                                            orderBy === "priceSale" && orderFor === "desc" &&
+                                                            <ArrowUpwardIcon onClick={() => setOrderFor("asc")} />
+                                                        }
+                                                    </ContainerOrder>
+                                                </TableCell>
+                                                <TableCell >
 
-                                            </TableCell>
-                                            <TableCell >
+                                                    <ContainerOrder
+                                                        className='flex'
+                                                    >
+                                                        Modalidade
 
-                                                <ContainerOrder
-                                                    className='flex'
-                                                >
-                                                    Situação
+                                                    </ContainerOrder>
 
-                                                </ContainerOrder>
+                                                </TableCell>
+                                                <TableCell >
 
-                                            </TableCell>
+                                                    <ContainerOrder
+                                                        className='flex'
+                                                    >
+                                                        Situação
+
+                                                    </ContainerOrder>
+
+                                                </TableCell>
 
 
-                                            <TableCell align="center" />
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {
-                                            services &&
-                                            services.map((row) => (
-                                                <Row key={row.id} row={row} />
-                                            ))}
-                                    </TableBody>
-                                </Table>
-                                <TablePagination
-                                    rowsPerPageOptions={[10, 20, 50, 100]}
-                                    component="div"
-                                    count={total}
-                                    rowsPerPage={rowsPerPage}
-                                    page={page}
-                                    onPageChange={handleChangePage}
-                                    onRowsPerPageChange={handleChangeRowsPerPage}
-                                />
-                            </>
+                                                <TableCell align="center" />
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {
+                                                services &&
+                                                services.map((row) => (
+                                                    <Row key={row.id} row={row} />
+                                                ))}
+                                        </TableBody>
+                                    </Table>
+                                    <TablePagination
+                                        rowsPerPageOptions={[10, 20, 50, 100]}
+                                        component="div"
+                                        count={total}
+                                        rowsPerPage={rowsPerPage}
+                                        page={page}
+                                        onPageChange={handleChangePage}
+                                        onRowsPerPageChange={handleChangeRowsPerPage}
+                                    />
+                                </>
 
-                }
-            </Paper>
+                    }
+                </Paper>
 
-        </ContainerTable>
+            </ContainerTable>
+        </>
 
     );
 }

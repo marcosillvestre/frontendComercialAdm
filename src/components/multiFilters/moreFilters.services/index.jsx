@@ -3,7 +3,6 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { alpha, styled } from '@mui/material/styles';
-import LoadingSpin from 'react-loading-spin';
 import { useUser } from '../../../hooks/userContext.jsx';
 import { Buttonn, Container } from './styles.jsx';
 
@@ -51,16 +50,13 @@ const StyledMenu = styled((props) => (
 }));
 
 import PropTypes from 'prop-types';
-import { useState } from 'react';
 import { useService } from '../../../hooks/services/servicesContext.hook.jsx';
 import { CustomDateMenuServices } from '../../customDateMenu/filteringMenu.Services/index.jsx';
 
 export function ServicesMoreFilters({ disabled }) {
 
     const { anchorEl, handleClose, setAnchorEl } = useUser();
-
     const { filterInitialDate, filterEndDate, setTypeFilter, typeFilter } = useService();
-    const [isPending, setIsPending] = useState(false);
 
     const filters = [
 
@@ -125,28 +121,16 @@ export function ServicesMoreFilters({ disabled }) {
             >
 
                 {
-                    isPending ?
-                        <LoadingSpin
-                            duration="4s"
-                            width="15px"
-                            timingFunction="ease-in-out"
-                            direction="alternate"
-                            size="60px"
-                            primaryColor="#1976d2"
-                            secondaryColor="#333"
-                            numberOfRotationsInAnimation={3}
-                        />
-                        :
-                        filters.map((res, index) => (
-                            <MenuItem disableRipple key={index}>
-                                <CustomDateMenuServices
-                                    props={res}
-                                    fn={apllyDateFilters}
-                                    where="moreFilters"
-                                />
-                            </MenuItem>
+                    filters.map((res, index) => (
+                        <MenuItem disableRipple key={index}>
+                            <CustomDateMenuServices
+                                props={res}
+                                fn={apllyDateFilters}
+                                where="moreFilters"
+                            />
+                        </MenuItem>
 
-                        ))
+                    ))
                 }
 
 

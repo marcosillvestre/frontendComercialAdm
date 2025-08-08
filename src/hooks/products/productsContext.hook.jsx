@@ -151,8 +151,8 @@ export const ProductsProvider = ({ children }) => {
 
             const { response } = error
 
-            "message" in response.data && alert(response.data.message)
             console.log(response)
+            "message" in response.data && alert(response.data.message)
         }
     })
     ///////////////////////// edit
