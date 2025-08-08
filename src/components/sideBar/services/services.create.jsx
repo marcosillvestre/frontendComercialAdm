@@ -14,19 +14,7 @@ export const ServicesSidebar = () => {
 
     const { setOpenSidebar, setTypeSidebar } = useUser();
 
-    // const body = editService ?? Service;
-    const body = {
-        name: 'abc teste',
-        code: 'abctst',
-        description: 'descrição teste',
-        priceSale: 20.5,
-        priceCost: 10.5,
-        workLoad: '5',
-        duration: 6,
-        modality: 'Em grupo',
-        active: true
-    }
-
+    const body = editService ?? Service;
 
     const [edited, setEdited] = useState(false);
 
@@ -55,7 +43,6 @@ export const ServicesSidebar = () => {
         setTypeSidebar(0)
     }
 
-    console.log(body)
 
     return (
 
