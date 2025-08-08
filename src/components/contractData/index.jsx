@@ -364,11 +364,13 @@ export const ContractData = () => {
         )
 
         const taxValue = value - campaignDescount
+        const quantityParcels = filteredContracts["Quantidade de parcelas TM "] ? filteredContracts["Quantidade de parcelas TM "] : 1
+
 
         const tx = []
-        for (let index = 0; index < filteredContracts["Quantidade de parcelas TM "]; index++) {
+        for (let index = 0; index < quantityParcels; index++) {
 
-            tx.push({ valor: (taxValue / filteredContracts["Quantidade de parcelas TM "]).toFixed(2) })
+            tx.push({ valor: (taxValue / quantityParcels).toFixed(2) })
         }
         settax({
             taxes: tx,
@@ -461,11 +463,13 @@ export const ContractData = () => {
 
     const sincValueForTax = async () => {
 
-        const taxValue = 350 - parseNumber(filteredContracts["Valor do Desconto na TM"])
-        const tx = []
-        for (let index = 0; index < filteredContracts["Quantidade de parcelas TM "]; index++) {
+        const taxValue = 350 - parseNumber(filteredContracts["Valor do Desconto na TM"]);
+        const quantityParcels = filteredContracts["Quantidade de parcelas TM "] ? filteredContracts["Quantidade de parcelas TM "] : 1
 
-            tx.push({ valor: (taxValue / filteredContracts["Quantidade de parcelas TM "]).toFixed(2) })
+        const tx = []
+        for (let index = 0; index < quantityParcels; index++) {
+
+            tx.push({ valor: (taxValue / quantityParcels).toFixed(2) })
         }
         settax({
             taxes: tx,
@@ -546,6 +550,7 @@ export const ContractData = () => {
         }, 3000);
 
     }
+
 
     return (
         <Container>
