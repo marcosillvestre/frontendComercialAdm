@@ -69,7 +69,7 @@ export function Products() {
                                 disabled={view !== "produtos"}
                                 type="text"
                                 className='inputSearch'
-                                placeholder="Nome ou Sku"
+                                placeholder="Pesquisar"
                                 ref={forQuery}
                                 onChange={(e) => e.target.value === "" && setQuery('')}
                             />

@@ -11,8 +11,9 @@ import LoadingSpin from 'react-loading-spin';
 import { treatingDates } from '../../../app/utils/functions/getDates.jsx';
 import { useUsers } from '../../../hooks/users/usersContext.hook.jsx';
 import { PopOverUsers } from '../../popovers/popOverUsers/index.jsx';
+import { Tag } from '../../Tag/index.jsx';
 import { ContainerTable } from '../tableSuplier/styles.jsx';
-import { Container, ContainerOrder, Tag } from './styles.jsx';
+import { Container, ContainerOrder } from './styles.jsx';
 
 
 function Row(props) {
@@ -43,19 +44,23 @@ function Row(props) {
                 })
             }</TableCell>
             <TableCell align="center" component="th" scope="row">
-                <Tag style={{ backgroundColor: "#dcb381" }}>
-                    {row.role}
-                </Tag>
+
+                <Tag
+                    data={{
+                        label: row.role,
+                        color: "#dcb381",
+                    }}
+                />
+
+
             </TableCell>
             <TableCell align="center" component="th" scope="row">
-                <Tag style={{ backgroundColor: "#b8d6f6" }}>
-
-                    {
-                        row.admin ?
-                            "ADM" :
-                            "GERAL"
-                    }
-                </Tag>
+                <Tag
+                    data={{
+                        label: row.admin ? "ADM" : "GERAL",
+                        color: "#b8d6f6",
+                    }}
+                />
             </TableCell>
             <TableCell align="center" component="th" scope="row">
                 <PopOverUsers row={row} />
@@ -116,6 +121,9 @@ export default function UsersTable() {
 
     return (
         <ContainerTable component={Paper}>
+            <div className='table_tag'>
+                <h3>Lista de usuários</h3>
+            </div>
             <Paper >
 
                 {

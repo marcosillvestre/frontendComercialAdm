@@ -282,7 +282,7 @@ export const Observations = (props) => {
                                     >
                                         <InputsBox >
                                             <Text cols='3'
-                                                placeholder={"Escreva um comentário"}
+                                                placeholder="Escreva um comentário"
                                                 onChange={(e) =>
                                                     setValue(e.target.value)
                                                 }

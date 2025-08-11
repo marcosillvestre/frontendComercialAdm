@@ -316,7 +316,6 @@ export const RegistersProvider = ({ children }) => {
             queryRegister,
 
             deleteRegister,
-            removeFilter,
 
             selectedInitialDate, setSelectedInitialDate,
             selectedEndDate, setSelectedEndDate,
@@ -327,6 +326,7 @@ export const RegistersProvider = ({ children }) => {
             setRegisterId,
             queryOnlyRegister,
 
+            removeFilter,
             typeFilter,
             setTypeFilter,
 

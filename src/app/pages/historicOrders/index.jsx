@@ -54,7 +54,7 @@ export const HistoricOrders = () => {
                                 Pesquisar
                             </p>
                             <InputSearch
-                                placeholder='pesquisar...'
+                                placeholder="Pesquisar"
                                 title='busque pelo cliente ou aluno'
                                 ref={searching}
                                 className='inputSearch'

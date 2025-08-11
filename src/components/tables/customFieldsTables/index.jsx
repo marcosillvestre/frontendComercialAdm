@@ -11,8 +11,9 @@ import LoadingSpin from 'react-loading-spin';
 import { treatingDates } from '../../../app/utils/functions/getDates.jsx';
 import { useCustomFields } from '../../../hooks/customFields/customFIelds.hook.jsx';
 import { PopOverCustomFields } from '../../popovers/popOverCustomField/index.jsx';
+import { Tag } from '../../Tag/index.jsx';
 import { ContainerTable } from '../tableSuplier/styles.jsx';
-import { Container, ContainerOrder, Tag } from './styles.jsx';
+import { Container, ContainerOrder } from './styles.jsx';
 
 
 function Row(props) {
@@ -49,20 +50,32 @@ function Row(props) {
             <TableCell align="center" component="th" scope="row">{row.order + 1}</TableCell>
             <TableCell align="center" component="th" scope="row">{row.name} </TableCell>
             <TableCell align="center" component="th" scope="row">
-                <Tag style={{ backgroundColor: "#dcb381" }}>
-                    {subtitle[row.type]}
-                </Tag>
+                <Tag
+                    data={{
+                        label: subtitle[row.type],
+                        color: "#dcb381"
+                    }}
+                />
+
             </TableCell>
             <TableCell align="center" component="th" scope="row">
-                <Tag style={{ backgroundColor: "#d0cecf" }}>
-                    {row.options.length} iten(s)
-                </Tag>
+                <Tag
+                    data={{
+                        label: `${row.options.length} iten(s)`,
+                        color: "#d0cecf",
+                        title: row.options.map(r => `\n ${r}`)
+                    }}
+                />
             </TableCell>
 
             <TableCell align="center" component="th" scope="row">
-                <Tag style={{ backgroundColor: "#b8d6f6" }}>
-                    {subtitle[row.category]}
-                </Tag>
+                <Tag
+                    data={{
+                        label: subtitle[row.category],
+                        color: "#b8d6f6"
+                    }}
+                />
+
             </TableCell>
             <TableCell align="center" component="th" scope="row">
                 <PopOverCustomFields row={row} />
@@ -124,6 +137,11 @@ export default function CustomFieldsTable() {
 
     return (
         <ContainerTable component={Paper}>
+
+            <div className='table_tag'>
+                <h3>Lista de campos personalizados</h3>
+            </div>
+
             <Paper >
 
                 {

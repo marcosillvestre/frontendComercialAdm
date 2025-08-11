@@ -1,5 +1,7 @@
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
 import { Link } from 'react-router-dom'
+
+import { CampaignsMoreFilters } from '../../../../components/multiFilters/moreFilters.campaigns'
 import { CampaignTable } from '../../../../components/tables/campaignsTable'
 import { useCampaign } from '../../../../hooks/campaign/campaignContext.hook'
 import { useUser } from '../../../../hooks/userContext'
@@ -8,12 +10,16 @@ import { Container, Header } from './styles'
 export function Campaigns() {
     const { setTypeSidebar, setOpenSidebar, } = useUser()
 
-    const { setEditCampaign } = useCampaign()
+    const { setEditCampaign, typeFilter, setTypeFilter } = useCampaign();
+
+    const handleResetFilter = () => {
+        setTypeFilter([])
+    }
 
     return (
         <Container>
 
-            <nav>
+            <nav className='nav'>
                 <span>
                     <Link
                         to="/config"
@@ -35,6 +41,23 @@ export function Campaigns() {
                 </button>
             </nav>
             <Header>
+                <nav>
+
+                    <CampaignsMoreFilters />
+
+                    {
+                        typeFilter?.length > 0 &&
+                        <div>
+                            <button
+
+                                className='defaultButton redButton'
+                                onClick={() => handleResetFilter()}
+                            >
+                                Limpar filtros
+                            </button>
+                        </div>
+                    }
+                </nav>
             </Header>
 
             <CampaignTable />

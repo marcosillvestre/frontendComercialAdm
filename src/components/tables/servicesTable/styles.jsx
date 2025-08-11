@@ -84,13 +84,3 @@ svg{
     }
 }
 `
-
-export const Tag = styled.span`
-font-size: var(--fsLowest);
-border-radius: var(--br);
-padding: .5rem;
-color: #494949;
-text-align: center;
-
-`
-

@@ -98,7 +98,7 @@ Prezado(a) ${choosenSuplier && choosenSuplier.name},
 Gostaríamos de solicitar o seguinte pedido:
 
 ${result &&
-            result.map(res => `${res.name},   quantidade: ${res.count}\n`)}
+            result.map(res => `\n ${res.name},   quantidade: ${res.count}`)}
 
 Solicitamos, por gentileza, que nos confirme a disponibilidade e o prazo estimado para entrega. Caso necessário, estamos à disposição para qualquer esclarecimento adicional.
 

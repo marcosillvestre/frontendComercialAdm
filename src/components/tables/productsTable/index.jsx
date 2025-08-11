@@ -1,6 +1,6 @@
 import Paper from '@mui/material/Paper';
 import { useProduct } from '../../../hooks/products/productsContext.hook';
-import { MultiFiltersProducts } from '../../arrayFilters/multiFilters.products';
+import { MultiFilters } from '../../arrayFilters/multiFilters/index.jsx';
 import { SwitchButtons } from '../../switchButtons';
 import { Categorie } from './categorie';
 import { Kits } from './kit';
@@ -10,7 +10,7 @@ import { ContainerTable } from './styles';
 
 export function ProductsTable() {
 
-    const { view, setView } = useProduct();
+    const { view, setView, typeFilter, setTypeFilter, removeFilter } = useProduct();
 
     const tables = {
         "produtos": <Products />,
@@ -18,11 +18,16 @@ export function ProductsTable() {
         "categorias": <Categorie />,
     }
 
-    //consertae esse miltifilter
 
     return (
         <>
-            <MultiFiltersProducts />
+            <MultiFilters
+                data={{
+                    removeFilter: removeFilter,
+                    setType: setTypeFilter,
+                    types: typeFilter
+                }}
+            />
             <ContainerTable component={Paper}>
 
                 <div className='table_tag'>

@@ -14,11 +14,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import LoadingSpin from 'react-loading-spin';
 import { useOrders } from '../../../hooks/orders/ordersContext.hook';
-import { MultiFiltersOrders } from '../../arrayFilters/multiFilters.Orders';
+import { MultiFilters } from '../../arrayFilters/multiFilters/index.jsx';
 import { CloserClick } from '../../closeClick';
 import { MultiAlterationOrders } from '../../multiAlteration.Orders';
 import { PopOverOrder } from '../../popovers/popOverOrders';
-import { ButtonContainer, ButtonSellected, Container, ContainerOrder, ContainerTable, SellectedView, Tag } from './styles';
+import { Tag } from '../../Tag';
+import { ButtonContainer, ButtonSellected, Container, ContainerOrder, ContainerTable, SellectedView } from './styles';
 
 function Row(props) {
     const { row } = props;
@@ -74,9 +75,13 @@ function Row(props) {
                 <TableCell align="center" component="th" scope="row">{row.student ? row.student.split(" ")[0] : ""} </TableCell>
                 <TableCell align="center" component="th" scope="row">{row.book} </TableCell>
                 <TableCell align="center" component="th" scope="row">
-                    <Tag style={{ backgroundColor: statusTrail[row.status] }}>
-                        {row.status}
-                    </Tag>
+                    <Tag
+                        data={{
+                            label: row.status,
+                            color: statusTrail[row.status],
+                        }}
+                    />
+
                 </TableCell>
                 <TableCell align="center" component="th" scope="row">
                     <div className='flex'>
@@ -124,7 +129,10 @@ export default function TableOrders() {
     const { setOrderBy, setOrderFor, checkData, setCheckData,
         ordersQuery, queryOrder, setTake, setSkip, take,
         checked, setChecked, orderBy, orderFor, setOrders,
-        setQueryOrder
+        setQueryOrder,
+
+        typeFilter, setTypeFilter,
+        removeFilter,
     } = useOrders()
 
 
@@ -166,7 +174,12 @@ export default function TableOrders() {
 
     return (
         <>
-            <MultiFiltersOrders
+            <MultiFilters
+                data={{
+                    removeFilter: removeFilter,
+                    setType: setTypeFilter,
+                    types: typeFilter
+                }}
             />
             <ContainerTable component={Paper}>
                 <Paper sx={{ width: '100%' }}>

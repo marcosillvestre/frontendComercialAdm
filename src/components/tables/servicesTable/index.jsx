@@ -9,14 +9,15 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import PropTypes from 'prop-types';
-import * as React from 'react';
+import { useState } from 'react';
 import LoadingSpin from 'react-loading-spin';
 import { changeCurrency } from '../../../app/utils/functions/parseNumbers';
 import noData from '../../../assets/noData.svg';
 import { useService } from '../../../hooks/services/servicesContext.hook';
-import { MultiFiltersServices } from '../../arrayFilters/multiFilters.services';
+import { MultiFilters } from '../../arrayFilters/multiFilters/index.jsx';
 import { PopOverService } from '../../popovers/popOverService';
-import { ContainerOrder, ContainerTable, Tag } from './styles';
+import { Tag } from '../../Tag';
+import { ContainerOrder, ContainerTable } from './styles';
 function Row(props) {
 
     const { row } = props
@@ -37,9 +38,13 @@ function Row(props) {
             <TableCell component="th">{row.modality}</TableCell>
 
             <TableCell component="th">
-                <Tag style={{ backgroundColor: row.active ? "#a2e67e" : "#e6937e" }}>
-                    {row.active ? "ATIVO" : "INATIVO"}
-                </Tag>
+
+                <Tag
+                    data={{
+                        label: row.active ? "ATIVO" : "INATIVO",
+                        color: row.active ? "#a2e67e" : "#e6937e",
+                    }}
+                />
             </TableCell>
 
             <TableCell align="center">
@@ -67,9 +72,12 @@ Row.propTypes = {
 
 export function ServicesTable() {
 
-    const { take, setTake, setSkip, setOrderBy, queryService, serviceQuery, orderBy, orderFor, setOrderFor, } = useService()
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const { take, setTake, setSkip, queryService, serviceQuery,
+        setOrderBy, orderBy, orderFor, setOrderFor,
+        removeFilter, typeFilter, setTypeFilter } = useService();
+
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
 
 
     const { isPending } = serviceQuery;
@@ -95,7 +103,14 @@ export function ServicesTable() {
 
     return (
         <>
-            <MultiFiltersServices />
+            <MultiFilters
+                data={{
+                    removeFilter: removeFilter,
+                    setType: setTypeFilter,
+                    types: typeFilter
+                }}
+            />
+
             <ContainerTable component={Paper}>
 
                 <div className='table_tag'>

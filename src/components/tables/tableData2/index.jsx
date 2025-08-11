@@ -21,7 +21,7 @@ import businessRules from '../../../app/utils/Rules/options.jsx';
 import { useRegister } from '../../../hooks/registers/registersContext.hook.jsx';
 import { useUnities } from '../../../hooks/unities/unitiesContext.hook.jsx';
 import { useUser } from '../../../hooks/userContext';
-import { MultiFiltersRegisters } from '../../arrayFilters/multiFilters.registers/index.jsx';
+import { MultiFilters } from '../../arrayFilters/multiFilters/index.jsx';
 import { UniqueSelect } from '../../selects/UniqueSelect/index.jsx';
 import { PopOverControl } from '../../source';
 import { ContractInfo } from './contractInfo';
@@ -297,9 +297,9 @@ TableMainData.propTypes = {
 
 export default function CollapsibleTable() {
 
-    const { setSkip, take, setTake, RegisterQuery,
-        queryRegister,
-        orderBy, setOrderBy, orderFor, setOrderFor } = useRegister()
+    const { setSkip, take, setTake, RegisterQuery, queryRegister,
+        orderBy, setOrderBy, orderFor, setOrderFor, removeFilter,
+        typeFilter, setTypeFilter, } = useRegister()
 
 
 
@@ -330,8 +330,13 @@ export default function CollapsibleTable() {
 
     return (
         <>
-            <MultiFiltersRegisters />
-
+            <MultiFilters
+                data={{
+                    removeFilter: removeFilter,
+                    setType: setTypeFilter,
+                    types: typeFilter
+                }}
+            />
             <ContainerTable component={Paper}>
                 <div className='table_tag'>
 

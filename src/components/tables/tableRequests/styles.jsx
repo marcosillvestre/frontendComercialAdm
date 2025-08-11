@@ -33,12 +33,6 @@ height: fit-content;
 }
 `
 
-export const Tag = styled.span`
-font-size: var(--fsLowest);
-padding: .5rem;
-color: #494949;
-border-radius: var(--br);
-`
 
 export const Container = styled.main`
 nav{

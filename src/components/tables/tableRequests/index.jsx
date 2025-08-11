@@ -14,8 +14,8 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import LoadingSpin from 'react-loading-spin';
 import { useRequests } from '../../../hooks/requests/requestsContext.hook';
-// import { MultiFiltersOrders } from '../../arrayFilters/multiFilters.Orders';
-import { Container, ContainerOrder, ContainerTable, Tag } from './styles';
+import { Tag } from '../../Tag';
+import { Container, ContainerOrder, ContainerTable } from './styles';
 function Row(props) {
     const { row } = props;
     const [open, setOpen] = useState(false)
@@ -45,15 +45,26 @@ function Row(props) {
                 <TableCell align="center" component="th" scope="row">{row.codeRequest} </TableCell>
                 <TableCell align="center" component="th" scope="row">{row.price.toLocaleString("pt-BR", { style: 'currency', currency: "brl" })}</TableCell>
                 <TableCell align="center" component="th" scope="row">
-                    <Tag style={{ backgroundColor: "#d2d2d2" }}>
-                        {row.suplier?.name}
-                    </Tag>
+
+                    <Tag
+                        data={{
+                            label: row.suplier?.name,
+                            color: "#d2d2d2",
+                        }}
+                    />
+
+
                 </TableCell>
                 <TableCell align="center" component="th" scope="row">{row.unity.name} </TableCell>
                 <TableCell align="center" component="th" scope="row">
-                    <Tag style={{ backgroundColor: "#b8d6f6" }}>
-                        {row.user}
-                    </Tag>
+
+                    <Tag
+                        data={{
+                            label: row.user,
+                            color: "#b8d6f6",
+                        }}
+                    />
+
                 </TableCell>
 
             </TableRow>
@@ -224,10 +235,7 @@ export default function TableRequests() {
                     />
                     :
                     <Container>
-                        <nav>
-                            {/* <MultiFiltersOrders/> */}
 
-                        </nav>
                         <ContainerTable component={Paper}>
                             <Paper >
                                 <Table aria-label="collapsible table">

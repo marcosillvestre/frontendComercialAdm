@@ -11,7 +11,7 @@ import TableRow from '@mui/material/TableRow';
 import PropTypes from 'prop-types';
 import React from 'react';
 import LoadingSpin from 'react-loading-spin';
-import { treatingDates } from '../../../app/utils/functions/getDates';
+import { parseDates } from '../../../app/utils/functions/getDates';
 import { useSupliers } from '../../../hooks/supliers/supliersContext.hook';
 import { PopOverSuplier } from '../../popovers/popOverSuplier';
 import { Container, ContainerOrder, ContainerTable } from './styles';
@@ -32,7 +32,7 @@ function Row(props) {
                 <TableCell align="center" component="th" scope="row"
                 >
                     <p>
-                        {treatingDates(row.created_at)}
+                        {parseDates(row.created_at)}
                     </p>
                 </TableCell>
                 <TableCell align="center" component="th" scope="row">{row.name} </TableCell>
@@ -97,7 +97,13 @@ export default function SupliersTable() {
 
 
     return (
+
         <ContainerTable component={Paper}>
+            <div className='table_tag'>
+                <h3>Lista de fornecedores</h3>
+            </div>
+
+
             <Paper >
 
                 {
@@ -177,6 +183,8 @@ export default function SupliersTable() {
 
                                             </ContainerOrder>
                                         </TableCell>
+
+                                        <TableCell />
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>

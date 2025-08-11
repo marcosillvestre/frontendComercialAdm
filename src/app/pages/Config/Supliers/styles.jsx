@@ -5,7 +5,7 @@ font-size: var(--fsLowest);
 padding: 0 4rem 5rem;
 margin-left: 17px;
 
-nav{
+.nav{
     display: flex;
     justify-content: space-between;
     width: 100%;

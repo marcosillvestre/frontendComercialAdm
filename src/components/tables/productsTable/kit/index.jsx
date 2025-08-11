@@ -33,7 +33,7 @@ function Row(props) {
             <TableCell component="th" scope="row">{row.name}</TableCell>
             <TableCell component="th" align="center">{row.code}</TableCell>
             <TableCell component="th" >{changeCurrency(row.priceSale)}</TableCell>
-            <TableCell component="th" title={row.relatedProducts.map(r => `${r.name} \n`)} >
+            <TableCell component="th" title={row.relatedProducts.map(r => `\n ${r.name}`)} >
                 {row.relatedProducts.length} produtos relacionados
             </TableCell>
 

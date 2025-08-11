@@ -13,12 +13,19 @@ th{
 }
 `
 
+export const ContainerOrder = styled.span`
+text-align: center;
+font-size: var(--fsLowest);
+svg{
+    width: 20px;
+    cursor: pointer;
+}
+`
 
 export const Input = styled.input`
 color: #222;
 height: 2.5rem;
 display: flex;
-/* padding-left: .75rem; */
 text-align: center;
 align-items: center;
 justify-content: space-between;

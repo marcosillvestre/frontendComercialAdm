@@ -1,17 +1,16 @@
 import CloseIcon from '@mui/icons-material/Close';
+import PropTypes from 'prop-types';
 
-import { useService } from '../../../hooks/services/servicesContext.hook';
 import { Container, FilterContainer } from './styles';
 
-export const MultiFiltersServices = () => {
-
-    const { removeFilter, typeFilter, setTypeFilter } = useService();
+export const MultiFilters = ({ data }) => {
+    const { removeFilter, types, setType } = data;
 
     return (
-        <Container active={typeFilter.length > 0}>
+        <Container active={types.length > 0}>
             {
-                typeFilter &&
-                typeFilter.map((res, index) => (
+                types &&
+                types.map((res, index) => (
                     <FilterContainer key={index}
                         className='flex'
                     >
@@ -28,8 +27,8 @@ export const MultiFiltersServices = () => {
                                     onChange={(e) => {
 
 
-                                        setTypeFilter([
-                                            ...typeFilter.filter(f => f.id !== res.id),
+                                        setType([
+                                            ...types.filter(f => f.id !== res.id),
                                             {
                                                 id: new Date().setUTCHours(0),
                                                 key: res.key,
@@ -43,7 +42,12 @@ export const MultiFiltersServices = () => {
                                 >
                                     {
                                         res.options.map((opt, ind) => (
-                                            <option key={ind} value={opt.name}>{opt.name}</option>
+                                            <option
+                                                key={ind}
+                                                value={opt.value ?? opt.name}
+                                            >
+                                                {opt.name}
+                                            </option>
                                         ))
                                     }
                                 </select> :
@@ -60,3 +64,11 @@ export const MultiFiltersServices = () => {
     )
 }
 
+MultiFilters.propTypes = {
+    data: PropTypes.shape({
+        removeFilter: PropTypes.func,
+        types: PropTypes.array,
+        setType: PropTypes.func,
+
+    }).isRequired,
+};

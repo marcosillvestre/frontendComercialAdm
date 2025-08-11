@@ -247,9 +247,9 @@ export const ServicesProvider = ({ children }) => {
 
             deleteService,
 
-            removeFilter,
             resetDataService,
 
+            removeFilter,
             typeFilter,
             setTypeFilter,
         }}>

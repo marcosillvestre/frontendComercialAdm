@@ -50,34 +50,42 @@ const StyledMenu = styled((props) => (
 }));
 
 import PropTypes from 'prop-types';
-import { useService } from '../../../hooks/services/servicesContext.hook.jsx';
-import { CustomDateMenuServices } from '../../customDateMenu/filteringMenu.Services/index.jsx';
+import { useCampaign } from '../../../hooks/campaign/campaignContext.hook.jsx';
+import { CustomDateMenuCampaign } from '../../customDateMenu/filteringMenu.Campaign/index.jsx';
 
-export function ServicesMoreFilters({ disabled }) {
+export function CampaignsMoreFilters({ disabled }) {
 
     const { anchorEl, handleClose, setAnchorEl } = useUser();
-    const { filterInitialDate, filterEndDate, setTypeFilter, typeFilter } = useService();
+    const { filterInitialDate, filterEndDate, setTypeFilter, typeFilter } = useCampaign();
+
 
     const filters = [
         {
+            label: "Objetivo",
+            name: "for",
+            options: [
+                { name: "Parcela", value: 'Parcel' },
+                { name: "Material", value: 'Material' },
+                { name: "Taxa de matrícula", value: 'Tax' },
+            ],
+        },
+        {
+            label: "Tipo",
+            name: "descountType",
+            options: [
+                { name: "Porcentagem", value: 'Percentage' },
+                { name: "Valor cheio", value: 'Value' },
+                { name: "Alteração", value: 'Exchange' },
+            ],
+        },
+        {
             label: "Ativo",
-            name: "active",
+            name: "status",
             options: [
                 { name: "Sim" },
                 { name: "Não" },
             ],
         },
-        {
-            label: "Modalidade",
-            name: "modality",
-            options: [
-                { name: "Em grupo" },
-                { name: "Em dupla" },
-                { name: "Trio" },
-                { name: "Individual" },
-            ],
-        },
-
 
     ]
 
@@ -133,7 +141,7 @@ export function ServicesMoreFilters({ disabled }) {
                 {
                     filters.map((res, index) => (
                         <MenuItem disableRipple key={index}>
-                            <CustomDateMenuServices
+                            <CustomDateMenuCampaign
                                 props={res}
                                 fn={apllyDateFilters}
                                 where="moreFilters"
@@ -150,7 +158,7 @@ export function ServicesMoreFilters({ disabled }) {
     );
 }
 
-ServicesMoreFilters.propTypes = {
+CampaignsMoreFilters.propTypes = {
     disabled: PropTypes.bool,
 
 };

@@ -59,7 +59,7 @@ export function Services() {
                             <input
                                 type="text"
                                 className='inputSearch'
-                                placeholder="Nome ou Sku"
+                                placeholder="Pesquisar"
                                 ref={forQuery}
                                 onChange={(e) => e.target.value === "" && setQuery('')}
                             />

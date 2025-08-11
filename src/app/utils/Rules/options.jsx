@@ -213,10 +213,28 @@ const ordersFilters = [
     },
 ]
 
+const descountTypes = {
+    "Exchange": "Alteração",
+    "Value": "Valor cheio",
+    "Percentage": "Porcentagem",
 
+    "Alteração": "Exchange",
+    "Valor cheio": "Value",
+    "Porcentagem": "Percentage",
+
+}
+
+const goalTypes = {
+    "Parcel": "Parcela",
+    "Material": "Material",
+    "Tax": "Taxa de matricula",
+
+    "Parcela": "Parcel",
+    "Taxa de matricula": "Tax",
+}
 
 export default {
-    types, ordersFilters,
+    types, ordersFilters, descountTypes, goalTypes,
     arrayQuantityChanges, predeterminedPeriods, customizablePeriods,
     comissionStatusOpt, coursesOpt, backgroundOpt, nonEspecificOpt,
     roles, fields, courseOpt, registerState

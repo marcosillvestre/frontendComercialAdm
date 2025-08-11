@@ -85,7 +85,7 @@ Olá, ${user.name}.
 Informamos que os produtos adquiridos estão disponíveis para retirada. Segue abaixo a lista com a descrição dos itens:
 
 ${checkData &&
-        checkData.map((item, index) => `Produto ${index + 1}: ${item.book.split(" / ")[0]}\n`)}
+        checkData.map((item, index) => `\n Produto ${index + 1}: ${item.book.split(" / ")[0]}`)}
 
 Caso tenha alguma dúvida ou precise de mais informações, estamos à disposição.
 

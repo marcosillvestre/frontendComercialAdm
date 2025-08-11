@@ -68,7 +68,7 @@ export const ListFiltered = () => {
                         <p>Pesquisar no período</p>
                         <InputSearch
                             type="text"
-                            placeholder='Pesquisar..'
+                            placeholder="Pesquisar"
                             className='filter inputSearch'
                             list='list'
                             onChange={(e) => {

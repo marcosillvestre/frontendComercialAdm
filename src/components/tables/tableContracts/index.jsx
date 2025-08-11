@@ -37,7 +37,7 @@ function Row(props) {
                 <TableCell align="center" component="th" scope="row">{new Date(row.created_at).toLocaleDateString("pt-BR")}</TableCell>
                 <TableCell align="center" component="th" scope="row">{row.name}</TableCell>
                 <TableCell align="center" component="th" scope="row">{row.student !== !row.student ? row.student : row.name}</TableCell>
-                <TableCell align="center" component="th" scope="row" title={row?.convenio?.map(r => `${r}\n`)}>
+                <TableCell align="center" component="th" scope="row" title={row?.convenio?.map(r => `\n ${r}`)}>
                     {row?.convenio?.length}
                 </TableCell>
                 <TableCell align="center" component="th" scope="row">{row.seller}</TableCell>

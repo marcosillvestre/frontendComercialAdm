@@ -13,7 +13,8 @@ import noData from '../../../../assets/noData.svg';
 import { useProduct } from '../../../../hooks/products/productsContext.hook.jsx';
 import { Loading } from '../../../loadingSpin/index.jsx';
 import { PopOverProduct } from '../../../popovers/popOverProduct';
-import { ContainerOrder, Tag } from '../styles.jsx';
+import { Tag } from '../../../Tag/index.jsx';
+import { ContainerOrder } from '../styles.jsx';
 
 
 function Row(props) {
@@ -38,9 +39,12 @@ function Row(props) {
             <TableCell component="th" >{row.categorieName}</TableCell>
             <TableCell component="th" >{changeCurrency(row.priceSale)}</TableCell>
             <TableCell component="th" >
-                <Tag style={{ backgroundColor: row.active ? "#a2e67e" : "#e6937e" }}>
-                    {row.active ? "ATIVO" : "INATIVO"}
-                </Tag>
+                <Tag
+                    data={{
+                        label: row.active ? "ATIVO" : "INATIVO",
+                        color: row.active ? "#a2e67e" : "#e6937e",
+                    }}
+                />
 
             </TableCell>
             <TableCell component="th" align="center">

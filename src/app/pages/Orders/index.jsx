@@ -14,6 +14,9 @@ export const Orders = () => {
     const { search, handleInput, initialDate, endDate, setQuery, typeFilter, setTypeFilter } = useOrders()
     const searching = useRef()
 
+
+
+    // deu bo no mmultifilter, analisar o porque, se pa vai ter que pegar do github pra ver
     return (
         <Container>
             <nav
@@ -52,7 +55,7 @@ export const Orders = () => {
                             </p>
                             <InputSearch
                                 className='inputSearch'
-                                placeholder='pesquisar...'
+                                placeholder="Pesquisar"
                                 title='busque pelo cliente ou aluno'
                                 ref={searching}
                                 onChange={(e) => e.target.value === "" && setQuery(undefined)}

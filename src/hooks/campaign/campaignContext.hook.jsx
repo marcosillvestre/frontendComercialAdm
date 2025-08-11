@@ -1,7 +1,7 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import Proptypes from 'prop-types'
-import { createContext, useContext, useState } from "react"
+import { createContext, useContext, useLayoutEffect, useState } from "react"
 import { toast } from "react-toastify"
 import URI from "../../app/utils/utils"
 import { useUser } from "../userContext"
@@ -33,7 +33,7 @@ export const CampaignProvider = ({ children }) => {
     const createCampaign = useMutation({
         mutationFn: () => sendData(),
         onSuccess: () => {
-            queryClient.invalidateQueries(["Campaign"])
+            queryClient.invalidateQueries(["campaign", take, skip, orderFor, orderBy, JSON.stringify(typeFilter)])
         }
     })
     ///////////////////////// create
@@ -53,20 +53,51 @@ export const CampaignProvider = ({ children }) => {
     const mutateCampaign = useMutation({
         mutationFn: () => editData(),
         onSuccess: () => {
-            queryClient.invalidateQueries(["Campaign"])
+            queryClient.invalidateQueries(["campaign", take, skip, orderFor, orderBy, JSON.stringify(typeFilter)])
         }
     })
     ///////////////////////// edit
 
+
+    const [take, setTake] = useState(10);
+    const [skip, setSkip] = useState(0);
+    const [orderFor, setOrderFor] = useState('asc');
+    const [orderBy, setOrderBy] = useState('value');
+
+    const [campaignQueries, setCampaignQueries] = useState({ campaigns: [], total: 0 });
+    const [typeFilter, setTypeFilter] = useState([])
+
     const queryCampaign = async () => {
-        const response = await URI.get("/campanha")
+        const response = await URI.post("/campanhas", {
+            take,
+            skip,
+            orderFor,
+            orderBy,
+            typeFilter
+        })
         return response.data
     }
 
     const campaignQuery = useQuery({
         queryFn: () => queryCampaign(),
-        queryKey: ["Campaign"],
+        queryKey: ["campaign", take, skip, orderFor, orderBy, JSON.stringify(typeFilter)],
+
     })
+
+
+    useLayoutEffect(() => {
+        const gatherData = async () => {
+
+            const { data } = campaignQuery
+            const { campaigns, total } = data
+
+            setCampaignQueries({ campaigns, total })
+        }
+
+        if (campaignQuery.isSuccess) gatherData()
+
+    }, [take, skip, orderBy, orderFor, campaignQuery.isSuccess, JSON.stringify(typeFilter)])
+
     ///////////////////////// get
 
 
@@ -90,7 +121,7 @@ export const CampaignProvider = ({ children }) => {
 
 
             queryClient.setQueryData(
-                ["Campaign"],
+                ["campaign", take, skip, orderFor, orderBy, JSON.stringify(typeFilter)],
                 (oldData) => {
 
                     return oldData.filter(res => res.id !== variables)
@@ -99,6 +130,12 @@ export const CampaignProvider = ({ children }) => {
             )
         }
     })
+
+    const removeFilter = (data) => {
+        const filtered = typeFilter.filter(res => res.id !== data.id)
+
+        return setTypeFilter(filtered)
+    }
 
     return (
         <CampaignContext.Provider value={{
@@ -111,7 +148,16 @@ export const CampaignProvider = ({ children }) => {
 
             mutateCampaign,
 
-            deleteCampaign
+            deleteCampaign,
+
+            take, setTake,
+            skip, setSkip,
+            orderFor, setOrderFor,
+            orderBy, setOrderBy,
+
+            campaignQueries,
+            removeFilter,
+            typeFilter, setTypeFilter
 
         }}>
 

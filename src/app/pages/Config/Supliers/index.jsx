@@ -16,7 +16,7 @@ export function Supliers() {
 
     return (
         <Container>
-            <nav>
+            <nav className='nav'>
                 <span>
                     <Link
                         to="/config"
@@ -46,11 +46,11 @@ export function Supliers() {
                         >
                             <label htmlFor="">
 
-                                <p>Pesquisar</p>
+                                <p>Pesquisar por nome</p>
                                 <input
                                     type="text"
                                     className='inputSearch'
-                                    placeholder="Nome"
+                                    placeholder="Pesquisar"
                                     ref={forQuery}
                                     onChange={(e) => {
                                         e.target.value === "" && setQuery('')

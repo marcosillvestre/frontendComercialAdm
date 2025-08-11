@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const Container = styled.div`
+export const Container = styled.main`
 font-size: var(--fsLowest) ;
 margin-left: 17px;
 padding:0 4rem 5rem ;
