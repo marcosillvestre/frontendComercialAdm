@@ -1,55 +1,34 @@
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 
 export const ButtonContainer = styled.span`
 display: flex;
-flex-direction: column;
-width: fit-content;
 position: relative;
-
-gap: 2px;
-font-weight: 500;
-font-size: var(--fsLowest);
-line-height: 1.75;
-letter-spacing: 0.02857em;
-text-transform: uppercase;
-user-select: none;
 z-index: 12;
 
 `
 export const Container = styled.button`
-    z-index: 3;
-    border: none;
-    cursor: pointer;
-    color: #fff;
-    background-color: ${props => props.able ? "#1976d2" : "#222"};
-    border-radius: 5px;
-    padding: 0 1rem ;
-    transition: transform 0.1s, box-shadow 0.1s ;
-    &:active{
-        opacity: .8;
-    }
+z-index: 3;
+border: none;
+cursor: pointer;
+color: #fff;
+background-color: ${props => props.able ? "#1976d2" : "#222"};
+border-radius: 5px;
+padding: 0 1rem ;
+transition: transform 0.1s, box-shadow 0.1s ;
+&:active{
+    opacity: .8;
+}
 
 `
-const moveAnimation = keyframes`
-from {
-    /* translate: 0 0; */
-}
 
-to {
-    translate: -725px 0;
-    display: none;
-}
-`;
 export const Box = styled.div`
 user-select: none;
 position: absolute;
 
 display: flex;
 flex-direction: column;
-max-height: 15rem;
-overflow-y: scroll;
 
-gap: .6rem ;
+
 color: #222;
 
 font-size: calc(var(--fsLowest) - 3px);
@@ -57,7 +36,7 @@ font-size: calc(var(--fsLowest) - 3px);
 text-align: center;
 margin: 45px 0;
 width: 100%;
-animation: ${({ $open }) => ($open ? 'none' : moveAnimation)} 1s ease-in-out forwards;
+display: ${({ $open }) => ($open ? 'block' : 'none')};
 
 `
 
@@ -91,6 +70,7 @@ border-radius: var(--br) ;
 
 border: none;
 cursor: pointer;
+margin: 2px auto;
 &:hover{
     background-color: #1f5fba;
 

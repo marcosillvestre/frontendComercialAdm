@@ -12,10 +12,11 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import PropTypes from 'prop-types';
 import React from 'react';
-import LoadingSpin from 'react-loading-spin';
+import { parseDates } from '../../../app/utils/functions/getDates.jsx';
 import { useOrders } from '../../../hooks/orders/ordersContext.hook';
 import { MultiFilters } from '../../arrayFilters/multiFilters/index.jsx';
 import { CloserClick } from '../../closeClick';
+import { Loading } from '../../loadingSpin/index.jsx';
 import { MultiAlterationOrders } from '../../multiAlteration.Orders';
 import { PopOverOrder } from '../../popovers/popOverOrders';
 import { Tag } from '../../Tag';
@@ -36,7 +37,7 @@ function Row(props) {
     }
 
     const tenDaysAhead = `Data de entrega: ${new Date(new Date(row.created_at).setDate(new Date(row.created_at).getDate() + 10)).toLocaleDateString("pt-br")}`
-    const created = new Date(row.created_at).setUTCHours(10)
+
 
     return (
         <React.Fragment>
@@ -67,7 +68,7 @@ function Row(props) {
                     <p
                         title={tenDaysAhead}
                     >
-                        {new Date(created).toLocaleDateString("pt-BR")}
+                        {parseDates(row.created_at)}
                     </p>
                 </TableCell>
                 <TableCell align="center" component="th" scope="row">{row.withdraw && new Date(row.withdraw).toLocaleString()}</TableCell>
@@ -166,6 +167,9 @@ export default function TableOrders() {
         !bool && setCheckData([])
 
         document.querySelectorAll("input[type='checkbox']").forEach((checkbox) => {
+
+            console.log(checkbox)
+
             setChecked(bool)
             checkbox.checked = bool;
         });
@@ -182,132 +186,118 @@ export default function TableOrders() {
                 }}
             />
             <ContainerTable component={Paper}>
-                <Paper sx={{ width: '100%' }}>
-                    {
-                        isPending ?
-                            <div style={{
-                                width: "100%",
-                                display: 'flex',
-                                justifyContent: 'center',
-                                padding: "5rem 0"
-                            }}>
+                <div className='table_tag'>
 
-                                <LoadingSpin
-                                    duration="4s"
-                                    width="15px"
-                                    timingFunction="ease-in-out"
-                                    direction="alternate"
-                                    size="60px"
-                                    primaryColor="#1976d2"
-                                    secondaryColor="#333"
-                                    numberOfRotationsInAnimation={3}
-                                />
-                            </div>
-                            :
-                            <Container>
-                                <nav>
+                    <h3>Lista de pedidos</h3>
 
-                                    <span
-                                        className='flex'
+                    <div
+                        className='flex'
+                    >
+                        <span
+                            className='flex'
+
+                        >
+                            <MultiAlterationOrders
+                                element={1}
+                                able={checkData.length > 0}
+                                label={"ações em lote"}
+                            />
+                            {
+                                checkData.length > 0 &&
+                                <div>
+                                    <ButtonSellected
+                                        className='defaultButton blueButton'
+                                        onMouseOver={() => setView(true)}
+
+                                        onClick={() => {
+                                            setView(!view)
+                                            const { order: orderQueried, count: countQueried } = data
+
+                                            setQueryOrder(view ?
+                                                { order: orderQueried, count: countQueried } :
+                                                { order: checkData, count: checkData.length }
+                                            )
+                                        }
+                                        }
                                     >
-                                        <span
-                                            className='flex'
+                                        {checkData.length} pedido(s) selecionado(s)
+                                    </ButtonSellected>
 
-                                        >
-                                            <MultiAlterationOrders
-                                                element={1}
-                                                able={checkData.length > 0}
-                                                label={"ações em lote"}
-                                            />
-                                            {
-                                                checkData.length > 0 &&
-                                                <>
-                                                    <ButtonSellected
-                                                        className='defaultButton blueButton'
-                                                        onMouseOver={() => setView(true)}
+                                    <button
+                                        className='defaultButton redButton'
+                                        onClick={() => checkAll(false)}
+                                    >
+                                        Desmarcar todos
+                                    </button>
 
-                                                        onClick={() => {
-                                                            setView(!view)
-                                                            const { order: orderQueried, count: countQueried } = data
+                                    <span>
 
-                                                            setQueryOrder(view ?
-                                                                { order: orderQueried, count: countQueried } :
-                                                                { order: checkData, count: checkData.length }
-                                                            )
-                                                        }
-                                                        }
-                                                    >
-                                                        {checkData.length} pedido(s) selecionado(s)
-                                                    </ButtonSellected>
-                                                    <span>
-
-                                                        {
-                                                            view &&
-                                                            <>
-                                                                <CloserClick
-                                                                    open={view}
-                                                                    fn={setView} opacity={0.01}
-                                                                />
-                                                                <SellectedView
-                                                                >
-                                                                    {checkData &&
-                                                                        checkData.map((res, i) => (
-                                                                            <span
-                                                                                key={i}
-                                                                                className='container-sellected-view'
-                                                                                onClick={() => {
-                                                                                    let filtered = checkData.filter(t => t.id !== res.id);
-                                                                                    setCheckData(filtered)
-                                                                                }}
-                                                                            >
-                                                                                <p>{res.name}</p>
-                                                                                <i title='remover'>
-                                                                                    <CloseIcon />
-                                                                                </i>
-                                                                            </span>
-                                                                        ))}
-                                                                </SellectedView>
-                                                            </>
-                                                        }
-
-                                                    </span>
-
-                                                    <button
-                                                        className='defaultButton redButton'
-                                                        onClick={() => checkAll(false)}
-                                                    >
-                                                        Desmarcar todos
-                                                    </button>
-                                                </>
-                                            }
-
-
-                                        </span>
-
-                                        <ButtonContainer
-                                            able={checkData.length > 0}
-                                            onClick={() => {
-                                                if (checkData.some(res => res.name !== checkData[0].name))
-                                                    return alert("Você só pode emitir um recibo para o mesmo dono")
-
-                                                setOrders(checkData)
-                                            }}
-
-                                            to={
-                                                !checkData.some(res => res.name !== checkData[0].name)
-                                                && `invoice`
-                                            }
-                                        >
-
-                                            recibo
-                                        </ButtonContainer>
-
+                                        {
+                                            view &&
+                                            <>
+                                                <CloserClick
+                                                    open={view}
+                                                    fn={setView} opacity={0.01}
+                                                />
+                                                <SellectedView
+                                                >
+                                                    {checkData &&
+                                                        checkData.map((res, i) => (
+                                                            <span
+                                                                key={i}
+                                                                className='container-sellected-view'
+                                                                onClick={() => {
+                                                                    let filtered = checkData.filter(t => t.id !== res.id);
+                                                                    setCheckData(filtered)
+                                                                }}
+                                                            >
+                                                                <p>{res.name}</p>
+                                                                <i title='remover'>
+                                                                    <CloseIcon />
+                                                                </i>
+                                                            </span>
+                                                        ))}
+                                                </SellectedView>
+                                            </>
+                                        }
 
                                     </span>
 
+                                </div>
+                            }
 
 
-                                </nav>
+
+                        </span>
+
+
+                        <ButtonContainer
+                            className='defaultButton'
+                            able={checkData.length > 0}
+                            onClick={() => {
+                                if (checkData.some(res => res.name !== checkData[0].name))
+                                    return alert("Você só pode emitir um recibo para o mesmo dono")
+
+                                setOrders(checkData)
+                            }}
+
+                            to={
+                                !checkData.some(res => res.name !== checkData[0].name)
+                                && `invoice`
+                            }
+                        >
+
+                            recibo
+                        </ButtonContainer>
+                    </div>
+                </div>
+
+                <Paper sx={{ width: '100%' }}>
+                    {
+                        isPending ?
+                            <Loading />
+                            :
+                            <Container>
 
                                 <Table aria-label="collapsible table">
                                     <TableHead>
@@ -390,6 +380,8 @@ export default function TableOrders() {
                                                     Situação
                                                 </ContainerOrder>
                                             </TableCell>
+                                            <TableCell />
+
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>

@@ -82,7 +82,7 @@ html{
     text-transform: uppercase;
     user-select: none;
     z-index: 12;
-    
+    padding: 0 1rem;
     
     border: none;
     border-radius: var(--br);

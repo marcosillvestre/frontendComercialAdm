@@ -1,5 +1,6 @@
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
 import { Link } from 'react-router-dom'
+import { BillingsMoreFilters } from '../../../../components/multiFilters/moreFilters.billings'
 import BillingTable from '../../../../components/tables/tableBillings'
 import { useBilling } from '../../../../hooks/billingRules/billingRulesContext.hook'
 import { useUser } from '../../../../hooks/userContext'
@@ -35,6 +36,8 @@ export function BillingRules() {
                 </button>
             </nav>
             <Header>
+                <BillingsMoreFilters />
+
             </Header>
 
 

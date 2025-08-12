@@ -24,8 +24,10 @@ export const BillingsProvider = ({ children }) => {
     const [query, setQuery] = useState("")
 
     const [queryBilling, setQueryBilling] = useState({ Billings: [], total: 0 })
-
     const { userData, logOut } = useUser()
+    const [typeFilter, setTypeFilter] = useState([]);
+
+
 
     const queriesBilling = async () => {
         const response = await URI.post(`/reguas`, {
@@ -33,14 +35,15 @@ export const BillingsProvider = ({ children }) => {
             skip,
             orderBy,
             query,
-            orderFor
+            orderFor,
+            typeFilter
         })
         return response.data
     }
 
     const BillingQuery = useQuery({
         queryFn: () => queriesBilling(),
-        queryKey: ["Billing", take, skip, orderBy, query, orderFor],
+        queryKey: ["Billing", take, skip, orderBy, query, orderFor, JSON.stringify(typeFilter)],
         enabled: userData?.name !== undefined && userData.role !== undefined
 
     })
@@ -68,7 +71,7 @@ export const BillingsProvider = ({ children }) => {
 
         if (BillingQuery.isSuccess) gatherData()
 
-    }, [take, skip, orderBy, query, BillingQuery.isSuccess, orderFor])
+    }, [take, skip, orderBy, query, BillingQuery.isSuccess, orderFor, JSON.stringify(typeFilter)])
 
 
 
@@ -92,7 +95,7 @@ export const BillingsProvider = ({ children }) => {
         onSuccess: (_, variables) => {
 
             queryClient.setQueryData(
-                ["Billing", take, skip, orderBy, query, orderFor],
+                ["Billing", take, skip, orderBy, query, orderFor, JSON.stringify(typeFilter)],
                 (oldData) => {
 
                     return setQueryBilling({
@@ -130,7 +133,7 @@ export const BillingsProvider = ({ children }) => {
 
 
             queryClient.setQueryData(
-                ["Billing", take, skip, orderBy, query, orderFor],
+                ["Billing", take, skip, orderBy, query, orderFor, JSON.stringify(typeFilter)],
                 (oldData) => {
 
                     return setQueryBilling({
@@ -169,7 +172,7 @@ export const BillingsProvider = ({ children }) => {
 
 
             queryClient.setQueryData(
-                ["Billing", take, skip, orderBy, query, orderFor],
+                ["Billing", take, skip, orderBy, query, orderFor, JSON.stringify(typeFilter)],
                 (oldData) => {
 
                     return setQueryBilling({
@@ -182,7 +185,11 @@ export const BillingsProvider = ({ children }) => {
         }
     })
 
+    const removeFilter = (data) => {
+        const filtered = typeFilter.filter(res => res.id !== data.id)
 
+        return setTypeFilter(filtered)
+    }
 
     return (
         <BillingContext.Provider value={{
@@ -204,7 +211,11 @@ export const BillingsProvider = ({ children }) => {
 
             queryBilling,
 
-            deleteBilling
+            deleteBilling,
+
+            removeFilter,
+            setTypeFilter,
+            typeFilter
         }}>
 
             {children}

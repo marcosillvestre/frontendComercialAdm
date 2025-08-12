@@ -34,17 +34,7 @@ height: fit-content;
 `
 
 
-export const Container = styled.main`
-nav{
-    align-items: center;
-    gap: 1rem;
 
-    span{
-        justify-content: space-between;
-        padding: .1rem;
-    }
-}
-`
 
 export const ContainerOrder = styled.span`
 display: flex;

@@ -12,10 +12,11 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import LoadingSpin from 'react-loading-spin';
+import { parseDates } from '../../../app/utils/functions/getDates';
 import { useRequests } from '../../../hooks/requests/requestsContext.hook';
+import { Loading } from '../../loadingSpin';
 import { Tag } from '../../Tag';
-import { Container, ContainerOrder, ContainerTable } from './styles';
+import { ContainerOrder, ContainerTable } from './styles';
 function Row(props) {
     const { row } = props;
     const [open, setOpen] = useState(false)
@@ -39,7 +40,7 @@ function Row(props) {
                 <TableCell align="center" component="th" scope="row"
                 >
 
-                    {new Date(row.created_at).toLocaleDateString("pt-BR")}
+                    {parseDates(row.created_at)}
 
                 </TableCell>
                 <TableCell align="center" component="th" scope="row">{row.codeRequest} </TableCell>
@@ -210,34 +211,23 @@ export default function TableRequests() {
         setTake(+event.target.value);
     };
 
-    const style = {
-        fontSize: "9px",
-        width: "100%",
-        boxShadow: "4px 10px 20px -12px rgba(0,0,0,0.62)"
-    }
-
-
 
 
     return (
-        <div style={style}>
-            {
-                isPending ?
-                    <LoadingSpin
-                        duration="4s"
-                        width="15px"
-                        timingFunction="ease-in-out"
-                        direction="alternate"
-                        size="60px"
-                        primaryColor="#1976d2"
-                        secondaryColor="#333"
-                        numberOfRotationsInAnimation={3}
-                    />
-                    :
-                    <Container>
+        < >
 
-                        <ContainerTable component={Paper}>
-                            <Paper >
+
+            <ContainerTable component={Paper}>
+                <div className='table_tag'>
+
+                    <h3>Lista de registro de pedidos</h3>
+                </div>
+                <Paper >
+                    {
+                        isPending ?
+                            <Loading />
+                            :
+                            <>
                                 <Table aria-label="collapsible table">
                                     <TableHead>
                                         <TableRow sx={{ borderBottom: 'unset' }}>
@@ -309,6 +299,7 @@ export default function TableRequests() {
                                             ))}
                                     </TableBody>
                                 </Table>
+
                                 <TablePagination
 
                                     rowsPerPageOptions={[10, 20, 50, 100]}
@@ -319,10 +310,11 @@ export default function TableRequests() {
                                     onPageChange={handleChangePage}
                                     onRowsPerPageChange={handleChangeRowsPerPage}
                                 />
-                            </Paper>
-                        </ContainerTable>
-                    </Container>
-            }
-        </div>
+                            </>
+                    }
+                </Paper>
+            </ContainerTable>
+
+        </>
     );
 }

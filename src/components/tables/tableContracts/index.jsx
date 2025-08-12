@@ -103,6 +103,10 @@ export default function TableContracts() {
     return (
 
         <ContainerTable component={Paper}>
+            <div className='table_tag'>
+
+                <h3>Lista de possíveis contratos</h3>
+            </div>
             <Paper sx={{ width: '100%' }}>
 
 

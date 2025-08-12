@@ -10,14 +10,14 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import PropTypes from 'prop-types';
 import React from 'react';
-import LoadingSpin from 'react-loading-spin';
-import { treatingDates } from '../../../app/utils/functions/getDates';
+import { parseDates } from '../../../app/utils/functions/getDates';
 // import email from '../../../assets/envelope.svg';
 // import wpp from '../../../assets/whatsapp.svg';
-import DoneIcon from '@mui/icons-material/Done';
-import DoNotDisturbAltIcon from '@mui/icons-material/DoNotDisturbAlt';
 import { useBilling } from '../../../hooks/billingRules/billingRulesContext.hook';
+import { MultiFilters } from '../../arrayFilters/multiFilters';
+import { Loading } from '../../loadingSpin';
 import { PopOverBilling } from '../../popovers/popOverBilling';
+import { Tag } from '../../Tag';
 import { Container, ContainerOrder, ContainerTable } from './styles';
 
 function Row(props) {
@@ -38,13 +38,26 @@ function Row(props) {
                 }
             }}>
 
-                <TableCell align="center" component="th" scope="row"
-                >
-                    {treatingDates(row.created_at)}
+                <TableCell align="center" component="th" scope="row">
+                    {parseDates(row.created_at)}
                 </TableCell>
                 <TableCell align="center" component="th" scope="row">{row.name} </TableCell>
-                <TableCell align="center" component="th" scope="row">{row.description}</TableCell>
-                <TableCell align="center" component="th" scope="row">{translate[row.category]}</TableCell>
+                <TableCell align="center" component="th" scope="row">
+                    <Tag
+                        data={{
+                            label: `${row.description.slice(0, 60)}...`,
+                            title: row.description
+                        }}
+                    />
+                </TableCell>
+                <TableCell align="center" component="th" scope="row">
+                    <Tag
+                        data={{
+                            label: translate[row.category],
+                            color: '#9ac8e3',
+                        }}
+                    />
+                </TableCell>
                 <TableCell align="center" component="th" scope="row">{row.daysToAction}</TableCell>
                 <TableCell align="center" component="th" scope="row">
                     <ContainerOrder>
@@ -62,7 +75,14 @@ function Row(props) {
                         }
                     </ContainerOrder>
                 </TableCell>
-                <TableCell align="center">{row.status === true ? <DoneIcon /> : <DoNotDisturbAltIcon />}</TableCell>
+                <TableCell align="center">
+                    <Tag
+                        data={{
+                            label: row.status ? "ATIVO" : "INATIVO",
+                            color: row.status ? "#a2e67e" : "#e6937e",
+                        }}
+                    />
+                </TableCell>
 
                 <TableCell align="center" component="th" scope="row">
                     <PopOverBilling row={row} />
@@ -99,7 +119,8 @@ Row.propTypes = {
 
 export default function BillingTable() {
     const { setSkip, take, setTake, orderFor, orderBy,
-        setOrderFor, setOrderBy, BillingQuery, queryBilling } = useBilling()
+        setOrderFor, setOrderBy, BillingQuery, queryBilling, removeFilter,
+        setTypeFilter, typeFilter } = useBilling()
 
     const { isPending } = BillingQuery
 
@@ -128,123 +149,118 @@ export default function BillingTable() {
 
 
     return (
-        <ContainerTable component={Paper}>
-            <Paper >
 
-                {
-                    isPending ?
-                        <div
-                            style={{
-                                width: "100%",
-                                display: 'flex',
-                                justifyContent: 'center',
-                                padding: "5rem 0"
-                            }}
-                        >
-                            <LoadingSpin
-                                duration="4s"
-                                width="15px"
-                                timingFunction="ease-in-out"
-                                direction="alternate"
-                                size="60px"
-                                primaryColor="#1976d2"
-                                secondaryColor="#333"
-                                numberOfRotationsInAnimation={3}
-                            />
-                        </div>
-                        :
-                        <Container>
+        <>
+            <MultiFilters
+                data={{
+                    removeFilter: removeFilter,
+                    setType: setTypeFilter,
+                    types: typeFilter
+                }}
+            />
+            <ContainerTable component={Paper}>
+                <div className='table_tag'>
+                    <h3>Lista de réguas de cobranças </h3>
+                </div>
+                <Paper >
+
+                    {
+                        isPending ?
+                            <Loading />
+                            :
+                            <Container>
 
 
-                            <Table aria-label="collapsible table">
-                                <TableHead>
-                                    <TableRow sx={{ borderBottom: 'unset' }}>
+                                <Table aria-label="collapsible table">
+                                    <TableHead>
+                                        <TableRow sx={{ borderBottom: 'unset' }}>
 
-                                        <TableCell align="center">
-                                            <ContainerOrder>
-                                                Data de criação
+                                            <TableCell align="center">
+                                                <ContainerOrder>
+                                                    Data de criação
 
-                                                {
-                                                    orderBy !== "created_at" &&
-                                                    <SwapVertIcon onClick={() => setOrderBy("created_at")} />
-                                                }
-                                                {
-                                                    orderBy === "created_at" && orderFor === "asc" &&
-                                                    <ArrowDownwardIcon onClick={() => setOrderFor("desc")} />
-                                                }
-                                                {
-                                                    orderBy === "created_at" && orderFor === "desc" &&
-                                                    <ArrowUpwardIcon onClick={() => setOrderFor("asc")} />
-                                                }
-                                            </ContainerOrder>
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <ContainerOrder>
-                                                Nome
+                                                    {
+                                                        orderBy !== "created_at" &&
+                                                        <SwapVertIcon onClick={() => setOrderBy("created_at")} />
+                                                    }
+                                                    {
+                                                        orderBy === "created_at" && orderFor === "asc" &&
+                                                        <ArrowDownwardIcon onClick={() => setOrderFor("desc")} />
+                                                    }
+                                                    {
+                                                        orderBy === "created_at" && orderFor === "desc" &&
+                                                        <ArrowUpwardIcon onClick={() => setOrderFor("asc")} />
+                                                    }
+                                                </ContainerOrder>
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                <ContainerOrder>
+                                                    Nome
 
-                                            </ContainerOrder>
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <ContainerOrder>
-                                                Descrição
-                                            </ContainerOrder>
+                                                </ContainerOrder>
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                <ContainerOrder>
+                                                    Descrição
+                                                </ContainerOrder>
 
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <ContainerOrder>
-                                                Categoria
-                                            </ContainerOrder>
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                <ContainerOrder>
+                                                    Categoria
+                                                </ContainerOrder>
 
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <ContainerOrder>
-                                                Dias para ação
-                                                {
-                                                    orderBy !== "daysToAction" &&
-                                                    <SwapVertIcon onClick={() => setOrderBy("daysToAction")} />
-                                                }
-                                                {
-                                                    orderBy === "daysToAction" && orderFor === "asc" &&
-                                                    <ArrowDownwardIcon onClick={() => setOrderFor("desc")} />
-                                                }
-                                                {
-                                                    orderBy === "daysToAction" && orderFor === "desc" &&
-                                                    <ArrowUpwardIcon onClick={() => setOrderFor("asc")} />
-                                                }
-                                            </ContainerOrder>
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            Meios de cobrança
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            Status
-                                        </TableCell>
-                                        <TableCell align="center" />
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {
-                                        billing &&
-                                        billing.map((row) => (
-                                            <Row key={row.id} row={row} />
-                                        ))}
-                                </TableBody>
-                            </Table>
-                            <TablePagination
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                <ContainerOrder>
+                                                    Dias para ação
+                                                    {
+                                                        orderBy !== "daysToAction" &&
+                                                        <SwapVertIcon onClick={() => setOrderBy("daysToAction")} />
+                                                    }
+                                                    {
+                                                        orderBy === "daysToAction" && orderFor === "asc" &&
+                                                        <ArrowDownwardIcon onClick={() => setOrderFor("desc")} />
+                                                    }
+                                                    {
+                                                        orderBy === "daysToAction" && orderFor === "desc" &&
+                                                        <ArrowUpwardIcon onClick={() => setOrderFor("asc")} />
+                                                    }
+                                                </ContainerOrder>
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                Meios de cobrança
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                Status
+                                            </TableCell>
+                                            <TableCell align="center" />
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {
+                                            billing &&
+                                            billing.map((row) => (
+                                                <Row key={row.id} row={row} />
+                                            ))}
+                                    </TableBody>
+                                </Table>
+                                <TablePagination
 
-                                rowsPerPageOptions={[10, 20, 50, 100]}
-                                component="div"
-                                count={total}
-                                rowsPerPage={rowsPerPage}
-                                page={page}
-                                onPageChange={handleChangePage}
-                                onRowsPerPageChange={handleChangeRowsPerPage}
-                            />
+                                    rowsPerPageOptions={[10, 20, 50, 100]}
+                                    component="div"
+                                    count={total}
+                                    rowsPerPage={rowsPerPage}
+                                    page={page}
+                                    onPageChange={handleChangePage}
+                                    onRowsPerPageChange={handleChangeRowsPerPage}
+                                />
 
-                        </Container>
-                }
-            </Paper>
-        </ContainerTable >
+                            </Container>
+                    }
+                </Paper>
+            </ContainerTable >
+        </>
 
     );
 }

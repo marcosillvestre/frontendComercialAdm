@@ -91,7 +91,9 @@ Row.propTypes = {
 
 export function CampaignTable() {
     const { campaignQuery, setSkip, setTake, take, campaignQueries,
-        setOrderBy, orderBy, orderFor, setOrderFor, removeFilter, typeFilter, setTypeFilter } = useCampaign()
+        setOrderBy, orderBy, orderFor, setOrderFor, removeFilter,
+        typeFilter, setTypeFilter } = useCampaign();
+
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
 
