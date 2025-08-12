@@ -63,7 +63,8 @@ export const ContractData = () => {
         contaAzul: "Ao enviar um contrato ao Conta Azul ele somente estará disponível no Conta Azul!"
     }
 
-    const { campaignQuery } = useCampaign();
+    const { campaignQueries } = useCampaign();
+    const { campaigns } = campaignQueries;
 
 
     const [paymentParcels, setPaymentParcels] = useState({
@@ -113,12 +114,8 @@ export const ContractData = () => {
         "pix": 0.25,
     }
 
-
-
     const defineDescountValueForTypePayment = (fullValue, parcelsNumber, type, table) => {
-
-
-        if (table[type] ?? true) return alert("Forma de pagamento impróprio, confira seus dados")
+        if (table[type] === undefined) return alert("Forma de pagamento impróprio, confira seus dados")
 
         const value = (fullValue / parcelsNumber) * table[type];
 
@@ -233,8 +230,9 @@ export const ContractData = () => {
         let material;
         let tax;
 
+
         for (const element of settedCampaign) {
-            const campaignFiltered = campaignQuery.data.find(res => res.name === element && res.status === true)
+            const campaignFiltered = campaigns.find(res => res.name === element && res.status === true)
 
             if (!campaignFiltered) continue
 
