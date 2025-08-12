@@ -10,9 +10,9 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import PropTypes from 'prop-types';
 import React from 'react';
-import LoadingSpin from 'react-loading-spin';
 import { parseDates } from '../../../app/utils/functions/getDates';
 import { useSupliers } from '../../../hooks/supliers/supliersContext.hook';
+import { Loading } from '../../loadingSpin';
 import { PopOverSuplier } from '../../popovers/popOverSuplier';
 import { Container, ContainerOrder, ContainerTable } from './styles';
 
@@ -108,25 +108,7 @@ export default function SupliersTable() {
 
                 {
                     isPending ?
-                        <div
-                            style={{
-                                width: "100%",
-                                display: 'flex',
-                                justifyContent: 'center',
-                                padding: "5rem 0"
-                            }}
-                        >
-                            <LoadingSpin
-                                duration="4s"
-                                width="15px"
-                                timingFunction="ease-in-out"
-                                direction="alternate"
-                                size="60px"
-                                primaryColor="#1976d2"
-                                secondaryColor="#333"
-                                numberOfRotationsInAnimation={3}
-                            />
-                        </div>
+                        <Loading />
                         :
                         <Container>
 

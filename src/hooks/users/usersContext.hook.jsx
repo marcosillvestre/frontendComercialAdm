@@ -22,6 +22,7 @@ export const UsersProvider = ({ children }) => {
     const [orderFor, setOrderFor] = useState("desc")
     const [orderBy, setOrderBy] = useState("name")
 
+    const [typeFilter, setTypeFilter] = useState([])
 
 
     const queryUsers = async () => {
@@ -30,6 +31,7 @@ export const UsersProvider = ({ children }) => {
             skip,
             orderFor,
             orderBy,
+            typeFilter
         })
 
         return response.data
@@ -37,7 +39,7 @@ export const UsersProvider = ({ children }) => {
 
     const UsersQuery = useQuery({
         queryFn: () => queryUsers(),
-        queryKey: ["users", take, skip, orderFor, orderBy],
+        queryKey: ["users", take, skip, orderFor, orderBy, JSON.stringify(typeFilter)],
         // enabled: !headers.Authorization.includes("undefined")
     })
 
@@ -55,9 +57,7 @@ export const UsersProvider = ({ children }) => {
 
         if (UsersQuery.isSuccess) gatherData()
 
-    }, [
-        take, skip, UsersQuery.data, orderFor, orderBy,
-    ])
+    }, [take, skip, UsersQuery.data, orderFor, orderBy, JSON.stringify(typeFilter)])
 
 
     const UserCreate = async (body) => {
@@ -91,7 +91,7 @@ export const UsersProvider = ({ children }) => {
             // setOpenSidebar(false);
 
             queryClient.setQueryData(
-                ["users", take, skip, orderFor, orderBy],
+                ["users", take, skip, orderFor, orderBy, JSON.stringify(typeFilter)],
                 (oldData) => {
 
                     return setQueryUser({
@@ -138,7 +138,7 @@ export const UsersProvider = ({ children }) => {
             setOpenSidebar(false);
 
             queryClient.setQueryData(
-                ["users", take, skip, orderFor, orderBy],
+                ["users", take, skip, orderFor, orderBy, JSON.stringify(typeFilter)],
                 (oldData) => {
 
                     return setQueryUser({
@@ -179,7 +179,7 @@ export const UsersProvider = ({ children }) => {
 
 
             queryClient.setQueryData(
-                ["users", take, skip, orderFor, orderBy],
+                ["users", take, skip, orderFor, orderBy, JSON.stringify(typeFilter)],
                 (oldData) => {
 
                     return setQueryUser({
@@ -194,15 +194,21 @@ export const UsersProvider = ({ children }) => {
 
 
 
+    const removeFilter = (data) => {
+        const filtered = typeFilter.filter(res => res.id !== data.id)
 
+        return setTypeFilter(filtered)
+    }
 
     return (
         <UsersContext.Provider value={{
             createUsers,
             UsersQuery,
-            // person,
-            // setPerson,
-            // multiUnities, setMultiUnities,
+
+            removeFilter,
+            setTypeFilter,
+            typeFilter,
+
             updateUser,
 
             take,

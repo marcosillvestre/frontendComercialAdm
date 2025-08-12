@@ -12,7 +12,7 @@ p{
     margin-bottom: .2rem;
 }
 
-nav{
+.nav{
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -57,7 +57,6 @@ background-color: #ededed;
 padding: 1rem 2rem  ;
 border-radius: .5rem;
 margin-bottom: 3rem ;
-/* position: relative; */
 
 
 `
@@ -77,10 +76,8 @@ padding: 1rem 3rem;
 margin-bottom: 1.5rem;
 nav{
     width:100%;
-    justify-content: space-between;
     display: flex;
     align-items: center;
-    margin: 0 3rem;
     gap: 1rem;
 }
 @media(max-width:760px){
