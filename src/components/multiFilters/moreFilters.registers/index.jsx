@@ -3,11 +3,11 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { alpha, styled } from '@mui/material/styles';
-import LoadingSpin from 'react-loading-spin';
 import { useRegister } from '../../../hooks/registers/registersContext.hook.jsx';
 import { useUnities } from '../../../hooks/unities/unitiesContext.hook.jsx';
 import { useUser } from '../../../hooks/userContext.jsx';
 import { CustomDateMenuRegisters } from '../../customDateMenu/filteringMenu.Registers/index.jsx';
+import { Loading } from '../../loadingSpin/index.jsx';
 import { Buttonn, Container } from './styles.jsx';
 
 const StyledMenu = styled((props) => (
@@ -165,16 +165,7 @@ export function RegisterMoreFilters() {
 
                 {
                     isPending ?
-                        <LoadingSpin
-                            duration="4s"
-                            width="15px"
-                            timingFunction="ease-in-out"
-                            direction="alternate"
-                            size="60px"
-                            primaryColor="#1976d2"
-                            secondaryColor="#333"
-                            numberOfRotationsInAnimation={3}
-                        />
+                        <Loading />
                         :
                         filters.map((res, index) => (
                             <MenuItem disableRipple key={index}>

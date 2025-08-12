@@ -10,8 +10,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import PropTypes from 'prop-types';
 import React from 'react';
-import LoadingSpin from 'react-loading-spin';
 import { useSignContracts } from '../../../hooks/signContracts/sign.hook.jsx';
+import { Loading } from '../../loadingSpin/index.jsx';
 import { ContainerOrder, ContainerTable, RowTable } from './styles.jsx';
 
 function Row(props) {
@@ -112,24 +112,7 @@ export default function TableContracts() {
 
                 {
                     isPending || isFetching ?
-                        <div style={{
-                            width: "100%",
-                            display: 'flex',
-                            justifyContent: 'center',
-                            padding: "5rem 0"
-                        }}>
-
-                            <LoadingSpin
-                                duration="4s"
-                                width="15px"
-                                timingFunction="ease-in-out"
-                                direction="alternate"
-                                size="60px"
-                                primaryColor="#1976d2"
-                                secondaryColor="#333"
-                                numberOfRotationsInAnimation={2}
-                            />
-                        </div>
+                        <Loading />
                         :
                         <Table aria-label="collapsible table">
                             <TableHead>

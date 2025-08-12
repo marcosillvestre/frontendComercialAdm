@@ -14,7 +14,6 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import PropTypes from 'prop-types';
 import * as React from 'react';
-import LoadingSpin from 'react-loading-spin';
 import { parseDates } from '../../../app/utils/functions/getDates.jsx';
 import colorsRules from '../../../app/utils/Rules/colors.jsx';
 import businessRules from '../../../app/utils/Rules/options.jsx';
@@ -22,6 +21,7 @@ import { useRegister } from '../../../hooks/registers/registersContext.hook.jsx'
 import { useUnities } from '../../../hooks/unities/unitiesContext.hook.jsx';
 import { useUser } from '../../../hooks/userContext';
 import { MultiFilters } from '../../arrayFilters/multiFilters/index.jsx';
+import { Loading } from '../../loadingSpin/index.jsx';
 import { UniqueSelect } from '../../selects/UniqueSelect/index.jsx';
 import { PopOverControl } from '../../source';
 import { ContractInfo } from './contractInfo';
@@ -348,24 +348,7 @@ export default function CollapsibleTable() {
 
                     {
                         isPending ?
-                            <div style={{
-                                width: "100%",
-                                display: 'flex',
-                                justifyContent: 'center',
-                                padding: "5rem 0"
-                            }}>
-
-                                <LoadingSpin
-                                    duration="4s"
-                                    width="15px"
-                                    timingFunction="ease-in-out"
-                                    direction="alternate"
-                                    size="60px"
-                                    primaryColor="#1976d2"
-                                    secondaryColor="#333"
-                                    numberOfRotationsInAnimation={2}
-                                />
-                            </div>
+                            <Loading />
                             :
                             <Container>
 

@@ -4,12 +4,12 @@ import Fade from '@mui/material/Fade';
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
-import LoadingSpin from 'react-loading-spin';
 
 // import URI from '../../app/utils/utils';
 import CloseIcon from '@mui/icons-material/Close';
 import { useOrders } from '../../../hooks/orders/ordersContext.hook';
 import { useUser } from '../../../hooks/userContext';
+import { Loading } from '../../loadingSpin';
 import { Boxes, ContainerComment, Filter, Header } from './styles';
 
 const style = {
@@ -45,6 +45,7 @@ export function ObservationsOrders(info) {
 
     const comment = React.useRef()
 
+
     const addComment = () => {
         setLoad(true)
         const commentText = comment.current.value
@@ -70,8 +71,8 @@ export function ObservationsOrders(info) {
 
 
     return (
-        <div>
-            <Filter onClick={handleFuncs}> Observações</Filter>
+        <>
+            <Filter onClick={handleFuncs}> Observações {data.observations.length > 0 && <span>!</span>}</Filter>
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
@@ -90,30 +91,22 @@ export function ObservationsOrders(info) {
                     data &&
                     <Fade in={open} style={{ border: "none", borderRadius: ".9rem", width: "40%" }}>
                         <Box sx={style}>
+
                             <Header >
+                                <button onClick={() => handleClose()}>
+                                    <CloseIcon />
+                                </button>
 
                                 <Typography id="transition-modal-title" variant="h6" component="h2">
                                     {data.name}
                                 </Typography>
 
-                                <button onClick={() => handleClose()}>
-                                    <CloseIcon />
-                                </button>
 
                                 {data.book}
                             </Header>
                             {
                                 load ?
-                                    <LoadingSpin
-                                        duration="4s"
-                                        width="15px"
-                                        timingFunction="ease-in-out"
-                                        direction="alternate"
-                                        size="60px"
-                                        primaryColor="#1976d2"
-                                        secondaryColor="#333"
-                                        numberOfRotationsInAnimation={3}
-                                    /> :
+                                    <Loading /> :
                                     <Boxes>
                                         <form action="">
 
@@ -164,6 +157,6 @@ export function ObservationsOrders(info) {
                     </Fade>
                 }
             </Modal>
-        </div>
+        </ >
     );
 }   

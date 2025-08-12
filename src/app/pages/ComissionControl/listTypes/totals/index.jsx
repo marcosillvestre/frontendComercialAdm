@@ -1,4 +1,4 @@
-import LoadingSpin from "react-loading-spin";
+import { Loading } from "../../../../../components/loadingSpin";
 import { Container, TableRow } from "./styles";
 
 export const Totals = (params) => {
@@ -8,16 +8,8 @@ export const Totals = (params) => {
         <Container>
             <table>
                 {
-                    pending ? <LoadingSpin
-                        duration="4s"
-                        width="15px"
-                        timingFunction="ease-in-out"
-                        direction="alternate"
-                        size="60px"
-                        primaryColor="#1976d2"
-                        secondaryColor="#333"
-                        numberOfRotationsInAnimation={3}
-                    />
+                    pending ?
+                        <Loading />
                         :
                         <>
                             <thead>

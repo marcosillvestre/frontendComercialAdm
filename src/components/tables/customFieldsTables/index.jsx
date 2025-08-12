@@ -7,9 +7,9 @@ import PropTypes from 'prop-types';
 import * as React from 'react';
 
 import { Paper, Table, TableBody, TableHead, TablePagination } from '@mui/material';
-import LoadingSpin from 'react-loading-spin';
 import { treatingDates } from '../../../app/utils/functions/getDates.jsx';
 import { useCustomFields } from '../../../hooks/customFields/customFIelds.hook.jsx';
+import { Loading } from '../../loadingSpin/index.jsx';
 import { PopOverCustomFields } from '../../popovers/popOverCustomField/index.jsx';
 import { Tag } from '../../Tag/index.jsx';
 import { ContainerTable } from '../tableSuplier/styles.jsx';
@@ -146,25 +146,7 @@ export default function CustomFieldsTable() {
 
                 {
                     isPending ?
-                        <div
-                            style={{
-                                width: "100%",
-                                display: 'flex',
-                                justifyContent: 'center',
-                                padding: "5rem 0"
-                            }}
-                        >
-                            <LoadingSpin
-                                duration="4s"
-                                width="15px"
-                                timingFunction="ease-in-out"
-                                direction="alternate"
-                                size="60px"
-                                primaryColor="#1976d2"
-                                secondaryColor="#333"
-                                numberOfRotationsInAnimation={3}
-                            />
-                        </div>
+                        <Loading />
                         :
                         <Container>
 

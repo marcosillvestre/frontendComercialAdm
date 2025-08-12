@@ -34,9 +34,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import DoneIcon from '@mui/icons-material/Done';
 
-import LoadingSpin from 'react-loading-spin';
 import * as Yup from 'yup';
 import { senderImpressContract } from '../../../app/utils/functions/makePdfs';
+import { Loading } from '../../loadingSpin';
 
 
 
@@ -350,19 +350,7 @@ export function SureSendModal(data) {
                     <Box sx={style}>
                         {
                             loading ?
-                                <div style={{ display: "grid", gap: "1rem", alignItems: "center" }}>
-                                    <LoadingSpin
-                                        duration="4s"
-                                        width="15px"
-                                        timingFunction="ease-in-out"
-                                        direction="alternate"
-                                        size="60px"
-                                        primaryColor="#1976d2"
-                                        secondaryColor="#333"
-                                        numberOfRotationsInAnimation={3}
-                                    />
-
-                                </div>
+                                <Loading />
                                 :
                                 <div>
 

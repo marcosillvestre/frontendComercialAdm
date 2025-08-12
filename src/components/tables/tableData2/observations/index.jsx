@@ -10,12 +10,12 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import LoadingSpin from 'react-loading-spin';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 import URI from '../../../../app/utils/utils';
 import { useCustomFields } from '../../../../hooks/customFields/customFIelds.hook';
 import { useUser } from '../../../../hooks/userContext';
+import { Loading } from '../../../loadingSpin';
 import { UniqueSelect } from '../../../selects/UniqueSelect';
 import { BodyTable, ChooseArchive, FileContainer, HeadTable, InputsBox, ObservationField, RowTableCustomFields, Text, Trash } from '../styles';
 
@@ -175,17 +175,7 @@ export const Observations = (props) => {
             <Collapse in={Open} timeout="auto" unmountOnExit sx={{ width: "100%" }}>
                 {filePending
                     ?
-                    <LoadingSpin
-                        duration="20s"
-                        width="15px"
-                        timingFunction="ease-in-out"
-                        direction="alternate"
-                        size="60px"
-                        primaryColor="#1976d2"
-                        secondaryColor="#333"
-                        numberOfRotationsInAnimation={10}
-                        margin='0 auto'
-                    /> :
+                    <Loading /> :
                     <>
                         <TableRow>
 

@@ -10,11 +10,11 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import LoadingSpin from 'react-loading-spin';
 import { changeCurrency } from '../../../app/utils/functions/parseNumbers';
 import noData from '../../../assets/noData.svg';
 import { useService } from '../../../hooks/services/servicesContext.hook';
 import { MultiFilters } from '../../arrayFilters/multiFilters/index.jsx';
+import { Loading } from '../../loadingSpin/index.jsx';
 import { PopOverService } from '../../popovers/popOverService';
 import { Tag } from '../../Tag';
 import { ContainerOrder, ContainerTable } from './styles';
@@ -120,23 +120,7 @@ export function ServicesTable() {
                 <Paper>
                     {
                         isPending ?
-                            <div style={{
-                                width: "100%",
-                                display: 'flex',
-                                justifyContent: 'center',
-                                padding: "5rem 0"
-                            }}>
-                                <LoadingSpin
-                                    duration="4s"
-                                    width="15px"
-                                    timingFunction="ease-in-out"
-                                    direction="alternate"
-                                    size="60px"
-                                    primaryColor="#1976d2"
-                                    secondaryColor="#333"
-                                    numberOfRotationsInAnimation={3}
-                                />
-                            </div>
+                            <Loading />
                             :
                             services &&
                                 services.length === 0 ?

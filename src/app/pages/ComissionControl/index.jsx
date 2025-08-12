@@ -8,7 +8,6 @@ import { ChartsContainer, Container, ContainerTable, Header, NavBar, SelectButto
 import { gsap } from 'gsap';
 import { Flip } from 'gsap/Flip';
 
-import LoadingSpin from 'react-loading-spin';
 import { useUnities } from '../../../hooks/unities/unitiesContext.hook.jsx';
 // import { useUsers } from '../../../hooks/users/usersContext.hook.jsx';
 import businessRules from '../../utils/Rules/options.jsx';
@@ -18,6 +17,7 @@ import { saveAs } from 'file-saver';
 import { toast } from 'react-toastify';
 import * as XLSX from 'xlsx';
 import excel from '../../../assets/excel.svg';
+import { Loading } from '../../../components/loadingSpin/index.jsx';
 import { useRegister } from '../../../hooks/registers/registersContext.hook.jsx';
 import { filtrarArray } from '../../utils/functions/multiFilter.jsx';
 
@@ -231,16 +231,7 @@ export function ComissionControll() {
                     >
                         {
                             isPending ?
-                                <LoadingSpin
-                                    duration="4s"
-                                    width="15px"
-                                    timingFunction="ease-in-out"
-                                    direction="alternate"
-                                    size="60px"
-                                    primaryColor="#1976d2"
-                                    secondaryColor="#333"
-                                    numberOfRotationsInAnimation={3}
-                                /> :
+                                <Loading /> :
 
                                 <div className='cell-relatory'>
 
@@ -444,16 +435,7 @@ export function ComissionControll() {
                                 Em breve..
                             </p>
 
-                            <LoadingSpin
-                                duration="4s"
-                                width="15px"
-                                timingFunction="ease-in-out"
-                                direction="alternate"
-                                size="60px"
-                                primaryColor="#1976d2"
-                                secondaryColor="#333"
-                                numberOfRotationsInAnimation={3}
-                            />
+                            <Loading />
                         </div>
                 }
 

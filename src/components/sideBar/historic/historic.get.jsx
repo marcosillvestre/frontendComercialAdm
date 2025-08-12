@@ -1,10 +1,10 @@
-import LoadingSpin from "react-loading-spin";
 import { useUser } from "../../../hooks/userContext";
 import { Card, HistoricCard, Submit } from "../styles";
 
 import businessRules from '../../../app/utils/Rules/options.jsx';
 
 import PropTypes from 'prop-types';
+import { Loading } from "../../loadingSpin/index.jsx";
 
 
 export const Historic = () => {
@@ -24,16 +24,7 @@ export const Historic = () => {
 
             {
                 isPendingHistoric ?
-                    <LoadingSpin
-                        duration="4s"
-                        width="15px"
-                        timingFunction="ease-in-out"
-                        direction="alternate"
-                        size="60px"
-                        primaryColor="#1976d2"
-                        secondaryColor="#333"
-                        numberOfRotationsInAnimation={3}
-                    />
+                    <Loading />
                     :
 
                     historicSuccess &&

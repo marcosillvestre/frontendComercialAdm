@@ -4,6 +4,14 @@ import styled from "styled-components";
 
 export const Filter = styled.button`
 all: unset;
+
+span{
+  color: #fff;
+  background-color: red;
+  padding: 1px 7px;
+  border-radius: var(--br);
+
+}
 `
 
 
@@ -17,17 +25,16 @@ border: 1px dashed;
 border-radius: var(--br);
 position: relative;
 button{
+    all: unset;
     cursor: pointer;
     border: none;
     padding: .3rem;
-    border-radius: 30%;
+    border-radius: 50%;
     width: fit-content;
     position: absolute;
     right: 2px;
     top: 2px;
-    &:hover{
-        background-color: #eaeaea;
-    }
+
 }
 `
 
@@ -78,14 +85,10 @@ main{
   font-size: calc(var(--fsLowest) - 1px);
   padding: 3px;
   border-radius: 3px;
-  border: .1px solid #a3a3a3;
-   word-wrap: break-word; /* Antigo, mas ainda funciona */
-  overflow-wrap: break-word; 
+  border: .1px solid #a3a3a3; 
   p{
-    text-align: justify;
     max-width: 100%;
     
-
   }
 }
 footer{

@@ -5,9 +5,9 @@ import Fade from '@mui/material/Fade';
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
-import LoadingSpin from 'react-loading-spin';
 import { useRegister } from '../../../../hooks/registers/registersContext.hook';
 import { EmptyData } from '../../../emptyData';
+import { Loading } from '../../../loadingSpin';
 import { SureCloseSave } from '../../sureCloseAndSave';
 import { Anexes } from './anexos';
 import { CustomFields } from './customFields';
@@ -144,16 +144,7 @@ export function MoreDataRegisters(info) {
                         <Boxes>
                             {
                                 isPending ?
-                                    <LoadingSpin
-                                        duration="4s"
-                                        width="15px"
-                                        timingFunction="ease-in-out"
-                                        direction="alternate"
-                                        size="60px"
-                                        primaryColor="#1976d2"
-                                        secondaryColor="#333"
-                                        numberOfRotationsInAnimation={2}
-                                    /> :
+                                    <Loading /> :
                                     elements[choosen]
                             }
 

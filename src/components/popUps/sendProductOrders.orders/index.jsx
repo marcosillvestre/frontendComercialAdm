@@ -4,7 +4,6 @@ import Fade from '@mui/material/Fade';
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
-import LoadingSpin from 'react-loading-spin';
 
 // import URI from '../../app/utils/utils';
 import CloseIcon from '@mui/icons-material/Close';
@@ -12,6 +11,7 @@ import { useOrders } from '../../../hooks/orders/ordersContext.hook';
 import { useRequests } from '../../../hooks/requests/requestsContext.hook';
 import { useSupliers } from '../../../hooks/supliers/supliersContext.hook';
 import { useUser } from '../../../hooks/userContext';
+import { Loading } from '../../loadingSpin';
 import { Boxes, Filter, Header, PrevisionContainer, TableProducts } from './styles';
 
 const style = {
@@ -173,16 +173,7 @@ ${checkData[0].unity === 'PTB' ?
                             </Header>
                             {
                                 isPending ?
-                                    <LoadingSpin
-                                        duration="4s"
-                                        width="15px"
-                                        timingFunction="ease-in-out"
-                                        direction="alternate"
-                                        size="60px"
-                                        primaryColor="#1976d2"
-                                        secondaryColor="#333"
-                                        numberOfRotationsInAnimation={3}
-                                    /> :
+                                    <Loading /> :
                                     <Boxes>
                                         <label htmlFor="">
                                             <p>Fornecedor</p>
