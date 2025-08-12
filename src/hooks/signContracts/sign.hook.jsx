@@ -26,8 +26,6 @@ export const SigningContracts = ({ children }) => {
     const [queryFunnels, setQueryFunnels] = useState({ funnels: [], total: 0 });
 
 
-
-
     const funnelsData = async () => {
         const response = await URI.get(`/funis`)
 
@@ -46,7 +44,7 @@ export const SigningContracts = ({ children }) => {
     useLayoutEffect(() => {
         const gatherData = async () => {
 
-            const { data } = funnelsQuery
+            const { data } = funnelsQuery;
             const { funnels, total } = data
 
             setQueryFunnels({ funnels, total })
@@ -61,7 +59,9 @@ export const SigningContracts = ({ children }) => {
     const signData = async () => {
 
         const { data } = funnelsQuery;
-        const id = sign ? sign : data?.funnels[0].value;
+        const { funnels, } = data
+
+        const id = sign ? sign : funnels[0].value;
 
         const url = query ?
             `/contrato-query/${id}?take=${take}&skip=${skip}&name=${query}&orderFor=${orderFor}&orderBy=${orderBy}` :
@@ -76,7 +76,6 @@ export const SigningContracts = ({ children }) => {
         queryFn: () => signData(),
         queryKey: [query, sign, skip, take, orderFor, orderBy],
         enabled: funnelsQuery.isSuccess,
-        retry: false
     })
 
     useLayoutEffect(() => {
@@ -84,6 +83,7 @@ export const SigningContracts = ({ children }) => {
         const gatherData = async () => {
             const { data } = contractsForSign;
             const { contracts, total } = data;
+
 
             const filteredBySellers = contracts.filter(res => res?.seller.toLowerCase()
                 .includes(userData.name.toLowerCase()))
