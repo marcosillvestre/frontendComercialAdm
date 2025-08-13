@@ -500,7 +500,7 @@ export const ContractData = () => {
 
 
     const keys = Object.keys(filteredContracts)
-        .filter(res => res !== 'id' && res !== 'service' && res !== 'tax' && res !== 'material' && res !== 'parcel' && res !== 'products');
+        .filter(res => res !== 'id' && res !== 'service' && res !== 'tax' && res !== 'material' && res !== 'parcel' && res !== 'products' && res !== 'campaigns');
 
     const render = () => {
         setLoading(true);
