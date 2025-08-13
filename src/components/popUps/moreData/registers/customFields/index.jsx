@@ -121,6 +121,7 @@ export const CustomFields = () => {
                                 className='input'
                             >
                                 <InputRegister
+                                    disabled={false}
                                     width="100%"
                                     field={key.name}
                                     label={register.customFields[key.name]}

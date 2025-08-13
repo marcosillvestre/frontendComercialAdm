@@ -23,8 +23,9 @@ color: #222;
 display: flex;
 align-items: center;
 border-radius: var(--br);
-border: .5px solid #a9a9a9;
+border: ${props => props.disabled ? ".5px solid #a9a9a966" : ".5px solid #a9a9a9"};
 min-height: calc(var(--boxHei) - 8px);
+
 
 #selected-value{
     color: #000;
@@ -33,6 +34,8 @@ min-height: calc(var(--boxHei) - 8px);
     width: 100%;
     border: none;
     padding-left: 10px;
+    background-color: transparent;
+
 }
 
 max-height: var(--boxHei);

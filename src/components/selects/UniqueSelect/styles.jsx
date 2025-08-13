@@ -63,7 +63,7 @@ padding: .4rem .75rem;
 display: flex;
 align-items: center;
 border-radius: var(--br);
-border: .5px solid #a9a9a9;
+border: ${props => props.noOptions ? ".5px solid #f74949" : ".5px solid #a9a9a9"};
 min-height: calc(var(--boxHei) - 8px);
 
 #selected-value{

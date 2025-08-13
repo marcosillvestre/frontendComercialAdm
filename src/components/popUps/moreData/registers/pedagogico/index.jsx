@@ -18,7 +18,7 @@ export const Pedagogic = () => {
 
     const customFieldsFiltered = customFields.filter(res => res.category === "Pedagogico")
 
-    
+
 
     const customFieldsChanger = (key, value) => {
 
@@ -123,6 +123,7 @@ export const Pedagogic = () => {
                                 className='input'
                             >
                                 <InputRegister
+                                    disabled={false}
                                     width="100%"
                                     field={key.name}
                                     label={register.customFields[key.name]}

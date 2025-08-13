@@ -23,8 +23,6 @@ export const UniqueSelect = (parameters) => {
         })
     }
 
-
-
     return (
         <>
             <CloserClick
@@ -46,6 +44,7 @@ export const UniqueSelect = (parameters) => {
                             backgroundColor: `${parameters.color}`
                         }}
                         onClick={() => setOpen(!open)}
+                        noOptions={open && !parameters.option}
                     >
                         <p id="selected-value">
                             {label}

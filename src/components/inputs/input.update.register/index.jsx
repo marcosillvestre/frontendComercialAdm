@@ -4,7 +4,7 @@ import { Container, SelectButton } from './styles.jsx';
 
 export const InputRegister = (parameters) => {
 
-    const { label, fn, width, border, color, field } = parameters
+    const { label, fn, width, border, color, field, disabled } = parameters;
     const [open, setOpen] = useState(false)
 
     const handleCheck = async (label) => {
@@ -40,12 +40,14 @@ export const InputRegister = (parameters) => {
 
                 <div id="category-select">
                     <SelectButton id="select-button"
+                        disabled={disabled}
                         style={{
                             border: `.5px solid ${border}`,
                             backgroundColor: `${color}`
                         }}
                     >
                         <input
+                            disabled={disabled}
                             type='text'
                             id="selected-value"
                             defaultValue={label}

@@ -1,12 +1,11 @@
 import styled, { keyframes } from "styled-components";
 
 export const Container = styled.main`
-
 font-size: var(--fsLowest);
 width: 100%;
 display: flex;
-flex-direction: column;
 gap: 1rem;
+
 .contrast{
     background-color: #d1d1d1;
 }
@@ -28,35 +27,46 @@ th{
     }
 }
 
-    .box {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem; 
+
+`
+
+export const Main = styled.main`
+flex: 1 1 100%;
+
+.box {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem; 
 
 }
 .container{
-    flex: 1 1 100%;
-
-    border: 1px solid #222;
+    width: 100%;
     border-radius: var(--br);
-    width: 90dvw;
-
+    border: 1px solid #222;
     padding: 1rem ;
-    justify-content: center;
-
-
-    .campaigns{
-        display: flex;
-        gap: 3rem; 
-
-    }
-}
-
-.container:nth-child(2){
-margin-top: 2rem;
 
 }
+`
+export const Aside = styled.aside`
+width: 25rem;
+height: 70dvh;
+display: grid;
+gap: 1rem;
 
+position: sticky ;
+top: 100px;
+
+`
+export const InputsData = styled.section`
+display: grid;
+border-radius: var(--br);
+border: 1px solid #222;
+padding: 1rem ;
+height: 100%;
+overflow-y: scroll;
+label{
+    margin-bottom: 5px;
+}
 `
 
 export const ContainerData = styled.section`
@@ -90,18 +100,17 @@ margin-bottom: 2rem;
 
 export const NavBar = styled.nav`
 text-align: center;
-margin: 15px 0;
 padding: 1rem;
 display: flex;
 flex-direction: column;
 animation-duration: .5s;
 border-radius: var(--br);
-position: ${props => props.active ? "sticky" : "absolute"};
 
 background-color: #e0e0e0;
-top: 150px;
 box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1),0px 10px 15px -3px rgba(0,0,0,0.1);
-width: 15rem;
+width: 100%;
+height: fit-content;
+
 .button{
     color: #fff;
     cursor: pointer;
@@ -117,7 +126,6 @@ width: 15rem;
 }
 }
 .emmit{
-display: ${props => props.active ? "block" : "none"};
 user-select:none;
 justify-content: center;
 flex-direction: column;

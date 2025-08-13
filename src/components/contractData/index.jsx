@@ -1,7 +1,7 @@
 import html2pdf from 'html2pdf.js';
 import { useData } from '../../hooks/dataContext.jsx';
 import { useUser } from '../../hooks/userContext';
-import { Box, Button, ComeBackButton, ComeBackDiv, Container, ContainerData, NavBar, SendContract } from './styles';
+import { Aside, Button, ComeBackButton, ComeBackDiv, Container, ContainerData, InputsData, Main, NavBar } from './styles';
 
 // import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
@@ -9,11 +9,11 @@ import SubdirectoryArrowLeftIcon from '@mui/icons-material/SubdirectoryArrowLeft
 
 import { gsap } from 'gsap';
 import { Flip } from 'gsap/Flip';
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import { dateCalculator } from '../../app/utils/functions/getDates.jsx';
 import { changeCurrency, parseNumber } from '../../app/utils/functions/parseNumbers.jsx';
-import { useCampaign } from '../../hooks/campaign/campaignContext.hook.jsx';
 import { useSignContracts } from '../../hooks/signContracts/sign.hook.jsx';
+import { InputRegister } from '../inputs/input.update.register/index.jsx';
 import { SureSendModal } from '../source.jsx';
 import { PDFFile } from './templates/contract.jsx';
 
@@ -23,7 +23,6 @@ export const ContractData = () => {
 
     const { filteredContracts, setFilteredContracts } = useUser();
     const { content, view, setView } = useData()
-    const [emmit, setEmmit] = useState(false)
     const [camp, setcamp] = useState({})
     const { setContract } = useSignContracts()
     const [loading, setLoading] = useState(false)
@@ -62,10 +61,6 @@ export const ContractData = () => {
         autentique: "Ao enviar um contrato via Autentique você deve selecionar um arquivo PDF já existente. Ele será enviado via whatsapp, você também poderá copiar o link para enviar ao cliente!",
         contaAzul: "Ao enviar um contrato ao Conta Azul ele somente estará disponível no Conta Azul!"
     }
-
-    const { campaignQueries } = useCampaign();
-    const { campaigns } = campaignQueries;
-
 
     const [paymentParcels, setPaymentParcels] = useState({
         parcels: [],
@@ -218,21 +213,22 @@ export const ContractData = () => {
         return types[descountType]
     }
 
-
     async function filterCampaigns() {
         if (!filteredContracts["Tipo de Campanha / Convênio"]) return {
             parcel: undefined,
             material: undefined,
             tax: undefined,
         }
-        const settedCampaign = await filteredContracts["Tipo de Campanha / Convênio"]
+        const settedCampaign = await filteredContracts["Tipo de Campanha / Convênio"];
+
         let parcel;
         let material;
         let tax;
 
 
         for (const element of settedCampaign) {
-            const campaignFiltered = campaigns.find(res => res.name === element && res.status === true)
+
+            const campaignFiltered = filteredContracts['campaigns'].find(res => res.name === element)
 
             if (!campaignFiltered) continue
 
@@ -500,18 +496,11 @@ export const ContractData = () => {
         }
     }, [filteredContracts])
 
-    const [activeNavbar, setActiveNavbar] = useState(false);
-
-    useEffect(() => {
-        const handleScroll = () => {
-            setActiveNavbar(window.scrollY > 150); // Altera para `true` quando passa de 100px
-        };
-
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
 
 
+
+    const keys = Object.keys(filteredContracts)
+        .filter(res => res !== 'id' && res !== 'service' && res !== 'tax' && res !== 'material' && res !== 'parcel' && res !== 'products');
 
     const render = () => {
         setLoading(true);
@@ -549,19 +538,15 @@ export const ContractData = () => {
 
     }
 
-
     return (
         <Container>
-            {
-                filteredContracts !== undefined &&
-
-                <NavBar active={activeNavbar} >
+            <Aside>
+                <NavBar>
                     <ComeBackDiv
                         className='flex'
-                        active={activeNavbar}
                     >
                         <ComeBackButton
-                            active={activeNavbar}
+
                             className='defaultButton blueButton button'
                             onClick={() => {
                                 setFilteredContracts(undefined)
@@ -572,7 +557,7 @@ export const ContractData = () => {
                         </ComeBackButton>
 
                         <ComeBackButton
-                            active={activeNavbar}
+
                             className='defaultButton blueButton button'
                             onClick={() => {
                                 window.scrollTo({ top: 0, behavior: "smooth" });
@@ -580,6 +565,7 @@ export const ContractData = () => {
                             <ArrowUpwardIcon />
                         </ComeBackButton>
                     </ComeBackDiv>
+
                     <span className="view flex">
                         <p>Visualização em</p>
                         <div className='buttons'>
@@ -605,14 +591,16 @@ export const ContractData = () => {
                         </div>
 
                     </span>
+
                     <span className='emmit flex' >
                         {
                             view === 'template' &&
                             <Button
                                 id='createDoc'
                                 className='defaultButton blueButton'
-                                onClick={() => render(!emmit)}
                                 disabled={loading}
+                                onClick={() => render()}
+
                             >
                                 Criar documento
                             </Button>
@@ -620,492 +608,470 @@ export const ContractData = () => {
 
                         <Button
                             className='defaultButton blueButton'
-                            open={emmit && true}
-                            onClick={() => setEmmit(!emmit)}
                         >
-                            Emitir Contrato
+                            <SureSendModal
+                                data={"Autentique"}
+                                text={personalText.autentique} />
+                        </Button>
+                        <Button
+                            className='defaultButton blueButton'
+                        >
+                            <SureSendModal
+                                data={"Conta Azul"}
+                                text={personalText.contaAzul} />
                         </Button>
 
-                        <Box $emmit={emmit && true} >
-                            <SendContract
-                                className='defaultButton blueButton'
-                                $emmit={emmit && true}>
-                                <SureSendModal
-                                    data={"Autentique"}
-                                    text={personalText.autentique} />
-                            </SendContract>
-                            <SendContract
-                                className='defaultButton blueButton'
-
-                                $emmit={emmit && true}>
-                                <SureSendModal
-                                    data={"Conta Azul"}
-                                    text={personalText.contaAzul} />
-                            </SendContract>
-                        </Box>
 
 
                     </span>
 
                 </NavBar>
 
-            }
 
-            {
-                view === 'table' ?
+                <InputsData>
+                    {
+                        keys.map((res, index) => (
+                            <label key={index}>
+                                <p>{res} :</p>
 
-                    <section
-                        className='box'
-                    >
+                                <InputRegister
+                                    disabled={true}
+                                    width="100%"
+                                    field={res}
+                                    label={filteredContracts[res]}
+                                    fn={[]}
+                                />
+                            </label>
+                        ))}
+                </InputsData>
 
-                        <div
-                            className='container flex'
+            </Aside>
+
+
+            <Main>
+                {
+                    view === 'table' ?
+                        <section
+                            className='box'
                         >
 
-                            <ContainerData>
-                                <h3> CONTRATANTE (ALUNO OU RESPONSÁVEL LEGAL)</h3>
-
-                                <table>
-                                    <tbody>
-
-                                        <tr className='contrast'>
-                                            <td className='bolder'>Descrição</td>
-                                            <td className='bolder'>Dados</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Nome</td>
-                                            <td>{filteredContracts["Nome do responsável"]}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Data de nascimento</td>
-                                            <td>{filteredContracts["Data de nascimento do  responsável"]}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>CPF</td>
-                                            <td>{filteredContracts["CPF"]}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>E-mail</td>
-                                            <td>{filteredContracts.Email}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Telefone</td>
-                                            <td>{filteredContracts.CelularResponsavel}</td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>Endereço</td>
-                                            <td> {filteredContracts["Endereco"]}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Número</td>
-                                            <td> {filteredContracts["Número"]}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Complemento</td>
-                                            <td> {filteredContracts["Complemento"]}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Bairro</td>
-                                            <td> {filteredContracts["Bairro"]}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Cidade</td>
-                                            <td> {filteredContracts["Cidade"]}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Uf</td>
-                                            <td> {filteredContracts["Uf"]}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>CEP</td>
-                                            <td> {filteredContracts["CEP"]}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Profissão</td>
-                                            <td> {filteredContracts["Profissão"]}</td>
-                                        </tr>
-                                    </tbody>
-
-                                </table>
-                            </ContainerData>
-
-                            <ContainerData>
-                                <h3>QUADRO DE INFORMAÇÕES DA MATRÍCULA</h3>
-
-
-                                <table>
-                                    <thead>
-                                        <tr className='contrast'>
-
-                                            <td>Descrição</td>
-                                            <td>Dados</td>
-
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td >Aluno</td>
-                                            <td >{filteredContracts["Nome do aluno (se não for responsável próprio))"]}</td>
-                                        </tr>
-                                        <tr>
-                                            <td >Data de nascimento</td>
-                                            <td >{filteredContracts["Data de nascimento do aluno"]}</td>
-                                        </tr>
-                                        <tr>
-                                            <td >Curso</td>
-                                            <td >{filteredContracts["Curso"]}</td>
-                                        </tr>
-                                        <tr>
-                                            <td >Categoria do curso</td>
-                                            <td >{filteredContracts["Classe"]}</td>
-                                        </tr>
-                                        <tr>
-                                            <td >Subcategoria do curso</td>
-                                            <td >{filteredContracts["Subclasse"]}</td>
-                                        </tr>
-                                        <tr>
-                                            <td >Tipo de ensino</td>
-                                            <td >{filteredContracts["Formato de Aula"]}</td>
-                                        </tr>
-                                        <tr>
-                                            <td >Carga horária total</td>
-                                            <td >{filteredContracts["Carga horário do curso"]}</td>
-                                        </tr>
-                                        <tr>
-                                            <td >Calendário didático</td>
-                                            <td >As aulas serão realizadas conforme o calendário didático estipulado</td>
-                                        </tr>
-                                        <tr>
-                                            <td >Data da matrícula</td>
-                                            <td >{new Date().toLocaleDateString('pt-BR')}</td>
-                                        </tr>
-                                        <tr>
-                                            <td >Tipo de contrato</td>
-                                            <td >{filteredContracts["Tipo de plano"]}</td>
-                                        </tr>
-                                        <tr>
-                                            <td >Código do contrato</td>
-                                            <td >{filteredContracts["Nº do contrato"]}</td>
-                                        </tr>
-
-                                        <tr>
-                                            <td >Tipo de assinatura</td>
-                                            <td >Online</td>
-                                        </tr>
-                                        <tr>
-                                            <td >Unidade</td>
-                                            <td >{filteredContracts["Unidade"]}</td>
-                                        </tr>
-                                    </tbody>
-
-                                </table>
-                            </ContainerData>
-
-
-                        </div>
-                        <div
-                            className='container'
-                        >
-
-                            <ContainerData>
-
-                                <h3 className='headers'>Tabela 1 - Descrição dos serviços contratados</h3>
-                                <table>
-                                    <thead className='contrast'>
-                                        <tr>
-                                            <td>Descrição do serviço</td>
-                                            <td>Valor bruto</td>
-                                            <td>Total de desconto condicional(R$)</td>
-                                            <td>Número de parcelas</td>
-                                            <td>Forma de pagamento</td>
-                                            <td>Valor total líquido (R$)</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td >{filteredContracts["service"]}</td>
-                                            <td >{changeCurrency(filteredContracts["valorCurso"])}</td>
-                                            <td >{changeCurrency(paymentParcels["descount"])}</td>
-                                            <td >{filteredContracts["Número de parcelas do curso"]}</td>
-                                            <td >{filteredContracts["Forma de pagamento da parcela"]}</td>
-                                            <td >{changeCurrency(paymentParcels["total"] - paymentParcels["descount"])}</td>
-                                        </tr>
-
-
-                                    </tbody>
-
-                                </table>
-                            </ContainerData>
-
-                            {
-                                camp.parcel !== undefined &&
+                            <div
+                                className='container flex'
+                            >
 
                                 <ContainerData>
-                                    <h3> Campanha</h3>
+                                    <h3> CONTRATANTE (ALUNO OU RESPONSÁVEL LEGAL)</h3>
 
                                     <table>
-                                        <thead className='contrast'>
+                                        <tbody>
+
+                                            <tr className='contrast'>
+                                                <td className='bolder'>Descrição</td>
+                                                <td className='bolder'>Dados</td>
+                                            </tr>
                                             <tr>
                                                 <td>Nome</td>
-                                                <td>Valor</td>
-                                                <td>Alvo</td>
-                                                <td>N° de parcelas</td>
-                                                <td>Tipo de desconto</td>
-                                                <td>Descrição</td>
+                                                <td>{filteredContracts["Nome do responsável"]}</td>
                                             </tr>
-                                        </thead>
-                                        <tbody>
                                             <tr>
-                                                <td >{camp.parcel.name}</td>
-                                                <td >{camp.parcel.value}</td>
-                                                <td >{camp.parcel.for}</td>
-                                                <td >{camp.parcel.affectedParcels}</td>
-                                                <td >{camp.parcel.descountType}</td>
-                                                <td >{camp.parcel.description}</td>
+                                                <td>Data de nascimento</td>
+                                                <td>{filteredContracts["Data de nascimento do  responsável"]}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>CPF</td>
+                                                <td>{filteredContracts["CPF"]}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>E-mail</td>
+                                                <td>{filteredContracts.Email}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Telefone</td>
+                                                <td>{filteredContracts.CelularResponsavel}</td>
                                             </tr>
 
+                                            <tr>
+                                                <td>Endereço</td>
+                                                <td> {filteredContracts["Endereco"]}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Número</td>
+                                                <td> {filteredContracts["Número"]}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Complemento</td>
+                                                <td> {filteredContracts["Complemento"]}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Bairro</td>
+                                                <td> {filteredContracts["Bairro"]}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Cidade</td>
+                                                <td> {filteredContracts["Cidade"]}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Uf</td>
+                                                <td> {filteredContracts["Uf"]}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>CEP</td>
+                                                <td> {filteredContracts["CEP"]}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Profissão</td>
+                                                <td> {filteredContracts["Profissão"]}</td>
+                                            </tr>
                                         </tbody>
 
                                     </table>
                                 </ContainerData>
 
-                            }
-
-                            <ContainerData>
-                                <h3 className='headers'>Tabela 2 - Detalhamento das parcelas</h3>
-                                <table>
-                                    <thead className='contrast'>
-                                        <tr>
-                                            <td>Parcela</td>
-                                            <td>Vencimento</td>
-                                            <td>Valor bruto</td>
-                                            <td>Desconto por parcelas</td>
-                                            <td>Valor líquido (R$)</td>
-                                        </tr>
-                                    </thead>
-                                    {
-                                        camp.parcel ?
-                                            <tbody>
-                                                {
-                                                    paymentParcels.parcels.map((res, idx) => (
-                                                        <tr key={idx}>
-                                                            <td>{idx + 1}</td>
-                                                            <td>{dateCalculator(filteredContracts["Data de Vencimento da Primeira Parcela"], idx)}</td>
-                                                            <td>{changeCurrency(paymentParcels.total / paymentParcels.parcels.length)}</td>
-                                                            <td>{changeCurrency(res.descount)}</td>
-
-                                                            {
-                                                                idx + 1 > camp?.parcel?.affectedParcels ?
-                                                                    <td>{changeCurrency(res.valor - res.descount)}</td> :
-                                                                    <td>{changeCurrency(res.valor)}</td>
-                                                            }
-                                                        </tr>
-                                                    ))
-                                                }
-                                                <tr>
-                                                </tr>
-                                            </tbody> :
-                                            <tbody>
-                                                {
-                                                    paymentParcels.parcels.map((res, idx) => (
-                                                        <tr key={idx}>
-                                                            <td>{idx + 1}</td>
-                                                            <td>{dateCalculator(filteredContracts["Data de Vencimento da Primeira Parcela"], idx)}</td>
-                                                            <td>{changeCurrency(paymentParcels.total / paymentParcels.parcels.length)}</td>
-                                                            <td>{changeCurrency(paymentParcels.descountForPontuality)}</td>
-                                                            <td>{changeCurrency(res.valor - paymentParcels.descountForPontuality)}</td> :
-                                                        </tr>
-                                                    ))
-                                                }
-                                                <tr>
-                                                </tr>
-                                            </tbody>
-                                    }
-
-                                </table>
-                            </ContainerData>
-                        </div>
-
-
-                        <div
-                            className='container'
-                        >
-                            <ContainerData>
-                                <h3 className='headers'>Tabela 1 - Descrição dos Materiais didáticos</h3>
-                                <table>
-                                    <thead className='contrast'>
-                                        <tr>
-                                            <td>Descrição do material</td>
-                                            <td>Valor bruto (R$)</td>
-                                            <td>Total de desconto condicional(R$)</td>
-                                            <td>Número de parcelas</td>
-                                            <td>Forma de pagamento</td>
-                                            <td>Valor total líquido (R$)</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {
-                                            filteredContracts["products"] &&
-                                            filteredContracts["products"].map((res) => (
-                                                <tr key={res.id}>
-                                                    <td>{res.name}</td>
-                                                    <td>{changeCurrency(res.priceSale)}</td>
-                                                    <td>{changeCurrency(material?.materials.find(r => r.valor === res.priceSale).descount)}</td>
-                                                    <td>{filteredContracts["Quantidade de parcelas MD"]}</td>
-                                                    <td>{filteredContracts["Forma de pagamento do MD"]}</td>
-                                                    <td>{changeCurrency(res.priceSale - material?.materials.find(r => r.valor === res.priceSale).descount)}</td>
-                                                </tr>
-                                            ))
-                                        }
-                                    </tbody>
-                                    {
-                                        filteredContracts["products"].length > 0 &&
-                                        <tfoot className='contrast'>
-                                            <tr>
-
-                                                <td>TOTAL</td>
-                                                <td>{changeCurrency(material?.total)}</td>
-                                                <td>{changeCurrency(material?.descount)}</td>
-                                                <td>{filteredContracts["Quantidade de parcelas MD"]}</td>
-                                                <td>{filteredContracts["Forma de pagamento do MD"]}</td>
-                                                <td>{changeCurrency(material?.total - parseFloat(material?.descount))}</td>
-                                            </tr>
-                                        </tfoot>
-                                    }
-
-                                </table>
-                            </ContainerData>
-                            {
-                                camp.material !== undefined &&
                                 <ContainerData>
-                                    <h3> Campanha</h3>
+                                    <h3>QUADRO DE INFORMAÇÕES DA MATRÍCULA</h3>
+
 
                                     <table>
                                         <thead>
-                                            <tr>
-                                                <td>Nome</td>
-                                                <td>Valor</td>
-                                                <td>Alvo</td>
-                                                <td>N° de parcelas</td>
-                                                <td>Tipo de desconto</td>
+                                            <tr className='contrast'>
+
                                                 <td>Descrição</td>
+                                                <td>Dados</td>
+
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td >{camp.material.name}</td>
-                                                <td >{camp.material.value}</td>
-                                                <td >{camp.material.for}</td>
-                                                <td >{camp.material.affectedParcels}</td>
-                                                <td >{camp.material.descountType}</td>
-                                                <td >{camp.material.description}</td>
+                                                <td >Aluno</td>
+                                                <td >{filteredContracts["Nome do aluno (se não for responsável próprio))"]}</td>
+                                            </tr>
+                                            <tr>
+                                                <td >Data de nascimento</td>
+                                                <td >{filteredContracts["Data de nascimento do aluno"]}</td>
+                                            </tr>
+                                            <tr>
+                                                <td >Curso</td>
+                                                <td >{filteredContracts["Curso"]}</td>
+                                            </tr>
+                                            <tr>
+                                                <td >Categoria do curso</td>
+                                                <td >{filteredContracts["Classe"]}</td>
+                                            </tr>
+                                            <tr>
+                                                <td >Subcategoria do curso</td>
+                                                <td >{filteredContracts["Subclasse"]}</td>
+                                            </tr>
+                                            <tr>
+                                                <td >Tipo de ensino</td>
+                                                <td >{filteredContracts["Formato de Aula"]}</td>
+                                            </tr>
+                                            <tr>
+                                                <td >Carga horária total</td>
+                                                <td >{filteredContracts["Carga horário do curso"]}</td>
+                                            </tr>
+                                            <tr>
+                                                <td >Calendário didático</td>
+                                                <td >As aulas serão realizadas conforme o calendário didático estipulado</td>
+                                            </tr>
+                                            <tr>
+                                                <td >Data da matrícula</td>
+                                                <td >{new Date().toLocaleDateString('pt-BR')}</td>
+                                            </tr>
+                                            <tr>
+                                                <td >Tipo de contrato</td>
+                                                <td >{filteredContracts["Tipo de plano"]}</td>
+                                            </tr>
+                                            <tr>
+                                                <td >Código do contrato</td>
+                                                <td >{filteredContracts["Nº do contrato"]}</td>
+                                            </tr>
+
+                                            <tr>
+                                                <td >Tipo de assinatura</td>
+                                                <td >Online</td>
+                                            </tr>
+                                            <tr>
+                                                <td >Unidade</td>
+                                                <td >{filteredContracts["Unidade"]}</td>
+                                            </tr>
+                                        </tbody>
+
+                                    </table>
+                                </ContainerData>
+
+
+                            </div>
+                            <div
+                                className='container'
+                            >
+
+                                <ContainerData>
+
+                                    <h3 className='headers'>Tabela 1 - Descrição dos serviços contratados</h3>
+                                    <table>
+                                        <thead className='contrast'>
+                                            <tr>
+                                                <td>Descrição do serviço</td>
+                                                <td>Valor bruto</td>
+                                                <td>Total de desconto condicional(R$)</td>
+                                                <td>Número de parcelas</td>
+                                                <td>Forma de pagamento</td>
+                                                <td>Valor total líquido (R$)</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td >{filteredContracts["service"]}</td>
+                                                <td >{changeCurrency(filteredContracts["valorCurso"])}</td>
+                                                <td >{changeCurrency(paymentParcels["descount"])}</td>
+                                                <td >{filteredContracts["Número de parcelas do curso"]}</td>
+                                                <td >{filteredContracts["Forma de pagamento da parcela"]}</td>
+                                                <td >{changeCurrency(paymentParcels["total"] - paymentParcels["descount"])}</td>
+                                            </tr>
+
+
+                                        </tbody>
+
+                                    </table>
+                                </ContainerData>
+
+                                {
+                                    camp.parcel !== undefined &&
+
+                                    <ContainerData>
+                                        <h3> Campanha</h3>
+
+                                        <table>
+                                            <thead className='contrast'>
+                                                <tr>
+                                                    <td>Nome</td>
+                                                    <td>Valor</td>
+                                                    <td>Alvo</td>
+                                                    <td>N° de parcelas</td>
+                                                    <td>Tipo de desconto</td>
+                                                    <td>Descrição</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td >{camp.parcel.name}</td>
+                                                    <td >{camp.parcel.value}</td>
+                                                    <td >{camp.parcel.for}</td>
+                                                    <td >{camp.parcel.affectedParcels}</td>
+                                                    <td >{camp.parcel.descountType}</td>
+                                                    <td >{camp.parcel.description}</td>
+                                                </tr>
+
+                                            </tbody>
+
+                                        </table>
+                                    </ContainerData>
+
+                                }
+
+                                <ContainerData>
+                                    <h3 className='headers'>Tabela 2 - Detalhamento das parcelas</h3>
+                                    <table>
+                                        <thead className='contrast'>
+                                            <tr>
+                                                <td>Parcela</td>
+                                                <td>Vencimento</td>
+                                                <td>Valor bruto</td>
+                                                <td>Desconto por parcelas</td>
+                                                <td>Valor líquido (R$)</td>
+                                            </tr>
+                                        </thead>
+                                        {
+                                            camp.parcel ?
+                                                <tbody>
+                                                    {
+                                                        paymentParcels.parcels.map((res, idx) => (
+                                                            <tr key={idx}>
+                                                                <td>{idx + 1}</td>
+                                                                <td>{dateCalculator(filteredContracts["Data de Vencimento da Primeira Parcela"], idx)}</td>
+                                                                <td>{changeCurrency(paymentParcels.total / paymentParcels.parcels.length)}</td>
+                                                                <td>{changeCurrency(res.descount)}</td>
+
+                                                                {
+                                                                    idx + 1 > camp?.parcel?.affectedParcels ?
+                                                                        <td>{changeCurrency(res.valor - res.descount)}</td> :
+                                                                        <td>{changeCurrency(res.valor)}</td>
+                                                                }
+                                                            </tr>
+                                                        ))
+                                                    }
+                                                    <tr>
+                                                    </tr>
+                                                </tbody> :
+                                                <tbody>
+                                                    {
+                                                        paymentParcels.parcels.map((res, idx) => (
+                                                            <tr key={idx}>
+                                                                <td>{idx + 1}</td>
+                                                                <td>{dateCalculator(filteredContracts["Data de Vencimento da Primeira Parcela"], idx)}</td>
+                                                                <td>{changeCurrency(paymentParcels.total / paymentParcels.parcels.length)}</td>
+                                                                <td>{changeCurrency(paymentParcels.descountForPontuality)}</td>
+                                                                <td>{changeCurrency(res.valor - paymentParcels.descountForPontuality)}</td>
+                                                            </tr>
+                                                        ))
+                                                    }
+                                                    <tr>
+                                                    </tr>
+                                                </tbody>
+                                        }
+
+                                    </table>
+                                </ContainerData>
+                            </div>
+
+
+                            <div
+                                className='container'
+                            >
+                                <ContainerData>
+                                    <h3 className='headers'>Tabela 1 - Descrição dos Materiais didáticos</h3>
+                                    <table>
+                                        <thead className='contrast'>
+                                            <tr>
+                                                <td>Descrição do material</td>
+                                                <td>Valor bruto (R$)</td>
+                                                <td>Total de desconto condicional(R$)</td>
+                                                <td>Número de parcelas</td>
+                                                <td>Forma de pagamento</td>
+                                                <td>Valor total líquido (R$)</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {
+                                                filteredContracts["products"] &&
+                                                filteredContracts["products"].map((res) => (
+                                                    <tr key={res.id}>
+                                                        <td>{res.name}</td>
+                                                        <td>{changeCurrency(res.priceSale)}</td>
+                                                        <td>{changeCurrency(material?.materials.find(r => r.valor === res.priceSale).descount)}</td>
+                                                        <td>{filteredContracts["Quantidade de parcelas MD"]}</td>
+                                                        <td>{filteredContracts["Forma de pagamento do MD"]}</td>
+                                                        <td>{changeCurrency(res.priceSale - material?.materials.find(r => r.valor === res.priceSale).descount)}</td>
+                                                    </tr>
+                                                ))
+                                            }
+                                        </tbody>
+                                        {
+                                            filteredContracts["products"].length > 0 &&
+                                            <tfoot className='contrast'>
+                                                <tr>
+
+                                                    <td>TOTAL</td>
+                                                    <td>{changeCurrency(material?.total)}</td>
+                                                    <td>{changeCurrency(material?.descount)}</td>
+                                                    <td>{filteredContracts["Quantidade de parcelas MD"]}</td>
+                                                    <td>{filteredContracts["Forma de pagamento do MD"]}</td>
+                                                    <td>{changeCurrency(material?.total - parseFloat(material?.descount))}</td>
+                                                </tr>
+                                            </tfoot>
+                                        }
+
+                                    </table>
+                                </ContainerData>
+                                {
+                                    camp.material !== undefined &&
+                                    <ContainerData>
+                                        <h3> Campanha</h3>
+
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Nome</td>
+                                                    <td>Valor</td>
+                                                    <td>Alvo</td>
+                                                    <td>N° de parcelas</td>
+                                                    <td>Tipo de desconto</td>
+                                                    <td>Descrição</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td >{camp.material.name}</td>
+                                                    <td >{camp.material.value}</td>
+                                                    <td >{camp.material.for}</td>
+                                                    <td >{camp.material.affectedParcels}</td>
+                                                    <td >{camp.material.descountType}</td>
+                                                    <td >{camp.material.description}</td>
+                                                </tr>
+
+                                            </tbody>
+
+                                        </table>
+                                    </ContainerData>
+                                }
+
+
+
+                                <ContainerData>
+                                    <h3 className='headers'>Tabela 2 - Detalhamento das parcelas</h3>
+                                    <table>
+                                        <thead className='contrast'>
+                                            <tr>
+                                                <td>Parcela</td>
+                                                <td>Vencimento</td>
+                                                <td>Valor bruto</td>
+                                                <td>Valor líquido (R$)</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {
+                                                filteredContracts["material"] &&
+                                                filteredContracts["material"].parcels.map((res, idx) => (
+                                                    <tr key={idx}>
+                                                        <td>{idx + 1}</td>
+                                                        <td>{dateCalculator(filteredContracts["Data de pagamento MD"], idx)}</td>
+                                                        <td>{changeCurrency(material?.total / filteredContracts["Quantidade de parcelas MD"])}</td>
+                                                        <td>{changeCurrency(res.valor)}</td>
+                                                    </tr>
+                                                ))
+                                            }
+                                            <tr>
+
                                             </tr>
 
                                         </tbody>
 
                                     </table>
                                 </ContainerData>
-                            }
 
-
-
-                            <ContainerData>
-                                <h3 className='headers'>Tabela 2 - Detalhamento das parcelas</h3>
-                                <table>
-                                    <thead className='contrast'>
-                                        <tr>
-                                            <td>Parcela</td>
-                                            <td>Vencimento</td>
-                                            <td>Valor bruto</td>
-                                            <td>Valor líquido (R$)</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {
-                                            filteredContracts["material"] &&
-                                            filteredContracts["material"].parcels.map((res, idx) => (
-                                                <tr key={idx}>
-                                                    <td>{idx + 1}</td>
-                                                    <td>{dateCalculator(filteredContracts["Data de pagamento MD"], idx)}</td>
-                                                    <td>{changeCurrency(material?.total / filteredContracts["Quantidade de parcelas MD"])}</td>
-                                                    <td>{changeCurrency(res.valor)}</td>
-                                                </tr>
-                                            ))
-                                        }
-                                        <tr>
-
-                                        </tr>
-
-                                    </tbody>
-
-                                </table>
-                            </ContainerData>
-
-                        </div>
+                            </div>
 
 
 
 
-                        <div
-                            className='container'
-                        >
+                            <div
+                                className='container'
+                            >
 
-                            <ContainerData>
-                                <h3 className='headers'>Tabela 1 - Descrição da Taxa de matrícula</h3>
-
-
-                                <table>
-                                    <thead className='contrast'>
-                                        <tr>
-                                            <td>Nome</td>
-                                            <td>Valor</td>
-                                            <td>Total de desconto(R$)</td>
-                                            <td>N° de parcelas</td>
-                                            <td>Forma de pagamento</td>
-                                            <td>Valor líquido</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td >Taxa de matrícula</td>
-                                            <td >R$ 350,00</td>
-                                            <td >{changeCurrency(filteredContracts['tax']?.descount)}</td>
-                                            <td >{filteredContracts['Quantidade de parcelas TM ']}</td>
-                                            <td >{filteredContracts['Forma de pagamento TM']}</td>
-                                            <td >{changeCurrency(filteredContracts['tax']?.total)}</td>
-
-                                        </tr>
-
-                                    </tbody>
-
-                                </table>
-                            </ContainerData>
-
-                            {
-                                camp.tax !== undefined &&
                                 <ContainerData>
-                                    <h3> Campanha</h3>
+                                    <h3 className='headers'>Tabela 1 - Descrição da Taxa de matrícula</h3>
+
 
                                     <table>
                                         <thead className='contrast'>
                                             <tr>
                                                 <td>Nome</td>
                                                 <td>Valor</td>
-                                                <td>Alvo</td>
+                                                <td>Total de desconto(R$)</td>
                                                 <td>N° de parcelas</td>
-                                                <td>Tipo de desconto</td>
-                                                <td>Descrição</td>
+                                                <td>Forma de pagamento</td>
+                                                <td>Valor líquido</td>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td >{camp.tax.name}</td>
-                                                <td >{camp.tax.value}</td>
-                                                <td >{camp.tax.for}</td>
-                                                <td >{camp.tax.affectedParcels}</td>
-                                                <td >{camp.tax.descountType}</td>
-                                                <td >{camp.tax.description}</td>
+                                                <td >Taxa de matrícula</td>
+                                                <td >R$ 350,00</td>
+                                                <td >{changeCurrency(filteredContracts['tax']?.descount)}</td>
+                                                <td >{filteredContracts['Quantidade de parcelas TM ']}</td>
+                                                <td >{filteredContracts['Forma de pagamento TM']}</td>
+                                                <td >{changeCurrency(filteredContracts['tax']?.total)}</td>
+
                                             </tr>
 
                                         </tbody>
@@ -1113,62 +1079,92 @@ export const ContractData = () => {
                                     </table>
                                 </ContainerData>
 
-                            }
+                                {
+                                    camp.tax !== undefined &&
+                                    <ContainerData>
+                                        <h3> Campanha</h3>
 
-
-                            <ContainerData>
-                                <h3 className='headers'>Tabela 2 - Detalhamento das parcelas</h3>
-                                <table>
-                                    <thead className='contrast'>
-                                        <tr>
-                                            <td>Parcela</td>
-                                            <td>Vencimento</td>
-                                            <td>Valor bruto</td>
-                                            <td>Valor líquido (R$)</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {
-                                            tax?.taxes.map((res, idx) => (
-                                                <tr key={idx}>
-                                                    <td>{idx + 1}</td>
-                                                    <td>{dateCalculator(filteredContracts["Data de pagamento TM"], idx)}</td>
-                                                    <td>{(tax?.total / tax.taxes.length)?.toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
-                                                    <td>{(tax?.total / tax.taxes.length)?.toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
+                                        <table>
+                                            <thead className='contrast'>
+                                                <tr>
+                                                    <td>Nome</td>
+                                                    <td>Valor</td>
+                                                    <td>Alvo</td>
+                                                    <td>N° de parcelas</td>
+                                                    <td>Tipo de desconto</td>
+                                                    <td>Descrição</td>
                                                 </tr>
-                                            ))
-                                        }
-                                        <tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td >{camp.tax.name}</td>
+                                                    <td >{camp.tax.value}</td>
+                                                    <td >{camp.tax.for}</td>
+                                                    <td >{camp.tax.affectedParcels}</td>
+                                                    <td >{camp.tax.descountType}</td>
+                                                    <td >{camp.tax.description}</td>
+                                                </tr>
 
-                                        </tr>
+                                            </tbody>
+
+                                        </table>
+                                    </ContainerData>
+
+                                }
 
 
-                                    </tbody>
+                                <ContainerData>
+                                    <h3 className='headers'>Tabela 2 - Detalhamento das parcelas</h3>
+                                    <table>
+                                        <thead className='contrast'>
+                                            <tr>
+                                                <td>Parcela</td>
+                                                <td>Vencimento</td>
+                                                <td>Valor bruto</td>
+                                                <td>Valor líquido (R$)</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {
+                                                tax?.taxes.map((res, idx) => (
+                                                    <tr key={idx}>
+                                                        <td>{idx + 1}</td>
+                                                        <td>{dateCalculator(filteredContracts["Data de pagamento TM"], idx)}</td>
+                                                        <td>{(tax?.total / tax.taxes.length)?.toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
+                                                        <td>{(tax?.total / tax.taxes.length)?.toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
+                                                    </tr>
+                                                ))
+                                            }
+                                            <tr>
 
-                                </table>
-                            </ContainerData>
-                        </div>
+                                            </tr>
 
-                    </section>
 
-                    :
-                    <div ref={content} >
-                        {
-                            filteredContracts !== undefined &&
-                            <div style={{ display: 'grid', gap: "2rem" }}>
+                                        </tbody>
 
-                                <PDFFile id='content'
-                                    data={filteredContracts}
-                                    parcel={paymentParcels}
-                                    campaign={camp}
-                                />
-
+                                    </table>
+                                </ContainerData>
                             </div>
-                        }
-                    </div>
 
+                        </section>
 
-            }
+                        :
+                        <div ref={content} >
+                            {
+                                filteredContracts !== undefined &&
+                                <div style={{ display: 'grid', gap: "2rem" }}>
+
+                                    <PDFFile id='content'
+                                        data={filteredContracts}
+                                        parcel={paymentParcels}
+                                        campaign={camp}
+                                    />
+
+                                </div>
+                            }
+                        </div>
+                }
+            </Main>
         </Container >
     )
 }

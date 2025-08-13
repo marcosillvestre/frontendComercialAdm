@@ -1,14 +1,9 @@
-import html2pdf from 'html2pdf.js';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
 import { dateCalculator } from '../../../app/utils/functions/getDates';
 import { changeCurrency } from '../../../app/utils/functions/parseNumbers';
 import { Container, File } from './contract.styles';
 
 export const PDFFile = ({ data, parcel, campaign }) => {
-
-    const [loading, setLoading] = useState(false)
-
 
 
     const paymentMethodsForMaterials = {
@@ -29,59 +24,9 @@ export const PDFFile = ({ data, parcel, campaign }) => {
         "Transferência bancária": 0.3,
     }
 
-    const render = () => {
-        setLoading(true);
-        const element = document.getElementById("container1");
-
-        var opt = {
-            margin: [0, 0.5, 0, 0],
-            filename: `adesao-${data["Nome do responsável"]}+${data["id"]}`,
-
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2, letterRendering: true },
-            jsPDF: {
-                unit: 'mm', format: 'a4', orientation: 'portrait',
-                compressPDF: true,
-            },
-            pagebreak: {
-                mode: '',
-                before: '.beforeClass',
-                after: ['#after1', '#after2'],
-                avoid: '.avoid'
-            }
-        };
-
-        html2pdf().set(opt).from(element).save();
-
-        setTimeout(() => {
-
-            setLoading(false)
-        }, 3000);
-
-    }
-
 
     return (
         <File>
-            {
-                loading === true ?
-                    <button
-                        className='defaultButton blueButton'
-
-                    >
-
-                        Carregando...
-                    </button>
-                    :
-                    <button
-                        className='defaultButton blueButton'
-                        onClick={() => render()}
-                    >
-
-                        Criar documento
-                    </button>
-
-            }
 
             <div id="container1" >
 
