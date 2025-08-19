@@ -145,6 +145,7 @@ export const SigningContracts = ({ children }) => {
             funnelsQuery,
 
             setQuery,
+            query,
 
             orderFor, setOrderFor,
             orderBy, setOrderBy

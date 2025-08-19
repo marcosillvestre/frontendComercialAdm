@@ -4,7 +4,7 @@ export const Container = styled.main`
 font-size: var(--fsLowest);
 width: 100%;
 display: flex;
-gap: 1rem;
+gap: 3rem;
 
 .contrast{
     background-color: #d1d1d1;
@@ -31,7 +31,7 @@ th{
 `
 
 export const Main = styled.main`
-flex: 1 1 100%;
+flex: 1 1 90%;
 
 .box {
     display: flex;
@@ -48,14 +48,14 @@ flex: 1 1 100%;
 }
 `
 export const Aside = styled.aside`
-width: 25rem;
+flex: 1 1 25%;
+
 height: 70dvh;
 display: grid;
 gap: 1rem;
 
 position: sticky ;
 top: 100px;
-
 `
 export const InputsData = styled.section`
 display: grid;

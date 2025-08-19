@@ -112,13 +112,14 @@ export function SureSendModal(data) {
 
     const contract = async (body) => {
 
-
-
         URI.post("/registro-conta-azul", body)
             .then(() => toast.success("Contrato criado com sucesso"))
             .catch(async err => {
                 toast.error("Erro ao criar novo contrato")
                 const error = await err
+
+                console.log(error)
+
                 if ("message" in error.response.data) alert(error.response.data.message)
             })
             .finally(() => {
@@ -130,20 +131,22 @@ export function SureSendModal(data) {
 
     const sales = async (body) => {
 
-        if (filteredContracts.material.total > 0) {
+        if (filteredContracts.material.total === 0) return
 
-            URI.post("/venda", body)
-                .then(() => toast.success("Venda criada com sucesso"))
-                .catch(async err => {
-                    toast.error("Erro ao enviar o material")
-                    const error = await err
-                    if ("message" in error.response.data) alert(error.response.data.message)
-                })
-                .finally(() => {
-                    setLoading(false)
-                })
+        URI.post("/venda", body)
+            .then(() => toast.success("Venda criada com sucesso"))
+            .catch(async err => {
+                toast.error("Erro ao enviar o material")
+                const error = await err
 
-        }
+                console.log(error)
+
+                if ("message" in error.response.data) alert(error.response.data.message)
+            })
+            .finally(() => {
+                setLoading(false)
+            })
+
     }
 
     const feeEnroll = async (body) => {
@@ -153,6 +156,9 @@ export function SureSendModal(data) {
             .catch(async err => {
                 toast.error("Erro ao enviar a taxa de matrícula")
                 const error = await err
+
+                console.log(error)
+
                 if ("message" in error.response.data) alert(error.response.data.message)
             })
             .finally(() => {

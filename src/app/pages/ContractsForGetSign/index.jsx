@@ -12,7 +12,7 @@ export const Contracts = () => {
     const forQuery = useRef()
 
     const { filteredContracts, setFilteredContracts } = useUser()
-    const { setSign, contractOptions, queryFunnels, setQuery, funnelsQuery } = useSignContracts();
+    const { setSign, contractOptions, queryFunnels, setQuery, query, funnelsQuery } = useSignContracts();
 
     const { funnels } = queryFunnels;
     const { isPending } = funnelsQuery;
@@ -25,7 +25,6 @@ export const Contracts = () => {
     function filterData(search) {
         setQuery(search);
     }
-
 
     return (
 
@@ -67,7 +66,7 @@ export const Contracts = () => {
                                 <input
                                     ref={forQuery}
                                     className='inputSearch'
-
+                                    defaultValue={query}
                                     onChange={(e) => e.target.value === "" &&
                                         setQuery(null)
                                     }

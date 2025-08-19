@@ -647,7 +647,6 @@ export const ContractData = () => {
 
             </Aside>
 
-
             <Main>
                 {
                     view === 'table' ?

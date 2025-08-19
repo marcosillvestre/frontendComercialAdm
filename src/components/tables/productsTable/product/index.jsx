@@ -188,9 +188,7 @@ export const Products = () => {
                                             </ContainerOrder>
 
                                         </TableCell>
-                                        <TableCell align="center">
-
-                                        </TableCell>
+                                        <TableCell align="center" />
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
