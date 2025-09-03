@@ -32,8 +32,29 @@ export const CampaignProvider = ({ children }) => {
 
     const createCampaign = useMutation({
         mutationFn: () => sendData(),
-        onSuccess: () => {
-            queryClient.invalidateQueries(["campaign", take, skip, orderFor, orderBy, JSON.stringify(typeFilter)])
+        onSuccess: (data) => {
+            queryClient.setQueryData(
+                ["campaign", take, skip, orderFor, orderBy, JSON.stringify(typeFilter)],
+                (oldData) => {
+                    const { total, campaigns } = oldData;
+
+                    return setCampaignQueries({
+                        campaigns: [
+                            data,
+                            ...campaigns,
+                        ],
+                        total: total + 1
+                    })
+                }
+
+            )
+        },
+        onError: (error) => {
+
+            const { response } = error
+
+            console.log(response)
+            "message" in response.data && alert(response.data.message)
         }
     })
     ///////////////////////// create
@@ -43,7 +64,7 @@ export const CampaignProvider = ({ children }) => {
             URI.put(`/campanha/${editCampaign.id}`, editCampaign),
             {
                 pending: 'Conferindo os dados',
-                success: 'Campanha criada com sucesso',
+                success: 'Campanha editada com sucesso',
                 error: 'Algo deu errado'
             }
         )
@@ -52,8 +73,31 @@ export const CampaignProvider = ({ children }) => {
 
     const mutateCampaign = useMutation({
         mutationFn: () => editData(),
-        onSuccess: () => {
-            queryClient.invalidateQueries(["campaign", take, skip, orderFor, orderBy, JSON.stringify(typeFilter)])
+        onSuccess: (data) => {
+            queryClient.setQueryData(
+                ["campaign", take, skip, orderFor, orderBy, JSON.stringify(typeFilter)],
+                (oldData) => {
+                    const { total, campaigns } = oldData;
+
+                    const filtered = campaigns.filter(res => res.id !== data.id)
+
+                    return setCampaignQueries({
+                        campaigns: [
+                            data,
+                            ...filtered,
+                        ],
+                        total
+                    })
+                }
+
+            )
+        },
+        onError: (error) => {
+
+            const { response } = error
+
+            console.log(response)
+            "message" in response.data && alert(response.data.message)
         }
     })
     ///////////////////////// edit
@@ -124,12 +168,33 @@ export const CampaignProvider = ({ children }) => {
                 ["campaign", take, skip, orderFor, orderBy, JSON.stringify(typeFilter)],
                 (oldData) => {
 
-                    return oldData.filter(res => res.id !== variables)
+                    const { campaigns, total } = oldData;
+
+                    return setCampaignQueries({
+                        campaigns: campaigns.filter(res => res.id !== variables),
+                        total: total - 1
+                    })
 
                 }
             )
         }
     })
+
+
+    const queryCampaignsTotals = async () => {
+
+        const response = await URI.
+            get(`/campanhas-totais`)
+
+        return response.data
+    }
+
+    const campaignsTotalsQuery = useQuery({
+        queryFn: () => queryCampaignsTotals(),
+        queryKey: ["campaign"]
+    })
+
+
 
     const removeFilter = (data) => {
         const filtered = typeFilter.filter(res => res.id !== data.id)
@@ -157,7 +222,9 @@ export const CampaignProvider = ({ children }) => {
 
             campaignQueries,
             removeFilter,
-            typeFilter, setTypeFilter
+            typeFilter, setTypeFilter,
+
+            campaignsTotalsQuery
 
         }}>
 

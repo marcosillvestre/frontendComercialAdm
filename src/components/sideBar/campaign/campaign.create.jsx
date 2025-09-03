@@ -96,7 +96,7 @@ export const Campaign = () => {
                         { name: "Material", value: "Material" },
                         { name: "Taxa de matricula", value: "Tax" },
                     ]}
-                    field="destiny"
+                    field="for"
                     fn={[sender]}
                 />
             </Label>
