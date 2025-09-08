@@ -2,12 +2,14 @@ import styled from "styled-components"
 
 export const Container = styled.div`
 position: relative;
-font-size: var(--fsXLow) ;
+font-size: var(--fsLowest) ;
 height: var(--boxHei);
 width: 100%;
+user-select: none;
+cursor: pointer;
 
 #category-select {
-font-size: var(--fsXLow) ;
+font-size: var(--fsLowest) ;
 letter-spacing: .0225rem;
 }
 
@@ -22,6 +24,12 @@ border-radius: var(--br);
 background-color:#d0d0d0;
 width: 100%;
 z-index: 13;
+max-height: 20rem;
+overflow-y: scroll;
+&::-webkit-scrollbar{
+    display: none;
+}
+
 `
 
 export const Options = styled.li`
@@ -37,13 +45,14 @@ gap: .75rem;
 cursor: pointer;
 height: var(--boxHei);
 z-index: 10;
+border-radius: var(--br);
 background: ${props => props.selected ? "#c4d3e0" : ""};
 font-size: calc(var(--fsXLow) - 2px);
 
 
 span{
     text-align: center;
-    font-size: calc(var(--fsXLow) - 2px) ;
+    font-size: calc(var(--fsXLow) - 1px) ;
     position: relative;
     width: 100%;
 
@@ -65,9 +74,10 @@ span{
 }
 &:hover{
     background: #c4d3e0;
-    scale: 1.03;
     border-radius: var(--br);
-
+    p{
+        scale: 1.03;
+    }
     }
     
 `
@@ -76,12 +86,13 @@ span{
 export const SelectButton = styled.div`
 position: relative;
 color: #222;
-padding: .4rem .75rem;
+padding: .4rem ;
 display: flex;
 justify-content: space-between;
 align-items: center;
 border-radius: var(--br);
-border: .5px solid #a9a9a9;
+border: ${props => props.noOptions ? ".5px solid #f74949" : ".5px solid #a9a9a9"};
+
 min-height: calc(var(--boxHei) - 8px);
 max-height: var(--boxHei);
 

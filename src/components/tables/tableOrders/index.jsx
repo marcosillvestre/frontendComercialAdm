@@ -167,9 +167,6 @@ export default function TableOrders() {
         !bool && setCheckData([])
 
         document.querySelectorAll("input[type='checkbox']").forEach((checkbox) => {
-
-            console.log(checkbox)
-
             setChecked(bool)
             checkbox.checked = bool;
         });

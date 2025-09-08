@@ -1,60 +1,47 @@
 import html2pdf from 'html2pdf.js';
 import { useData } from '../../hooks/dataContext.jsx';
 import { useUser } from '../../hooks/userContext';
-import { Aside, Button, ComeBackButton, ComeBackDiv, Container, ContainerData, InputsData, Main, NavBar } from './styles';
+import { Aside, Button, ComeBackButton, ComeBackDiv, Container, ContainerData, InputsData, Main, NavBar, SubContainer } from './styles';
 
-// import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import SubdirectoryArrowLeftIcon from '@mui/icons-material/SubdirectoryArrowLeft';
 
-import { gsap } from 'gsap';
-import { Flip } from 'gsap/Flip';
-import { useLayoutEffect, useState } from 'react';
-import { dateCalculator } from '../../app/utils/functions/getDates.jsx';
-import { changeCurrency, parseNumber } from '../../app/utils/functions/parseNumbers.jsx';
+import CloseIcon from '@mui/icons-material/Close';
+
+import { useState } from 'react';
+import { dateCalculator, parseDates } from '../../app/utils/functions/getDates.jsx';
+import { changeCurrency } from '../../app/utils/functions/parseNumbers.jsx';
+import businessRules from '../../app/utils/Rules/options.jsx';
+import { useCampaign } from '../../hooks/campaign/campaignContext.hook.jsx';
+import { useProduct } from '../../hooks/products/productsContext.hook.jsx';
+import { useService } from '../../hooks/services/servicesContext.hook.jsx';
 import { useSignContracts } from '../../hooks/signContracts/sign.hook.jsx';
 import { InputRegister } from '../inputs/input.update.register/index.jsx';
+import { DateSelect } from '../selects/DateSelect/index.jsx';
+import { MultiSelect } from '../selects/MultiSelect/index.jsx';
+import { UniqueSelect } from '../selects/UniqueSelect/index.jsx';
 import { SureSendModal } from '../source.jsx';
+import { SwitchButtons } from '../switchButtons/index.jsx';
 import { PDFFile } from './templates/contract.jsx';
 
-
 export const ContractData = () => {
-    gsap.registerPlugin(Flip)
-
     const { filteredContracts, setFilteredContracts } = useUser();
-    const { content, view, setView } = useData()
+    const { content, view, setView } = useData();
+    const { descountTypes, goalTypes } = businessRules;
+    const { productsTotalsQuery } = useProduct();
+    const { serviceTotalsQuery } = useService();
+    const { campaignsTotalsQuery } = useCampaign();
     const [camp, setcamp] = useState({})
     const { setContract } = useSignContracts()
     const [loading, setLoading] = useState(false)
 
+    const { data: { products } } = productsTotalsQuery;
+    const { data: { services } } = serviceTotalsQuery;
+    const { data: { campaigns } } = campaignsTotalsQuery;
+    const odd = [{ value: "qwerty789", name: 'Taxa de matrícula', priceSale: 350 }];
 
 
-
-    const buttonsLinks = document.querySelectorAll(".button-link")
-    const active = document.querySelector(".active")
-
-    buttonsLinks.forEach((button, idx) => {
-        button.addEventListener('click', () => {
-
-            const ac = button.classList.contains('ac')
-            if (!ac) {
-                button.classList.add('ac')
-                buttonsLinks.forEach((other, otherIdx) => {
-                    idx !== otherIdx && other.classList.remove('ac')
-                })
-
-            }
-            const state = Flip.getState(active)
-            button.appendChild(active)
-
-            Flip.from(state, {
-                duration: 1.5,
-                absolute: true,
-                ease: 'elastic.out(1,0.5)'
-            })
-
-        })
-    })
 
     const personalText = {
         PDF: "Ao emitir via PDF o download começará em instantes!",
@@ -62,13 +49,9 @@ export const ContractData = () => {
         contaAzul: "Ao enviar um contrato ao Conta Azul ele somente estará disponível no Conta Azul!"
     }
 
-    const [paymentParcels, setPaymentParcels] = useState({
-        parcels: [],
-        total: 0,
-        descount: 0
-    })
-    const [material, setmaterial] = useState()
-    const [tax, settax] = useState()
+    const [serviceChoosed, setServiceChoosed] = useState();
+    const [productChoosed, setProductChoosed] = useState();
+    const [taxsChoosed, setTaxsChoosed] = useState();
 
 
     const paymentMethodsForMaterials = {
@@ -79,9 +62,7 @@ export const ContractData = () => {
         "Isenção": 0,
         "Outros": 0,
         "Boleto via outros bancos": 0,
-
         "Cartão de crédito via outro bancos": 0.2,
-
         "Cartão de débito via outros bancos": 0.3,
         "Dinheiro": 0.3,
         "Pix": 0.3,
@@ -90,116 +71,21 @@ export const ContractData = () => {
     }
 
     const paymentMethodsForParcels = {
-        "boleto": 0.1,
-        "boleto via outros bancos": 0.25,
-        "cartão de débito via outros bancos": 0.1,
-        "dinheiro": 0.25,
-        "pix cobrança": 0.1,
-        "transferência bancária": 0.1,
-
-        "sem pagamento": 0,
-        "isenção": 0,
-        "outros": 0.1,
-
-        "débito automático": 0.15,
-        "cartão de crédito via link": 0.125,
-
-        "cartão de crédito via outro bancos": 0.175,
-
-        "pix": 0.25,
+        "Boleto": 0.1,
+        "Boleto via outros bancos": 0.25,
+        "Cartão de débito via outros bancos": 0.1,
+        "Dinheiro": 0.25,
+        "Pix cobrança": 0.1,
+        "Transferência bancária": 0.1,
+        "Sem pagamento": 0,
+        "Isenção": 0,
+        "Outros": 0.1,
+        "Débito automático": 0.15,
+        "Cartão de crédito via link": 0.125,
+        "Cartão de crédito via outro bancos": 0.175,
+        "Pix": 0.25,
     }
 
-    const defineDescountValueForTypePayment = (fullValue, parcelsNumber, type, table) => {
-        if (table[type] === undefined) return alert("Forma de pagamento impróprio, confira seus dados")
-
-        const value = (fullValue / parcelsNumber) * table[type];
-
-        return {
-            total: fullValue,
-            descount: value * parcelsNumber,
-            descountForPontuality: value
-        }
-    }
-
-    const sincMaterials = (array, search) => {
-        let value = []
-
-        for (let index = 0; index < array.length; index++) {
-            const element = array[index];
-
-
-            const splited = element.split(" / ")
-            const material = search.find(f => f.code === splited[1])
-
-            material !== undefined &&
-                value.push(material)
-        }
-
-
-        return {
-            totalPriceSale: value.reduce((acc, curr) => acc + parseNumber(curr.priceSale), 0),
-            array: value
-        }
-    }
-
-
-    const defineValueForParcels = (cursoValor, type, parcelsNumber) => {
-        const typePayment = type.toLowerCase()
-        if (paymentMethodsForParcels[typePayment.toLowerCase()] === undefined) return alert("Forma de pagamento para parcelas impróprio! Corrija no RD")
-
-
-        const descountForPontuality =
-            (cursoValor / parcelsNumber) * paymentMethodsForParcels[typePayment]
-
-
-        return {
-            fullValue: cursoValor,
-            descount: paymentMethodsForParcels[typePayment] === 0.1 ?
-                Math.ceil(descountForPontuality) * parcelsNumber :
-                (descountForPontuality * parcelsNumber).toFixed(2),
-            descountForPontuality: paymentMethodsForParcels[typePayment] === 0.1 ?
-                Math.ceil(descountForPontuality) : descountForPontuality.toFixed(2)
-        }
-    }
-
-    const descountForEachMd = async (totalPriceSale) => {
-
-        const { total, descount } = await defineDescountValueForTypePayment(
-            totalPriceSale,
-            filteredContracts["Quantidade de parcelas MD"],
-            filteredContracts["Forma de pagamento do MD"],
-            paymentMethodsForMaterials
-        )
-
-        return { valor: total, descount }
-    }
-
-    const defineValueForMaterials = async (array, search) => {
-        let value = []
-
-        if (!paymentMethodsForMaterials[filteredContracts["Forma de pagamento do MD"]]) return alert("Forma de pagamento para os materiais didáticos impróprio! Corrija no RD")
-
-
-        for (let index = 0; index < array.length; index++) {
-            const element = array[index];
-
-
-            const splited = element.split(" / ")
-            const material = search.find(f => f.code === splited[1])
-
-            material !== undefined &&
-                value.push({
-                    fullValue: material["priceSale"],
-                    total: material["priceSale"],
-                })
-        }
-
-
-        const total = value.reduce((acc, curr) => acc + parseFloat(curr.total), 0)
-        const descount = (value.reduce((acc, curr) => acc + parseFloat(curr.fullValue), 0) - total)
-
-        return { total, descount }
-    }
 
 
     const defineDescountValueForType = (value, descount, descountType) => {
@@ -213,294 +99,9 @@ export const ContractData = () => {
         return types[descountType]
     }
 
-    async function filterCampaigns() {
-        if (!filteredContracts["Tipo de Campanha / Convênio"]) return {
-            parcel: undefined,
-            material: undefined,
-            tax: undefined,
-        }
-        const settedCampaign = await filteredContracts["Tipo de Campanha / Convênio"];
-
-        let parcel;
-        let material;
-        let tax;
-
-
-        for (const element of settedCampaign) {
-
-            const campaignFiltered = filteredContracts['campaigns'].find(res => res.name === element)
-
-            if (!campaignFiltered) continue
-
-            const { for: destiny } = campaignFiltered
-
-            if (destiny === "Parcel") {
-                parcel = campaignFiltered
-            }
-            if (destiny === "Material") {
-                material = campaignFiltered
-            }
-            if (destiny === "Tax") {
-                tax = campaignFiltered
-            }
-        }
-
-        return {
-            parcel,
-            material,
-            tax
-        }
-    }
-
-    ////////////// Só serao ativados se houver uma campanha nesse contrato
-    const activeCampaignForParcel = async (campaignParcel) => {
-
-        const { fullValue, descountForPontuality } = await defineValueForParcels(
-            filteredContracts["valorCurso"],
-            filteredContracts["Forma de pagamento da parcela"],
-            parseNumber(filteredContracts["Número de parcelas do curso"])
-        )
-
-        let array = []
-
-
-        const campaignDescount = await defineDescountValueForType(
-            (fullValue / parseNumber(filteredContracts["Número de parcelas do curso"])),
-            campaignParcel.value,
-            campaignParcel.descountType
-        )
-
-
-        for (let index = 0; index < parseInt(filteredContracts["Número de parcelas do curso"]); index++) {
-
-            index + 1 <= campaignParcel.affectedParcels ?
-                array.push({
-                    valor:
-                        (fullValue / parseNumber(filteredContracts["Número de parcelas do curso"]) -
-                            campaignDescount).toFixed(2),
-                    descount:
-                        ((fullValue / parseNumber(filteredContracts["Número de parcelas do curso"])) -
-                            (fullValue / parseNumber(filteredContracts["Número de parcelas do curso"]) - campaignDescount)).toFixed(2)
-                }) :
-                array.push({
-                    valor:
-                        (fullValue / parseNumber(filteredContracts["Número de parcelas do curso"])).toFixed(2),
-                    descount:
-                        (
-                            (fullValue / parseNumber(filteredContracts["Número de parcelas do curso"])) -
-                            (fullValue / parseNumber(filteredContracts["Número de parcelas do curso"]) - descountForPontuality)
-
-                        ).toFixed(2)
-                })
-        }
-
-        setPaymentParcels({
-            parcels: array,
-            total: fullValue,
-            descount: array.reduce((acc, curr) => parseFloat(curr.descount) + acc, 0),
-            descountForPontuality
-        })
-
-        filteredContracts["parcel"] = {
-            parcels: array,
-            descount: array.reduce((acc, curr) => parseFloat(curr.descount) + acc, 0),
-            campaign: campaignParcel,
-            total: fullValue,
-            descountForPontuality,
-
-        }
-
-    }
-
-    const activeCampaignForMaterial = async (campaignMaterial, insumes) => {
-
-        const { total, descount } = await defineValueForMaterials(filteredContracts["Material didático"], insumes);
-
-
-        const campaignDescount = await defineDescountValueForType(
-            total,
-            campaignMaterial.value,
-            campaignMaterial.descountType
-        )
-
-
-        const materials = []
-
-        for (let index = 0; index < parseNumber(filteredContracts["Quantidade de parcelas MD"]); index++) {
-            materials.push({
-                valor: ((total - campaignDescount) / parseNumber(filteredContracts["Quantidade de parcelas MD"])).toFixed(2)
-            })
-        }
-
-        setmaterial({
-            materials,
-            total,
-            descount: descount + campaignDescount
-        })
-
-        filteredContracts["material"] = {
-            materials,
-            total: total,
-            campaign: campaignMaterial,
-            descount: descount + campaignDescount
-
-        }
-
-    }
-
-    const activeCampaignForTax = async (campaignTax) => {
-        const value = 350 - parseNumber(filteredContracts["Valor do Desconto na TM"])
-
-        const campaignDescount = await defineDescountValueForType(
-            value,
-            campaignTax.value,
-            campaignTax.descountType
-        )
-
-        const taxValue = value - campaignDescount
-        const quantityParcels = filteredContracts["Quantidade de parcelas TM "] ? filteredContracts["Quantidade de parcelas TM "] : 1
-
-
-        const tx = []
-        for (let index = 0; index < quantityParcels; index++) {
-
-            tx.push({ valor: (taxValue / quantityParcels).toFixed(2) })
-        }
-        settax({
-            taxes: tx,
-            total: taxValue
-        })
-
-        filteredContracts["tax"] = {
-            taxes: tx,
-            total: taxValue,
-            campaign: campaignTax,
-            descount: campaignDescount
-        }
-    }
-    ///////////////////////////////
-
-
-    //////////////Serão ativados caso não haja campanha ativa no contrato
-    const sincValueForMaterial = async (material, campaignMaterial) => {
-
-        const materials = [];
-        const { totalPriceSale, array } = await sincMaterials(material, campaignMaterial);
-
-        const { valor: total, descount } = await descountForEachMd(totalPriceSale);
-
-        for (let index = 0; index < array.length; index++) {
-            const element = array[index];
-            const eachAccount = await descountForEachMd(element.priceSale);
-
-            materials.push(eachAccount);
-        }
-
-
-        setmaterial({
-            materials,
-            total: total,
-            descount
-
-        })
-
-        const account = (total - descount) / filteredContracts["Quantidade de parcelas MD"];
-        const rounded = Math.ceil(account * 100) / 100
-
-        filteredContracts["material"] = {
-            materials,
-            parcels: new Array(parseNumber(filteredContracts["Quantidade de parcelas MD"]))
-                .fill({ valor: rounded }),
-            total: total,
-            descount
-        }
-    }
-
-    const sincValueForParcel = async () => {
-
-        const { fullValue, descountForPontuality } = await defineValueForParcels(
-            filteredContracts["valorCurso"],
-            filteredContracts["Forma de pagamento da parcela"],
-            parseNumber(filteredContracts["Número de parcelas do curso"])
-        )
-        let array = []
-
-        for (let index = 0; index < parseInt(filteredContracts["Número de parcelas do curso"]); index++) {
-
-            array.push({
-                valor: (fullValue / parseNumber(filteredContracts["Número de parcelas do curso"])).toFixed(2),
-                descount:
-                    (
-                        (fullValue / parseNumber(filteredContracts["Número de parcelas do curso"])) -
-                        (fullValue / parseNumber(filteredContracts["Número de parcelas do curso"]) - descountForPontuality)
-
-                    ).toFixed(2)
-            })
-        }
-
-
-        setPaymentParcels({
-            parcels: array,
-            total: array.reduce((acc, curr) => acc + parseNumber(curr.valor), 0),
-            descount: array.reduce((acc, curr) => parseFloat(curr.descount) + acc, 0),
-            descountForPontuality
-        })
-
-        filteredContracts["parcel"] = {
-            parcels: array,
-            total: array.reduce((acc, curr) => acc + parseNumber(curr.valor), 0),
-            descount: array.reduce((acc, curr) => parseFloat(curr.descount) + acc, 0),
-            descountForPontuality
-        }
-    }
-
-
-    const sincValueForTax = async () => {
-
-        const taxValue = 350 - parseNumber(filteredContracts["Valor do Desconto na TM"]);
-        const quantityParcels = filteredContracts["Quantidade de parcelas TM "] ? filteredContracts["Quantidade de parcelas TM "] : 1
-
-        const tx = []
-        for (let index = 0; index < quantityParcels; index++) {
-
-            tx.push({ valor: (taxValue / quantityParcels).toFixed(2) })
-        }
-        settax({
-            taxes: tx,
-            total: taxValue
-        })
-
-        filteredContracts["tax"] = {
-            taxes: tx,
-            total: taxValue,
-            descount: parseNumber(filteredContracts["Valor do Desconto na TM"])
-        }
-    }
-    /////////////////////////////////////
-
-    useLayoutEffect(() => {
-        if (paymentParcels.parcels.length === 0) {
-
-
-            const isThereActive = async () => await filterCampaigns()
-            isThereActive()
-                .then(async res => {
-                    setcamp(res)
-                    const { material, parcel, tax } = res
-
-                    material ? activeCampaignForMaterial(material, filteredContracts['products']) : sincValueForMaterial(filteredContracts["Material didático"], filteredContracts['products'])
-
-                    parcel ? activeCampaignForParcel(parcel) : sincValueForParcel()
-                    tax ? activeCampaignForTax(tax) : sincValueForTax(tax)
-                })
-        }
-    }, [filteredContracts])
-
-
-
 
     const keys = Object.keys(filteredContracts)
-        .filter(res => res !== 'id' && res !== 'service' && res !== 'tax' && res !== 'material' && res !== 'parcel' && res !== 'products' && res !== 'campaigns');
+        .filter(res => res !== 'id' && res !== 'service' && res !== 'tax' && res !== 'material' && res !== 'parcel' && res !== 'products' && res !== 'campaigns' && res !== 'services');
 
     const render = () => {
         setLoading(true);
@@ -538,10 +139,461 @@ export const ContractData = () => {
 
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    const reducer = (array, key) => {
+        return array.reduce((acc, curr) => acc + parseFloat(curr[key]), 0)
+    }
+
+    const rounder = (value, quantityParcels) => {
+        const account = value / quantityParcels;
+        const rounded = Math.ceil(account * 100) / 100;
+
+        return rounded
+    }
+
+    const [serviceEditable, setServiceEditable] = useState(true)
+    const [taxEditable, setTaxEditable] = useState(true)
+
+    const [containerService, setContainerService] = useState(false)
+    const [containerProduct, setContainerProduct] = useState(false)
+    const [containerTax, setContainerTax] = useState(false)
+
+
+    const [productss, setProduct] = useState({
+        sellected: filteredContracts["products"],
+        fullPrice: reducer(filteredContracts['products'], 'priceSale'),
+        price: reducer(filteredContracts['products'], 'priceSale') - (reducer(filteredContracts['products'], 'priceSale') * paymentMethodsForMaterials[filteredContracts["Forma de pagamento do MD"] ?? 1]).toFixed(2),
+        descount: parseFloat(reducer(filteredContracts['products'], 'priceSale') * paymentMethodsForMaterials[filteredContracts["Forma de pagamento do MD"] ?? 1]).toFixed(2),
+        campaign: '',
+        parcels: filteredContracts["Quantidade de parcelas MD"] ?? 1,
+        payment_date: new Date().toISOString(),
+        payment_type: filteredContracts["Forma de pagamento do MD"] ?? '',
+    });
+
+    const [servicess, setService] = useState({
+        sellected: filteredContracts['services'],
+        fullPrice: reducer(filteredContracts['services'], 'priceSale'),
+        price: reducer(filteredContracts['services'], 'priceSale') - (reducer(filteredContracts['services'], 'priceSale') * paymentMethodsForParcels[filteredContracts["Forma de pagamento da parcela"] ?? 1]).toFixed(2),
+        descount: parseFloat(reducer(filteredContracts['services'], 'priceSale') * paymentMethodsForParcels[filteredContracts["Forma de pagamento da parcela"] ?? 1]).toFixed(2),
+        campaign: '',
+        parcels: filteredContracts["Número de parcelas do curso"] ?? 1,
+        payment_date: new Date().toISOString(),
+        payment_type: filteredContracts["Forma de pagamento da parcela"] ?? '',
+    });
+
+    const [taxs, setTaxs] = useState({
+        sellected: odd,
+        fullPrice: 350,
+        price: 350,
+        descount: filteredContracts["Valor do Desconto na TM"] ?? 0,
+        campaign: '',
+        parcels: filteredContracts["Quantidade de parcelas TM "] ?? 1,
+        payment_date: new Date().toISOString(),
+        payment_type: filteredContracts["Forma de pagamento TM"] ?? '',
+    });
+
+
+    const handleProductsData = (key, value) => {
+
+        if (key === 'payment_type') {
+            const fullPrice = reducer(productss.sellected, 'priceSale');
+
+            if (productss?.campaign) {
+
+                const { value: campValue, descountType } = campaigns.find(camp => camp.id === productss?.campaign);
+                let campaignDescount = defineDescountValueForType(fullPrice, campValue, descountType);
+
+                return setProduct({
+                    ...productss,
+                    ...{
+                        descount: campaignDescount,
+                        price: (fullPrice - campaignDescount).toFixed(2),
+                        fullPrice,
+                        payment_type: value,
+
+                    }
+                })
+            }
+
+            return setProduct({
+                ...productss,
+                ...{
+                    descount: (fullPrice * paymentMethodsForMaterials[value]).toFixed(2),
+                    price: (fullPrice - (fullPrice * paymentMethodsForMaterials[value])).toFixed(2),
+                    fullPrice,
+                    payment_type: value,
+                }
+            })
+        }
+
+        const descountForPaymentMethod = paymentMethodsForMaterials[productss.payment_type]
+
+        if (key === 'sellected') {
+            const fullPrice = reducer(value, 'priceSale');
+
+            if (productss?.campaign) {
+                const { value: campValue, descountType } = campaigns.find(camp => camp.id === productss?.campaign);
+                let campaignDescount = defineDescountValueForType(fullPrice, campValue, descountType);
+
+                return setProduct({
+                    ...productss,
+                    ...{
+                        sellected: value,
+                        descount: campaignDescount,
+                        price: (fullPrice - campaignDescount).toFixed(2),
+                        fullPrice,
+                    }
+                })
+            }
+
+            return setProduct({
+                ...productss,
+                ...{
+                    sellected: value,
+                    descount: descountForPaymentMethod ?
+                        parseFloat(fullPrice * descountForPaymentMethod).toFixed(2) :
+                        0,
+                    price: descountForPaymentMethod ?
+                        parseFloat(fullPrice - (fullPrice * descountForPaymentMethod)).toFixed(2) :
+                        fullPrice,
+                    fullPrice,
+                }
+            })
+        }
+
+        if (key === 'campaign') {
+
+            const campaign = campaigns.find(camp => camp.id === value);
+            const fullPrice = reducer(productss?.sellected, 'priceSale');
+
+            if (!campaign) {
+                setcamp({ ...camp, ...{ product: undefined } })
+                return setProduct({
+                    ...productss,
+                    ...{
+                        descount: (fullPrice * descountForPaymentMethod).toFixed(2),
+                        price: (fullPrice - (fullPrice * descountForPaymentMethod)).toFixed(2),
+                        fullPrice,
+                        campaign: ''
+                    }
+                })
+            }
+            setcamp({ ...camp, ...{ product: campaign } })
+            const { value: campValue, descountType } = campaign;
+            let campaignDescount = defineDescountValueForType(fullPrice, campValue, descountType)
+
+            return setProduct({
+                ...productss,
+                campaign: value,
+                price: (fullPrice - campaignDescount).toFixed(2),
+                descount: campaignDescount
+            })
+
+        }
+
+        return setProduct({
+            ...productss,
+            [key]: value
+        })
+    }
+
+    const handleServiceData = async (key, value) => {
+
+        if (key === 'payment_type') {
+            const fullPrice = reducer(servicess.sellected, 'priceSale');
+
+            if (servicess?.campaign) {
+
+                const { value: campValue, descountType } = campaigns.find(camp => camp.id === servicess?.campaign);
+                let campaignDescount = defineDescountValueForType(fullPrice, campValue, descountType);
+
+                return setService({
+                    ...servicess,
+                    ...{
+                        descount: campaignDescount,
+                        price: (fullPrice - campaignDescount).toFixed(2),
+                        payment_type: value,
+                        fullPrice,
+                    }
+                })
+            }
+
+            return setService({
+                ...servicess,
+                ...{
+                    descount: (fullPrice * paymentMethodsForParcels[value]).toFixed(2),
+                    price: (fullPrice - (fullPrice * paymentMethodsForParcels[value])).toFixed(2),
+                    payment_type: value,
+                    fullPrice,
+                }
+            })
+        }
+
+        const descountForPaymentMethod = paymentMethodsForParcels[servicess.payment_type]
+
+        if (key === 'sellected') {
+            const service = services.filter(ser => ser.id === value);
+
+            const fullPrice = reducer(service, 'priceSale');
+
+            if (servicess?.campaign) {
+                const { value: campValue, descountType } = campaigns.find(camp => camp.id === servicess?.campaign);
+                let campaignDescount = defineDescountValueForType(fullPrice, campValue, descountType);
+
+                return setService({
+                    ...servicess,
+                    ...{
+                        sellected: service,
+                        descount: campaignDescount,
+                        price: (fullPrice - campaignDescount).toFixed(2),
+                        fullPrice,
+                    }
+                })
+            }
+
+            return setService({
+                ...servicess,
+                ...{
+                    sellected: service,
+                    descount: descountForPaymentMethod ?
+                        parseFloat(fullPrice * descountForPaymentMethod).toFixed(2) :
+                        0,
+                    price: descountForPaymentMethod ?
+                        parseFloat(fullPrice - (fullPrice * descountForPaymentMethod)).toFixed(2) :
+                        fullPrice,
+                    fullPrice,
+                }
+            })
+        }
+
+        if (key === 'campaign') {
+
+            const campaign = campaigns.find(camp => camp.id === value);
+            const fullPrice = servicess?.fullPrice;
+
+            if (!campaign) {
+                setcamp({ ...camp, ...{ service: undefined } })
+                return setService({
+                    ...servicess,
+                    ...{
+                        descount: (fullPrice * descountForPaymentMethod).toFixed(2),
+                        price: (fullPrice - (fullPrice * descountForPaymentMethod)).toFixed(2),
+                        fullPrice,
+                        campaign: ''
+                    }
+                })
+            }
+
+            setcamp({ ...camp, ...{ service: campaign } });
+            const { value: campValue, descountType, affectedParcels } = campaign;
+
+            const parcelValue = fullPrice / servicess?.parcels;
+            let campaignDescount = await defineDescountValueForType(parcelValue, campValue, descountType) * affectedParcels;
+
+            return setService({
+                ...servicess,
+                campaign,
+                price: (fullPrice - campaignDescount).toFixed(2),
+                descount: campaignDescount
+            })
+
+        }
+
+        if (key === 'descount') {
+            const fullPrice = servicess?.fullPrice;
+
+            return setService({
+                ...servicess,
+                campaign: '',
+                descount: value,
+                price: (fullPrice - value).toFixed(2),
+            })
+        }
+
+        if (key === 'fullPrice') {
+            const descount = parseFloat(value * descountForPaymentMethod).toFixed(2)
+
+            if (servicess?.campaign) {
+                const { value: campValue, descountType } = campaigns.find(camp => camp.id === productss?.campaign);
+                let campaignDescount = defineDescountValueForType(value, campValue, descountType);
+
+                return setService({
+                    ...servicess,
+                    campaign: '',
+                    descount: campaignDescount,
+                    price: parseFloat(value - campaignDescount),
+                    fullPrice: value
+                })
+            }
+
+            return setService({
+                ...servicess,
+                campaign: '',
+                descount: descountForPaymentMethod ? descount : 0,
+                price: parseFloat(value - parseFloat(value * descountForPaymentMethod).toFixed(2)),
+                fullPrice: value
+            })
+        }
+
+
+        return setService({
+            ...servicess,
+            [key]: value
+        })
+    }
+
+    const handleTaxData = async (key, value) => {
+
+
+        if (key === 'campaign') {
+
+            const campaign = campaigns.find(camp => camp.id === value);
+            const fullPrice = taxs?.fullPrice;
+
+            if (!campaign) {
+                setcamp({ ...camp, ...{ tax: undefined } });
+                return setTaxs({
+                    ...taxs,
+                    ...{
+                        descount: fullPrice,
+                        price: fullPrice - taxs?.descount,
+                        fullPrice,
+                        campaign: ''
+                    }
+                })
+            }
+            setcamp({ ...camp, ...{ tax: campaign } });
+            const { value: campValue, descountType, affectedParcels } = campaign;
+
+            const parcelValue = fullPrice / servicess?.parcels;
+            let campaignDescount = await defineDescountValueForType(parcelValue, campValue, descountType) * affectedParcels;
+
+            return setTaxs({
+                ...taxs,
+                campaign,
+                price: (fullPrice - campaignDescount).toFixed(2),
+                descount: campaignDescount,
+
+            })
+
+        }
+
+        if (key === 'descount') {
+            const fullPrice = taxs?.fullPrice;
+
+            return setTaxs({
+                ...taxs,
+                campaign: '',
+                descount: value,
+                price: (fullPrice - value).toFixed(2),
+            })
+        }
+
+        if (key === 'fullPrice') {
+            const descount = taxs?.descount
+
+            if (taxs?.campaign) {
+                const { value: campValue, descountType } = campaigns.find(camp => camp.id === productss?.campaign);
+                let campaignDescount = defineDescountValueForType(value, campValue, descountType);
+
+                return setTaxs({
+                    ...taxs,
+                    campaign: '',
+                    descount: campaignDescount,
+                    price: parseFloat(value - campaignDescount),
+                    fullPrice: value
+                })
+            }
+
+            return setTaxs({
+                ...taxs,
+                campaign: '',
+                descount: descount,
+                price: parseFloat(value - descount).toFixed(2),
+                fullPrice: value
+            })
+        }
+
+
+        return setTaxs({
+            ...taxs,
+            [key]: value
+        })
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    const parcelsMaker = async ({ fullValue, quantityParcels, campaign, price, payment_date }) => {
+        const array = []
+
+        const fullPriceRounded = await rounder(fullValue, quantityParcels);
+        const priceRounded = await rounder(price, quantityParcels);
+
+
+        if (!campaign) {
+            for (let index = 0; index < quantityParcels; index++) {
+                array.push({ valor: priceRounded, date: await dateCalculator(payment_date, index) })
+            }
+
+            return array
+        }
+
+        const { value, descountType, affectedParcels } = campaign;
+
+        for (let index = 0; index < quantityParcels; index++) {
+
+            let campaignDescount = await defineDescountValueForType(fullPriceRounded, value, descountType);
+            index + 1 <= affectedParcels ?
+                array.push({ valor: fullPriceRounded - campaignDescount, date: await dateCalculator(payment_date, index) }) :
+                array.push({ valor: fullPriceRounded, date: await dateCalculator(payment_date, index) })
+        }
+
+        return array;
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    const sincValues = async (productsData, destiny) => {
+        setLoading(true);
+        const { sellected, fullPrice, price, descount,
+            parcels, payment_date, payment_type, campaign } = productsData;
+
+
+        const parcelsAffected = await parcelsMaker({
+            campaign,
+            fullValue: fullPrice,
+            quantityParcels: parcels,
+            price,
+            payment_date
+        });
+
+        const chooses = {
+            "newService": setServiceChoosed,
+            "newProduct": setProductChoosed,
+            "newTax": setTaxsChoosed,
+        }
+
+        chooses[destiny](productsData);
+
+        filteredContracts[destiny] = {
+            campaign,
+            data: sellected,
+            parcels: parcelsAffected,
+            quantity_parcels: parcels,
+            total: fullPrice,
+            descount,
+            payment_date: await parseDates(payment_date),
+            payment_type
+        }
+        setLoading(false);
+
+    }
+
     return (
         <Container>
             <Aside>
-                <NavBar>
+                <NavBar className='contrast'>
                     <ComeBackDiv
                         className='flex'
                     >
@@ -568,28 +620,16 @@ export const ContractData = () => {
 
                     <span className="view flex">
                         <p>Visualização em</p>
-                        <div className='buttons'>
-                            <div
-                                onClick={() => setView('table')}
-                                open={view === 'table'}
-                                className='button-link ac'
-                            >
-                                <p>Tabela </p>
-                                <div className='active'></div>
-                            </div>
 
-                            |
-
-                            <div
-                                onClick={() => setView('template')}
-                                open={view === 'template'}
-                                className='button-link'
-
-                            >
-                                <p>Contrato</p>
-                            </div>
-                        </div>
-
+                        <SwitchButtons
+                            data={{
+                                fn: setView,
+                                options: [
+                                    "Tabela", "Contrato"
+                                ],
+                                optionActive: view,
+                            }}
+                        />
                     </span>
 
                     <span className='emmit flex' >
@@ -614,6 +654,7 @@ export const ContractData = () => {
                                 text={personalText.autentique} />
                         </Button>
                         <Button
+                            // disabled={}
                             className='defaultButton blueButton'
                         >
                             <SureSendModal
@@ -649,13 +690,13 @@ export const ContractData = () => {
 
             <Main>
                 {
-                    view === 'table' ?
+                    view === 'Tabela' ?
                         <section
                             className='box'
                         >
 
                             <div
-                                className='container flex'
+                                className='container flex div10'
                             >
 
                                 <ContainerData>
@@ -800,350 +841,885 @@ export const ContractData = () => {
 
 
                             </div>
-                            <div
-                                className='container'
+                            {/* /// */}
+                            <SubContainer
+                                className='div20'
+                                open={containerService}
                             >
+                                <header className="flex nav header contrast"
+                                    onClick={() => {
+                                        setContainerService(!containerService)
+                                        // setServiceChoosed(null)
+                                    }}>
+                                    <h3 className='headers'>
+                                        Tabela 1 - Serviço para venda
+                                    </h3>
+                                    <button>
+                                        <KeyboardArrowDownIcon />
+                                    </button>
 
-                                <ContainerData>
+                                </header>
 
-                                    <h3 className='headers'>Tabela 1 - Descrição dos serviços contratados</h3>
-                                    <table>
-                                        <thead className='contrast'>
-                                            <tr>
-                                                <td>Descrição do serviço</td>
-                                                <td>Valor bruto</td>
-                                                <td>Total de desconto condicional(R$)</td>
-                                                <td>Número de parcelas</td>
-                                                <td>Forma de pagamento</td>
-                                                <td>Valor total líquido (R$)</td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td >{filteredContracts["service"]}</td>
-                                                <td >{changeCurrency(filteredContracts["valorCurso"])}</td>
-                                                <td >{changeCurrency(paymentParcels["descount"])}</td>
-                                                <td >{filteredContracts["Número de parcelas do curso"]}</td>
-                                                <td >{filteredContracts["Forma de pagamento da parcela"]}</td>
-                                                <td >{changeCurrency(paymentParcels["total"] - paymentParcels["descount"])}</td>
-                                            </tr>
+                                <div className='flex body'>
+
+                                    <span className="flex sub-body">
+                                        <label className='div1' htmlFor="">
+                                            <p>Serviço</p>
+                                            <UniqueSelect
+                                                field='sellected'
+                                                placeHolder={servicess?.sellected[0]?.name}
+                                                option={services.map(serv => ({ value: serv.id, name: serv.name }))}
+                                                fn={[handleServiceData]}
+                                                nullable={true}
+
+                                            />
+                                        </label>
+
+                                        <label className='div2' htmlFor="">
+                                            <p>Forma de pagamento</p>
+                                            <UniqueSelect
+                                                placeHolder={servicess?.payment_type}
+                                                fn={[handleServiceData]}
+                                                option={[
+                                                    { name: "Boleto" },
+                                                    { name: "Boleto via outros bancos" },
+                                                    { name: "Cartão de débito via outros bancos" },
+                                                    { name: "Dinheiro" },
+                                                    { name: "Pix cobrança" },
+                                                    { name: "Transferência bancária" },
+                                                    { name: "Sem pagamento" },
+                                                    { name: "Isenção" },
+                                                    { name: "Outros" },
+                                                    { name: "Débito automático" },
+                                                    { name: "Cartão de crédito via link" },
+                                                    { name: "Cartão de crédito via outro bancos" },
+                                                    { name: "Pix" },
+                                                ]}
+                                                field='payment_type'
+
+                                            />
+                                        </label>
+
+                                        <label className='div3' htmlFor="">
+                                            <p>Número de parcelas</p>
+                                            <InputRegister
+                                                label={servicess?.parcels}
+                                                fn={[handleServiceData]}
+                                                field='parcels'
+                                                disabled={false}
+
+                                            />
+                                        </label>
+                                        <label className='div4' htmlFor="">
+                                            <p>Data de vencimento</p>
+                                            <DateSelect
+                                                label={servicess?.payment_date}
+                                                field='payment_date'
+                                                fn={[handleServiceData]}
+
+                                            />
 
 
-                                        </tbody>
+                                        </label>
+                                        <label className='div5' htmlFor="">
+                                            <p>Campanha</p>
 
-                                    </table>
-                                </ContainerData>
+                                            <UniqueSelect
+                                                placeHolder={servicess?.campaign}
+                                                fn={[handleServiceData]}
+                                                nullable={true}
+                                                option={campaigns.filter(camp => camp.for === 'Parcel')
+                                                    .map(camp => ({ value: camp.id, name: camp.name }))
+                                                }
+                                                field='campaign'
+                                            />
+                                        </label>
 
-                                {
-                                    camp.parcel !== undefined &&
+                                        <label className='div6' htmlFor="">
+                                            <p>Valor bruto(R$)</p>
+                                            <InputRegister
+                                                label={servicess?.fullPrice}
+                                                field='fullPrice'
+                                                width='10rem'
+                                                disabled={serviceEditable}
+                                                fn={[handleServiceData]}
+                                            // border='#f8ff74'
+                                            />
+                                        </label>
+
+                                        <label className='div7' htmlFor="">
+                                            <p>Desconto(R$)</p>
+                                            <InputRegister
+                                                width='10rem'
+                                                label={servicess?.descount}
+                                                fn={[handleServiceData]}
+                                                disabled={serviceEditable}
+                                                field='descount'
+                                            // border='#74f1ff'
+
+                                            />
+                                        </label>
+
+                                        <label className='div8' htmlFor="">
+                                            <p>Valor líquido(R$)</p>
+
+                                            <InputRegister
+                                                label={servicess?.price}
+                                                field='price'
+                                                width='100%'
+                                                disabled={true}
+                                                fn={[handleServiceData]}
+                                            // border='#a0ff74'
+
+                                            />
+                                        </label>
+
+                                    </span>
+                                    <span className="flex">
+
+                                        <button
+                                            className='confirm-button redButton defaultButton'
+                                            onClick={() => setServiceEditable(!serviceEditable)}
+                                        >
+                                            editavel
+                                        </button>
+
+                                        <button
+                                            className='confirm-button blueButton defaultButton'
+                                            disabled={servicess?.payment_type === '' || servicess?.sellected.length === 0}
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                sincValues(servicess, 'newService');
+                                            }}
+                                        >
+                                            Confirmar
+                                        </button>
+                                    </span>
+
+                                </div>
+
+                            </SubContainer>
+                            {/* /// */}
+                            {
+                                serviceChoosed?.sellected &&
+                                serviceChoosed?.sellected.length > 0 &&
+                                <div
+                                    className='container div30'
+                                >
 
                                     <ContainerData>
-                                        <h3> Campanha</h3>
+                                        <nav className='nav header contrast'>
 
+                                            <h3 className='headers'>Descrição dos serviços contratados</h3>
+                                            <button
+                                                onClick={() => setServiceChoosed(null)}
+                                            >
+                                                <CloseIcon />
+                                            </button>
+                                        </nav>
                                         <table>
                                             <thead className='contrast'>
                                                 <tr>
-                                                    <td>Nome</td>
-                                                    <td>Valor</td>
-                                                    <td>Alvo</td>
-                                                    <td>N° de parcelas</td>
-                                                    <td>Tipo de desconto</td>
-                                                    <td>Descrição</td>
+                                                    <td>Descrição do serviço</td>
+                                                    <td>Valor bruto</td>
+                                                    <td>Total de desconto condicional(R$)</td>
+                                                    <td>Valor total líquido (R$)</td>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td >{camp.parcel.name}</td>
-                                                    <td >{camp.parcel.value}</td>
-                                                    <td >{camp.parcel.for}</td>
-                                                    <td >{camp.parcel.affectedParcels}</td>
-                                                    <td >{camp.parcel.descountType}</td>
-                                                    <td >{camp.parcel.description}</td>
+                                                    <td >{serviceChoosed?.sellected[0].name}</td>
+                                                    <td >{changeCurrency(serviceChoosed?.fullPrice)}</td>
+                                                    <td >{changeCurrency(
+                                                        serviceChoosed?.campaign ?
+                                                            0 :
+                                                            serviceChoosed?.descount
+                                                    )}</td>
+
+                                                    <td >
+                                                        {changeCurrency(serviceChoosed?.price)}
+                                                    </td>
                                                 </tr>
+
 
                                             </tbody>
 
                                         </table>
+
                                     </ContainerData>
 
-                                }
+                                    {
+                                        camp?.service &&
 
-                                <ContainerData>
-                                    <h3 className='headers'>Tabela 2 - Detalhamento das parcelas</h3>
-                                    <table>
-                                        <thead className='contrast'>
-                                            <tr>
-                                                <td>Parcela</td>
-                                                <td>Vencimento</td>
-                                                <td>Valor bruto</td>
-                                                <td>Desconto por parcelas</td>
-                                                <td>Valor líquido (R$)</td>
-                                            </tr>
-                                        </thead>
-                                        {
-                                            camp.parcel ?
-                                                <tbody>
-                                                    {
-                                                        paymentParcels.parcels.map((res, idx) => (
-                                                            <tr key={idx}>
-                                                                <td>{idx + 1}</td>
-                                                                <td>{dateCalculator(filteredContracts["Data de Vencimento da Primeira Parcela"], idx)}</td>
-                                                                <td>{changeCurrency(paymentParcels.total / paymentParcels.parcels.length)}</td>
-                                                                <td>{changeCurrency(res.descount)}</td>
+                                        <ContainerData>
+                                            <h3> Campanha</h3>
 
-                                                                {
-                                                                    idx + 1 > camp?.parcel?.affectedParcels ?
-                                                                        <td>{changeCurrency(res.valor - res.descount)}</td> :
-                                                                        <td>{changeCurrency(res.valor)}</td>
-                                                                }
-                                                            </tr>
-                                                        ))
-                                                    }
+                                            <table>
+                                                <thead className='contrast'>
                                                     <tr>
+                                                        <td>Nome</td>
+                                                        <td>Valor</td>
+                                                        <td>Tipo de desconto</td>
+                                                        <td>Alvo</td>
+                                                        <td>N° de parcelas</td>
+                                                        <td>Descrição</td>
                                                     </tr>
-                                                </tbody> :
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td >{camp.service.name}</td>
+                                                        <td >{camp.service.value}</td>
+                                                        <td >{descountTypes[camp.service.descountType]}</td>
+                                                        <td >{goalTypes[camp.service.for]}</td>
+                                                        <td >{camp.service.affectedParcels}</td>
+                                                        <td >{camp.service.description}</td>
+                                                    </tr>
+
+                                                </tbody>
+
+                                            </table>
+                                        </ContainerData>
+
+                                    }
+                                    <ContainerData>
+                                        <h3 className='headers'>Detalhamento das parcelas</h3>
+                                        <table>
+                                            <thead className='contrast'>
+                                                <td>Data de vencimento</td>
+                                                <td>Número de parcelas</td>
+                                                <td>Forma de pagamento</td>
+
+                                            </thead>
+                                            <tbody>
+                                                <td >{dateCalculator(serviceChoosed?.payment_date, 0)}</td>
+                                                <td >{serviceChoosed?.parcels}</td>
+                                                <td >{serviceChoosed?.payment_type}</td>
+                                            </tbody>
+                                        </table>
+                                        <br />
+                                        <hr />
+                                        <br />
+
+                                        <table>
+                                            <thead className='contrast'>
+                                                <tr>
+                                                    <td>Parcela</td>
+                                                    <td>Vencimento</td>
+                                                    <td>Valor bruto</td>
+                                                    <td>Desconto por parcelas</td>
+                                                    <td>Valor líquido (R$)</td>
+                                                </tr>
+                                            </thead>
+                                            {
+
                                                 <tbody>
                                                     {
-                                                        paymentParcels.parcels.map((res, idx) => (
+                                                        filteredContracts["newService"].parcels?.length > 0 &&
+                                                        filteredContracts["newService"].parcels.map((res, idx) => (
                                                             <tr key={idx}>
                                                                 <td>{idx + 1}</td>
-                                                                <td>{dateCalculator(filteredContracts["Data de Vencimento da Primeira Parcela"], idx)}</td>
-                                                                <td>{changeCurrency(paymentParcels.total / paymentParcels.parcels.length)}</td>
-                                                                <td>{changeCurrency(paymentParcels.descountForPontuality)}</td>
-                                                                <td>{changeCurrency(res.valor - paymentParcels.descountForPontuality)}</td>
+                                                                <td>{res.date}</td>
+                                                                <td>{changeCurrency(rounder(serviceChoosed?.fullPrice / serviceChoosed?.parcels, 1))}</td>
+                                                                <td>{changeCurrency(rounder(serviceChoosed?.fullPrice / serviceChoosed?.parcels, 1) - res.valor)}</td>
+                                                                <td>{changeCurrency(res.valor)}</td>
+
                                                             </tr>
                                                         ))
                                                     }
                                                     <tr>
                                                     </tr>
                                                 </tbody>
-                                        }
-
-                                    </table>
-                                </ContainerData>
-                            </div>
-
-
-                            <div
-                                className='container'
-                            >
-                                <ContainerData>
-                                    <h3 className='headers'>Tabela 1 - Descrição dos Materiais didáticos</h3>
-                                    <table>
-                                        <thead className='contrast'>
-                                            <tr>
-                                                <td>Descrição do material</td>
-                                                <td>Valor bruto (R$)</td>
-                                                <td>Total de desconto condicional(R$)</td>
-                                                <td>Número de parcelas</td>
-                                                <td>Forma de pagamento</td>
-                                                <td>Valor total líquido (R$)</td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {
-                                                filteredContracts["products"] &&
-                                                filteredContracts["products"].map((res) => (
-                                                    <tr key={res.id}>
-                                                        <td>{res.name}</td>
-                                                        <td>{changeCurrency(res.priceSale)}</td>
-                                                        <td>{changeCurrency(material?.materials.find(r => r.valor === res.priceSale).descount)}</td>
-                                                        <td>{filteredContracts["Quantidade de parcelas MD"]}</td>
-                                                        <td>{filteredContracts["Forma de pagamento do MD"]}</td>
-                                                        <td>{changeCurrency(res.priceSale - material?.materials.find(r => r.valor === res.priceSale).descount)}</td>
-                                                    </tr>
-                                                ))
                                             }
-                                        </tbody>
-                                        {
-                                            filteredContracts["products"].length > 0 &&
-                                            <tfoot className='contrast'>
-                                                <tr>
 
-                                                    <td>TOTAL</td>
-                                                    <td>{changeCurrency(material?.total)}</td>
-                                                    <td>{changeCurrency(material?.descount)}</td>
-                                                    <td>{filteredContracts["Quantidade de parcelas MD"]}</td>
-                                                    <td>{filteredContracts["Forma de pagamento do MD"]}</td>
-                                                    <td>{changeCurrency(material?.total - parseFloat(material?.descount))}</td>
-                                                </tr>
-                                            </tfoot>
-                                        }
+                                        </table>
+                                    </ContainerData>
 
-                                    </table>
-                                </ContainerData>
-                                {
-                                    camp.material !== undefined &&
+                                </div>
+                            }
+                            {/* /// */}
+                            <SubContainer
+                                className='div40'
+                                open={containerProduct}
+                            >
+                                <header className="flex nav header contrast"
+                                    onClick={() => {
+                                        setContainerProduct(!containerProduct)
+                                        // setProductChoosed(null)
+                                    }}>
+
+                                    <h3 className='headers'>
+                                        Tabela 2 - Produtos para Venda
+                                    </h3>
+                                    <button>
+                                        <KeyboardArrowDownIcon />
+                                    </button>
+                                </header>
+                                <div className='flex body'>
+
+                                    <span className="flex sub-body">
+                                        <label className='div1' htmlFor="">
+                                            <p>Produto</p>
+                                            <MultiSelect
+                                                field='sellected'
+                                                related={productss?.sellected}
+                                                option={products}
+                                                fn={handleProductsData}
+                                            />
+                                        </label>
+
+                                        <label className='div2' htmlFor="">
+                                            <p>Forma de pagamento</p>
+                                            <UniqueSelect
+                                                placeHolder={productss?.payment_type}
+                                                fn={[handleProductsData]}
+                                                option={[
+                                                    { name: "Boleto" },
+                                                    { name: "Cartão de crédito via link" },
+                                                    { name: "PIX - Pagamento Instantâneo" },
+                                                    { name: "Sem pagamento" },
+                                                    { name: "Isenção" },
+                                                    { name: "Outros" },
+                                                    { name: "Boleto via outros bancos" },
+                                                    { name: "Cartão de crédito via outro bancos" },
+                                                    { name: "Cartão de débito via outros bancos" },
+                                                    { name: "Dinheiro" },
+                                                    { name: "Pix" },
+                                                    { name: "Pix cobrança" },
+                                                    { name: "Transferência bancária" },
+                                                ]}
+                                                field='payment_type'
+
+                                            />
+                                        </label>
+
+                                        <label className='div3' htmlFor="">
+                                            <p>Número de parcelas</p>
+                                            <InputRegister
+                                                label={productss?.parcels}
+                                                fn={[handleProductsData]}
+                                                // width='16rem'
+                                                field='parcels'
+                                                disabled={false}
+
+                                            />
+                                        </label>
+                                        <label className='div4' htmlFor="">
+                                            <p>Data de vencimento</p>
+                                            <DateSelect
+                                                label={productss?.payment_date}
+                                                field='payment_date'
+                                                fn={[handleProductsData]}
+
+                                            />
+
+
+                                        </label>
+                                        <label className='div5' htmlFor="">
+                                            <p>Campanha </p>
+
+                                            <UniqueSelect
+                                                placeHolder={productss.campaign}
+                                                fn={[handleProductsData]}
+                                                field='campaign'
+                                                nullable={true}
+                                                option={campaigns.filter(camp => camp.for === 'Material')
+                                                    .map(camp => ({ value: camp.id, name: camp.name }))
+                                                }
+                                            />
+                                        </label>
+
+                                        <label className='div6' htmlFor="">
+                                            <p>Valor bruto(R$)</p>
+                                            <InputRegister
+                                                label={productss?.fullPrice}
+                                                field='fullPrice'
+                                                width='10rem'
+                                                disabled={true}
+                                                fn={[handleProductsData]}
+                                            // border='#f8ff74'
+                                            />
+                                        </label>
+
+                                        <label className='div7' htmlFor="">
+                                            <p>Desconto(R$)</p>
+                                            <InputRegister
+                                                width='10rem'
+                                                label={productss?.descount}
+                                                fn={[handleProductsData]}
+                                                disabled={true}
+                                                field='descount'
+                                            // border='#74f1ff'
+
+                                            />
+                                        </label>
+
+                                        <label className='div8' htmlFor="">
+                                            <p>Valor líquido(R$)</p>
+
+                                            <InputRegister
+                                                label={productss?.price}
+                                                field='price'
+                                                width='100%'
+                                                disabled={true}
+                                                fn={[handleProductsData]}
+                                            // border='#a0ff74'
+
+                                            />
+                                        </label>
+
+                                    </span>
+
+                                    <span className="flex">
+
+                                        <button
+                                            disabled={productss?.payment_type === '' || productss?.sellected.length === 0}
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                sincValues(productss, 'newProduct');
+                                            }}
+                                            className='confirm-button blueButton defaultButton'
+                                        >
+                                            Confirmar
+                                        </button>
+
+                                    </span>
+
+                                </div>
+
+                            </SubContainer>
+                            {/* /// */}
+
+                            {
+                                productChoosed?.sellected &&
+                                productChoosed?.sellected.length > 0 &&
+                                <div
+                                    className='container div50'
+                                >
                                     <ContainerData>
-                                        <h3> Campanha</h3>
+                                        <nav className='nav header contrast' >
 
+                                            <h3 className='headers'>Descrição dos Produtos</h3>
+                                            <button
+                                                onClick={() => setProductChoosed(null)}
+                                            >
+                                                <CloseIcon />
+                                            </button>
+                                        </nav>
                                         <table>
-                                            <thead>
+                                            <thead className='contrast'>
                                                 <tr>
-                                                    <td>Nome</td>
-                                                    <td>Valor</td>
-                                                    <td>Alvo</td>
-                                                    <td>N° de parcelas</td>
-                                                    <td>Tipo de desconto</td>
-                                                    <td>Descrição</td>
+                                                    <td>Descrição do material</td>
+                                                    <td>Valor bruto (R$)</td>
+                                                    <td>Total de desconto condicional(R$)</td>
+                                                    <td>Valor total líquido (R$)</td>
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                {
+                                                    productChoosed?.sellected &&
+                                                    productChoosed?.sellected.map((res) => (
+                                                        <tr key={res.id}>
+                                                            <td>{res.name}</td>
+                                                            <td>{changeCurrency(res.priceSale)}</td>
+                                                            <td>{changeCurrency(
+                                                                productChoosed?.campaign ?
+                                                                    0 :
+                                                                    res.priceSale * paymentMethodsForMaterials[productChoosed?.payment_type]
+                                                            )}</td>
+
+                                                            <td>{changeCurrency(
+                                                                productChoosed?.campaign ?
+                                                                    0 :
+                                                                    res.priceSale - (res.priceSale * paymentMethodsForMaterials[productChoosed?.payment_type])
+                                                            )}</td>
+
+                                                        </tr>
+                                                    ))
+                                                }
+                                            </tbody>
+
+                                            <tfoot className='contrast'>
                                                 <tr>
-                                                    <td >{camp.material.name}</td>
-                                                    <td >{camp.material.value}</td>
-                                                    <td >{camp.material.for}</td>
-                                                    <td >{camp.material.affectedParcels}</td>
-                                                    <td >{camp.material.descountType}</td>
-                                                    <td >{camp.material.description}</td>
+                                                    <td>TOTAL</td>
+                                                    <td>{changeCurrency(productChoosed?.fullPrice)}</td>
+                                                    <td>{changeCurrency(productChoosed?.descount)}</td>
+                                                    <td>{changeCurrency(productChoosed?.fullPrice - parseFloat(productChoosed?.descount))}</td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+
+                                    </ContainerData>
+                                    {
+                                        camp.product &&
+                                        <ContainerData>
+                                            <h3> Campanha</h3>
+
+                                            <table>
+                                                <thead className='contrast'>
+                                                    <tr>
+                                                        <td>Nome</td>
+                                                        <td>Valor</td>
+                                                        <td>Alvo</td>
+                                                        <td>N° de parcelas</td>
+                                                        <td>Tipo de desconto</td>
+                                                        <td>Descrição</td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td >{camp.product.name}</td>
+                                                        <td >{camp.product.value}</td>
+                                                        <td >{camp.product.for}</td>
+                                                        <td >{camp.product.affectedParcels}</td>
+                                                        <td >{camp.product.descountType}</td>
+                                                        <td title={camp.product.description}>{camp.material.description.slice(0, 60)}...</td>
+                                                    </tr>
+
+                                                </tbody>
+
+                                            </table>
+                                        </ContainerData>
+                                    }
+
+
+                                    <ContainerData>
+                                        <h3 className='headers'>Detalhamento das parcelas</h3>
+                                        <table>
+                                            <thead className='contrast'>
+                                                <td>Vencimento</td>
+                                                <td>Número de parcelas</td>
+                                                <td>Forma de pagamento</td>
+                                            </thead>
+                                            <tbody>
+                                                <td>{dateCalculator(productChoosed?.payment_date, 0)}</td>
+                                                <td>{productChoosed?.parcels}</td>
+                                                <td>{productChoosed?.payment_type}</td>
+                                            </tbody>
+
+                                        </table>
+                                        <br />
+                                        <hr />
+                                        <br />
+                                        <table>
+                                            <thead className='contrast'>
+                                                <tr>
+                                                    <td>Parcela</td>
+                                                    <td>Vencimento</td>
+                                                    <td>Valor bruto</td>
+                                                    <td>Valor líquido (R$)</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {
+                                                    filteredContracts["newProduct"].parcels?.length > 0 &&
+                                                    filteredContracts["newProduct"].parcels.map((res, idx) => (
+                                                        <tr key={idx}>
+                                                            <td>{idx + 1}</td>
+                                                            <td>{res.date}</td>
+                                                            <td>{changeCurrency(rounder(productChoosed?.fullPrice / productChoosed?.parcels, 1))}</td>
+                                                            <td>{changeCurrency(res.valor)}</td>
+                                                        </tr>
+                                                    ))
+                                                }
+                                                <tr>
+
                                                 </tr>
 
                                             </tbody>
 
                                         </table>
                                     </ContainerData>
-                                }
 
+                                </div>
+                            }
+                            {/* /// */}
 
-
-                                <ContainerData>
-                                    <h3 className='headers'>Tabela 2 - Detalhamento das parcelas</h3>
-                                    <table>
-                                        <thead className='contrast'>
-                                            <tr>
-                                                <td>Parcela</td>
-                                                <td>Vencimento</td>
-                                                <td>Valor bruto</td>
-                                                <td>Valor líquido (R$)</td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {
-                                                filteredContracts["material"] &&
-                                                filteredContracts["material"].parcels.map((res, idx) => (
-                                                    <tr key={idx}>
-                                                        <td>{idx + 1}</td>
-                                                        <td>{dateCalculator(filteredContracts["Data de pagamento MD"], idx)}</td>
-                                                        <td>{changeCurrency(material?.total / filteredContracts["Quantidade de parcelas MD"])}</td>
-                                                        <td>{changeCurrency(res.valor)}</td>
-                                                    </tr>
-                                                ))
-                                            }
-                                            <tr>
-
-                                            </tr>
-
-                                        </tbody>
-
-                                    </table>
-                                </ContainerData>
-
-                            </div>
-
-
-
-
-                            <div
-                                className='container'
+                            <SubContainer
+                                className='div60'
+                                open={containerTax}
                             >
+                                <header className="flex nav header contrast"
+                                    onClick={() => {
+                                        setContainerTax(!containerTax)
+                                        // setTaxsChoosed(null)
+                                    }}
+                                >
+                                    <h3 className='headers'>
+                                        Tabela 3 - Produtos para Venda avulsa
+                                    </h3>
 
-                                <ContainerData>
-                                    <h3 className='headers'>Tabela 1 - Descrição da Taxa de matrícula</h3>
+                                    <button>
+                                        <KeyboardArrowDownIcon />
+                                    </button>
+                                </header>
+                                <div className='flex body'>
+
+                                    <span className="flex sub-body">
+                                        <label className='div1' htmlFor="">
+                                            <p>Venda avulsa</p>
+                                            <UniqueSelect
+                                                field='sellected'
+                                                placeHolder={taxs?.sellected[0]?.name}
+                                                // option={}
+                                                fn={[handleTaxData]}
+                                                nullable={true}
+
+                                            />
+                                        </label>
+
+                                        <label className='div2' htmlFor="">
+                                            <p>Forma de pagamento</p>
+                                            <UniqueSelect
+                                                placeHolder={taxs?.payment_type}
+                                                fn={[handleTaxData]}
+                                                option={[
+                                                    { name: "Boleto" },
+                                                    { name: "Cartão de crédito via link" },
+                                                    { name: "PIX - Pagamento Instantâneo" },
+                                                    { name: "Sem pagamento" },
+                                                    { name: "Isenção" },
+                                                    { name: "Outros" },
+                                                    { name: "Boleto via outros bancos" },
+                                                    { name: "Cartão de crédito via outro bancos" },
+                                                    { name: "Cartão de débito via outros bancos" },
+                                                    { name: "Dinheiro" },
+                                                    { name: "Pix" },
+                                                    { name: "Pix cobrança" },
+                                                    { name: "Transferência bancária" },
+                                                ]}
+                                                field='payment_type'
+
+                                            />
+                                        </label>
+
+                                        <label className='div3' htmlFor="">
+                                            <p>Número de parcelas</p>
+                                            <InputRegister
+                                                label={taxs?.parcels}
+                                                fn={[handleTaxData]}
+                                                field='parcels'
+                                                disabled={false}
+
+                                            />
+                                        </label>
+                                        <label className='div4' htmlFor="">
+                                            <p>Data de vencimento</p>
+                                            <DateSelect
+                                                label={taxs?.payment_date}
+                                                field='payment_date'
+                                                fn={[handleTaxData]}
+
+                                            />
 
 
-                                    <table>
-                                        <thead className='contrast'>
-                                            <tr>
-                                                <td>Nome</td>
-                                                <td>Valor</td>
-                                                <td>Total de desconto(R$)</td>
-                                                <td>N° de parcelas</td>
-                                                <td>Forma de pagamento</td>
-                                                <td>Valor líquido</td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td >Taxa de matrícula</td>
-                                                <td >R$ 350,00</td>
-                                                <td >{changeCurrency(filteredContracts['tax']?.descount)}</td>
-                                                <td >{filteredContracts['Quantidade de parcelas TM ']}</td>
-                                                <td >{filteredContracts['Forma de pagamento TM']}</td>
-                                                <td >{changeCurrency(filteredContracts['tax']?.total)}</td>
+                                        </label>
+                                        <label className='div5' htmlFor="">
+                                            <p>Campanha</p>
 
-                                            </tr>
+                                            <UniqueSelect
+                                                placeHolder={taxs.campaign}
+                                                fn={[handleTaxData]}
+                                                nullable={true}
+                                                option={campaigns.filter(camp => camp.for === 'Tax')
+                                                    .map(camp => ({ value: camp.id, name: camp.name }))
+                                                }
+                                                field='campaign'
+                                            />
+                                        </label>
 
-                                        </tbody>
+                                        <label className='div6' htmlFor="">
+                                            <p>Valor bruto(R$)</p>
+                                            <InputRegister
+                                                label={taxs?.fullPrice}
+                                                field='fullPrice'
+                                                width='10rem'
+                                                disabled={taxEditable}
+                                                fn={[handleTaxData]}
+                                            // border='#f8ff74'
+                                            />
+                                        </label>
 
-                                    </table>
-                                </ContainerData>
+                                        <label className='div7' htmlFor="">
+                                            <p>Desconto(R$)</p>
+                                            <InputRegister
+                                                width='10rem'
+                                                label={taxs?.descount}
+                                                fn={[handleTaxData]}
+                                                disabled={taxEditable}
+                                                field='descount'
+                                            // border='#74f1ff'
 
-                                {
-                                    camp.tax !== undefined &&
+                                            />
+                                        </label>
+
+                                        <label className='div8' htmlFor="">
+                                            <p>Valor líquido(R$)</p>
+
+                                            <InputRegister
+                                                label={taxs?.price}
+                                                field='price'
+                                                width='100%'
+                                                disabled={true}
+                                                fn={[handleTaxData]}
+                                            // border='#a0ff74'
+
+                                            />
+                                        </label>
+
+                                    </span>
+
+                                    <span className='flex'>
+                                        <button
+                                            className='confirm-button redButton defaultButton'
+                                            onClick={() => setTaxEditable(!taxEditable)}
+                                        >
+                                            editavel
+                                        </button>
+
+                                        <button
+                                            disabled={taxs?.payment_type === '' || taxs?.sellected.length === 0}
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                sincValues(taxs, 'newTax');
+                                            }}
+                                            className='confirm-button blueButton defaultButton'
+                                        >
+                                            Confirmar
+                                        </button>
+                                    </span>
+
+
+                                </div>
+
+                            </SubContainer>
+                            {/* /// */}
+                            {
+                                taxsChoosed?.sellected &&
+                                taxsChoosed?.sellected.length > 0 &&
+                                <div
+                                    className='container div70'
+                                >
+
                                     <ContainerData>
-                                        <h3> Campanha</h3>
+                                        <nav className='nav header contrast'>
+
+                                            <h3 className='headers'>Descrição da Taxa de matrícula</h3>
+                                            <button
+                                                onClick={() => setTaxsChoosed(null)}
+                                            >
+                                                <CloseIcon />
+                                            </button>
+                                        </nav>
 
                                         <table>
                                             <thead className='contrast'>
                                                 <tr>
                                                     <td>Nome</td>
                                                     <td>Valor</td>
-                                                    <td>Alvo</td>
-                                                    <td>N° de parcelas</td>
-                                                    <td>Tipo de desconto</td>
-                                                    <td>Descrição</td>
+                                                    <td>Total de desconto(R$)</td>
+
+                                                    <td>Valor líquido</td>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td >{camp.tax.name}</td>
-                                                    <td >{camp.tax.value}</td>
-                                                    <td >{camp.tax.for}</td>
-                                                    <td >{camp.tax.affectedParcels}</td>
-                                                    <td >{camp.tax.descountType}</td>
-                                                    <td >{camp.tax.description}</td>
+                                                    <td >Taxa de matrícula</td>
+                                                    <td >{changeCurrency(taxs?.fullPrice)}</td>
+                                                    <td >{changeCurrency(taxs?.descount)}</td>
+
+                                                    <td >{changeCurrency(taxs.price)}</td>
+
                                                 </tr>
 
                                             </tbody>
 
                                         </table>
                                     </ContainerData>
+                                    {
+                                        camp.tax !== undefined &&
+                                        <ContainerData>
+                                            <h3> Campanha</h3>
 
-                                }
-
-
-                                <ContainerData>
-                                    <h3 className='headers'>Tabela 2 - Detalhamento das parcelas</h3>
-                                    <table>
-                                        <thead className='contrast'>
-                                            <tr>
-                                                <td>Parcela</td>
-                                                <td>Vencimento</td>
-                                                <td>Valor bruto</td>
-                                                <td>Valor líquido (R$)</td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {
-                                                tax?.taxes.map((res, idx) => (
-                                                    <tr key={idx}>
-                                                        <td>{idx + 1}</td>
-                                                        <td>{dateCalculator(filteredContracts["Data de pagamento TM"], idx)}</td>
-                                                        <td>{(tax?.total / tax.taxes.length)?.toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
-                                                        <td>{(tax?.total / tax.taxes.length)?.toLocaleString('pt-BR', { style: 'currency', currency: "brl" })}</td>
+                                            <table>
+                                                <thead className='contrast'>
+                                                    <tr>
+                                                        <td>Nome</td>
+                                                        <td>Valor</td>
+                                                        <td>Alvo</td>
+                                                        <td>N° de parcelas</td>
+                                                        <td>Tipo de desconto</td>
+                                                        <td>Descrição</td>
                                                     </tr>
-                                                ))
-                                            }
-                                            <tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td >{camp.tax.name}</td>
+                                                        <td >{camp.tax.value}</td>
+                                                        <td >{goalTypes[camp.tax.for]}</td>
+                                                        <td >{camp.tax.affectedParcels}</td>
+                                                        <td >{descountTypes[camp.tax.descountType]}</td>
+                                                        <td >{camp.tax.description}</td>
+                                                    </tr>
 
-                                            </tr>
+                                                </tbody>
+
+                                            </table>
+                                        </ContainerData>
+
+                                    }
 
 
-                                        </tbody>
+                                    <ContainerData>
+                                        <h3 className='headers'>Detalhamento das parcelas</h3>
 
-                                    </table>
-                                </ContainerData>
-                            </div>
+                                        <table>
+                                            <thead className='contrast'>
+                                                <td>N° de parcelas</td>
+                                                <td>Data de vencimento</td>
+                                                <td>Forma de pagamento</td>
+                                            </thead>
+                                            <tbody>
+                                                <td >{taxs?.parcels}</td>
+                                                <td >{dateCalculator(taxs?.payment_date, 0)}</td>
+                                                <td >{taxs?.payment_type}</td>
+                                            </tbody>
+                                        </table>
+                                        <br />
+                                        <hr />
+                                        <br />
+                                        <table>
+                                            <thead className='contrast'>
+                                                <tr>
+                                                    <td>Parcela</td>
+                                                    <td>Vencimento</td>
+                                                    <td>Valor bruto</td>
+                                                    <td>Valor líquido(R$)</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {
+                                                    filteredContracts["newTax"].parcels?.length > 0 &&
+                                                    filteredContracts["newTax"].parcels.map((res, idx) => (
+                                                        <tr key={idx}>
+                                                            <td>{idx + 1}</td>
+                                                            <td>{res.date}</td>
+                                                            <td>{changeCurrency(rounder(taxsChoosed?.fullPrice / taxsChoosed?.parcels, 1))}</td>
+                                                            <td>{changeCurrency(res.valor)}</td>
+
+                                                        </tr>
+                                                    ))
+                                                }
+                                                <tr>
+
+                                                </tr>
+
+
+                                            </tbody>
+
+                                        </table>
+                                    </ContainerData>
+                                </div>
+                            }
 
                         </section>
 
@@ -1155,7 +1731,12 @@ export const ContractData = () => {
 
                                     <PDFFile id='content'
                                         data={filteredContracts}
-                                        parcel={paymentParcels}
+                                        choosedData={{
+                                            service: serviceChoosed,
+                                            products: productChoosed,
+                                            tax: taxsChoosed
+                                        }}
+
                                         campaign={camp}
                                     />
 

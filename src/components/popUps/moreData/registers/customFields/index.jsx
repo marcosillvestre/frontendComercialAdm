@@ -103,7 +103,7 @@ export const CustomFields = () => {
                                 <UniqueSelect
                                     width="100%"
                                     field={key.name}
-                                    label={register.customFields[key.name]}
+                                    placeHolder={register.customFields[key.name]}
                                     option={
                                         key.options.map(res => {
                                             return {

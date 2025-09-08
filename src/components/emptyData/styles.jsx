@@ -9,8 +9,4 @@ flex-direction: column;
 padding: 2rem 0;
 
 `
-export const Image = styled.img`
-width: 70%;
-
-
-`
+export const Image = styled.img``

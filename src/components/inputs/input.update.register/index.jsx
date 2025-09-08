@@ -1,17 +1,19 @@
-import { useState } from 'react';
-import { CloserClick } from '../../source.jsx';
+import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
 import { Container, SelectButton } from './styles.jsx';
 
-export const InputRegister = (parameters) => {
+export const InputRegister = ({ label, fn, width, border, color, field, disabled }) => {
 
-    const { label, fn, width, border, color, field, disabled } = parameters;
-    const [open, setOpen] = useState(false)
+
+    const [placeHolder, setPlaceHolder] = useState(label);
+
+    useEffect(() => { setPlaceHolder(label) }, [label]);
 
     const handleCheck = async (label) => {
 
         const { field, value } = label
         engineFunctions(field, value)
-        setOpen(false)
+        setPlaceHolder(value)
     }
 
     const engineFunctions = (key, value) => {
@@ -26,16 +28,11 @@ export const InputRegister = (parameters) => {
 
     return (
         <>
-            <CloserClick
-                open={open}
-                fn={setOpen}
-                opacity={.01}
-                dontClose={true}
-            />
             <Container
                 style={{
                     minWidth: `${width}`
                 }}
+
             >
 
                 <div id="category-select">
@@ -50,7 +47,7 @@ export const InputRegister = (parameters) => {
                             disabled={disabled}
                             type='text'
                             id="selected-value"
-                            defaultValue={label}
+                            value={placeHolder}
                             onChange={(e) => {
                                 handleCheck({
                                     field,
@@ -67,4 +64,15 @@ export const InputRegister = (parameters) => {
 
         </>
     )
+}
+
+InputRegister.propTypes = {
+    label: PropTypes.string,
+    field: PropTypes.string,
+    fn: PropTypes.func,
+    width: PropTypes.width,
+    border: PropTypes.string,
+    color: PropTypes.string,
+    option: PropTypes.string,
+    disabled: PropTypes.bool,
 }

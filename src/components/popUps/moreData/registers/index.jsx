@@ -56,9 +56,9 @@ export function MoreDataRegisters(info) {
         "Financeiro": <Financial />,
         "Campos personalizados": <CustomFields />,
 
-        "Contrato": <EmptyData />,
-        "Aluno": <EmptyData />,
-        "Responsável": <EmptyData />,
+        "Contrato": <EmptyData width='25rem' />,
+        "Aluno": <EmptyData width='25rem' />,
+        "Responsável": <EmptyData width='25rem' />,
     }
     const { queryOnlyRegister, updateCustomFields,
         setRegisterId, editRegister, setEditRegister, setUpdateRegister,
@@ -127,6 +127,7 @@ export function MoreDataRegisters(info) {
                                 buttons.map((res, index) => (
 
                                     <NavButton
+                                        disabled={isPending}
                                         active={res === choosen}
                                         onClick={() => {
                                             setChoosen(res)

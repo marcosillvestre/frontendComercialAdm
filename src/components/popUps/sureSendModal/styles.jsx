@@ -109,21 +109,6 @@ svg{
 
 export const ButtonDelete = styled.button`
 width: 100%;
-border: none;
-color: #fff;
-background-color: #3458f5;
-padding: .8rem  ;
-border-radius: 5px;
 margin: 5px 0;
-&:hover{
-background-color:#526cdf;
-
-}
-&:active{
-opacity: .8;
-
-}
-
-
 
 `

@@ -135,7 +135,7 @@ export const Pedagogic = (props) => {
                                                     <div >
                                                         <h4>{res.name}</h4>
                                                         <UniqueSelect
-                                                            label={row["customFields"][res.name]}
+                                                            placeHolder={row["customFields"][res.name]}
                                                             option={res.options.map(r => {
                                                                 return {
                                                                     name: r

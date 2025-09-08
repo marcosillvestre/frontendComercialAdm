@@ -242,7 +242,7 @@ export const StatusMatricula = (props) => {
                                     <TableRow >
                                         <TableCell component="th" scope="row" align="center">
                                             <UniqueSelect
-                                                label={row.assinaturaContratoStatus}
+                                                placeHolder={row.assinaturaContratoStatus}
                                                 option={nonEspecificOpt}
                                                 width="7rem"
                                                 field="assinaturaContratoStatus"
@@ -254,7 +254,7 @@ export const StatusMatricula = (props) => {
                                         </TableCell>
                                         <TableCell align="center">
                                             <UniqueSelect
-                                                label={row.taxaMatriculaStatus}
+                                                placeHolder={row.taxaMatriculaStatus}
                                                 option={nonEspecificOpt}
                                                 width="7rem"
                                                 field="taxaMatriculaStatus"
@@ -266,7 +266,7 @@ export const StatusMatricula = (props) => {
                                         </TableCell>
                                         <TableCell align="center">
                                             <UniqueSelect
-                                                label={row.pagamentoPrimeiraParcelaStatus}
+                                                placeHolder={row.pagamentoPrimeiraParcelaStatus}
                                                 option={nonEspecificOpt}
                                                 width="7rem"
                                                 field="pagamentoPrimeiraParcelaStatus"
@@ -278,7 +278,7 @@ export const StatusMatricula = (props) => {
                                         </TableCell>
                                         <TableCell align="center">
                                             <UniqueSelect
-                                                label={row.materialDidaticoStatus}
+                                                placeHolder={row.materialDidaticoStatus}
                                                 option={nonEspecificOpt}
                                                 width="7rem"
                                                 field="materialDidaticoStatus"
@@ -290,7 +290,7 @@ export const StatusMatricula = (props) => {
                                         </TableCell>
                                         <TableCell align="center">
                                             <UniqueSelect
-                                                label={row.primeiraAulaStatus}
+                                                placeHolder={row.primeiraAulaStatus}
                                                 option={nonEspecificOpt}
                                                 width="7rem"
                                                 field="primeiraAulaStatus"
@@ -302,7 +302,7 @@ export const StatusMatricula = (props) => {
                                         </TableCell>
                                         <TableCell align="center">
                                             <UniqueSelect
-                                                label={row.documentos}
+                                                placeHolder={row.documentos}
                                                 option={nonEspecificOpt}
                                                 width="7rem"
                                                 field="documentos"
@@ -314,7 +314,7 @@ export const StatusMatricula = (props) => {
                                         </TableCell>
                                         <TableCell align="center">
                                             <UniqueSelect
-                                                label={row.situacaoContrato}
+                                                placeHolder={row.situacaoContrato}
                                                 option={registerState}
                                                 width="7rem"
                                                 field="situacaoContrato"
@@ -360,7 +360,7 @@ export const StatusMatricula = (props) => {
                                         </TableCell>
                                         <TableCell align="center">
                                             <UniqueSelect
-                                                label={row.comissaoStatus}
+                                                placeHolder={row.comissaoStatus}
                                                 option={comissionStatusOpt}
                                                 width="7rem"
                                                 field="comissaoStatus"
@@ -424,7 +424,7 @@ export const StatusMatricula = (props) => {
                                                         <div >
                                                             <h4>{res.name}</h4>
                                                             <UniqueSelect
-                                                                label={row["customFields"][res.name]}
+                                                                placeHolder={row["customFields"][res.name]}
                                                                 option={res.options.map(r => {
                                                                     return {
                                                                         name: r

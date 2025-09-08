@@ -71,7 +71,6 @@ export function SureSendModal(data) {
     });
 
 
-
     const handleOpen = () => setOpen(true);
 
     const handleClose = () => {
@@ -80,35 +79,6 @@ export function SureSendModal(data) {
         setLoading(false)
 
     };
-
-
-    const client = async (body) => {
-
-
-        const response = new Promise((resolve, reject) => {
-            // axios.post("/cliente", body, { headers })
-            URI.post("/cliente", body)
-                .then((res) => {
-                    resolve(res)
-                    toast.success("Cliente cadastrado com sucesso")
-
-                })
-                .catch(async err => {
-                    const error = await err
-                    console.log(error)
-
-                    toast.error("Erro ao cadastrar o clientee")
-
-                    if ("message" in error.response.data) alert(error.response.data.message)
-                    reject(err)
-                })
-                .finally(() => setLoading(false))
-        })
-
-
-        return await response
-
-    }
 
     const contract = async (body) => {
 
@@ -130,8 +100,6 @@ export function SureSendModal(data) {
 
 
     const sales = async (body) => {
-
-        if (filteredContracts.material.total === 0) return
 
         URI.post("/venda", body)
             .then(() => toast.success("Venda criada com sucesso"))
@@ -168,14 +136,12 @@ export function SureSendModal(data) {
 
 
     const sendEverything = async () => {
-        client(filteredContracts)
-            .then(async () => {
-                await Promise.all([
-                    contract(filteredContracts),
-                    sales(filteredContracts),
-                    feeEnroll(filteredContracts),
-                ])
-            })
+
+        await Promise.all([
+            contract(filteredContracts),
+            sales(filteredContracts),
+            feeEnroll(filteredContracts),
+        ])
 
     }
 
@@ -202,9 +168,7 @@ export function SureSendModal(data) {
 
 
     async function separated() {
-        if (sendingList.length === 0) {
-            return alert("Você precisa definir pelo menos um tipo de envio para o conta azul")
-        }
+
         if (filteredContracts === undefined || filteredContracts === undefined) {
             return alert("Você precisa definir um contrato primeiro")
         }
@@ -223,15 +187,10 @@ export function SureSendModal(data) {
 
         setLoading(true)
 
-        await client(filteredContracts)
-            .then(async () => {
-                promises.map(async res => {
-                    await new Promise(() => res(filteredContracts))
-                })
-            })
-            .finally(() => {
-                setLoading(false)
-            })
+        promises.map(async res => {
+            await new Promise(() => res(filteredContracts))
+        })
+
     }
 
 
@@ -503,7 +462,7 @@ export function SureSendModal(data) {
                                             < >
 
                                                 {
-                                                    filteredContracts['parcel']?.total > 0 &&
+                                                    filteredContracts['newService']?.total > 0 &&
                                                     <Boxes >
                                                         <input type="checkbox"
                                                             defaultChecked={sendingList && sendingList.find(r => r === "contract")}
@@ -524,11 +483,11 @@ export function SureSendModal(data) {
                                                             }
                                                             }
                                                             className='check' />
-                                                        <small>Contrato</small>
+                                                        <small>Contrato</small    >
                                                     </Boxes>
                                                 }
                                                 {
-                                                    filteredContracts['material']?.total > 0 &&
+                                                    filteredContracts['newProduct']?.total > 0 &&
 
                                                     <Boxes >
                                                         <input type="checkbox"
@@ -555,7 +514,7 @@ export function SureSendModal(data) {
                                                     </Boxes>
                                                 }
                                                 {
-                                                    // filteredContracts['tax']?.total > 0 &&
+                                                    filteredContracts['newTax']?.total > 0 &&
 
                                                     <Boxes >
                                                         <input type="checkbox"
@@ -581,8 +540,16 @@ export function SureSendModal(data) {
                                                         <small>Taxa de matrícula</small>
                                                     </Boxes>
                                                 }
+
                                                 <Boxes radio>
-                                                    <ButtonDelete onClick={() => separated()}>Emitir contrato</ButtonDelete>
+                                                    <ButtonDelete
+                                                        disabled={sendingList.length === 0}
+                                                        className='defaultButton blueButton'
+                                                        onClick={() => separated()}
+                                                    >
+                                                        Emitir contrato
+
+                                                    </ButtonDelete>
                                                 </Boxes>
                                             </>
                                     }

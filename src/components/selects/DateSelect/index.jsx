@@ -1,21 +1,18 @@
-import { useState } from 'react';
-import { CloserClick } from '../../source.jsx';
-import { Container, SelectButton } from './styles.jsx';
+import PropTypes from 'prop-types';
+import { Container, DateInput, SelectButton } from './styles.jsx';
 
-export const DateSelect = (parameters) => {
+export const DateSelect = ({ fn, width, label, border, color, field, disabled }) => {
 
-    const [open, setOpen] = useState(false)
 
 
     const handleCheck = async (label) => {
 
         const { field, value } = label
         engineFunctions(field, value)
-        setOpen(false)
     }
 
     const engineFunctions = (key, value) => {
-        parameters.fn.map(res => {
+        fn.map(res => {
 
             new Promise(resolve => {
                 resolve(res(key, value))
@@ -26,41 +23,44 @@ export const DateSelect = (parameters) => {
 
     return (
         <>
-            <CloserClick
-                open={open}
-                fn={setOpen}
-                opacity={.01}
-                dontClose={true}
-            />
             <Container
                 style={{
-                    minWidth: `${parameters.width}`
+                    minWidth: `${width}`
                 }}
             >
 
-                <label id="category-select" htmlFor="category">
-                    <SelectButton
+
+                <SelectButton>
+                    <DateInput
+                        id="selected-value"
+                        disabled={disabled}
                         type="date"
-                        defaultValue={parameters.label && parameters.label.split("T")[0]}
+                        defaultValue={label && label.split("T")[0]}
                         onChange={(e) => handleCheck({
                             value: e.target.value,
-                            field: parameters?.field
+                            field: field
                         })}
 
                         style={{
-                            border: `.5px solid ${parameters.border}`,
-                            backgroundColor: `${parameters.color}`
+                            border: `.5px solid ${border}`,
+                            backgroundColor: `${color}`
                         }}
-                        onClick={() => setOpen(!open)}
-                    >
-                    </SelectButton>
-
-                </label>
-
-
-
+                    />
+                </SelectButton>
             </Container >
 
         </>
     )
+}
+
+DateSelect.propTypes = {
+    label: PropTypes.string,
+    field: PropTypes.string,
+    fn: PropTypes.func,
+    width: PropTypes.width,
+    border: PropTypes.string,
+    color: PropTypes.string,
+    option: PropTypes.string,
+    disabled: PropTypes.bool,
+
 }

@@ -1,10 +1,13 @@
+import DoneIcon from '@mui/icons-material/Done';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { CloserClick } from '../../source.jsx';
-import { Container, ListOpt, Options, SelectButton } from './styles.jsx';
+import { Container, Icon, ListOpt, Options, SelectButton } from './styles.jsx';
 
-export const UniqueSelect = (parameters) => {
+export const UniqueSelect = ({ placeHolder, fn, width, border, color, option, field, nullable }) => {
 
-    const [label, setLabel] = useState(parameters.label)
+    const [label, setLabel] = useState(placeHolder)
     const [open, setOpen] = useState(false)
 
     const handleCheck = async (label) => {
@@ -15,7 +18,7 @@ export const UniqueSelect = (parameters) => {
     }
 
     const engineFunctions = (key, value) => {
-        parameters.fn.map(res => {
+        fn.map(res => {
 
             new Promise(resolve => {
                 resolve(res(key, value))
@@ -33,22 +36,27 @@ export const UniqueSelect = (parameters) => {
             />
             <Container
                 style={{
-                    minWidth: `${parameters.width}`
+                    minWidth: `${width}`
                 }}
             >
 
                 <div id="category-select">
                     <SelectButton id="select-button"
                         style={{
-                            border: `.5px solid ${parameters.border}`,
-                            backgroundColor: `${parameters.color}`
+                            border: `.5px solid ${border}`,
+                            backgroundColor: `${color}`
                         }}
                         onClick={() => setOpen(!open)}
-                        noOptions={open && !parameters.option}
+                        noOptions={open && !option}
                     >
                         <p id="selected-value">
                             {label}
                         </p>
+                        <Icon id="chevrons" open={open}>
+                            <i className='icon'>
+                                <KeyboardArrowDownIcon />
+                            </i>
+                        </Icon>
 
                     </SelectButton>
                 </div>
@@ -57,43 +65,55 @@ export const UniqueSelect = (parameters) => {
                 <ListOpt
                     open={open}
                     style={{
-                        minWidth: `${parameters.width}`,
+                        minWidth: `${width}`,
                     }}
                 >
                     {
-                        parameters.option &&
-                        parameters.option?.map((data, idx) => (
-                            data.name === label ? "" :
-                                <Options
-                                    className="option"
-                                    key={idx}
-                                >
+                        option &&
+                        option?.map((data, idx) => (
+                            <Options
+                                className="option"
+                                key={idx}
+                                title={data?.name}
+                                selected={label === data.name}
+                            >
 
-
-                                    <span
-                                        className="label"
-                                        onClick={() => {
-                                            setLabel(data.name)
-                                            handleCheck({
-                                                value: data.value === undefined ?
-                                                    data?.name :
-                                                    data.value,
-                                                field: parameters?.field
-                                            })
+                                <span
+                                    className="label"
+                                    onClick={() => {
+                                        if (data.name === label && nullable) {
+                                            setLabel('')
+                                            return handleCheck({ value: '', field })
                                         }
-                                        }>
 
-                                        <p>{data?.name}</p>
-                                    </span>
+                                        setLabel(data.name)
+                                        handleCheck({ value: data?.value ?? data?.name, field })
+                                    }
+                                    }>
+
+                                    <p>{data?.name}</p>
+                                    <DoneIcon />
+
+                                </span>
 
 
-                                </Options>
+                            </Options>
                         ))
                     }
                 </ListOpt>
 
             </Container >
-
         </>
     )
+}
+
+UniqueSelect.propTypes = {
+    placeHolder: PropTypes.string,
+    field: PropTypes.string,
+    fn: PropTypes.func,
+    width: PropTypes.width,
+    border: PropTypes.string,
+    color: PropTypes.string,
+    option: PropTypes.string,
+    nullable: PropTypes.bool,
 }

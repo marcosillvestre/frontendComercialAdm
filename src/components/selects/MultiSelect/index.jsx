@@ -27,6 +27,7 @@ export const MultiSelect = (parameters) => {
                 <div id="category-select">
                     <SelectButton id="select-button"
                         onClick={() => handleFunction()}
+                        noOptions={open && !option}
                     >
                         <p id="selected-value"> {selected?.length} itens</p>
                         <Icon id="chevrons" open={open}>
@@ -39,7 +40,7 @@ export const MultiSelect = (parameters) => {
 
 
                 <ListOpt
-                    open={open}
+                    open={option && open}
                     style={{
                         minWidth: `${width}`,
                     }}
@@ -49,23 +50,19 @@ export const MultiSelect = (parameters) => {
 
                             <Options
                                 className="option"
+                                title={data?.name}
                                 key={idx}
                                 selected={selected?.find(res => res.name === data.name)}
                                 onClick={() => {
                                     selected.find(res => res.name === data.name) ?
                                         setSelected(selected.filter(res => res.name !== data.name)) :
-                                        setSelected(res => [...res, {
-                                            name: data.name,
-                                            id: data?.id,
-                                            priceSale: data?.priceSale,
-                                        }])
+                                        setSelected(res => [...res, data])
                                 }
                                 }
                             >
                                 {
                                     <span
                                         className="label"
-                                        title={data?.name}
                                     >
                                         <p>{data?.name}</p>
                                         <DoneIcon />

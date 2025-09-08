@@ -68,7 +68,7 @@ export const Observations = () => {
                 <div className='container'>
                     {
                         comments.length === 0 ?
-                            <EmptyData />
+                            <EmptyData width='10rem' />
                             :
                             comments.map((tag) => (
 

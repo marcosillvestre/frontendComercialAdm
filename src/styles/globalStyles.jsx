@@ -55,9 +55,10 @@ html{
         gap: 5px;
     }
 .blueButton{
-    background-color: #1976d2;
+    background-color: #2c51c9;
+    transition: background 0.3s ease, transform 0.2s ease;
     &:hover{
-    background-color: #1f5fba;
+    background-color: #4f74d9;
     }
 }
 .redButton{ 
@@ -68,10 +69,6 @@ html{
         background-color: #d9534f; 
     }
 
-    &:active {
-    background-color: #a72824; 
-    transform: scale(0.98);
-    }
 }
     .defaultButton{
     line-height: 1.75;
@@ -96,7 +93,10 @@ html{
     &:disabled{
             opacity: .5;
         }
-
+    &:active {
+    transform: scale(0.98);
+    opacity: .98;
+    }
     }
     .tooltip{
         cursor: pointer;

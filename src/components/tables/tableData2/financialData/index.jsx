@@ -108,7 +108,7 @@ export const FinancialInfo = (props) => {
                                         </TableCell>
                                         <TableCell align="center">
                                             <UniqueSelect
-                                                label={row.taxaMatriculaStatus}
+                                                placeHolder={row.taxaMatriculaStatus}
                                                 option={comissionStatusOpt}
                                                 width="7rem"
                                                 field="taxaMatriculaStatus"
@@ -191,7 +191,7 @@ export const FinancialInfo = (props) => {
                                         </TableCell>
                                         <TableCell align="center">
                                             <UniqueSelect
-                                                label={row.pagamentoPrimeiraParcelaStatus}
+                                                placeHolder={row.pagamentoPrimeiraParcelaStatus}
                                                 option={comissionStatusOpt}
                                                 width="7rem"
                                                 field="pagamentoPrimeiraParcelaStatus"
@@ -269,7 +269,7 @@ export const FinancialInfo = (props) => {
                                         </TableCell>
                                         <TableCell align="center">
                                             <UniqueSelect
-                                                label={row.materialDidaticoStatus}
+                                                placeHolder={row.materialDidaticoStatus}
                                                 option={comissionStatusOpt}
                                                 width="7rem"
                                                 field="materialDidaticoStatus"
@@ -334,7 +334,7 @@ export const FinancialInfo = (props) => {
                                                     <div >
                                                         <h4>{res.name}</h4>
                                                         <UniqueSelect
-                                                            label={row["customFields"][res.name]}
+                                                            placeHolder={row["customFields"][res.name]}
                                                             option={res.options.map(r => {
                                                                 return {
                                                                     name: r

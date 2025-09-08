@@ -133,7 +133,7 @@ export const Anexes = () => {
                 <div className='container'>
                     {
                         filesData.length === 0 ?
-                            <EmptyData /> :
+                            <EmptyData width='10rem' /> :
                             filesData.map((tag) => (
 
                                 <ContainerComment key={tag.id}>

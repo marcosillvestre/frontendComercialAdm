@@ -167,7 +167,7 @@ function TableMainData(props) {
                 <TableCell align="center">
 
                     <UniqueSelect
-                        label={row["customFields"]["Curso"]}
+                        placeHolder={row["customFields"]["Curso"]}
                         option={courseOpt}
                         width="6rem"
                         field="Curso"
@@ -179,7 +179,7 @@ function TableMainData(props) {
                 </TableCell>
                 <TableCell align="center">
                     <UniqueSelect
-                        label={row["customFields"]["Unidade"]}
+                        placeHolder={row["customFields"]["Unidade"]}
                         option={unityQuery && unityQuery.data}
                         width="6rem"
                         field="Unidade"
@@ -193,7 +193,7 @@ function TableMainData(props) {
                 <TableCell align="center">
 
                     <UniqueSelect
-                        label={row["customFields"]["Background do Aluno"]}
+                        placeHolder={row["customFields"]["Background do Aluno"]}
                         option={backgroundOpt}
                         width="6rem"
                         field="Background do Aluno"
@@ -206,7 +206,7 @@ function TableMainData(props) {
                 <TableCell align="center">
 
                     <UniqueSelect
-                        label={row.comissaoStatus}
+                        placeHolder={row.comissaoStatus}
                         option={comissionStatusOpt}
                         width="6rem"
                         field="comissaoStatus"

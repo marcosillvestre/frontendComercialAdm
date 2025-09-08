@@ -4,7 +4,7 @@ import { Container } from "./styles";
 
 export default function ErrorPage() {
     const error = useRouteError();
-    console.error(error);
+    console.error({ error });
 
     return (
         <Container id="error-page">

@@ -14,7 +14,7 @@ export const Historic = () => {
 
             {historic &&
                 historic.length === 0 ?
-                <EmptyData />
+                <EmptyData width='25rem' />
                 :
                 historic.map((key, index) => (
                     <label htmlFor="" key={index}>

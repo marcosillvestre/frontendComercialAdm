@@ -87,7 +87,7 @@ export const Matricula = () => {
                                     <UniqueSelect
                                         width="100%"
                                         field={key}
-                                        label={register[key]}
+                                        placeHolder={register[key]}
                                         option={options[key]}
                                         fn={[Changer]}
                                     />

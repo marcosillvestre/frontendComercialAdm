@@ -109,6 +109,9 @@ padding: 1rem;
       padding-top: 1rem;
       overflow-y: scroll;
 
+      &::-webkit-scrollbar{
+        display: none;
+      }
       header{
         width: 100%;
 
