@@ -438,7 +438,7 @@ export const PDFFile = ({ data, choosedData, campaign }) => {
                                         </thead>
                                         <tbody>
                                             {
-                                                data["newProduct"] &&
+                                                data["newProduct"]?.data &&
                                                 data["newProduct"].data.map((res, index) => (
                                                     <tr key={index}>
                                                         <td>{res.name}</td>
@@ -452,6 +452,7 @@ export const PDFFile = ({ data, choosedData, campaign }) => {
                                             }
                                         </tbody>
                                         {
+                                            data["newProduct"]?.data &&
                                             data["newProduct"]?.data.length > 0 &&
                                             <tfoot className='contrast'>
                                                 <tr>
@@ -488,7 +489,7 @@ export const PDFFile = ({ data, choosedData, campaign }) => {
                                         </thead>
                                         <tbody>
                                             {
-                                                data["newProduct"] &&
+                                                data["newProduct"]?.parcels &&
                                                 data["newProduct"].parcels.map((res, index) => (
                                                     <tr key={index}>
                                                         <td>{index + 1}</td>
