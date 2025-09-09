@@ -634,7 +634,8 @@ export const ContractData = () => {
 
                     <span className='emmit flex' >
                         {
-                            view === 'template' &&
+                            view === 'Contrato' &&
+                            filteredContracts['newService'].total &&
                             <Button
                                 id='createDoc'
                                 className='defaultButton blueButton'
