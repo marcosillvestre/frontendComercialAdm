@@ -112,18 +112,19 @@ export const SigningContracts = ({ children }) => {
         queryFn: () => signAContract(),
         queryKey: [contract],
         enabled: contract !== undefined,
-        staleTime: 0
+        throwOnError: (e) => alert(e.response.data.message),
+        retry: false,
+
     })
 
     const { isSuccess, data } = queryContract
 
 
     useEffect(() => {
-        queryContract.refetch()
 
-        if (isSuccess) {
-            setFilteredContracts(data.contract)
-        }
+        if (isSuccess) setFilteredContracts(data.contract)
+
+
     }, [contract, isSuccess])
 
 
