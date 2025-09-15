@@ -21,11 +21,15 @@ display:${props => props.open ? "" : "none"} ;
 position: absolute;
 margin: .25rem 0 ;
 border-radius: var(--br);
-background-color:#d0d0d0;
 width: 100%;
 z-index: 13;
 max-height: 20rem;
 overflow-y: scroll;
+background-color:#fff;
+box-shadow:
+    0 2px 5px rgba(0, 0, 0, 0.08),  
+    0 8px 20px rgba(0, 0, 0, 0.12); 
+padding: 7px;
 &::-webkit-scrollbar{
     display: none;
 }
@@ -46,7 +50,7 @@ cursor: pointer;
 height: var(--boxHei);
 z-index: 10;
 border-radius: var(--br);
-background: ${props => props.selected ? "#c4d3e0" : ""};
+background: ${props => props.selected ? "#f1f1f1" : ""};
 font-size: calc(var(--fsXLow) - 2px);
 
 
@@ -73,7 +77,7 @@ span{
     }
 }
 &:hover{
-    background: #c4d3e0;
+    background: #f1f1f1;
     border-radius: var(--br);
     p{
         scale: 1.03;
@@ -112,4 +116,23 @@ right: 10px;
     translate: ${props => props.open ? "4px -4px" : ""};
     transition: all.4s;
     }
+`
+export const SearchNav = styled.nav`
+padding: 4px 10px;
+display: flex;
+align-items: center;
+border: .2px solid #d1d1d1;
+background-color: #f1f1f1;
+border-radius: var(--br);
+margin: 5px auto;
+svg{
+    width: 20px;
+}
+input{
+    flex: 1;
+    padding-left: 5px;
+    border: none;
+    background-color: transparent;
+    height: 100%;
+}
 `

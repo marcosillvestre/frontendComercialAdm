@@ -1,12 +1,14 @@
 import DoneIcon from '@mui/icons-material/Done';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import SearchIcon from '@mui/icons-material/Search';
 import { useState } from 'react';
-import { Container, Icon, ListOpt, Options, SelectButton } from './styles.jsx';
+import { Container, Icon, ListOpt, Options, SearchNav, SelectButton } from './styles.jsx';
 
 export const MultiSelect = (parameters) => {
 
     const [open, setOpen] = useState(false)
     const { field, related, fn, width, option } = parameters
+    const [options, setOptions] = useState(option);
 
     const [selected, setSelected] = useState(related)
 
@@ -45,8 +47,23 @@ export const MultiSelect = (parameters) => {
                         minWidth: `${width}`,
                     }}
                 >
+                    <SearchNav>
+                        <SearchIcon />
+                        <input type="text"
+                            onChange={(e) => {
+                                if (e.target.value === '') return setOptions(option);
+
+                                const filtered = option.filter(res => res.name.toLowerCase()
+                                    .includes(e.target.value.toLowerCase()));
+
+                                setOptions(filtered)
+                            }}
+                        />
+
+                    </SearchNav>
                     {
-                        option?.map((data, idx) => (
+                        options &&
+                        options?.map((data, idx) => (
 
                             <Options
                                 className="option"
