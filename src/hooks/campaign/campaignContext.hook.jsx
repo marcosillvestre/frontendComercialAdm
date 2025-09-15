@@ -16,7 +16,51 @@ export const CampaignProvider = ({ children }) => {
         status: true
     })
 
-    const [editCampaign, setEditCampaign] = useState(null)
+    const [editCampaign, setEditCampaign] = useState(null);
+
+    const [take, setTake] = useState(10);
+    const [skip, setSkip] = useState(0);
+    const [query, setQuery] = useState(null);
+    const [orderFor, setOrderFor] = useState('asc');
+    const [orderBy, setOrderBy] = useState('value');
+
+    const [campaignQueries, setCampaignQueries] = useState({ campaigns: [], total: 0 });
+    const [typeFilter, setTypeFilter] = useState([])
+
+    const queryCampaign = async () => {
+        const url = query ? "/campanha-query" : "/campanhas"
+
+        const response = await URI.post(url, {
+            query,
+            take,
+            skip,
+            orderFor,
+            orderBy,
+            typeFilter
+        })
+        return response.data
+    }
+
+    const campaignQuery = useQuery({
+        queryFn: () => queryCampaign(),
+        queryKey: ["campaign", take, skip, orderFor, query, orderBy, JSON.stringify(typeFilter)],
+
+    })
+
+
+    useLayoutEffect(() => {
+        const gatherData = async () => {
+
+            const { data } = campaignQuery
+            const { campaigns, total } = data
+
+            setCampaignQueries({ campaigns, total })
+        }
+
+        if (campaignQuery.isSuccess) gatherData()
+
+    }, [take, skip, orderBy, query, orderFor, campaignQuery.isSuccess, JSON.stringify(typeFilter)])
+
 
     const sendData = async () => {
         const response = await toast.promise(
@@ -34,7 +78,7 @@ export const CampaignProvider = ({ children }) => {
         mutationFn: () => sendData(),
         onSuccess: (data) => {
             queryClient.setQueryData(
-                ["campaign", take, skip, orderFor, orderBy, JSON.stringify(typeFilter)],
+                ["campaign", take, skip, query, orderFor, orderBy, JSON.stringify(typeFilter)],
                 (oldData) => {
                     const { total, campaigns } = oldData;
 
@@ -75,7 +119,7 @@ export const CampaignProvider = ({ children }) => {
         mutationFn: () => editData(),
         onSuccess: (data) => {
             queryClient.setQueryData(
-                ["campaign", take, skip, orderFor, orderBy, JSON.stringify(typeFilter)],
+                ["campaign", take, skip, query, orderFor, orderBy, JSON.stringify(typeFilter)],
                 (oldData) => {
                     const { total, campaigns } = oldData;
 
@@ -103,47 +147,6 @@ export const CampaignProvider = ({ children }) => {
     ///////////////////////// edit
 
 
-    const [take, setTake] = useState(10);
-    const [skip, setSkip] = useState(0);
-    const [orderFor, setOrderFor] = useState('asc');
-    const [orderBy, setOrderBy] = useState('value');
-
-    const [campaignQueries, setCampaignQueries] = useState({ campaigns: [], total: 0 });
-    const [typeFilter, setTypeFilter] = useState([])
-
-    const queryCampaign = async () => {
-        const response = await URI.post("/campanhas", {
-            take,
-            skip,
-            orderFor,
-            orderBy,
-            typeFilter
-        })
-        return response.data
-    }
-
-    const campaignQuery = useQuery({
-        queryFn: () => queryCampaign(),
-        queryKey: ["campaign", take, skip, orderFor, orderBy, JSON.stringify(typeFilter)],
-
-    })
-
-
-    useLayoutEffect(() => {
-        const gatherData = async () => {
-
-            const { data } = campaignQuery
-            const { campaigns, total } = data
-
-            setCampaignQueries({ campaigns, total })
-        }
-
-        if (campaignQuery.isSuccess) gatherData()
-
-    }, [take, skip, orderBy, orderFor, campaignQuery.isSuccess, JSON.stringify(typeFilter)])
-
-    ///////////////////////// get
-
 
     const deleteCampaignData = async (id) => {
 
@@ -165,7 +168,7 @@ export const CampaignProvider = ({ children }) => {
 
 
             queryClient.setQueryData(
-                ["campaign", take, skip, orderFor, orderBy, JSON.stringify(typeFilter)],
+                ["campaign", take, skip, query, orderFor, orderBy, JSON.stringify(typeFilter)],
                 (oldData) => {
 
                     const { campaigns, total } = oldData;
@@ -224,7 +227,9 @@ export const CampaignProvider = ({ children }) => {
             removeFilter,
             typeFilter, setTypeFilter,
 
-            campaignsTotalsQuery
+            campaignsTotalsQuery,
+
+            query, setQuery
 
         }}>
 

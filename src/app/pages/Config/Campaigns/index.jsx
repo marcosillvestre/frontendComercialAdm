@@ -1,16 +1,19 @@
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
-import { Link } from 'react-router-dom'
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import SearchIcon from '@mui/icons-material/Search';
+import { Link } from 'react-router-dom';
 
-import { CampaignsMoreFilters } from '../../../../components/multiFilters/moreFilters.campaigns'
-import { CampaignTable } from '../../../../components/tables/campaignsTable'
-import { useCampaign } from '../../../../hooks/campaign/campaignContext.hook'
-import { useUser } from '../../../../hooks/userContext'
-import { Container, Header } from './styles'
+import { useRef } from 'react';
+import { CampaignsMoreFilters } from '../../../../components/multiFilters/moreFilters.campaigns';
+import { CampaignTable } from '../../../../components/tables/campaignsTable';
+import { useCampaign } from '../../../../hooks/campaign/campaignContext.hook';
+import { useUser } from '../../../../hooks/userContext';
+import { Container, Header } from './styles';
 
 export function Campaigns() {
     const { setTypeSidebar, setOpenSidebar, } = useUser()
+    const forQuery = useRef();
 
-    const { setEditCampaign, typeFilter, setTypeFilter } = useCampaign();
+    const { setEditCampaign, typeFilter, setTypeFilter, setQuery, query } = useCampaign();
 
     const handleResetFilter = () => {
         setTypeFilter([])
@@ -42,7 +45,34 @@ export function Campaigns() {
             </nav>
             <Header>
                 <nav>
+                    <form action=""
+                        className='flex'
+                    >
+                        <label htmlFor="">
 
+                            <p>Pesquisar por campanha</p>
+                            <input
+                                type="text"
+                                className='inputSearch'
+                                placeholder="Pesquisar"
+                                defaultValue={query}
+                                ref={forQuery}
+                                onChange={(e) => e.target.value === "" &&
+                                    setQuery('')
+                                }
+                            />
+                        </label>
+
+                        <button type="submit"
+                            onClick={(e) => {
+                                setQuery(forQuery.current.value)
+                                e.preventDefault()
+
+                            }}
+                        >
+                            <SearchIcon />
+                        </button>
+                    </form>
                     <CampaignsMoreFilters />
 
                     {

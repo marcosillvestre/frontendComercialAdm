@@ -48,10 +48,35 @@ margin-bottom: 1.5rem;
 nav{
     width:100%;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     gap: 1rem;
 }
 button{
     padding: 0 1rem;
+}
+
+form{
+    gap: 10px;
+    align-items: end;
+
+    input{
+        &:disabled{
+            opacity: .5;
+        }
+    }
+
+    button{  
+        all: unset;
+        cursor: pointer;
+        background-color:#dfe6f1;
+        width: fit-content;
+        height: var(--boxHei);
+        padding: 0 .8rem;
+        border-radius: 5px;
+
+        &:disabled{
+            opacity: .5;
+        }
+    }
 }
 `
