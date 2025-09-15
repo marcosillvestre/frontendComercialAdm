@@ -1,14 +1,17 @@
 import DoneIcon from '@mui/icons-material/Done';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import SearchIcon from '@mui/icons-material/Search';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { CloserClick } from '../../source.jsx';
-import { Container, Icon, ListOpt, Options, SelectButton } from './styles.jsx';
+import { Container, Icon, ListOpt, Options, SearchNav, SelectButton } from './styles.jsx';
 
 export const UniqueSelect = ({ placeHolder, fn, width, border, color, option, field, nullable }) => {
 
-    const [label, setLabel] = useState(placeHolder)
-    const [open, setOpen] = useState(false)
+    const [label, setLabel] = useState(placeHolder);
+    const [options, setOptions] = useState(option);
+    const [open, setOpen] = useState(false);
+
 
     const handleCheck = async (label) => {
 
@@ -68,9 +71,24 @@ export const UniqueSelect = ({ placeHolder, fn, width, border, color, option, fi
                         minWidth: `${width}`,
                     }}
                 >
+                    <SearchNav>
+                        <SearchIcon />
+                        <input type="text"
+                            onChange={(e) => {
+                                if (e.target.value === '') return setOptions(option);
+
+                                const filtered = option.filter(res => res.name.toLowerCase()
+                                    .includes(e.target.value.toLowerCase()));
+
+                                setOptions(filtered)
+                            }}
+                        />
+
+                    </SearchNav>
+
                     {
-                        option &&
-                        option?.map((data, idx) => (
+                        options &&
+                        options?.map((data, idx) => (
                             <Options
                                 className="option"
                                 key={idx}
