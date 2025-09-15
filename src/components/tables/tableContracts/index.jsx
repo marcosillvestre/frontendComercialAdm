@@ -18,7 +18,7 @@ function Row(props) {
 
     const { row } = props;
 
-    const { setContract } = useSignContracts()
+    const { mutateContract } = useSignContracts()
     return (
         <React.Fragment>
             <RowTable
@@ -31,7 +31,7 @@ function Row(props) {
 
                     if (row.phone.length !== 11) return alert(`Este número de celular possui ${row.phone.length} dígitos, o correto é 11. Como por exemplo: 31900000000`)
 
-                    setContract(row.id)
+                    mutateContract.mutateAsync(row.id)
                 }}
             >
                 <TableCell align="center" component="th" scope="row">{new Date(row.created_at).toLocaleDateString("pt-BR")}</TableCell>
@@ -70,14 +70,14 @@ export default function TableContracts() {
 
     const {
         contractsForSign, contractOptions,
-        setTake, setSkip, queryContract, orderFor, setOrderFor, orderBy, setOrderBy
+        setTake, setSkip, mutateContract, orderFor, setOrderFor, orderBy, setOrderBy
     } = useSignContracts();
 
 
 
 
     const { isPending } = contractsForSign;
-    const { isFetching } = queryContract;
+    const { isPending: isFetching } = mutateContract;
     const { contracts } = contractOptions;
 
     const [rowsPerPage, setRowsPerPage] = React.useState(10);

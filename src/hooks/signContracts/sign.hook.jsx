@@ -1,7 +1,7 @@
 
-import { useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery } from "@tanstack/react-query"
 import Proptypes from 'prop-types'
-import { createContext, useContext, useEffect, useLayoutEffect, useState } from "react"
+import { createContext, useContext, useLayoutEffect, useState } from "react"
 import URI from "../../app/utils/utils"
 import { useUser } from "../userContext.jsx"
 
@@ -13,7 +13,7 @@ export const SigningContracts = ({ children }) => {
     const [take, setTake] = useState(10)
     const [skip, setSkip] = useState(1)
 
-    const [contract, setContract] = useState()
+    const [contract, setContract] = useState(null)
 
     const [query, setQuery] = useState('')
 
@@ -102,31 +102,28 @@ export const SigningContracts = ({ children }) => {
 
 
 
-    const signAContract = async () => {
-        if (!contract) return ""
-        const response = await URI.get(`/matricula/${contract}`)
+    const signAContract = async (id) => {
+        setContract(id)
+        const response = await URI.post(`/matricula/${id}`)
         return response.data
     }
 
-    const queryContract = useQuery({
-        queryFn: () => signAContract(),
-        queryKey: [contract],
-        enabled: contract !== undefined,
-        throwOnError: (e) => alert(e.response.data.message),
+    const mutateContract = useMutation({
+        mutationFn: (e) => signAContract(e),
+        mutationKey: [contract],
         retry: false,
+        onSuccess: (data) => {
 
+            setFilteredContracts(data?.contract)
+
+        },
+        onError: (error) => {
+
+            const { response } = error
+
+            return alert(response.data.message)
+        }
     })
-
-    const { isSuccess, data } = queryContract
-
-
-    useEffect(() => {
-
-        if (isSuccess) setFilteredContracts(data.contract)
-
-
-    }, [contract, isSuccess])
-
 
 
 
@@ -141,7 +138,7 @@ export const SigningContracts = ({ children }) => {
             skip, setSkip,
 
             contract, setContract,
-            queryContract,
+            mutateContract,
             queryFunnels,
             funnelsQuery,
 
