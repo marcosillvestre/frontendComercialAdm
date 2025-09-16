@@ -66,7 +66,8 @@ export const UniqueSelect = ({ placeHolder, fn, width, border, color, option, fi
 
 
                 <ListOpt
-                    open={open}
+                    open={option && open}
+
                     style={{
                         minWidth: `${width}`,
                     }}
@@ -86,38 +87,40 @@ export const UniqueSelect = ({ placeHolder, fn, width, border, color, option, fi
 
                     </SearchNav>
 
-                    {
-                        options &&
-                        options?.map((data, idx) => (
-                            <Options
-                                className="option"
-                                key={idx}
-                                title={data?.name}
-                                selected={label === data.name}
-                            >
+                    <section className='mid-container'>
+                        {
+                            options &&
+                            options?.map((data, idx) => (
+                                <Options
+                                    className="option"
+                                    key={idx}
+                                    title={data?.name}
+                                    selected={label === data.name}
+                                >
 
-                                <span
-                                    className="label"
-                                    onClick={() => {
-                                        if (data.name === label && nullable) {
-                                            setLabel('')
-                                            return handleCheck({ value: '', field })
+                                    <span
+                                        className="label"
+                                        onClick={() => {
+                                            if (data.name === label && nullable) {
+                                                setLabel('')
+                                                return handleCheck({ value: '', field })
+                                            }
+
+                                            setLabel(data.name)
+                                            handleCheck({ value: data?.value ?? data?.name, field })
                                         }
+                                        }>
 
-                                        setLabel(data.name)
-                                        handleCheck({ value: data?.value ?? data?.name, field })
-                                    }
-                                    }>
+                                        <p>{data?.name}</p>
+                                        <DoneIcon />
 
-                                    <p>{data?.name}</p>
-                                    <DoneIcon />
-
-                                </span>
+                                    </span>
 
 
-                            </Options>
-                        ))
-                    }
+                                </Options>
+                            ))
+                        }
+                    </section>
                 </ListOpt>
 
             </Container >

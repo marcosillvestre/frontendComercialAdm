@@ -22,8 +22,7 @@ margin: .25rem 0 ;
 width: 100%;
 z-index: 13;
 border-radius: var(--br);
-max-height: 20rem;
-overflow-y: scroll;
+
 background-color:#fff;
 box-shadow:
     0 2px 5px rgba(0, 0, 0, 0.08),  
@@ -32,6 +31,11 @@ padding: 7px;
 
 &::-webkit-scrollbar{
     display: none;
+}
+
+.mid-container{
+max-height: 12rem;
+overflow-y: scroll;
 }
 `
 

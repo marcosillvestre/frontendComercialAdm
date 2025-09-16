@@ -61,34 +61,37 @@ export const MultiSelect = (parameters) => {
                         />
 
                     </SearchNav>
-                    {
-                        options &&
-                        options?.map((data, idx) => (
+                    <section className="mid-container">
+                        {
+                            options &&
+                            options?.map((data, idx) => (
 
-                            <Options
-                                className="option"
-                                title={data?.name}
-                                key={idx}
-                                selected={selected?.find(res => res.name === data.name)}
-                                onClick={() => {
-                                    selected.find(res => res.name === data.name) ?
-                                        setSelected(selected.filter(res => res.name !== data.name)) :
-                                        setSelected(res => [...res, data])
-                                }
-                                }
-                            >
-                                {
-                                    <span
-                                        className="label"
-                                    >
-                                        <p>{data?.name}</p>
-                                        <DoneIcon />
-                                    </span>
+                                <Options
+                                    className="option"
+                                    title={data?.name}
+                                    key={idx}
+                                    selected={selected?.find(res => res.name === data.name)}
+                                    onClick={() => {
+                                        selected.find(res => res.name === data.name) ?
+                                            setSelected(selected.filter(res => res.name !== data.name)) :
+                                            setSelected(res => [...res, data])
+                                    }
+                                    }
+                                >
+                                    {
+                                        <span
+                                            className="label"
+                                        >
+                                            <p>{data?.name}</p>
+                                            <DoneIcon />
+                                        </span>
 
-                                }
-                            </Options>
-                        ))
-                    }
+                                    }
+                                </Options>
+                            ))
+                        }
+
+                    </section>
                 </ListOpt>
 
             </Container >

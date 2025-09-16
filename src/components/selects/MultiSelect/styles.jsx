@@ -23,8 +23,6 @@ margin: .25rem 0 ;
 border-radius: var(--br);
 width: 100%;
 z-index: 13;
-max-height: 20rem;
-overflow-y: scroll;
 background-color:#fff;
 box-shadow:
     0 2px 5px rgba(0, 0, 0, 0.08),  
@@ -34,6 +32,10 @@ padding: 7px;
     display: none;
 }
 
+.mid-container{
+max-height: 12rem;
+overflow-y: scroll;
+}
 `
 
 export const Options = styled.li`
