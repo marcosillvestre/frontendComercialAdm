@@ -89,7 +89,7 @@ export const ProductsProvider = ({ children }) => {
         onSuccess: (data,) => {
 
             queryClient.setQueryData(
-                ["product", take, skip, orderBy, query, orderFor],
+                ["product", take, skip, orderBy, query, orderFor, JSON.stringify(typeFilter)],
                 (oldData) => {
 
                     return setQueryProducts({
@@ -132,7 +132,7 @@ export const ProductsProvider = ({ children }) => {
 
 
             queryClient.setQueryData(
-                ["product", take, skip, orderBy, query, orderFor],
+                ["product", take, skip, orderBy, query, orderFor, JSON.stringify(typeFilter)],
                 (oldData) => {
                     const { total, products } = oldData;
                     const filtered = products.filter(res => res.id !== variables.id)
@@ -197,9 +197,8 @@ export const ProductsProvider = ({ children }) => {
 
 
             queryClient.setQueryData(
-                ["product", take, skip, orderBy, query, orderFor],
+                ["product", take, skip, orderBy, query, orderFor, JSON.stringify(typeFilter)],
                 (oldData) => {
-
                     const { products, total } = oldData;
 
                     return setQueryProducts({
