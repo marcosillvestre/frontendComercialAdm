@@ -24,7 +24,7 @@ function Row(props) {
             <RowTable
                 sx={{ '& > *': { borderBottom: 'unset' } }}
                 onClick={() => {
-                    if (!row.subclass) return alert("Nenhum produto/serviço cadastrado no RD!")
+                    // if (!row.subclass) return alert("Nenhum produto/serviço cadastrado no RD!")
 
                     const regex = /^\d+$/;
                     if (!regex.test(row.phone)) return alert("Número de telefone em um formato impróprio, use apenas números")
