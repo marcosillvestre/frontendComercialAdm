@@ -31,7 +31,7 @@ import {
 import { SupliersSidebar } from './supliers/supliers.create.jsx';
 import { CreateUsersForm } from './users/users.create.jsx';
 
-const drawerWidth = 250;
+const drawerWidth = 300;
 
 const openedMixin = (theme) => ({
     width: drawerWidth,
@@ -265,6 +265,7 @@ export function MiniDrawer() {
 
 
                 </Drawer>
+
                 <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
                     <DrawerHeader />
 

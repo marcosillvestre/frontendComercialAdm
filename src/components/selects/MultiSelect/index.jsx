@@ -38,7 +38,7 @@ export const MultiSelect = (parameters) => {
 
             <Container
                 style={{
-                    minWidth: `${width}`,
+                    maxWidth: `${width}`,
                 }}
             >
 

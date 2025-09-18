@@ -83,6 +83,7 @@ export const Billing = () => {
                     }}
                 />
             </Label>
+
             <Label >
                 <p>Descrição da régua</p>
                 <TextArea name="" id=""
@@ -136,6 +137,7 @@ export const Billing = () => {
                     }}
                 />
             </Label>
+
             <Label >
                 <p>Dias para ação</p>
                 < Input
@@ -218,8 +220,8 @@ export const Billing = () => {
                         field="related"
                         related={editBilling ? editBilling.related : []}
                         fn={sender}
-                        width="11.5rem"
                         option={products}
+                        width="100%"
 
                     />
 
@@ -235,7 +237,7 @@ export const Billing = () => {
                         related={editBilling ? editBilling?.related : []}
                         fn={sender}
                         option={services}
-                        width="11.5rem"
+                        width="100%"
 
                     />
                 </Label>

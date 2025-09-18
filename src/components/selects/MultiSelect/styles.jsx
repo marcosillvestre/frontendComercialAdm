@@ -4,7 +4,7 @@ export const Container = styled.div`
 position: relative;
 font-size: var(--fsLowest) ;
 height: var(--boxHei);
-width: 100%;
+max-width: 100%;
 user-select: none;
 cursor: pointer;
 z-index: 13;
@@ -22,7 +22,7 @@ display:${props => props.open ? "" : "none"} ;
 position: absolute;
 margin: .25rem 0 ;
 border-radius: var(--br);
-width: 100%;
+max-width: 100%;
 z-index: 13;
 background-color:#fff;
 box-shadow:

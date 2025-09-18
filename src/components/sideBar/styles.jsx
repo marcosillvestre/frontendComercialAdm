@@ -36,6 +36,7 @@ svg{
 
 export const Label = styled.div`
 font-size: 13px;
+max-width: 14rem;
 button{
     border: none;
     background-color: transparent;
@@ -114,6 +115,7 @@ display: flex;
 flex-direction:column;
 gap: 1rem;
 padding: 1rem 2rem;
+width: 100%;
 `
 export const Submit = styled.button`
 width: 49%;
