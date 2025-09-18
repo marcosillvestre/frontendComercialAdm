@@ -7,6 +7,7 @@ height: var(--boxHei);
 width: 100%;
 user-select: none;
 cursor: pointer;
+z-index: 13;
 
 #category-select {
 font-size: var(--fsLowest) ;
@@ -91,7 +92,6 @@ span{
 
 
 export const SelectButton = styled.div`
-position: relative;
 color: #222;
 padding: .4rem ;
 display: flex;
@@ -103,16 +103,33 @@ border: ${props => props.noOptions ? ".5px solid #f74949" : ".5px solid #a9a9a9"
 min-height: calc(var(--boxHei) - 2px);
 max-height: var(--boxHei);
 
-#selected-value{
-    color: #000;
-    font-size: var(--fsXLow) ;
+.multi-values{
+    overflow-x: scroll;
+    &::-webkit-scrollbar{
+        display: none;
+    }
 }
+
+#selected-value{
+    font-size: var(--fsXLow) ;
+    align-items: center;
+    border: 1px dashed;
+    padding: 0 .4rem ;
+    border-radius: var(--br);
+    background-color: #f1f1f1;
+    svg{
+        width: 15px;
+    }
+    p{
+        width: max-content;
+    }
+}
+
 `
 export const Icon = styled.div`
 display: flex;
 align-items: center;
 cursor: pointer;
-position: absolute;
 right: 10px;
 .icon{
     transform: ${props => props.open ? "rotate(180deg)" : "rotate(0deg)"};

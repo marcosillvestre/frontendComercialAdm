@@ -4,6 +4,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import SearchIcon from '@mui/icons-material/Search';
 import { useState } from 'react';
+import { CloserClick } from '../../source.jsx';
 import { Container, Icon, ListOpt, Options, SearchNav, SelectButton } from './styles.jsx';
 
 export const MultiSelect = (parameters) => {
@@ -20,8 +21,21 @@ export const MultiSelect = (parameters) => {
         open && fn(field, selected);
     }
 
+    const remover = (value) => {
+        const filtered = selected.filter(res => res.name !== value);
+        setSelected(filtered);
+    }
+
+
     return (
         <>
+            <CloserClick
+                open={open}
+                fn={handleFunction}
+                opacity={.01}
+                dontClose={true}
+            />
+
             <Container
                 style={{
                     minWidth: `${width}`,
@@ -29,16 +43,34 @@ export const MultiSelect = (parameters) => {
             >
 
                 <div id="category-select">
+
                     <SelectButton id="select-button"
-                        onClick={() => handleFunction()}
+                        onClick={() => setOpen(true)}
                         noOptions={open && !option}
                     >
-                        <p id="selected-value"> {selected?.length} itens</p>
+                        <div className='flex multi-values'>
+                            {
+                                selected?.length > 0 &&
+                                selected.map((res, index) => (
+                                    <div title={res.name} key={index}
+                                        id='selected-value'
+                                        className='flex'
+                                        onClick={() => remover(res.name)}
+                                    >
+                                        <p>{res.name.slice(0, 15)}...</p>
+                                        <CloseIcon />
+
+                                    </div>
+                                ))
+                            }
+                        </div>
+
                         <Icon id="chevrons" open={open}>
                             <i className='icon'>
                                 <KeyboardArrowDownIcon />
                             </i>
                         </Icon>
+
                     </SelectButton>
                 </div>
 
@@ -75,7 +107,7 @@ export const MultiSelect = (parameters) => {
                                     selected={selected?.find(res => res.name === data.name)}
                                     onClick={() => {
                                         selected.find(res => res.name === data.name) ?
-                                            setSelected(selected.filter(res => res.name !== data.name)) :
+                                            remover(data.name) :
                                             setSelected(res => [...res, data])
                                     }
                                     }
