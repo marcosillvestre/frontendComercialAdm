@@ -17,7 +17,7 @@ justify-content: space-between;
 align-items: center;
 border-radius: var(--br);
 border: ${props => props.disabled ? ".5px solid #a9a9a966" : ".5px solid #a9a9a9"};
-min-height: calc(var(--boxHei) - 8px);
+min-height: calc(var(--boxHei) - 2px);
 max-height: var(--boxHei);
 padding: .4rem;
 

@@ -100,7 +100,7 @@ align-items: center;
 border-radius: var(--br);
 border: ${props => props.noOptions ? ".5px solid #f74949" : ".5px solid #a9a9a9"};
 
-min-height: calc(var(--boxHei) - 8px);
+min-height: calc(var(--boxHei) - 2px);
 max-height: var(--boxHei);
 
 #selected-value{
