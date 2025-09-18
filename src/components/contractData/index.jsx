@@ -201,7 +201,7 @@ export const ContractData = () => {
 
             if (productss?.campaign) {
 
-                const { value: campValue, descountType } = campaigns.find(camp => camp.id === productss?.campaign);
+                const { value: campValue, descountType } = campaigns.find(camp => camp.id === productss?.campaign.id);
                 let campaignDescount = defineDescountValueForType(fullPrice, campValue, descountType);
 
                 return setProduct({
@@ -233,7 +233,7 @@ export const ContractData = () => {
             const fullPrice = reducer(value, 'priceSale');
 
             if (productss?.campaign) {
-                const { value: campValue, descountType } = campaigns.find(camp => camp.id === productss?.campaign);
+                const { value: campValue, descountType } = campaigns.find(camp => camp.id === productss?.campaign.id);
                 let campaignDescount = defineDescountValueForType(fullPrice, campValue, descountType);
 
                 return setProduct({
@@ -298,6 +298,7 @@ export const ContractData = () => {
         })
     }
 
+
     const handleServiceData = async (key, value) => {
 
         if (key === 'payment_type') {
@@ -305,7 +306,7 @@ export const ContractData = () => {
 
             if (servicess?.campaign) {
 
-                const { value: campValue, descountType } = campaigns.find(camp => camp.id === servicess?.campaign);
+                const { value: campValue, descountType } = campaigns.find(camp => camp.id === servicess?.campaign.id);
                 let campaignDescount = defineDescountValueForType(fullPrice, campValue, descountType);
 
                 return setService({
@@ -338,7 +339,7 @@ export const ContractData = () => {
             const fullPrice = reducer(service, 'priceSale');
 
             if (servicess?.campaign) {
-                const { value: campValue, descountType } = campaigns.find(camp => camp.id === servicess?.campaign);
+                const { value: campValue, descountType } = campaigns.find(camp => camp.id === servicess?.campaign.id);
                 let campaignDescount = defineDescountValueForType(fullPrice, campValue, descountType);
 
                 return setService({
@@ -368,17 +369,17 @@ export const ContractData = () => {
         }
 
         if (key === 'campaign') {
-
             const campaign = campaigns.find(camp => camp.id === value);
             const fullPrice = servicess?.fullPrice;
+            const descount = parseFloat(fullPrice * descountForPaymentMethod).toFixed(2);
 
             if (!campaign) {
                 setcamp({ ...camp, ...{ service: undefined } })
                 return setService({
                     ...servicess,
                     ...{
-                        descount: (fullPrice * descountForPaymentMethod).toFixed(2),
-                        price: (fullPrice - (fullPrice * descountForPaymentMethod)).toFixed(2),
+                        descount: descount,
+                        price: (fullPrice - descount),
                         fullPrice,
                         campaign: ''
                     }
@@ -386,22 +387,26 @@ export const ContractData = () => {
             }
 
             setcamp({ ...camp, ...{ service: campaign } });
-            const { value: campValue, descountType, affectedParcels } = campaign;
+            // const { value: campValue, descountType, affectedParcels } = campaign;
 
-            const parcelValue = fullPrice / servicess?.parcels;
-            let campaignDescount = await defineDescountValueForType(parcelValue, campValue, descountType) * affectedParcels;
+            // const parcelValue = fullPrice / servicess?.parcels;
+            // const descountForValueType = await defineDescountValueForType(parcelValue, campValue, descountType);
+            // let campaignDescount = (descountForValueType * affectedParcels).toFixed(2);
+
+            ////////////
 
             return setService({
                 ...servicess,
                 campaign,
-                price: (fullPrice - campaignDescount).toFixed(2),
-                descount: campaignDescount
+                price: (fullPrice - descount).toFixed(2),
+                descount: parseFloat(descount)
             })
 
         }
 
         if (key === 'descount') {
             const fullPrice = servicess?.fullPrice;
+            setcamp({ ...camp, ...{ service: undefined } })
 
             return setService({
                 ...servicess,
@@ -415,7 +420,7 @@ export const ContractData = () => {
             const descount = parseFloat(value * descountForPaymentMethod).toFixed(2)
 
             if (servicess?.campaign) {
-                const { value: campValue, descountType } = campaigns.find(camp => camp.id === productss?.campaign);
+                const { value: campValue, descountType } = campaigns.find(camp => camp.id === servicess?.campaign.id);
                 let campaignDescount = defineDescountValueForType(value, campValue, descountType);
 
                 return setService({
@@ -494,7 +499,7 @@ export const ContractData = () => {
             const descount = taxs?.descount
 
             if (taxs?.campaign) {
-                const { value: campValue, descountType } = campaigns.find(camp => camp.id === productss?.campaign);
+                const { value: campValue, descountType } = campaigns.find(camp => camp.id === productss?.campaign.id);
                 let campaignDescount = defineDescountValueForType(value, campValue, descountType);
 
                 return setTaxs({
@@ -544,9 +549,11 @@ export const ContractData = () => {
         for (let index = 0; index < quantityParcels; index++) {
 
             let campaignDescount = await defineDescountValueForType(fullPriceRounded, value, descountType);
+            let date = await dateCalculator(payment_date, index);
+
             index + 1 <= affectedParcels ?
-                array.push({ valor: fullPriceRounded - campaignDescount, date: await dateCalculator(payment_date, index) }) :
-                array.push({ valor: fullPriceRounded, date: await dateCalculator(payment_date, index) })
+                array.push({ valor: fullPriceRounded - campaignDescount, date }) :
+                array.push({ valor: priceRounded, date })
         }
 
         return array;
@@ -926,7 +933,7 @@ export const ContractData = () => {
                                             <p>Campanha</p>
 
                                             <UniqueSelect
-                                                placeHolder={servicess?.campaign}
+                                                placeHolder={servicess?.campaign?.name}
                                                 fn={[handleServiceData]}
                                                 nullable={true}
                                                 option={campaigns.filter(camp => camp.for === 'Parcel')
@@ -1219,7 +1226,7 @@ export const ContractData = () => {
                                             <p>Campanha </p>
 
                                             <UniqueSelect
-                                                placeHolder={productss.campaign}
+                                                placeHolder={productss?.campaign?.name}
                                                 fn={[handleProductsData]}
                                                 field='campaign'
                                                 nullable={true}
@@ -1518,7 +1525,7 @@ export const ContractData = () => {
                                             <p>Campanha</p>
 
                                             <UniqueSelect
-                                                placeHolder={taxs.campaign}
+                                                placeHolder={taxs?.campaign?.name}
                                                 fn={[handleTaxData]}
                                                 nullable={true}
                                                 option={campaigns.filter(camp => camp.for === 'Tax')
