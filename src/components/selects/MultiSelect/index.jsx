@@ -1,4 +1,6 @@
-import DoneIcon from '@mui/icons-material/Done';
+// import DoneIcon from '@mui/icons-material/Done';
+import CloseIcon from '@mui/icons-material/Close';
+
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import SearchIcon from '@mui/icons-material/Search';
 import { useState } from 'react';
@@ -83,7 +85,7 @@ export const MultiSelect = (parameters) => {
                                             className="label"
                                         >
                                             <p>{data?.name}</p>
-                                            <DoneIcon />
+                                            <CloseIcon />
                                         </span>
 
                                     }

@@ -1,4 +1,5 @@
-import DoneIcon from '@mui/icons-material/Done';
+// import DoneIcon from '@mui/icons-material/Done';
+import CloseIcon from '@mui/icons-material/Close';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import SearchIcon from '@mui/icons-material/Search';
 import PropTypes from 'prop-types';
@@ -112,7 +113,7 @@ export const UniqueSelect = ({ placeHolder, fn, width, border, color, option, fi
                                         }>
 
                                         <p>{data?.name}</p>
-                                        <DoneIcon />
+                                        <CloseIcon />
 
                                     </span>
 
