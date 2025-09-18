@@ -77,6 +77,16 @@ export function BillingsMoreFilters({ disabled }) {
                 { name: "Não" },
             ],
         },
+        {
+            label: "Gatilho",
+            name: "typeTrigger",
+            options: [
+                { name: "Antes", value: "BEFORE" },
+                { name: "No dia", value: "AT" },
+                { name: "Depois", value: "AFTER" },
+            ],
+        },
+
 
     ]
 
