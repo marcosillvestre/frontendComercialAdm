@@ -286,7 +286,7 @@ export const PDFFile = ({ data, choosedData, campaign }) => {
                                                 <td >{data["service"]}</td>
                                                 <td >{changeCurrency(service?.fullPrice)}</td>
                                                 <td >{changeCurrency(service?.descount)}</td>
-                                                <td >{service?.parcels.length}</td>
+                                                <td >{service?.parcels}</td>
                                                 <td >{service?.payment_type}</td>
                                                 <td >{changeCurrency(service?.price)}</td>
                                             </tr>
