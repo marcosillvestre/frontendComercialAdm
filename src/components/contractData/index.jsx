@@ -101,7 +101,7 @@ export const ContractData = () => {
 
 
     const keys = Object.keys(filteredContracts)
-        .filter(res => res !== 'id' && res !== 'service' && res !== 'tax' && res !== 'material' && res !== 'parcel' && res !== 'products' && res !== 'campaigns' && res !== 'services');
+        .filter(res => res !== 'id' && res !== 'service' && res !== 'newService' && res !== 'newProduct' && res !== 'newTax' && res !== 'tax' && res !== 'material' && res !== 'parcel' && res !== 'products' && res !== 'campaigns' && res !== 'services');
 
     const render = () => {
         setLoading(true);
