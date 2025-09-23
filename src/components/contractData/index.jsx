@@ -171,21 +171,23 @@ export const ContractData = () => {
         payment_type: filteredContracts["Forma de pagamento do MD"] ?? '',
     });
 
+    const fullPriceService = filteredContracts["valorCurso"] ?? reducer(filteredContracts['services'], 'priceSale');
+
     const [servicess, setService] = useState({
         sellected: filteredContracts['services'],
-        fullPrice: reducer(filteredContracts['services'], 'priceSale'),
-        price: reducer(filteredContracts['services'], 'priceSale') - (reducer(filteredContracts['services'], 'priceSale') * paymentMethodsForParcels[filteredContracts["Forma de pagamento da parcela"] ?? 1]).toFixed(2),
-        descount: parseFloat(reducer(filteredContracts['services'], 'priceSale') * paymentMethodsForParcels[filteredContracts["Forma de pagamento da parcela"] ?? 1]).toFixed(2),
+        fullPrice: fullPriceService,
+        price: fullPriceService - (fullPriceService * paymentMethodsForParcels[filteredContracts["Forma de pagamento da parcela"] ?? 1]).toFixed(2),
+        descount: parseFloat(fullPriceService * paymentMethodsForParcels[filteredContracts["Forma de pagamento da parcela"] ?? 1]).toFixed(2),
         campaign: '',
         parcels: filteredContracts["Número de parcelas do curso"] ?? 1,
-        payment_date: new Date().toISOString(),
+        payment_date: new Date(filteredContracts["Data de Vencimento da Primeira Parcela"]).toISOString() ?? new Date().toISOString(),
         payment_type: filteredContracts["Forma de pagamento da parcela"] ?? '',
     });
 
     const [taxs, setTaxs] = useState({
         sellected: odd,
         fullPrice: 350,
-        price: 350,
+        price: filteredContracts["Valor do Desconto na TM"] ? 350 - parseInt(filteredContracts["Valor do Desconto na TM"]) : 350,
         descount: filteredContracts["Valor do Desconto na TM"] ?? 0,
         campaign: '',
         parcels: filteredContracts["Quantidade de parcelas TM "] ?? 1,
