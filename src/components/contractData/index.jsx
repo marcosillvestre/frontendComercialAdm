@@ -10,7 +10,7 @@ import SubdirectoryArrowLeftIcon from '@mui/icons-material/SubdirectoryArrowLeft
 import CloseIcon from '@mui/icons-material/Close';
 
 import { useState } from 'react';
-import { dateCalculator, parseDates } from '../../app/utils/functions/getDates.jsx';
+import { dateCalculator, parseDates, ReOrderDate } from '../../app/utils/functions/getDates.jsx';
 import { changeCurrency } from '../../app/utils/functions/parseNumbers.jsx';
 import businessRules from '../../app/utils/Rules/options.jsx';
 import { useCampaign } from '../../hooks/campaign/campaignContext.hook.jsx';
@@ -180,7 +180,7 @@ export const ContractData = () => {
         descount: parseFloat(fullPriceService * paymentMethodsForParcels[filteredContracts["Forma de pagamento da parcela"] ?? 1]).toFixed(2),
         campaign: '',
         parcels: filteredContracts["Número de parcelas do curso"] ?? 1,
-        payment_date: new Date(filteredContracts["Data de Vencimento da Primeira Parcela"]).toISOString() ?? new Date().toISOString(),
+        payment_date: filteredContracts["Data de Vencimento da Primeira Parcela"] ? ReOrderDate(filteredContracts["Data de Vencimento da Primeira Parcela"]) : new Date().toISOString(),
         payment_type: filteredContracts["Forma de pagamento da parcela"] ?? '',
     });
 
