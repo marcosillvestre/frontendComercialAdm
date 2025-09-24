@@ -167,7 +167,7 @@ export const ContractData = () => {
         descount: parseFloat(reducer(filteredContracts['products'], 'priceSale') * paymentMethodsForMaterials[filteredContracts["Forma de pagamento do MD"] ?? 1]).toFixed(2),
         campaign: '',
         parcels: filteredContracts["Quantidade de parcelas MD"] ?? 1,
-        payment_date: new Date().toISOString(),
+        payment_date: filteredContracts["Data de pagamento MD"] ? ReOrderDate(filteredContracts["Data de pagamento MD"]) : new Date().toISOString(),
         payment_type: filteredContracts["Forma de pagamento do MD"] ?? '',
     });
 
@@ -191,7 +191,7 @@ export const ContractData = () => {
         descount: filteredContracts["Valor do Desconto na TM"] ?? 0,
         campaign: '',
         parcels: filteredContracts["Quantidade de parcelas TM "] ?? 1,
-        payment_date: new Date().toISOString(),
+        payment_date: filteredContracts["Data de pagamento TM"] ? ReOrderDate(filteredContracts["Data de pagamento TM"]) : new Date().toISOString(),
         payment_type: filteredContracts["Forma de pagamento TM"] ?? '',
     });
 
