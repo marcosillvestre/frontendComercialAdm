@@ -1,5 +1,6 @@
 export const parseNumber = (number) => {
-    if (number === '' || number === undefined) return 0
+    if (number === '' || number === undefined) return 0;
+    if (typeof number === 'number') return number;
 
     if (typeof number === 'string') {
 

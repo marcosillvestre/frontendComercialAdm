@@ -10,7 +10,7 @@ export * from './popovers/popOverControl'
 export * from './popovers/popOverOrders'
 export * from './popUps/moreData/orders'
 export * from './popUps/sureModal'
-export * from './popUps/sureSendModal'
+// export * from './popUps/sureSendModal'
 export * from './selects/select'
 export * from './sideBar'
 

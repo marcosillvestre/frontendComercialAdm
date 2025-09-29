@@ -11,17 +11,18 @@ import CloseIcon from '@mui/icons-material/Close';
 
 import { useState } from 'react';
 import { dateCalculator, parseDates, ReOrderDate } from '../../app/utils/functions/getDates.jsx';
-import { changeCurrency } from '../../app/utils/functions/parseNumbers.jsx';
+import { changeCurrency, parseNumber } from '../../app/utils/functions/parseNumbers.jsx';
 import businessRules from '../../app/utils/Rules/options.jsx';
 import { useCampaign } from '../../hooks/campaign/campaignContext.hook.jsx';
 import { useProduct } from '../../hooks/products/productsContext.hook.jsx';
 import { useService } from '../../hooks/services/servicesContext.hook.jsx';
 import { useSignContracts } from '../../hooks/signContracts/sign.hook.jsx';
 import { InputRegister } from '../inputs/input.update.register/index.jsx';
+import { ModalAutentique } from '../popUps/sendAutentiqueModal/index.jsx';
+import { SureSendModal } from '../popUps/sendContaAzulModal/index.jsx';
 import { DateSelect } from '../selects/DateSelect/index.jsx';
 import { MultiSelect } from '../selects/MultiSelect/index.jsx';
 import { UniqueSelect } from '../selects/UniqueSelect/index.jsx';
-import { SureSendModal } from '../source.jsx';
 import { SwitchButtons } from '../switchButtons/index.jsx';
 import { PDFFile } from './templates/contract.jsx';
 
@@ -45,7 +46,6 @@ export const ContractData = () => {
 
     const personalText = {
         PDF: "Ao emitir via PDF o download começará em instantes!",
-        autentique: "Ao enviar um contrato via Autentique você deve selecionar um arquivo PDF já existente. Ele será enviado via whatsapp, você também poderá copiar o link para enviar ao cliente!",
         contaAzul: "Ao enviar um contrato ao Conta Azul ele somente estará disponível no Conta Azul!"
     }
 
@@ -166,7 +166,7 @@ export const ContractData = () => {
         price: reducer(filteredContracts['products'], 'priceSale') - (reducer(filteredContracts['products'], 'priceSale') * paymentMethodsForMaterials[filteredContracts["Forma de pagamento do MD"] ?? 1]).toFixed(2),
         descount: parseFloat(reducer(filteredContracts['products'], 'priceSale') * paymentMethodsForMaterials[filteredContracts["Forma de pagamento do MD"] ?? 1]).toFixed(2),
         campaign: '',
-        parcels: filteredContracts["Quantidade de parcelas MD"] ?? 1,
+        parcels: parseNumber(filteredContracts["Quantidade de parcelas MD"]),
         payment_date: filteredContracts["Data de pagamento MD"] ? ReOrderDate(filteredContracts["Data de pagamento MD"]) : new Date().toISOString(),
         payment_type: filteredContracts["Forma de pagamento do MD"] ?? '',
     });
@@ -177,9 +177,9 @@ export const ContractData = () => {
         sellected: filteredContracts['services'],
         fullPrice: fullPriceService,
         price: fullPriceService - (fullPriceService * paymentMethodsForParcels[filteredContracts["Forma de pagamento da parcela"] ?? 1]).toFixed(2),
-        descount: parseFloat(fullPriceService * paymentMethodsForParcels[filteredContracts["Forma de pagamento da parcela"] ?? 1]).toFixed(2),
+        descount: parseNumber(fullPriceService * paymentMethodsForParcels[filteredContracts["Forma de pagamento da parcela"] ?? 1]),
         campaign: '',
-        parcels: filteredContracts["Número de parcelas do curso"] ?? 1,
+        parcels: parseNumber(filteredContracts["Número de parcelas do curso"]),
         payment_date: filteredContracts["Data de Vencimento da Primeira Parcela"] ? ReOrderDate(filteredContracts["Data de Vencimento da Primeira Parcela"]) : new Date().toISOString(),
         payment_type: filteredContracts["Forma de pagamento da parcela"] ?? '',
     });
@@ -187,10 +187,10 @@ export const ContractData = () => {
     const [taxs, setTaxs] = useState({
         sellected: odd,
         fullPrice: 350,
-        price: filteredContracts["Valor do Desconto na TM"] ? 350 - parseInt(filteredContracts["Valor do Desconto na TM"]) : 350,
-        descount: filteredContracts["Valor do Desconto na TM"] ?? 0,
+        price: filteredContracts["Valor do Desconto na TM"] ? 350 - parseNumber(filteredContracts["Valor do Desconto na TM"]) : 350,
+        descount: parseNumber(filteredContracts["Valor do Desconto na TM"]),
         campaign: '',
-        parcels: filteredContracts["Quantidade de parcelas TM "] ?? 1,
+        parcels: parseNumber(filteredContracts["Quantidade de parcelas TM "]),
         payment_date: filteredContracts["Data de pagamento TM"] ? ReOrderDate(filteredContracts["Data de pagamento TM"]) : new Date().toISOString(),
         payment_type: filteredContracts["Forma de pagamento TM"] ?? '',
     });
@@ -299,7 +299,6 @@ export const ContractData = () => {
             [key]: value
         })
     }
-
 
     const handleServiceData = async (key, value) => {
 
@@ -562,6 +561,11 @@ export const ContractData = () => {
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    const chooses = {
+        "newService": setServiceChoosed,
+        "newProduct": setProductChoosed,
+        "newTax": setTaxsChoosed,
+    }
 
     const sincValues = async (productsData, destiny) => {
         setLoading(true);
@@ -577,12 +581,6 @@ export const ContractData = () => {
             payment_date
         });
 
-        const chooses = {
-            "newService": setServiceChoosed,
-            "newProduct": setProductChoosed,
-            "newTax": setTaxsChoosed,
-        }
-
         chooses[destiny](productsData);
 
         filteredContracts[destiny] = {
@@ -596,7 +594,11 @@ export const ContractData = () => {
             payment_type
         }
         setLoading(false);
+    }
 
+    const resetContractData = (where) => {
+        chooses[where](null)
+        filteredContracts[where] = {}
     }
 
     return (
@@ -659,9 +661,7 @@ export const ContractData = () => {
                         <Button
                             className='defaultButton blueButton'
                         >
-                            <SureSendModal
-                                data={"Autentique"}
-                                text={personalText.autentique} />
+                            <ModalAutentique />
                         </Button>
                         <Button
                             // disabled={}
@@ -1022,7 +1022,7 @@ export const ContractData = () => {
 
                                             <h3 className='headers'>Descrição dos serviços contratados</h3>
                                             <button
-                                                onClick={() => setServiceChoosed(null)}
+                                                onClick={() => resetContractData("newService")}
                                             >
                                                 <CloseIcon />
                                             </button>
@@ -1310,7 +1310,7 @@ export const ContractData = () => {
 
                                             <h3 className='headers'>Descrição dos Produtos</h3>
                                             <button
-                                                onClick={() => setProductChoosed(null)}
+                                                onClick={() => resetContractData('newProduct')}
                                             >
                                                 <CloseIcon />
                                             </button>
@@ -1615,7 +1615,7 @@ export const ContractData = () => {
 
                                             <h3 className='headers'>Descrição da Taxa de matrícula</h3>
                                             <button
-                                                onClick={() => setTaxsChoosed(null)}
+                                                onClick={() => resetContractData('newTax')}
                                             >
                                                 <CloseIcon />
                                             </button>
