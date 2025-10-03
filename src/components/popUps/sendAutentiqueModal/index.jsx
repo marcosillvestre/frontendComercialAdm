@@ -32,7 +32,6 @@ import URI from '../../../app/utils/utils';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import DoneIcon from '@mui/icons-material/Done';
 
 import * as Yup from 'yup';
 import { Loading } from '../../loadingSpin';
@@ -363,26 +362,16 @@ export function ModalAutentique() {
                                             </p>
 
                                             {
-                                                Links.customer !== undefined ?
-                                                    userData.role === 'direcao' ?
-                                                        <>
-                                                            <p>Link para assinatura </p>
-                                                            <div>
-                                                                <span onClick={() => copy()}>
-                                                                    <p className='copied'>{Links.customer} </p>
-                                                                    <ContentCopyIcon />
-                                                                </span>
-                                                            </div>
-                                                        </>
-                                                        :
-                                                        <div>
-                                                            <span>
-                                                                <p className='copied'>Enviado com sucesso </p>
-                                                                <DoneIcon />
-                                                            </span>
-                                                        </div>
-                                                    :
-                                                    ""
+                                                Links.customer !== undefined &&
+                                                <>
+                                                    <p>Link para assinatura </p>
+                                                    <div>
+                                                        <span onClick={() => copy()}>
+                                                            <p className='copied'>{Links.customer} </p>
+                                                            <ContentCopyIcon />
+                                                        </span>
+                                                    </div>
+                                                </>
                                             }
                                         </form>
 
