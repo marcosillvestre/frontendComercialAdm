@@ -42,7 +42,7 @@ import { Loading } from '../../loadingSpin';
 
 export function ModalAutentique() {
 
-    const { filteredContracts, userData } = useUser();
+    const { filteredContracts } = useUser();
 
     const fullField = "total" in filteredContracts["newTax"] ||
         "total" in filteredContracts["newProduct"] ||
@@ -274,11 +274,8 @@ export function ModalAutentique() {
                                         </button>
 
                                         <Typography id="transition-modal-title" variant="h7" component="h3">
-                                            Ao enviar um contrato via Autentique você deve selecionar um arquivo PDF já existente. Ele será enviado via whatsapp, você também poderá copiar o link para enviar ao cliente!
-                                            <hr />
-                                            <div onClick={() => contaAzulSender()}>
-                                                ENVIAR
-                                            </div>
+                                            Ao enviar um contrato via Autentique você deve selecionar um arquivo PDF já existente.
+                                            Ele será enviado via whatsapp, você também poderá copiar o link para enviar ao cliente!
 
                                         </Typography>
                                     </Header>
@@ -320,6 +317,44 @@ export function ModalAutentique() {
                                             </div>
                                         </Boxes>
                                     }
+
+                                    <Boxes radio>
+                                        {
+                                            filteredContracts['newService']?.total > 0 &&
+                                            <label htmlFor="" className='check flex'>
+                                                <input type="checkbox"
+                                                    defaultChecked={true}
+                                                    disabled
+                                                    className='check'
+                                                />
+                                                <small>contrato</small>
+                                            </label>
+                                        }
+                                        {
+                                            filteredContracts['newProduct']?.total > 0 &&
+                                            <label htmlFor="" className='check flex'>
+                                                <input type="checkbox"
+                                                    defaultChecked={true}
+                                                    disabled
+                                                    className='check'
+                                                />
+                                                <small>material</small>
+                                            </label>
+                                        }
+                                        {
+                                            filteredContracts['newTax']?.total > 0 &&
+                                            <label htmlFor="" className='check flex'>
+                                                <input type="checkbox"
+                                                    defaultChecked={true}
+                                                    disabled
+                                                    className='check' />
+                                                <small>taxa</small>
+                                            </label>
+                                        }
+                                    </Boxes>
+
+
+
 
                                     <Boxes radio>
 
@@ -367,7 +402,7 @@ export function ModalAutentique() {
                                                     <p>Link para assinatura </p>
                                                     <div>
                                                         <span onClick={() => copy()}>
-                                                            <p className='copied'>{Links.customer} </p>
+                                                            <p className='copied'>{Links?.customer} </p>
                                                             <ContentCopyIcon />
                                                         </span>
                                                     </div>

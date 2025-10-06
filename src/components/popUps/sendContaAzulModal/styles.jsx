@@ -8,6 +8,13 @@ width: 100%;
 height: 100%;
 font-size: var(--fsLow);
 `
+export const ErrorDiv = styled.div`
+border-radius: var(--br);
+border: 1px dashed #ebcaca;
+padding: 1rem;
+
+`
+
 export const Fades = styled(Fade)`
 border: none;
 border-Radius: .9rem;

@@ -28,9 +28,9 @@ display: flex;
 margin-top: ${props => props.radio ? "2rem" : "1rem"};
 justify-content: center;
 background-color: #fff;
-align-items: center;
 justify-content: ${props => props.radio ? "center" : "left"};
-gap: .1rem;
+align-items: center;
+gap: .5rem;
 
 .container{
     display: flex;
@@ -49,6 +49,8 @@ gap: .1rem;
 
 .check{
     margin: 0 5px;
+    align-items: center;
+    justify-content: center;
 }
 form{
 text-align: center;
@@ -66,7 +68,7 @@ border-radius: 5px;
         justify-content: space-between;
         align-items: center;
         gap: 5px;
-
+        cursor:pointer;
     }
 }
 }

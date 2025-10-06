@@ -19,16 +19,20 @@ export function PopOverService(data) {
 
     const { setTypeSidebar, userData, setOpenSidebar, } = useUser()
 
-    const { setEditService, deleteService } = useService()
+    const { setEditService, deleteService, setService } = useService()
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popper' : undefined;
 
     const { row } = data
 
-    const handleEdit = () => {
+    const handleEdit = (action) => {
+        const { id, name, code, ...rest } = row
+
         setTypeSidebar(7)
         setOpenSidebar(true);
-        setEditService(row);
+
+        action ? setEditService({ id, name, code, ...rest }) :
+            setService({ ...rest })
 
         handleClick();
 
@@ -37,6 +41,7 @@ export function PopOverService(data) {
     const reset = () => {
         deleteService.mutateAsync(row.id)
     }
+
     return (
         <>
             <CloserClick
@@ -52,8 +57,12 @@ export function PopOverService(data) {
                         <Popper id={id} open={open} anchorEl={anchorEl} sx={{ zIndex: 12 }}>
                             <Box sx={{ border: 0, p: 1, bgcolor: '#ddddddf4', borderRadius: 2 }}>
 
-                                <Divider onClick={() => handleEdit()} >
+                                <Divider onClick={() => handleEdit(true)} >
                                     Editar
+                                </Divider>
+
+                                <Divider onClick={() => handleEdit()} >
+                                    Duplicar
                                 </Divider>
 
                                 <Divider>

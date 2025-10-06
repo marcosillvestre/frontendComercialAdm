@@ -6,8 +6,9 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 import URI from '../../../app/utils/utils';
 import { useUser } from '../../../hooks/userContext';
+import { EmptyData } from '../../emptyData';
 import { Loading } from '../../loadingSpin';
-import { Boxes, ButtonDelete, Container, Fades, Filter } from './styles';
+import { Boxes, ButtonDelete, Container, ErrorDiv, Fades, Filter } from './styles';
 
 
 const style = {
@@ -24,9 +25,13 @@ const style = {
     p: 6,
 };
 
-export function SureSendModal(data) {
+export function ContaAzulModal() {
 
-    const { filteredContracts } = useUser()
+    const { filteredContracts } = useUser();
+
+    const fullField = "total" in filteredContracts["newTax"] ||
+        "total" in filteredContracts["newProduct"] ||
+        "total" in filteredContracts["newService"]
 
     const [open, setOpen] = useState(false);
     const [sendingList, setSendingList] = useState([])
@@ -137,6 +142,8 @@ export function SureSendModal(data) {
             await new Promise(() => res(filteredContracts))
         })
 
+        setLoading(false);
+
     }
 
     const keys = Object.keys(filteredContracts)
@@ -153,7 +160,7 @@ export function SureSendModal(data) {
             <Filter
                 onClick={() => handleOpen()}
                 style={{ color: "#fff", width: "100%" }}>
-                {data.data}
+                Conta azul
             </Filter>
             <Modal
                 aria-labelledby="transition-modal-title"
@@ -177,104 +184,106 @@ export function SureSendModal(data) {
                                 <div>
 
                                     <Typography id="transition-modal-title" variant="h6" component="h2">
-                                        {data.text}
-
+                                        {
+                                            fullField ?
+                                                "Ao enviar um plano financeiro ao Conta Azul ele somente estará disponível lá." :
+                                                <ErrorDiv>
+                                                    <p>Você precisa criar um plano de venda para poder enviar para o conta azul.</p>
+                                                    <EmptyData width='15rem' />
+                                                </ErrorDiv>
+                                        }
                                     </Typography>
 
-                                    < >
-
-                                        {
-                                            filteredContracts['newService']?.total > 0 &&
-                                            <Boxes >
-                                                <input type="checkbox"
-                                                    defaultChecked={sendingList && sendingList.find(r => r === "contract")}
-                                                    onClick={(e) => {
-                                                        const msgs = {
-                                                            "Data de Vencimento da Primeira Parcela": "A data de vencimento da primeira parcela não foi preenchida.",
-                                                            "Número de parcelas do curso": "O número de parcelas do curso não foi preenchido",
-                                                            "Forma de pagamento da parcela": "A forma de pagamento do curso não foi preenchido",
-                                                        }
-
-                                                        const blocks = freeToGo.filter(res => msgs[res])
-                                                        if (blocks.length > 0) {
-                                                            if (blocks.length > 0) alert(blocks.map(res => msgs[res]))
-
-                                                            e.preventDefault()
-                                                        }
-                                                        handleSendingList("contract")
+                                    {
+                                        filteredContracts['newService']?.total > 0 &&
+                                        <Boxes >
+                                            <input type="checkbox"
+                                                defaultChecked={sendingList && sendingList.find(r => r === "contract")}
+                                                onClick={(e) => {
+                                                    const msgs = {
+                                                        "Data de Vencimento da Primeira Parcela": "A data de vencimento da primeira parcela não foi preenchida.",
+                                                        "Número de parcelas do curso": "O número de parcelas do curso não foi preenchido",
+                                                        "Forma de pagamento da parcela": "A forma de pagamento do curso não foi preenchido",
                                                     }
+
+                                                    const blocks = freeToGo.filter(res => msgs[res])
+                                                    if (blocks.length > 0) {
+                                                        if (blocks.length > 0) alert(blocks.map(res => msgs[res]))
+
+                                                        e.preventDefault()
                                                     }
-                                                    className='check' />
-                                                <small>Contrato</small    >
-                                            </Boxes>
-                                        }
-                                        {
-                                            filteredContracts['newProduct']?.total > 0 &&
-
-                                            <Boxes >
-                                                <input type="checkbox"
-                                                    defaultChecked={sendingList && sendingList.find(r => r === "sales")}
-                                                    onClick={(e) => {
-
-                                                        const msgs = {
-                                                            "Material didático": "Material didático não foi preenchido.",
-                                                            "Quantidade de parcelas MD": "O número de parcelas do Material não foi preenchido",
-                                                            "Forma de pagamento do MD": "A forma de pagamento do curso não foi preenchido",
-                                                        }
-
-                                                        const blocks = freeToGo.filter(res => msgs[res])
-                                                        if (blocks.length > 0) {
-                                                            if (blocks.length > 0) alert(blocks.map(res => msgs[res]))
-
-                                                            e.preventDefault()
-                                                        }
-                                                        handleSendingList("sales")
-                                                    }
-                                                    }
-                                                    className='check' />
-                                                <small>Material didático</small>
-                                            </Boxes>
-                                        }
-                                        {
-                                            filteredContracts['newTax']?.total > 0 &&
-
-                                            <Boxes >
-                                                <input type="checkbox"
-                                                    defaultChecked={sendingList && sendingList.find(r => r === "feeEnroll")}
-                                                    onClick={(e) => {
-                                                        const msgs = {
-                                                            "Material didático": "Material didático não foi preenchido.",
-                                                            "Quantidade de parcelas MD": "O número de parcelas do Material não foi preenchido",
-                                                            "Forma de pagamento do MD": "A forma de pagamento do curso não foi preenchido",
-                                                        }
-
-                                                        const blocks = freeToGo.filter(res => msgs[res])
-                                                        if (blocks.length > 0) {
-                                                            if (blocks.length > 0) alert(blocks.map(res => msgs[res]))
-
-                                                            e.preventDefault()
-                                                        }
-
-                                                        handleSendingList("feeEnroll")
-                                                    }
-                                                    }
-                                                    className='check' />
-                                                <small>Taxa de matrícula</small>
-                                            </Boxes>
-                                        }
-
-                                        <Boxes radio>
-                                            <ButtonDelete
-                                                disabled={sendingList.length === 0}
-                                                className='defaultButton blueButton'
-                                                onClick={() => separated()}
-                                            >
-                                                Emitir contrato
-
-                                            </ButtonDelete>
+                                                    handleSendingList("contract")
+                                                }
+                                                }
+                                                className='check' />
+                                            <small>Contrato</small    >
                                         </Boxes>
-                                    </>
+                                    }
+                                    {
+                                        filteredContracts['newProduct']?.total > 0 &&
 
+                                        <Boxes >
+                                            <input type="checkbox"
+                                                defaultChecked={sendingList && sendingList.find(r => r === "sales")}
+                                                onClick={(e) => {
+
+                                                    const msgs = {
+                                                        "Material didático": "Material didático não foi preenchido.",
+                                                        "Quantidade de parcelas MD": "O número de parcelas do Material não foi preenchido",
+                                                        "Forma de pagamento do MD": "A forma de pagamento do curso não foi preenchido",
+                                                    }
+
+                                                    const blocks = freeToGo.filter(res => msgs[res])
+                                                    if (blocks.length > 0) {
+                                                        if (blocks.length > 0) alert(blocks.map(res => msgs[res]))
+
+                                                        e.preventDefault()
+                                                    }
+                                                    handleSendingList("sales")
+                                                }
+                                                }
+                                                className='check' />
+                                            <small>Material didático</small>
+                                        </Boxes>
+                                    }
+                                    {
+                                        filteredContracts['newTax']?.total > 0 &&
+
+                                        <Boxes >
+                                            <input type="checkbox"
+                                                defaultChecked={sendingList && sendingList.find(r => r === "feeEnroll")}
+                                                onClick={(e) => {
+                                                    const msgs = {
+                                                        "Material didático": "Material didático não foi preenchido.",
+                                                        "Quantidade de parcelas MD": "O número de parcelas do Material não foi preenchido",
+                                                        "Forma de pagamento do MD": "A forma de pagamento do curso não foi preenchido",
+                                                    }
+
+                                                    const blocks = freeToGo.filter(res => msgs[res])
+                                                    if (blocks.length > 0) {
+                                                        if (blocks.length > 0) alert(blocks.map(res => msgs[res]))
+
+                                                        e.preventDefault()
+                                                    }
+
+                                                    handleSendingList("feeEnroll")
+                                                }
+                                                }
+                                                className='check' />
+                                            <small>Taxa de matrícula</small>
+                                        </Boxes>
+                                    }
+
+                                    <Boxes radio>
+                                        <ButtonDelete
+                                            disabled={sendingList.length === 0}
+                                            className='defaultButton blueButton'
+                                            onClick={() => separated()}
+                                        >
+                                            Emitir contrato
+
+                                        </ButtonDelete>
+                                    </Boxes>
 
                                 </div>
 

@@ -19,7 +19,7 @@ import { useService } from '../../hooks/services/servicesContext.hook.jsx';
 import { useSignContracts } from '../../hooks/signContracts/sign.hook.jsx';
 import { InputRegister } from '../inputs/input.update.register/index.jsx';
 import { ModalAutentique } from '../popUps/sendAutentiqueModal/index.jsx';
-import { SureSendModal } from '../popUps/sendContaAzulModal/index.jsx';
+import { ContaAzulModal } from '../popUps/sendContaAzulModal/index.jsx';
 import { DateSelect } from '../selects/DateSelect/index.jsx';
 import { MultiSelect } from '../selects/MultiSelect/index.jsx';
 import { UniqueSelect } from '../selects/UniqueSelect/index.jsx';
@@ -43,11 +43,6 @@ export const ContractData = () => {
     const odd = [{ value: "qwerty789", name: 'Taxa de matrícula', priceSale: 350 }];
 
 
-
-    const personalText = {
-        PDF: "Ao emitir via PDF o download começará em instantes!",
-        contaAzul: "Ao enviar um contrato ao Conta Azul ele somente estará disponível no Conta Azul!"
-    }
 
     const [serviceChoosed, setServiceChoosed] = useState();
     const [productChoosed, setProductChoosed] = useState();
@@ -168,7 +163,7 @@ export const ContractData = () => {
         campaign: '',
         parcels: parseNumber(filteredContracts["Quantidade de parcelas MD"]),
         payment_date: filteredContracts["Data de pagamento MD"] ? ReOrderDate(filteredContracts["Data de pagamento MD"]) : new Date().toISOString(),
-        payment_type: filteredContracts["Forma de pagamento do MD"] ?? '',
+        payment_type: paymentMethodsForMaterials[filteredContracts["Forma de pagamento do MD"]] ? filteredContracts["Forma de pagamento do MD"] : '',
     });
 
     const fullPriceService = filteredContracts["valorCurso"] ?? reducer(filteredContracts['services'], 'priceSale');
@@ -181,7 +176,7 @@ export const ContractData = () => {
         campaign: '',
         parcels: parseNumber(filteredContracts["Número de parcelas do curso"]),
         payment_date: filteredContracts["Data de Vencimento da Primeira Parcela"] ? ReOrderDate(filteredContracts["Data de Vencimento da Primeira Parcela"]) : new Date().toISOString(),
-        payment_type: filteredContracts["Forma de pagamento da parcela"] ?? '',
+        payment_type: paymentMethodsForParcels[filteredContracts["Forma de pagamento da parcela"]] ? filteredContracts["Forma de pagamento da parcela"] : '',
     });
 
     const [taxs, setTaxs] = useState({
@@ -667,9 +662,7 @@ export const ContractData = () => {
                             // disabled={}
                             className='defaultButton blueButton'
                         >
-                            <SureSendModal
-                                data={"Conta Azul"}
-                                text={personalText.contaAzul} />
+                            <ContaAzulModal />
                         </Button>
 
 
