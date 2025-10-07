@@ -14,7 +14,6 @@ import { CustomFields } from './customFields';
 import { Financial } from './financeiro';
 import { Historic } from './historico';
 import { Matricula } from './matricula';
-import { Observations } from './observacoes';
 import { Pedagogic } from './pedagogico';
 import { Boxes, ButtonDelete, Filter, Footer, Header, NavButton, RollingButtons } from './styles';
 
@@ -35,7 +34,7 @@ export function MoreDataRegisters(info) {
 
     const buttons = [
         "Matrícula",
-        "Observações",
+        // "Observações",
         "Anexos",
         "Pedagógico",
         "Financeiro",
@@ -48,7 +47,7 @@ export function MoreDataRegisters(info) {
 
     const elements = {
         "Matrícula": <Matricula />,
-        "Observações": <Observations />,
+        // "Observações": <Observations />,
         "Anexos": <Anexes />,
         "Histórico": <Historic />,
         "Pedagógico": <Pedagogic />,

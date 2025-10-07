@@ -7,6 +7,7 @@ import { useRegister } from '../../../hooks/registers/registersContext.hook.jsx'
 import { useUser } from '../../../hooks/userContext.jsx';
 import { CloserClick } from '../../closeClick';
 import { MoreDataRegisters } from '../../popUps/moreData/registers/index.jsx';
+import { ObservationsRegisters } from '../../popUps/observations.registers/index.jsx';
 import { SureModal } from '../../popUps/sureModal';
 import { Button, Container, Divider } from './styles.jsx';
 
@@ -22,7 +23,7 @@ export function PopOverControl(props) {
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popper' : undefined;
 
-    const { row } = props
+    const { row } = props;
 
     const reset = async () => {
         deleteRegisterData.mutateAsync(row.id)
@@ -52,6 +53,22 @@ export function PopOverControl(props) {
                                 }}
 
                             >
+                                <Divider
+                                    onClick={() => setRegisterId(row.id)}
+
+                                >
+                                    <MoreDataRegisters
+                                        data={row}
+                                    />
+                                </Divider>
+
+                                <Divider>
+                                    <ObservationsRegisters
+                                        data={row}
+                                    />
+
+                                </Divider>
+
                                 <Divider>
                                     <SureModal
                                         data={row?.id}
@@ -62,14 +79,9 @@ export function PopOverControl(props) {
                                     />
                                 </Divider>
 
-                                <Divider
-                                    onClick={() => setRegisterId(row.id)}
 
-                                >
-                                    <MoreDataRegisters
-                                        data={row}
-                                    />
-                                </Divider>
+
+
 
                             </Box>
                         </Popper>

@@ -12,10 +12,10 @@ export const Anexes = () => {
 
     const { userData } = useUser();
     const { register } = useRegister();
-    const { id, files } = register
+    const { id, files } = register;
 
 
-    const [filesData, setfilesData] = React.useState(files);
+    const [filesData, setfilesData] = React.useState(files || []);
     const [fileName, setFileName] = React.useState("")
     const [file, setFile] = React.useState(null)
     const [loading, setLoading] = React.useState(false)
@@ -132,7 +132,7 @@ export const Anexes = () => {
 
                 <div className='container'>
                     {
-                        filesData.length === 0 ?
+                        filesData?.length === 0 ?
                             <EmptyData width='10rem' /> :
                             filesData.map((tag) => (
 

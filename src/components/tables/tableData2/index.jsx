@@ -217,7 +217,7 @@ function TableMainData(props) {
                     />
                 </TableCell>
                 <TableCell align="center">
-                    <PopOverControl row={{ name: row.name, id: row.id }} />
+                    <PopOverControl row={{ name: row.name, id: row.id, comments: row.observacao }} />
                 </TableCell>
             </RowTable>
 
@@ -284,6 +284,7 @@ TableMainData.propTypes = {
         name: PropTypes.string.isRequired,
         comissaoStatus: PropTypes.string.isRequired,
         id: PropTypes.string.isRequired,
+        observacao: PropTypes.array.isRequired,
         customFields: PropTypes.shape({
             "Nome do aluno (se não for responsável próprio))": PropTypes.string.isRequired,
             "Curso": PropTypes.string.isRequired,
@@ -436,6 +437,7 @@ export default function CollapsibleTable() {
 
                                             </TableCell>
                                             <TableCell />
+
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
