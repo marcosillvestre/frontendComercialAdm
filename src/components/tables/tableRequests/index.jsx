@@ -56,7 +56,7 @@ function Row(props) {
 
 
                 </TableCell>
-                <TableCell align="center" component="th" scope="row">{row.unity.name} </TableCell>
+                <TableCell align="center" component="th" scope="row">{row?.unity?.name} </TableCell>
                 <TableCell align="center" component="th" scope="row">
 
                     <Tag

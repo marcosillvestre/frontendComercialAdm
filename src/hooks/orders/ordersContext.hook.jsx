@@ -218,7 +218,7 @@ export const OrdersProvider = ({ children }) => {
 
 
 
-    async function handleInput(params) {
+    async function handleSelect(params) {
         if (search === params) return ordersQuery.refetch()
         if (params !== "Período personalizado") {
             setInitialDate(null)
@@ -291,7 +291,7 @@ export const OrdersProvider = ({ children }) => {
             query,
 
             queryClient,
-            handleInput,
+            handleSelect,
             queryOrder, setQueryOrder,
 
             setTake, setSkip, take,

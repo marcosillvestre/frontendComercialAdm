@@ -1,21 +1,27 @@
 // import React from 'react'
 
 import SearchIcon from '@mui/icons-material/Search';
-import { useRef } from 'react';
+import { useState } from 'react';
 // import { OrderMoreFilters } from '../../../components/moreFilters.orders/index.jsx';
+import { InputSearcher } from '../../../components/inputs/input.search/index.jsx';
 import { SelectHistoricOrders } from '../../../components/selects/select.HistoricOrders/index.jsx';
 import TableRequests from '../../../components/tables/tableRequests/index.jsx';
 import { useRequests } from '../../../hooks/requests/requestsContext.hook.jsx';
 import businessRules from '../../utils/Rules/options.jsx';
-import { Container, Header, InputSearch } from "./styles.jsx";
+import { Container, Header } from "./styles.jsx";
 
 export const HistoricOrders = () => {
     const { predeterminedPeriods } = businessRules
+    const [searcher, setSearcher] = useState('')
 
-    const { search, handleInput, initialDate, endDate,
-        setQuery, typeFilter, setTypeFilter } = useRequests()
+    const { search, handleSelect, initialDate, endDate,
+        setQuery, query, typeFilter, setTypeFilter } = useRequests()
 
-    const searching = useRef()
+
+    const handleInput = (_, data) => {
+        if (!data) setQuery('')
+        setSearcher(data)
+    }
 
     return (
         <Container>
@@ -34,7 +40,7 @@ export const HistoricOrders = () => {
                         <SelectHistoricOrders
                             label={search}
                             option={predeterminedPeriods}
-                            fn={[handleInput]}
+                            fn={[handleSelect]}
                             width="5rem"
                             where="filter"
                         />
@@ -53,29 +59,27 @@ export const HistoricOrders = () => {
                             <p>
                                 Pesquisar
                             </p>
-                            <InputSearch
-                                placeholder="Pesquisar"
-                                title='busque pelo cliente ou aluno'
-                                ref={searching}
-                                className='inputSearch'
-                                onChange={(e) => e.target.value === "" &&
-                                    setQuery(undefined)}
+
+                            <InputSearcher
+                                label={query}
+                                field=''
+                                fn={[handleInput]}
+                                width='15rem'
+                                border='transparent'
+                                color='#dfe6f1'
                             />
                         </label>
 
                         <button type='submit'
                             className='sender'
                             onClick={(e) => {
-                                setQuery(searching.current.value)
+                                setQuery(searcher)
                                 e.preventDefault()
                             }}
                         >
                             <SearchIcon />
                         </button>
                     </form>
-
-
-                    {/* <OrderMoreFilters /> */}
 
                     {
                         typeFilter?.length > 0 &&

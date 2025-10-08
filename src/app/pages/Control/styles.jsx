@@ -88,12 +88,8 @@ export const Header = styled.header`
     }
 }
     }
-
 `
 
-export const InputSearch = styled.input`
-
-`
 export const PageUpdate = styled.div`
 background-color: #1976d2;
 

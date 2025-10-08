@@ -28,23 +28,7 @@ html{
     justify-content: space-between;
     align-items: center;
     }
-    .inputSearch{
-    border: none;
-    background-color:#dfe6f1;
-    border-radius: .35rem;
-    padding: .7rem .5rem;
-    transition: all.7s;
-    margin-top: .5rem;
-    text-overflow: ellipsis;
-    height: var(--boxHei);
-    font-size: calc(var(--fsLowest) - 1px);
-    min-width: 13rem;
 
- &:focus{
-    border: 1px solid;
-    }
-    
-    }
     .flexCenterContainer{
         display: flex;
         align-items: center;

@@ -230,7 +230,7 @@ export const RequestsProvider = ({ children }) => {
     })
 
 
-    async function handleInput(params) {
+    async function handleSelect(params) {
         if (search === params) return RequestsQuery.refetch()
         if (params !== "Período personalizado") {
             setInitialDate(null)
@@ -244,7 +244,7 @@ export const RequestsProvider = ({ children }) => {
     return (
         <RequestsContext.Provider value={{
             request, setRequests,
-            handleInput,
+            handleSelect,
             RequestsQuery,
             updateRequest,
             recibo,
@@ -253,13 +253,13 @@ export const RequestsProvider = ({ children }) => {
             setInitialDate,
             endDate, setEndDate,
 
-            query,
+            query, setQuery,
 
             queryClient,
             queryRequest, setQueryRequest,
 
             setTake, setSkip, take,
-            setOrderFor, setOrderBy, setDateType, setQuery,
+            setOrderFor, setOrderBy, setDateType,
 
 
             typeFilter, setTypeFilter,
