@@ -82,24 +82,7 @@ justify-content: space-between;
         }
     }
 }
-input{
-border: none;
-background-color:#dfe6f1;
-border-radius:.5rem ;
-padding: .7rem .5rem;
-margin-top: .5rem; 
-height: var(--boxHei);
-font-size: var(--fsLowest) ;
-width: min-content;
-width: 100px;
-transition: width 200ms ease-in-out;
-&:focus{
-    width: 100%;
-    border: 1px solid;
-}
 
-transition-duration: 1s;
-}
 @media(max-width:760px){
 .inputs{
     label{

@@ -55,7 +55,6 @@ export const SelectButton = styled.div`
 color: #222;
 height: var(--boxHei);  
 z-index: 11;
-margin-top: .5rem;
 display: flex;
 padding: .75rem;
 align-items: center;

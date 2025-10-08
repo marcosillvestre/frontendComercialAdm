@@ -267,14 +267,12 @@ export const SupliersProvider = ({ children }) => {
 
             endDate, setEndDate,
 
-            query,
-
             queryClient,
             querySuplier, setQuerySuplier,
 
             setTake, setSkip, take,
             setOrderFor, setOrderBy,
-            setQuery,
+            setQuery, query,
 
 
             typeFilter, setTypeFilter,

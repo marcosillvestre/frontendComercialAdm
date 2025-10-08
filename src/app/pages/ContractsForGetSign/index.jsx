@@ -1,6 +1,7 @@
-import { useRef } from 'react'
+import { useState } from 'react'
 
 import SearchIcon from '@mui/icons-material/Search'
+import { InputSearcher } from '../../../components/inputs/input.search/index.jsx'
 import { ContractData, Select } from '../../../components/source.jsx'
 import TableContracts from '../../../components/tables/tableContracts/index.jsx'
 import { useSignContracts } from '../../../hooks/signContracts/sign.hook.jsx'
@@ -9,7 +10,7 @@ import { Container, Header } from './styles'
 
 
 export const Contracts = () => {
-    const forQuery = useRef()
+    const [searcher, setSearcher] = useState('')
 
     const { filteredContracts, setFilteredContracts } = useUser()
     const { setSign, contractOptions, queryFunnels, setQuery, query, funnelsQuery } = useSignContracts();
@@ -24,6 +25,11 @@ export const Contracts = () => {
 
     function filterData(search) {
         setQuery(search);
+    }
+
+    const handleInput = (_, data) => {
+        if (!data) setQuery('')
+        setSearcher(data)
     }
 
     return (
@@ -63,21 +69,20 @@ export const Contracts = () => {
                                 className='searcher'
                             >
 
-                                <input
-                                    ref={forQuery}
-                                    className='inputSearch'
-                                    defaultValue={query}
-                                    onChange={(e) => e.target.value === "" &&
-                                        setQuery(null)
-                                    }
-                                    list='person'
+                                <InputSearcher
+                                    label={query}
+                                    field=''
+                                    fn={[handleInput]}
+                                    width='15rem'
+                                    border='transparent'
+                                    color='#dfe6f1'
                                 />
 
                                 <button
                                     type='submit'
                                     onClick={(e) => {
+                                        filterData(searcher)
                                         e.preventDefault()
-                                        filterData(forQuery.current.value)
                                     }}>
                                     <SearchIcon />
                                 </button>

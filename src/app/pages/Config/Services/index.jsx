@@ -1,7 +1,8 @@
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
 import SearchIcon from '@mui/icons-material/Search'
-import { useRef } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { InputSearcher } from '../../../../components/inputs/input.search'
 import { ServicesMoreFilters } from '../../../../components/multiFilters/moreFilters.services'
 import { ServicesTable } from '../../../../components/tables/servicesTable'
 import { useService } from '../../../../hooks/services/servicesContext.hook'
@@ -9,9 +10,9 @@ import { useUser } from '../../../../hooks/userContext'
 import { Container, Header } from './styles'
 
 export function Services() {
-    const forQuery = useRef();
+    const [searcher, setSearcher] = useState('');
     const { setTypeSidebar, setOpenSidebar, } = useUser();
-    const { setQuery, resetDataService, typeFilter, setTypeFilter } = useService();
+    const { setQuery, query, resetDataService, typeFilter, setTypeFilter } = useService();
 
     const resetData = () => {
         resetDataService();
@@ -22,6 +23,10 @@ export function Services() {
         setTypeFilter([])
     }
 
+    const handleInput = (_, data) => {
+        if (!data) setQuery('')
+        setSearcher(data)
+    }
     return (
         <Container>
             <nav className='nav'>
@@ -56,12 +61,13 @@ export function Services() {
                         <label htmlFor="">
 
                             <p>Pesquisar por serviços</p>
-                            <input
-                                type="text"
-                                className='inputSearch'
-                                placeholder="Pesquisar"
-                                ref={forQuery}
-                                onChange={(e) => e.target.value === "" && setQuery('')}
+                            <InputSearcher
+                                label={query}
+                                field=''
+                                fn={[handleInput]}
+                                width='15rem'
+                                border='transparent'
+                                color='#dfe6f1'
                             />
 
                         </label>
@@ -69,7 +75,7 @@ export function Services() {
                         <button
                             type="submit"
                             onClick={(e) => {
-                                setQuery(forQuery.current.value)
+                                setQuery(searcher)
                                 e.preventDefault()
 
                             }}

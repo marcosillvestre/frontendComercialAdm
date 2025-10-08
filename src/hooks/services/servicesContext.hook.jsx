@@ -239,7 +239,7 @@ export const ServicesProvider = ({ children }) => {
             orderBy, setOrderBy,
             orderFor, setOrderFor,
 
-            setQuery,
+            setQuery, query,
 
             queryService,
 
