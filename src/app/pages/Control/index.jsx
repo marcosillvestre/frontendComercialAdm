@@ -68,10 +68,7 @@ export const ListFiltered = () => {
                         }
                     </label>
 
-                    <form
-                        className="box-search"
-                        onSubmit={(data) => console.log(data)}
-                    >
+                    <form className="box-search">
                         <p>Pesquisar no período</p>
 
                         <InputSearcher

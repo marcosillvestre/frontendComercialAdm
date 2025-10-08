@@ -1,7 +1,8 @@
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import SearchIcon from '@mui/icons-material/Search';
-import { useRef } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { InputSearcher } from '../../../../components/inputs/input.search';
 import { ProductsMoreFilters } from '../../../../components/multiFilters/moreFilters.products';
 import { ProductsTable } from '../../../../components/tables/productsTable';
 import { useCategorieProducts } from '../../../../hooks/categorieProduct/categorieProd.hook';
@@ -11,9 +12,9 @@ import { useUser } from '../../../../hooks/userContext';
 import { Container, Header } from './styles';
 
 export function Products() {
-    const forQuery = useRef();
+    const [searcher, setSearcher] = useState('')
     const { setTypeSidebar, setOpenSidebar, } = useUser();
-    const { resetDataProduct, setQuery, view, setTypeFilter, typeFilter } = useProduct();
+    const { resetDataProduct, setQuery, query, view, setTypeFilter, typeFilter } = useProduct();
     const { resetDataKits } = useKits();
     const { resetDataCategorieProduct } = useCategorieProducts();
 
@@ -26,6 +27,11 @@ export function Products() {
 
     const handleResetFilter = () => {
         setTypeFilter([])
+    }
+
+    const handleInput = (_, data) => {
+        if (!data) setQuery('')
+        setSearcher(data)
     }
 
     return (
@@ -65,20 +71,21 @@ export function Products() {
                         <label htmlFor="">
 
                             <p>Pesquisar por produtos</p>
-                            <input
-                                disabled={view !== "produtos"}
-                                type="text"
-                                className='inputSearch'
-                                placeholder="Pesquisar"
-                                ref={forQuery}
-                                onChange={(e) => e.target.value === "" && setQuery('')}
+
+                            <InputSearcher
+                                label={query}
+                                field=''
+                                fn={[handleInput]}
+                                width='15rem'
+                                border='transparent'
+                                color='#dfe6f1'
                             />
                         </label>
 
                         <button type="submit"
                             disabled={view !== "produtos"}
                             onClick={(e) => {
-                                setQuery(forQuery.current.value)
+                                setQuery(searcher)
                                 e.preventDefault()
 
                             }}

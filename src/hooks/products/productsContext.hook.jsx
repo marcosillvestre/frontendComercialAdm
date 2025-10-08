@@ -233,7 +233,7 @@ export const ProductsProvider = ({ children }) => {
             setOrderBy, orderBy,
             orderFor, setOrderFor,
 
-            setQuery,
+            setQuery, query,
             queryProducts,
 
             deleteProduct,

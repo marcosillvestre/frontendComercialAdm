@@ -86,6 +86,5 @@ InputSearcher.propTypes = {
     width: PropTypes.string,
     border: PropTypes.string,
     color: PropTypes.string,
-    option: PropTypes.string,
     disabled: PropTypes.bool,
 }
