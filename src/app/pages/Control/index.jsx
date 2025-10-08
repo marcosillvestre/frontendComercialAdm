@@ -1,6 +1,6 @@
 
 import { memo, useState } from 'react';
-import { Container, Header, InputSearch } from './styles';
+import { Container, Header } from './styles';
 
 
 
@@ -12,6 +12,7 @@ import {
 
 import SearchIcon from '@mui/icons-material/Search';
 import PropTypes from 'prop-types';
+import { InputSearcher } from '../../../components/inputs/input.search/index.jsx';
 import { RegisterMoreFilters } from '../../../components/multiFilters/moreFilters.registers/index.jsx';
 import TableMainData from '../../../components/tables/tableData2/index.jsx';
 import { useRegister } from '../../../hooks/registers/registersContext.hook.jsx';
@@ -20,8 +21,8 @@ import businessRules from '../../utils/Rules/options.jsx';
 export const ListFiltered = () => {
 
 
-    const { setSearch, setQuery, typeFilter, setTypeFilter,
-        selectedInitialDate, selectedEndDate, } = useRegister()
+    const { setSearch, setQuery, query, typeFilter, setTypeFilter,
+        selectedInitialDate, selectedEndDate, } = useRegister();
 
     const [searcher, setSearcher] = useState('')
 
@@ -31,9 +32,12 @@ export const ListFiltered = () => {
     }
 
 
-    const handleCheck = async (label) => {
+    const handleCheck = async (label) => setSearch(label);
 
-        setSearch(label)
+    const handleInput = (_, data) => {
+
+        if (!data) setQuery('')
+        setSearcher(data)
     }
 
 
@@ -64,22 +68,24 @@ export const ListFiltered = () => {
                         }
                     </label>
 
-                    <form className="box-search">
+                    <form
+                        className="box-search"
+                        onSubmit={(data) => console.log(data)}
+                    >
                         <p>Pesquisar no período</p>
-                        <InputSearch
-                            type="text"
-                            placeholder="Pesquisar"
-                            className='filter inputSearch'
-                            list='list'
-                            onChange={(e) => {
-                                setSearcher(e.target.value)
-                                if (e.target.value === "") return setQuery(null)
 
-                            }}
+                        <InputSearcher
+                            label={query}
+                            field=''
+                            fn={[handleInput]}
+                            width='15rem'
+                            border='transparent'
+                            color='#dfe6f1'
                         />
 
                         <button
                             type='submit'
+                            className='search-button'
                             onClick={(e) => {
                                 setQuery(searcher)
                                 e.preventDefault()
@@ -87,11 +93,7 @@ export const ListFiltered = () => {
                             <SearchIcon />
                         </button>
 
-
                     </form>
-
-
-
 
                     <RegisterMoreFilters />
 

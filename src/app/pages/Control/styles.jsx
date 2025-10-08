@@ -73,7 +73,7 @@ export const Header = styled.header`
     p{
         grid-column: 1 / span 2;
     }
-    button{
+    .search-button{
         all: unset;
         cursor: pointer;
         background-color:#dfe6f1;

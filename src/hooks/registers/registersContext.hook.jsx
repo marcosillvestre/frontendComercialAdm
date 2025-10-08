@@ -311,7 +311,7 @@ export const RegistersProvider = ({ children }) => {
             orderBy, setOrderBy,
             orderFor, setOrderFor,
 
-            setQuery,
+            query, setQuery,
 
             queryRegister,
 
