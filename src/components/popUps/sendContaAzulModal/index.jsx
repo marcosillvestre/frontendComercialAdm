@@ -120,10 +120,7 @@ export function ContaAzulModal() {
 
     async function separated() {
 
-        if (filteredContracts === undefined || filteredContracts === undefined) {
-            return alert("Você precisa definir um contrato primeiro")
-        }
-
+        if (!filteredContracts === undefined) return alert("Você precisa definir um contrato primeiro");
 
         let funcs = {
             "contract": contract,
@@ -146,8 +143,6 @@ export function ContaAzulModal() {
 
     }
 
-    const keys = Object.keys(filteredContracts)
-    const freeToGo = keys.filter(key => !filteredContracts[key])
 
     document.querySelectorAll('.copied').forEach(el => {
         let length = el.textContent.length
@@ -199,22 +194,7 @@ export function ContaAzulModal() {
                                         <Boxes >
                                             <input type="checkbox"
                                                 defaultChecked={sendingList && sendingList.find(r => r === "contract")}
-                                                onClick={(e) => {
-                                                    const msgs = {
-                                                        "Data de Vencimento da Primeira Parcela": "A data de vencimento da primeira parcela não foi preenchida.",
-                                                        "Número de parcelas do curso": "O número de parcelas do curso não foi preenchido",
-                                                        "Forma de pagamento da parcela": "A forma de pagamento do curso não foi preenchido",
-                                                    }
-
-                                                    const blocks = freeToGo.filter(res => msgs[res])
-                                                    if (blocks.length > 0) {
-                                                        if (blocks.length > 0) alert(blocks.map(res => msgs[res]))
-
-                                                        e.preventDefault()
-                                                    }
-                                                    handleSendingList("contract")
-                                                }
-                                                }
+                                                onClick={() => { handleSendingList("contract") }}
                                                 className='check' />
                                             <small>Contrato</small    >
                                         </Boxes>
@@ -225,23 +205,8 @@ export function ContaAzulModal() {
                                         <Boxes >
                                             <input type="checkbox"
                                                 defaultChecked={sendingList && sendingList.find(r => r === "sales")}
-                                                onClick={(e) => {
+                                                onClick={() => handleSendingList("sales")}
 
-                                                    const msgs = {
-                                                        "Material didático": "Material didático não foi preenchido.",
-                                                        "Quantidade de parcelas MD": "O número de parcelas do Material não foi preenchido",
-                                                        "Forma de pagamento do MD": "A forma de pagamento do curso não foi preenchido",
-                                                    }
-
-                                                    const blocks = freeToGo.filter(res => msgs[res])
-                                                    if (blocks.length > 0) {
-                                                        if (blocks.length > 0) alert(blocks.map(res => msgs[res]))
-
-                                                        e.preventDefault()
-                                                    }
-                                                    handleSendingList("sales")
-                                                }
-                                                }
                                                 className='check' />
                                             <small>Material didático</small>
                                         </Boxes>
@@ -252,23 +217,8 @@ export function ContaAzulModal() {
                                         <Boxes >
                                             <input type="checkbox"
                                                 defaultChecked={sendingList && sendingList.find(r => r === "feeEnroll")}
-                                                onClick={(e) => {
-                                                    const msgs = {
-                                                        "Material didático": "Material didático não foi preenchido.",
-                                                        "Quantidade de parcelas MD": "O número de parcelas do Material não foi preenchido",
-                                                        "Forma de pagamento do MD": "A forma de pagamento do curso não foi preenchido",
-                                                    }
+                                                onClick={() => handleSendingList("feeEnroll")}
 
-                                                    const blocks = freeToGo.filter(res => msgs[res])
-                                                    if (blocks.length > 0) {
-                                                        if (blocks.length > 0) alert(blocks.map(res => msgs[res]))
-
-                                                        e.preventDefault()
-                                                    }
-
-                                                    handleSendingList("feeEnroll")
-                                                }
-                                                }
                                                 className='check' />
                                             <small>Taxa de matrícula</small>
                                         </Boxes>
