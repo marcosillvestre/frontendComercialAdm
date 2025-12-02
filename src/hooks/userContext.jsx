@@ -54,7 +54,7 @@ export const UserProvider = ({ children }) => {
 
 
     const logOut = async () => {
-        await localStorage.removeItem('userData')
+        localStorage.clear()
         redirect(paths.home.path)
     }
 

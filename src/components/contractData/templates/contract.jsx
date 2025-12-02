@@ -315,8 +315,8 @@ export const PDFFile = ({ data, choosedData, campaign }) => {
                                         <tbody>
 
                                             {
-                                                data['newService'] &&
-                                                data['newService'].parcels.map((each, index) => (
+                                                service &&
+                                                service?.parcelsAffected?.map((each, index) => (
                                                     <tr key={index}>
                                                         <td>{index + 1}</td>
                                                         <td>{dateCalculator(service?.payment_date, index)}</td>
@@ -438,8 +438,8 @@ export const PDFFile = ({ data, choosedData, campaign }) => {
                                         </thead>
                                         <tbody>
                                             {
-                                                data["newProduct"]?.data &&
-                                                data["newProduct"].data.map((res, index) => (
+                                                products &&
+                                                products?.sellected.map((res, index) => (
                                                     <tr key={index}>
                                                         <td>{res.name}</td>
                                                         <td>{changeCurrency(res.priceSale)}</td>
@@ -452,8 +452,8 @@ export const PDFFile = ({ data, choosedData, campaign }) => {
                                             }
                                         </tbody>
                                         {
-                                            data["newProduct"]?.data &&
-                                            data["newProduct"]?.data.length > 0 &&
+                                            products &&
+                                            products?.parcelsAffected.length > 0 &&
                                             <tfoot className='contrast'>
                                                 <tr>
                                                     <td>TOTAL</td>
@@ -489,8 +489,8 @@ export const PDFFile = ({ data, choosedData, campaign }) => {
                                         </thead>
                                         <tbody>
                                             {
-                                                data["newProduct"]?.parcels &&
-                                                data["newProduct"].parcels.map((res, index) => (
+                                                products &&
+                                                products?.parcelsAffected.map((res, index) => (
                                                     <tr key={index}>
                                                         <td>{index + 1}</td>
                                                         <td>{dateCalculator(products?.payment_date, index)}</td>

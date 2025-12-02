@@ -8,7 +8,6 @@ export const DataProvider = ({ children }) => {
 
     const [typeFilter, setTypeFilter] = useState([])
     const [rangeNamePeriodFilter, setRangeNamePeriodFilter] = useState([])
-    const [view, setView] = useState('Tabela')
 
     const [customizableArray, setCustomizableArray] = useState([])
     const [valueToBeChanged, setValueToBeChanged] = useState('')
@@ -58,7 +57,6 @@ export const DataProvider = ({ children }) => {
             qntAlet, setQntAlt,
             valueToBeChanged, setValueToBeChanged,
             content,
-            view, setView
         }}>
 
             {children}

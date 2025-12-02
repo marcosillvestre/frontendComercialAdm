@@ -28,7 +28,7 @@ import { PDFFile } from './templates/contract.jsx';
 
 export const ContractData = () => {
     const { filteredContracts, setFilteredContracts } = useUser();
-    const { content, view, setView } = useData();
+    const { content } = useData();
     const { descountTypes, goalTypes } = businessRules;
     const { productsTotalsQuery } = useProduct();
     const { serviceTotalsQuery } = useService();
@@ -42,12 +42,13 @@ export const ContractData = () => {
     const { data: { campaigns } } = campaignsTotalsQuery;
     const odd = [{ value: "qwerty789", name: 'Taxa de matrícula', priceSale: 350 }];
 
+    const [view, setView] = useState('Tabela')
 
+    const localdata = (key) => JSON.parse(localStorage.getItem(key + "-" + filteredContracts.id))
 
-    const [serviceChoosed, setServiceChoosed] = useState();
-    const [productChoosed, setProductChoosed] = useState();
-    const [taxsChoosed, setTaxsChoosed] = useState();
-
+    const [serviceChoosed, setServiceChoosed] = useState(localdata('newService'));
+    const [productChoosed, setProductChoosed] = useState(localdata('newProduct'));
+    const [taxsChoosed, setTaxsChoosed] = useState(localdata('newTax'));
 
     const paymentMethodsForMaterials = {
         "Boleto": 0,
@@ -562,6 +563,8 @@ export const ContractData = () => {
         "newTax": setTaxsChoosed,
     }
 
+    const setData = (data, key, id) => localStorage.setItem(key + "-" + id, JSON.stringify(data));
+
     const sincValues = async (productsData, destiny) => {
         setLoading(true);
         const { sellected, fullPrice, price, descount,
@@ -577,6 +580,7 @@ export const ContractData = () => {
         });
 
         chooses[destiny](productsData);
+        setData({ ...productsData, parcelsAffected }, destiny, filteredContracts.id)
 
         filteredContracts[destiny] = {
             campaign,
@@ -588,11 +592,13 @@ export const ContractData = () => {
             payment_date: await parseDates(payment_date),
             payment_type
         }
+
         setLoading(false);
     }
 
     const resetContractData = (where) => {
         chooses[where](null)
+        localStorage.removeItem(where + "-" + filteredContracts.id)
         filteredContracts[where] = {}
     }
 
@@ -1117,8 +1123,8 @@ export const ContractData = () => {
 
                                                 <tbody>
                                                     {
-                                                        filteredContracts["newService"].parcels?.length > 0 &&
-                                                        filteredContracts["newService"].parcels.map((res, idx) => (
+                                                        serviceChoosed &&
+                                                        serviceChoosed?.parcelsAffected.map((res, idx) => (
                                                             <tr key={idx}>
                                                                 <td>{idx + 1}</td>
                                                                 <td>{res.date}</td>
@@ -1414,8 +1420,8 @@ export const ContractData = () => {
                                             </thead>
                                             <tbody>
                                                 {
-                                                    filteredContracts["newProduct"].parcels?.length > 0 &&
-                                                    filteredContracts["newProduct"].parcels.map((res, idx) => (
+                                                    productChoosed &&
+                                                    productChoosed?.parcelsAffected.map((res, idx) => (
                                                         <tr key={idx}>
                                                             <td>{idx + 1}</td>
                                                             <td>{res.date}</td>
@@ -1701,8 +1707,8 @@ export const ContractData = () => {
                                             </thead>
                                             <tbody>
                                                 {
-                                                    filteredContracts["newTax"].parcels?.length > 0 &&
-                                                    filteredContracts["newTax"].parcels.map((res, idx) => (
+                                                    taxsChoosed &&
+                                                    taxsChoosed?.parcelsAffected.map((res, idx) => (
                                                         <tr key={idx}>
                                                             <td>{idx + 1}</td>
                                                             <td>{res.date}</td>
