@@ -1225,7 +1225,7 @@ export const ContractData = () => {
 
                                         </label>
                                         <label className='div5' htmlFor="">
-                                            <p>Campanha </p>
+                                            <p>Campanha</p>
 
                                             <UniqueSelect
                                                 placeHolder={productss?.campaign?.name}
@@ -1382,7 +1382,7 @@ export const ContractData = () => {
                                                         <td >{camp.product.for}</td>
                                                         <td >{camp.product.affectedParcels}</td>
                                                         <td >{camp.product.descountType}</td>
-                                                        <td title={camp.product.description}>{camp.material.description.slice(0, 60)}...</td>
+                                                        <td title={camp.product.description}>{camp?.product?.description.slice(0, 60)}...</td>
                                                     </tr>
 
                                                 </tbody>
