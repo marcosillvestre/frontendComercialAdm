@@ -78,7 +78,7 @@ export const CampaignProvider = ({ children }) => {
         mutationFn: () => sendData(),
         onSuccess: (data) => {
             queryClient.setQueryData(
-                ["campaign", take, skip, query, orderFor, orderBy, JSON.stringify(typeFilter)],
+                ["campaign", take, skip, orderFor, query, orderBy, JSON.stringify(typeFilter)],
                 (oldData) => {
                     const { total, campaigns } = oldData;
 
@@ -119,7 +119,7 @@ export const CampaignProvider = ({ children }) => {
         mutationFn: () => editData(),
         onSuccess: (data) => {
             queryClient.setQueryData(
-                ["campaign", take, skip, query, orderFor, orderBy, JSON.stringify(typeFilter)],
+                ["campaign", take, skip, orderFor, query, orderBy, JSON.stringify(typeFilter)],
                 (oldData) => {
                     const { total, campaigns } = oldData;
 
@@ -139,8 +139,8 @@ export const CampaignProvider = ({ children }) => {
         onError: (error) => {
 
             const { response } = error
-
             console.log(response)
+
             "message" in response.data && alert(response.data.message)
         }
     })
@@ -168,7 +168,7 @@ export const CampaignProvider = ({ children }) => {
 
 
             queryClient.setQueryData(
-                ["campaign", take, skip, query, orderFor, orderBy, JSON.stringify(typeFilter)],
+                ["campaign", take, skip, orderFor, query, orderBy, JSON.stringify(typeFilter)],
                 (oldData) => {
 
                     const { campaigns, total } = oldData;
