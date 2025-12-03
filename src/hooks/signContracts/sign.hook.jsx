@@ -113,8 +113,14 @@ export const SigningContracts = ({ children }) => {
         mutationKey: [contract],
         retry: false,
         onSuccess: (data) => {
+            const { contract } = data;
+            const localdata = (key) => JSON.parse(localStorage.getItem(key + "-" + contract.id))
 
-            setFilteredContracts(data?.contract)
+            const newService = localdata('newService');
+            const newProduct = localdata('newProduct');
+            const newTax = localdata('newTax');
+
+            setFilteredContracts({ ...contract, newService, newProduct, newTax })
 
         },
         onError: (error) => {

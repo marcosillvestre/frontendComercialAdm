@@ -579,11 +579,7 @@ export const ContractData = () => {
             payment_date
         });
 
-        let data = { ...productsData, parcelsAffected };
-        chooses[destiny](data);
-        setData(data, destiny, filteredContracts.id)
-
-        filteredContracts[destiny] = {
+        let data = {
             campaign,
             data: sellected,
             parcels: parcelsAffected,
@@ -594,6 +590,10 @@ export const ContractData = () => {
             payment_type
         }
 
+        chooses[destiny](data);
+        setData(data, destiny, filteredContracts.id);
+        filteredContracts[destiny] = data;
+
         setLoading(false);
     }
 
@@ -602,8 +602,6 @@ export const ContractData = () => {
         localStorage.removeItem(where + "-" + filteredContracts.id)
         filteredContracts[where] = {}
     }
-
-    console.log(serviceChoosed);
 
     return (
         <Container>
@@ -1013,8 +1011,8 @@ export const ContractData = () => {
                             </SubContainer>
                             {/* /// */}
                             {
-                                serviceChoosed?.sellected &&
-                                serviceChoosed?.sellected.length > 0 &&
+                                serviceChoosed?.data &&
+                                serviceChoosed?.data.length > 0 &&
                                 <div
                                     className='container div30'
                                 >
@@ -1040,8 +1038,8 @@ export const ContractData = () => {
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td >{serviceChoosed?.sellected[0].name}</td>
-                                                    <td >{changeCurrency(serviceChoosed?.fullPrice)}</td>
+                                                    <td >{serviceChoosed?.data[0].name}</td>
+                                                    <td >{changeCurrency(serviceChoosed?.total)}</td>
                                                     <td >{changeCurrency(
                                                         serviceChoosed?.campaign ?
                                                             0 :
@@ -1049,7 +1047,7 @@ export const ContractData = () => {
                                                     )}</td>
 
                                                     <td >
-                                                        {changeCurrency(serviceChoosed?.price)}
+                                                        {changeCurrency(serviceChoosed?.total)}
                                                     </td>
                                                 </tr>
 
@@ -1104,7 +1102,7 @@ export const ContractData = () => {
                                             </thead>
                                             <tbody>
                                                 <td >{dateCalculator(serviceChoosed?.payment_date, 0)}</td>
-                                                <td >{serviceChoosed?.parcels}</td>
+                                                <td >{serviceChoosed?.quantity_parcels}</td>
                                                 <td >{serviceChoosed?.payment_type}</td>
                                             </tbody>
                                         </table>
@@ -1126,13 +1124,13 @@ export const ContractData = () => {
 
                                                 <tbody>
                                                     {
-                                                        serviceChoosed?.parcelsAffected &&
-                                                        serviceChoosed?.parcelsAffected?.map((res, idx) => (
+                                                        serviceChoosed?.parcels &&
+                                                        serviceChoosed?.parcels?.map((res, idx) => (
                                                             <tr key={idx}>
                                                                 <td>{idx + 1}</td>
                                                                 <td>{res.date}</td>
-                                                                <td>{changeCurrency(rounder(serviceChoosed?.fullPrice / serviceChoosed?.parcels, 1))}</td>
-                                                                <td>{changeCurrency(rounder(serviceChoosed?.fullPrice / serviceChoosed?.parcels, 1) - res.valor)}</td>
+                                                                <td>{changeCurrency(rounder(serviceChoosed?.total / serviceChoosed?.quantity_parcels, 1))}</td>
+                                                                <td>{changeCurrency(rounder(serviceChoosed?.total / serviceChoosed?.quantity_parcels, 1) - res.valor)}</td>
                                                                 <td>{changeCurrency(res.valor)}</td>
 
                                                             </tr>
@@ -1302,8 +1300,8 @@ export const ContractData = () => {
                             {/* /// */}
 
                             {
-                                productChoosed?.sellected &&
-                                productChoosed?.sellected.length > 0 &&
+                                productChoosed?.data &&
+                                productChoosed?.data.length > 0 &&
                                 <div
                                     className='container div50'
                                 >
@@ -1328,8 +1326,8 @@ export const ContractData = () => {
                                             </thead>
                                             <tbody>
                                                 {
-                                                    productChoosed?.sellected &&
-                                                    productChoosed?.sellected.map((res) => (
+                                                    productChoosed?.data &&
+                                                    productChoosed?.data.map((res) => (
                                                         <tr key={res.id}>
                                                             <td>{res.name}</td>
                                                             <td>{changeCurrency(res.priceSale)}</td>
@@ -1353,9 +1351,9 @@ export const ContractData = () => {
                                             <tfoot className='contrast'>
                                                 <tr>
                                                     <td>TOTAL</td>
-                                                    <td>{changeCurrency(productChoosed?.fullPrice)}</td>
+                                                    <td>{changeCurrency(productChoosed?.total)}</td>
                                                     <td>{changeCurrency(productChoosed?.descount)}</td>
-                                                    <td>{changeCurrency(productChoosed?.fullPrice - parseFloat(productChoosed?.descount))}</td>
+                                                    <td>{changeCurrency(productChoosed?.total - parseFloat(productChoosed?.descount))}</td>
                                                 </tr>
                                             </tfoot>
                                         </table>
@@ -1404,7 +1402,7 @@ export const ContractData = () => {
                                             </thead>
                                             <tbody>
                                                 <td>{dateCalculator(productChoosed?.payment_date, 0)}</td>
-                                                <td>{productChoosed?.parcels}</td>
+                                                <td>{productChoosed?.quantity_parcels}</td>
                                                 <td>{productChoosed?.payment_type}</td>
                                             </tbody>
 
@@ -1424,7 +1422,7 @@ export const ContractData = () => {
                                             <tbody>
                                                 {
                                                     productChoosed &&
-                                                    productChoosed?.parcelsAffected.map((res, idx) => (
+                                                    productChoosed?.parcels.map((res, idx) => (
                                                         <tr key={idx}>
                                                             <td>{idx + 1}</td>
                                                             <td>{res.date}</td>
@@ -1471,7 +1469,7 @@ export const ContractData = () => {
                                             <p>Venda avulsa</p>
                                             <UniqueSelect
                                                 field='sellected'
-                                                placeHolder={taxs?.sellected[0]?.name}
+                                                placeHolder={taxs?.sellected[0]?.name}//
                                                 // option={}
                                                 fn={[handleTaxData]}
                                                 nullable={true}
@@ -1606,8 +1604,8 @@ export const ContractData = () => {
                             </SubContainer>
                             {/* /// */}
                             {
-                                taxsChoosed?.sellected &&
-                                taxsChoosed?.sellected.length > 0 &&
+                                taxsChoosed?.data &&
+                                taxsChoosed?.data.length > 0 &&
                                 <div
                                     className='container div70'
                                 >
@@ -1711,7 +1709,7 @@ export const ContractData = () => {
                                             <tbody>
                                                 {
                                                     taxsChoosed &&
-                                                    taxsChoosed?.parcelsAffected.map((res, idx) => (
+                                                    taxsChoosed?.parcels.map((res, idx) => (
                                                         <tr key={idx}>
                                                             <td>{idx + 1}</td>
                                                             <td>{res.date}</td>

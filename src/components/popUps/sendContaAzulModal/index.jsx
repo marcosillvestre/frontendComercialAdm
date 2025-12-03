@@ -29,9 +29,7 @@ export function ContaAzulModal() {
 
     const { filteredContracts } = useUser();
 
-    const fullField = "total" in filteredContracts["newTax"] ||
-        "total" in filteredContracts["newProduct"] ||
-        "total" in filteredContracts["newService"]
+    const fullField = filteredContracts["newTax"] || filteredContracts["newProduct"] || filteredContracts["newService"];
 
     const [open, setOpen] = useState(false);
     const [sendingList, setSendingList] = useState([])

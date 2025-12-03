@@ -38,15 +38,11 @@ import { Loading } from '../../loadingSpin';
 
 
 
-
-
 export function ModalAutentique() {
 
     const { filteredContracts } = useUser();
 
-    const fullField = "total" in filteredContracts["newTax"] ||
-        "total" in filteredContracts["newProduct"] ||
-        "total" in filteredContracts["newService"]
+    const fullField = filteredContracts["newTax"] || filteredContracts["newProduct"] || filteredContracts["newService"];
 
 
     const [send, setSend] = useState(true)
@@ -273,9 +269,8 @@ export function ModalAutentique() {
                                             <CloseIcon />
                                         </button>
 
-                                        <Typography id="transition-modal-title" variant="h7" component="h3">
-                                            Ao enviar um contrato via Autentique você deve selecionar um arquivo PDF já existente.
-                                            Ele será enviado via whatsapp, você também poderá copiar o link para enviar ao cliente!
+                                        <Typography id="transition-modal-title" variant="h7" component="h4">
+                                            O link do contrato será disponibilizado via whatsapp para o seu cliente.
 
                                         </Typography>
                                     </Header>
@@ -284,38 +279,41 @@ export function ModalAutentique() {
 
                                     {
 
-                                        fullField &&
-                                        <Boxes>
-                                            <div className='container'>
-                                                <small>
-                                                    Enviar todos os dados disponíveis da venda para o conta azul?
-                                                </small>
-                                                <label>
-                                                    <input
-                                                        defaultChecked={true}
-                                                        id="send"
-                                                        className='check'
-                                                        type="radio"
-                                                        onClick={() => setSend(true)}
-                                                        value={true}
-                                                        name="send-choose"
-                                                    />
-                                                    <small>Sim </small>
-                                                </label>
+                                        fullField ?
+                                            <Boxes>
+                                                <div className='container'>
+                                                    <small>
+                                                        Enviar todos os dados disponíveis da venda para o conta azul?
+                                                    </small>
+                                                    <label>
+                                                        <input
+                                                            defaultChecked={true}
+                                                            id="send"
+                                                            className='check'
+                                                            type="radio"
+                                                            onClick={() => setSend(true)}
+                                                            value={true}
+                                                            name="send-choose"
+                                                        />
+                                                        <small>Sim </small>
+                                                    </label>
 
-                                                <label >
-                                                    <input
-                                                        id="not-send"
-                                                        type="radio"
-                                                        onClick={() => setSend(false)}
-                                                        className='check'
-                                                        name="send-choose"
-                                                        value={false}
-                                                    />
-                                                    <small>Não </small>
-                                                </label>
-                                            </div>
-                                        </Boxes>
+                                                    <label >
+                                                        <input
+                                                            id="not-send"
+                                                            type="radio"
+                                                            onClick={() => setSend(false)}
+                                                            className='check'
+                                                            name="send-choose"
+                                                            value={false}
+                                                        />
+                                                        <small>Não </small>
+                                                    </label>
+                                                </div>
+                                            </Boxes> :
+                                            <small >
+                                                Nenhum dado disponível para envio ao Conta Azul.
+                                            </small>
                                     }
 
                                     <Boxes radio>
