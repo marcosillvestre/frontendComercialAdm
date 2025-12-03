@@ -579,8 +579,9 @@ export const ContractData = () => {
             payment_date
         });
 
-        chooses[destiny](productsData);
-        setData({ ...productsData, parcelsAffected }, destiny, filteredContracts.id)
+        let data = { ...productsData, parcelsAffected };
+        chooses[destiny](data);
+        setData(data, destiny, filteredContracts.id)
 
         filteredContracts[destiny] = {
             campaign,
@@ -601,6 +602,8 @@ export const ContractData = () => {
         localStorage.removeItem(where + "-" + filteredContracts.id)
         filteredContracts[where] = {}
     }
+
+    console.log(serviceChoosed);
 
     return (
         <Container>
@@ -1123,8 +1126,8 @@ export const ContractData = () => {
 
                                                 <tbody>
                                                     {
-                                                        serviceChoosed &&
-                                                        serviceChoosed?.parcelsAffected.map((res, idx) => (
+                                                        serviceChoosed?.parcelsAffected &&
+                                                        serviceChoosed?.parcelsAffected?.map((res, idx) => (
                                                             <tr key={idx}>
                                                                 <td>{idx + 1}</td>
                                                                 <td>{res.date}</td>
