@@ -630,9 +630,7 @@ export const ContractData = () => {
                         <SwitchButtons
                             data={{
                                 fn: setView,
-                                options: [
-                                    "Tabela", "Contrato"
-                                ],
+                                options: ["Tabela", "Contrato"],
                                 optionActive: view,
                             }}
                         />
@@ -641,7 +639,7 @@ export const ContractData = () => {
                     <span className='emmit flex' >
                         {
                             view === 'Contrato' &&
-                            filteredContracts['newService'].total &&
+                            filteredContracts['newService']?.total &&
                             <Button
                                 id='createDoc'
                                 className='defaultButton blueButton'

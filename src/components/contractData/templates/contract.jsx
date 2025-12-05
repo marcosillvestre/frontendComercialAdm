@@ -413,7 +413,7 @@ export const PDFFile = ({ data, choosedData, campaign }) => {
                                     campaign?.service &&
                                     <>
                                         <br />
-                                        <strong>1.9 - O CONTRATANTE é beneficiário da Campanha/Convênio &quot;{campaign.service.name}&quot;, a qual determina que &quot;{campaign.service.description}&quot;.</strong>
+                                        <strong>1.9 - O CONTRATANTE é beneficiário da Campanha/Convênio &quot;{campaign?.service?.name}&quot;, a qual determina que &quot;{campaign?.service?.description}&quot;.</strong>
                                     </>
                                 }
                                 <p>
