@@ -27,6 +27,7 @@ export const PDFFile = ({ data, choosedData, campaign }) => {
     }
 
 
+
     return (
         <File>
             {
@@ -286,7 +287,7 @@ export const PDFFile = ({ data, choosedData, campaign }) => {
                                                 <td >{data["service"]}</td>
                                                 <td >{changeCurrency(service?.fullPrice)}</td>
                                                 <td >{changeCurrency(service?.descount)}</td>
-                                                <td >{service?.parcels}</td>
+                                                <td >{service?.quantity_parcels}</td>
                                                 <td >{service?.payment_type}</td>
                                                 <td >{changeCurrency(service?.price)}</td>
                                             </tr>
@@ -316,12 +317,12 @@ export const PDFFile = ({ data, choosedData, campaign }) => {
 
                                             {
                                                 service &&
-                                                service?.parcelsAffected?.map((each, index) => (
+                                                service?.parcels?.map((each, index) => (
                                                     <tr key={index}>
                                                         <td>{index + 1}</td>
                                                         <td>{dateCalculator(service?.payment_date, index)}</td>
-                                                        <td>{changeCurrency(service?.fullPrice / parseInt(service?.parcels))}</td>
-                                                        <td>{changeCurrency((service?.fullPrice / parseInt(service?.parcels) - each.valor))}</td>
+                                                        <td>{changeCurrency(service?.fullPrice / parseInt(service?.quantity_parcels))}</td>
+                                                        <td>{changeCurrency((service?.fullPrice / parseInt(service?.quantity_parcels) - each.valor))}</td>
                                                         <td>{changeCurrency(each.valor)}</td>
                                                     </tr>
                                                 ))
@@ -439,12 +440,12 @@ export const PDFFile = ({ data, choosedData, campaign }) => {
                                         <tbody>
                                             {
                                                 products &&
-                                                products?.sellected.map((res, index) => (
+                                                products?.data.map((res, index) => (
                                                     <tr key={index}>
                                                         <td>{res.name}</td>
                                                         <td>{changeCurrency(res.priceSale)}</td>
                                                         <td>{changeCurrency(res.priceSale * paymentMethodsForMaterials[products?.payment_type])}</td>
-                                                        <td>{products?.parcels}</td>
+                                                        <td>{products?.quantity_parcels}</td>
                                                         <td>{products?.payment_type}</td>
                                                         <td>{changeCurrency(res.priceSale - res.priceSale * paymentMethodsForMaterials[products?.payment_type])}</td>
                                                     </tr>
@@ -453,13 +454,13 @@ export const PDFFile = ({ data, choosedData, campaign }) => {
                                         </tbody>
                                         {
                                             products &&
-                                            products?.parcelsAffected.length > 0 &&
+                                            products?.parcels.length > 0 &&
                                             <tfoot className='contrast'>
                                                 <tr>
                                                     <td>TOTAL</td>
                                                     <td>{changeCurrency(products?.fullPrice)}</td>
                                                     <td>{changeCurrency(products?.descount)}</td>
-                                                    <td>{products?.parcels}</td>
+                                                    <td>{products?.quantity_parcels}</td>
                                                     <td>{products?.payment_type}</td>
                                                     <td>{changeCurrency(products?.price)}</td>
 
@@ -490,11 +491,11 @@ export const PDFFile = ({ data, choosedData, campaign }) => {
                                         <tbody>
                                             {
                                                 products &&
-                                                products?.parcelsAffected.map((res, index) => (
+                                                products?.parcels.map((res, index) => (
                                                     <tr key={index}>
                                                         <td>{index + 1}</td>
                                                         <td>{dateCalculator(products?.payment_date, index)}</td>
-                                                        <td>{changeCurrency(products?.fullPrice / products?.parcels)}</td>
+                                                        <td>{changeCurrency(products?.fullPrice / products?.quantity_parcels)}</td>
                                                         <td>{changeCurrency(res.valor)}</td>
 
                                                     </tr>

@@ -50,8 +50,8 @@ export function ContaAzulModal() {
             URI.post("/registro-conta-azul", body)
                 .then(() => res("Contrato criado com sucesso"))
                 .catch(async error => {
-                    if ("message" in error.response.data) alert(error.response.data.message)
                     rej(error.response.data)
+                    if ("message" in error.response.data) alert(error.response.data.message)
                 })
         })
 

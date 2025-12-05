@@ -384,13 +384,7 @@ export const ContractData = () => {
             }
 
             setcamp({ ...camp, ...{ service: campaign } });
-            // const { value: campValue, descountType, affectedParcels } = campaign;
 
-            // const parcelValue = fullPrice / servicess?.parcels;
-            // const descountForValueType = await defineDescountValueForType(parcelValue, campValue, descountType);
-            // let campaignDescount = (descountForValueType * affectedParcels).toFixed(2);
-
-            ////////////
 
             return setService({
                 ...servicess,
@@ -449,7 +443,6 @@ export const ContractData = () => {
 
 
         if (key === 'campaign') {
-
             const campaign = campaigns.find(camp => camp.id === value);
             const fullPrice = taxs?.fullPrice;
 
@@ -458,7 +451,7 @@ export const ContractData = () => {
                 return setTaxs({
                     ...taxs,
                     ...{
-                        descount: fullPrice,
+                        descount: 0,
                         price: fullPrice - taxs?.descount,
                         fullPrice,
                         campaign: ''
@@ -468,7 +461,7 @@ export const ContractData = () => {
             setcamp({ ...camp, ...{ tax: campaign } });
             const { value: campValue, descountType, affectedParcels } = campaign;
 
-            const parcelValue = fullPrice / servicess?.parcels;
+            const parcelValue = fullPrice / taxs?.parcels;
             let campaignDescount = await defineDescountValueForType(parcelValue, campValue, descountType) * affectedParcels;
 
             return setTaxs({

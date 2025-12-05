@@ -164,8 +164,8 @@ export function ModalAutentique() {
 
 
 
-    async function contaAzulSender() {
-        mutateEverything.mutateAsync(filteredContracts)
+    async function contaAzulSender(data) {
+        mutateEverything.mutateAsync(data)
     }
 
 
@@ -211,7 +211,7 @@ export function ModalAutentique() {
                 .then(res => {
                     const data = res.data.message
                     data.customer && setLinks(data)
-                    send && contaAzulSender()
+                    send && contaAzulSender(filteredContracts)
                 })
             , {
                 pending: 'Enviando para o autentique',
