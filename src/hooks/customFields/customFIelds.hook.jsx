@@ -116,7 +116,8 @@ export const CustomFields = ({ children }) => {
                                 ...variables,
                                 order: oldData.total + 1,
                                 id: crypto.randomUUID(),
-                                created_at: new Date()
+                                created_at: new Date().toISOString()
+
                             },
                             ...oldData.customFields,
                         ],

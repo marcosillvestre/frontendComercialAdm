@@ -99,7 +99,7 @@ export const UsersProvider = ({ children }) => {
                             {
                                 ...variables,
                                 id: crypto.randomUUID(),
-                                created_at: new Date()
+                                created_at: new Date().toISOString()
                             },
                             ...oldData.users,
                         ],
@@ -146,7 +146,7 @@ export const UsersProvider = ({ children }) => {
                             {
                                 ...variables,
                                 id: crypto.randomUUID(),
-                                created_at: new Date()
+                                created_at: new Date().toISOString()
                             },
                             ...oldData.users.filter(r => r.id !== editUser.id),
                         ],

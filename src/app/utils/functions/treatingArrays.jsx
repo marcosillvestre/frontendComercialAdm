@@ -26,3 +26,8 @@ export function gatheringArrays(keysArray, dataArray) {
 
     return resultado;
 }
+
+
+export const reducer = (array, key) => {
+    return array.reduce((acc, curr) => acc + parseFloat(curr[key]), 0)
+}

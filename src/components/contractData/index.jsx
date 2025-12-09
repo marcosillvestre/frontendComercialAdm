@@ -25,6 +25,7 @@ import { MultiSelect } from '../selects/MultiSelect/index.jsx';
 import { UniqueSelect } from '../selects/UniqueSelect/index.jsx';
 import { SwitchButtons } from '../switchButtons/index.jsx';
 import { PDFFile } from './templates/contract.jsx';
+import { reducer } from '../../app/utils/functions/treatingArrays.jsx';
 
 export const ContractData = () => {
     const { filteredContracts, setFilteredContracts } = useUser();
@@ -137,9 +138,7 @@ export const ContractData = () => {
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    const reducer = (array, key) => {
-        return array.reduce((acc, curr) => acc + parseFloat(curr[key]), 0)
-    }
+
 
     const rounder = (value, quantityParcels) => {
         const account = value / quantityParcels;
@@ -1031,15 +1030,8 @@ export const ContractData = () => {
                                                 <tr>
                                                     <td >{serviceChoosed?.data[0].name}</td>
                                                     <td >{changeCurrency(serviceChoosed?.total)}</td>
-                                                    <td >{changeCurrency(
-                                                        serviceChoosed?.campaign ?
-                                                            0 :
-                                                            serviceChoosed?.descount
-                                                    )}</td>
-
-                                                    <td >
-                                                        {changeCurrency(serviceChoosed?.total)}
-                                                    </td>
+                                                    <td >{changeCurrency(serviceChoosed?.campaign ? 0 : serviceChoosed?.descount)}</td>
+                                                    <td >{changeCurrency(reducer(serviceChoosed?.parcels, 'valor'))}</td>
                                                 </tr>
 
 
@@ -1123,7 +1115,6 @@ export const ContractData = () => {
                                                                 <td>{changeCurrency(rounder(serviceChoosed?.total / serviceChoosed?.quantity_parcels, 1))}</td>
                                                                 <td>{changeCurrency(rounder(serviceChoosed?.total / serviceChoosed?.quantity_parcels, 1) - res.valor)}</td>
                                                                 <td>{changeCurrency(res.valor)}</td>
-
                                                             </tr>
                                                         ))
                                                     }
@@ -1360,7 +1351,6 @@ export const ContractData = () => {
                                                     <tr>
                                                         <td>Nome</td>
                                                         <td>Valor</td>
-                                                        <td>Alvo</td>
                                                         <td>N° de parcelas</td>
                                                         <td>Tipo de desconto</td>
                                                         <td>Descrição</td>
@@ -1370,10 +1360,11 @@ export const ContractData = () => {
                                                     <tr>
                                                         <td >{camp.product.name}</td>
                                                         <td >{camp.product.value}</td>
-                                                        <td >{camp.product.for}</td>
                                                         <td >{camp.product.affectedParcels}</td>
                                                         <td >{camp.product.descountType}</td>
-                                                        <td title={camp.product.description}>{camp?.product?.description.slice(0, 60)}...</td>
+                                                        <td title={camp.product.description}>
+                                                            {camp?.product?.description.slice(0, 60)}...
+                                                        </td>
                                                     </tr>
 
                                                 </tbody>
@@ -1646,19 +1637,15 @@ export const ContractData = () => {
                                                     <tr>
                                                         <td>Nome</td>
                                                         <td>Valor</td>
-                                                        <td>Alvo</td>
                                                         <td>N° de parcelas</td>
                                                         <td>Tipo de desconto</td>
-                                                        <td>Descrição</td>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <tr>
                                                         <td >{camp.tax.name}</td>
                                                         <td >{camp.tax.value}</td>
-                                                        <td >{goalTypes[camp.tax.for]}</td>
                                                         <td >{camp.tax.affectedParcels}</td>
-                                                        <td >{descountTypes[camp.tax.descountType]}</td>
                                                         <td >{camp.tax.description}</td>
                                                     </tr>
 

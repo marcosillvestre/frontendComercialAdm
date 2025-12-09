@@ -3,6 +3,7 @@ import { dateCalculator } from '../../../app/utils/functions/getDates';
 import { changeCurrency } from '../../../app/utils/functions/parseNumbers';
 import { EmptyData } from '../../emptyData';
 import { Container, File } from './contract.styles';
+import { reducer } from '../../../app/utils/functions/treatingArrays';
 
 export const PDFFile = ({ data, choosedData, campaign }) => {
 
@@ -285,11 +286,11 @@ export const PDFFile = ({ data, choosedData, campaign }) => {
                                         <tbody>
                                             <tr>
                                                 <td >{data["service"]}</td>
-                                                <td >{changeCurrency(service?.fullPrice)}</td>
+                                                <td >{changeCurrency(service?.total)}</td>
                                                 <td >{changeCurrency(service?.descount)}</td>
                                                 <td >{service?.quantity_parcels}</td>
                                                 <td >{service?.payment_type}</td>
-                                                <td >{changeCurrency(service?.price)}</td>
+                                                <td >{changeCurrency(reducer(service?.parcels, 'valor'))}</td>
                                             </tr>
 
 
@@ -321,8 +322,8 @@ export const PDFFile = ({ data, choosedData, campaign }) => {
                                                     <tr key={index}>
                                                         <td>{index + 1}</td>
                                                         <td>{dateCalculator(service?.payment_date, index)}</td>
-                                                        <td>{changeCurrency(service?.fullPrice / parseInt(service?.quantity_parcels))}</td>
-                                                        <td>{changeCurrency((service?.fullPrice / parseInt(service?.quantity_parcels) - each.valor))}</td>
+                                                        <td>{changeCurrency(service?.total / parseInt(service?.quantity_parcels))}</td>
+                                                        <td>{changeCurrency((service?.total / parseInt(service?.quantity_parcels) - each.valor))}</td>
                                                         <td>{changeCurrency(each.valor)}</td>
                                                     </tr>
                                                 ))
@@ -523,18 +524,13 @@ export const PDFFile = ({ data, choosedData, campaign }) => {
                                                 <thead>
                                                     <tr>
                                                         <td>Nome</td>
-                                                        <td>Valor</td>
-                                                        <td>Alvo</td>
-                                                        <td>N° de parcelas</td>
+
                                                         <td>Descrição</td>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <tr>
                                                         <td >{campaign.product.name}</td>
-                                                        <td >{campaign.product.value}</td>
-                                                        <td >{campaign.product.for}</td>
-                                                        <td >{campaign.product.affectedParcels}</td>
                                                         <td >{campaign.product.description}</td>
                                                     </tr>
 

@@ -166,7 +166,8 @@ export const RequestsProvider = ({ children }) => {
                             {
                                 ...variables,
                                 id: crypto.randomUUID(),
-                                created_at: new Date()
+                                created_at: new Date().toISOString()
+
                             }],
                         total: oldData.total + 1
                     }
@@ -219,7 +220,7 @@ export const RequestsProvider = ({ children }) => {
                             {
                                 ...variables,
                                 id: crypto.randomUUID(),
-                                created_at: new Date()
+                                created_at: new Date().toISOString()
                             }],
                         total: oldData.total
                     }

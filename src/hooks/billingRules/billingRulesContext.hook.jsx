@@ -89,7 +89,6 @@ export const BillingsProvider = ({ children }) => {
         )
         return response.data
     }
-
     const createBilling = useMutation({
         mutationFn: (e) => sendData(e),
         onSuccess: (_, variables) => {
@@ -103,7 +102,7 @@ export const BillingsProvider = ({ children }) => {
                             {
                                 ...variables,
                                 id: crypto.randomUUID(),
-                                created_at: new Date()
+                                created_at: new Date().toISOString()
                             },
                             ...oldData.billing,
                         ],

@@ -91,7 +91,8 @@ export const KitsProvider = ({ children }) => {
                             {
                                 ...variables,
                                 id: crypto.randomUUID(),
-                                created_at: new Date()
+                                created_at: new Date().toISOString()
+
                             },
                             ...oldData.kits,
                         ],

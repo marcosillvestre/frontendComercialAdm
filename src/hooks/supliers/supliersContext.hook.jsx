@@ -130,7 +130,7 @@ export const SupliersProvider = ({ children }) => {
                             {
                                 ...variables,
                                 id: crypto.randomUUID(),
-                                created_at: new Date()
+                                created_at: new Date().toISOString()
                             },
                             ...oldData.supliers,
                         ],
@@ -183,7 +183,7 @@ export const SupliersProvider = ({ children }) => {
                             {
                                 ...variables,
                                 id: crypto.randomUUID(),
-                                created_at: new Date()
+                                created_at: new Date().toISOString()
                             },
                             ...oldData.supliers.filter(r => r.id !== editSuplier.id),
                         ],

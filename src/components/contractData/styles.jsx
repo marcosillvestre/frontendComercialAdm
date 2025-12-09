@@ -150,7 +150,7 @@ export const SubContainer = styled.section`
 
 export const Aside = styled.aside`
 flex: 1 1 25%;
-
+min-width: 15rem;
 height: 70dvh;
 display: grid;
 gap: 1rem;

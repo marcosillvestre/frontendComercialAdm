@@ -23,7 +23,6 @@ padding: 3rem 5rem;
 min-height: 90dvh;
 display: flex;
 align-items: center;
-/* border: 1px solid; */
 div{
     width: 100%;
 }
