@@ -3,10 +3,11 @@ export const parseNumber = (number) => {
     if (typeof number === 'number') return number.toFixed(2);
 
     if (typeof number === 'string') {
+        const limpo = number.replace(/[\sR$]+/g, '');
 
-        const parsed = number.includes(",") ?
-            parseFloat(number.replace(",", ".")) :
-            parseFloat(number)
+        const parsed = limpo.includes(",") ?
+            parseFloat(limpo.replace(",", ".")) :
+            parseFloat(limpo)
 
         return parsed
     }
