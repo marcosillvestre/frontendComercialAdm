@@ -298,7 +298,7 @@ export const ContractData = () => {
     const handleServiceData = async (key, value) => {
 
         if (key === 'payment_type') {
-            const fullPrice = reducer(servicess.sellected, 'priceSale');
+            const fullPrice = servicess['fullPrice'];
 
             if (servicess?.campaign) {
 
