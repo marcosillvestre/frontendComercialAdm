@@ -58,7 +58,12 @@ export const Select = (parameters) => {
                     <SelectButton id="select-button"
                         onClick={() => setOpen(!open)}
                     >
-                        <p id="selected-value"> {label}</p>
+                        <p
+                            id="selected"
+                            className='label-inside'
+                        >
+                            {label}
+                        </p>
                         <Icon id="chevrons" open={open}>
                             <i className='icon'>
                                 <KeyboardArrowDownIcon />
@@ -96,7 +101,7 @@ export const Select = (parameters) => {
                                                 }
                                                 }>
 
-                                                <p>{data?.name}</p>
+                                                <p className='label-inside'>{data?.name}</p>
                                             </span>
                                             :
                                             <span onClick={() => setLabel("Período personalizado")}>

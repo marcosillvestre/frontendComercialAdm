@@ -5,7 +5,7 @@ export default createGlobalStyle`
 :root{
     --br: .35rem;
 
-    --fsXLow : 10px;
+    --fsXLow : 11px;
 
     --fsLowest: 12px;
     --fsLow: 14px;
@@ -14,6 +14,9 @@ export default createGlobalStyle`
     --fsBigger: 20px;
 
     --boxHei: 2.4rem;
+
+    --primaryColor: #4175f8;
+    --lightPrimaryColor: #dbe1fc
 }
 
 
@@ -21,12 +24,13 @@ html{
 
     .table_tag{
     width: 100%;
-    background-color: #4175f8;
+    background-color: var(--primaryColor);
     padding: 1.1rem 1rem;
     color: #fff;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    font-size: var(--fsLow);
     }
 
     .flexCenterContainer{
@@ -38,22 +42,23 @@ html{
         display: flex;
         gap: 5px;
     }
-.blueButton{
-    background-color: #2c51c9;
-    transition: background 0.3s ease, transform 0.2s ease;
-    &:hover{
-    background-color: #4f74d9;
-    }
-}
-.redButton{ 
-    background-color: #c9302c; 
-    transition: background 0.3s ease, transform 0.2s ease;
 
-    &:hover {
-        background-color: #d9534f; 
+    .blueButton{
+        background-color: var(--primaryColor);
+        transition: background 0.3s ease, transform 0.2s ease;
+        &:hover{
+        background-color: #4f74d9;
+        }
     }
+    .redButton{ 
+        background-color: #c9302c; 
+        transition: background 0.3s ease, transform 0.2s ease;
 
-}
+        &:hover {
+            background-color: #d9534f; 
+        }
+
+    }
     .defaultButton{
     line-height: 1.75;
     font-family: "Roboto","Helvetica","Arial",sans-serif;
@@ -99,6 +104,12 @@ html{
             font-size: var(--fsLowest);
         }
     }
+    }
+    .label-outside{
+        font-size: var(--fsLowest);
+    }
+    .label-inside{
+        font-size: var(--fsXLow);
     }
     @media (max-width: 1255px){
         font-size: 80%;

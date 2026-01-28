@@ -24,12 +24,12 @@ align-items: center;
 border-radius: var(--br);
 border: ${props => props.disabled ? ".5px solid #a9a9a966" : ".5px solid #a9a9a9"};
 min-height: calc(var(--boxHei) - 2px);
-max-height: var(--boxHei);
+height: var(--boxHei);
 padding: 0 10px;
+background-color: var(--lightPrimaryColor) ;
 
 #selected-value{
     color: #000;
-    font-size: var(--fsXLow) ;
     padding: .4rem ;
     border: none;
     background-color: transparent;

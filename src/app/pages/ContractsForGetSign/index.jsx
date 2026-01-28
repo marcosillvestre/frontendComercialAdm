@@ -36,7 +36,7 @@ export const Contracts = () => {
 
         <Container>
             <nav
-                className='over-nav'
+                className='over-nav label-outside'
             >
                 <h3>Criação de contratos</h3>
 
@@ -46,7 +46,7 @@ export const Contracts = () => {
                 <div className='inputs'>
                     <label htmlFor="">
 
-                        <p>Funil:</p>
+                        <p className='label-outside'> Funil:</p>
 
                         {
                             isPending ?
@@ -55,7 +55,7 @@ export const Contracts = () => {
                                 <Select
                                     label={'Funil de Vendas PTB'}
                                     option={funnels}
-                                    width="5rem"
+                                    width="13rem"
                                     field="type"
                                     fn={[dataFilter]}
                                 />
@@ -64,7 +64,7 @@ export const Contracts = () => {
                     {
                         filteredContracts === undefined &&
                         <label >
-                            <p>Cliente: </p>
+                            <p className='label-outside'>Cliente: </p>
                             <form action=""
                                 className='searcher'
                             >
@@ -75,7 +75,6 @@ export const Contracts = () => {
                                     fn={[handleInput]}
                                     width='15rem'
                                     border='transparent'
-                                    color='#dfe6f1'
                                 />
 
                                 <button

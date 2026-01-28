@@ -35,14 +35,12 @@ export const Orders = () => {
             <Header>
                 <nav className='flex'>
                     <label htmlFor="">
-                        <p>
-                            Período
-                        </p>
+                        <p className='label-outside'>Período:</p>
                         <SelectOrders
                             label={search}
                             option={predeterminedPeriods}
                             fn={[handleSelect]}
-                            width="5rem"
+                            width="13rem"
                             where="filter"
                         />
 
@@ -57,9 +55,7 @@ export const Orders = () => {
                     <form className='flex' >
                         <label htmlFor="">
 
-                            <p>
-                                Pesquisar
-                            </p>
+                            <p className='label-outside'>Pesquisar:</p>
 
                             <InputSearcher
                                 label={query}
@@ -67,7 +63,6 @@ export const Orders = () => {
                                 fn={[handleInput]}
                                 width='15rem'
                                 border='transparent'
-                                color='#dfe6f1'
                             />
 
                         </label>

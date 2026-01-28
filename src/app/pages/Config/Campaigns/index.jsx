@@ -56,8 +56,7 @@ export function Campaigns() {
                     >
                         <label htmlFor="">
 
-
-                            <p>Pesquisar por campanha</p>
+                            <p className='label-outside'>Pesquisar por campanha</p>
 
                             <InputSearcher
                                 label={query}

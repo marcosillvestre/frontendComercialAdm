@@ -50,7 +50,7 @@ export function Supliers() {
                         >
                             <label htmlFor="">
 
-                                <p>Pesquisar por nome</p>
+                                <p className='label-outside'>Pesquisar por nome</p>
                                 <InputSearcher
                                     label={query}
                                     field=''

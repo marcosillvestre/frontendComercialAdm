@@ -85,40 +85,41 @@ background-color: #e9e9e9;
 
 `
 export const ListOpt = styled.ul`
-    display:${props => props.open ? "block" : "none"} ;
-    position: absolute;
-    z-index: 10;
-    margin-top: .3rem ;
-    border-radius: var(--br);
-    background-color:#dfe6f1;
-    max-width: 15rem;
+display:${props => props.open ? "block" : "none"} ;
+position: absolute;
+z-index: 10;
+margin-top: .25rem ;
+border-radius: var(--br);
 
+max-width: 15rem;
+
+box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+border-radius: .375rem;
 
 `
 export const Options = styled.li`
-        transition: .4s;
-        transform-origin: top;
-        color: #222;
-        width: 15rem;
-        border-bottom: 1px solid #fafafa;
-        height: 2.78rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: .75rem;
-        cursor: pointer;
-        span{
-            display: flex;
-            width: 100%;
-            height: 100%;
-            align-items: center;
-            justify-content: center;
-        }
-        &:hover{
-        background: #c4d3e0;
+transition: .4s;
+transform-origin: top;
+color: #222;
+padding: .75rem;
+border-bottom: 1px solid #fafafa;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: .75rem;
+cursor: pointer;
+height: var(--boxHei);
+font-size: var(--fsLowest);
+z-index: 10;
+border-radius: .375rem;
 
-        }
-    
+    span{
+    text-align: center;
+    }
+    &:hover{
+    background-color: var(--lightPrimaryColor);
+
+    }
 `
 
 

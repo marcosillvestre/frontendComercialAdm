@@ -1795,7 +1795,7 @@ margin: .7rem 0 ;
         padding: 2px 5px;
         height: 2.5rem;
         &:hover{
-            background-color:#dfe6f1;
+            background-color: var(--lightPrimaryColor);
         }
 
     `, yot = Ie.aside`
@@ -1822,7 +1822,7 @@ align-items: center;
 justify-content: space-between;
 
 border-radius: .375rem;
-background-color:#dfe6f1;
+background-color: var(--lightPrimaryColor);
 border: none;
 font-size: .67rem;
 
@@ -1839,7 +1839,7 @@ align-items: center;
 justify-content: space-between;
 
 border-radius: .375rem;
-background-color:#dfe6f1;
+background-color: var(--lightPrimaryColor);
 border: none;
 font-size: .67rem;
 
@@ -1921,7 +1921,7 @@ display:${e => e.open ? "" : "none"} ;
 position: absolute;
 margin-top: .25rem ;
 border-radius: .375rem;
-background-color:#dfe6f1;
+background-color: var(--lightPrimaryColor);
 width: 100%;
 z-index: 13;
 `, Rot = Ie.li`
@@ -1957,7 +1957,7 @@ padding: .75rem;
 align-items: center;
 justify-content: space-between;
 border-radius: .375rem;
-background-color:#dfe6f1;
+background-color: var(--lightPrimaryColor);
 
 #selected-value{
     color: #000;
@@ -2098,7 +2098,7 @@ align-items: center;
 justify-content: space-between;
 
 border-radius: .375rem;
-background-color:#dfe6f1;
+background-color: var(--lightPrimaryColor);
 border: none;
 
 &::-webkit-outer-spin-button,
@@ -2321,7 +2321,7 @@ background-color: #e9e9e9;
     z-index: 10;
     margin-top: .3rem ;
     border-radius: var(--br);
-    background-color:#dfe6f1;
+    background-color: var(--lightPrimaryColor);
     max-width: 15rem;
 
 
@@ -2893,7 +2893,7 @@ justify-content: space-between;
         button{
         all: unset;
         cursor: pointer;
-        background-color:#dfe6f1;
+        background-color: var(--lightPrimaryColor);
         width: fit-content;
         height: var(--boxHei);
         padding: 0 .8rem;
@@ -2907,7 +2907,7 @@ justify-content: space-between;
 }
 input{
 border: none;
-background-color:#dfe6f1;
+background-color: var(--lightPrimaryColor);
 border-radius:.5rem ;
 padding: .7rem .5rem;
 margin-top: .5rem; 
@@ -2961,7 +2961,7 @@ margin-bottom: 10px;
     button{
         all: unset;
         cursor: pointer;
-        background-color:#dfe6f1;
+        background-color: var(--lightPrimaryColor);
         width: fit-content;
         height: var(--boxHei);
         padding: 0 .8rem;
@@ -2984,7 +2984,7 @@ margin-bottom: 10px;
     padding: 0 .5rem ; 
     margin-top: 0; 
     border: none;
-    background-color:#dfe6f1;
+    background-color: var(--lightPrimaryColor);
     height: 2.395rem;
     transition-duration: .4s;
     &:hover{
@@ -3016,7 +3016,7 @@ width: 100%;
 }
 `, kht = Ie.input`
     border: none;
-    background-color:#dfe6f1;
+    background-color: var(--lightPrimaryColor);
     border-radius: .35rem;
     padding: .7rem .5rem;
     transition: all.7s;
@@ -3178,7 +3178,7 @@ img{
     margin-top: .25rem ;
     border-radius: .375rem;
     border: 1px solid #ffffff;
-    background-color:#dfe6f1;
+    background-color: var(--lightPrimaryColor);
     color: #222;
     position: absolute;
     z-index: 10;
@@ -3213,7 +3213,7 @@ display: none;
     justify-content: space-between;
 
     border: none;
-    background-color:#dfe6f1;
+    background-color: var(--lightPrimaryColor);
     border-radius: .35rem;
     padding: .32rem .5rem;
     width: 10rem;
@@ -3806,7 +3806,7 @@ nav{
 
         all: unset;
         cursor: pointer;
-        background-color:#dfe6f1;
+        background-color: var(--lightPrimaryColor);
         width: fit-content;
         height: var(--boxHei);
         padding: 0 .8rem;
@@ -3819,7 +3819,7 @@ nav{
 
 `; Ie.input`
     border: none;
-    background-color:#dfe6f1;
+    background-color: var(--lightPrimaryColor);
     border-radius: .35rem;
     padding: .7rem .5rem;
     transition: all.7s;

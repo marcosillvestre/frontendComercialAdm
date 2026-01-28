@@ -70,7 +70,7 @@ export function Products() {
                     >
                         <label htmlFor="">
 
-                            <p>Pesquisar por produtos</p>
+                            <p className='label-outside'>Pesquisar por produtos</p>
 
                             <InputSearcher
                                 label={query}

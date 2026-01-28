@@ -60,7 +60,7 @@ export function Services() {
                     >
                         <label htmlFor="">
 
-                            <p>Pesquisar por serviços</p>
+                            <p className='label-outside'>Pesquisar por serviços</p>
                             <InputSearcher
                                 label={query}
                                 field=''

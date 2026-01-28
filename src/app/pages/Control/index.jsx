@@ -44,7 +44,7 @@ export const ListFiltered = () => {
     return (
         <Container>
             <nav
-                className='over-nav'
+                className='over-nav label-outside'
             >
                 <h3>Validação de Matrículas</h3>
 
@@ -54,12 +54,12 @@ export const ListFiltered = () => {
                 <nav className='inside-header'>
 
                     <label htmlFor="select">
-                        <p>Período</p>
+                        <p className='label-outside'>Período</p>
                         <Select
                             id="select"
                             label={businessRules.predeterminedPeriods[0].name}
                             option={businessRules.predeterminedPeriods}
-                            width="100%"
+                            width="13rem"
                             fn={[handleCheck]}
                         />
                         {
@@ -69,26 +69,27 @@ export const ListFiltered = () => {
                     </label>
 
                     <form className="box-search">
-                        <p>Pesquisar no período</p>
+                        <p className='label-outside'>Pesquisar no período</p>
+                        <div className='flex'>
+                            <InputSearcher
+                                label={query}
+                                field=''
+                                fn={[handleInput]}
+                                width='15rem'
+                                border='transparent'
+                                color='#dfe6f1'
+                            />
 
-                        <InputSearcher
-                            label={query}
-                            field=''
-                            fn={[handleInput]}
-                            width='15rem'
-                            border='transparent'
-                            color='#dfe6f1'
-                        />
-
-                        <button
-                            type='submit'
-                            className='search-button'
-                            onClick={(e) => {
-                                setQuery(searcher)
-                                e.preventDefault()
-                            }}>
-                            <SearchIcon />
-                        </button>
+                            <button
+                                type='submit'
+                                className='search-button'
+                                onClick={(e) => {
+                                    setQuery(searcher)
+                                    e.preventDefault()
+                                }}>
+                                <SearchIcon />
+                            </button>
+                        </div>
 
                     </form>
 

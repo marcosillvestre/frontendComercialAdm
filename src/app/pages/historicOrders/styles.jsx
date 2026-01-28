@@ -29,6 +29,7 @@ margin-bottom: 1.5rem;
 font-size: var(--fsLowest);
 nav{
     width:100%;
+    display: flex;
     flex-wrap: wrap;
     gap: 1rem;
     align-items: flex-end;
@@ -39,17 +40,13 @@ nav{
 }
 
     .sender{
-
         all: unset;
         cursor: pointer;
-        background-color:#dfe6f1;
+        background-color: var(--lightPrimaryColor);
         width: fit-content;
         height: var(--boxHei);
         padding: 0 .8rem;
         border-radius: 5px;
-    &:hover{
-    background-color:#d9d9d9;
-    }
     }
 
     .clean {

@@ -47,10 +47,10 @@ export const InputSearcher = ({ label, fn, width, border, color, field, disabled
                         disabled={disabled}
                         style={{
                             border: `.5px solid ${border}`,
-                            backgroundColor: `${color}`
                         }}
                     >
                         <input
+                            className='label-inside'
                             disabled={disabled}
                             type='text'
                             id="selected-value"

@@ -150,7 +150,7 @@ export function ComissionControll() {
                 <nav
                     className='over-nav'
                 >
-                    <h3>Controle de matrículas</h3>
+                    <h3 >Controle de matrículas</h3>
 
                 </nav>
 
@@ -158,13 +158,11 @@ export function ComissionControll() {
                 <Header>
                     <nav>
                         <label htmlFor="">
-                            <p>
-                                Período personalizado:
-                            </p>
+                            <p className='label-outside'>Período personalizado:</p>
                             <Select
                                 label={businessRules.predeterminedPeriods[0].name}
                                 option={predeterminedPeriods}
-                                width="5rem"
+                                width="13rem"
                                 fn={[handleInput]}
                             />
                             <p style={{ textAlign: "center" }}>

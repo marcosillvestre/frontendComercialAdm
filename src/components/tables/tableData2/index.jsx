@@ -341,7 +341,7 @@ export default function CollapsibleTable() {
             <ContainerTable component={Paper}>
                 <div className='table_tag'>
 
-                    <h3>Lista de matrículas</h3>
+                    <h3 className='label-outside'>Lista de matrículas</h3>
 
                 </div>
 

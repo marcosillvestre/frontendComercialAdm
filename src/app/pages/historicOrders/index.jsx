@@ -32,16 +32,15 @@ export const HistoricOrders = () => {
 
             </nav>
             <Header>
-                <nav className='flex'>
+                <nav>
+
                     <label htmlFor="">
-                        <p>
-                            Período
-                        </p>
+                        <p className='label-outside'>Período:</p>
                         <SelectHistoricOrders
                             label={search}
                             option={predeterminedPeriods}
                             fn={[handleSelect]}
-                            width="5rem"
+                            width="13rem"
                             where="filter"
                         />
 
@@ -56,9 +55,7 @@ export const HistoricOrders = () => {
                     <form className='flex' >
                         <label htmlFor="">
 
-                            <p>
-                                Pesquisar
-                            </p>
+                            <p className='label-outside'>Pesquisar:</p>
 
                             <InputSearcher
                                 label={query}
@@ -66,7 +63,6 @@ export const HistoricOrders = () => {
                                 fn={[handleInput]}
                                 width='15rem'
                                 border='transparent'
-                                color='#dfe6f1'
                             />
                         </label>
 

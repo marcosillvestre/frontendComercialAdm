@@ -68,7 +68,7 @@ form{
     button{  
         all: unset;
         cursor: pointer;
-        background-color:#dfe6f1;
+        background-color: var(--lightPrimaryColor);
         width: fit-content;
         height: var(--boxHei);
         padding: 0 .8rem;

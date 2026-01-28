@@ -28,7 +28,7 @@ align-items: center;
 justify-content: space-between;
 
 border-radius: .375rem;
-background-color:#dfe6f1;
+background-color: var(--lightPrimaryColor);
 border: none;
 
 &::-webkit-outer-spin-button,

@@ -1,94 +1,74 @@
 import styled from "styled-components";
+import wave from '../../../assets/wave.svg';
 
 export const Box = styled.label`
 display: flex;
 flex-direction: column;
 gap: .3rem;
 width: 98%;
+margin-top: .7rem;
+font-size: var(--fsLowest);
+position: relative;
 div{
     display: flex;
+    align-items: center;
     gap: .3rem;
 }
 a{
-    font-size: var(--fsLowest);
-
-    text-align: start;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    color: var(--primaryColor);
 }
+
+label{
+position: absolute;
+top: 50%;
+left: 12px;
+translate: 0 -50%;
+transform-origin: 0 50%;
+pointer-events: none;
+transition:  0.3s;
+}
+
 `
 export const Container = styled.span`
-display: flex;
-background-color: #4e5f9b;
+background: var(--lightPrimaryColor);
+width: 100%;
+padding: 40px;
+display: grid;
+align-content: center;
+justify-content: center;
 height: calc(100vh - 12vh);
 
-span{
-    text-align: center;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    .intituitional{
-        color: #fff;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        width: 25rem;
-        gap:2rem;
-        /* margin-top: 2rem; */
-        text-align: justify;
-        img{
-            height: 42.5vh;
-        }
-
-    }
-
-}
 .mainbox{
-    background-color: #fff;
+    background-color: #fff ;
+    border-radius: 22px ;
+    width: 500px;
+    min-width: 400px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    width: 50vw;
-    h2{
-    font-weight: bolder;
-    font-size: 1.4rem;
-    color: #222;
-    line-height: 42px;
+    padding: 20px;
+    gap: 1.5rem;
+
+.hero{
+    background: url(${wave});
+    background-size: cover;
+    border-radius: 16px;
+    overflow: hidden;
+    color: #FFFFFF;
+    
+    .hero-inner{
+        padding: 150px 66px;
+        min-height: 170px;
     }
 }
-
-form{
-    background-color: #fafafa;
-    padding: 2rem 1.5rem;
-    display: grid;
-    gap: 1rem;
-    color: #031b4e;
-
-    box-shadow: 4px 10px 25px -12px rgba(0,0,0,0.62);
-
-    border-radius: var(--br);
-    font-size: var(--fsLow);
-    justify-items: center;
-}
-
-@media(max-width:1000px){
-display: flex;
-flex-direction: column;
-padding: 2rem 0;
-justify-content: center;
-
-span{
-    .intituitional{
-    padding: 0 5px;
-    img{
-    height: 22.5vh;
-    }        
-    }
-}
-.mainbox{
-    margin: 20px 0;
-    width: 100vw;
-    background: transparent;
+    
+    form{ 
+        display: grid;
+        align-content: center;
+        align-items: center; 
+        padding: 20px;
 }
 }
 `
@@ -104,29 +84,24 @@ export const Powered = styled.div`
 `
 export const Input = styled.input`
 width: 100% ;
-height: 1.7rem;
-border-radius: 0.2rem;
+height: calc(var(--boxHei) + .5rem);
+border-radius: var(--br);
+background-color: #f1f1f1;
 border: none;
-padding-left:.5rem;
-box-shadow: 0px 0px 1px 1px rgba(0,0,0,0.66);
+padding-left:1rem;
 font-size: var(--fsLowest);
+&:is(:focus, :valid) ~ label {
+    scale: .800;
+    translate: 0 -135%;
+}
 
+&:is(:focus) {
+    outline: 2px solid var(--primaryColor);
+}
 `
 
-export const Submit = styled.input`
-height: 2rem;
-border: none;
-background-color: #6c63ff;
-border-radius: .5rem;
-color: #fff;
-width: 100%;
-margin-top: 3rem ;
-&:hover{
-    background-color: #5a51ff;
-}
-&:active{
-    opacity: 0.7;
-}
+export const Submit = styled.button`
+
 
 `
 export const ErrorMessage = styled.p`
@@ -144,8 +119,8 @@ justify-content: center;
 align-items: center;
 
 img{
-    width: 16rem;
-    height: 10rem;
+    width: 12rem;
+    height: 6rem;
 }
 
 `

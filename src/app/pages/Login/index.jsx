@@ -14,7 +14,6 @@ import { paths } from '../../constants/paths';
 import URI from '../../utils/utils';
 import { Box, Container, ErrorMessage, Header, Input, Powered, Submit } from './styles';
 
-
 export const Login = () => {
     const [open, setOpen] = React.useState(true)
 
@@ -43,16 +42,9 @@ export const Login = () => {
             if (res.status === 200) {
                 putInfo(res.data)
 
-
-                const userData = res.data
-
-                const { role } = userData
-
-                role === 'recepcao' ?
-                    window.location.href = paths.orders.path :
-
+                setTimeout(() => {
                     window.location.href = paths.control.path
-
+                }, 500)
             }
         })
     }
@@ -65,39 +57,60 @@ export const Login = () => {
                 <img src={aw} alt="American way image" />
             </Header>
             <Container>
-                <span>
-                    <div className='intituitional'>
-                        <p>
-                            Este é um sistema voltado para gestão de matrículas e finanças para empresas.
-                            Confie em nós para simplificar o processo e otimizar o sucesso de sua organização.
-                            Junte-se a nós para simplificar e aprimorar a gestão administrativa.</p>
 
-                        <img src={projects} alt="many-projects-handle" />
-                    </div >
-
-
-                </span>
                 <div className='mainbox'>
-                    <form onSubmit={handleSubmit((data) => Sender(data))}>
-                        <h2>Controle Comercial</h2>
 
+                    <div className="hero">
+                        <div className="hero-inner">
+                            <h2>Sua Gestão começa aqui</h2>
+                        </div>
+                    </div>
+
+                    <form
+                        method='post'
+                        onSubmit={handleSubmit((data) => Sender(data))}
+                    >
                         <Box htmlFor="email">
-                            <h5>Email:</h5>
-                            <Input {...register('email', { required: true })} />
+                            <Input
+                                autoComplete="username"
+                                type='email'
+                                required
+                                placeholder=' '
+                                name='email'
+                                {...register('email')}
+                            />
+                            <label>email</label>
                             {errors.email && <ErrorMessage>Email é obrigatório.</ErrorMessage>}
                         </Box>
 
                         <Box htmlFor="password">
-                            <h5>Password:</h5>
                             <div>
-                                <Input type={open ? "password" : "text"} {...register('password', { required: true })} />
+                                {open ? <Input
+                                    autoComplete="current-password"
+                                    type="password"
+                                    required
+                                    placeholder=' '
+                                    name='password'
+                                    className={open ? "" : "show-password"}
+                                    {...register('password')}
+                                /> :
+                                    <Input
+                                        autoComplete="current-password"
+                                        type="text"
+                                        required
+                                        placeholder=' '
+                                        name='password'
+                                        className={open ? "" : "show-password"}
+                                        {...register('password')}
+                                    />}
+                                <label>senha</label>
+
                                 {errors.password && <ErrorMessage>Senha é obrigatória.</ErrorMessage>}
                                 <div onClick={() => setOpen(!open)} >{open ? <VisibilityIcon /> : <VisibilityOffIcon />}</div>
                             </div>
-                            <a href={paths.redefinePass.path}>Esqueceu a senha ? Clique aqui</a>
                         </Box>
-
-                        <Submit type="submit" />
+                        <Box><Submit className='defaultButton blueButton' type="submit" >Login</Submit></Box>
+                        <Box><a href={paths.redefinePass.path}>Esqueceu a senha?</a></Box>
 
                     </form>
 

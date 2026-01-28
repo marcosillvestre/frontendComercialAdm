@@ -18,10 +18,11 @@ export const ListOpt = styled.ul`
 display:${props => props.open ? "" : "none"} ;
 position: absolute;
 margin-top: .25rem ;
-border-radius: .375rem;
-background-color:#dfe6f1;
+background-color: #ffffff;
 width: 100%;
 z-index: 13;
+box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+border-radius: .375rem;
 `
 
 export const Options = styled.li`
@@ -38,15 +39,16 @@ cursor: pointer;
 height: var(--boxHei);
 font-size: var(--fsLowest);
 z-index: 10;
+border-radius: .375rem;
 
     span{
-    /* width: 100%; */
     text-align: center;
     }
     &:hover{
-    background: #c4d3e0;
+    background-color: var(--lightPrimaryColor);
+
     }
-    
+   
 `
 
 
@@ -54,13 +56,12 @@ export const SelectButton = styled.div`
 color: #222;
 height: var(--boxHei);  
 z-index: 11;
-margin-top: .5rem;
 display: flex;
 padding: .75rem;
 align-items: center;
 justify-content: space-between;
 border-radius: .375rem;
-background-color:#dfe6f1;
+background-color: var(--lightPrimaryColor);
 
 #selected-value{
     color: #000;

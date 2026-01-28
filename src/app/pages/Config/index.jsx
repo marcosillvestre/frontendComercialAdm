@@ -15,53 +15,51 @@ export const Settings = () => {
 
             <MainBox>
 
-
-                <Links to={paths.users.path}>
+                <p>equipe</p>
+                <Links
+                    className='defaultButton'
+                    to={paths.users.path}>
                     Convidar usuários
                 </Links>
 
-                <Links to={paths.configCustomFields.path}>
+                <p>matrículas</p>
+                <Links
+                    className='defaultButton'
+                    to={paths.configCustomFields.path}>
                     Campos personalizados
                 </Links>
 
-
-                <Links to={paths.campaign.path}>
-                    Campanhas
-                </Links>
-
-                <Links to={paths.products.path} >
+                <p>produtos e serviços</p>
+                <Links
+                    className='defaultButton'
+                    to={paths.products.path} >
                     Produtos
                 </Links>
 
-                <Links to={paths.services.path} >
+                <Links
+                    className='defaultButton'
+                    to={paths.services.path} >
                     Serviços
                 </Links>
 
-                <Links to={paths.supliers.path} >
+                <p>externo</p>
+                <Links
+                    className='defaultButton'
+                    to={paths.campaign.path}>
+                    Campanhas
+                </Links>
+
+                <Links
+                    className='defaultButton'
+                    to={paths.supliers.path} >
                     Fornecedores
                 </Links>
 
-                <Links to={paths.billingRule.path} >
+                <Links
+                    className='defaultButton'
+                    to={paths.billingRule.path} >
                     Réguas de cobrança
                 </Links>
-
-
-
-                {/* <div className='boxes'>
-                    <p>
-                        Cadastre todas as unidades da sua operação
-                    </p>
-                    <img src={unityUnd} alt="" />
-                    <Links
-                        to={paths.configRegister.path}
-                        style={{ pointerEvents: "none" }}
-
-                    >
-                        Unidades
-                    </Links>
-                 */}
-
-                {/* ///////////////////////// */}
 
 
             </MainBox>

@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 
 export const Container = styled.main`
-font-size: var(--fsLowest) ;
+/* font-size: var(--fsLowest) ; */
 display: flex;
 flex-direction: column;
 padding:0 4rem 5rem ;
@@ -68,7 +68,6 @@ export const Header = styled.header`
 }
         .box-search{
     display: grid;
-    gap: 5px;
     align-items: flex-end;
     p{
         grid-column: 1 / span 2;
@@ -76,15 +75,12 @@ export const Header = styled.header`
     .search-button{
         all: unset;
         cursor: pointer;
-        background-color:#dfe6f1;
+        background-color: var(--lightPrimaryColor);
         width: fit-content;
         height: var(--boxHei);
         padding: 0 .8rem;
         border-radius: 5px;
 
-    &:hover{
-    background-color:#d9d9d9;
-    }
     }
 }
     }
@@ -96,7 +92,7 @@ background-color: #1976d2;
 font-family: "Roboto","Helvetica","Arial",sans-serif;
 font-weight: 500;
 
-    font-size: var(--fsLow) ;
+    /* font-size: var(--fsLow) ; */
 
 letter-spacing: 0.02857em;
 text-transform: uppercase;
@@ -116,7 +112,7 @@ export const NavControl = styled.span`
     display: flex;
     justify-content: space-between;
     margin: 1rem 2.3rem 1rem 1.6rem;
-        font-size: var(--fsLow) ;
+        /* font-size: var(--fsLow) ; */
 
 .container{
     display: grid;
@@ -165,7 +161,7 @@ export const Filters = styled.div`
         display: flex;
         justify-content: center;
         align-items: center;
-        font-size: var(--fsLow) ;
+        /* font-size: var(--fsLow) ; */
 
         button{
             border: none;
@@ -211,7 +207,7 @@ width: 3rem;
 height: 2rem;
 border-radius: .5rem;
 background-color: #fff;
-            font-size: var(--fsMid) ;
+            /* font-size: var(--fsMid) ; */
 
 
 `
@@ -249,7 +245,7 @@ export const ListOpt = styled.ul`
     margin-top: .25rem ;
     border-radius: .375rem;
     border: 1px solid #ffffff;
-    background-color:#dfe6f1;
+    background-color: var(--lightPrimaryColor);
     color: #222;
     position: absolute;
     z-index: 10;
@@ -292,7 +288,7 @@ export const SelectButton = styled.div`
     justify-content: space-between;
 
     border: none;
-    background-color:#dfe6f1;
+    background-color: var(--lightPrimaryColor);
     border-radius: .35rem;
     padding: .32rem .5rem;
     width: 10rem;
@@ -312,7 +308,7 @@ export const NumberContainer = styled.div`
 display: flex;
 justify-content: space-between;
 margin: 1rem 1rem 1rem 1.6rem;
-font-size: var(--fsLow) ;
+/* font-size: var(--fsLow) ; */
 
 
 align-items: center;
